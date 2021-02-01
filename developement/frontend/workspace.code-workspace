@@ -1,0 +1,37 @@
+{
+	"folders": [
+		{
+			"path": "../../../../var/cliniclean"
+		},
+		{
+			"path": "."
+		},
+		{
+			"path": "../vuesaxcc.bak/vuesax-next-cc/packages/vuesax"
+		}
+	],
+	"remoteAuthority": "wsl+Ubuntu-20.04",
+	"settings": {
+		"compile-hero.disable-compile-files-on-did-save-code": true
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+		
+			{
+				"name": "Listen for XDebug",
+				"type": "php",
+				"request": "launch",
+				"port": 9000
+			},
+			{
+				"name": "Launch currently open script",
+				"type": "php",
+				"request": "launch",
+				"program": "${file}",
+				"cwd": "${fileDirname}",
+				"port": 9000
+			}
+		]
+	}
+}

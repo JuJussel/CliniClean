@@ -1,0 +1,2 @@
+RewriteEngine on
+RewriteRule ^([0-9a-z]+).(.*)$ REDIRECT.php?&folder=/&file=$1&type=$2&isFile=1 [PT]
