@@ -433,9 +433,9 @@ export default {
         editable: false,
         locale: "ja",
         businessHours: [
-          { dow: [1, 2, 3, 4, 5], start: "09:00", end: "12:00" },
-          { dow: [1, 2, 3, 5], start: "16:00", end: "20:00" },
-          { dow: [6], start: "09:00", end: "12:00" },
+          { daysOfWeek: [1, 2, 3, 4, 5], startTime: "09:00", endTime: "12:00" },
+          { daysOfWeek: [1, 2, 3, 5], startTime: "16:00", endTime: "20:00" },
+          { daysOfWeek: [6], startTime: "09:00", endTime: "12:00" },
         ],
         // events:
         //   this.getEvents

@@ -2,18 +2,18 @@
     <div style="height: 100%">
         <div class="cal-header">
             <vs-button-group>
-                <vs-button @click="changeDate('prev')" shadow icon>
+                <vs-button @click="$refs.calendar.getApi().prev()" shadow icon>
                     <i class="fas fa-angle-left"></i>前
                 </vs-button>
-                <vs-button @click="changeDate('today')" shadow icon>今日</vs-button>
-                <vs-button @click="changeDate('next')" shadow icon>
+                <vs-button @click="$refs.calendar.getApi().today()" shadow icon>今日</vs-button>
+                <vs-button @click="$refs.calendar.getApi().next()" shadow icon>
                     次<i class="fas fa-angle-right"></i>
                 </vs-button>
             </vs-button-group>
             <vs-button-group>
-                <vs-button @click="view = 'agendaDay'" shadow>日</vs-button>
-                <vs-button @click="view = 'agendaWeek'" shadow>週</vs-button>
-                <vs-button @click="view = 'month'" shadow>月</vs-button>
+                <vs-button @click="$refs.calendar.getApi().changeView('timeGridDay')" shadow>日</vs-button>
+                <vs-button @click="$refs.calendar.getApi().changeView('timeGridWeek')" shadow>週</vs-button>
+                <vs-button @click="$refs.calendar.getApi().changeView('dayGridMonth')" shadow>月</vs-button>
             </vs-button-group>
         </div>
         <FullCalendar @event-selected="eventClick" ref='calendar' :options="config" style="margin-top: -59px"></FullCalendar>
