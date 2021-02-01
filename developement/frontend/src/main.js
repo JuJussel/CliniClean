@@ -9,14 +9,7 @@ import VueSocketIO from 'vue-socket.io'
 import cardTab from './components/shared/card_tab'
 import dateDisplay from './components/shared/date_display'
 import selectInput from './components/shared/select_input'
-
 import FullCalendar from '@fullcalendar/vue'
-
-// import FullCalendar from 'vue-full-calendar'
-// import 'fullcalendar/dist/fullcalendar.min.css'
-// import 'fullcalendar/dist/locale/ja'
-
-
 import Vuesax from 'vuesax-cc'
 import 'vuesax-cc/dist/vuesax.css'
 import DatePicker from 'vue2-datepicker'
@@ -46,7 +39,6 @@ Vue.use(require('vue-moment'), {
   moment
 })
 
-// Vue.use(FullCalendar)
 Vue.use(LiquorTree)
 Vue.use(http);
 
@@ -58,7 +50,6 @@ Vue.component('FullCalendar', FullCalendar)
 
 Vue.prototype.$eventHub = new Vue() // Global event bus
 Vue.prototype.$globals = globals
-//Vue.prototype.$request = request
 
 new Vue({
   router,
