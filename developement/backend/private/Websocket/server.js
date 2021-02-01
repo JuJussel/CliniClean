@@ -37,25 +37,4 @@ io.on('connection', function (socket){
 
 server.listen(port);
 
-// ORCA push client ///////////////////////////////////////////////
-/*
-const WebSocket = require('ws');
-const orca_ws = new WebSocket(
-    'ws://192.168.5.128:9400/ws', 
-    null,
-    {headers: {'X-GINBEE-TENANT-ID': 1}}
-);
 
-orca_ws.on('open', function open() {
-    logger.info('Connected to ORCA push API');
-    let subscribe_data = {
-        "command" : "subscribe",
-        "req.id" : "1",
-        "event" : "*"
-    };
-    orca_ws.send(JSON.stringify(subscribe_data));
-    orca_ws.on('message', function incoming(data) {
-        logger.info(data);
-    });
-});
-*/
