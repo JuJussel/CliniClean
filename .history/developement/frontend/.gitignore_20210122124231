@@ -3,7 +3,6 @@ node_modules
 /dist
 .localhistory
 .history
-start.sh
 
 # local env files
 .env.local

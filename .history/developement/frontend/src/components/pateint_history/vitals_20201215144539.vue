@@ -89,6 +89,8 @@ import 'echarts/lib/chart/line'
 import 'echarts/lib/chart/bar'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/toolbox'
+import Date_display from '../../../../clinicleanv3/src/components/shared/date_display.vue'
+
 
 export default {
     props: [
