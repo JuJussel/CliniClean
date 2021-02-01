@@ -1,0 +1,16 @@
+{
+  "name": "cliniclean_notifications_server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "supervisor --debug server.js"
+  },
+  "dependencies": {
+    "socket.io": "~1",
+    "winston": "*",
+    "ws": "^7.3.0"
+  },
+  "author": "Peter Jussel",
+  "license": "ISC"
+}

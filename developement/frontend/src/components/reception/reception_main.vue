@@ -437,8 +437,7 @@ export default {
           { daysOfWeek: [1, 2, 3, 5], startTime: "16:00", endTime: "20:00" },
           { daysOfWeek: [6], startTime: "09:00", endTime: "12:00" },
         ],
-        // events:
-        //   this.getEvents
+        events: this.getEvents
       },
     };
   },
@@ -499,7 +498,7 @@ export default {
   methods: {
     getEvents(start, end) {
       
-      console.log(start.valueOf());
+      console.log(start);
     },
     waitTime(change) {
       let time = this.$moment(change, "HH:mm").fromNow(true);
