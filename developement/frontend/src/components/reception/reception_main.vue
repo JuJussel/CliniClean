@@ -236,7 +236,6 @@
         <div class="content-card" id="calCont">
           <calendar
             v-if="calendarReady"
-            :config="calConfig"
             style="border-radius: 0 0 15px 15px; overflow:hidden; margin-right: -2px"
           ></calendar>
         </div>
@@ -312,7 +311,7 @@
         style="width: 400px"
       ></payment>
     </vs-dialog>
-    <vs-dialog v-model="resOpen" blur>
+    <vs-dialog v-model="resOpen" prevent-close blur>
       <template #header>
         <h3 class="dialog-title">予約登録</h3>
       </template>
@@ -332,16 +331,6 @@
         v-if="recOpen"
       ></recNew>
     </vs-dialog>
-    <vs-dialog v-model="resOpen" blur>
-      <template #header>
-        <h3 class="dialog-title">予約登録</h3>
-      </template>
-      <resNew
-        @cancel="resOpen = false"
-        @submit="newRes"
-        v-if="resOpen"
-      ></resNew>
-    </vs-dialog>
     <vs-dialog blur v-model="resAcOpen" width="500px">
       <template #header>
         <h3 class="dialog-title">保険組み合わせ選択</h3>
@@ -357,14 +346,11 @@
 </template>
 
 <script>
-import recNew from "../shared/reception_new";
-import resNew from "../shared/reservation_new";
-import insSelect from "../shared/insurance_select";
-import calendar from "../shared/calendar";
-import payment from "../shared/payment";
-import dayGridPlugin from '@fullcalendar/daygrid'
-import interactionPlugin from '@fullcalendar/interaction'
-import timegrid from '@fullcalendar/timegrid'
+import recNew from "../shared/reception_new"
+import resNew from "../shared/CC_reservation_edit"
+import insSelect from "../shared/insurance_select"
+import calendar from "../shared/calendar"
+import payment from "../shared/payment"
 
 export default {
   components: {
@@ -413,37 +399,7 @@ export default {
         shinsatu: {},
       },
       paymentSelect: {},
-      shinsatuDoctorSelectMode: false,
-      calConfig: {
-        headerToolbar: {
-          left: "title",
-          center: "",
-          right: "",
-        },
-        initialView: 'dayGridMonth',
-        plugins: [ dayGridPlugin, interactionPlugin, timegrid ],
-        firstDay: 1,
-        displayEventTime: false,
-        fixedWeekCount: false,
-        navLinks: true,
-        height: '100%',
-        slotMinTime: "09:00:00",
-        slotMaxTime: "20:00:00",
-        allDaySlot: false,
-        editable: false,
-        locale: "ja",
-        businessHours: [
-          { daysOfWeek: [1, 2, 3, 4, 5], startTime: "09:00", endTime: "12:00" },
-          { daysOfWeek: [1, 2, 3, 5], startTime: "16:00", endTime: "20:00" },
-          { daysOfWeek: [6], startTime: "09:00", endTime: "12:00" },
-        ],
-        eventSources: [
-          {
-            events: this.getEvents,
-            color: 'rgb(44, 62, 80)'
-          }
-        ]
-      },
+      shinsatuDoctorSelectMode: false
     }
   },
   mounted() {
@@ -501,29 +457,6 @@ export default {
     }
   },
   methods: {
-    getEvents(i, successCallback) {
-
-      let start =this.$moment(i.start.valueOf()).format("YYYY-M-D HH:mm:ss")
-      let end =this.$moment(i.end.valueOf()).format("YYYY-M-D HH:mm:ss")
-      let range = {start: start, end: end}
-      this.$get('encounters', {range: range})
-      .then(result => {
-        let events = result.data.map(function(event) {
-          return {
-            id: event.id,
-            title: event.name,
-            start: event.date,
-            end: event.shinsatu_end,
-            meta: event
-          }
-        })
-        successCallback(events)
-      })
-      .catch(result => {
-        this.$apiError(result)
-      })
-
-    },
     waitTime(change) {
       let time = this.$moment(change, "HH:mm").fromNow(true);
       let diff = this.$moment().diff(this.$moment(change, "HH:mm"), "minutes");

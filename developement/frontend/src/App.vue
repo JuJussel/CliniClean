@@ -351,6 +351,9 @@ export default {
   .tree-node.selected>.tree-content {
     background: rgba(var(--vs-gray-2), 1)!important
   }
+  .fc-scrollgrid > thead .fc-scroller {
+    overflow: hidden!important
+  }
 
 </style>
 
