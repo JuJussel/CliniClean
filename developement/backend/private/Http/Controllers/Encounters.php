@@ -6,8 +6,7 @@ use stdClass;
 
 class Encounters {
 
-    public function all($req, $res) {
-
+    private function get_today($req, $res) {
         $db_data = new Encounter();
         $query = $db_data->all();
         if ($query->ok) {
@@ -20,6 +19,31 @@ class Encounters {
             $res->data = $modify_data;
         } else {
             $res->message = $query->msg;
+        }
+    }
+
+    private function get_range($req, $res) {
+
+        $query_data = $req->params->range;
+
+        $db_data = new Encounter();
+        $query = $db_data->range($query_data);
+
+        if(!$query->ok) {
+            $res->mssage = $query->msg;
+            return;
+        }
+
+        $res->data = $query->data;
+        $res->success = true;
+
+    }
+
+    public function all($req, $res) {
+        if(isset($req->params->range)) {
+            $this->get_range($req, $res);
+        } else {
+            $this->get_today($req, $res);
         }
     }
 

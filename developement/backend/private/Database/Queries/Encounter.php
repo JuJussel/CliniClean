@@ -30,6 +30,39 @@ class Encounter {
         return $result;
     }
 
+    public function range($data) {
+        $query =
+        '   SELECT 
+                r.id, r.patient_id AS patientID,
+                r.type,
+                r.ins,r.memo,
+                r.status,
+                r.doctor,
+                r.locked,
+                r.shinsatu_start,
+                r.shinsatu_end,
+                r.orca_id,
+                r.date,
+                time(date) AS time,
+                time(last_change) AS lastChange,
+                p.name
+            FROM usr_encounters  r
+            INNER JOIN usr_patients p ON r.patient_id = p.id
+            WHERE date BETWEEN ? AND ?
+            ORDER BY date
+        ';
+
+        $db = new DB();
+
+        $bind_params = [
+            ['s', $db->sanitize_xss($data->start)],
+            ['s', $db->sanitize_xss($data->end)]
+        ];
+
+        $result = $db->query(['query'=>$query, 'bind_params'=>$bind_params]);
+        return $result;
+    }
+
     public function get($data) {
 
         $db = new DB();

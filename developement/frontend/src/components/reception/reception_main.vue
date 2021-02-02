@@ -437,9 +437,14 @@ export default {
           { daysOfWeek: [1, 2, 3, 5], startTime: "16:00", endTime: "20:00" },
           { daysOfWeek: [6], startTime: "09:00", endTime: "12:00" },
         ],
-        events: this.getEvents
+        eventSources: [
+          {
+            events: this.getEvents,
+            color: 'rgb(44, 62, 80)'
+          }
+        ]
       },
-    };
+    }
   },
   mounted() {
     setTimeout(() => {
@@ -496,9 +501,28 @@ export default {
     }
   },
   methods: {
-    getEvents(start, end) {
-      
-      console.log(start);
+    getEvents(i, successCallback) {
+
+      let start =this.$moment(i.start.valueOf()).format("YYYY-M-D HH:mm:ss")
+      let end =this.$moment(i.end.valueOf()).format("YYYY-M-D HH:mm:ss")
+      let range = {start: start, end: end}
+      this.$get('encounters', {range: range})
+      .then(result => {
+        let events = result.data.map(function(event) {
+          return {
+            id: event.id,
+            title: event.name,
+            start: event.date,
+            end: event.shinsatu_end,
+            meta: event
+          }
+        })
+        successCallback(events)
+      })
+      .catch(result => {
+        this.$apiError(result)
+      })
+
     },
     waitTime(change) {
       let time = this.$moment(change, "HH:mm").fromNow(true);

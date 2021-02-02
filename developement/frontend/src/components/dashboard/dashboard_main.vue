@@ -1,6 +1,6 @@
 <template>
   <div style="height: 100%">
-    <vs-row style="height: 100%">
+    <!-- <vs-row style="height: 100%">
         <vs-col w="3" style="height: 100%">
             <div class="content-card">
                 <div class="cc-card-header" style="height: 30px">
@@ -25,17 +25,17 @@
                 <timeline id="Medical_News_J" sourceType="profile" :options="{ tweetLimit: '10' }" style="height:calc(100% - 70px); overflow: auto"/>
             </div>
         </vs-col>
-    </vs-row>
+    </vs-row> -->
   </div>
 </template>
 
 <script>
 
-import timeline from 'vue-tweet-embed/src/timeline'
+// import timeline from 'vue-tweet-embed/src/timeline'
 
 export default {
-    components: {
-        'timeline': timeline
-    }
+    // components: {
+    //     'timeline': timeline
+    // }
 }
 </script>
