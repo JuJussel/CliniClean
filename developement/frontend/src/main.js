@@ -24,7 +24,7 @@ Vue.use(new VueSocketIO({
   connection: SocketIO(globals.socketIOIP)
 }))
 Vue.use(Vuesax, {
-  colors: {1s
+  colors: {
     primary:'#00C7B2',
     success:'rgb(178,178,178)',
     danger:'rgb(242, 19, 93)',
