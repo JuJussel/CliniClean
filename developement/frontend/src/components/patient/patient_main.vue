@@ -16,26 +16,24 @@
       </vs-button-group>
     </div>
 
-    <div class="content-card" style="height: calc(100% - 50px)">
-      <transition-group name="juzoom" >
-          <child-component
-            v-for="(tab, index) in tabs"
-            :key="index"
-            :is="tab.type"
-            :ref="tab.type + index"
-            :newP="tab.new"
-            :data="tab.data"
-            :caller="tab.caller"
-            @newPatient="newPatient"
-            @showDetails="showPatientView"
-            @cancel="closeTab(index)"
-            @updatePatient="updatePatient"
-            @edit="editPatient(...arguments, tab.type + index)"
-            class="hidden-tab"
-            v-bind:class="{'active-tab': index === activeTab}"
-            ></child-component>
-      </transition-group>
-    </div>
+    <transition-group name="juzoom" >
+        <child-component
+          v-for="(tab, index) in tabs"
+          :key="index"
+          :is="tab.type"
+          :ref="tab.type + index"
+          :newP="tab.new"
+          :data="tab.data"
+          :caller="tab.caller"
+          @newPatient="newPatient"
+          @showDetails="showPatientView"
+          @cancel="closeTab(index)"
+          @updatePatient="updatePatient"
+          @edit="editPatient(...arguments, tab.type + index)"
+          class="hidden-tab"
+          v-bind:class="{'active-tab': index === activeTab}"
+          ></child-component>
+    </transition-group>
   </div>
 </template>
 
@@ -43,7 +41,6 @@
 import patientList from './patient_list'
 import patientEdit from './patient_edit'
 import patientView from './patient_view'
-import { log } from 'util'
 
 export default {
   components: {
