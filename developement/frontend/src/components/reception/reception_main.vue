@@ -235,7 +235,9 @@
       <vs-col w="7" style="height: 100%">
         <div class="content-card" id="calCont">
           <calendar
+            ref="calendar"
             v-if="calendarReady"
+            @eventClick="editReservation"
             style="border-radius: 0 0 15px 15px; overflow:hidden; margin-right: -2px"
           ></calendar>
         </div>
@@ -316,8 +318,9 @@
         <h3 class="dialog-title">予約登録</h3>
       </template>
       <resNew
+        ref="reservation"
         @cancel="resOpen = false"
-        @submit="newRes"
+        @submit="saveRes"
         v-if="resOpen"
       ></resNew>
     </vs-dialog>
@@ -457,6 +460,14 @@ export default {
     }
   },
   methods: {
+    editReservation(res) {
+      res = res.event.extendedProps.meta
+      console.log(res);
+      this.resOpen = true
+      setTimeout(function(){
+        this.$refs.reservation.editRes(res)
+      }.bind(this), 200)
+    },
     waitTime(change) {
       let time = this.$moment(change, "HH:mm").fromNow(true);
       let diff = this.$moment().diff(this.$moment(change, "HH:mm"), "minutes");
@@ -521,18 +532,34 @@ export default {
         this.$apiError(result)
       })
     },
-    newRes(data) {
+    saveRes(data) {
       this.loading = true
-      this.$post('reservations', data)
-      .then(result => {
-        this.updateData();
-      })
-      .catch(result => {
-        this.$apiError(result)
-      })
+      if(data.edit) {
+        this.$put('reservations/' + data.edit, data)
+        .then(() => {
+          this.updateData();
+          this.$vs.notification({
+            duration: 2000,
+            color: "primary",
+            position: "top-center",
+            title: "保存しました！",
+            text: "通常に保存しました",
+            icon: '<i class="fas fa-info"></i>',
+          })
+        })
+        .catch(result => {
+          this.$apiError(result)
+        })
+      } else {
+        this.$post('reservations', data)
+        .then(() => {
+          this.updateData();
+        })
+        .catch(result => {
+          this.$apiError(result)
+        })
+      }
     },
-
-
     updateData() {
       this.loading = true
       this.$get('encounters')
@@ -540,6 +567,9 @@ export default {
         this.reception = result.data
         this.loading = false
         this.paymentOpen = false
+        if(this.$refs.calendar) {
+          this.$refs.calendar.refetchEvents()
+        }
       })
       .catch(result => {
         this.$apiError(result)

@@ -2,7 +2,9 @@
     <div>
         <vs-row style="width: 1000px">
             <vs-col w="4" style="height: 400px">
-                <selectInput 
+                <vs-input v-if="edit" readonly v-model="selectedPatient.name" style="margin: 0 20px 40px"></vs-input>
+                <selectInput
+                    v-else 
                     @change="doSearch" 
                     :results="searchResults"
                     label="患者選択"
@@ -33,14 +35,17 @@
             </vs-col>
             <vs-col w="8">
                 <calendar
+                    ref="calendar"
                     :config="calConfig"
                     v-if="calendarReady"
+                    @selectDate="selectDate"
                 ></calendar>
             </vs-col>
         </vs-row>
         <div class="cc-dialog-footer">
             <vs-button @click="$emit('cancel')" transparent dark>キャンセル</vs-button>
-            <vs-button @click="submit()" :disabled="!inputOK">登録</vs-button>
+            <vs-button v-if="edit" @click="submit()" :disabled="!inputOK">編集</vs-button>
+            <vs-button v-else @click="submit()" :disabled="!inputOK">登録</vs-button>
         </div>
     </div>
 </template>
@@ -76,9 +81,9 @@ export default {
             date: '',
             time: '',
             calConfig: {
-                navLinkDayClick: 'timeGridDay',
                 height: 400
-            }
+            },
+            edit: false
         }
     },
     computed: {
@@ -89,7 +94,34 @@ export default {
             return false
         }
     },
+    watch: {
+        date() {
+            if(this.$refs.calendar) {
+                this.$refs.calendar.changeView('timeGridDay', this.date)
+            }
+        }
+    },
     methods: {
+        editRes(p) {
+            let pdata = {
+                id: p.patientID,
+                name: p.name
+            }
+            this.selectedPatient = pdata
+            this.edit = p.id
+            this.selectDate({start: p.date})
+            setTimeout(function() {
+                this.$refs.calendar.changeView('timeGridDay', p.date)
+            }.bind(this), 200)
+
+        },
+        selectDate(i) {
+            let date = this.$moment(i.start).format('YYYY-MM-DD')
+            let time = this.$moment(i.start).format('HH:mm:ss')
+            this.date = date
+            this.time = time
+
+        },
         selectPatient(d) {
             this.selectedPatient = d
         },
@@ -110,6 +142,7 @@ export default {
         },
         submit() {
             let data = {
+                edit: this.edit,
                 patient: this.selectedPatient,
                 type: this.shinsatuTypes[this.shinsatuTypeSelected - 1],
                 memo: this.memo,

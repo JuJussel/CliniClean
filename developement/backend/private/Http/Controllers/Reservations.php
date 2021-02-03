@@ -29,4 +29,28 @@ class Reservations {
 
     }
 
+    public function update($req, $res) {
+
+        $data = $req->update[0];
+        
+        $query_data = new stdClass();
+        
+        $query_data->patient_id = $data->patient->id;
+        $query_data->type = $data->type->id;
+        $query_data->memo = $data->memo;
+        $query_data->date = $data->date;
+        $query_data->time = $data->time;
+        $query_data->status = 1;
+        $query_data->id = $req->itemId;
+
+        $db_data = new Reservation();
+        $query = $db_data->update($query_data);
+        if ($query->ok) {
+            $res->success = true;    
+        } else {
+            $res->message = $query->msg;
+        }
+
+    }
+
 }

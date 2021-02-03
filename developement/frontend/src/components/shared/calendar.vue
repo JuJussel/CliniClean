@@ -16,7 +16,7 @@
                 <vs-button @click="$refs.calendar.getApi().changeView('dayGridMonth')" shadow>月</vs-button>
             </vs-button-group>
         </div>
-        <FullCalendar @event-selected="eventClick" ref='calendar' :options="options" style="margin-top: -59px"></FullCalendar>
+        <FullCalendar ref='calendar' :options="options" style="margin-top: -59px"></FullCalendar>
     </div>
 
 </template>
@@ -54,11 +54,15 @@ export default {
                 allDaySlot: false,
                 editable: false,
                 locale: "ja",
+                selectable: true,
+                select: this.selectDate,
+                eventClick: this.eventClick,
                 businessHours: [
                     { daysOfWeek: [1, 2, 3, 4, 5], startTime: "09:00", endTime: "12:00" },
                     { daysOfWeek: [1, 2, 3, 5], startTime: "16:00", endTime: "20:00" },
                     { daysOfWeek: [6], startTime: "09:00", endTime: "12:00" },
                 ],
+                navLinkDayClick: 'timeGridDay',
                 eventSources: [
                     {
                         events: this.getEvents,
@@ -74,14 +78,21 @@ export default {
         }
     },
     methods: {
-        changeDate(mode) {
-            this.$refs.calendar.fireMethod(mode)
+        refetchEvents() {
+            this.$refs.calendar.getApi().refetchEvents()
         },
-        eventClick(item, jsEvent, view) {
-            this.$emit("eventClick", [item, jsEvent, view])
+        selectDate(date) {
+            this.$emit('selectDate', date)
         },
-        refresh() {
-            this.$refs.calendar.$emit('refetch-events')
+        eventClick(data) {
+            this.$emit('eventClick', data)
+        },
+        changeView(view, date = null) {
+            if(date) {
+                this.$refs.calendar.getApi().changeView(view, date)
+            } else {
+                this.$refs.calendar.getApi().changeView('dayGridMonth')
+            }
         },
         getEvents(i, successCallback) {
 
