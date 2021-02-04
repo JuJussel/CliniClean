@@ -30,7 +30,8 @@
             <vs-button
               success
               border
-              icon 
+              icon
+              @click="currentView = 'settings'"
               size="mini"
               style="min-width: 40px"
               animation-type="scale"
@@ -98,6 +99,7 @@ import reception from '../components/reception/reception_main'
 import medical from '../components/medical/medical_main'
 import order from '../components/order/order_main'
 import dashboard from '../components/dashboard/dashboard_main'
+import settings from '../components/Settings/CC_view_settings_main'
 
 export default {
   name: 'home',
@@ -106,7 +108,8 @@ export default {
     'reception': reception,
     'medical': medical,
     'order': order,
-    'dashboard': dashboard
+    'dashboard': dashboard,
+    'settings': settings
   },
   data() {
     return (

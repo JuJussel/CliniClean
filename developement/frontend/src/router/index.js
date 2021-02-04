@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '../views/Login.vue'
+import Login from '../Routes/Login.vue'
 
 Vue.use(VueRouter)
 
@@ -22,7 +22,7 @@ const routes = [
     path: '/home',
     name: 'home',
     component: function () {
-      return import( '../views/Home.vue')
+      return import( '../Routes/Home.vue')
     },
     // beforeEnter (to, from, next) {
     //   if (document.cookie.split('; ').find(row => row.startsWith('PHPSESSID'))) {

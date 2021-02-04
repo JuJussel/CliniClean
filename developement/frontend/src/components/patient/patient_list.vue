@@ -52,7 +52,7 @@
       </vs-col>
       <vs-col w="6" style="height: 100%">
         <div style="height: calc(100% - 50px)">
-          <patientView preview v-if="selected" :data="selected"></patientView>
+          <patientView preview v-if="selected" :data="selected" :key="selected.id"></patientView>
         </div>
       </vs-col>
     </vs-row>

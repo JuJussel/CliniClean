@@ -423,9 +423,13 @@ export default {
               fileData.fileMeta.fileInfo.push('1_' + item.kigou + '_' + item.bangou)
             })
           })
+          
+          if(fileData.fileList.length < 1) {
+            return
+          }
 
           this.$post('files', fileData)
-          .then(result => {
+          .then(() => {
             if(newPat) {
               this.$eventHub.$emit('loadingDone')
               this.loading = false
@@ -444,6 +448,9 @@ export default {
               this.loading = false
               this.$emit('cancel')
             }
+          })
+          .catch(result => {
+            this.$apiError(result)
           })
     },
     submit() {
@@ -486,7 +493,6 @@ export default {
           delete sendData.patient.files
 
           this.submitInsurance(sendData.patient.id, false)
-          return
 
           this.$put('patients/' + sendData.patient.id, sendData)
           .then(result => {

@@ -1,5 +1,5 @@
 <template>
-    <div class="content-card" style="height: calc(100% - 50px)">
+    <div class="content-card" style="height: 100%">
         <div class="cc-card-has-header">
             <div class="cc-card-header" v-if="!preview">
                 <h2>患者情報</h2>
@@ -57,7 +57,7 @@
                             </div>
                             <div class="cc-info-row">
                                 <span class="cc-info-row-label">性別</span>
-                                <vs-input readonly v-model="patientData.gender"/>
+                                <vs-input readonly v-model="parsedSex"/>
                             </div>
                             <div class="cc-info-row">
                                 <span class="cc-info-row-label">職業</span>
@@ -319,6 +319,10 @@ export default {
             age = ''
         }
         return age;
+        },
+        parsedSex() {
+            if(this.patientData.gender == 1) return '男性'
+            return '女性'
         }
     },
       watch: {
