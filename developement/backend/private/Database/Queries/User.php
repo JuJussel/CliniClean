@@ -56,11 +56,12 @@ class User {
                 password
             FROM usr_users
             WHERE user_name = ?
+                AND active = 1
             LIMIT 1
         ';
 
         $bind_params = [
-            ['i', $params]
+            ['s', $params]
         ];
 
         $db = new DB();

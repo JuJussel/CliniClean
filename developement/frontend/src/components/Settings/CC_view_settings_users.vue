@@ -19,19 +19,22 @@
                     </template>
                     <template #thead>
                         <vs-tr>
+                            <vs-th>ID</vs-th>
                             <vs-th>名前</vs-th>
                             <vs-th>ユーザー名</vs-th>
-                            <vs-th>タイプ</vs-th>
+                            <vs-th>役</vs-th>
                             <vs-th>ダイレクトリー</vs-th>
                             <vs-th>オルカあり</vs-th>
-                            <vs-th>ステータス</vs-th>
                             <vs-th>登録日</vs-th>
                             <vs-th></vs-th>
                         </vs-tr>
                     </template>
                     <template #tbody>
                         <vs-tr v-for="(tr, index) in users" :key="index">
-                            <vs-td> {{ tr.name_last }} {{ tr.name_first }}</vs-td>
+                            <vs-td> {{ tr.id }} </vs-td>
+                            <vs-td> 
+                                <span v-if="!tr.active">無効</span>
+                                {{ tr.name_last }} {{ tr.name_first }}</vs-td>
                             <vs-td> {{ tr.user_name }} </vs-td>
                             <vs-td> {{ tr.role }} </vs-td>
                             <vs-td>
@@ -40,9 +43,6 @@
                             </vs-td>
                             <vs-td>
                                 <span v-if="tr.has_orca">有</span>
-                            </vs-td>
-                            <vs-td>
-                                <span v-if="!tr.active">無効</span>
                             </vs-td>
                             <vs-td><dateDisplay :date="tr.created"></dateDisplay></vs-td>
                             <vs-td style="width: 60px">
@@ -70,8 +70,10 @@
             <template #header>
                 <h3 class="dialog-title"> ユーザー編集 </h3>
             </template>
-            <userEdit :user="editUser"></userEdit>
-
+            <userEdit
+                :user="editUser"
+                @close="editOpen = false"
+            />  
         </vs-dialog>
     </div>
 </template>

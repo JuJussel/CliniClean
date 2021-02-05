@@ -32,6 +32,11 @@ class Sessions {
             $res->message = $query->msg;
             return;
         }
+        if (count($query->data) < 1) {
+            $res->data->ok = false;
+            $res->success = true;
+            return;           
+        }
 
         $query = $query->data[0];
 

@@ -10,7 +10,7 @@ class Doctor {
         $query =
             '   SELECT CONCAT(name_last, name_first) AS name, status, id 
                 FROM usr_users
-                WHERE visible = 1 AND role = 1
+                WHERE active = 1 AND role = 1
             ';
         $db = new DB();
         $result = $db->query(['query'=>$query]);

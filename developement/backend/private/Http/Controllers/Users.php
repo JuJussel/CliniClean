@@ -37,7 +37,10 @@ class Users {
             $res->message = $query->msg;
             return;
         }
-
+        foreach ($query->data as $key => $value) {
+            $query->data[$key]['has_orca'] = boolval($value['has_orca']);
+            $query->data[$key]['active'] = boolval($value['active']);
+        }
         $res->data = $query->data;
         $res->success = true;
 
