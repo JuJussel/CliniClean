@@ -5,6 +5,10 @@ Vue.use(Vuex)
 
 const defaultState = () => {
   return {
+    permissions: [ //Get from Backend
+      'settings.user',
+      'settings.groups'
+    ],
     user: {
       id: 0,
       name_first: null,
@@ -126,7 +130,8 @@ const getters = {
     shinsatuTypes: state => state.lists.shinsatuTypes,
     isHoliday: state => state.isHoliday,
     suppliers: state => state.lists.suppliers,
-    kouiCats: state => state.kouiCats
+    kouiCats: state => state.kouiCats,
+    permissions: state => state.permissions
 }
 
 export default new Vuex.Store({

@@ -5,7 +5,7 @@ use App\Database\Queries\User;
 
 class Users {
 
-    public function all($req, $res) {
+    public function get($req, $res) {
 
         if (!$req->post) {
             
@@ -28,7 +28,20 @@ class Users {
 
     }
 
-    public function post($req, $res) {
+    public function all($req, $res) {
+
+        $db = new User();
+        $query = $db->all();
+
+        if(!$query->ok) {
+            $res->message = $query->msg;
+            return;
+        }
+
+        $res->data = $query->data;
+        $res->success = true;
+
+
     }
 
 

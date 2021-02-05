@@ -133,7 +133,7 @@ export default {
     this.$eventHub.$on('loading', this.setLoading)
     this.$eventHub.$on('loadingDone',  this.removeLoading)
 
-    this.$get('users')
+    this.$get('users/0')
     .then(result => {
       this.$store.commit('SET_USER_DATA', result.data)
     })

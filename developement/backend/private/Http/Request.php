@@ -153,7 +153,8 @@ class Request {
     if (isset($this->config->isFile)) {
       $this->route = ['Files', '1'];
     } else {
-      $route = array_filter( explode('/', $this->config->route) );
+      $route = explode('/', $this->config->route);
+      // $route = array_filter( explode('/', $this->config->route) ); array filter will remove 0 which I want to keep
       $this->route = array_map('ucfirst', $route);
     }
   }

@@ -6,6 +6,26 @@ use App\Database\DB;
 
 class User {
 
+    public function all() {
+        $query =
+        '   SELECT
+                u.id,
+                u.user_name,
+                u.name_first,
+                u.name_last,
+                r.label as role,
+                u.active,
+                u.is_directory,
+                u.has_orca
+            FROM usr_users u
+            INNER JOIN sys_roles r ON r.id = u.role
+        ';
+
+        $db = new DB();
+        $result = $db->query(['query'=>$query]);
+        return $result;
+    }
+
     public function get($params) {
         $query =
         '   SELECT

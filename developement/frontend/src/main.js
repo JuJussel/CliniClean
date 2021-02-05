@@ -38,7 +38,6 @@ require('moment/locale/ja')
 Vue.use(require('vue-moment'), {
   moment
 })
-
 Vue.use(LiquorTree)
 Vue.use(http);
 
@@ -50,6 +49,15 @@ Vue.component('FullCalendar', FullCalendar)
 
 Vue.prototype.$eventHub = new Vue() // Global event bus
 Vue.prototype.$globals = globals
+
+Vue.directive('acl', {
+  bind: function(el, binding, vnode) {
+    const store = vnode.context.$store
+    if (binding.value && !store.getters.permissions.includes(binding.value)) {
+      el.style.display = 'none';
+    }
+  }
+})
 
 new Vue({
   router,
