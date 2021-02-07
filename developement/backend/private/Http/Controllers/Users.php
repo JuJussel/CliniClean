@@ -5,6 +5,20 @@ use App\Database\Queries\User;
 
 class Users {
 
+    private function passwordStrong($res, $pass) {
+
+        $uppercase = preg_match('@[A-Z]@', $pass);
+        $lowercase = preg_match('@[a-z]@', $pass);
+        $number    = preg_match('@[0-9]@', $pass);
+        $specialChars = preg_match('@[^\w]@', $pass);
+        if(!$uppercase || !$lowercase || !$number || !$specialChars || strlen($pass) < 8) {
+            $res->message = "パスワード条件満たしてません。";
+            return false;
+        }
+        return true;
+
+    }
+
     public function get($req, $res) {
 
         if (!$req->post) {
@@ -44,8 +58,64 @@ class Users {
         $res->data = $query->data;
         $res->success = true;
 
+    }
+
+    public function update($req, $res) {
+
+        $request_data = $req->update[0];
+        $db = new User();
+        
+        if (isset($request_data->changePassword)) {
+
+            if (!$this->passwordStrong($res,$request_data->password)) {
+                return;
+            }
+    
+            $query = $db->password($request_data);
+
+            if(!$query->ok) {
+                $res->message = $query->msg;
+                return;
+            }
+            $res->success = true;
+            return;
+    
+        }
+
+        $query = $db->update($request_data);
+
+        if(!$query->ok) {
+            $res->message = $query->msg;
+            return;
+        }
+        $res->success = true;
 
     }
+
+    public function post($req, $res) {
+
+        $request_data = $req->post->data;
+
+        if (!$this->passwordStrong($res,$request_data->password)) {
+            return;
+        }
+
+        $db = new User();
+        $query = $db->create($request_data);
+
+        if(!$query->ok) {
+            $res->message = $query->msg;
+            return;
+        }
+
+        //copy initial avatar
+
+
+        $res->success = true;
+
+    }
+
+
 
 
 }

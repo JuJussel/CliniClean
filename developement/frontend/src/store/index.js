@@ -22,7 +22,8 @@ const defaultState = () => {
     activeInsID: null,
     lists: {
       shinsatuTypes: null,
-      suppliers: null
+      suppliers: null,
+      groups: null
     },
     isHoliday: false,
     kouiCats: {
@@ -117,6 +118,9 @@ const mutations =  {
   },
   SET_SUPPLIERS(state, data) {
     state.lists.suppliers = data
+  },
+  SET_USER_GROUPS(state, data) {
+    state.lists.groups = data
   }
 
 }
@@ -131,7 +135,8 @@ const getters = {
     isHoliday: state => state.isHoliday,
     suppliers: state => state.lists.suppliers,
     kouiCats: state => state.kouiCats,
-    permissions: state => state.permissions
+    permissions: state => state.permissions,
+    user_groups: state => state.lists.groups
 }
 
 export default new Vuex.Store({

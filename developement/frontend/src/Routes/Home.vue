@@ -24,9 +24,10 @@
         </template>
         <template #right>
             <vs-avatar size="30">
-              <img :src="avatarURL" alt="">
+              <img v-if="hasAvatar" :src="avatarURL"  @error="(() => hasAvatar = null)">
+              <span v-else> {{ $store.getters.userFullName.charAt(0) }} </span>
             </vs-avatar>
-            <span style="margin: 0 10px; opacity: 0.7">黒須えり</span>
+            <span style="margin: 0 10px; opacity: 0.7"> {{ $store.getters.userFullName }} </span>
             <vs-button
               success
               border
@@ -113,9 +114,10 @@ export default {
   },
   data() {
     return (
-
+      
       {
         loading: false,
+        hasAvatar: true,
         currentView: "dashboard",
         timeRemaining: 0,
         timeoutMsgOpen: false,

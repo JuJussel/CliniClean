@@ -12,7 +12,7 @@
                     @select="selectPatient">
                     <span slot-scope="scope" >番号: {{ scope.item.id}} {{ scope.item.name }}</span>
                 </selectInput>
-                <vs-select label="診察内容" placeholder="Select" v-model="shinsatuTypeSelected" :key="shinsatuTypes.length">
+                <vs-select label="診察内容" placeholder="選択" v-model="shinsatuTypeSelected" :key="shinsatuTypes.length">
                     <vs-option v-for="(item, i) in shinsatuTypes" :key="i" :label="item.name" :value="i + 1">
                         {{item.name}}
                     </vs-option>

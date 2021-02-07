@@ -1,5 +1,5 @@
 <template>
-    <div style="height: 100%; padding: 10px">
+    <div style="height: calc(100% - 20px); padding: 10px">
         <vs-row style="height: 100%">
             <vs-col w="6" style="height: 100%">
                 <vs-table>
@@ -22,7 +22,7 @@
                             <vs-th>ID</vs-th>
                             <vs-th>名前</vs-th>
                             <vs-th>ユーザー名</vs-th>
-                            <vs-th>役</vs-th>
+                            <vs-th>グループ</vs-th>
                             <vs-th>ダイレクトリー</vs-th>
                             <vs-th>オルカあり</vs-th>
                             <vs-th>登録日</vs-th>
@@ -36,7 +36,7 @@
                                 <span v-if="!tr.active">無効</span>
                                 {{ tr.name_last }} {{ tr.name_first }}</vs-td>
                             <vs-td> {{ tr.user_name }} </vs-td>
-                            <vs-td> {{ tr.role }} </vs-td>
+                            <vs-td> {{ tr.group_label }} </vs-td>
                             <vs-td>
                                 <span v-if="tr.is_directory">ダイレクトリー</span>
                                 <span v-else>ローカル</span>
@@ -72,6 +72,7 @@
             </template>
             <userEdit
                 :user="editUser"
+                @saved="updateData"
                 @close="editOpen = false"
             />  
         </vs-dialog>
@@ -88,13 +89,16 @@ export default {
         userEdit: userEdit
     },
     created() {
-        this.$get('users')
-        .then(result => {
-            this.users = result.data
-        })
-        .catch(result => {
-            this.$apiError(result)
-        })
+        this.updateData()
+        if (!this.$store.getters.user_groups) {
+            this.$get('usergroups')
+            .then(result => {
+                this.$store.commit('SET_USER_GROUPS', result.data)
+            })
+            .catch(result => {
+                this.$apiError(result)
+            })
+        }
     },
     data() {
         return {
@@ -104,6 +108,15 @@ export default {
         }
     },
     methods: {
+        updateData() {
+            this.$get('users')
+            .then(result => {
+                this.users = result.data
+            })
+            .catch(result => {
+                this.$apiError(result)
+            })
+        },
         showEdit(user) {
             if (user) {
                 console.log('is');
