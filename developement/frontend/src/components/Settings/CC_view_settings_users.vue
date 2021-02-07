@@ -33,8 +33,13 @@
                         <vs-tr v-for="(tr, index) in users" :key="index">
                             <vs-td> {{ tr.id }} </vs-td>
                             <vs-td> 
-                                <span v-if="!tr.active">無効</span>
-                                {{ tr.name_last }} {{ tr.name_first }}</vs-td>
+                                <span style="display: flex; align-items: center">
+                                    {{ tr.name_last }} {{ tr.name_first }}
+                                    <vs-avatar v-if="!tr.active" danger size="30" style="margin-left: 10px">
+                                        <template #text>無効</template>
+                                    </vs-avatar>
+                                </span>
+                            </vs-td>
                             <vs-td> {{ tr.user_name }} </vs-td>
                             <vs-td> {{ tr.group_label }} </vs-td>
                             <vs-td>
