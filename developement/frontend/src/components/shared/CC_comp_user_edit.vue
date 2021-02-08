@@ -136,12 +136,13 @@ export default {
             passwordConfirm: "",
             passwordStrong: true,
             editUser: {
-                has_orca: 0,
+                has_orca: false,
                 name_first: '',
                 name_last: '',
                 group: 1,
                 user_name: '',
-                active: 1
+                active: true,
+                old_user_name: this.user ? JSON.parse(JSON.stringify(this.user.user_name)) : null
             },
             groups: this.$store.getters.user_groups
         }
@@ -178,18 +179,23 @@ export default {
     },
     methods: {
         update() {
+            this.loading = true
             this.$put('users', this.editUser)
             .then(() => {
+                this.loading = false
                 this.saved()
             })
             .catch(result => {
+                this.loading = false
                 this.$apiError(result)
             })
         },
         create() {
+            this.loading = true
             this.editUser.password = this.password
             this.$post('users', this.editUser)
             .then(() => {
+                this.loading = false
                 this.saved()
             })
             .catch(result => {

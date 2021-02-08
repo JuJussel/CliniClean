@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Database\Queries\User;
+use App\Middleware\Orcaapi;
 
 class Users {
 
@@ -18,6 +19,51 @@ class Users {
         return true;
 
     }
+
+    private function create_orca($res, $request_data) {
+
+        $orca = new Orcaapi();
+        $query = $orca->create_user($request_data);
+        if (!$query->ok) {
+            $res->message = $query->msg;
+            return;
+        }
+
+    }
+
+    private function edit_orca($res, $request_data) {
+
+        $orca = new Orcaapi();
+        $query = $orca->edit_user($request_data);
+        if (!$query->ok) {
+            $res->message = $query->msg;
+            return;
+        }
+
+    }
+
+    private function edit_orca_password($res, $request_data) {
+
+        $orca = new Orcaapi();
+        $query = $orca->edit_user_password($request_data);
+        if (!$query->ok) {
+            $res->message = $query->msg;
+            return;
+        }
+
+    }
+
+    private function delete_orca($res, $request_data) {
+
+        $orca = new Orcaapi();
+        $query = $orca->delete_user($request_data);
+        if (!$query->ok) {
+            $res->message = $query->msg;
+            return;
+        }
+
+    }
+
 
     public function get($req, $res) {
 
@@ -67,6 +113,10 @@ class Users {
         
         if (isset($request_data->changePassword)) {
 
+            if ($request_data->has_orca) {
+                $this->edit_orca_password($res, $request_data);
+            }
+    
             if (!$this->passwordStrong($res,$request_data->password)) {
                 return;
             }
@@ -80,6 +130,10 @@ class Users {
             $res->success = true;
             return;
     
+        }
+
+        if ($request_data->has_orca) {
+            $this->edit_orca($res, $request_data);
         }
 
         $query = $db->update($request_data);
@@ -100,6 +154,10 @@ class Users {
             return;
         }
 
+        if ($request_data->has_orca) {
+            $this->create_orca($res, $request_data);
+        }
+
         $db = new User();
         $query = $db->create($request_data);
 
@@ -108,14 +166,30 @@ class Users {
             return;
         }
 
-        //copy initial avatar
+        $res->success = true;
+
+    }
+
+    
+    public function delete($req, $res) {
+
+        $request_data = $req->post->data;
+
+        if ($request_data->has_orca) {
+            $this->delete_orca($res, $request_data);
+        }
+
+        $db = new User();
+        $query = $db->delete($request_data);
+
+        if(!$query->ok) {
+            $res->message = $query->msg;
+            return;
+        }
 
 
         $res->success = true;
 
     }
-
-
-
 
 }

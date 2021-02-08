@@ -786,6 +786,112 @@ class Orcaapi {
         return $this->response();
     }
 
+    ////////////////////////////////////////////////////////////////////////////
+    //////////////////////// Create User ///////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+    public function create_user($orca_data) {
+
+        $route = '/orca101/manageusersv2';
+        $request_string =
+        '
+            <data>
+                <manageusersreq type ="record">
+                    <Request_Number type ="string">02</Request_Number>
+                    <User_Information type ="record">
+                        <User_Id type ="string">' . $orca_data->user_name . '</User_Id>
+                        <User_Password type ="string">' . $orca_data->password . '</User_Password>
+                        <Group_Number type ="string">3</Group_Number>
+                        <Full_Name type ="string">' . mb_convert_kana($orca_data->name_last . $orca_data->name_first, 'RNK') . '</Full_Name>
+                    </User_Information>
+                </manageusersreq>
+            </data>
+        ';
+        $this->post($route, $request_string);
+        if ($this->validate(['0000'], 'manageusersres')) {
+            $this->ok = true;   
+            $this->response = $this->response->private_objects->Income_Information;
+        }
+        return $this->response();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //////////////////////// Edit User ///////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+    public function edit_user($orca_data) {
+
+        $route = '/orca101/manageusersv2';
+        $request_string =
+        '
+            <data>
+                <manageusersreq type ="record">
+                    <Request_Number type ="string">02</Request_Number>
+                    <User_Information type ="record">
+                        <User_Id type ="string">' . $orca_data->old_user_name . '</User_Id>
+                        <New_User_Id type ="string">' . $orca_data->user_name . '</New_User_Id>
+                        <New_Full_Name type ="string">' . mb_convert_kana($orca_data->name_last . $orca_data->name_first, 'RNK') . '</New_Full_Name>
+                    </User_Information>
+                </manageusersreq>
+            </data>
+        ';
+        $this->post($route, $request_string);
+        if ($this->validate(['0000'], 'manageusersres')) {
+            $this->ok = true;   
+            $this->response = $this->response->private_objects->Income_Information;
+        }
+        return $this->response();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //////////////////////// Edit User ///////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+    public function edit_user_password($orca_data) {
+
+        $route = '/orca101/manageusersv2';
+        $request_string =
+        '
+            <data>
+                <manageusersreq type ="record">
+                    <Request_Number type ="string">02</Request_Number>
+                    <User_Information type ="record">
+                        <User_Id type ="string">' . $orca_data->old_user_name . '</User_Id>
+                        <New_User_Password type ="string">' . $orca_data->password . '</New_User_Password>
+                    </User_Information>
+                </manageusersreq>
+            </data>
+        ';
+        $this->post($route, $request_string);
+        if ($this->validate(['0000'], 'manageusersres')) {
+            $this->ok = true;   
+            $this->response = $this->response->private_objects->Income_Information;
+        }
+        return $this->response();
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////
+    //////////////////////// Delete User ///////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+    public function delete_user($orca_data) {
+
+        $route = '/orca101/manageusersv2';
+        $request_string =
+        '
+            <data>
+                <manageusersreq type ="record">
+                    <Request_Number type ="string">04</Request_Number>
+                    <User_Information type ="record">
+                        <User_Id type ="string">' . $orca_data->user_name . '</User_Id>
+                    </User_Information>
+                </manageusersreq>
+            </data>
+        ';
+        $this->post($route, $request_string);
+        if ($this->validate(['0000'], 'manageusersres')) {
+            $this->ok = true;   
+            $this->response = $this->response->private_objects->Income_Information;
+        }
+        return $this->response();
+    }
 
 
 
