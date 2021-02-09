@@ -78,7 +78,7 @@ class User {
         return $result;
     }
 
-    public function password($params) {
+    public function update_password($params) {
         $query =
         '   UPDATE usr_users u
             SET

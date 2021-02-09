@@ -824,11 +824,15 @@ class Orcaapi {
         '
             <data>
                 <manageusersreq type ="record">
-                    <Request_Number type ="string">02</Request_Number>
+                    <Request_Number type ="string">03</Request_Number>
                     <User_Information type ="record">
                         <User_Id type ="string">' . $orca_data->old_user_name . '</User_Id>
-                        <New_User_Id type ="string">' . $orca_data->user_name . '</New_User_Id>
-                        <New_Full_Name type ="string">' . mb_convert_kana($orca_data->name_last . $orca_data->name_first, 'RNK') . '</New_Full_Name>
+        ';
+        if ($orca_data->user_name !== $orca_data->old_user_name) {
+            $request_string = $request_string . '<New_User_Id type ="string">' . $orca_data->user_name . '</New_User_Id>';
+        }
+
+        $request_string = $request_string . '<New_Full_Name type ="string">' . mb_convert_kana($orca_data->name_last . $orca_data->name_first, 'RNK') . '</New_Full_Name>
                     </User_Information>
                 </manageusersreq>
             </data>
@@ -842,7 +846,7 @@ class Orcaapi {
     }
 
     ////////////////////////////////////////////////////////////////////////////
-    //////////////////////// Edit User ///////////////////////////////////////
+    //////////////////////// Edit User Password ////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
     public function edit_user_password($orca_data) {
 
@@ -851,7 +855,7 @@ class Orcaapi {
         '
             <data>
                 <manageusersreq type ="record">
-                    <Request_Number type ="string">02</Request_Number>
+                    <Request_Number type ="string">03</Request_Number>
                     <User_Information type ="record">
                         <User_Id type ="string">' . $orca_data->old_user_name . '</User_Id>
                         <New_User_Password type ="string">' . $orca_data->password . '</New_User_Password>

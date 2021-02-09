@@ -109,9 +109,27 @@
                     保存
                 </vs-button>
             </div>
-
-
         </vs-dialog>
+        <vs-dialog           
+            blur
+            v-model="passwordRequestOpen"
+            width="500px">
+            <template #header>
+                <h3 class="dialog-title"> ユーザーパスワード入力 </h3>
+            </template>
+            <p style="margin: 20px 30px">オルカアカウントを有効するには、ユーザーパスワードが必要です。</p>
+            <vs-input type="password" v-model="password" label="パスワード"></vs-input>
+            <div style="display: flex; justify-content: flex-end">
+                <vs-button transparent dark @click="passwordRequestOpen = false">キャンセル</vs-button>
+                <vs-button 
+                    :disabled="password === ''"
+                    @click="confirmOrcaEdit"
+                    >
+                    保存
+                </vs-button>
+            </div>
+        </vs-dialog>
+
 
     </div>
 </template>
@@ -131,6 +149,7 @@ export default {
             loading: false,
             loadingElm: null,
             passOpen: false,
+            passwordRequestOpen: false,
             password: "",
             passwordsMatch: true,
             passwordConfirm: "",
@@ -142,7 +161,8 @@ export default {
                 group: 1,
                 user_name: '',
                 active: true,
-                old_user_name: this.user ? JSON.parse(JSON.stringify(this.user.user_name)) : null
+                old_user_name: this.user ? JSON.parse(JSON.stringify(this.user.user_name)) : null,
+                had_orca: this.user ? JSON.parse(JSON.stringify(this.user.has_orca)) : false
             },
             groups: this.$store.getters.user_groups
         }
@@ -179,6 +199,14 @@ export default {
     },
     methods: {
         update() {
+
+            if(this.editUser.has_orca !== this.editUser.had_orca && this.editUser.has_orca && !this.passwordRequestOpen) {
+                this.passwordRequestOpen = true
+                return
+            }
+
+            this.passwordRequestOpen = false
+
             this.loading = true
             this.$put('users', this.editUser)
             .then(() => {
@@ -189,6 +217,10 @@ export default {
                 this.loading = false
                 this.$apiError(result)
             })
+        },
+        confirmOrcaEdit() {
+            this.editUser.password = this.password
+            this.update()
         },
         create() {
             this.loading = true

@@ -26,8 +26,9 @@ class Users {
         $query = $orca->create_user($request_data);
         if (!$query->ok) {
             $res->message = $query->msg;
-            return;
+            return false;
         }
+        return true;
 
     }
 
@@ -37,8 +38,9 @@ class Users {
         $query = $orca->edit_user($request_data);
         if (!$query->ok) {
             $res->message = $query->msg;
-            return;
+            return false;
         }
+        return true;
 
     }
 
@@ -48,8 +50,9 @@ class Users {
         $query = $orca->edit_user_password($request_data);
         if (!$query->ok) {
             $res->message = $query->msg;
-            return;
+            return false;
         }
+        return true;
 
     }
 
@@ -59,8 +62,9 @@ class Users {
         $query = $orca->delete_user($request_data);
         if (!$query->ok) {
             $res->message = $query->msg;
-            return;
+            return false;
         }
+        return true;
 
     }
 
@@ -113,15 +117,16 @@ class Users {
         
         if (isset($request_data->changePassword)) {
 
-            if ($request_data->has_orca) {
-                $this->edit_orca_password($res, $request_data);
-            }
-    
             if (!$this->passwordStrong($res,$request_data->password)) {
                 return;
             }
+
+            if ($request_data->has_orca) {
+                $or = $this->edit_orca_password($res, $request_data);
+                if(!$or) return;
+            }
     
-            $query = $db->password($request_data);
+            $query = $db->update_password($request_data);
 
             if(!$query->ok) {
                 $res->message = $query->msg;
@@ -132,8 +137,38 @@ class Users {
     
         }
 
+        if($request_data->has_orca !== $request_data->had_orca) {
+
+            if ($request_data->has_orca) {
+
+                $db = new User();
+                $query = $db->auth($request_data->user_name);
+        
+                if(!$query->ok) {
+                    $res->message = $query->msg;
+                    return;
+                }
+        
+                $query = $query->data[0];
+        
+                $authenticated = password_verify($request_data->password, $query['password']);
+        
+                if (!$authenticated) {
+                    $res->message = "ユーザーパスワードが正しくありません。";
+                    return;
+                }
+                $or = $this->create_orca($res, $request_data);
+                if (!$or) return;
+
+            } else {
+                $or = $this->delete_orca($res, $request_data);
+                if (!$or) return;
+            }
+        }
+
         if ($request_data->has_orca) {
-            $this->edit_orca($res, $request_data);
+            $or = $this->edit_orca($res, $request_data);
+            if(!$or) return;
         }
 
         $query = $db->update($request_data);
@@ -155,7 +190,8 @@ class Users {
         }
 
         if ($request_data->has_orca) {
-            $this->create_orca($res, $request_data);
+            $or = $this->create_orca($res, $request_data);
+            if(!$or) return;
         }
 
         $db = new User();
@@ -176,7 +212,8 @@ class Users {
         $request_data = $req->post->data;
 
         if ($request_data->has_orca) {
-            $this->delete_orca($res, $request_data);
+            $or = $this->delete_orca($res, $request_data);
+            if(!$or) return;
         }
 
         $db = new User();
