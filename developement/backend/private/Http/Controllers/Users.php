@@ -115,11 +115,66 @@ class Users {
         $request_data = $req->update[0];
         $db = new User();
         
+        // Check if the password is being updated
+        // In that case, only password will be updated
         if (isset($request_data->changePassword)) {
 
+            // Make sure the password is strong
+            // Do not trust frontend
             if (!$this->passwordStrong($res,$request_data->password)) {
                 return;
             }
+
+            // Check if this is a user initiated password change
+            if(isset($request_data->user_password_update)) {
+
+                // If so chack old password
+                $query = $db->auth($request_data->user_name);
+                if(!$query->ok) {
+                    $res->message = $query->msg;
+                    return;
+                }
+
+                $query = $query->data[0];
+        
+                $authenticated = password_verify($request_data->old_password, $query['password']);
+        
+                if (!$authenticated) {
+                    $res->message = "古いパスワードが正しくありません。";
+                    return;
+                }
+
+                // If old password OK change password and exit
+
+                if ($request_data->has_orca) {
+                    $or = $this->edit_orca_password($res, $request_data);
+                    if(!$or) return;
+                }
+    
+                $query = $db->update_password($request_data);
+
+                if(!$query->ok) {
+                    $res->message = $query->msg;
+                    return;
+                }
+                $res->success = true;
+                return;
+            }
+
+            // Otherwise make sure the user changing the password is an admin
+            $user_query = $db->get($_SESSION['user_name']);
+            var_dump($user_query);
+            if(!$user_query->ok) {
+                $res->message = $query->msg;
+                return;
+            }
+    
+            $group = $user_query->data[0]['user_group'];
+            if($group != 2) {
+                $res->message = 'アクセス拒否しました。';
+                return;
+            }
+            // Otherwise continue    
 
             if ($request_data->has_orca) {
                 $or = $this->edit_orca_password($res, $request_data);
@@ -136,6 +191,8 @@ class Users {
             return;
     
         }
+
+        // If not password change continue with user info edit
 
         if($request_data->has_orca !== $request_data->had_orca) {
 
@@ -157,6 +214,7 @@ class Users {
                     $res->message = "ユーザーパスワードが正しくありません。";
                     return;
                 }
+
                 $or = $this->create_orca($res, $request_data);
                 if (!$or) return;
 

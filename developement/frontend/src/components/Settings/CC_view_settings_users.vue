@@ -2,7 +2,7 @@
     <div style="height: calc(100% - 20px); padding: 10px">
         <vs-row style="height: 100%">
             <vs-col w="6" style="height: 100%">
-                <vs-table>
+                <vs-table striped>
                     <template #header>
                         <h3 style="display: flex; align-items: center; justify-content: space-between; margin: 0">
                             一覧

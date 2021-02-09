@@ -46,6 +46,7 @@ class Sessions {
             session_regenerate_id();
             $res->data->ok = true;
             $_SESSION['user'] = $query['id'];
+            $_SESSION['user_name'] = $query['user_name'];
             $_SESSION['loggedin_time'] = time();
             $_SESSION['IP'] = $_SERVER['REMOTE_ADDR'];
             $_SESSION['last_activity_time'] = time();
