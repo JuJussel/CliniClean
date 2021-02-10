@@ -19,6 +19,7 @@
     "liquor-tree": "^0.2.70",
     "quill-image-resize": "^3.0.9",
     "vue": "^2.6.10",
+    "vue-avatar-cropper": "^1.0.9",
     "vue-echarts-v3": "^2.0.1",
     "vue-full-calendar": "^2.8.0",
     "vue-moment": "^4.1.0",

@@ -162,8 +162,7 @@ class Users {
             }
 
             // Otherwise make sure the user changing the password is an admin
-            $user_query = $db->get($_SESSION['user_name']);
-            var_dump($user_query);
+            $user_query = $db->get($_SESSION['user']);
             if(!$user_query->ok) {
                 $res->message = $query->msg;
                 return;

@@ -354,6 +354,14 @@ export default {
   .fc-scrollgrid > thead .fc-scroller {
     overflow: hidden!important
   }
+  .avatar-cropper-footer {
+    display: none!important;
+  }
+
+  .cropper-view-box,
+  .cropper-face {
+    border-radius: 50%;
+  }
 
 </style>
 
