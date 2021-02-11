@@ -5,7 +5,7 @@ $GLOBALS['controllers'] = __DIR__ . '/../Http/Controllers';
 // Connectivity
 $GLOBALS['host'] = gethostname();
 $GLOBALS['host_ip'] = gethostbyname($GLOBALS['host']);
-$GLOBALS['websocket_host'] = 'ws://' . $GLOBALS['host_ip'];
+$GLOBALS['websocket_host'] = 'https://' . $GLOBALS['host_ip'];
 $GLOBALS['websocket_port'] = '1337';
 
 // Database Connections

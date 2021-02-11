@@ -121,19 +121,21 @@ export default {
         currentView: "dashboard",
         timeRemaining: 0,
         timeoutMsgOpen: false,
-        sessionTimedOut: false
+        sessionTimedOut: false,
+        cacheBreaker: 1
       }
     )
   },
   computed: {
     avatarURL() {
-      return this.$globals.filesUrl + 'user' + this.$store.getters.userInfo.id + '.png'
+      return this.$globals.filesUrl + 'user' + this.$store.getters.userInfo.id + '.png?' + this.cacheBreaker
     }
   },
   created() {
     this.$eventHub.$on('apiError', this.apiError)
     this.$eventHub.$on('loading', this.setLoading)
     this.$eventHub.$on('loadingDone',  this.removeLoading)
+    this.$eventHub.$on('updateCacheBreaker',  this.incrementCacheBreaker)
 
     this.$get('users/0')
     .then(result => {
@@ -149,8 +151,12 @@ export default {
     this.$eventHub.$off('loading')
     this.$eventHub.$off('apiError')
     this.$eventHub.$off('loadingDone')
+    this.$eventHub.$off('loadingDone')
   },
   methods: {
+    incrementCacheBreaker() {
+      this.cacheBreaker++
+    },
     apiError(msg) {
       if (msg === 'Session Invalid') {
         this.sessionTimedOut = true

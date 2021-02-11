@@ -46,6 +46,7 @@ class Files {
         $type = $files_data->fileMeta->type;
         $all_files = count($_FILES['files']['tmp_name']);
         $res->data=[];
+        $db_entry = true;
 
         for ($i = 0; $i < $all_files; $i++) {
 
@@ -62,6 +63,9 @@ class Files {
             } else if ($meta === "xraySchema") {
               $file_ext = "png";
               $file_name = $files_data->fileMeta->schemaID;
+            } else if ($meta === "avatar") {
+                $file_name = 'user' . $_SESSION['user'];
+                $db_entry = false;
             }
         
             $file = $path . $file_name . '.' . $file_ext;
@@ -78,19 +82,23 @@ class Files {
 
                 move_uploaded_file($file_tmp, $file);
 
-                $query_data = new stdClass();
-                $query_data->patient_id = $patient_id;
-                $query_data->file_name = $file_name;
-                $query_data->meta = $meta;
-                $query_data->type = $type;
-                $query_data->file_ext = $file_ext;
-         
-                $db_data = new File();
-                $query = $db_data->post($query_data);
-                if (!$query->ok) {
-                    $res->message = $query->msg;
-                    return;
-                } 
+                if($db_entry) {
+
+                    $query_data = new stdClass();
+                    $query_data->patient_id = $patient_id;
+                    $query_data->file_name = $file_name;
+                    $query_data->meta = $meta;
+                    $query_data->type = $type;
+                    $query_data->file_ext = $file_ext;
+             
+                    $db_data = new File();
+                    $query = $db_data->post($query_data);
+                    if (!$query->ok) {
+                        $res->message = $query->msg;
+                        return;
+                    } 
+
+                }    
 
                 array_push($res->data, $file_name . '.' . $file_ext);
             }

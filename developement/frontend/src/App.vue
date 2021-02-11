@@ -358,11 +358,6 @@ export default {
     display: none!important;
   }
 
-  .cropper-view-box,
-  .cropper-face {
-    border-radius: 50%;
-  }
-
 </style>
 
 <style media="screen">
