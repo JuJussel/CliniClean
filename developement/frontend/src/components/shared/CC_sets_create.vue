@@ -15,6 +15,17 @@
                     class="cc-card-header"
                     style="display: flex; justify-content: space-between; margin-bottom: -10px">
                     <span>フォルダー選択</span>
+                    <vs-button
+                        @click.stop="newRootFolder(node)"
+                        icon
+                        dark
+                        border
+                        size="small"
+                        animation-type="scale"
+                    >
+                        <i class="fas fa-plus" style="font-size: 14px"></i>
+                        <template #animate>新規</template>
+                    </vs-button>
                 </div>
                 <tree
                     ref="tree"
@@ -155,6 +166,10 @@ export default {
             }
             t.startEditing()
         },
+        newRootFolder() {
+            let t = this.$refs.tree.append('new')
+            t.startEditing()
+        },
         saveNewFolder(node, orig) {
 
             if(node.data.text === orig) {
@@ -166,11 +181,14 @@ export default {
                 target: this.$refs.tree,
                 color: 'dark'
             })
-            let patient = node.parent.data.patient ? node.parent.data.patient : null
+            let patient =  null
+            if(node.parent && node.parent.data.patient) {
+                patient = node.parent.data.patient
+            }
             let data = {
                 text: node.data.text,
                 patient: patient,
-                parent: node.parent.id
+                parent: node.parent ? node.parent.id : 'noParent'
             } 
             this.$post('setfolders', data)
             .then(() => {

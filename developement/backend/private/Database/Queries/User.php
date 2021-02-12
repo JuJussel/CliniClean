@@ -35,7 +35,8 @@ class User {
                 u.user_name,
                 u.name_first,
                 u.name_last,
-                u.user_group
+                u.user_group,
+                u.has_orca
             FROM usr_users u
             WHERE id = ?
             LIMIT 1

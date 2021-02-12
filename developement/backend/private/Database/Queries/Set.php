@@ -7,6 +7,18 @@ use App\Database\DB;
 class Set {
 
     public function all() {
+
+        $query =
+        '   SELECT s.*, p.name
+            FROM usr_sets s
+            INNER JOIN usr_patients p ON p.id = s.patient
+            ORDER BY insert_date DESC
+        ';
+
+        $db = new DB();
+        $result = $db->query(['query'=>$query]);
+        return $result;
+
     }
 
     public function get($data) {
@@ -49,33 +61,20 @@ class Set {
 
     public function post($data) {
 
-        $query =
-        '   INSERT INTO usr_sets (
-                parent,
-                content,
-        ';
+        // This needs to be fixed, just too ugly..
+        //  Cannot insert NULL values due to foeign key
 
-        if ($data->patient) {
-            $query = $query . 'patient,';
-        }
-
-        $query = $query . 
-        '
-                user,
-                folder
-            )
-            VALUES (?,?,
-        ';
-
-        if ($data->patient) {
-            $query = $query . '?,';
-        }
-        $query = $query . 
-        '
-         ?,?)
-        ';
-
-        if ($data->patient) {
+        if ($data->parent !== 'noParent' && $data->patient) {
+            $query = 
+            '   INSERT INTO usr_sets (
+                    parent,
+                    content,
+                    patient,
+                    user,
+                    folder
+                )
+                VALUES (?,?,?,?,?)
+            ';
             $bind_params = [
                 ['i', $data->parent],
                 ['s', $data->content],
@@ -83,13 +82,55 @@ class Set {
                 ['i', $data->user],
                 ['i', $data->is_folder]
             ];
-        } else {
+        } else if ($data->parent !== 'noParent') {
+            $query = 
+            '   INSERT INTO usr_sets (
+                    parent,
+                    content,
+                    user,
+                    folder
+                )
+                VALUES (?,?,?,?)
+            ';
             $bind_params = [
                 ['i', $data->parent],
                 ['s', $data->content],
                 ['i', $data->user],
                 ['i', $data->is_folder]
             ];
+
+        } else if ($data->patient) {
+            $query = 
+            '   INSERT INTO usr_sets (
+                    content,
+                    patient,
+                    user,
+                    folder
+                )
+                VALUES (?,?,?,?)
+            ';
+            $bind_params = [
+                ['s', $data->content],
+                ['i', $data->patient],
+                ['i', $data->user],
+                ['i', $data->is_folder]
+            ];
+
+        } else {
+            $query = 
+            '   INSERT INTO usr_sets (
+                    content,
+                    user,
+                    folder
+                )
+                VALUES (?,?,?)
+            ';
+            $bind_params = [
+                ['s', $data->content],
+                ['i', $data->user],
+                ['i', $data->is_folder]
+            ];
+ 
         }
 
         $db = new DB();

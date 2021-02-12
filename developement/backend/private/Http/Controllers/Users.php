@@ -128,7 +128,7 @@ class Users {
             // Check if this is a user initiated password change
             if(isset($request_data->user_password_update)) {
 
-                // If so chack old password
+                // If so check old password
                 $query = $db->auth($request_data->user_name);
                 if(!$query->ok) {
                     $res->message = $query->msg;

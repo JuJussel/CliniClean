@@ -34,7 +34,7 @@ export default {
         return {
             userData: {
                 user: 'ekurosu',
-                pass: 'Passw0rd',
+                pass: 'Passw0rd123!',
                 mobile: false
             },
             noti: null
