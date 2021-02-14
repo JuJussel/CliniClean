@@ -160,6 +160,7 @@ export default {
             this.selectedFolder = folder
         },
         newFolder(node) {
+            this.selectedFolder = node
             let t = node.append('new')
             if (!node.states.expanded) {
                 node.expand()

@@ -30,55 +30,42 @@ class Sets {
         }
 
         $flat_list = $query->data;
-        $patient_nodes = [
-            'text' => '患者',
-            'children' => []
-        ];
 
         $tree = array();
-        $parent_nodes = array();
+        $parent_nodes = [
+            $patient_node
+        ];
         $nodes_by_parent = array();
 
-        if(is_null($flat_list) || count($flat_list) <= 0){
-            $res->data = [];
-            $res->success = true;
-            return;
-        }
-
         foreach ($flat_list as $node) {
-            
+
             $node['content'] = json_decode($node['content'], true);            
             $patient = $node['patient'];
-            $patient_name = isset($node['name']) ? $node['name'] : null;
+            
             $node = [
                 'parent' => $node['parent'],
                 'id' => $node['id'],
                 'data' => [
                     'id' => $node['id'],
                     'isFolder' => $node['folder'] == 1 ? true : false,
-                    'content' => $node['content']
+                    'content' => $node['content'],
+                    'patient' => $patient
                 ],
                 'text' => $node['text'] = $node['content']['name']
             ];
 
-            if ($node['parent'] != null && !$patient) {
+            if ($node['parent']) {
                 $nodes_by_parent[$node['parent']][] = $node;
-            } else if ($patient) {
-                if (isset($patient_node[$node['id']])) {
-                    $patient_node[$node['id']]['children'][] = $node;
-                } else {
-                    $patient_node[$node['id']] = [
-                        'id' => 'p_' . $patient,
-                        'text' => $patient_name,
-                        'data' => ['isFolder' => true],
-                        'children' => [$node]
-                    ];
+            }
+            else {
+                if($patient) {
+                    $nodes_by_parent['noParent'][] = $node;
+                }
+                else {
+                    $parent_nodes[] = $node;
                 }
             }
 
-            else {
-                $parent_nodes[] = $node;
-            }
 
         }
 
@@ -87,11 +74,9 @@ class Sets {
             $tree[] = $t;
         }
 
-        array_unshift($tree, $patient_nodes);
-
         $res->data = $tree;
         $res->success = true;
-
+   
     }
 
     public function get($req, $res) {
@@ -123,13 +108,8 @@ class Sets {
         ];
         $nodes_by_parent = array();
 
-        if(is_null($flat_list) || count($flat_list) <= 0){
-            $res->data = [];
-            $res->success = true;
-            return;
-        }
-
         foreach ($flat_list as $node) {
+
             $node['content'] = json_decode($node['content'], true);            
             $patient = $node['patient'];
             
@@ -159,6 +139,7 @@ class Sets {
 
 
         }
+
         foreach ($parent_nodes as $node) {
             $t = $this -> populate_branch($node, $nodes_by_parent);
             $tree[] = $t;
@@ -179,7 +160,6 @@ class Sets {
             'items' => $req_data->content
         ];
         $req_data->content = json_encode($req_data->content);
-
 
         $db = new Set();
         $query = $db->post($req_data);
