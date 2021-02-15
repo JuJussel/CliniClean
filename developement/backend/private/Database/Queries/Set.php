@@ -11,7 +11,7 @@ class Set {
         $query =
         '   SELECT s.*, p.name
             FROM usr_sets s
-            INNER JOIN usr_patients p ON p.id = s.patient
+            LEFT JOIN usr_patients p ON p.id = s.patient
             ORDER BY insert_date DESC
         ';
 
