@@ -15,17 +15,18 @@
                 </vs-button>
             </vs-button-group>
         </div>
-
-        <div class="content-card" style="height: calc(100% - 50px)">
-            <div class="cc-card-has-header">
-                <div class="cc-card-header">
-                    <h2> {{ tabs[activeTab].label }} </h2>
-                </div>
-                <div style="height: calc(100% - 64px)" class="cc-card-content" ref="loadElm">
-                    <child-component :is="tabs[activeTab].name" ref="childComp"></child-component>
+        <vs-row>
+            <div class="content-card" style="height: calc(100% - 50px); width: 100%">
+                <div class="cc-card-has-header">
+                    <div class="cc-card-header" style="border-radius: 15px">
+                        <h2> {{ tabs[activeTab].label }} </h2>
+                    </div>
                 </div>
             </div>
-        </div>
+        </vs-row>
+        <vs-row style="height: calc(100% - 100px)">
+            <child-component :is="tabs[activeTab].name" ref="childComp" style="width: 100%"></child-component>
+        </vs-row>
 
     </div>
 </template>

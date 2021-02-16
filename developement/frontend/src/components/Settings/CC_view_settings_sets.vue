@@ -1,131 +1,219 @@
 <template>
     <div style="height: 100%">
-        <vs-row>
-            <vs-button>新規セット</vs-button>
-        </vs-row>
-        <vs-row ref="loadElm" style="height: calc(100% - 50px)">
-            <vs-col w="4" style="height: 100%; padding: 10px">
-                <div 
-                    class="cc-card-header"
-                    style="display: flex; justify-content: space-between; margin-bottom: -10px">
-                    <span>フォルダー一覧</span>
+        <vs-row ref="loadElm" style="height: 100%">
+            <vs-col w="4" style="height: 100%">
+                <div class="content-card">
+                    <div class="cc-card-header">
+                        <h3>フォルダー一覧</h3>
+                    </div>
+                    <tree
+                        v-if="setFolders.length > 0"
+                        ref="tree"
+                        :data="sets"
+                        @node:clicked="selectItem"
+                        @node:editing:stop="saveNewFolder"
+                        style="height: calc(100% - 40px)">
+                        <div slot-scope="{ node }" style="width: 100%">
+                            <template>
+                                <span style="display: flex; justify-content: space-between; align-items: center; margin: -5px">
+                                    <span v-if="node.data.isFolder">
+                                        <i class="far fa-folder" v-if="!node.expanded()"></i>
+                                        <i class="far fa-folder-open" v-else></i>
+                                        {{ node.text }}
+                                    </span>
+                                    <span v-else>
+                                        <i class="far fa-list-alt"></i>
+                                        {{ node.text }}
+                                    </span>
+                                    <span v-if="node.data.isFolder" style="display: flex">
+                                        <vs-button
+                                            @click.stop="newFolder(node)"
+                                            icon
+                                            danger
+                                            border
+                                            size="small"
+                                            class="cc-tree-button"
+                                            animation-type="scale"
+                                            >
+                                            <i class="far fa-trash-alt" style="font-size: 14px"></i>
+                                            <template #animate>削除</template>
+                                        </vs-button>
+                                        <vs-button
+                                            @click.stop="newFolder(node)"
+                                            icon
+                                            dark
+                                            border
+                                            size="small"
+                                            class="cc-tree-button"
+                                            animation-type="scale"
+                                            >
+                                            <i class="fas fa-edit" style="font-size: 14px"></i>
+                                            <template #animate>編集</template>
+                                        </vs-button>
+                                        <vs-button
+                                            @click.stop="newFolder(node)"
+                                            icon
+                                            dark
+                                            border
+                                            size="small"
+                                            class="cc-tree-button"
+                                            animation-type="scale"
+                                            >
+                                            <i class="fas fa-plus" style="font-size: 14px"></i>
+                                            <template #animate>新規</template>
+                                        </vs-button>
+                                    </span>
+                                </span>
+                            </template>
+                        </div>
+                    </tree>
                 </div>
-                <tree
-                    v-if="setFolders.length > 0"
-                    ref="tree"
-                    :data="sets"
-                    @node:clicked="selectItem"
-                    @node:editing:stop="saveNewFolder"
-                    style="height: calc(100% - 40px)">
-                    <div slot-scope="{ node }" style="width: 100%">
-                        <template>
-                            <span style="display: flex; justify-content: space-between; align-items: center; margin: -5px">
-                                <span v-if="node.data.isFolder">
-                                    <i class="far fa-folder" v-if="!node.expanded()"></i>
-                                    <i class="far fa-folder-open" v-else></i>
-                                    {{ node.text }}
+            </vs-col>
+            <vs-col w="4" style="height: 100%">
+                <div class="content-card">
+                    <vs-table
+                        v-if="selectedItem && !selectedItem.data.isFolder"
+                        style="height: 100%"
+                    >
+                        <template #header>
+                            <h3 style="display: flex; justify-content: space-between; align-items: center">
+                                <span>
+                                    {{ selectedItem.data.text }}
+                                    行為一覧
                                 </span>
-                                <span v-else>
-                                    <i class="far fa-list-alt"></i>
-                                    {{ node.text }}
+                                <span style="display: flex">
+                                    <vs-button danger>削除</vs-button>
+                                    <vs-button transparent dark>キャンセル</vs-button>
+                                    <vs-button>保存</vs-button>
                                 </span>
-                                <span v-if="node.data.isFolder" style="display: flex">
+                            </h3>
+                        </template>
+                        <template #notFound>
+                            <img style="width: 200px" src="../../assets/img/empty2.jpg" />
+                            <div>
+                                <b style="color: gray">項目なし</b>
+                            </div>
+                        </template>
+                        <template #thead>
+                            <vs-tr style="display: none">
+                                <vs-th></vs-th>
+                                <vs-th></vs-th>
+                            </vs-tr>
+                        </template>
+                        <template #tbody>
+                            <vs-tr
+                                class="vs-table__tr expand"
+                                style="border-top: solid 5px white;"
+                                v-for="(tr, index) in selectedItem.data.content.items"
+                                :key="index"
+                                >
+                                <vs-td>
+                                    <div>
+                                        <!-- <i :class="kouiCats[tr.type].icon" style="margin-right: 10px"></i> -->
+                                        <span style="padding: 3px">{{ tr.name }}</span>
+                                    </div>
+                                    <div>
+                                        <kouiItem
+                                            v-if="tr.type === '25' || tr.type === '30' || tr.type === '31'"
+                                            :kouiInit="tr"
+                                            noDelete
+                                            @update="updateKoui(...arguments, index)"
+                                        ></kouiItem>
+                                    </div>
+                                </vs-td>
+                                <vs-td>
                                     <vs-button
-                                        @click.stop="newFolder(node)"
                                         icon
                                         danger
-                                        border
-                                        size="small"
-                                        class="cc-tree-button"
                                         animation-type="scale"
+                                        @click="removeKoui(index)"
                                         >
                                         <i class="far fa-trash-alt" style="font-size: 14px"></i>
-                                        <template #animate>削除</template>
+                                        <template #animate>削</template>
                                     </vs-button>
-                                    <vs-button
-                                        @click.stop="newFolder(node)"
-                                        icon
-                                        dark
-                                        border
-                                        size="small"
-                                        class="cc-tree-button"
-                                        animation-type="scale"
-                                        >
-                                        <i class="fas fa-edit" style="font-size: 14px"></i>
-                                        <template #animate>編集</template>
-                                    </vs-button>
-                                    <vs-button
-                                        @click.stop="newFolder(node)"
-                                        icon
-                                        dark
-                                        border
-                                        size="small"
-                                        class="cc-tree-button"
-                                        animation-type="scale"
-                                        >
-                                        <i class="fas fa-plus" style="font-size: 14px"></i>
-                                        <template #animate>新規</template>
-                                    </vs-button>
-
-                                </span>
-                            </span>
+                                </vs-td>
+                            </vs-tr>
                         </template>
-                    </div>
-                </tree>
-            </vs-col>
-            <vs-col w="4" style="padding: 10px">
-                <vs-table
-                    v-if="selectedItem && !selectedItem.data.isFolder" 
-                    style="height: 400px">
-                    <template #header>
-                        {{ selectedItem.data.text }}
-                        行為一覧
-                    </template>
-                    <template #thead>
-                        <vs-tr style="display: none">
-                            <vs-th></vs-th>
-                            <vs-th></vs-th>
-                        </vs-tr>
-                    </template>
-                    <template #tbody>
-                        <vs-tr
-                            class="vs-table__tr expand"
-                            style="border-top: solid 5px white;"
-                            v-for="(tr, index) in selectedItem.data.content.items"
-                            :key="index"
-                            >
-                            <vs-td>
-                                <div>
-                                    <!-- <i :class="kouiCats[tr.type].icon" style="margin-right: 10px"></i> -->
-                                    <span style="padding: 3px">{{ tr.name }}</span>
-                                </div>
-                                <div>
-                                    <kouiItem
-                                        v-if="tr.type === '25' || tr.type === '30' || tr.type === '31'"
-                                        :kouiInit="tr"
-                                        noDelete
-                                        @update="updateKoui(...arguments, index)"
-                                    ></kouiItem>
-                                </div>
-                            </vs-td>
-                            <vs-td>
-                                <vs-button
-                                    icon
-                                    danger
-                                    animation-type="scale"
-                                    @click="removeKoui(index)"
-                                    >
-                                    <i class="far fa-trash-alt" style="font-size: 14px"></i>
-                                    <template #animate>削</template>
-                                </vs-button>
-                            </vs-td>
-                        </vs-tr>
-                    </template>
-                </vs-table>
+                    </vs-table>
+                    <vs-table
+                        v-else-if="selectedItem"
+                        style="height: 100%"
+                    >
+                        <template #notFound>
+                            <img style="width: 200px" src="../../assets/img/empty2.jpg" />
+                            <div>
+                                <b style="color: gray">項目なし</b>
+                            </div>
+                        </template>
+                        <template #header>
+                            <h3 style="display: flex; justify-content: space-between; align-items: center">
+                                <span>
+                                    {{ selectedItem.data.text }}
+                                    フォルダ内容一覧
+                                </span>
+                                <span style="display: flex">
+                                    <vs-tooltip bottom shadow not-hover v-model="folderAddPop">
+                                    <vs-button dark @click="folderAddPop=!folderAddPop">新規</vs-button>
+                                    <template #tooltip>
+                                        <div>
+                                            <vs-button @click="folderAddPop=false" dark block>
+                                                <i class="far fa-folder" style="margin-right: 10px"></i>
+                                                フォルダ
+                                            </vs-button>
+                                            <vs-button @click="folderAddPop=false" dark block>
+                                                <i class="far fa-list-alt" style="margin-right: 10px"></i>
+                                                セット
+                                            </vs-button>
+                                        </div>
+                                        </template>
+                                    </vs-tooltip>
+                                    <vs-button danger>削除</vs-button>
+                                </span>
+                            </h3>
+                        </template>
+                        <template #thead>
+                            <vs-tr style="display: none">
+                                <vs-th></vs-th>
+                                <vs-th></vs-th>
+                            </vs-tr>
+                        </template>
+                        <template #tbody>
+                            <vs-tr
+                                class="vs-table__tr expand"
+                                style="border-top: solid 5px white;"
+                                v-for="(tr, index) in selectedItem.children"
+                                @click="selectItem(tr)"
+                                :key="index"
+                                >
+                                <vs-td>
+                                    <i class="far fa-folder" v-if="tr.data.isFolder"></i>
+                                    <i class="far fa-list-alt" v-else></i>
+                                    {{ tr.data.text }}
+                                </vs-td>
+                                <vs-td style="width: 40px">
+                                    <vs-button
+                                        icon
+                                        danger
+                                        animation-type="scale"
+                                        @click="removeKoui(index)"
+                                        >
+                                        <i class="far fa-trash-alt" style="font-size: 14px"></i>
+                                        <template #animate>削</template>
+                                    </vs-button>
+                                </vs-td>
+                            </vs-tr>
+                        </template>
+                    </vs-table>
+
+                </div>
 
             </vs-col>
-            <vs-col w="4">
-                
+            <vs-col w="4" v-if="selectedItem && !selectedItem.data.isFolder">
+                <div class="content-card">
+                    <div class="cc-card-header">
+                        <h3>行為一覧</h3>
+                    </div>
+                </div>
             </vs-col>
 
         </vs-row>
@@ -134,9 +222,11 @@
 
 <script>
 
+import kouiItem from "../shared/shinsatu_koui_item"
 
 export default {
     components: {
+        kouiItem: kouiItem
     },
     data() {
         return {
@@ -144,7 +234,8 @@ export default {
             selectedItem: null,
             loading: false,
             loadingCont: null,
-            sets: []
+            sets: [],
+            folderAddPop: false
         }
     },
     created() {
@@ -167,6 +258,7 @@ export default {
 
         },
         selectItem(folder) {
+            this.folderAddPop = false
             this.selectedItem = folder
         },
 

@@ -1,21 +1,29 @@
 <template>
-    <div style="height: calc(100% - 40px); padding: 20px">
+    <div style="height: calc(100% - 40px)">
         <vs-row ref="loadElm">
-            <vs-avatar size="180">
-                <img v-if="hasAvatar" :src="avatarURL"  @error="(() => hasAvatar = null)">
-                <span v-else> {{ $store.getters.userFullName.charAt(0) }} </span>
-            </vs-avatar>
-            <div style="margin-left: 20px">
-                <h2> {{ $store.getters.userFullName }} </h2>
-                <vs-button dark @click="avatarSelectOpen = true">
-                    <i class="far fa-user-circle" style="margin-right: 10px"></i>
-                    ユーザーアバター編集
-                </vs-button>
-                <vs-button dark @click="passOpen = true">
-                    <i class="fas fa-lock" style="margin-right: 10px"></i>
-                    パスワード変更
-                </vs-button>
-            </div>
+            <vs-col w="3">
+                <div class="content-card">
+                    <div class="cc-card-header">
+                        <h2> {{ $store.getters.userFullName }} </h2>
+                    </div>
+                    <div style="display: flex; padding: 10px">
+                        <vs-avatar size="180">
+                            <img v-if="hasAvatar" :src="avatarURL"  @error="(() => hasAvatar = null)">
+                            <span v-else> {{ $store.getters.userFullName.charAt(0) }} </span>
+                        </vs-avatar>
+                        <div style="margin-left: 20px">
+                            <vs-button dark @click="avatarSelectOpen = true">
+                                <i class="far fa-user-circle" style="margin-right: 10px"></i>
+                                ユーザーアバター編集
+                            </vs-button>
+                            <vs-button dark @click="passOpen = true">
+                                <i class="fas fa-lock" style="margin-right: 10px"></i>
+                                パスワード変更
+                            </vs-button>
+                    </div>
+                    </div>
+                </div>
+            </vs-col>
         </vs-row>
         <vs-dialog
             blur

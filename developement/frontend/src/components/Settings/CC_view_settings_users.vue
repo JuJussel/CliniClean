@@ -1,71 +1,73 @@
 <template>
-    <div style="height: calc(100% - 20px); padding: 10px">
+    <div style="height: calc(100% - 20px)">
         <vs-row style="height: 100%">
             <vs-col w="6" style="height: 100%">
-                <vs-table striped>
-                    <template #header>
-                        <h3 style="display: flex; align-items: center; justify-content: space-between; margin: 0">
-                            一覧
-                            <vs-button
-                                icon dark
-                                size="small"
-                                animation-type="scale"
-                                @click="showEdit(null)"
-                                >
-                                <i class="fas fa-plus" style="font-size: 14px"></i>
-                                <template #animate>登録</template>
-                            </vs-button>
-                        </h3>
-                    </template>
-                    <template #thead>
-                        <vs-tr>
-                            <vs-th>ID</vs-th>
-                            <vs-th>名前</vs-th>
-                            <vs-th>ユーザー名</vs-th>
-                            <vs-th>グループ</vs-th>
-                            <vs-th>ダイレクトリー</vs-th>
-                            <vs-th>オルカあり</vs-th>
-                            <vs-th>登録日</vs-th>
-                            <vs-th></vs-th>
-                        </vs-tr>
-                    </template>
-                    <template #tbody>
-                        <vs-tr v-for="(tr, index) in users" :key="index">
-                            <vs-td> {{ tr.id }} </vs-td>
-                            <vs-td> 
-                                <span style="display: flex; align-items: center">
-                                    {{ tr.name_last }} {{ tr.name_first }}
-                                    <vs-avatar v-if="!tr.active" danger size="30" style="margin-left: 10px">
-                                        <template #text>無効</template>
-                                    </vs-avatar>
-                                </span>
-                            </vs-td>
-                            <vs-td> {{ tr.user_name }} </vs-td>
-                            <vs-td> {{ tr.group_label }} </vs-td>
-                            <vs-td>
-                                <span v-if="tr.is_directory">ダイレクトリー</span>
-                                <span v-else>ローカル</span>
-                            </vs-td>
-                            <vs-td>
-                                <span v-if="tr.has_orca">有</span>
-                            </vs-td>
-                            <vs-td><dateDisplay :date="tr.created"></dateDisplay></vs-td>
-                            <vs-td style="width: 60px">
+                <div class="content-card">
+                    <vs-table striped>
+                        <template #header>
+                            <h3 style="display: flex; align-items: center; justify-content: space-between; margin: 0">
+                                一覧
                                 <vs-button
-                                    v-if="!tr.is_directory"
-                                    @click="showEdit(tr)"
-                                    icon dark border
+                                    icon dark
                                     size="small"
                                     animation-type="scale"
-                                    class="cc-hover-button"
+                                    @click="showEdit(null)"
                                     >
-                                    <i class="far fa-edit" style="font-size: 14px"></i>
-                                    <template #animate>編集</template>
+                                    <i class="fas fa-plus" style="font-size: 14px"></i>
+                                    <template #animate>登録</template>
                                 </vs-button>
-                            </vs-td>
-                        </vs-tr>
-                    </template>
-                </vs-table>
+                            </h3>
+                        </template>
+                        <template #thead>
+                            <vs-tr>
+                                <vs-th>ID</vs-th>
+                                <vs-th>名前</vs-th>
+                                <vs-th>ユーザー名</vs-th>
+                                <vs-th>グループ</vs-th>
+                                <vs-th>ダイレクトリー</vs-th>
+                                <vs-th>オルカあり</vs-th>
+                                <vs-th>登録日</vs-th>
+                                <vs-th></vs-th>
+                            </vs-tr>
+                        </template>
+                        <template #tbody>
+                            <vs-tr v-for="(tr, index) in users" :key="index">
+                                <vs-td> {{ tr.id }} </vs-td>
+                                <vs-td>
+                                    <span style="display: flex; align-items: center">
+                                        {{ tr.name_last }} {{ tr.name_first }}
+                                        <vs-avatar v-if="!tr.active" danger size="30" style="margin-left: 10px">
+                                            <template #text>無効</template>
+                                        </vs-avatar>
+                                    </span>
+                                </vs-td>
+                                <vs-td> {{ tr.user_name }} </vs-td>
+                                <vs-td> {{ tr.group_label }} </vs-td>
+                                <vs-td>
+                                    <span v-if="tr.is_directory">ダイレクトリー</span>
+                                    <span v-else>ローカル</span>
+                                </vs-td>
+                                <vs-td>
+                                    <span v-if="tr.has_orca">有</span>
+                                </vs-td>
+                                <vs-td><dateDisplay :date="tr.created"></dateDisplay></vs-td>
+                                <vs-td style="width: 60px">
+                                    <vs-button
+                                        v-if="!tr.is_directory"
+                                        @click="showEdit(tr)"
+                                        icon dark border
+                                        size="small"
+                                        animation-type="scale"
+                                        class="cc-hover-button"
+                                        >
+                                        <i class="far fa-edit" style="font-size: 14px"></i>
+                                        <template #animate>編集</template>
+                                    </vs-button>
+                                </vs-td>
+                            </vs-tr>
+                        </template>
+                    </vs-table>
+                </div>
             </vs-col>
         </vs-row>
         <vs-dialog           
