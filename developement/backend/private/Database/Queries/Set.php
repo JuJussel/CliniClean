@@ -45,7 +45,7 @@ class Set {
     public function delete($id) {
 
         $query =
-        '   DELETE FROM usr_user_preferences
+        '   DELETE FROM usr_sets
             WHERE id = ?
         ';
 

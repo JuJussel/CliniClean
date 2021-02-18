@@ -23,7 +23,24 @@ class Setfolders {
             return;
         }
 
+        $res->data = $query->insert_id;
         $res->success = true;
+    }
+
+    public function destroy($req, $res) {
+
+        $req_data = $req->itemId;
+
+        $db = new Set();
+        $query = $db->delete($req_data);
+        if (!$query->ok) {
+            $res->message = $query->msg;
+            return;
+        }
+
+        $res->success = true;
+
+
     }
 
 

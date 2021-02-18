@@ -12,7 +12,7 @@
                         :data="sets"
                         @node:clicked="selectItem"
                         @node:editing:stop="saveNewFolder"
-                        style="height: calc(100% - 40px)">
+                        style="height: calc(100% - 80px)">
                         <div slot-scope="{ node }" style="width: 100%">
                             <template>
                                 <span style="display: flex; justify-content: space-between; align-items: center; margin: -5px">
@@ -27,7 +27,7 @@
                                     </span>
                                     <span v-if="node.data.isFolder" style="display: flex">
                                         <vs-button
-                                            @click.stop="newFolder(node)"
+                                            @click.stop="deleteFolder(node)"
                                             icon
                                             danger
                                             border
@@ -147,7 +147,8 @@
                         </template>
                         <template #header>
                             <h3 style="display: flex; justify-content: space-between; align-items: center">
-                                <span>
+                                <span style="display: flex; align-items: center">
+                                    <vs-button dark @click="folderUp"><i class="fas fa-level-up-alt"></i></vs-button>
                                     {{ selectedItem.data.text }}
                                     フォルダ内容一覧
                                 </span>
@@ -167,7 +168,7 @@
                                         </div>
                                         </template>
                                     </vs-tooltip>
-                                    <vs-button danger>削除</vs-button>
+                                    <vs-button danger @click="deleteFolder(selectedItem)">削除</vs-button>
                                 </span>
                             </h3>
                         </template>
@@ -182,7 +183,7 @@
                                 class="vs-table__tr expand"
                                 style="border-top: solid 5px white;"
                                 v-for="(tr, index) in selectedItem.children"
-                                @click="selectItem(tr)"
+                                @click="selectItem(tr, false)"
                                 :key="index"
                                 >
                                 <vs-td>
@@ -195,7 +196,7 @@
                                         icon
                                         danger
                                         animation-type="scale"
-                                        @click="removeKoui(index)"
+                                        @click="deleteFolder(tr)"
                                         >
                                         <i class="far fa-trash-alt" style="font-size: 14px"></i>
                                         <template #animate>削</template>
@@ -254,13 +255,96 @@ export default {
                 this.loading = false
             })
         },
-        saveNewFolder() {
+        deleteFolder(node) {
+            this.loading = true
+            this.$delete('setfolders/' + node.id)
+            .then(() => {
+                if (node.parent) {
+                    node.parent.select()
+                    this.selectedItem = node.parent                    
+                }
+                node.remove()
+                this.updateData()
+                this.loading = false
+            })
+            .catch(result => {
+                this.$apiError(result)
+                this.loading = false
+            })
 
         },
-        selectItem(folder) {
+        newFolder(node) {
+            this.selectedItem = node
+            let t = node.append({
+                text: 'new',
+                data: {isFolder: true}
+            })
+            if (!node.states.expanded) {
+                node.expand()
+            }
+            t.startEditing()
+        },
+        saveNewFolder(node, orig) {
+            if(node.data.text === orig) {
+                node.remove()
+                return
+            }
+            this.loading = true
+            const loading = this.$vs.loading({
+                target: this.$refs.tree,
+                color: 'dark'
+            })
+            let patient =  null
+            if(node.parent && node.parent.data.patient) {
+                patient = node.parent.data.patient
+            }
+            let data = {
+                text: node.data.text,
+                patient: patient,
+                parent: node.parent ? node.parent.id : 'noParent'
+            } 
+            this.$post('setfolders', data)
+            .then((result) => {
+                node.id = result.data
+                this.updateData()
+                loading.close()
+                this.loading = false
+            })
+            .catch(result => {
+                this.$apiError(result)
+                loading.close()
+                this.loading = false
+            })
+
+        },
+        selectItem(folder, isTree = true) {
             this.folderAddPop = false
             this.selectedItem = folder
+            if (!isTree) {
+                let node = this.$refs.tree.find({
+                    id: String(folder.id)
+                })
+                if (node.length > 0) {
+                    node = node[0]
+                    if(!node.parent.expanded()) node.parent.expand()
+                    node.expand()
+                    node.select()  
+                }
+            }
         },
+        folderUp() {
+            let node = this.$refs.tree.find({id: String(this.selectedItem.id)})
+            console.log(node);
+            if (node.length > 0) {
+                node = node[0]
+                node.collapse()
+                if(node.parent && node.parent.expanded()) {
+                    node.parent.collapse()
+                    node.parent.select()
+                    this.selectedItem = node.parent
+                }
+            }
+        }
 
     },
     computed: {
