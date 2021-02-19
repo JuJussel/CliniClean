@@ -27,7 +27,7 @@
                                     </span>
                                     <span v-if="node.data.isFolder" style="display: flex">
                                         <vs-button
-                                            @click.stop="deleteFolder(node)"
+                                            @click="folderDeleteOpen = true"
                                             icon
                                             danger
                                             border
@@ -39,7 +39,7 @@
                                             <template #animate>削除</template>
                                         </vs-button>
                                         <vs-button
-                                            @click.stop="newFolder(node)"
+                                            @click.stop="editFolder(node)"
                                             icon
                                             dark
                                             border
@@ -51,6 +51,7 @@
                                             <template #animate>編集</template>
                                         </vs-button>
                                         <vs-button
+                                            v-if="node.id !== 'noParent'"
                                             @click.stop="newFolder(node)"
                                             icon
                                             dark
@@ -157,7 +158,7 @@
                                     <vs-button dark @click="folderAddPop=!folderAddPop">新規</vs-button>
                                     <template #tooltip>
                                         <div>
-                                            <vs-button @click="folderAddPop=false" dark block>
+                                            <vs-button @click="newFolder(selectedItem)" dark block>
                                                 <i class="far fa-folder" style="margin-right: 10px"></i>
                                                 フォルダ
                                             </vs-button>
@@ -168,7 +169,7 @@
                                         </div>
                                         </template>
                                     </vs-tooltip>
-                                    <vs-button danger @click="deleteFolder(selectedItem)">削除</vs-button>
+                                    <vs-button danger @click="folderDeleteOpen = true">削除</vs-button>
                                 </span>
                             </h3>
                         </template>
@@ -205,29 +206,50 @@
                             </vs-tr>
                         </template>
                     </vs-table>
-
                 </div>
-
             </vs-col>
-            <vs-col w="4" v-if="selectedItem && !selectedItem.data.isFolder">
+            <vs-col w="4" v-if="selectedItem && !selectedItem.data.isFolder" style="height: 100%">
                 <div class="content-card">
                     <div class="cc-card-header">
                         <h3>行為一覧</h3>
                     </div>
+                    <kouiList 
+                        @addKoui="addKoui"
+                        noSets
+                        style="margin-top: -10px"
+                    />
                 </div>
             </vs-col>
-
         </vs-row>
+        <vs-dialog width="550px" not-center v-model="folderDeleteOpen">
+            <template #header>
+                <h4 class="not-margin" v-if="folderDeleteOpen">
+                    {{ selectedItem.text }}のフォルダー削除確認
+                </h4>
+            </template>
+            <div v-if="folderDeleteOpen">
+                <p>フォルダー「{{ selectedItem.text }}」を削除しますか？</p>
+                <p>サブフォルダ又は内セットを全て削除します！</p>
+            </div>
+            <template #footer>
+                <div style="display: flex; justify-content: flex-end">
+                    <vs-button @click="folderDeleteOpen = false" dark transparent>キャンセル</vs-button>
+                    <vs-button @click="deleteFolder(selectedItem)" danger>削除</vs-button>
+                </div>
+            </template>
+        </vs-dialog>
     </div>
 </template>
 
 <script>
 
 import kouiItem from "../shared/shinsatu_koui_item"
+import kouiList from "../shared/koui_list"
 
 export default {
     components: {
-        kouiItem: kouiItem
+        kouiItem: kouiItem,
+        kouiList: kouiList
     },
     data() {
         return {
@@ -236,7 +258,9 @@ export default {
             loading: false,
             loadingCont: null,
             sets: [],
-            folderAddPop: false
+            folderAddPop: false,
+            editingFolder: false,
+            folderDeleteOpen: false
         }
     },
     created() {
@@ -247,7 +271,6 @@ export default {
             this.$get('sets')
             .then(result => {
                 this.sets = result.data
-                console.log(this.sets);
                 this.loading = false
             })
             .catch(result => {
@@ -255,7 +278,11 @@ export default {
                 this.loading = false
             })
         },
+        addKoui(koui) {
+
+        },
         deleteFolder(node) {
+            this.folderDeleteOpen = false
             this.loading = true
             this.$delete('setfolders/' + node.id)
             .then(() => {
@@ -285,37 +312,60 @@ export default {
             t.startEditing()
         },
         saveNewFolder(node, orig) {
-            if(node.data.text === orig) {
-                node.remove()
-                return
-            }
-            this.loading = true
-            const loading = this.$vs.loading({
-                target: this.$refs.tree,
-                color: 'dark'
-            })
-            let patient =  null
-            if(node.parent && node.parent.data.patient) {
-                patient = node.parent.data.patient
-            }
-            let data = {
-                text: node.data.text,
-                patient: patient,
-                parent: node.parent ? node.parent.id : 'noParent'
-            } 
-            this.$post('setfolders', data)
-            .then((result) => {
-                node.id = result.data
-                this.updateData()
-                loading.close()
-                this.loading = false
-            })
-            .catch(result => {
-                this.$apiError(result)
-                loading.close()
-                this.loading = false
-            })
+            if (this.editingFolder) {
+                if(node.data.text === orig) {
+                    return
+                }
+                this.loading = true
+                this.$put('setfolders/' + node.id, node)
+                .then((result) => {
+                    node.id = result.data
+                    this.updateData()
+                    this.loading = false
+                })
+                .catch(result => {
+                    this.$apiError(result)
+                    this.loading = false
+                })
 
+
+            } else {
+                if(node.data.text === orig) {
+                    node.remove()
+                    return
+                }
+                this.loading = true
+                const loading = this.$vs.loading({
+                    target: this.$refs.tree,
+                    color: 'dark'
+                })
+                let patient =  null
+                if(node.parent && node.parent.data.patient) {
+                    patient = node.parent.data.patient
+                }
+                let data = {
+                    text: node.data.text,
+                    patient: patient,
+                    parent: node.parent ? node.parent.id : 'noParent'
+                } 
+                this.$post('setfolders', data)
+                .then((result) => {
+                    node.id = result.data
+                    this.updateData()
+                    loading.close()
+                    this.loading = false
+                })
+                .catch(result => {
+                    this.$apiError(result)
+                    loading.close()
+                    this.loading = false
+                })
+            }
+
+        },
+        editFolder(folder) {
+            this.editingFolder = true
+            folder.startEditing()
         },
         selectItem(folder, isTree = true) {
             this.folderAddPop = false

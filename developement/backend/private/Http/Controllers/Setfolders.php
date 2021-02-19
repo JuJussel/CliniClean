@@ -43,5 +43,23 @@ class Setfolders {
 
     }
 
+    public function update($req, $res) {
+
+        $req_data = $req->update[0];
+
+        $req_data->data->content = json_encode(['name' => $req_data->text]);
+
+        $db = new Set();
+        $query = $db->update($req_data);
+
+        if (!$query->ok) {
+            $res->message = $query->msg;
+            return;
+        }
+
+        $res->success = true;
+
+    }
+
 
 }

@@ -139,7 +139,8 @@ export default {
             default() {
                 return []
             }
-        }
+        },
+        noSets: {type: Boolean, default: false}
     },
     created() {
         this.getFavourites()
@@ -148,6 +149,9 @@ export default {
         filderedKouiCats() {
             const n = 4
             let arr = Object.values(this.kouiCats)
+            if (this.noSets) {
+                arr = arr.filter(item => item.type !== '12')
+            }
             arr = arr.filter(item => item. type !== '90')
             arr = new Array(Math.ceil(arr.length / n))
             .fill()
@@ -164,7 +168,7 @@ export default {
     },
     data() {
         return {
-            activeTab: '12',
+            activeTab: this.noSets ? '25' : '12',
             kouiSetSelectionAll: [],
             kouisToSave: [],
             setCreate: {

@@ -59,6 +59,25 @@ class Set {
 
     }
 
+    public function update($data) {
+
+        $query =
+        '   UPDATE usr_sets
+            SET content = ?
+            WHERE id = ?
+        ';
+
+        $bind_params = [
+            ['s', $data->data->content],
+            ['i', $data->data->id]
+        ];
+
+        $db = new DB();
+        $result = $db->query(['query'=>$query, 'bind_params'=>$bind_params]);
+        return $result;
+
+    }
+
     public function post($data) {
 
         // This needs to be fixed, just too ugly..
