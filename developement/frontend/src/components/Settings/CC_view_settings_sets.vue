@@ -79,8 +79,11 @@
                         <template #header>
                             <h3 style="display: flex; justify-content: space-between; align-items: center">
                                 <span>
-                                    {{ selectedItem.data.text }}
-                                    行為一覧
+                                    <vs-input v-model="selectedItem.data.text" state="dark">
+                                        <template #icon>
+                                            <i class='bx bx-lock-open-alt'></i>
+                                        </template>
+                                    </vs-input>
                                 </span>
                                 <span style="display: flex">
                                     <vs-button danger>削除</vs-button>
@@ -216,7 +219,7 @@
                     <kouiList 
                         @addKoui="addKoui"
                         noSets
-                        style="margin-top: -10px"
+                        style="margin-top: -10px; height: calc(100% - 80px)"
                     />
                 </div>
             </vs-col>
