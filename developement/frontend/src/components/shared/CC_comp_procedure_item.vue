@@ -113,7 +113,7 @@
     <!-- Med -->
     <div v-if="koui.type === '25'">
         <vs-select
-          label="検索結果追加"
+          label="タイミング"
           placeholder="検索"
           @input="chooseTiming"
           v-model="koui.var.timing"

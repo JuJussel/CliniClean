@@ -116,7 +116,7 @@
 
 <script>
 
-import kouiItem from "../shared/shinsatu_koui_item"
+import kouiItem from "../shared/CC_comp_procedure_item"
 
 export default {
     components: {

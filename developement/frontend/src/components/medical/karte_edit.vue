@@ -408,7 +408,7 @@
 <script>
 import textEditor from "../shared/text_editor"
 import kouiList from "../shared/koui_list"
-import kouiItem from "../shared/shinsatu_koui_item"
+import kouiItem from "../shared/CC_comp_procedure_item"
 import patientHistory from "../pateint_history/patient_history_main"
 
 export default {
@@ -540,7 +540,6 @@ export default {
       this.$emit("showShindan", this.meta, true);
     },
     addKoui(data) {
-      console.log(data);
       let kindOfUnique =
         't_' + //Just to make sure that the tag is a string. Large numbers cause issues with json parse
         String(this.meta.id) +
@@ -568,7 +567,7 @@ export default {
         isExternal: false,
         requiresClose: false,
         expanded: false,
-      };
+      }
       if (data.type === "60") {
         koui.var.results = [];
       }
@@ -585,6 +584,12 @@ export default {
         koui.var.timing = { name: "指定なし" }
         koui.var.times = ""
         koui.var.unit = data.koui.taniname
+      }
+      if (data.koui.var) {
+        koui.var = data.koui.var
+      }
+      if (data.koui.comment) {
+        koui.comment = data.koui.comment
       }
       this.vioCount = 1
       this.checkKoui(koui);

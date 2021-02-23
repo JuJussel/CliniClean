@@ -251,14 +251,15 @@ export default {
         },
         addSet(node) {
             if (!node.data.isFolder) {
-
                 node.data.content.items.forEach(item => {
 
                     let data = {
                         kouiid: item.kouiCode,
                         type: item.type,
                         name: item.name,
-                        taniname: item.var.unit ? item.var.unit : null
+                        taniname: item.var.unit ? item.var.unit : null,
+                        var: item.var,
+                        comment: item.comment
                     }
                     this.$emit('addKoui', {koui: data, type: item.type})
 

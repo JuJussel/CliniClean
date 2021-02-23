@@ -136,7 +136,7 @@
 
 <script>
 
-import kouiView from '../shared/shinsatu_koui_item_view'
+import kouiView from '../shared/CC_comp_procedure_item_view'
 
 export default {
     components: {

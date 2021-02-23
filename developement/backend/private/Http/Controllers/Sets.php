@@ -88,8 +88,6 @@ class Sets {
             }
 
         }
-        // var_dump($parent_nodes);
-        // var_dump($nodes_by_parent);
         foreach ($parent_nodes as $node) {
             $t = $this -> populate_branch($node, $nodes_by_parent);
             $tree[] = $t;
@@ -192,5 +190,45 @@ class Sets {
         $res->success = true;
     }
 
+    public function destroy($req, $res) {
 
-}
+        $req_data = $req->itemId;
+
+        $db = new Set();
+        $query = $db->delete($req_data);
+        if (!$query->ok) {
+            $res->message = $query->msg;
+            return;
+        }
+
+        $res->success = true;
+
+    }
+
+    public function update($req, $res) {
+  
+        $req_data = $req->update[0];
+
+        $req_data->data->content = json_encode([
+            'name' => $req_data->text,
+            'items' => $req_data->data->content->items
+        ]);
+
+        $req_data->id = $req_data->data->id;
+
+        $db = new Set();
+        $query = $db->update($req_data);
+
+        if (!$query->ok) {
+            $res->message = $query->msg;
+            return;
+        }
+
+        $res->success = true;
+
+
+    }
+
+
+
+}   

@@ -74,21 +74,21 @@
                 <div class="content-card">
                     <vs-table
                         v-if="selectedItem && !selectedItem.data.isFolder"
-                        style="height: 100%"
+                        style="height: calc(100% - 80px)"
                     >
                         <template #header>
                             <h3 style="display: flex; justify-content: space-between; align-items: center">
                                 <span>
-                                    <vs-input v-model="selectedItem.data.text" state="dark">
+                                    <vs-input v-model="selectedItemCopy.text" state="dark">
                                         <template #icon>
-                                            <i class='bx bx-lock-open-alt'></i>
+                                            <i class="far fa-edit"></i>
                                         </template>
                                     </vs-input>
                                 </span>
                                 <span style="display: flex">
-                                    <vs-button danger>削除</vs-button>
+                                    <vs-button @click="setDeleteOpen = true" danger>削除</vs-button>
                                     <vs-button transparent dark>キャンセル</vs-button>
-                                    <vs-button>保存</vs-button>
+                                    <vs-button @click="saveSet">保存</vs-button>
                                 </span>
                             </h3>
                         </template>
@@ -108,12 +108,12 @@
                             <vs-tr
                                 class="vs-table__tr expand"
                                 style="border-top: solid 5px white;"
-                                v-for="(tr, index) in selectedItem.data.content.items"
+                                v-for="(tr, index) in selectedItemCopy.data.content.items"
                                 :key="index"
                                 >
                                 <vs-td>
                                     <div>
-                                        <!-- <i :class="kouiCats[tr.type].icon" style="margin-right: 10px"></i> -->
+                                        <i :class="kouiCats[tr.type].icon" style="margin-right: 10px"></i>
                                         <span style="padding: 3px">{{ tr.name }}</span>
                                     </div>
                                     <div>
@@ -121,7 +121,6 @@
                                             v-if="tr.type === '25' || tr.type === '30' || tr.type === '31'"
                                             :kouiInit="tr"
                                             noDelete
-                                            @update="updateKoui(...arguments, index)"
                                         ></kouiItem>
                                     </div>
                                 </vs-td>
@@ -158,18 +157,18 @@
                                 </span>
                                 <span style="display: flex">
                                     <vs-tooltip bottom shadow not-hover v-model="folderAddPop">
-                                    <vs-button dark @click="folderAddPop=!folderAddPop">新規</vs-button>
-                                    <template #tooltip>
-                                        <div>
-                                            <vs-button @click="newFolder(selectedItem)" dark block>
-                                                <i class="far fa-folder" style="margin-right: 10px"></i>
-                                                フォルダ
-                                            </vs-button>
-                                            <vs-button @click="folderAddPop=false" dark block>
-                                                <i class="far fa-list-alt" style="margin-right: 10px"></i>
-                                                セット
-                                            </vs-button>
-                                        </div>
+                                        <vs-button dark @click="folderAddPop=!folderAddPop">新規</vs-button>
+                                        <template #tooltip>
+                                            <div>
+                                                <vs-button @click="newFolder(selectedItem)" dark block>
+                                                    <i class="far fa-folder" style="margin-right: 10px"></i>
+                                                    フォルダ
+                                                </vs-button>
+                                                <vs-button @click="folderAddPop = false; newSet()" dark block>
+                                                    <i class="far fa-list-alt" style="margin-right: 10px"></i>
+                                                    セット
+                                                </vs-button>
+                                            </div>
                                         </template>
                                     </vs-tooltip>
                                     <vs-button danger @click="folderDeleteOpen = true">削除</vs-button>
@@ -241,12 +240,27 @@
                 </div>
             </template>
         </vs-dialog>
+        <vs-dialog width="550px" not-center v-model="setDeleteOpen">
+            <template #header>
+                <h4 class="not-margin">セット削除確認</h4>
+            </template>
+            <div v-if="setDeleteOpen">
+                <p>セット「{{ selectedItem.text }}」を削除しますか？</p>
+            </div>
+            <template #footer>
+                <div style="display: flex; justify-content: flex-end">
+                    <vs-button @click="setDeleteOpen = false" dark transparent>キャンセル</vs-button>
+                    <vs-button @click="deleteSet(selectedItem)" danger>削除</vs-button>
+                </div>
+            </template>
+        </vs-dialog>
+
     </div>
 </template>
 
 <script>
 
-import kouiItem from "../shared/shinsatu_koui_item"
+import kouiItem from "../shared/CC_comp_procedure_item"
 import kouiList from "../shared/koui_list"
 
 export default {
@@ -258,12 +272,15 @@ export default {
         return {
             folders: [],
             selectedItem: null,
+            selectedItemCopy: null,
             loading: false,
             loadingCont: null,
             sets: [],
             folderAddPop: false,
             editingFolder: false,
-            folderDeleteOpen: false
+            folderDeleteOpen: false,
+            setDeleteOpen: false,
+            kouiCats: this.$store.getters.kouiCats
         }
     },
     created() {
@@ -281,8 +298,35 @@ export default {
                 this.loading = false
             })
         },
-        addKoui(koui) {
-
+        addKoui(data) {
+            let koui = {
+                kouiCode: data.koui.kouiid,
+                type: data.type,
+                name: data.koui.name,
+                var: {},
+                comment: {
+                    present: false,
+                    content: "",
+                }
+            }
+            if (data.type === "60") {
+                koui.var.results = [];
+            }
+            if (data.type === "30" || data.type === "31") {
+                koui.var.location = "";
+                koui.var.amount = "";
+                koui.var.lotNo = "";
+                koui.var.medID = koui.kouiCode;
+                koui.kouiCode = "130000510";
+            }
+            if (data.type === "25") {
+                koui.var.type = "1"
+                koui.var.amount = ""
+                koui.var.timing = { name: "指定なし" }
+                koui.var.times = ""
+                koui.var.unit = data.koui.taniname
+            }
+            this.selectedItemCopy.data.content.items.push(koui)
         },
         deleteFolder(node) {
             this.folderDeleteOpen = false
@@ -313,6 +357,22 @@ export default {
                 node.expand()
             }
             t.startEditing()
+        },
+        newSet() {
+
+            let node = this.selectedItem.append({
+                text: 'new',
+                data: {
+                    isFolder: false,
+                    content: {
+                        items: []
+                    }
+                }
+            })
+            this.selectedItem.expand()
+            node.select()
+            this.selectedItem = node
+            this.selectedItemCopy = node
         },
         saveNewFolder(node, orig) {
             if (this.editingFolder) {
@@ -373,6 +433,7 @@ export default {
         selectItem(folder, isTree = true) {
             this.folderAddPop = false
             this.selectedItem = folder
+            this.selectedItemCopy = folder.data.isFolder ? null : JSON.parse(JSON.stringify(folder))
             if (!isTree) {
                 let node = this.$refs.tree.find({
                     id: String(folder.id)
@@ -397,6 +458,56 @@ export default {
                     this.selectedItem = node.parent
                 }
             }
+        },
+        deleteSet() {
+
+            this.loading = true
+            this.setDeleteOpen = false
+            let item = this.selectedItem
+            let id = item.data.id
+
+            this.$delete('sets/' + id)
+            .then(() => {
+                if (item.parent) {
+                    item.parent.select()
+                    this.selectedItem = item.parent                    
+                }
+                item.remove()
+                this.updateData()
+                this.loading = false
+            })
+            .catch(result => {
+                this.$apiError(result)
+                this.loading = false
+            })
+        },
+        saveSet() {
+            let copy = this.selectedItemCopy
+            let id = copy.data.id ? copy.data.id : null
+            
+            this.loading = true
+
+            let call = this.$put('sets/' + id, copy)
+            call.then(() => {
+                this.updateData()
+                this.selectedItem.data = this.selectedItemCopy.data
+                this.selectedItem.text = this.selectedItemCopy.text
+                this.loading = false
+                this.$vs.notification({
+                    duration: 2000,
+                    color: "primary",
+                    position: "top-center",
+                    title: "保存しました！",
+                    text: "セットを通常に保存しました",
+                    icon: '<i class="fas fa-info"></i>',
+                })
+
+            })
+            .catch(result => {
+                this.$apiError(result)
+                this.loading = false
+            })
+
         }
 
     },

@@ -71,7 +71,6 @@ class Set {
             ['s', $data->data->content],
             ['i', $data->data->id]
         ];
-
         $db = new DB();
         $result = $db->query(['query'=>$query, 'bind_params'=>$bind_params]);
         return $result;
