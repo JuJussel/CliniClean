@@ -42,16 +42,29 @@ class Set {
 
     }
 
-    public function delete($id) {
+    public function delete($data) {
 
-        $query =
-        '   DELETE FROM usr_sets
-            WHERE id = ?
-        ';
+        if ($data->pat) {
+            $query =
+            '   DELETE FROM usr_sets
+                WHERE patient = ?
+            ';
+    
+            $bind_params = [
+                ['i', $data->pat],
+            ];
 
-        $bind_params = [
-            ['i', $id],
-        ];
+        } else {
+
+            $query =
+            '   DELETE FROM usr_sets
+                WHERE id = ?
+            ';
+    
+            $bind_params = [
+                ['i', $data->id],
+            ];
+        }
 
         $db = new DB();
         $result = $db->query(['query'=>$query, 'bind_params'=>$bind_params]);
@@ -82,7 +95,7 @@ class Set {
         // This needs to be fixed, just too ugly..
         //  Cannot insert NULL values due to foeign key
 
-        if ($data->parent !== 'noParent' && $data->patient) {
+        if ($data->parent !== 'noParent' && $data->patient && !preg_match("/^p_/", $data->parent)) {
             $query = 
             '   INSERT INTO usr_sets (
                     parent,
@@ -100,7 +113,7 @@ class Set {
                 ['i', $data->user],
                 ['i', $data->is_folder]
             ];
-        } else if ($data->parent !== 'noParent') {
+        } else if ($data->parent !== 'noParent' && !preg_match("/^p_/", $data->parent)) {
             $query = 
             '   INSERT INTO usr_sets (
                     parent,

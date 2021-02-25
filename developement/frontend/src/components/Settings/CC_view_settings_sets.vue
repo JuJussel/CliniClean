@@ -5,6 +5,21 @@
                 <div class="content-card">
                     <div class="cc-card-header">
                         <h3>フォルダー一覧</h3>
+                        <vs-tooltip bottom shadow not-hover v-model="folderAddPop">
+                            <vs-button dark @click="folderAddPop=!folderAddPop">新規</vs-button>
+                            <template #tooltip>
+                                <div>
+                                    <vs-button @click="newFolder(selectedItem)" dark block>
+                                        <i class="far fa-folder" style="margin-right: 10px"></i>
+                                        フォルダ
+                                    </vs-button>
+                                    <vs-button @click="newSet()" dark block v-if="selectedItem">
+                                        <i class="far fa-list-alt" style="margin-right: 10px"></i>
+                                        セット
+                                    </vs-button>
+                                </div>
+                            </template>
+                        </vs-tooltip>
                     </div>
                     <tree
                         v-if="setFolders.length > 0"
@@ -12,6 +27,7 @@
                         :data="sets"
                         @node:clicked="selectItem"
                         @node:editing:stop="saveNewFolder"
+                        @click.native="treeClick($event)"
                         style="height: calc(100% - 80px)">
                         <div slot-scope="{ node }" style="width: 100%">
                             <template>
@@ -27,7 +43,7 @@
                                     </span>
                                     <span v-if="node.data.isFolder" style="display: flex">
                                         <vs-button
-                                            @click="folderDeleteOpen = true"
+                                            @click.stop="showFolderDelete(node)"
                                             icon
                                             danger
                                             border
@@ -51,8 +67,9 @@
                                             <template #animate>編集</template>
                                         </vs-button>
                                         <vs-button
-                                            v-if="node.id !== 'noParent'"
-                                            @click.stop="newFolder(node)"
+                                            @click.stop="
+                                                node.id === 'noParent' ? patientSelectOpen=true : newFolder(node)
+                                            "
                                             icon
                                             dark
                                             border
@@ -73,7 +90,7 @@
             <vs-col w="4" style="height: 100%">
                 <div class="content-card">
                     <vs-table
-                        v-if="selectedItem && !selectedItem.data.isFolder"
+                        v-if="selectedItem && selectedItemCopy && !selectedItem.data.isFolder"
                         style="height: calc(100% - 80px)"
                     >
                         <template #header>
@@ -87,7 +104,7 @@
                                 </span>
                                 <span style="display: flex">
                                     <vs-button @click="setDeleteOpen = true" danger>削除</vs-button>
-                                    <vs-button transparent dark>キャンセル</vs-button>
+                                    <vs-button @click="cancelSetEdit" transparent dark>キャンセル</vs-button>
                                     <vs-button @click="saveSet">保存</vs-button>
                                 </span>
                             </h3>
@@ -113,7 +130,7 @@
                                 >
                                 <vs-td>
                                     <div>
-                                        <i :class="kouiCats[tr.type].icon" style="margin-right: 10px"></i>
+                                        <!-- <i :class="kouiCats[tr.type].icon" style="margin-right: 10px"></i> -->
                                         <span style="padding: 3px">{{ tr.name }}</span>
                                     </div>
                                     <div>
@@ -152,27 +169,10 @@
                             <h3 style="display: flex; justify-content: space-between; align-items: center">
                                 <span style="display: flex; align-items: center">
                                     <vs-button dark @click="folderUp"><i class="fas fa-level-up-alt"></i></vs-button>
+                                    <i class="far fa-folder" style="font-size: 30px; margin: 0 10px"></i>
                                     {{ selectedItem.data.text }}
-                                    フォルダ内容一覧
                                 </span>
-                                <span style="display: flex">
-                                    <vs-tooltip bottom shadow not-hover v-model="folderAddPop">
-                                        <vs-button dark @click="folderAddPop=!folderAddPop">新規</vs-button>
-                                        <template #tooltip>
-                                            <div>
-                                                <vs-button @click="newFolder(selectedItem)" dark block>
-                                                    <i class="far fa-folder" style="margin-right: 10px"></i>
-                                                    フォルダ
-                                                </vs-button>
-                                                <vs-button @click="folderAddPop = false; newSet()" dark block>
-                                                    <i class="far fa-list-alt" style="margin-right: 10px"></i>
-                                                    セット
-                                                </vs-button>
-                                            </div>
-                                        </template>
-                                    </vs-tooltip>
-                                    <vs-button danger @click="folderDeleteOpen = true">削除</vs-button>
-                                </span>
+                                <vs-button danger @click="folderDeleteOpen = true">削除</vs-button>
                             </h3>
                         </template>
                         <template #thead>
@@ -254,6 +254,29 @@
                 </div>
             </template>
         </vs-dialog>
+        <vs-dialog width="550px" not-center v-model="patientSelectOpen">
+            <template #header>
+                <h4 class="not-margin">患者選択</h4>
+            </template>
+            <selectInput 
+                table
+                dark
+                :icon="'fas fa-search'"
+                @change="patientSearch" 
+                :results="patient.results"
+                placeholder="氏名又はIDで検索"
+                @select="selectPatient"
+                style="width: 300px; margin-left: 20px">
+                <span slot-scope="scope" >番号: {{ scope.item.id}} {{ scope.item.name }}</span>
+            </selectInput>
+
+            <template #footer>
+                <div style="display: flex; justify-content: flex-end">
+                    <vs-button @click="patientSelectOpen = false" dark transparent>キャンセル</vs-button>
+                    <vs-button @click="newFolder(selectedItem, patient.selected)">作成</vs-button>
+                </div>
+            </template>
+        </vs-dialog>
 
     </div>
 </template>
@@ -279,14 +302,46 @@ export default {
             folderAddPop: false,
             editingFolder: false,
             folderDeleteOpen: false,
+            patientSelectOpen: false,
             setDeleteOpen: false,
-            kouiCats: this.$store.getters.kouiCats
+            kouiCats: this.$store.getters.kouiCats,
+            patient: {
+                results: [],
+                selected: null
+            }
         }
     },
     created() {
         this.updateData()
     },
     methods: {
+        treeClick(event) {
+            this.selectedItem.unselect()
+            this.selectedItem = null
+        },
+        showFolderDelete(node) {
+            this.selectedItem = node
+            this.folderDeleteOpen = true
+        },
+        patientSearch(query) {
+            if (query !== '') {
+
+                this.$get('patients', query)
+                .then(result => {
+                    let results = result
+
+                    this.patient.results = result.data
+                })
+                .catch(result => {
+                    this.$apiError(result)
+                })
+            } else {
+                this.patient.results = []
+            }
+        },
+        selectPatient(pat) {
+            this.patient.selected = pat
+        },
         updateData() {
             this.$get('sets')
             .then(result => {
@@ -331,7 +386,7 @@ export default {
         deleteFolder(node) {
             this.folderDeleteOpen = false
             this.loading = true
-            this.$delete('setfolders/' + node.id)
+            this.$delete('setfolders', {id: node.id, pat: node.data.patient})
             .then(() => {
                 if (node.parent) {
                     node.parent.select()
@@ -347,23 +402,55 @@ export default {
             })
 
         },
-        newFolder(node) {
-            this.selectedItem = node
+        newFolder(node, pat = null) {
+            console.log(node);
+            this.folderAddPop = false
+            this.patientSelectOpen = false
+
+            if (pat) {
+                let newParentNode = {
+                    data: {
+                        isFolder: true,
+                        patient: pat.id
+                    },
+                    id: 'p_' + pat.id,
+                    text: pat.name,
+                    children: []
+                }
+
+                let n = this.selectedItem.append(newParentNode)
+                node = n
+
+            } else {
+                if (node.parent && node.parent.id === 'noParent') {
+                    pat = node.data.patient
+                }
+            }
+
             let t = node.append({
                 text: 'new',
-                data: {isFolder: true}
+                data: {
+                    isFolder: true,
+                    patient: pat
+                }
             })
             if (!node.states.expanded) {
                 node.expand()
             }
             t.startEditing()
+            setTimeout(function() {
+                this.selectedItem = node
+            }.bind(this), 100)
         },
         newSet() {
 
+            this.folderAddPop = false
             let node = this.selectedItem.append({
                 text: 'new',
                 data: {
                     isFolder: false,
+                    parent: this.selectedItem.data.id,
+                    patient: this.selectedItem.data.patient,
                     content: {
                         items: []
                     }
@@ -371,8 +458,21 @@ export default {
             })
             this.selectedItem.expand()
             node.select()
-            this.selectedItem = node
+            
             this.selectedItemCopy = node
+            setTimeout(function() {
+                this.selectedItem = node
+            }.bind(this), 100)
+        },
+        cancelSetEdit() {
+
+            let item = this.selectedItem
+            this.selectedItem = this.selectedItem.parent
+            this.selectedItem.select()
+            if (!item.data.id) {
+                item.remove()
+            }
+
         },
         saveNewFolder(node, orig) {
             if (this.editingFolder) {
@@ -405,6 +505,10 @@ export default {
                 let patient =  null
                 if(node.parent && node.parent.data.patient) {
                     patient = node.parent.data.patient
+                } else {
+                    if(node.data.patient) {
+                        patient = node.data.patient
+                    }
                 }
                 let data = {
                     text: node.data.text,
@@ -482,13 +586,20 @@ export default {
             })
         },
         saveSet() {
+            
             let copy = this.selectedItemCopy
             let id = copy.data.id ? copy.data.id : null
             
             this.loading = true
 
-            let call = this.$put('sets/' + id, copy)
+            let call = null
+            if (this.selectedItem.data.id) {
+                call = this.$put('sets/' + id, copy)                
+            } else {
+                call = this.$post('sets', copy.data)
+            }
             call.then(() => {
+                this.creatingNewSet = false
                 this.updateData()
                 this.selectedItem.data = this.selectedItemCopy.data
                 this.selectedItem.text = this.selectedItemCopy.text

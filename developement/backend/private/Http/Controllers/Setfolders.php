@@ -29,7 +29,7 @@ class Setfolders {
 
     public function destroy($req, $res) {
 
-        $req_data = $req->itemId;
+        $req_data = $req->params;
 
         $db = new Set();
         $query = $db->delete($req_data);

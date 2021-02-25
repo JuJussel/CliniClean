@@ -30,6 +30,7 @@ class Sets {
         }
 
         $flat_list = $query->data;
+        $patient_node_ids = [];
 
         $tree = array();
         $patient_node = [
@@ -65,22 +66,26 @@ class Sets {
 
             if ($node['parent']) {
                 $nodes_by_parent[$node['parent']][] = $node;
-            }
-            else {
+            } else {
                 if($patient) {
                     $newParentId = 'p_' . $patient;
-
-                    $nodes_by_parent['noParent'][] = [
-                        'text' => $patient_name,
-                        'id' => $newParentId,
-                        'children' => [],
-                        'data' => [
-                            'isFolder' => true
-                        ]            
-                    ];
-                    $node['parent'] = $newParentId;
                     
+                    if (!in_array($newParentId, $patient_node_ids)) {
+                        $nodes_by_parent['noParent'][] = [
+                            'text' => $patient_name,
+                            'id' => $newParentId,
+                            'children' => [],
+                            'data' => [
+                                'isFolder' => true,
+                                'patient' => $patient
+                            ]            
+                        ];
+                    }
+
+                    $node['parent'] = $newParentId;
                     $nodes_by_parent[$newParentId][] = $node;
+                    array_push($patient_node_ids, $newParentId);
+
                 }
                 else {
                     $parent_nodes[] = $node;
@@ -176,8 +181,9 @@ class Sets {
         $req_data->is_folder = 0;
         $req_data->content = [
             'name' => $req_data->text,
-            'items' => $req_data->content
+            'items' => $req_data->content->items
         ];
+
         $req_data->content = json_encode($req_data->content);
 
         $db = new Set();
