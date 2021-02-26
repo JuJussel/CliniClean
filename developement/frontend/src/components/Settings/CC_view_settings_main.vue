@@ -53,6 +53,9 @@ export default {
                 {name: 'account', label: 'アカウント'},
                 {name: 'users', label: 'ユーザー', acl: 'settings.user'},
                 {name: 'sets', label: 'セット'},
+                {name: 'healthcheck', label: '健康診断設定'},
+                {name: 'customacts', label: 'カスタム行為'},
+                {name: 'orcasettings', label: 'オルカ設定'},
                 {name: 'other', label: 'その他'}
             ]
         }

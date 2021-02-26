@@ -8,6 +8,11 @@
 //header('Content-Type: application/json');
 
 require_once __DIR__ . '/Config/globals.php';
+$config = parse_ini_file(__DIR__ .'/Config/config.ini', 1);
+var_dump($GLOBALS);
+var_dump($config);
+return;
+
 
 spl_autoload_register(function($class) {
     require_once __DIR__ . str_replace('\\', '/', substr($class, 3)) . '.php';

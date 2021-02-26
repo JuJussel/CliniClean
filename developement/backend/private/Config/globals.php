@@ -1,5 +1,8 @@
 <?php
 
+// Do not change values inside here.
+// Use config.ini to adjust settings
+
 $GLOBALS['controllers'] = __DIR__ . '/../Http/Controllers';
 
 // Connectivity
