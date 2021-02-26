@@ -12,7 +12,7 @@ class Set {
         '   SELECT s.*, p.name
             FROM usr_sets s
             LEFT JOIN usr_patients p ON p.id = s.patient
-            ORDER BY insert_date DESC
+            ORDER BY insert_date ASC
         ';
 
         $db = new DB();
@@ -29,7 +29,7 @@ class Set {
             WHERE 
                 patient IS NULL
                 OR patient = ?
-            ORDER BY insert_date DESC
+            ORDER BY insert_date ASC
         ';
 
         $bind_params = [

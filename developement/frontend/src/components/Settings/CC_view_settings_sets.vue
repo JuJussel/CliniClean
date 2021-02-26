@@ -3,7 +3,7 @@
         <vs-row ref="loadElm" style="height: 100%">
             <vs-col w="4" style="height: 100%">
                 <div class="content-card">
-                    <div class="cc-card-header">
+                    <div class="cc-card-header" style="display: flex; justify-content: space-between">
                         <h3>フォルダー一覧</h3>
                         <vs-tooltip bottom shadow not-hover v-model="folderAddPop">
                             <vs-button dark @click="folderAddPop=!folderAddPop">新規</vs-button>
@@ -208,6 +208,10 @@
                             </vs-tr>
                         </template>
                     </vs-table>
+                    <div class="cc-card-header" v-else>
+                        <h3>項目を選択してください</h3>
+                    </div>
+
                 </div>
             </vs-col>
             <vs-col w="4" v-if="selectedItem && !selectedItem.data.isFolder" style="height: 100%">
@@ -421,26 +425,39 @@ export default {
                 let n = this.selectedItem.append(newParentNode)
                 node = n
 
-            } else {
-                if (node.parent && node.parent.id === 'noParent') {
-                    pat = node.data.patient
-                }
+            } else if (node && node.parent && node.parent.id === 'noParent') {
+                pat = node.data.patient
             }
 
-            let t = node.append({
-                text: 'new',
-                data: {
-                    isFolder: true,
-                    patient: pat
+            if(node) {
+                let t = node.append({
+                    text: 'new',
+                    data: {
+                        isFolder: true,
+                        patient: pat
+                    }
+                })
+                if (!node.states.expanded) {
+                    node.expand()
                 }
-            })
-            if (!node.states.expanded) {
-                node.expand()
+
+                t.startEditing()
+                setTimeout(function() {
+                    this.selectedItem = node
+                }.bind(this), 100)
+
+            } else {
+                let t = this.$refs.tree.append({
+                    text: 'new',
+                    data: {
+                        isFolder: true,
+                        patient: null
+                    }
+                })
+
+                t.startEditing()
             }
-            t.startEditing()
-            setTimeout(function() {
-                this.selectedItem = node
-            }.bind(this), 100)
+
         },
         newSet() {
 
