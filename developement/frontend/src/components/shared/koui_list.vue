@@ -10,7 +10,7 @@
                     </div>
                 </template>
                 <template #header>
-                    <vs-button-group style="margin-bottom: 2px">
+                    <vs-button-group style="margin-bottom: 2px" v-if="!noHeader">
                         <vs-button
                             border
                             dark
@@ -26,7 +26,7 @@
                             </span>
                         </vs-button>
                     </vs-button-group>
-                    <vs-button-group style="margin-bottom: 20px">
+                    <vs-button-group style="margin-bottom: 20px" v-if="!noHeader">
                         <vs-button
                             border
                             dark
@@ -140,7 +140,9 @@ export default {
                 return []
             }
         },
-        noSets: {type: Boolean, default: false}
+        noHeader: {type: Boolean, default: false},
+        visibleCats: {type: Array, default: null},
+        setActive: {default: '12'}
     },
     created() {
         this.getFavourites()
@@ -149,10 +151,13 @@ export default {
         filderedKouiCats() {
             const n = 4
             let arr = Object.values(this.kouiCats)
-            if (this.noSets) {
-                arr = arr.filter(item => item.type !== '12')
+
+            if(this.visibleCats) {
+                arr = arr.filter(item => this.visibleCats.includes(parseInt(item.type)))
+            } else {
+                arr = arr.filter(item => item.type !== '90')
             }
-            arr = arr.filter(item => item. type !== '90')
+
             arr = new Array(Math.ceil(arr.length / n))
             .fill()
             .map(_ => arr.splice(0, n))
@@ -168,7 +173,7 @@ export default {
     },
     data() {
         return {
-            activeTab: this.noSets ? '25' : '12',
+            activeTab: this.setActive,
             kouiSetSelectionAll: [],
             kouisToSave: [],
             setCreate: {

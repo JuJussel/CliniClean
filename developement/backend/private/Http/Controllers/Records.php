@@ -149,9 +149,10 @@ class Records {
             if ($existing) {
                 $db_koui[$existing_key]['var'] = $req->update[0]->kouiData;
             } else {
+
                 $db_koui = [[
                     'tag' => 't_' . rand(0,99999999999999999),
-                    'kouiCode' => $GLOBALS['orca_cust_kc']['kenkoushindan'],
+                    'kouiCode' => $GLOBALS['config']['kenkoushindan_code'],
                     'type' => '90',
                     'name' => '健康診断',
                     'ins' => $req->update[0]->ins,

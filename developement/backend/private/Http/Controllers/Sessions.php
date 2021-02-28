@@ -7,7 +7,7 @@ class Sessions {
 
     public function get($req, $res) {
 
-        $timeout = $GLOBALS['session']['lifetime'];
+        $timeout = $GLOBALS['config']['session']['lifetime'];
         $current = time();
         $lastAct = $_SESSION['last_activity_time'];
         $rem = $timeout - ($current - $lastAct);

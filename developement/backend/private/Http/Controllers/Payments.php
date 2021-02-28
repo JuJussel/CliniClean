@@ -24,7 +24,7 @@ class Payments {
             return;
         }
 
-        if (!$GLOBALS['accounting']['useCliniCalc']) {
+        if (!$GLOBALS['config']['accounting']['useCliniCalc']) {
             $res->success = true;
             return;
         }

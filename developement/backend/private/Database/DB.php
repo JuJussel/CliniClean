@@ -23,10 +23,10 @@ class DB
 
         // Connect to DB
         $conn = mysqli_connect(
-            $GLOBALS['db']['cliniclean']['dbhost'],
-            $GLOBALS['db']['cliniclean']['dbuser'],
-            $GLOBALS['db']['cliniclean']['dbpass'],
-            $GLOBALS['db']['cliniclean']['dbname'],
+            $GLOBALS['config']['db_cliniclean']['dbhost'],
+            $GLOBALS['config']['db_cliniclean']['dbuser'],
+            $GLOBALS['config']['db_cliniclean']['dbpass'],
+            $GLOBALS['config']['db_cliniclean']['dbname'],
         );
         if (!$conn) {
             $result->msg = $conn->error;

@@ -74,7 +74,7 @@ class Files {
               $errors[] = 'この拡張子をアップロードできません: ' . $file_name . ' ' . $file_type;
             }
         
-            if ($file_size > $GLOBALS['max_file_size']) {
+            if ($file_size > $confug['max_file_size']) {
                 $errors[] = 'ファイルサイズが大きすぎます: ' . $file_name . ' ' . $file_type;
             }
 

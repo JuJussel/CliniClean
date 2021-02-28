@@ -37,14 +37,15 @@ import account from './CC_view_settings_account'
 import users from './CC_view_settings_users'
 import sets from './CC_view_settings_sets'
 import other from './CC_view_settings_other'
-
+import shindan from './CC_view_settings_shindan'
 
 export default {
     components: {
         account: account,
         users: users,
         sets: sets,
-        other: other
+        other: other,
+        shindan: shindan
     },
     data() {
         return {
@@ -53,7 +54,7 @@ export default {
                 {name: 'account', label: 'アカウント'},
                 {name: 'users', label: 'ユーザー', acl: 'settings.user'},
                 {name: 'sets', label: 'セット'},
-                {name: 'healthcheck', label: '健康診断設定'},
+                {name: 'shindan', label: '健康診断設定'},
                 {name: 'customacts', label: 'カスタム行為'},
                 {name: 'orcasettings', label: 'オルカ設定'},
                 {name: 'other', label: 'その他'}

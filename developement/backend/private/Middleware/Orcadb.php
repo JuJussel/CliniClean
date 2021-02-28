@@ -12,9 +12,9 @@ class Orcadb {
     }    
 
     private function db_query($query, $params = NULL) {
-        $host = $GLOBALS['db']['orca']['dbhost'];
-        $user = $GLOBALS['db']['orca']['dbuser'];
-        $pass = $GLOBALS['db']['orca']['dbpass'];
+        $host = $GLOBALS['config']['db_orca']['dbhost'];
+        $user = $GLOBALS['config']['db_orca']['dbuser'];
+        $pass = $GLOBALS['config']['db_orca']['dbpass'];
 
         try {
             $orca_conn = new PDO(

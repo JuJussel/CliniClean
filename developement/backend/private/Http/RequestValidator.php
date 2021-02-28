@@ -31,7 +31,7 @@ class RequestValidator {
     if (isset($_SESSION['user']) && $IP === $_SESSION['IP']) {
 
       $time = time();
-      if (($time - $_SESSION['last_activity_time']) > $GLOBALS['session']['lifetime']) {
+      if (($time - $_SESSION['last_activity_time']) > $GLOBALS['config']['session']['lifetime']) {
 
         $auth->success = false;
         $auth->message = 'Session Invalid';

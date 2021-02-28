@@ -9,9 +9,9 @@
 
 require_once __DIR__ . '/Config/globals.php';
 $config = parse_ini_file(__DIR__ .'/Config/config.ini', 1);
-var_dump($GLOBALS);
-var_dump($config);
-return;
+// var_dump($GLOBALS['config']);
+// // var_dump($config);
+// return;
 
 
 spl_autoload_register(function($class) {

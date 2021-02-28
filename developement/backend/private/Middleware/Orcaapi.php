@@ -18,11 +18,11 @@ class Orcaapi {
             'Content-Type: application/xml'
         );
         $this->options = array(
-            'user' => $GLOBALS['orcaapi']['user'],
-            'pass' => $GLOBALS['orcaapi']['pass']
+            'user' => $GLOBALS['config']['orcaapi']['user'],
+            'pass' => $GLOBALS['config']['orcaapi']['pass']
         );
         $this->department_code = '01';
-        $this->url = $GLOBALS['orcaapi']['url'];
+        $this->url = $GLOBALS['config']['orcaapi']['url'];
 
     }
 

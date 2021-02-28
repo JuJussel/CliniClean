@@ -221,7 +221,8 @@
                     </div>
                     <kouiList 
                         @addKoui="addKoui"
-                        noSets
+                        :visibleCats="[25,30,31,40,50,60,70]"
+                        setActive="25"
                         style="margin-top: -10px; height: calc(100% - 80px)"
                     />
                 </div>
@@ -662,8 +663,6 @@ export default {
                 this.loadingCont = null
             }
         }
-    },
-
-
+    }
 }
 </script>

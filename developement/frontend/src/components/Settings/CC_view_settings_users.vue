@@ -59,6 +59,7 @@
                                         size="small"
                                         animation-type="scale"
                                         class="cc-hover-button"
+                                        style="margin: 0"
                                         >
                                         <i class="far fa-edit" style="font-size: 14px"></i>
                                         <template #animate>編集</template>
