@@ -5,19 +5,20 @@
                 <div class="content-card" style="height: 100%">
                     <vs-table striped style="height: calc(100% - 20px)">
                         <template #header>
-                            <h3 style="display: flex; align-items: center; justify-content: space-between; margin: 0">
-                                健康診断検査一覧
-                                <vs-button
-                                    v-if="!edit"
-                                    icon dark
-                                    animation-type="scale"
-                                    @click="startEdit"
-                                    >
-                                    <i class="fas fa-edit" style="font-size: 20px"></i>
-                                    <template #animate>追加</template>
-                                </vs-button>
-
-                                <span v-else style="display: flex">
+                            <div class="cc-table-header-content" style="justify-content: space-between; height: 50px">
+                                <span style="display: flex; align-items: center">
+                                    <h2>健康診断検査一覧</h2>
+                                    <vs-button
+                                        v-if="!edit"
+                                        dark
+                                        animation-type="scale"
+                                        @click="startEdit"
+                                        >
+                                        <i class="fas fa-edit" style="font-size: 20px"></i>
+                                        <template #animate>追加</template>
+                                    </vs-button>
+                                </span>
+                                <span v-if="edit" style="display: flex">
                                     <vs-button
                                         dark
                                         @click="kensaAddOpen = true"
@@ -35,9 +36,9 @@
                                         @click="saveEdit"
                                         >保存
                                     </vs-button>
-
                                 </span>
-                            </h3>
+                            </div>
+                                    
                         </template>
                         <template #thead>
                             <vs-tr>
@@ -46,10 +47,11 @@
                             </vs-tr>
                         </template>
                         <template #tbody>
-                            <vs-tr v-for="(tr, index) in exams" :key="index">
+                            <vs-tr v-for="(tr, index) in exams" :key="index" style="height: 50px">
                                 <vs-td> {{ tr.name }} </vs-td>
                                 <vs-td style="width: 60px">
                                     <vs-button
+                                        v-if="edit"
                                         @click="removeKensa(tr)"
                                         icon danger border
                                         size="small"
