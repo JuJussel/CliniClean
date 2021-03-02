@@ -15,7 +15,7 @@
                                         @click="startEdit"
                                         >
                                         <i class="fas fa-edit" style="font-size: 20px"></i>
-                                        <template #animate>追加</template>
+                                        <template #animate>編集</template>
                                     </vs-button>
                                 </span>
                                 <span v-if="edit" style="display: flex">
@@ -69,17 +69,50 @@
                 </div>
             </vs-col>
         </vs-row>
-        <vs-dialog width="550px" not-center v-model="kensaAddOpen">
+        <vs-dialog width="1000px" not-center v-model="kensaAddOpen">
             <template #header>
                 <h4 class="not-margin">検査選択</h4>
             </template>
-            <kouiList
-                @addKoui="addKensa"
-                :visibleCats="[60]"
-                setActive="60"
-                noHeader
-                style="height: 500px"
-            />
+            <vs-row ref="kensaAddModal">
+                <vs-col w="6">
+                    <kouiList
+                        @addKoui="selectExam"
+                        :visibleCats="[60]"
+                        setActive="60"
+                        noHeader
+                        style="height: 500px"
+                    />
+                </vs-col>
+                <vs-col w="6">
+                    <vs-table>
+                        <template #header>
+                            <div class="cc-table-header-content">
+                                <h2>検査結果一覧</h2>
+                            </div>
+                        </template>
+                        <template #thead>
+                            <vs-tr>
+                                <vs-th>
+                                    <vs-checkbox
+                                        :indeterminate="selected.length == users.length" v-model="allCheck"
+                                        @change="selected = $vs.checkAll(selected, users)"
+                                    />
+                                </vs-th>
+                                <vs-th>結果名</vs-th>
+                            </vs-tr>
+                        </template>
+                        <template #tbody>
+                            <vs-tr v-for="(tr, index) in examResults" :key="index" style="height: 50px">
+                                <vs-td>
+                                    <vs-checkbox></vs-checkbox>
+                                </vs-td>
+                                <vs-td> {{ tr.name }} </vs-td>
+                            </vs-tr>
+                        </template>
+
+                    </vs-table>
+                </vs-col>
+            </vs-row>
         </vs-dialog>
 
     </div>
@@ -104,7 +137,9 @@ export default {
             kensaAddOpen: false,
             edit: false,
             loading: false,
-            loadingCont: null
+            loadingCont: null,
+            examResults: [],
+            examResultsSelected: []
         }
     },
     methods: {
@@ -128,7 +163,21 @@ export default {
             this.exams = this.copy
             this.edit = false
         },
-        addKensa() {
+        selectExam(exam) {
+            console.log(exam);
+            let loading= this.$vs.loading({
+                    target: this.$refs.kensaAddModal,
+                    color: 'dark'
+                })
+            this.$get('examinationresults/' + exam.koui.kouiid)
+            .then(result => {
+                this.examResults = result.data
+                loading.close()
+            })
+            .catch(result => {
+                this.$apiError(result)
+                loading.close()
+            })
 
         },
         removeKensa(kensa) {
