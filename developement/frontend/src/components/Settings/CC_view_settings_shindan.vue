@@ -71,18 +71,18 @@
       <template #header>
         <h4 class="not-margin">検査選択</h4>
       </template>
-      <vs-row ref="kensaAddModal">
+      <vs-row ref="kensaAddModal" style="padding: 0 10px">
         <vs-col w="6">
           <kouiList
             @addKoui="selectExam"
             :visibleCats="[60]"
             setActive="60"
             noHeader
-            style="height: 500px"
+            style="height: 600px; margin-bottom: -80px"
           />
         </vs-col>
-        <vs-col w="6">
-          <vs-table>
+        <vs-col w="6" style="padding-left: 20px">
+          <vs-table style="height: 520px" condensed>
             <template #header>
               <div class="cc-table-header-content">
                 <h2>検査結果一覧</h2>
@@ -92,13 +92,17 @@
               <vs-tr>
                 <vs-th>
                   <vs-checkbox
-                    :indeterminate="selected.length == users.length"
+                    :indeterminate="examResultsScelected.length == examResults.length"
                     v-model="allCheck"
-                    @change="selected = $vs.checkAll(selected, users)"
-                  />
+                    @change="examResultsScelected = $vs.checkAll(examResultsScelected, examResults)"
+                  >
+                    結果名
+                </vs-checkbox>
                 </vs-th>
-                <vs-th>結果名</vs-th>
               </vs-tr>
+            </template>
+            <template #notFound>
+                項目を選択してください
             </template>
             <template #tbody>
               <vs-tr
@@ -107,14 +111,17 @@
                 style="height: 50px"
               >
                 <vs-td>
-                  <vs-checkbox></vs-checkbox>
+                  <vs-checkbox :val="tr" v-model="examResultsScelected">{{ tr.name }}</vs-checkbox>
                 </vs-td>
-                <vs-td> {{ tr.name }} </vs-td>
               </vs-tr>
             </template>
           </vs-table>
         </vs-col>
       </vs-row>
+      <template #footer>
+           <vs-button transparent dark @click="closeKensaAdd">キャンセル</vs-button>
+          <vs-button @click="addExams">追加</vs-button>
+      </template>
     </vs-dialog>
   </div>
 </template>
@@ -139,6 +146,7 @@ export default {
       loadingCont: null,
       examResults: [],
       examResultsScelected: [],
+      allCheck: false
     };
   },
   methods: {
@@ -204,6 +212,11 @@ export default {
           this.loading = false;
         });
     },
+    closeKensaAdd() {
+        this.kensaAddOpen = false
+        this.examResultsScelected = []
+        this.examResults = []
+    }
   },
   watch: {
     loading() {
