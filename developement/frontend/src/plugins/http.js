@@ -58,7 +58,9 @@ export default {
       }),
       (Vue.prototype.$apiError = function(res) {
         console.log(typeof res);
-        Vue.prototype.$eventHub.$emit("apiError", res.message);
+        if(res.name !== 'AbortError') {
+          Vue.prototype.$eventHub.$emit("apiError", res.message);
+        }
       });
   },
 };
