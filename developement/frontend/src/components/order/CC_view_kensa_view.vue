@@ -64,7 +64,7 @@
 
 <script>
 
-import kensaInput from "../shared/kensaInput"
+import kensaInput from "../shared/CC_comp_kensa_input"
 
 export default {
     components: {
@@ -105,7 +105,7 @@ export default {
                 this.kensaList.forEach(element => {
                     let requestNumber = ''
                     let supplier = ''
-                    if(element.type !== '90') {
+                    if(element.type !== '90' && element.isExternal) {
                         requestNumber = element.koui.var.supplier.number
                         supplier = element.koui.var.supplier.supplier
                     }
@@ -130,11 +130,18 @@ export default {
                     } else {
                         let index = returnArr.findIndex(i => i.requestNumber === element.koui.var.supplier.number)
                         if(index < 0) {
+                            let requestNumber = ''
+                            let supplier = ''
+                            if(element.isExternal) {
+                                requestNumber = element.koui.var.supplier.number
+                                supplier = element.koui.var.supplier.supplier
+                            }
+
                             returnArr.push({
-                                requestNumber: element.koui.var.supplier.number,
+                                requestNumber: requestNumber,
                                 date: element.date,
                                 kouis: [element],
-                                supplier: element.koui.var.supplier.supplier
+                                supplier: supplier
                             })
                         } else {
                             returnArr[index].kouis.push(element)

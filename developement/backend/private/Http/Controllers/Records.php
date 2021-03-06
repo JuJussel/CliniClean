@@ -66,6 +66,7 @@ class Records {
         //Since can only have one put, switch based on mode. Tried to unify as much as possible.
 
         $date = date("Y-m-d H:i:s");
+        $meta = $req->update[0]->meta;
         $request_data = (object) [
             'id' => $req->itemId,
             'date' => $date,
@@ -73,13 +74,13 @@ class Records {
             'koui' => $req->update[0]->kouiData,
             'has_order' => isset($req->update[0]->hasOrder) ? $req->update[0]->hasOrder : NULL,
             'locked' => $req->update[0]->mode === 'save' ? 1 : 0,
-            'status' => $req->update[0]->status
+            'status' => $req->update[0]->status,
+            'doctor' => $meta->doctor
         ];
 
         // Closing
         if ($req->update[0]->mode === 'close') {
 
-            $meta = $req->update[0]->meta;
             $koui_array = json_decode($req->update[0]->kouiData);
             $orca_data = (object) [
                 'koui' => [],
@@ -152,7 +153,7 @@ class Records {
 
                 $db_koui = [[
                     'tag' => 't_' . rand(0,99999999999999999),
-                    'kouiCode' => $GLOBALS['config']['kenkoushindan_code'],
+                    'kouiCode' => $GLOBALS['config']['orcaapi']['kenkoushindan_code'],
                     'type' => '90',
                     'name' => '健康診断',
                     'ins' => $req->update[0]->ins,

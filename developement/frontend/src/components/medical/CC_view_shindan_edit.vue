@@ -198,9 +198,9 @@
                     <h2>検査結果</h2>
                     <vs-row>
                         <vs-col w="5">
-                            <vs-select label="診察内容" placeholder="選択" v-model="shindanData.supplier.supplier" :key="suppliers.length">
-                                <vs-option v-for="(item, index) in suppliers" :key="index" :label="item.name" :value="item.name">
-                                    {{item.name}}
+                            <vs-select label="依頼先" placeholder="選択" v-model="shindanData.supplier.supplier" :key="suppliers.length">
+                                <vs-option v-for="(item, index) in suppliers" :key="index" :label="item" :value="item">
+                                    {{item}}
                                 </vs-option>
                             </vs-select>
                         </vs-col>
@@ -208,7 +208,7 @@
                             <vs-input v-model="shindanData.supplier.number" label="依頼番号" placeholder="入力"></vs-input>
                         </vs-col>
                     </vs-row>
-                    <div v-if="availableKensa.length > 0">
+                    <div v-if="availableKensa.length > 0" style="max-height: 550px; overflow: auto">
                         <vs-row v-for="(tr, index) in availableKensa" :key="index" class="results-container" style="margin: 10px 0">
                             <vs-col w="6" style="padding: 5px"> {{ tr.name }} </vs-col>
                             <vs-col w="4" style="padding-right: 5px">
@@ -228,7 +228,7 @@
 
 <script>
 
-import xrayPaint from '../shared/painter.vue'
+import xrayPaint from '../shared/CC_comp_painter'
 
 export default {    
     props: {

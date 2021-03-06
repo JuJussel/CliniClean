@@ -39,8 +39,8 @@
 </template>
 
 <script>
-import karteList from "../pateint_history/karte_history.vue"
-import kouiList from '../pateint_history/koui.vue'
+import karteList from "../pateint_history/CC_view_patient_history_record_history"
+import kouiList from '../pateint_history/CC_view_patient_history_procedure.vue'
 
 export default {
     components: {

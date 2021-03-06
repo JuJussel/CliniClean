@@ -38,9 +38,9 @@
 </template>
 
 <script>
-import patientList from './patient_list'
-import patientEdit from './patient_edit'
-import patientView from './patient_view'
+import patientList from './CC_view_patient_list'
+import patientEdit from './CC_view_patient_edit'
+import patientView from './CC_view_patient_view'
 
 export default {
   components: {

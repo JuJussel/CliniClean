@@ -82,7 +82,7 @@
 
 <script>
 
-import vitalNew from "../shared/vitalNew"
+import vitalNew from "../shared/CC_comp_vital_new"
 import IEcharts from 'vue-echarts-v3/src/lite.js'
 import 'echarts/lib/component/legend'
 import 'echarts/lib/chart/line'

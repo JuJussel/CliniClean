@@ -406,10 +406,10 @@
 </template>
 
 <script>
-import textEditor from "../shared/text_editor"
-import kouiList from "../shared/koui_list"
+import textEditor from "../shared/CC_comp_text_editor"
+import kouiList from "../shared/CC_comp_koui_list"
 import kouiItem from "../shared/CC_comp_procedure_item"
-import patientHistory from "../pateint_history/patient_history_main"
+import patientHistory from "../pateint_history/CC_view_patient_history_main"
 
 export default {
   components: {
@@ -718,7 +718,8 @@ export default {
         soapData: this.$refs.soapText.provideData(),
         kouiData: JSON.stringify(this.currentKouis),
         status: 3,
-        mode: 'save'
+        mode: 'save',
+        meta: this.meta
       }
 
       this.$put('records/' + this.meta.id,sendData )

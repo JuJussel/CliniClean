@@ -11,7 +11,7 @@
 
 <script>
 
-import fileSelect from "../shared/file_select";
+import fileSelect from "../shared/CC_comp_file_select";
 
 export default {
     props: {

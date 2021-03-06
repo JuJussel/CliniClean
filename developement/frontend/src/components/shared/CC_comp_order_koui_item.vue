@@ -73,7 +73,7 @@
 
 <script>
 
-    import kensaInput from './kensaInputItem'
+    import kensaInput from './CC_comp_kensa_input_item'
 
     export default {
         components: {

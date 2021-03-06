@@ -36,10 +36,10 @@
 
 <script>
 
-import karteEdit from './karte_edit'
-import shindan from './shindan_edit'
-import list from './medical_list'
-import karteView from './karte_viewer'
+import karteEdit from './CC_view_karte_edit'
+import shindan from './CC_view_shindan_edit'
+import list from './CC_view_medical_list'
+import karteView from './CC_view_karte_viewer'
 
 export default {
   components: {

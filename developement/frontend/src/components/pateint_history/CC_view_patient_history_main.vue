@@ -40,13 +40,13 @@
 
 <script>
 
-import dashboard from './dashboard'
-import vitals from './vitals'
-import meds from './meds'
-import koui from './koui'
-import byoumei from './byoumei'
-import karte from './karte_history'
-import kensa from './kensa'
+import dashboard from './CC_view_patient_history_dashboard'
+import vitals from './CC_view_patient_history_vitals'
+import meds from './CC_view_patient_history_meds'
+import koui from './CC_view_patient_history_procedure'
+import byoumei from './CC_view_patient_history_disease'
+import karte from './CC_view_patient_history_record_history'
+import kensa from './CC_view_patient_history_kensa'
 
 export default {
     props: {

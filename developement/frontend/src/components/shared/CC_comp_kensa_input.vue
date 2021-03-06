@@ -39,8 +39,8 @@
 </template>
 
 <script>
-    import newKensa from './newKensa'
-    import kensaItem from './kensaInputItem'
+    import newKensa from './CC_comp_exam_new'
+    import kensaItem from './CC_comp_kensa_input_item'
     export default {
         props: {
             meta: {

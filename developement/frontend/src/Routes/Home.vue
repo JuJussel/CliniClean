@@ -95,11 +95,11 @@
 </template>
 
 <script>
-import patient from '../components/patient/patient_main'
-import reception from '../components/reception/reception_main'
-import medical from '../components/medical/medical_main'
-import order from '../components/order/order_main'
-import dashboard from '../components/dashboard/dashboard_main'
+import patient from '../components/patient/CC_view_patient_main'
+import reception from '../components/reception/CC_view_reception_main'
+import medical from '../components/medical/CC_view_medical_main'
+import order from '../components/order/CC_view_order_main'
+import dashboard from '../components/dashboard/CC_view_dashboard_main'
 import settings from '../components/Settings/CC_view_settings_main'
 
 export default {

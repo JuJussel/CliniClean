@@ -29,7 +29,7 @@
 
 <script>
 
-import karteView from "../shared/karte_view.vue"
+import karteView from "../shared/CC_comp_karte_view.vue"
 
 export default {
     components: {

@@ -8,7 +8,7 @@
 //header('Content-Type: application/json');
 
 require_once __DIR__ . '/Config/globals.php';
-$config = parse_ini_file(__DIR__ .'/Config/config.ini', 1);
+$config = parse_ini_file(__DIR__ .'/Config/config.ini', true, INI_SCANNER_TYPED);
 // var_dump($GLOBALS['config']);
 // // var_dump($config);
 // return;

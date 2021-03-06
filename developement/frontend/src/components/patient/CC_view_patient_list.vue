@@ -61,7 +61,7 @@
 
 <script>
 
-import patientView from './patient_view'
+import patientView from './CC_view_patient_view'
 
 export default {
 

@@ -222,8 +222,8 @@
 
 <script>
 
-import insuranceNew from '../shared/insurance_new'
-import kouhiNew from '../shared/kouhi_new'
+import insuranceNew from '../shared/CC_comp_insurance_new'
+import kouhiNew from '../shared/CC_comp_pub_ins_new'
 
 export default {
   components: {

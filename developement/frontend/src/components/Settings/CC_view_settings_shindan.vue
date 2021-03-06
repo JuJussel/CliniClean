@@ -71,67 +71,22 @@
       <template #header>
         <h4 class="not-margin">検査選択</h4>
       </template>
-      <vs-row ref="kensaAddModal" style="padding: 0 10px">
-        <vs-col w="6">
-          <kouiList
-            @addKoui="selectExam"
-            :visibleCats="[60]"
-            setActive="60"
-            noHeader
-            style="height: 600px; margin-bottom: -80px"
-          />
-        </vs-col>
-        <vs-col w="6" style="padding-left: 20px">
-          <vs-table style="height: 520px" condensed>
-            <template #header>
-              <div class="cc-table-header-content">
-                <h2>検査結果一覧</h2>
-              </div>
-            </template>
-            <template #thead>
-              <vs-tr>
-                <vs-th>
-                  <vs-checkbox
-                    :indeterminate="examResultsScelected.length == examResults.length"
-                    v-model="allCheck"
-                    @change="examResultsScelected = $vs.checkAll(examResultsScelected, examResults)"
-                  >
-                    結果名
-                </vs-checkbox>
-                </vs-th>
-              </vs-tr>
-            </template>
-            <template #notFound>
-                項目を選択してください
-            </template>
-            <template #tbody>
-              <vs-tr
-                v-for="(tr, index) in examResults"
-                :key="index"
-                style="height: 50px"
-              >
-                <vs-td>
-                  <vs-checkbox :val="tr" v-model="examResultsScelected">{{ tr.name }}</vs-checkbox>
-                </vs-td>
-              </vs-tr>
-            </template>
-          </vs-table>
-        </vs-col>
-      </vs-row>
-      <template #footer>
-           <vs-button transparent dark @click="closeKensaAdd">キャンセル</vs-button>
-          <vs-button @click="addExams">追加</vs-button>
-      </template>
+      <resultSelector ref="resultSelectorRef" v-if="kensaAddOpen"></resultSelector>
+    <template #footer>
+        <vs-button transparent dark @click="kensaAddOpen = false">キャンセル</vs-button>
+        <vs-button @click="addExams()">追加</vs-button>
+    </template>
     </vs-dialog>
   </div>
 </template>
 
 <script>
-import kouiList from "../shared/koui_list";
+
+import resultSelector from "../shared/CC_comp_exam_result_selector"
 
 export default {
   components: {
-    kouiList: kouiList,
+    resultSelector: resultSelector
   },
 
   created() {
@@ -143,10 +98,7 @@ export default {
       kensaAddOpen: false,
       edit: false,
       loading: false,
-      loadingCont: null,
-      examResults: [],
-      examResultsScelected: [],
-      allCheck: false
+      loadingCont: null
     };
   },
   methods: {
@@ -170,26 +122,15 @@ export default {
       this.exams = this.copy;
       this.edit = false;
     },
-    selectExam(exam) {
-      console.log(exam);
-      let loading = this.$vs.loading({
-        target: this.$refs.kensaAddModal,
-        color: "dark",
-      });
-      this.$get("examinationresults/" + exam.koui.kouiid)
-        .then((result) => {
-          this.examResults = result.data;
-          loading.close();
-        })
-        .catch((result) => {
-          this.$apiError(result);
-          loading.close();
-        });
-    },
     removeKensa(kensa) {
       this.exams = this.exams.filter(
         (exam) => exam.kensa_code !== kensa.kensa_code
       );
+    },
+    addExams() {
+        let results = this.$refs.resultSelectorRef.getSelectedResults()
+        this.exams = this.exams.concat(results)
+        this.kensaAddOpen = false
     },
     saveEdit() {
       this.loading = true;
@@ -211,11 +152,6 @@ export default {
           this.$apiError(result);
           this.loading = false;
         });
-    },
-    closeKensaAdd() {
-        this.kensaAddOpen = false
-        this.examResultsScelected = []
-        this.examResults = []
     }
   },
   watch: {

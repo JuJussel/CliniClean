@@ -3,7 +3,7 @@
         <vs-row ref="loadElm" style="height: 100%">
             <vs-col w="4" style="height: 100%">
                 <div class="content-card">
-                    <div class="cc-card-header" style="display: flex; justify-content: space-between">
+                    <div class="cc-card-header">
                         <h3>フォルダー一覧</h3>
                         <vs-tooltip bottom shadow not-hover v-model="folderAddPop">
                             <vs-button dark @click="folderAddPop=!folderAddPop">新規</vs-button>
@@ -289,7 +289,7 @@
 <script>
 
 import kouiItem from "../shared/CC_comp_procedure_item"
-import kouiList from "../shared/koui_list"
+import kouiList from "../shared/CC_comp_koui_list"
 
 export default {
     components: {

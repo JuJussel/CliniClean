@@ -106,7 +106,7 @@
 </template>
 
 <script>
-import kouiItemOrder from '../shared/order_koui_item'
+import kouiItemOrder from '../shared/CC_comp_order_koui_item'
 
 export default {
     components: {

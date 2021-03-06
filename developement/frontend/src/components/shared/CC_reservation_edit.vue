@@ -52,7 +52,7 @@
 
 <script>
 
-import calendar from "../shared/calendar"
+import calendar from "../shared/CC_comp_calendar"
 
 export default {
 

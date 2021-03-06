@@ -280,7 +280,7 @@
 
 <script>
 
-import fileUpload from '../shared/file_upload'
+import fileUpload from '../shared/CC_comp_file_upload'
 
 export default {
     components: {

@@ -43,8 +43,8 @@
 
 import { VueEditor } from 'vue2-editor'
 import ImageResize from 'quill-image-resize'
-import painter from '../shared/painter'
-import schemaSelect from '../shared/schema_select'
+import painter from '../shared/CC_comp_painter'
+import schemaSelect from '../shared/CC_comp_schema_select'
 import { log } from 'util'
 
 export default {

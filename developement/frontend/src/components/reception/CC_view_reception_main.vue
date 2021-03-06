@@ -349,11 +349,11 @@
 </template>
 
 <script>
-import recNew from "../shared/reception_new"
+import recNew from "../shared/CC_comp_reception_new"
 import resNew from "../shared/CC_reservation_edit"
-import insSelect from "../shared/insurance_select"
-import calendar from "../shared/calendar"
-import payment from "../shared/payment"
+import insSelect from "../shared/CC_comp_insurance_select"
+import calendar from "../shared/CC_comp_calendar"
+import payment from "../shared/CC_comp_payment"
 
 export default {
   components: {

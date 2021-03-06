@@ -62,7 +62,8 @@ class Record {
                 status = ?,
                 locked = ?,
                 last_change = ?,
-                shinsatu_end = ?
+                shinsatu_end = ?,
+                doctor = ?
             WHERE id = ?
         ';
 
@@ -74,6 +75,7 @@ class Record {
             ['i', $data->locked],
             ['s', $data->date],
             ['s', isset($data->shinsatu_end) ? $data->shinsatu_end : $data->date],
+            ['i', $db->sanitize_xss($data->doctor)],
             ['i', $db->sanitize_xss($data->id)]
         ];
 

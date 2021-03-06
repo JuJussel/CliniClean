@@ -12,6 +12,24 @@ class Settings {
     public function get($req, $res) {
 
         $query_data = $req->itemId;
+        if ($query_data == 0) {
+            $settings_array = $GLOBALS['config'];
+            
+            foreach ($settings_array as $key => $value) {
+                foreach ($value as $s_key => $s_value) {
+                    $value[$s_key] = [
+                        'value' => $s_value,
+                        'type' => gettype($s_value)
+                    ];
+                }
+                $settings_array[$key] = $value;
+            }
+
+
+            $res->data = $settings_array;
+            $res->success = true;
+            return;
+        }
 
         $db = New Setting();
         $query = $db->get($query_data);

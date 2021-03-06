@@ -203,6 +203,7 @@ export default {
       kouiCats: JSON.parse(JSON.stringify(this.$store.getters.kouiCats)),
       treeKey: 1,
       pendingSearch: null,
+      delayTimer: null
     };
   },
   watch: {
@@ -210,30 +211,31 @@ export default {
       this.getFavourites();
     },
     loading() {
-      if (this.loading) {
+      if (this.loading && !this.loadingCont) {
         this.loadingCont = this.$vs.loading({
           target: this.$refs.tbody,
           color: "dark",
         });
       } else {
-        this.loadingCont.close();
-        this.loadingCont = null;
+          this.loadingCont.close()
+          this.loadingCont? this.loadingCont = null : null
       }
     },
   },
   methods: {
     openSetAdd() {
       let koui = JSON.parse(JSON.stringify(this.currentKouis));
-      this.setCreate.data = koui;
-      this.setCreate.open = true;
+      this.setCreate.data = koui
+      this.setCreate.open = true
     },
     searchKoui(tab) {
-      setTimeout(
+      clearTimeout(this.delayTimer)
+      this.delayTimer = setTimeout(
         function () {
-          this.executeSearch(tab);
+          this.executeSearch(tab)
         }.bind(this),
-        1000
-      );
+        500
+      )
     },
     executeSearch(tab) {
       const abortController = new AbortController();
@@ -243,11 +245,7 @@ export default {
       }
       const search = this.kouiCats[tab].search;
       if (search !== "" && tab !== "12") {
-        const loading = this.$vs.loading({
-          target: this.$refs.tbody,
-          color: "dark",
-        });
-
+        this.loading = true;
         let sendData = {
           cat: tab,
           name: search,
@@ -257,12 +255,12 @@ export default {
           .then((result) => {
             this.pendingSearch = null;
             this.kouiCats[tab].results = result.data;
-            loading.close();
+            this.loading = false;
           })
           .catch((result) => {
             this.pendingSearch = null;
             this.$apiError(result);
-            loading.close();
+            this.loading = false;
           });
       } else if (search !== "") {
       } else {

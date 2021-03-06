@@ -46,6 +46,7 @@ class Payments {
 
         if ($query === 'K1') {
             $res->data->done = false;
+            $res->success = true;
             return;
         }
 
@@ -57,6 +58,7 @@ class Payments {
 
         if (!count($query->result) || count($query->result->Income_Information_child) < 1) {
             $res->data->done = false;
+            $res->success = true;
             return;
         }
 

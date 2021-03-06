@@ -131,6 +131,7 @@ export default {
             })
         },
         showKarte(r) {
+            r.doctor == 0 ? r.doctor = this.$store.getters.userInfo.id : r.doctor = r.doctor
             this.$emit('showKarte', r)
         },
         startShinsatu(r) {

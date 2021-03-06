@@ -183,7 +183,7 @@
 
 <script>
 
-import byoumeiEdit from '../shared/byoumei_edit'
+import byoumeiEdit from '../shared/CC_comp_disease_edit'
 
 export default {
     components: {

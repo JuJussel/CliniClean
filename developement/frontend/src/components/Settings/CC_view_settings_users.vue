@@ -5,15 +5,14 @@
                 <div class="content-card">
                     <vs-table striped>
                         <template #header>
-                            <h3 style="display: flex; align-items: center; justify-content: space-between; margin: 0">
+                            <h3 style="display: flex; align-items: center; margin: 0">
                                 一覧
                                 <vs-button
-                                    icon dark
-                                    size="small"
+                                    dark
                                     animation-type="scale"
                                     @click="showEdit(null)"
                                     >
-                                    <i class="fas fa-plus" style="font-size: 14px"></i>
+                                    <i class="fas fa-plus"></i>
                                     <template #animate>登録</template>
                                 </vs-button>
                             </h3>

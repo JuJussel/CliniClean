@@ -372,8 +372,8 @@
 </template>
 
 <script>
-import byoumeiEdit from '../shared/byoumei_edit'
-import noteEdit from '../shared/note_edit'
+import byoumeiEdit from '../shared/CC_comp_disease_edit'
+import noteEdit from '../shared/CC_comp_note_edit'
 
 export default {
     components: {

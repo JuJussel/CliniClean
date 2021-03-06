@@ -12,11 +12,6 @@ $GLOBALS['host_ip'] = gethostbyname($GLOBALS['host']);
 $GLOBALS['websocket_host'] = 'https://' . $GLOBALS['host_ip'];
 $GLOBALS['websocket_port'] = '1337';
 
-//Orca Custom Koui Codes
-$GLOBALS['orca_cust_kc'] = [
-    'kenkoushindan' => '095110001'
-];
-
 // Storage
 $GLOBALS['base_path'] = dirname($_SERVER["DOCUMENT_ROOT"]);
 $GLOBALS['file_upload_location'] = $GLOBALS['base_path'] . "/private/Storage/";

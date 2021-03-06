@@ -34,8 +34,8 @@
 
 <script>
 
-import kensa from './kensa_view'
-import order from './order_view'
+import kensa from './CC_view_kensa_view'
+import order from './CC_view_order_view'
 
 export default {
     components: {
