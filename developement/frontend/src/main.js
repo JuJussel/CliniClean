@@ -16,6 +16,7 @@ import DatePicker from 'vue2-datepicker'
 import 'vue2-datepicker/index.css'
 import 'vue2-datepicker/locale/ja'
 import http from './plugins/http'
+import acl from './plugins/acl'
 import LiquorTree from 'liquor-tree'
 
 Vue.config.productionTip = false
@@ -39,7 +40,8 @@ Vue.use(require('vue-moment'), {
   moment
 })
 Vue.use(LiquorTree)
-Vue.use(http);
+Vue.use(http)
+Vue.use(acl)
 
 Vue.component('el-card-tab', cardTab)
 Vue.component('dateDisplay', dateDisplay)
@@ -49,15 +51,6 @@ Vue.component('FullCalendar', FullCalendar)
 
 Vue.prototype.$eventHub = new Vue() // Global event bus
 Vue.prototype.$globals = globals
-
-Vue.directive('acl', {
-  bind: function(el, binding, vnode) {
-    const store = vnode.context.$store
-    if (binding.value && !store.getters.permissions.includes(binding.value)) {
-      el.style.display = 'none';
-    }
-  }
-})
 
 new Vue({
   router,

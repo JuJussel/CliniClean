@@ -5,10 +5,7 @@ Vue.use(Vuex)
 
 const defaultState = () => {
   return {
-    permissions: [ //Get from Backend
-      'settings.user',
-      'settings.groups'
-    ],
+    permissions: [],
     user: {
       id: 0,
       name_first: null,
@@ -121,6 +118,9 @@ const mutations =  {
   },
   SET_USER_GROUPS(state, data) {
     state.lists.groups = data
+  },
+  SET_USER_PERMISSIONS(state, perm) {
+    state.permissions = perm
   }
 
 }

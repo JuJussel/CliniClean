@@ -47,20 +47,19 @@ export default {
     (Vue.prototype.$get = function(route, data, abortSignal = null) {
       return request(route, data, "GET", abortSignal);
     }),
-      (Vue.prototype.$post = function(route, data, abortSignal = null) {
-        return request(route, data, "POST", abortSignal);
-      }),
-      (Vue.prototype.$put = function(route, data, abortSignal = null) {
-        return request(route, data, "PUT", abortSignal);
-      }),
-      (Vue.prototype.$delete = function(route, data, abortSignal = null) {
-        return request(route, data, "DELETE", abortSignal);
-      }),
-      (Vue.prototype.$apiError = function(res) {
-        console.log(typeof res);
-        if(res.name !== 'AbortError') {
-          Vue.prototype.$eventHub.$emit("apiError", res.message);
-        }
-      });
-  },
+    (Vue.prototype.$post = function(route, data, abortSignal = null) {
+      return request(route, data, "POST", abortSignal);
+    }),
+    (Vue.prototype.$put = function(route, data, abortSignal = null) {
+      return request(route, data, "PUT", abortSignal);
+    }),
+    (Vue.prototype.$delete = function(route, data, abortSignal = null) {
+      return request(route, data, "DELETE", abortSignal);
+    }),
+    (Vue.prototype.$apiError = function(res) {
+      if(res.name !== 'AbortError') {
+        Vue.prototype.$eventHub.$emit("apiError", res.message);
+      }
+    });
+  }
 };

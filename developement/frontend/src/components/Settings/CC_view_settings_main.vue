@@ -3,20 +3,23 @@
         <div style="height: 30px; display: flex; justify: flex-start; padding-left: 10px">
             <vs-button-group>
                 <vs-button
-                border
-                dark
-                v-acl="tab.acl"
-                :active="activeTab == index"
-                v-for="(tab, index) in tabs"
-                :key="index"
-                @click="activeTab = index"
+                    border
+                    dark
+                    :active="activeTab == index"
+                    v-for="(tab, index) in allowedTabs"
+                    :key="index"
+                    @click="activeTab = index"
                 >
                     <span> {{ tab.label }} </span>
                 </vs-button>
             </vs-button-group>
         </div>
         <vs-row style="height: calc(100% - 30px)">
-            <child-component :is="tabs[activeTab].name" ref="childComp" style="width: 100%"></child-component>
+            <child-component
+                :is="allowedTabs[activeTab].name"
+                ref="childComp"
+                style="width: 100%"
+            />
         </vs-row>
 
     </div>
@@ -45,13 +48,18 @@ export default {
             activeTab: 0,
             tabs: [
                 {name: 'account', label: 'アカウント'},
-                {name: 'users', label: 'ユーザー', acl: 'settings.user'},
+                {name: 'users', label: 'ユーザー', acl: 'settings.user.view'},
                 {name: 'sets', label: 'セット'},
                 {name: 'shindan', label: '健康診断設定'},
                 {name: 'customacts', label: 'カスタム行為'},
                 {name: 'system', label: 'システム'},
                 {name: 'other', label: 'その他'}
             ]
+        }
+    },
+    computed: {
+        allowedTabs() {
+            return this.tabs.filter(tab => this.$acl(tab.acl))
         }
     }
     
