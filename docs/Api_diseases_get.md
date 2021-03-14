@@ -1,5 +1,5 @@
 ---
-title: Diseases Get
+title: Get
 parent: Diseases
 grand_parent: API
 nav_order: 1
