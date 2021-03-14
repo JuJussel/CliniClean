@@ -9,9 +9,9 @@ nav_order: 1
 
 Get disease names from orca based on search string or disease code.
 
-'''
+```
 $get('diseases', [query])
-'''
+```
 ### query
 
-Type: Sting
+**Type**: *Sting*
