@@ -7,4 +7,4 @@ nav_order: 1
 
 # Diseases
 
-I am a child page.
+Fetch disease data from orca.
