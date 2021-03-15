@@ -18,9 +18,11 @@ $get('diseases', [query])
 
 https://localhost/api/?route=diseases&params=[query]
 ```
-### query
+### [query]
 Search string or disease code.
+
 **Required**
+
 **Type**: *Sting, Integer*
 
 ## Response
@@ -43,5 +45,57 @@ Search string or disease code.
             "byomei": "ＣＭ関節続発性変形性関節症"
         }
     ]
+}
+```
+
+# Update
+
+Get disease names from orca based on search string or disease code.
+
+## Request
+```
+$put('diseases', [query])
+
+https://localhost/api/?route=diseases&params=[query]
+```
+### [query]
+Search string or disease code.
+
+**Required**
+
+**Type**: *Object*
+
+**Example**
+```
+{
+    Insurance_ID: "0003",
+    Disease_Category: "",
+    Disease_EndDate: null,
+    Disease_Name: "ＭＥＣＰ２重複症候群",
+    Disease_OutCome: "",
+    Disease_Supplement_Name: "片側",
+    Disease_Receipt_Print: "1",
+    Disease_StartDate: "2020-08-11",
+    Disease_SuspectedFlag: "A",
+    Disease_Single: "8849859",
+    Department_Code: "01",
+    Insurance_Combination_Number: "0001",
+    Insurance_Disease: "False",
+    patient_ID: 8,
+    shinsatu_ID: 108
+}
+```
+
+**Parameters**
+
+- Insurance_ID: Something
+
+## Response
+
+```
+{
+    data: {}
+    message: ""
+    success: true
 }
 ```
