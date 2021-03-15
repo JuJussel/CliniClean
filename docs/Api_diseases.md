@@ -8,9 +8,14 @@ nav_order: 1
 
 Fetch disease data from orca.
 
-<ol>
+<details open markdown="block">
+  <summary>
+    Table of contents
+  </summary>
+  {: .text-delta }
+1. TOC
 {:toc}
-</ol>
+</details>
 
 # Get
 
@@ -100,12 +105,8 @@ Patient ID to update disease data.
 
 - Insurance_ID: Insurance set id
 - Disease_Category: Main disease flag. 
-<dl>
-    <dt>"PD"</dt>
-    <dd>Main disease</dd>
-    <dt>""</dt>
-    <dd>Not main disease</dd>
-</dl>
+    "PD": Main disease
+    "": Not main disease
 - Disease_EndDate: 
 - Disease_Name: 
 - Disease_OutCome: 
