@@ -9,10 +9,8 @@ nav_order: 1
 
 Fetch disease data from orca.
 
-<details open markdown="block">
 - TOC
 {:toc}
-</details>
 
 # Get
 
