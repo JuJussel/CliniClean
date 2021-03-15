@@ -5,6 +5,7 @@ nav_order: 1
 ---
 
 # Diseases
+{: .no_toc }
 
 Fetch disease data from orca.
 
@@ -13,7 +14,7 @@ Fetch disease data from orca.
     Table of contents
   </summary>
   {: .text-delta }
-1. TOC
+- TOC
 {:toc}
 </details>
 
@@ -22,12 +23,16 @@ Fetch disease data from orca.
 Get disease names from orca based on search string or disease code.
 
 ## Request
+{: .no_toc }
+
 ```
 $get('diseases', [data])
 
 /api/?route=diseases&params=[query]
 ```
 ### [data]
+{: .no_toc }
+
 Search string or disease code.
 
 **Required**
@@ -35,6 +40,7 @@ Search string or disease code.
 **Type**: *Sting, Integer*
 
 ## Response
+{: .no_toc }
 
 ```
 {
@@ -62,12 +68,14 @@ Search string or disease code.
 Get disease names from orca based on search string or disease code.
 
 ## Request
+{: .no_toc }
 ```
 $put('diseases/[itemId]', [data])
 
 /api/?route=diseases/[itemId]
 ```
 ### [itemId]
+{: .no_toc }
 Patient ID to update disease data.
 
 **Required**
@@ -75,6 +83,7 @@ Patient ID to update disease data.
 **Type**: *Integer*
 
 ### [data]
+{: .no_toc }
 
 **Type**: *Object*
 
@@ -105,7 +114,9 @@ Patient ID to update disease data.
 
 - Insurance_ID: Insurance set id
 - Disease_Category: Main disease flag. 
+
     "PD": Main disease
+
     "": Not main disease
 - Disease_EndDate: 
 - Disease_Name: 
@@ -124,6 +135,7 @@ Patient ID to update disease data.
 
 
 ## Response
+{: .no_toc }
 
 ```
 {
