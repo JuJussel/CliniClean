@@ -14,11 +14,11 @@ Get disease names from orca based on search string or disease code.
 
 ## Request
 ```
-$get('diseases', [query])
+$get('diseases', [data])
 
-https://localhost/api/?route=diseases&params=[query]
+/api/?route=diseases&params=[query]
 ```
-### [query]
+### [data]
 Search string or disease code.
 
 **Required**
@@ -54,14 +54,18 @@ Get disease names from orca based on search string or disease code.
 
 ## Request
 ```
-$put('diseases', [query])
+$put('diseases/[itemId]', [data])
 
-https://localhost/api/?route=diseases&params=[query]
+/api/?route=diseases/[itemId]
 ```
-### [query]
-Search string or disease code.
+### [itemId]
+Patient ID to update disease data.
 
 **Required**
+
+**Type**: *Integer*
+
+### [data]
 
 **Type**: *Object*
 
