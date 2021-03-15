@@ -92,7 +92,31 @@ Patient ID to update disease data.
 
 **Parameters**
 
-- Insurance_ID: Something
+[Orca reference](https://www.orca.med.or.jp/receipt/tec/api/diseasemod2.html)
+
+- Insurance_ID: Insurance set id
+- Disease_Category: Main disease flag. 
+    <dl>
+        <dt>"PD"</dt>
+        <dd>Main disease</dd>
+        <dt>""</dt>
+        <dd>Not main disease</dd>
+    </dl>
+- Disease_EndDate: 
+- Disease_Name: 
+- Disease_OutCome: 
+- Disease_Supplement_Name: 
+- Disease_Receipt_Print: 
+- Disease_StartDate: 
+- Disease_SuspectedFlag: 
+- Disease_Single: 
+- Department_Code: 
+- Insurance_Combination_Number: 
+- Insurance_Disease: 
+- patient_ID: 
+- shinsatu_ID: 
+
+
 
 ## Response
 
