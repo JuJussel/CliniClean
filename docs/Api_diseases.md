@@ -8,6 +8,10 @@ nav_order: 1
 
 Fetch disease data from orca.
 
+<ol>
+{:toc}
+</ol>
+
 # Get
 
 Get disease names from orca based on search string or disease code.
