@@ -96,12 +96,12 @@ Patient ID to update disease data.
 
 - Insurance_ID: Insurance set id
 - Disease_Category: Main disease flag. 
-    <dl>
-        <dt>"PD"</dt>
-        <dd>Main disease</dd>
-        <dt>""</dt>
-        <dd>Not main disease</dd>
-    </dl>
+<dl>
+    <dt>"PD"</dt>
+    <dd>Main disease</dd>
+    <dt>""</dt>
+    <dd>Not main disease</dd>
+</dl>
 - Disease_EndDate: 
 - Disease_Name: 
 - Disease_OutCome: 
