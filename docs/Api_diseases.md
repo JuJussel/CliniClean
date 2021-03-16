@@ -96,7 +96,6 @@ Patient ID to update disease data.
     Disease_Single: "8849859",
     Department_Code: "01",
     Insurance_Combination_Number: "0001",
-    Insurance_Disease: "False",
     patient_ID: 8,
     shinsatu_ID: 108
 }
@@ -106,37 +105,42 @@ Patient ID to update disease data.
 
 [Orca reference](https://www.orca.med.or.jp/receipt/tec/api/diseasemod2.html)
 
-- Insurance_ID: Insurance set id *String*
+- Insurance_ID: Insurance id *String*
 - Disease_Category: Main disease flag *String*
 
-    PD: Main disease
-
+    PD: Main disease,
     *empty*: Not main disease
 - Disease_EndDate: End date *String*
 - Disease_Name: Name of disease *String*
 - Disease_OutCome: New status of disease *Sting*
 
-    O：削除
-    F：完治
-    N：不変
-    R：軽快
-    S：後遺症残
-    U：不明
-    W：悪化
+    O：削除,
+    F：完治,
+    N：不変,
+    R：軽快,
+    S：後遺症残,
+    U：不明,
+    W：悪化,
     P：中止
 
-- Disease_Supplement_Name: 
-- Disease_Receipt_Print: 
-- Disease_StartDate: 
-- Disease_SuspectedFlag: 
-- Disease_Single: 
-- Department_Code: 
-- Insurance_Combination_Number: 
-- Insurance_Disease: 
-- patient_ID: 
-- shinsatu_ID: 
+- Disease_Supplement_Name: Additional info *String*
+- Disease_Receipt_Print: Show or hide on Reciept *String*
 
+    1: Don't show,
+    *empty*: show
+- Disease_StartDate: Start date *String*
+- Disease_SuspectedFlag: Suspected flag. *String*
 
+    *empty* なし,
+    S: 疑い,
+    A: 急性,
+    SA: 疑いかつ急性
+
+- Disease_Single: Disease code *String*
+- Department_Code: Department_Code *string*
+- Insurance_Combination_Number: Insurance set number *string*
+- patient_ID: Patient Id *Integer*
+- shinsatu_ID: Record Id *Integer*
 
 ## Response
 {: .no_toc }
