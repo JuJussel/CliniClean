@@ -59,7 +59,7 @@ Search string or disease code.
 
 # Update
 
-Get disease names from orca based on search string or disease code.
+Update diseases for a patient. This includes register, update and delete (all these are actually update operations)
 
 ## Request
 {: .no_toc }
@@ -106,15 +106,25 @@ Patient ID to update disease data.
 
 [Orca reference](https://www.orca.med.or.jp/receipt/tec/api/diseasemod2.html)
 
-- Insurance_ID: Insurance set id
-- Disease_Category: Main disease flag. 
+- Insurance_ID: Insurance set id *String*
+- Disease_Category: Main disease flag *String*
 
-    "PD": Main disease
+    PD: Main disease
 
-    "": Not main disease
-- Disease_EndDate: 
-- Disease_Name: 
-- Disease_OutCome: 
+    *empty*: Not main disease
+- Disease_EndDate: End date *String*
+- Disease_Name: Name of disease *String*
+- Disease_OutCome: New status of disease *Sting*
+
+    O：削除
+    F：完治
+    N：不変
+    R：軽快
+    S：後遺症残
+    U：不明
+    W：悪化
+    P：中止
+
 - Disease_Supplement_Name: 
 - Disease_Receipt_Print: 
 - Disease_StartDate: 
