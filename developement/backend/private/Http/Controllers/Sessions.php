@@ -40,6 +40,8 @@ class Sessions {
 
         $query = $query->data[0];
 
+        $this->pepper = file_get_contents($GLOBALS['base_path'] . "/private/Config/base");
+        $req_data['upass'] = hash_hmac("sha256", $req_data['upass'], $this->pepper);
         $authenticated = password_verify($req_data['upass'], $query['password']);
 
         if ($authenticated) {

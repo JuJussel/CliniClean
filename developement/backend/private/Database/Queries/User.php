@@ -6,6 +6,14 @@ use App\Database\DB;
 
 class User {
 
+    private
+    /**
+     * @var string
+     */
+    $pepper;
+
+
+
     public function all() {
         $query =
         '   SELECT
@@ -80,6 +88,10 @@ class User {
     }
 
     public function update_password($params) {
+
+        $this->pepper = file_get_contents($GLOBALS['base_path'] . "/private/Config/base");
+        $params->password = hash_hmac("sha256", $params->password, $this->pepper);
+
         $query =
         '   UPDATE usr_users u
             SET
@@ -98,6 +110,10 @@ class User {
     }
 
     public function create($params) {
+
+        $this->pepper = file_get_contents($GLOBALS['base_path'] . "/private/Config/base");
+        $params->password = hash_hmac("sha256", $params->password, $this->pepper);
+
         $query =
         '   INSERT INTO usr_users
             (

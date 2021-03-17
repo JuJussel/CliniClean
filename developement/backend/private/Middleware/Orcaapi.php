@@ -857,7 +857,7 @@ class Orcaapi {
                 <manageusersreq type ="record">
                     <Request_Number type ="string">03</Request_Number>
                     <User_Information type ="record">
-                        <User_Id type ="string">' . $orca_data->old_user_name . '</User_Id>
+                        <User_Id type ="string">' . $orca_data->user_name . '</User_Id>
                         <New_User_Password type ="string">' . $orca_data->password . '</New_User_Password>
                     </User_Information>
                 </manageusersreq>

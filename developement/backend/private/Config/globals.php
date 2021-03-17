@@ -27,3 +27,5 @@ $GLOBALS['allowed_ext'] = [
     'xls',
     'xlsx'
 ];
+
+// sha1(uniqid());

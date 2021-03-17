@@ -137,6 +137,8 @@ class Users {
 
                 $query = $query->data[0];
         
+                $this->pepper = file_get_contents($GLOBALS['base_path'] . "/private/Config/base");
+                $request_data->old_password = hash_hmac("sha256", $request_data->old_password, $this->pepper);
                 $authenticated = password_verify($request_data->old_password, $query['password']);
         
                 if (!$authenticated) {
