@@ -28,4 +28,4 @@ $GLOBALS['allowed_ext'] = [
     'xlsx'
 ];
 
-// sha1(uniqid());
+// bin2hex(random_bytes($n));
