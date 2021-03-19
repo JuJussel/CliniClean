@@ -37,6 +37,7 @@ class User {
     }
 
     public function get($params) {
+
         $query =
         '   SELECT
                 u.id,
