@@ -40,7 +40,7 @@ var request = function(route, data = null, type, abortSignal) {
       });
   });
   return promise;
-};
+}
 
 export default {
   install(Vue) {
@@ -59,7 +59,8 @@ export default {
     (Vue.prototype.$apiError = function(res) {
       if(res.name !== 'AbortError') {
         Vue.prototype.$eventHub.$emit("apiError", res.message);
+        return({success: false})
       }
-    });
+    })
   }
-};
+}

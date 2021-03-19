@@ -45,7 +45,15 @@ class Sessions {
         $authenticated = password_verify($req_data['upass'], $query['password']);
 
         if ($authenticated) {
-            session_regenerate_id();
+            
+            // Set Cookie params
+            ini_set('session.cookie_httponly', 1);
+            ini_set('session.use_only_cookies', 1);
+            ini_set('session.cookie_secure', 1);
+
+            // Start Session
+            session_start();
+            
             $res->data->ok = true;
             $_SESSION['user'] = $query['id'];
             $_SESSION['user_name'] = $query['user_name'];
@@ -58,7 +66,6 @@ class Sessions {
                 $res->data->location = '/home';
             }
         } else {
-            session_destroy();
             $res->data->ok = false;
         }
 

@@ -34,7 +34,7 @@ export default {
         return {
             userData: {
                 user: 'ekurosu',
-                pass: 'G3rald123!',
+                pass: 'Passw0rd!',
                 mobile: false
             },
             noti: null
@@ -69,9 +69,6 @@ export default {
                     })
                 }
             })
-            .catch(result => {
-                this.$apiError(result)
-            })            
         }
     }
 }
