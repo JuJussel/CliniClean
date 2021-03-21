@@ -1,19 +1,26 @@
 <template>
   <div>
         <selectInput 
-            @change="doSearch" 
+            @change="doSearch"
+            :disabled="!$acl('reception', 2)"
             :results="searchResults"
             label="患者選択"
             placeholder="氏名又はIDで検索"
             @select="getInsurance">
             <span slot-scope="scope" >番号: {{ scope.item.id}} {{ scope.item.name }}</span>
         </selectInput>
-        <vs-select label="診察内容" placeholder="Select" v-model="shinsatuTypeSelected" :key="shinsatuTypes.length">
+        <vs-select
+            label="診察内容"
+            :disabled="!$acl('reception', 2)"
+            placeholder="Select"
+            v-model="shinsatuTypeSelected"
+            :key="shinsatuTypes.length"
+            >
             <vs-option v-for="(item, i) in shinsatuTypes" :key="i" :label="item.name" :value="i + 1">
                 {{item.name}}
             </vs-option>
         </vs-select>
-        <vs-input label="メモ" v-model="memo"/>
+        <vs-input :disabled="!$acl('reception', 2)" label="メモ" v-model="memo"/>
         <vs-table v-model="insSelected" :adaptive="patientData.sets" ref="insTable" style="min-height: 151px">
             <template #notFound>
                 <div>
@@ -43,7 +50,7 @@
         </vs-table>
         <div class="cc-dialog-footer">
             <vs-button @click="$emit('cancel')" transparent dark>キャンセル</vs-button>
-            <vs-button @click="submit()" :disabled="!inputOK">登録</vs-button>
+            <vs-button @click="submit()" :disabled="!inputOK" v-if="$acl('reception', 2)">登録</vs-button>
         </div>
     </div>
 </template>

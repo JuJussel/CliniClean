@@ -1,22 +1,25 @@
 import store from '../store'
 
-var checkAcl = function(elm) {
-    if(!elm) {
-        return true
-    }
-    if (store.getters.permissions.includes(elm)) {
-        return true
-    } else {
+var checkAcl = function(target, req) {
+
+    if(!target && !req && !store.getters.permissions[target]) {
         return false
     }
+
+    let userPerm = store.getters.permissions[target]
+
+    if (req > userPerm) {
+        return false
+    }
+
+    return true
 }
 
 export default {
     
     install(Vue) {
-        (Vue.prototype.$acl = function(elm) {
-            let store = Vue.store
-            return checkAcl(elm)
+        (Vue.prototype.$acl = function(target, req) {
+            return checkAcl(target, req)
         })
     }
 

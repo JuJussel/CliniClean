@@ -17,6 +17,7 @@
                   @click="resOpen = true"
                   dark
                   icon
+                  v-if="$acl('reception', 2)"
                   animation-type="scale"
                   style="min-width: 50px"
                 >
@@ -48,6 +49,7 @@
                 <vs-td>
                   <vs-button
                     shadow
+                    v-if="$acl('reception', 2)"
                     @click="resToRecOpen(tr)"
                     style="width: 60px"
                     >受付</vs-button
@@ -82,6 +84,7 @@
                   @click="recOpen = true"
                   dark
                   icon
+                  v-if="$acl('reception', 2)"
                   animation-type="scale"
                   style="min-width: 50px"
                 >
@@ -123,7 +126,7 @@
                           paymentOpen = true;
                         "
                         shadow
-                        v-if="tr.status === 10"
+                        v-if="tr.status === 10 && $acl('reception', 2)"
                         >会計</vs-button
                       >
                       <i

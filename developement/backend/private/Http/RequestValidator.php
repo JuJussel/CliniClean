@@ -99,12 +99,12 @@ class RequestValidator
 
     }
 
-    private function reject()
+    private function reject($msg)
     {
 
         $ret = new stdClass();
         $ret->success = false;
-        $ret->message = 'Access Denied';
+        $ret->message = $msg;
         return $ret;
 
     }
@@ -123,22 +123,22 @@ class RequestValidator
 
         $route = $req->route[0];
 
-        if ($route === 'Sessions' && isset($req->post)) {
+        if ($route === 'Sessions' && ($req->method === 'POST' || $req->method === 'DELETE')) {
 
             return $this->accept();
 
         }
 
         if (!$this->authentication_check($req)) {
-            return $this->reject();
+            return $this->reject('Session Invalid');
         }
 
         if (!$this->network_check()) {
-            return $this->reject();
+            return $this->reject('Access Denied');
         }
 
         if (!$this->authorization_check($req->route[0], $req->method)) {
-            return $this->reject();
+            return $this->reject('Access Denied');
         }
 
         return $this->accept();

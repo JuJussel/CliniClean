@@ -2,9 +2,16 @@
     <div>
         <vs-row style="width: 1000px">
             <vs-col w="4" style="height: 400px">
-                <vs-input v-if="edit" readonly v-model="selectedPatient.name" style="margin: 0 20px 40px"></vs-input>
+                <vs-input 
+                    v-if="edit"
+                    :disabled="!$acl('reception', 2)"
+                    readonly 
+                    v-model="selectedPatient.name" 
+                    style="margin: 0 20px 40px">
+                </vs-input>
                 <selectInput
                     v-else 
+                    :disabled="!$acl('reception', 2)"
                     @change="doSearch" 
                     :results="searchResults"
                     label="患者選択"
@@ -12,7 +19,13 @@
                     @select="selectPatient">
                     <span slot-scope="scope" >番号: {{ scope.item.id}} {{ scope.item.name }}</span>
                 </selectInput>
-                <vs-select label="診察内容" placeholder="選択" v-model="shinsatuTypeSelected" :key="shinsatuTypes.length">
+                <vs-select
+                    label="診察内容"
+                    :disabled="!$acl('reception', 2)"
+                    placeholder="選択"
+                    v-model="shinsatuTypeSelected"
+                    :key="shinsatuTypes.length"
+                    >
                     <vs-option v-for="(item, i) in shinsatuTypes" :key="i" :label="item.name" :value="i + 1">
                         {{item.name}}
                     </vs-option>
@@ -20,6 +33,7 @@
                 <div style="padding: 0 0 10px 20px">
                     <div style="margin-left: 10px; font-size: 12px">日付</div>
                     <date-picker
+                        :disabled="!$acl('reception', 2)"
                         v-model="date"
                         :append-to-body="false"
                         placeholder="選択"
@@ -30,8 +44,8 @@
                         >
                     </date-picker>
                 </div>
-                <vs-input label="時間" type="time" v-model="time"/>
-                <vs-input label="メモ" v-model="memo"/>
+                <vs-input :disabled="!$acl('reception', 2)" label="時間" type="time" v-model="time"/>
+                <vs-input :disabled="!$acl('reception', 2)" label="メモ" v-model="memo"/>
             </vs-col>
             <vs-col w="8">
                 <calendar
@@ -44,8 +58,8 @@
         </vs-row>
         <div class="cc-dialog-footer">
             <vs-button @click="$emit('cancel')" transparent dark>キャンセル</vs-button>
-            <vs-button v-if="edit" @click="submit()" :disabled="!inputOK">編集</vs-button>
-            <vs-button v-else @click="submit()" :disabled="!inputOK">登録</vs-button>
+            <vs-button v-if="edit && $acl('reception', 2)" @click="submit()" :disabled="!inputOK">編集</vs-button>
+            <vs-button v-else-if="$acl('reception', 2)" @click="submit()" :disabled="!inputOK" >登録</vs-button>
         </div>
     </div>
 </template>

@@ -158,6 +158,7 @@ export default {
       this.cacheBreaker++
     },
     apiError(msg) {
+      console.log(msg);
       if (msg === 'Session Invalid') {
         this.sessionTimedOut = true
       } else {
@@ -228,7 +229,7 @@ export default {
         this.$router.push(result.data)
       })
       .catch(result => {
-        this.apiError(result)
+        this.$apiError(result)
       })
     }
   },
