@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Database\Queries\User;
+use App\Database\Queries\Permission;
 
 class Sessions {
 
@@ -46,6 +47,27 @@ class Sessions {
 
         if ($authenticated) {
             
+            // Get Permissions
+            $db = new User();
+            $user_data = $db->get($query['id']);
+    
+            if(!$user_data->ok) {
+                $res->message = $user_data->msg;
+                return;
+            }
+    
+            $db = new Permission();
+            $perms = $db->get($user_data->data[0]['user_group']);
+
+            if(!$perms->ok) {
+                $res->message = $perms->msg;
+                return;
+            }
+            $permissions = [];
+            foreach ($perms -> data as $key => $value) {
+                $permissions[$value['view']] = $value['acl'];
+            }
+
             // Set Cookie params
             ini_set('session.cookie_httponly', 1);
             ini_set('session.use_only_cookies', 1);
@@ -60,6 +82,8 @@ class Sessions {
             $_SESSION['loggedin_time'] = time();
             $_SESSION['IP'] = $_SERVER['REMOTE_ADDR'];
             $_SESSION['last_activity_time'] = time();
+            $_SESSION['permissions'] = $permissions;
+
             if ($req_data['is_mobile']) {
                 $req->data->location = '/mobile/home';
             } else {

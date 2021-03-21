@@ -144,7 +144,6 @@ class User {
         return $result;
     }
 
-
     public function auth($params) {
         $query =
         '   SELECT

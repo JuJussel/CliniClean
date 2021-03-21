@@ -5,7 +5,6 @@ Vue.use(Vuex)
 
 const defaultState = () => {
   return {
-    permissions: [],
     user: {
       id: 0,
       name_first: null,
@@ -118,9 +117,6 @@ const mutations =  {
   },
   SET_USER_GROUPS(state, data) {
     state.lists.groups = data
-  },
-  SET_USER_PERMISSIONS(state, perm) {
-    state.permissions = perm
   }
 
 }
@@ -135,7 +131,6 @@ const getters = {
     isHoliday: state => state.isHoliday,
     suppliers: state => state.lists.suppliers,
     kouiCats: state => state.kouiCats,
-    permissions: state => state.permissions,
     user_groups: state => state.lists.groups
 }
 

@@ -58,8 +58,39 @@ class RequestValidator
 
     }
 
-    private function authorization_check($net)
+    private function authorization_check($route, $method)
     {
+
+        $route_permission = $GLOBALS['available_routes'][$route];
+
+        $user_permissions = $_SESSION['permissions'];
+
+        $permission = 0;
+        if (isset($route_permission['all'])) {
+            $permission = $route_permission['all'];
+        }
+
+        $method_permission = $GLOBALS['available_routes']['access_level'][$method];
+
+        foreach ($route_permission as $key => $value) {
+
+            if ($key !== 'all') {
+                if (isset($user_permissions[$key])) {
+                    if ($user_permissions[$key] > $value) {
+                        $permission = $value;
+                    } else {
+                        $permission = $user_permissions[$key];
+                    }
+                }
+            }
+
+        }
+
+        if ($method_permission > $permission) {
+            return false;
+        }
+
+        return true;
 
     }
 
@@ -85,7 +116,9 @@ class RequestValidator
     public function auth($req)
     {
 
-        if ($req->route[0] === 'Sessions' && isset($req->post)) {
+        $route = $req->route[0];
+
+        if ($route === 'Sessions' && isset($req->post)) {
 
             return $this->accept();
 
@@ -99,51 +132,11 @@ class RequestValidator
             return $this->reject();
         }
 
-        return $this->accept();
-
-    }
-
-    public function auth1($req)
-    {
-
-        $auth = new stdClass();
-        $IP = $_SERVER['REMOTE_ADDR'];
-
-        // Set Cookie params
-        ini_set('session.cookie_httponly', 1);
-        ini_set('session.use_only_cookies', 1);
-        ini_set('session.cookie_secure', 1);
-
-        // Start Session
-        session_start();
-
-        if ($this->authentication_check() && $this->network_check($IP)) {
-
-            $time = time();
-
-            if (($time - $_SESSION['last_activity_time']) > $GLOBALS['config']['session']['lifetime']) {
-                $auth->success = false;
-                $auth->message = 'Session Invalid';
-            }
-
-            if ($req->route[0] !== 'Sessions') {
-                $_SESSION['last_activity_time'] = $time;
-            }
-
-            $auth->success = true;
-
-        } else {
-
-            if ($req->route[0] === 'Sessions') {
-                $auth->success = true;
-            } else {
-                $auth->success = false;
-                $auth->message = 'Access Denied';
-            }
-
+        if (!$this->authorization_check($req->route[0], $req->method)) {
+            return $this->reject();
         }
 
-        return $auth;
+        return $this->accept();
 
     }
 

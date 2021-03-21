@@ -53,8 +53,6 @@ export default {
             this.$post('Sessions', this.userData)
             .then(result => {
                 if(result.data.ok) {
-                    this.$store.commit('SET_SESSION_ID', result.data.sessionID)
-                    //document.cookie = 'PHPSESSID=' + result.data.sessionID + '; secure'
                     this.$router.push(result.data.location)
                 } else {
                     loading.close()

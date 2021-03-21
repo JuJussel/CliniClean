@@ -16,10 +16,6 @@ class Request {
 
  private
          /**
-          * @var string
-          */
-         $method,
-         /**
           * @var object
           */
          $config,
@@ -29,6 +25,10 @@ class Request {
          $pathToControllers;
 
   public
+           /**
+          * @var string
+          */
+          $method,
          /**
           * @var object
           */

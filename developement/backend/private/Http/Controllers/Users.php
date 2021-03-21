@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Database\Queries\User;
+use App\Database\Queries\Permission;
 use App\Middleware\Orcaapi;
 
 class Users {
@@ -82,6 +83,21 @@ class Users {
                 $res->message = $query->msg;
                 return;
             }
+
+            $db = new Permission();
+            $query_perm = $db->get($query->data[0]['user_group']);
+
+            if(!$query_perm->ok) {
+                $res->message = $query_perm->msg;
+                return;
+            }
+
+            $permissions = [];
+            foreach ($query_perm -> data as $key => $value) {
+                $permissions[$value['view']] = $value['acl'];
+            }
+
+            $query->data[0]['permissions'] = $permissions;
 
             $res->data = $query->data[0];
             $res->success = true;
