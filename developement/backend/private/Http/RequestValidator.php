@@ -61,6 +61,11 @@ class RequestValidator
     private function authorization_check($route, $method)
     {
 
+        // Admin group has all permissions
+        if ($_SESSION['group'] === 2) {
+            return true;
+        }
+
         $route_permission = $GLOBALS['available_routes'][$route];
 
         $user_permissions = $_SESSION['permissions'];

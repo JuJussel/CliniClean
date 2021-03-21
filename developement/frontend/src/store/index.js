@@ -131,7 +131,8 @@ const getters = {
     isHoliday: state => state.isHoliday,
     suppliers: state => state.lists.suppliers,
     kouiCats: state => state.kouiCats,
-    user_groups: state => state.lists.groups
+    user_groups: state => state.lists.groups,
+    permissions: state => state.user.permissions
 }
 
 export default new Vuex.Store({

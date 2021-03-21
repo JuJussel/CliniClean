@@ -82,6 +82,7 @@ class Sessions {
             $_SESSION['loggedin_time'] = time();
             $_SESSION['IP'] = $_SERVER['REMOTE_ADDR'];
             $_SESSION['last_activity_time'] = time();
+            $_SESSION['group'] = $user_data->data[0]['user_group'];
             $_SESSION['permissions'] = $permissions;
 
             if ($req_data['is_mobile']) {
