@@ -13,7 +13,14 @@
             <template #header>
               <div class="cc-table-header-content">
                 <h2>患者一覧</h2>
-                <vs-button @click="$emit('newPatient')" dark icon animation-type="scale" style="min-width: 50px">
+                <vs-button
+                  @click="$emit('newPatient')"
+                  dark
+                  v-if="$acl('patient', 2)"
+                  icon
+                  animation-type="scale"
+                  style="min-width: 50px"
+                  >
                   <i class="fas fa-plus"></i>
                   <template #animate>新規</template>
                 </vs-button>
@@ -39,8 +46,8 @@
                   <vs-td><date-display :date="tr.birthdate"></date-display></vs-td>
                   <vs-td>
                     <span style="display: flex">
-                      <vs-button shadow style="width: 60px" @click="reception(tr)">受付</vs-button>
-                      <vs-button shadow style="width: 60px" @click="reservation(tr)">予約</vs-button>
+                      <vs-button v-if="$acl('reception', 2)" shadow style="width: 60px" @click="reception(tr)">受付</vs-button>
+                      <vs-button v-if="$acl('reception', 2)" shadow style="width: 60px" @click="reservation(tr)">予約</vs-button>
                       <vs-button shadow style="width: 60px" @click="showDetails(tr)">詳細</vs-button>
                     </span>
                   </vs-td>

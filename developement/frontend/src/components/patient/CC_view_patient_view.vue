@@ -2,12 +2,26 @@
     <div class="content-card" style="height: 100%">
         <div class="cc-card-has-header">
             <div class="cc-card-header" v-if="!preview">
-                <h2>患者情報</h2>
-                <vs-button @click="fileUploadVisible = true" dark icon animation-type="scale" style="min-width: 100px">
+                <h2 style="margin-right: 20px">患者情報</h2>
+                <vs-button
+                    @click="fileUploadVisible = true"
+                    v-if="$acl('patient', 2)"
+                    dark
+                    icon
+                    animation-type="scale"
+                    style="min-width: 100px"
+                    >
                     <i class="fas fa-file-medical"></i>
                     <template #animate>ファイル登録</template>
                 </vs-button>
-                <vs-button @click="$emit('edit', patientData)" dark icon animation-type="scale" style="min-width: 50px">
+                <vs-button
+                    @click="$emit('edit', patientData)"
+                    v-if="$acl('patient', 2)"
+                    dark
+                    icon
+                    animation-type="scale"
+                    style="min-width: 50px"
+                    >
                     <i class="fas fa-edit"></i>
                     <template #animate>編集</template>
                 </vs-button>

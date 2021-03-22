@@ -156,7 +156,8 @@ export default {
   .cc-table-header-content {
     display: flex;
     align-items: center;
-    margin-bottom: -15px
+    margin-bottom: -15px;
+    min-height: 50px
   }
   .cc-table-header-content h2 {
     margin: 0!important
