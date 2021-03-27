@@ -47,19 +47,19 @@ export default {
         return {
             activeTab: 0,
             tabs: [
-                {name: 'account', label: 'アカウント'},
-                {name: 'users', label: 'ユーザー', acl: 'settings.user.view'},
-                {name: 'sets', label: 'セット'},
-                {name: 'shindan', label: '健康診断設定'},
-                {name: 'customacts', label: 'カスタム行為'},
-                {name: 'system', label: 'システム'},
-                {name: 'other', label: 'その他'}
+                {name: 'account', label: 'アカウント', acl: ['open', 1]},
+                {name: 'users', label: 'ユーザー', acl: [false, false]},
+                {name: 'sets', label: 'セット', acl: ['settings.sets', 2]},
+                {name: 'shindan', label: '健康診断設定', acl: [false, false]},
+                {name: 'customacts', label: 'カスタム行為', acl: ['open', 1]},
+                {name: 'system', label: 'システム', acl: [false, false]},
+                {name: 'other', label: 'その他', acl: ['open', 1]}
             ]
         }
     },
     computed: {
         allowedTabs() {
-            return this.tabs.filter(tab => this.$acl(tab.acl))
+            return this.tabs.filter(tab => this.$acl(tab.acl[0], tab.acl[1]))
         }
     }
     

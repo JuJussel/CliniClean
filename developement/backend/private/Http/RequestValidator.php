@@ -62,7 +62,7 @@ class RequestValidator
     {
 
         // Admin group has all permissions
-        if ($_SESSION['group'] === 2) {
+        if ($_SESSION['group'] === 99) {
             return true;
         }
 

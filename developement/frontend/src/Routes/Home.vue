@@ -2,24 +2,14 @@
     <div style="height: 100%">
       <vs-navbar :color="$globals.theme.colors.darkGray" text-white center-collapsed v-model="currentView">
         <template #left>
-          <vs-navbar-item :active="currentView == 'dashboard'" id="dashboard">
-            <i class="fa fa-home menu-icon"/>
-          </vs-navbar-item>
-          <vs-navbar-item :active="currentView == 'reception'" id="reception">
-            <i class="fas fa-user-clock"></i>
-            <span style="margin-left: 5px">受付</span>
-          </vs-navbar-item>
-          <vs-navbar-item :active="currentView == 'patient'" id="patient">
-            <i class="fas fa-users"></i>
-            <span style="margin-left: 5px">患者</span>
-          </vs-navbar-item>
-          <vs-navbar-item :active="currentView == 'medical'" id="medical">
-            <i class="fas fa-notes-medical"></i>
-            <span style="margin-left: 5px">医療</span>
-          </vs-navbar-item>
-          <vs-navbar-item :active="currentView == 'order'" id="order">
-            <i class="fas fa-list"></i>
-            <span style="margin-left: 5px">オーダー</span>
+          <vs-navbar-item
+            v-for="(tab, index) in visibleTabs"
+            :key="index"
+            :active="currentView == tab.name"
+            :id="tab.name"
+            >
+            <i :class="tab.icon"/>
+            <span style="margin-left: 5px">{{ tab.label }}</span>
           </vs-navbar-item>
         </template>
         <template #right>
@@ -114,21 +104,43 @@ export default {
   },
   data() {
     return (
-      
       {
+        ready: false,
         loading: false,
         hasAvatar: true,
         currentView: "dashboard",
         timeRemaining: 0,
         timeoutMsgOpen: false,
         sessionTimedOut: false,
-        cacheBreaker: 1
+        cacheBreaker: 1,
+        tabs: {
+          noAcl: [
+            {name: 'dashboard', label: '', icon: 'fa fa-home menu-icon'}
+          ],
+          basic: [
+            {name: 'reception', label: '受付', icon: 'fas fa-user-clock', acl: 'reception'},
+            {name: 'patient', label: '患者', icon: 'fas fa-user', acl: 'patient'},
+            {name: 'medical', label: '医療', icon: 'fas fa-notes-medical', acl: ['medical.karte', 'medical.healthcheck']},
+            {name: 'order', label: 'オーダー', icon: 'fas fa-list', acl: 'order'}
+          ],
+          addins: []
+        }
       }
     )
   },
   computed: {
     avatarURL() {
       return this.$globals.filesUrl + 'user' + this.$store.getters.userInfo.id + '.png?' + this.cacheBreaker
+    },
+    visibleTabs() {
+      if (this.ready) {
+        let tabs = this.tabs.basic.concat(this.tabs.addins)
+        tabs = tabs.filter(tab => this.$acl(tab.acl, 1))
+        tabs = this.tabs.noAcl.concat(tabs)
+        return tabs        
+      } else {
+        return []
+      }
     }
   },
   created() {
@@ -140,6 +152,7 @@ export default {
     this.$get('users/0')
     .then(result => {
       this.$store.commit('SET_USER_DATA', result.data)
+      this.ready = true
     })
     .catch(result => {
       this.$apiError(result)
