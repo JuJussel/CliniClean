@@ -15,7 +15,7 @@
         </vs-button>
       </vs-button-group>
     </div>
-    <div style="height: calc(100% - 50px)">
+    <div style="height: calc(100% - 30px)">
       <transition-group name="juzoom" >
           <child-component
             v-for="(tab, index) in tabs"
@@ -23,11 +23,13 @@
             :is="tab.type"
             :ref="tab.type + index"
             :meta="tab.meta"
+            :data="tab.meta"
             class="hidden-tab"
             v-bind:class="{'active-tab': index === activeTab}"
             @showKarte="showKarte"
             @showShindan="showShindan"
             @close="closeTab(index)"
+            @showPatient="showPatient"
             ></child-component>
       </transition-group>
     </div>
@@ -40,13 +42,15 @@ import karteEdit from './CC_view_karte_edit'
 import shindan from './CC_view_shindan_edit'
 import list from './CC_view_medical_list'
 import karteView from './CC_view_karte_viewer'
+import patientView from '../patient/CC_view_patient_view'
 
 export default {
   components: {
     'list': list,
     'karteEdit': karteEdit,
     'shindan': shindan,
-    'karteView': karteView
+    'karteView': karteView,
+    'patientView': patientView
   },
   data() {
     return {
@@ -71,13 +75,28 @@ export default {
       this.tabs.splice(index, 1)
       this.activeTab =  newIndex
     },
+    showPatient(patient) {
+      let tabName = 'patientview_' + patient.id
+      let tabIndex = this.tabs.findIndex(tab => tab.name === tabName)
+      if(tabIndex < 0) {
+        let tabData = {
+          label: '患者情報：' + patient.name,
+          name: tabName,
+          type: 'patientView',
+          meta: patient
+        }
+        this.tabs.push(tabData)
+        tabIndex = this.tabs.length -1
+      }
+      this.activeTab = tabIndex
+    },
     showKarte(item) {
       let tabName = 'shinsatu_' + item.patientID
       let tabIndex = this.tabs.findIndex(tab => tab.name === tabName)
       if(tabIndex < 0) {
         let tabData = {
           label: 'カルテ(診察中)：' + item.name,
-          name: 'shinsatu_' + item.patientID,
+          name: tabName,
           type: 'karteEdit',
           meta: item
         }

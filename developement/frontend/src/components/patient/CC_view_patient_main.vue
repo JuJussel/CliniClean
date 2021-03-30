@@ -32,6 +32,7 @@
           @edit="editPatient(...arguments, tab.type + index)"
           class="hidden-tab"
           v-bind:class="{'active-tab': index === activeTab}"
+          style="height: calc(100% - 50px)"
           ></child-component>
     </transition-group>
   </div>

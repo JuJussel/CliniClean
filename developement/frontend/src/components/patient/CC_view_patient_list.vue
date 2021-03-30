@@ -2,7 +2,7 @@
   <div style="height: 100%">
     <vs-row style="height: 100%">
       <vs-col w="6" style="height: 100%">
-        <div class="content-card" style="height: calc(100% - 50px)">
+        <div class="content-card" style="height: 100%">
           <vs-table striped v-model="selected">
             <template #notFound>
               <img style="width: 200px" src="../../assets/img/empty2.jpg"/>
@@ -58,7 +58,7 @@
         </div>
       </vs-col>
       <vs-col w="6" style="height: 100%">
-        <div style="height: calc(100% - 50px)">
+        <div style="height: 100%">
           <patientView preview v-if="selected" :data="selected" :key="selected.id"></patientView>
         </div>
       </vs-col>

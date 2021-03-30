@@ -1,5 +1,5 @@
 <template>
-    <div style="height: calc(100% - 80px); overflow: auto">
+    <div style="height: calc(100% - 80px); overflow: auto" v-bind:class="{landscape: landscape}">
         <vs-table class="cc-vs-table-condensed" striped style="height: 550px">
             <template #notFound>登録なし</template>
             <template #thead>
@@ -59,10 +59,10 @@
             <h2>
                 図表
             </h2>
-            <div style="height: 350px; margin-top: 20px" v-bind:class="{hidden: !showChart}">
+            <div style="height: 350px; margin-top: 20px" v-bind:class="{hidden: !showChart}" id="chart">
                 <IEcharts @ready="onChartReady" :option="chartInit" :resizable="true"></IEcharts>
             </div>
-            <div v-if="!showChart" style="margin-top: 20px">項目を選択してください</div>
+            <div v-if="!showChart" style="margin-top: 20px; margin-left: 20px">項目を選択してください</div>
         </div>
         <vs-dialog
             blur
@@ -91,10 +91,13 @@ import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/toolbox'
 
 export default {
-    props: [
-        'data',
-        'height'
-    ],
+    props: {
+        data: Object,
+        landscape: {
+            default: false,
+            type: Boolean
+        }
+    },
     components: {
         IEcharts,
         vitalNew
@@ -291,5 +294,14 @@ export default {
 <style scoped>
 .hidden {
     display: none
+}
+.landscape {
+    display: flex
+}
+.landscape > * {
+    flex: 1
+}
+.landscape #chart {
+    height: 550px!important
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div class="content-card" style="height: 100%">
+    <div class="content-card">
         <div class="cc-card-has-header">
             <div class="cc-card-header" v-if="!preview">
                 <h2 style="margin-right: 20px">患者情報</h2>
@@ -36,6 +36,17 @@
                     >
                         <span> {{ tab }} </span>
                     </vs-button>
+                    <vs-button
+                        border
+                        dark
+                        :active="activeTab == index + 4"
+                        v-for="(tab, index) in tabsMedicalAuth"
+                        :key="index + 4"
+                        @click="activeTab = index + 4; activeTabMeta = tab"
+                        >
+                        <span> {{ tab.label }} </span>
+                    </vs-button>
+
                 </vs-button-group>
             </div>
             <div v-else class="cc-card-header">
@@ -281,6 +292,14 @@
                         </template>
                     </vs-table>
                 </div>
+                <div v-if="!preview && $acl('patient.medical', 1)" style="flex-grow: 1; padding: 30px" class="hidden-tab" v-bind:class="{'active-tab': 3 < activeTab}">
+                    <component 
+                        v-if="activeTab > 3"
+                        :is="activeTabMeta.name"
+                        :data="patientDataMedical"
+                        landscape
+                    />
+                </div>
             </div>
             <vs-dialog v-model="fileUploadVisible" blur prevent-close>
                 <template #header>
@@ -295,10 +314,22 @@
 <script>
 
 import fileUpload from '../shared/CC_comp_file_upload'
+import vitals from '../pateint_history/CC_view_patient_history_vitals'
+import meds from '../pateint_history/CC_view_patient_history_meds'
+import koui from '../pateint_history/CC_view_patient_history_procedure'
+import byoumei from '../pateint_history/CC_view_patient_history_disease'
+import karte from '../pateint_history/CC_view_patient_history_record_history'
+import kensa from '../pateint_history/CC_view_patient_history_kensa'
 
 export default {
     components: {
-        'fileUpload': fileUpload
+        'fileUpload': fileUpload,
+        'vitals': vitals,
+        'meds': meds,
+        'koui': koui,
+        'byoumei': byoumei,
+        'karte': karte,
+        'kensa': kensa
     },
     props: {
         data: {default: null},
@@ -312,27 +343,43 @@ export default {
             loading: false,
             loadingElm: null,
             activeTab: 0,
+            activeTabMeta: null,
             fileUploadVisible: false,
             patientData: {},
+            patientDataMedical: null,
             lists: [],
             tabs: [
                 '基本',
                 '保険',
                 'ファイル',
                 'ソーシャル'
+            ],
+            tabsMedical: [
+                {label: "バイタル", name: "vitals", icon: "fas fa-chart-line"},
+                {label: "検査", name: "kensa", icon: "fas fa-microscope"},
+                {label: "処方歴", name: "meds", icon: "fas fa-pills"},
+                {label: "行為歴", name: "koui", icon: "fas fa-list"},
+                {label: "病歴", name: "byoumei", icon: "fas fa-disease"},
+                {label: "カルテ歴", style: "padding: 0", name: "karte", icon: "fas fa-file-alt"}
             ]
         }
     },
     computed: {
         age() {
-        let age = 0
-        let bd = this.patientData.birthDate
-        if (this.$moment(bd, 'YYYY-M-D', true).isValid()) {
-            age = this.$moment().diff(this.$moment(bd, 'YYYY-MM-DD'), 'years')
-        } else {
-            age = ''
-        }
-        return age;
+            let age = 0
+            let bd = this.patientData.birthDate
+            if (this.$moment(bd, 'YYYY-M-D', true).isValid()) {
+                age = this.$moment().diff(this.$moment(bd, 'YYYY-MM-DD'), 'years')
+            } else {
+                age = ''
+            }
+            return age;
+        },
+        tabsMedicalAuth() {
+            if (this.$acl('patient.medical', 1)) {
+               return this.tabsMedical 
+            }
+            return []
         },
         parsedSex() {
             if(this.patientData.gender == 1) return '男性'
@@ -353,11 +400,23 @@ export default {
     },
     methods: {
         updateData() {
+            
             this.loading = true
             this.$get('patients/' + this.data.id)
             .then(result => {
                 this.patientData = result.data
-                this.loading = false
+                if (this.$acl('patient.medical', 1)) {
+                    this.$get('medicalinfos/' + this.data.id)
+                    .then(result => {
+                        this.patientDataMedical = result.data
+                        this.loading = false
+                    })
+                    .catch(result => {
+                        this.$apiError(result)
+                    })
+                } else {
+                    this.loading = false
+                }
             })
             .catch(result => {
                 this.$apiError(result)

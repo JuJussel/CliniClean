@@ -1,5 +1,5 @@
 <template>
-  <div style="height: calc(100% + 20px)">
+  <div style="height: 100%">
     <span class="karteButtonsCont">
       <vs-button
         dark

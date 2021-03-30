@@ -1,6 +1,6 @@
 <template>
-    <div style="height: calc(100% - 80px); overflow: auto">
-        <vs-table class="cc-vs-table-condensed" striped style="height: 550px">
+    <div style="height: calc(100% - 80px); overflow: auto" v-bind:class="{landscape: landscape}">
+        <vs-table class="cc-vs-table-condensed" striped style="height: 550px" id="table">
             <template #notFound>登録なし</template>
             <template #thead>
                 <vs-tr>
@@ -44,10 +44,10 @@
             <h2>
                 図表
             </h2>
-            <div style="height: 350px; margin-top: 20px" v-bind:class="{hidden: !showChart}">
+            <div style="height: 350px; margin-top: 20px" v-bind:class="{hidden: !showChart}" id="chart">
                 <IEcharts @ready="onChartReady" :option="chartInit" :resizable="true"></IEcharts>
             </div>
-            <div v-if="!showChart" style="margin-top: 20px">項目を選択してください</div>
+            <div v-if="!showChart" style="margin-top: 20px; margin-left: 20px">項目を選択してください</div>
         </div>
     </div>
 </template>
@@ -62,10 +62,13 @@ import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/toolbox'
 
 export default {
-    props: [
-        'data',
-        'height'
-    ],
+    props: {
+        data: Object,
+        landscape: {
+            type: Boolean,
+            default: false
+        }
+    },
     components: {
         IEcharts
     },
@@ -169,10 +172,10 @@ export default {
             this.chartOptions.xAxis[0].data = xAxis
             let seriesArray = []
             val.forEach(element => {
-                this.chartOptions.legend.data.push(element.name + element.result)
+                this.chartOptions.legend.data.push(element.name)
                 var seriesDataTemplate = {
                     connectNulls: true,
-                    name: element.name + element.result,
+                    name: element.name,
                     data: [],
                     catID: element.vital_id,
                     type:"bar",
@@ -270,4 +273,18 @@ export default {
 .hidden {
     display: none
 }
+.landscape {
+    display: flex;
+    height: calc(100% + 10px)!important
+}
+.landscape > * {
+    flex: 1
+}
+.landscape #chart {
+    height: 550px!important
+}
+.landscape #table {
+    height: 100%!important
+}
+
 </style>
