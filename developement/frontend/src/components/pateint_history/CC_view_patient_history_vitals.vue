@@ -7,6 +7,7 @@
                     <vs-th style="min-width: 200px; position: sticky; left: 0; z-index: 2001">
                         <vs-checkbox v-model="allSelected" dark @input="toggleAll">バイタル</vs-checkbox>
                         <vs-button
+                            v-if="edit"
                             @click="newVitalOpen = true"
                             icon
                             dark
@@ -95,6 +96,10 @@ export default {
         data: Object,
         landscape: {
             default: false,
+            type: Boolean
+        },
+        edit: {
+            default: true,
             type: Boolean
         }
     },

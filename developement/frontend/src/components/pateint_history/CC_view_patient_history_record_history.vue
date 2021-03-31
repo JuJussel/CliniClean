@@ -1,5 +1,5 @@
 <template>
-    <div style="height: calc(100% - 80px)">
+    <div style="height: calc(100% - 80px)" v-bind:class="{landscape: landscape}">
         <vs-table style="max-height: 100%">
             <template #thead>
                 <vs-tr>
@@ -35,10 +35,19 @@
 
 
 export default {
-    props: [
-        'data',
-        'standalone'
-    ],
+    props: {
+        data: {
+            type: Object
+        },
+        standalone: {
+            default: false,
+            type: Boolean
+        },
+        landscape: {
+            default: false,
+            type: Boolean
+        }
+    },
     created() {
 
         this.$get('shinsatutypes')
@@ -100,3 +109,10 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.landscape {
+    max-width: 1000px;
+    height: calc(100%)!important
+}
+</style>

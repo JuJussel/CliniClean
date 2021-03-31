@@ -1,10 +1,10 @@
 <template>
-    <div style="height: calc(100% - 80px); overflow: auto; display: flex; flex-direction: column">
+    <div style="height: calc(100% - 80px); overflow: auto; display: flex; flex-direction: column" v-bind:class="{landscape: landscape}">
         <div v-if="!noFilter">
             <vs-row>
                 <vs-col w="6">
                     <vs-select
-                        label="処方名"
+                        label="行為名"
                         filter
                         chip-max-width="129px"
                         collapse-chips
@@ -148,6 +148,10 @@ export default {
         },
         noFilter: {
             default: false
+        },
+        landscape: {
+            default: false,
+            type: Boolean
         }
     },
     data() {
@@ -216,3 +220,10 @@ export default {
 
 }
 </script>
+
+<style scoped>
+.landscape {
+    max-width: 1000px;
+    height: calc(100%)!important
+}
+</style>

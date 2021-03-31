@@ -1,10 +1,11 @@
 <template>
-    <div style="height: calc(100% - 80px); overflow: auto; display: flex; flex-direction: column" ref="loadCont">
+    <div style="height: calc(100% - 80px); overflow: auto; display: flex; flex-direction: column" ref="loadCont" v-bind:class="{landscape: landscape}">
         <vs-table style="max-height: 50%" class="cc-vs-table-condensed">
             <template #header>
                 <h3 style="display: flex; align-items: center; justify-content: space-between; margin: 0">
                     <span>有効</span>
                     <vs-button
+                        v-if="edit"
                         @click="showByoumeiEdit('add', null)"
                         icon dark
                         size="small"
@@ -32,6 +33,7 @@
                     <vs-td><dateDisplay :date="tr.Disease_StartDate"></dateDisplay></vs-td>
                     <vs-td style="width: 60px">
                         <vs-button
+                            v-if="edit"
                             @click="showByoumeiEdit('edit', tr)"
                             icon dark border
                             size="small"
@@ -189,10 +191,19 @@ export default {
     components: {
         'byoumeiEdit': byoumeiEdit
     },
-    props: [
-        'data',
-        'height'
-    ],
+    props: {
+        data: {
+            type: Object
+        },
+        edit: {
+            default: true,
+            type: Boolean
+        },
+        landscape: {
+            default: false,
+            type: Boolean
+        }
+    },
     data() {
         return {
             loading: false,
@@ -330,3 +341,10 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.landscape {
+    max-width: 1000px;
+    height: calc(100%)!important
+}
+</style>

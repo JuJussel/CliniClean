@@ -1,76 +1,76 @@
 <template>
-    <div style="height: calc(100% - 80px); overflow: auto; display: flex;flex-direction: column">
-        <vs-row>
-            <vs-col w="6">
-                <vs-select
-                    label="処方名"
-                    filter
-                    chip-max-width="129px"
-                    collapse-chips
-                    multiple
-                    active
-                    placeholder="検索"
-                    :key="medsFilter.length"
-                    v-model="selectedMeds"
-                    >
-                        <vs-option
-                            v-for="item in medsFilter"
-                            :key="item.tag"
-                            :label="item.name"
-                            :value="item"
+    <div style="height: calc(100% - 80px); overflow: auto; display: flex; flex-direction: column" v-bind:class="{landscape: landscape}">
+        <div>
+            <vs-row>
+                <vs-col w="6">
+                    <vs-select
+                        label="処方名"
+                        filter
+                        chip-max-width="129px"
+                        collapse-chips
+                        multiple
+                        active
+                        placeholder="検索"
+                        :key="medsFilter.length"
+                        v-model="selectedMeds"
                         >
-                        {{ item.name }}
-                        </vs-option>
-                    </vs-select>
+                            <vs-option
+                                v-for="item in medsFilter"
+                                :key="item.tag"
+                                :label="item.name"
+                                :value="item"
+                            >
+                            {{ item.name }}
+                            </vs-option>
+                        </vs-select>
+                    </vs-col>
+                <vs-col w="6">
+                    <div style="padding: 0 5px">
+                        <div style="margin-left: 10px; font-size: 12px">日付</div>
+                        <date-picker
+                            v-model="selectedDate"
+                            range
+                            placeholder="選択"
+                            format="YYYY年MM月DD日"
+                            value-type="YYYY-MM-DD"
+                            input-class="vs-input cc-mx-input"
+                            popup-class="cc-date-picker"
+                            >
+                        </date-picker>
+                    </div>
                 </vs-col>
-            <vs-col w="6">
-                <div style="padding: 0 5px">
-                    <div style="margin-left: 10px; font-size: 12px">日付</div>
-                    <date-picker
-                        v-model="selectedDate"
-                        range
-                        placeholder="選択"
-                        format="YYYY年MM月DD日"
-                        value-type="YYYY-MM-DD"
-                        input-class="vs-input cc-mx-input"
-                        popup-class="cc-date-picker"
-                        >
-                    </date-picker>
-                </div>
-            </vs-col>
-        </vs-row>
-        <vs-row style="flex-grow: 1">
-            <vs-table striped>
-                <template #notFound>
-                    データなし
-                </template>
-                <template #thead>
-                    <vs-tr>
-                        <vs-th sort @click="meds = $vs.sortData($event ,medsFiltered, 'name')">
-                            処方名
-                            </vs-th>
-                        <vs-th style="min-width: 150px" sort @click="meds = $vs.sortData($event ,medsFiltered, 'date')">日付</vs-th>
-                        <vs-th style="min-width: 150px">処方量</vs-th>
-                    </vs-tr>
-                </template>
-                <template #tbody>
-                    <vs-tr v-for="(tr, index) in medsFiltered" :key="index">
-                        <vs-td> {{ tr.name }} </vs-td>
-                        <vs-td><dateDisplay :date="tr.date"></dateDisplay></vs-td>
-                        <vs-td>
-                            <div>
-                                {{ tr.var.amount }}
-                                {{ tr.var.unit }}
-                                {{ tr.var.times }}
-                                {{ tr.var.timing.unit }}
-                                分
-                            </div>
-                            <div> {{ tr.var.timing.name }} </div>
-                        </vs-td>
-                    </vs-tr>
-                </template>
-            </vs-table>
-        </vs-row>
+            </vs-row>
+        </div>
+        <vs-table striped>
+            <template #notFound>
+                データなし
+            </template>
+            <template #thead>
+                <vs-tr>
+                    <vs-th sort @click="meds = $vs.sortData($event ,medsFiltered, 'name')">
+                        処方名
+                        </vs-th>
+                    <vs-th style="min-width: 150px" sort @click="meds = $vs.sortData($event ,medsFiltered, 'date')">日付</vs-th>
+                    <vs-th style="min-width: 150px">処方量</vs-th>
+                </vs-tr>
+            </template>
+            <template #tbody>
+                <vs-tr v-for="(tr, index) in medsFiltered" :key="index">
+                    <vs-td> {{ tr.name }} </vs-td>
+                    <vs-td><dateDisplay :date="tr.date"></dateDisplay></vs-td>
+                    <vs-td>
+                        <div>
+                            {{ tr.var.amount }}
+                            {{ tr.var.unit }}
+                            {{ tr.var.times }}
+                            {{ tr.var.timing.unit }}
+                            分
+                        </div>
+                        <div> {{ tr.var.timing.name }} </div>
+                    </vs-td>
+                </vs-tr>
+            </template>
+        </vs-table>
     </div>
 </template>
 
@@ -78,9 +78,19 @@
 
 
 export default {
-    props: [
-        'data'
-    ],
+    props: {
+        data: {
+            type: Object
+        },
+        standalone: {
+            default: false,
+            type: Boolean
+        },
+        landscape: {
+            default: false,
+            type: Boolean
+        }
+    },
     data() {
         return {
             meds: [],
@@ -126,16 +136,9 @@ export default {
 }
 </script>
 
-<style>
-.test-enter-active, .test-leave-active {
-    transition: all .5s;
-}
-.test-enter, .test-leave-to {
-    opacity: 0;
-}
-.popper {
-    border-radius: 14px;
-    padding: 10px;
-    box-shadow: 0 2px 12px 0 rgba(0,0,0,0.3);
+<style scoped>
+.landscape {
+    max-width: 1000px;
+    height: calc(100%)!important
 }
 </style>

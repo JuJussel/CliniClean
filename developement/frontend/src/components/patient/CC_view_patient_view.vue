@@ -298,6 +298,7 @@
                         :is="activeTabMeta.name"
                         :data="patientDataMedical"
                         landscape
+                        :edit="false"
                     />
                 </div>
             </div>
