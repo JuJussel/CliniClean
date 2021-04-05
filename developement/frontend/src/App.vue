@@ -46,7 +46,9 @@ export default {
     background-color: white;
     box-shadow: 0 2px 12px 0 rgba(0,0,0,0.3);
     margin: 10px;
-    height: calc(100% - 20px);
+  }
+  .content-card:not(.customHeight) {
+    height: calc(100% - 20px)
   }
   .content-card-header {
     display: flex;

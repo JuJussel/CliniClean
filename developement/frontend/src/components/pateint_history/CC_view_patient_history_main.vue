@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <div class="cc-card-header" style="display: flex; justify-content: space-between">
+    <div style="display: flex; flex-direction: column">
+        <div class="cc-card-header" style="display: flex; justify-content: space-between; border-radius: 15px; margin:10px">
             <vs-button-group>
                 <vs-button
                     border
@@ -27,14 +27,15 @@
                 <template #animate>拡大</template>
             </vs-button>
         </div>
-        <child-component
-            @update="updateData"
-            :is="activeTab"
-            ref="childComp" 
-            :data="patientData"
-            v-if="patientData"
-            style="padding: 10px"
-        />
+        <div style="height: calc(100% - 84px)">
+            <child-component
+                @update="updateData"
+                :is="activeTab"
+                ref="childComp"
+                :data="patientData"
+                v-if="patientData"
+            />
+        </div>
     </div>
 </template>
 

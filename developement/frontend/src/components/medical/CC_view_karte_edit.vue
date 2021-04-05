@@ -43,14 +43,13 @@
     </span>
     <vs-row style="height: 100%">
       <vs-col :w="cardWidth[0]" style="height: 100%">
-        <div class="content-card">
           <patientHistory
             :patientID="meta.patientID"
             :view="historyTab"
             @changeView="changeView"
-            style="height: 100%; overflow: hidden">
+            style="height: 100%"
+          >
           </patientHistory>
-        </div>
       </vs-col>
       <vs-col :w="cardWidth[1]" style="height: 100%">
         <div class="content-card">

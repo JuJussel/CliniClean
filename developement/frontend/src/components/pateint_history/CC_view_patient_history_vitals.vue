@@ -1,69 +1,73 @@
 <template>
-    <div style="height: calc(100% - 80px); overflow: auto" v-bind:class="{landscape: landscape}">
-        <vs-table class="cc-vs-table-condensed" striped style="height: 550px">
-            <template #notFound>登録なし</template>
-            <template #thead>
-                <vs-tr>
-                    <vs-th style="min-width: 200px; position: sticky; left: 0; z-index: 2001">
-                        <vs-checkbox v-model="allSelected" dark @input="toggleAll">バイタル</vs-checkbox>
-                        <vs-button
-                            v-if="edit"
-                            @click="newVitalOpen = true"
-                            icon
-                            dark
-                            size="small"
-                            animation-type="scale"
+    <div v-bind:class="{landscape: landscape}" style="height: 100%; overflow: auto">
+        <div class="content-card customHeight" style="">
+            <vs-table class="cc-vs-table-condensed" striped :adaptive="tableItems">
+                <template #notFound>登録なし</template>
+                <template #thead>
+                    <vs-tr>
+                        <vs-th style="min-width: 200px; position: sticky; left: 0; z-index: 2001">
+                            <vs-checkbox v-model="allSelected" dark @input="toggleAll">バイタル</vs-checkbox>
+                            <vs-button
+                                v-if="edit"
+                                @click="newVitalOpen = true"
+                                icon
+                                dark
+                                size="small"
+                                animation-type="scale"
+                            >
+                                <i class="fas fa-plus" style="font-size: 14px"></i>
+                                <template #animate>登録</template>
+                            </vs-button>
+                        </vs-th>
+                        <vs-th
+                            v-for="date in dates"
+                            :key="date"
+                            style="min-width: 120px"
                         >
-                            <i class="fas fa-plus" style="font-size: 14px"></i>
-                            <template #animate>登録</template>
-                        </vs-button>
-                    </vs-th>
-                    <vs-th
-                        v-for="date in dates"
-                        :key="date"
-                        style="min-width: 120px"
-                    > 
-                        <dateDisplay :date="date"></dateDisplay>
-                    </vs-th>
-                </vs-tr>
-            </template>
-            <template #tbody>
-                <vs-tr
-                    class="hover-fix"
-                    v-for="(tr, index) in tableItems"
-                    :key="index"
-                >
-                    <vs-td style="position: sticky; left: 0; z-index: 2000; background: inherit" v-bind:class="{'hover-override': index%2 == 0}">
-                        <vs-checkbox dark v-model="tr.selected" @input="updateChart">{{ tr.name }}</vs-checkbox>
-                    </vs-td>
-                    <vs-td
-                        v-for="date in dates"
-                        :key="date"
-                        style="text-align: center"
+                            <dateDisplay :date="date"></dateDisplay>
+                        </vs-th>
+                    </vs-tr>
+                </template>
+                <template #tbody>
+                    <vs-tr
+                        class="hover-fix"
+                        v-for="(tr, index) in tableItems"
+                        :key="index"
                     >
-                        <span v-if="tr.dates[date]">
-                            <vs-tooltip v-if="tr.dates[date].history.length >0">
-                                {{ tr.dates[date].value }}
-                                <template #tooltip>
-                                    <div v-for="(h, i) in tr.dates[date].history" :key="i">
-                                        {{ h }}
-                                    </div>
-                                </template>
-                            </vs-tooltip>
-                            <span v-else>{{ tr.dates[date].value }}</span>
-                        </span>
-                    </vs-td>
-                </vs-tr>
-            </template>
-        </vs-table>
-        <div style="margin-top: -40px">
-            <h2>
-                図表
-            </h2>
-            <div style="height: 350px; margin-top: 20px" v-bind:class="{hidden: !showChart}" id="chart">
+                        <vs-td style="position: sticky; left: 0; z-index: 2000; background: inherit" v-bind:class="{'hover-override': index%2 == 0}">
+                            <vs-checkbox dark v-model="tr.selected" @input="updateChart">{{ tr.name }}</vs-checkbox>
+                        </vs-td>
+                        <vs-td
+                            v-for="date in dates"
+                            :key="date"
+                            style="text-align: center"
+                        >
+                            <span v-if="tr.dates[date]">
+                                <vs-tooltip v-if="tr.dates[date].history.length >0">
+                                    {{ tr.dates[date].value }}
+                                    <template #tooltip>
+                                        <div v-for="(h, i) in tr.dates[date].history" :key="i">
+                                            {{ h }}
+                                        </div>
+                                    </template>
+                                </vs-tooltip>
+                                <span v-else>{{ tr.dates[date].value }}</span>
+                            </span>
+                        </vs-td>
+                    </vs-tr>
+                </template>
+            </vs-table>
+        </div>
+        <div class="content-card customHeight">
+            <div class="cc-card-header">
+                <h2>
+                    図表
+                </h2>
+            </div>
+            <div style="height: 350px; padding: 10px" v-bind:class="{hidden: !showChart}" id="chart">
                 <IEcharts @ready="onChartReady" :option="chartInit" :resizable="true"></IEcharts>
             </div>
-            <div v-if="!showChart" style="margin-top: 20px; margin-left: 20px">項目を選択してください</div>
+            <div v-if="!showChart" style="padding: 10px">項目を選択してください</div>
         </div>
         <vs-dialog
             blur

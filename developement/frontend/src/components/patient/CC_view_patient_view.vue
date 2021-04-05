@@ -1,58 +1,58 @@
 <template>
-    <div class="content-card">
-        <div class="cc-card-has-header">
-            <div class="cc-card-header" v-if="!preview">
-                <h2 style="margin-right: 20px">患者情報</h2>
-                <vs-button
-                    @click="fileUploadVisible = true"
-                    v-if="$acl('patient', 2)"
-                    dark
-                    icon
-                    animation-type="scale"
-                    style="min-width: 100px"
-                    >
-                    <i class="fas fa-file-medical"></i>
-                    <template #animate>ファイル登録</template>
-                </vs-button>
-                <vs-button
-                    @click="$emit('edit', patientData)"
-                    v-if="$acl('patient', 2)"
-                    dark
-                    icon
-                    animation-type="scale"
-                    style="min-width: 50px"
-                    >
-                    <i class="fas fa-edit"></i>
-                    <template #animate>編集</template>
-                </vs-button>
-                <vs-button-group>
+    <div>
+            <div>
+                <div class="cc-card-header" style="border-radius: 15px; margin:10px" v-if="!preview">
+                    <h2 style="margin-right: 20px">患者情報</h2>
                     <vs-button
-                    border
-                    dark
-                    :active="activeTab == index"
-                    v-for="(tab, index) in tabs"
-                    :key="index"
-                    @click="activeTab = index"
-                    >
-                        <span> {{ tab }} </span>
+                        @click="fileUploadVisible = true"
+                        v-if="$acl('patient', 2)"
+                        dark
+                        icon
+                        animation-type="scale"
+                        style="min-width: 100px"
+                        >
+                        <i class="fas fa-file-medical"></i>
+                        <template #animate>ファイル登録</template>
                     </vs-button>
                     <vs-button
+                        @click="$emit('edit', patientData)"
+                        v-if="$acl('patient', 2)"
+                        dark
+                        icon
+                        animation-type="scale"
+                        style="min-width: 50px"
+                        >
+                        <i class="fas fa-edit"></i>
+                        <template #animate>編集</template>
+                    </vs-button>
+                    <vs-button-group>
+                        <vs-button
                         border
                         dark
-                        :active="activeTab == index + 4"
-                        v-for="(tab, index) in tabsMedicalAuth"
-                        :key="index + 4"
-                        @click="activeTab = index + 4; activeTabMeta = tab"
+                        :active="activeTab == index"
+                        v-for="(tab, index) in tabs"
+                        :key="index"
+                        @click="activeTab = index"
                         >
-                        <span> {{ tab.label }} </span>
-                    </vs-button>
-
-                </vs-button-group>
+                            <span> {{ tab }} </span>
+                        </vs-button>
+                        <vs-button
+                            border
+                            dark
+                            :active="activeTab == index + 4"
+                            v-for="(tab, index) in tabsMedicalAuth"
+                            :key="index + 4"
+                            @click="activeTab = index + 4; activeTabMeta = tab"
+                            >
+                            <span> {{ tab.label }} </span>
+                        </vs-button>
+                    </vs-button-group>
+                </div>
+                <div v-else class="cc-card-header" style="border-radius: 15px; margin:10px">
+                    <h2>患者情報</h2>
+                </div>
             </div>
-            <div v-else class="cc-card-header">
-                <h2>患者情報</h2>
-            </div>
-            <div style="height: calc(100% - 64px); display: flex" class="cc-card-content" ref="loadElm">
+            <div style="height: calc(100% - 64px); display: flex" ref="loadElm">
                 <div style="flex-grow: 1" class="hidden-tab" v-bind:class="{'active-tab': 0 == activeTab}">
                     <vs-row style="padding-left: 30px; height: 100%; overflow: auto">
                         <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="4">
@@ -292,7 +292,7 @@
                         </template>
                     </vs-table>
                 </div>
-                <div v-if="!preview && $acl('patient.medical', 1)" style="flex-grow: 1; padding: 30px" class="hidden-tab" v-bind:class="{'active-tab': 3 < activeTab}">
+                <div v-if="!preview && $acl('patient.medical', 1)" style="flex-grow: 1" class="hidden-tab" v-bind:class="{'active-tab': 3 < activeTab}">
                     <component 
                         v-if="activeTab > 3"
                         :is="activeTabMeta.name"
@@ -308,7 +308,6 @@
                 </template>
                 <fileUpload :patient="patientData.id" @uploaded="updateData" @close="fileUploadVisible = false"></fileUpload>
             </vs-dialog>
-        </div>
     </div>
 </template>
 
