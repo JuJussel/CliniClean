@@ -1,6 +1,6 @@
 <template>
     <div v-bind:class="{landscape: landscape}" style="height: 100%; overflow: auto">
-        <div class="content-card customHeight" style="">
+        <div class="content-card customHeight">
             <vs-table class="cc-vs-table-condensed" striped :adaptive="tableItems">
                 <template #notFound>登録なし</template>
                 <template #thead>
