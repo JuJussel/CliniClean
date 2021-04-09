@@ -1,53 +1,57 @@
 <template>
-    <div style="height: calc(100% - 80px); overflow: auto" v-bind:class="{landscape: landscape}">
-        <vs-table class="cc-vs-table-condensed" striped style="height: 550px" id="table">
-            <template #notFound>登録なし</template>
-            <template #thead>
-                <vs-tr>
-                    <vs-th style="min-width: 200px; position: sticky; left: 0; z-index: 2001">
-                        <vs-checkbox v-model="allSelected" dark @input="toggleAll">検索結果</vs-checkbox>
-                    </vs-th>
-                    <vs-th
-                        v-for="date in dates"
-                        :key="date"
-                        style="min-width: 120px"
-                    > 
-                        <dateDisplay :date="date"></dateDisplay>
-                    </vs-th>
-                </vs-tr>
-            </template>
-            <template #tbody>
-                <vs-tr
-                    class="hover-fix"
-                    v-for="(tr, index) in tableItems"
-                    :key="index"
-                >
-                    <vs-td style="position: sticky; left: 0; z-index: 2000; background: inherit" v-bind:class="{'hover-override': index%2 == 0}">
-                        <vs-checkbox dark v-model="tr.selected" @input="updateChart">
-                            <div style="display: flex">
-                                <div style="width: 150px">{{ tr.name }}</div>
-                                <div style="width: 150px">{{ tr.result }}</div>
-                            </div>
-                        </vs-checkbox>
-                    </vs-td>
-                    <vs-td
-                        v-for="date in dates"
-                        :key="date"
-                        style="text-align: center"
+    <div v-bind:class="{landscape: landscape}" style="height: 100%; overflow: auto">
+        <div class="content-card customHeight">
+            <vs-table class="cc-vs-table-condensed" :adaptive="tableItems" style="max-height: 400px">
+                <template #notFound>登録なし</template>
+                <template #thead>
+                    <vs-tr>
+                        <vs-th style="min-width: 200px; position: sticky; left: 0; z-index: 2001">
+                            <vs-checkbox v-model="allSelected" dark @input="toggleAll">検索結果</vs-checkbox>
+                        </vs-th>
+                        <vs-th
+                            v-for="date in dates"
+                            :key="date"
+                            style="min-width: 120px"
+                        > 
+                            <dateDisplay :date="date"></dateDisplay>
+                        </vs-th>
+                    </vs-tr>
+                </template>
+                <template #tbody>
+                    <vs-tr
+                        class="hover-fix"
+                        v-for="(tr, index) in tableItems"
+                        :key="index"
                     >
-                        {{ tr.dates[date] }}
-                    </vs-td>
-                </vs-tr>
-            </template>
-        </vs-table>
-        <div style="margin-top: -40px">
-            <h2>
-                図表
-            </h2>
+                        <vs-td style="position: sticky; left: 0; z-index: 2000; background: inherit" v-bind:class="{'hover-override': index%2 == 0}">
+                            <vs-checkbox dark v-model="tr.selected" @input="updateChart">
+                                <div style="display: flex">
+                                    <div style="width: 150px">{{ tr.name }}</div>
+                                    <div style="width: 150px">{{ tr.result }}</div>
+                                </div>
+                            </vs-checkbox>
+                        </vs-td>
+                        <vs-td
+                            v-for="date in dates"
+                            :key="date"
+                            style="text-align: center"
+                        >
+                            {{ tr.dates[date] }}
+                        </vs-td>
+                    </vs-tr>
+                </template>
+            </vs-table>
+        </div>
+        <div class="content-card customHeight">
+            <div class="cc-card-header">
+                <h2>
+                    図表
+                </h2>
+            </div>
             <div style="height: 350px; margin-top: 20px" v-bind:class="{hidden: !showChart}" id="chart">
                 <IEcharts @ready="onChartReady" :option="chartInit" :resizable="true"></IEcharts>
             </div>
-            <div v-if="!showChart" style="margin-top: 20px; margin-left: 20px">項目を選択してください</div>
+            <div v-if="!showChart" style="padding: 10px">項目を選択してください</div>
         </div>
     </div>
 </template>
