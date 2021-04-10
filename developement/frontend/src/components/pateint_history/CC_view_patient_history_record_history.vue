@@ -1,6 +1,10 @@
 <template>
-    <div style="height: calc(100% - 80px)" v-bind:class="{landscape: landscape}">
-        <vs-table style="max-height: 100%">
+    <div 
+        style="height: calc(100% - 20px)" 
+        v-bind:class="{landscape: landscape}"
+        class="content-card customHeight"
+        >
+        <vs-table style="height: 100%">
             <template #thead>
                 <vs-tr>
                     <vs-th
@@ -113,6 +117,5 @@ export default {
 <style scoped>
 .landscape {
     max-width: 1000px;
-    height: calc(100%)!important
 }
 </style>

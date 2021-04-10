@@ -1,49 +1,55 @@
 <template>
-    <div style="height: calc(100% - 80px); overflow: auto; display: flex; flex-direction: column" v-bind:class="{landscape: landscape}">
-        <div>
-            <vs-row>
-                <vs-col w="6">
-                    <vs-select
-                        label="処方名"
-                        filter
-                        chip-max-width="129px"
-                        collapse-chips
-                        multiple
-                        active
-                        placeholder="検索"
-                        :key="medsFilter.length"
-                        v-model="selectedMeds"
-                        >
-                            <vs-option
-                                v-for="item in medsFilter"
-                                :key="item.tag"
-                                :label="item.name"
-                                :value="item"
-                            >
-                            {{ item.name }}
-                            </vs-option>
-                        </vs-select>
-                    </vs-col>
-                <vs-col w="6">
-                    <div style="padding: 0 5px">
-                        <div style="margin-left: 10px; font-size: 12px">日付</div>
-                        <date-picker
-                            v-model="selectedDate"
-                            range
-                            placeholder="選択"
-                            format="YYYY年MM月DD日"
-                            value-type="YYYY-MM-DD"
-                            input-class="vs-input cc-mx-input"
-                            popup-class="cc-date-picker"
-                            >
-                        </date-picker>
-                    </div>
-                </vs-col>
-            </vs-row>
-        </div>
-        <vs-table striped>
+    <div 
+        style="height: calc(100% - 20px); overflow: auto"
+        v-bind:class="{landscape: landscape}"
+        class="content-card customHeight"
+        >
+        <vs-table striped style="max-height: calc(100% - 60px)">
             <template #notFound>
                 データなし
+            </template>
+            <template #header>
+                <vs-row>
+                    <vs-col w="6">
+                        <vs-select
+                            label="処方名"
+                            filter
+                            chip-max-width="129px"
+                            collapse-chips
+                            multiple
+                            active
+                            class="cc-dark-select"
+                            placeholder="検索"
+                            :key="medsFilter.length"
+                            v-model="selectedMeds"
+                            >
+                                <vs-option
+                                    v-for="item in medsFilter"
+                                    :key="item.tag"
+                                    :label="item.name"
+                                    :value="item"
+                                >
+                                {{ item.name }}
+                                </vs-option>
+                            </vs-select>
+                        </vs-col>
+                    <vs-col w="6">
+                        <div style="padding: 0 5px">
+                            <div style="margin-left: 10px; font-size: 12px">日付</div>
+                            <date-picker
+                                v-model="selectedDate"
+                                range
+                                class="vs-input-parent--state-dark"
+                                placeholder="選択"
+                                format="YYYY年MM月DD日"
+                                value-type="YYYY-MM-DD"
+                                input-class="vs-input vs-input--state-dark cc-mx-input"
+                                popup-class="cc-date-picker"
+                                >
+                            </date-picker>
+                        </div>
+                    </vs-col>
+                </vs-row>
             </template>
             <template #thead>
                 <vs-tr>
@@ -139,6 +145,9 @@ export default {
 <style scoped>
 .landscape {
     max-width: 1000px;
-    height: calc(100%)!important
+    height: calc(100% - 20px)!important
+}
+.landscape #table {
+    height: calc(100% - 40px)!important
 }
 </style>

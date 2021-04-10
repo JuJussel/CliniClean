@@ -206,6 +206,12 @@ export default {
   .hover-override {
     background: white!important
   }
+  .cc-dark-select .vs-select__chips {
+    background: rgba(var(--vs-dark), 0.1)
+  }
+  .cc-dark-select .vs-select__chips:hover {
+      background: white
+  }
   .hover-fix:hover td {
     background: rgba(var(--vs-gray-2), 1)!important
   }

@@ -52,7 +52,7 @@
                     <h2>患者情報</h2>
                 </div>
             </div>
-            <div style="height: calc(100% - 64px); display: flex" ref="loadElm">
+            <div style="height: calc(100% - 84px); display: flex" ref="loadElm">
                 <div style="flex-grow: 1" class="hidden-tab" v-bind:class="{'active-tab': 0 == activeTab}">
                     <vs-row style="padding-left: 30px; height: 100%; overflow: auto">
                         <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="4">

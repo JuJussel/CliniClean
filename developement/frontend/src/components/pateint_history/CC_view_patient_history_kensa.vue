@@ -1,7 +1,7 @@
 <template>
     <div v-bind:class="{landscape: landscape}" style="height: 100%; overflow: auto">
         <div class="content-card customHeight">
-            <vs-table class="cc-vs-table-condensed" :adaptive="tableItems" style="max-height: 400px">
+            <vs-table class="cc-vs-table-condensed" adaptive="tableItems" striped id="table">
                 <template #notFound>登録なし</template>
                 <template #thead>
                     <vs-tr>
@@ -279,16 +279,14 @@ export default {
 }
 .landscape {
     display: flex;
-    height: calc(100% + 10px)!important
 }
 .landscape > * {
     flex: 1
 }
-.landscape #chart {
-    height: 550px!important
-}
 .landscape #table {
     height: 100%!important
 }
-
+.landscape #chart {
+    height: 550px!important
+}
 </style>

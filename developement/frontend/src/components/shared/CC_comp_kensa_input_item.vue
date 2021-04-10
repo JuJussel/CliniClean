@@ -16,7 +16,7 @@
                         v-if="resultsListFull"
                         v-model="meta.koui.var.results"
                         :key="resultsListFull.length"
-                        class="Dummy3232"
+                        class="cc-dark-select"
                         style="width: 250px !important; margin-left: 20px"
                         >
                         <vs-option
@@ -121,12 +121,3 @@
         }
     }
 </script>
-<style>
-    .Dummy3232 .vs-select__chips {
-        background: rgba(var(--vs-dark), 0.1)
-    }
-    .Dummy3232 .vs-select__chips:hover {
-        background: white
-    }
-
-</style>

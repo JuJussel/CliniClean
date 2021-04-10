@@ -1,169 +1,179 @@
 <template>
-    <div style="height: calc(100% - 80px); overflow: auto; display: flex; flex-direction: column" ref="loadCont" v-bind:class="{landscape: landscape}">
-        <vs-table style="max-height: 50%" class="cc-vs-table-condensed">
-            <template #header>
-                <h3 style="display: flex; align-items: center; justify-content: space-between; margin: 0">
-                    <span>有効</span>
-                    <vs-button
-                        v-if="edit"
-                        @click="showByoumeiEdit('add', null)"
-                        icon dark
-                        size="small"
-                        animation-type="scale"
-                        >
-                        <i class="fas fa-plus" style="font-size: 14px"></i>
-                        <template #animate>登録</template>
-                    </vs-button>
-                </h3>
-            </template>
-            <template #thead>
-                <vs-tr>
-                    <vs-th>病名</vs-th>
-                    <vs-th>疑い・急性</vs-th>
-                    <vs-th>主病</vs-th>
-                    <vs-th>開始日</vs-th>
-                    <vs-th></vs-th>
-                </vs-tr>
-            </template>
-            <template #tbody>
-                <vs-tr v-for="(tr, index) in byoumeiActive" :key="index">
-                    <vs-td> {{ tr.Disease_Name }} </vs-td>
-                    <vs-td> {{ utagaiDecode(tr.Disease_SuspectedFlag )}} </vs-td>
-                    <vs-td><span v-if="tr.Disease_Category === 'PD'">主病</span></vs-td>
-                    <vs-td><dateDisplay :date="tr.Disease_StartDate"></dateDisplay></vs-td>
-                    <vs-td style="width: 60px">
+    <div style="height: calc(100% - 10px)" ref="loadCont" v-bind:class="{landscape: landscape}">
+        <div class="content-card customHeight" style="height: calc(40% - 10px)">
+            <vs-table style="height: 100%" class="cc-vs-table-condensed">
+                <template #header>
+                    <h3 style="display: flex; align-items: center; justify-content: space-between; margin: 0">
+                        <span>有効</span>
                         <vs-button
                             v-if="edit"
-                            @click="showByoumeiEdit('edit', tr)"
-                            icon dark border
+                            @click="showByoumeiEdit('add', null)"
+                            icon dark
                             size="small"
                             animation-type="scale"
-                            class="cc-hover-button"
                             >
-                            <i class="far fa-edit" style="font-size: 14px"></i>
-                            <template #animate>編集</template>
+                            <i class="fas fa-plus" style="font-size: 14px"></i>
+                            <template #animate>登録</template>
                         </vs-button>
-                    </vs-td>
-                </vs-tr>
-            </template>
-        </vs-table>
-        <h2>履歴</h2>
-        <vs-row>
-            <vs-col w="5">
-                <vs-select
-                    label="処方名"
-                    filter
-                    chip-max-width="60px"
-                    collapse-chips
-                    multiple
-                    active
-                    placeholder="検索"
-                    :key="byoumeiFilter.length"
-                    v-model="selectedByoumei"
-                    >
-                    <vs-option
-                        v-for="item in byoumeiFilter"
-                        :key="item.khnbyomeicd"
-                        :label="item.byomei"
-                        :value="item.khnbyomeicd"
-                    >
-                    {{ item.byomei }}
-                    </vs-option>
-                </vs-select>
-            </vs-col>
-            <vs-col w="4">
-                <vs-select
-                    label="転帰"
-                    chip-max-width="129px"
-                    collapse-chips
-                    multiple
-                    active
-                    placeholder="Test"
-                    :key="tenkikbn.length"
-                    v-model="selectedOutcomes"
-                    >
-                    <vs-option
-                        v-for="(item, index) in tenkikbn"
-                        :key="index"
-                        :label="item"
-                        :value="index"
-                    >
-                    {{ item }}
-                    </vs-option>
-                </vs-select>
-            </vs-col>
-            <vs-col w="3">
-                <vs-row>
-                    <vs-checkbox dark v-model="checkFilters.utagai">疑い</vs-checkbox>
-                    <vs-checkbox dark v-model="checkFilters.acute">急性</vs-checkbox>
-                    <vs-checkbox dark v-model="checkFilters.main">主病</vs-checkbox>
-                </vs-row>
-            </vs-col>
-        </vs-row>
-        <vs-row>
-            <vs-col w="6">
-                <div style="padding: 0 5px">
-                    <div style="margin-left: 10px; font-size: 12px">開始日</div>
-                    <date-picker
-                        v-model="selectedStartDate"
-                        range
-                        placeholder="選択"
-                        format="YYYY年MM月DD日"
-                        value-type="YYYY-MM-DD"
-                        input-class="vs-input cc-mx-input"
-                        popup-class="cc-date-picker"
-                        >
-                    </date-picker>
-                </div>
-            </vs-col>
-            <vs-col w="6">
-                <div style="padding: 0 5px">
-                    <div style="margin-left: 10px; font-size: 12px">転帰日</div>
-                    <date-picker
-                        v-model="selectedEndDate"
-                        range
-                        placeholder="選択"
-                        format="YYYY年MM月DD日"
-                        value-type="YYYY-MM-DD"
-                        input-class="vs-input cc-mx-input"
-                        popup-class="cc-date-picker"
-                        >
-                    </date-picker>
-                </div>
-            </vs-col>
-        </vs-row>
-        <vs-table style="max-height: 50%; margin-top: 20px" striped>
-            <template #notFound>データなし</template>
-            <template #thead>
-                <vs-tr>
-                    <vs-th style="min-width: 200px; position: sticky; left: 0; z-index: 2001" sort
-                        @click="byoumei_history = $vs.sortData($event ,byoumeiFiltered, 'byomei')">病名</vs-th>
-                    <vs-th style="min-width: 120px" sort
-                        @click="byoumei_history = $vs.sortData($event ,byoumeiFiltered, 'utagaiflg')">疑い・急性</vs-th>
-                    <vs-th style="min-width: 80px" sort
-                        @click="byoumei_history = $vs.sortData($event ,byoumeiFiltered, 'syubyoflg')">主病</vs-th>
-                    <vs-th style="min-width: 120px" sort
-                        @click="byoumei_history = $vs.sortData($event ,byoumeiFiltered, 'creymd')">開始日</vs-th>
-                    <vs-th style="min-width: 80px" sort
-                        @click="byoumei_history = $vs.sortData($event ,byoumeiFiltered, 'tenkikbn')">転帰</vs-th>
-                    <vs-th style="min-width: 120px" sort
-                        @click="byoumei_history = $vs.sortData($event ,byoumeiFiltered, 'tenkiymd')">転帰日</vs-th>
-                </vs-tr>
-            </template>
-            <template #tbody>
-                <vs-tr v-for="(tr, index) in byoumeiFiltered" :key="index" class="hover-fix">
-                    <vs-td style="position: sticky; left: 0; z-index: 2000; background: inherit" v-bind:class="{'hover-override': index%2 == 0}"> {{ tr.byomei }} </vs-td>
-                    <vs-td> {{ utagaiDecode(tr.utagaiflg )}} </vs-td>
-                    <vs-td><span v-if="tr.syubyoflg == '1'">主病</span></vs-td>
-                    <vs-td><dateDisplay :date="tr.creymd"></dateDisplay></vs-td>
-                    <vs-td>{{ tenkiTransform(tr.tenkikbn) }}</vs-td>
-                    <vs-td>
-                        <dateDisplay v-if="tr.tenkiymd !== ''" :date="tr.tenkiymd"></dateDisplay>
-                    </vs-td>
+                    </h3>
+                </template>
+                <template #thead>
+                    <vs-tr>
+                        <vs-th>病名</vs-th>
+                        <vs-th>疑い・急性</vs-th>
+                        <vs-th>主病</vs-th>
+                        <vs-th>開始日</vs-th>
+                        <vs-th></vs-th>
+                    </vs-tr>
+                </template>
+                <template #tbody>
+                    <vs-tr v-for="(tr, index) in byoumeiActive" :key="index">
+                        <vs-td> {{ tr.Disease_Name }} </vs-td>
+                        <vs-td> {{ utagaiDecode(tr.Disease_SuspectedFlag )}} </vs-td>
+                        <vs-td><span v-if="tr.Disease_Category === 'PD'">主病</span></vs-td>
+                        <vs-td><dateDisplay :date="tr.Disease_StartDate"></dateDisplay></vs-td>
+                        <vs-td style="width: 60px">
+                            <vs-button
+                                v-if="edit"
+                                @click="showByoumeiEdit('edit', tr)"
+                                icon dark border
+                                size="small"
+                                animation-type="scale"
+                                class="cc-hover-button"
+                                >
+                                <i class="far fa-edit" style="font-size: 14px"></i>
+                                <template #animate>編集</template>
+                            </vs-button>
+                        </vs-td>
+                    </vs-tr>
+                </template>
+            </vs-table>
+        </div>
+        <div class="content-card customHeight" style="height: 60%">
+            <vs-table striped>
+                <template #notFound>データなし</template>
+                <template #header>
+                    <h3>履歴</h3>
+                    <vs-row align="center">
+                        <vs-col w="5">
+                            <vs-select
+                                label="処方名"
+                                filter
+                                chip-max-width="60px"
+                                collapse-chips
+                                multiple
+                                active
+                                class="cc-dark-select"
+                                placeholder="検索"
+                                :key="byoumeiFilter.length"
+                                v-model="selectedByoumei"
+                                >
+                                <vs-option
+                                    v-for="item in byoumeiFilter"
+                                    :key="item.khnbyomeicd"
+                                    :label="item.byomei"
+                                    :value="item.khnbyomeicd"
+                                >
+                                {{ item.byomei }}
+                                </vs-option>
+                            </vs-select>
+                        </vs-col>
+                        <vs-col w="4">
+                            <vs-select
+                                label="転帰"
+                                chip-max-width="129px"
+                                collapse-chips
+                                multiple
+                                class="cc-dark-select"
+                                active
+                                placeholder="Test"
+                                :key="tenkikbn.length"
+                                v-model="selectedOutcomes"
+                                >
+                                <vs-option
+                                    v-for="(item, index) in tenkikbn"
+                                    :key="index"
+                                    :label="item"
+                                    :value="index"
+                                >
+                                {{ item }}
+                                </vs-option>
+                            </vs-select>
+                        </vs-col>
+                        <vs-col w="3">
+                            <vs-row>
+                                <vs-checkbox dark v-model="checkFilters.utagai">疑い</vs-checkbox>
+                                <vs-checkbox dark v-model="checkFilters.acute">急性</vs-checkbox>
+                                <vs-checkbox dark v-model="checkFilters.main">主病</vs-checkbox>
+                            </vs-row>
+                        </vs-col>
+                    </vs-row>
+                    <vs-row>
+                        <vs-col w="6">
+                            <div style="padding: 0 5px">
+                                <div style="margin-left: 10px; font-size: 12px">開始日</div>
+                                <date-picker
+                                    v-model="selectedStartDate"
+                                    range
+                                    class="vs-input-parent--state-dark"
+                                    placeholder="選択"
+                                    format="YYYY年MM月DD日"
+                                    value-type="YYYY-MM-DD"
+                                    input-class="vs-input cc-mx-input"
+                                    popup-class="cc-date-picker"
+                                    >
+                                </date-picker>
+                            </div>
+                        </vs-col>
+                        <vs-col w="6">
+                            <div style="padding: 0 5px">
+                                <div style="margin-left: 10px; font-size: 12px">転帰日</div>
+                                <date-picker
+                                    v-model="selectedEndDate"
+                                    range
+                                    class="vs-input-parent--state-dark"
+                                    placeholder="選択"
+                                    format="YYYY年MM月DD日"
+                                    value-type="YYYY-MM-DD"
+                                    input-class="vs-input cc-mx-input"
+                                    popup-class="cc-date-picker"
+                                    >
+                                </date-picker>
+                            </div>
+                        </vs-col>
+                    </vs-row>
 
-                </vs-tr>
-            </template>
-        </vs-table>
+                </template>
+                <template #thead>
+                    <vs-tr>
+                        <vs-th style="min-width: 200px; position: sticky; left: 0; z-index: 2001" sort
+                            @click="byoumei_history = $vs.sortData($event ,byoumeiFiltered, 'byomei')">病名</vs-th>
+                        <vs-th style="min-width: 120px" sort
+                            @click="byoumei_history = $vs.sortData($event ,byoumeiFiltered, 'utagaiflg')">疑い・急性</vs-th>
+                        <vs-th style="min-width: 80px" sort
+                            @click="byoumei_history = $vs.sortData($event ,byoumeiFiltered, 'syubyoflg')">主病</vs-th>
+                        <vs-th style="min-width: 120px" sort
+                            @click="byoumei_history = $vs.sortData($event ,byoumeiFiltered, 'creymd')">開始日</vs-th>
+                        <vs-th style="min-width: 80px" sort
+                            @click="byoumei_history = $vs.sortData($event ,byoumeiFiltered, 'tenkikbn')">転帰</vs-th>
+                        <vs-th style="min-width: 120px" sort
+                            @click="byoumei_history = $vs.sortData($event ,byoumeiFiltered, 'tenkiymd')">転帰日</vs-th>
+                    </vs-tr>
+                </template>
+                <template #tbody>
+                    <vs-tr v-for="(tr, index) in byoumeiFiltered" :key="index" class="hover-fix">
+                        <vs-td style="position: sticky; left: 0; z-index: 2000; background: inherit" v-bind:class="{'hover-override': index%2 == 0}"> {{ tr.byomei }} </vs-td>
+                        <vs-td> {{ utagaiDecode(tr.utagaiflg )}} </vs-td>
+                        <vs-td><span v-if="tr.syubyoflg == '1'">主病</span></vs-td>
+                        <vs-td><dateDisplay :date="tr.creymd"></dateDisplay></vs-td>
+                        <vs-td>{{ tenkiTransform(tr.tenkikbn) }}</vs-td>
+                        <vs-td>
+                            <dateDisplay v-if="tr.tenkiymd !== ''" :date="tr.tenkiymd"></dateDisplay>
+                        </vs-td>
+                    </vs-tr>
+                </template>
+            </vs-table>
+        </div>
 
         <vs-dialog
             blur
@@ -345,6 +355,6 @@ export default {
 <style scoped>
 .landscape {
     max-width: 1000px;
-    height: calc(100%)!important
+    height: calc(100% - 20px)!important
 }
 </style>

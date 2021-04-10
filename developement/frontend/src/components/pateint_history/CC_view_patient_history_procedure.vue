@@ -1,75 +1,84 @@
 <template>
-    <div style="height: calc(100% - 80px); overflow: auto; display: flex; flex-direction: column" v-bind:class="{landscape: landscape}">
-        <div v-if="!noFilter">
-            <vs-row>
-                <vs-col w="6">
-                    <vs-select
-                        label="行為名"
-                        filter
-                        chip-max-width="129px"
-                        collapse-chips
-                        multiple
-                        active
-                        placeholder="検索"
-                        :key="kouisFilter.length"
-                        v-model="selectedkouis"
-                        >
-                        <vs-option
-                            v-for="item in kouisFilter"
-                            :key="item.tag"
-                            :label="item.name"
-                            :value="item"
-                        >
-                        {{ item.name }}
-                        </vs-option>
-                    </vs-select>
-                </vs-col>
-                <vs-col w="6">
-                    <div style="padding: 0 5px">
-                        <div style="margin-left: 10px; font-size: 12px">日付</div>
-                        <date-picker
-                            v-model="selectedDate"
-                            range
-                            placeholder="選択"
-                            format="YYYY年MM月DD日"
-                            value-type="YYYY-MM-DD"
-                            input-class="vs-input cc-mx-input"
-                            popup-class="cc-date-picker"
-                            >
-                        </date-picker>
-                    </div>
-                </vs-col>
-            </vs-row>
-            <vs-row style="flex-grow: 1">
-                <vs-col w="6">
-                    <vs-select
-                        label="行為類"
-                        filter
-                        chip-max-width="129px"
-                        collapse-chips
-                        multiple
-                        active
-                        placeholder="検索"
-                        :key="kouiCats.length"
-                        v-model="selectedType"
-                        >
-                        <vs-option
-                            v-for="(item, i) in kouiCats"
-                            :key="i"
-                            :label="item.name"
-                            :value="item.type"
-                        >
-                        <i :class="kouiCats[item.type].icon"></i>
-                        {{ item.name }}
-                        </vs-option>
-                    </vs-select>
-                </vs-col>
-
-            </vs-row>
-        </div>
-        <vs-table striped>
+    <div 
+        style="height: calc(100% - 20px); overflow: auto"
+        v-bind:class="{landscape: landscape}"
+        class="content-card customHeight"
+        >
+        <vs-table striped style="max-height: calc(100% - 140px)">
             <template #notFound>
                 データなし
+            </template>
+            <template #header>
+                <div v-if="!noFilter">
+                    <vs-row>
+                        <vs-col w="6">
+                            <vs-select
+                                label="行為名"
+                                filter
+                                chip-max-width="129px"
+                                collapse-chips
+                                multiple
+                                active
+                                class="cc-dark-select"
+                                placeholder="検索"
+                                :key="kouisFilter.length"
+                                v-model="selectedkouis"
+                                >
+                                <vs-option
+                                    v-for="item in kouisFilter"
+                                    :key="item.tag"
+                                    :label="item.name"
+                                    :value="item"
+                                >
+                                {{ item.name }}
+                                </vs-option>
+                            </vs-select>
+                        </vs-col>
+                        <vs-col w="6">
+                            <div style="padding: 0 5px">
+                                <div style="margin-left: 10px; font-size: 12px">日付</div>
+                                <date-picker
+                                    v-model="selectedDate"
+                                    range
+                                    class="vs-input-parent--state-dark"
+                                    placeholder="選択"
+                                    format="YYYY年MM月DD日"
+                                    value-type="YYYY-MM-DD"
+                                    input-class="vs-input vs-input--state-dark cc-mx-input"
+                                    popup-class="cc-date-picker"
+                                    >
+                                </date-picker>
+                            </div>
+                        </vs-col>
+                    </vs-row>
+                    <vs-row style="flex-grow: 1">
+                        <vs-col w="6">
+                            <vs-select
+                                label="行為類"
+                                filter
+                                chip-max-width="129px"
+                                collapse-chips
+                                multiple
+                                active
+                                class="cc-dark-select"
+                                placeholder="検索"
+                                :key="kouiCats.length"
+                                v-model="selectedType"
+                                >
+                                <vs-option
+                                    v-for="(item, i) in kouiCats"
+                                    :key="i"
+                                    :label="item.name"
+                                    :value="item.type"
+                                >
+                                <i :class="kouiCats[item.type].icon"></i>
+                                {{ item.name }}
+                                </vs-option>
+                            </vs-select>
+                        </vs-col>
+
+                    </vs-row>
+                </div>
             </template>
             <template #thead>
                 <vs-tr>
@@ -224,6 +233,6 @@ export default {
 <style scoped>
 .landscape {
     max-width: 1000px;
-    height: calc(100%)!important
+    height: calc(100% - 20px)!important
 }
 </style>

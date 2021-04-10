@@ -25,6 +25,7 @@
             :meta="tab.meta"
             :data="tab.meta"
             class="hidden-tab"
+            style="height: 100%"
             v-bind:class="{'active-tab': index === activeTab}"
             @showKarte="showKarte"
             @showShindan="showShindan"
