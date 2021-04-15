@@ -1,287 +1,307 @@
 <template>
-    <div style="height: calc(100% - 90px); overflow: auto" ref="loadCont">
+    <div style="height: calc(100% - 10px); overflow: auto" ref="loadCont">
         <vs-row>
-            <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="7">
-                <h2 style="margin-bottom: 5px"> {{ data.basic.patientName }} </h2>
-                <div class="cc-info-row">
-                    <span style="width: 60px" class="cc-info-row-label">患者番号</span>
-                    <vs-input style="width: 120px" readonly v-model="data.basic.patientID"/>
-                </div>
-                <div class="cc-info-row">
-                    <span style="width: 60px"  class="cc-info-row-label">年齢</span>
-                    <vs-input style="width: 120px"  readonly icon-after v-model="patientAge">
-                        <template #icon>歳</template>
-                    </vs-input>
-                </div>
-                <div class="cc-info-row">
-                    <span style="width: 60px" class="cc-info-row-label">性別</span>
-                    <vs-input style="width: 120px"  readonly v-model="gender" icon-after>
-                        <template #icon>
-                            <i v-if="gender==='女性'" class="fas fa-venus"></i>
-                            <i v-else class="fas fa-mars"></i>
-                        </template>
-                    </vs-input>
+            <vs-col w="7">
+                <div class="content-card customHeight">
+                    <div class="cc-card-header" >
+                        <h2> {{ data.basic.patientName }} </h2>
+                    </div>
+                    <div style="padding: 9px">
+                        <div class="cc-info-row">
+                            <span style="width: 60px" class="cc-info-row-label">患者番号</span>
+                            <vs-input style="width: 120px" readonly v-model="data.basic.patientID"/>
+                        </div>
+                        <div class="cc-info-row">
+                            <span style="width: 60px"  class="cc-info-row-label">年齢</span>
+                            <vs-input style="width: 120px"  readonly icon-after v-model="patientAge">
+                                <template #icon>歳</template>
+                            </vs-input>
+                        </div>
+                        <div class="cc-info-row">
+                            <span style="width: 60px" class="cc-info-row-label">性別</span>
+                            <vs-input style="width: 120px"  readonly v-model="gender" icon-after>
+                                <template #icon>
+                                    <i v-if="gender==='女性'" class="fas fa-venus"></i>
+                                    <i v-else class="fas fa-mars"></i>
+                                </template>
+                            </vs-input>
+                        </div>
+                    </div>
                 </div>
             </vs-col>
             <vs-col w="5">
-                <vs-table style="height: 210px" class="cc-vs-table-condensed">
-                    <template #header>
-                        <h3 style="display: flex; align-items: center; justify-content: space-between; margin: 0">
-                            基本情報
-                            <vs-button
-                                @click="showEditBasic"
-                                icon
-                                dark
-                                size="small"
-                                animation-type="scale"
-                            >
-                                <i class="far fa-edit" style="font-size: 14px"></i>
-                                <template #animate>編集</template>
-                            </vs-button>
-                        </h3>
-                    </template>
-                    <template #thead>
-                        <vs-tr style="display: none">
-                            <vs-th style="width: 100px"></vs-th>
-                            <vs-th></vs-th>
-                        </vs-tr>
-                    </template>
-                    <template #tbody>
-                        <vs-tr danger>
-                            <vs-td>血液型</vs-td>
-                            <vs-td> {{ data.basic.blood }} </vs-td>
-                        </vs-tr>
-                        <vs-tr v-if="data.basic.alc !=='不明'">
-                            <vs-td>アルコール</vs-td>
-                            <vs-td> {{ data.basic.alc }} 杯</vs-td>
-                        </vs-tr>
-                        <vs-tr v-if="data.basic.tab !=='不明'">
-                            <vs-td>タバコ</vs-td>
-                            <vs-td> {{ data.basic.tab }} 本</vs-td>
-                        </vs-tr>
-                        <vs-tr v-if="data.basic.pregnantFlag" style="background: rgba(var(--vs-color), 0.1); color: rgba(var(--vs-color), 1)">
-                            <vs-td>妊娠中</vs-td>
-                            <vs-td> 予定: {{ data.basic.expectedDate }} </vs-td>
-                        </vs-tr>
-                    </template>
-                </vs-table>
+                <div class="content-card customHeight">
+                    <vs-table style="height: 210px" class="cc-vs-table-condensed">
+                        <template #header>
+                            <h3 style="display: flex; align-items: center; justify-content: space-between; margin: 0">
+                                基本情報
+                                <vs-button
+                                    @click="showEditBasic"
+                                    icon
+                                    dark
+                                    size="small"
+                                    animation-type="scale"
+                                >
+                                    <i class="far fa-edit" style="font-size: 14px"></i>
+                                    <template #animate>編集</template>
+                                </vs-button>
+                            </h3>
+                        </template>
+                        <template #thead>
+                            <vs-tr style="display: none">
+                                <vs-th style="width: 100px"></vs-th>
+                                <vs-th></vs-th>
+                            </vs-tr>
+                        </template>
+                        <template #tbody>
+                            <vs-tr danger>
+                                <vs-td>血液型</vs-td>
+                                <vs-td> {{ data.basic.blood }} </vs-td>
+                            </vs-tr>
+                            <vs-tr v-if="data.basic.alc !=='不明'">
+                                <vs-td>アルコール</vs-td>
+                                <vs-td> {{ data.basic.alc }} 杯</vs-td>
+                            </vs-tr>
+                            <vs-tr v-if="data.basic.tab !=='不明'">
+                                <vs-td>タバコ</vs-td>
+                                <vs-td> {{ data.basic.tab }} 本</vs-td>
+                            </vs-tr>
+                            <vs-tr v-if="data.basic.pregnantFlag" style="background: rgba(var(--vs-color), 0.1); color: rgba(var(--vs-color), 1)">
+                                <vs-td>妊娠中</vs-td>
+                                <vs-td> 予定: {{ data.basic.expectedDate }} </vs-td>
+                            </vs-tr>
+                        </template>
+                    </vs-table>
+                </div>
             </vs-col>
         </vs-row>
         <vs-row>
             <vs-col w="4">
-                <vs-table style="height: 150px" class="cc-vs-table-condensed">
-                    <template #notFound>登録なし</template>
-                    <template #header>
-                        <h3 style="display: flex; align-items: center; justify-content: space-between; margin: 0">
-                            <span><i class="fas fa-allergies"></i>　アレルギー</span>
-                            <vs-button
-                                @click="showMultiModal('アレルギー', 'Allergy1', allergies)"
-                                icon
-                                dark
-                                size="small"
-                                animation-type="scale"
-                            >
-                                <i class="fas fa-plus" style="font-size: 14px"></i>
-                                <template #animate>登録</template>
-                            </vs-button>
-                        </h3>
-                    </template>
-                    <template #thead>
-                        <vs-tr style="display: none">
-                            <vs-th></vs-th>
-                            <vs-th></vs-th>
-                        </vs-tr>
-                    </template>
-                    <template #tbody>
-                        <vs-tr v-for="(tr, index) in allergies" :key="index">
-                            <vs-td> {{ tr.name }} </vs-td>
-                            <vs-td style="width: 60px">
+                <div class="content-card customHeight" style="padding-bottom: 20px">
+                    <vs-table style="height: 150px" class="cc-vs-table-condensed">
+                        <template #notFound>登録なし</template>
+                        <template #header>
+                            <h3 style="display: flex; align-items: center; justify-content: space-between; margin: 0">
+                                <span><i class="fas fa-allergies"></i>　アレルギー</span>
                                 <vs-button
-                                    @click="deleteItemAIP(index, 'Allergy1', allergies)"
-                                    icon danger border
+                                    @click="showMultiModal('アレルギー', 'Allergy1', allergies)"
+                                    icon
+                                    dark
                                     size="small"
                                     animation-type="scale"
-                                    class="cc-hover-button"
-                                    >
-                                    <i class="far fa-trash-alt" style="font-size: 14px"></i>
-                                    <template #animate>削</template>
+                                >
+                                    <i class="fas fa-plus" style="font-size: 14px"></i>
+                                    <template #animate>登録</template>
                                 </vs-button>
-                            </vs-td>
-                        </vs-tr>
-                    </template>
-                </vs-table>
+                            </h3>
+                        </template>
+                        <template #thead>
+                            <vs-tr style="display: none">
+                                <vs-th></vs-th>
+                                <vs-th></vs-th>
+                            </vs-tr>
+                        </template>
+                        <template #tbody>
+                            <vs-tr v-for="(tr, index) in allergies" :key="index">
+                                <vs-td> {{ tr.name }} </vs-td>
+                                <vs-td style="width: 60px">
+                                    <vs-button
+                                        @click="deleteItemAIP(index, 'Allergy1', allergies)"
+                                        icon danger border
+                                        size="small"
+                                        animation-type="scale"
+                                        class="cc-hover-button"
+                                        >
+                                        <i class="far fa-trash-alt" style="font-size: 14px"></i>
+                                        <template #animate>削</template>
+                                    </vs-button>
+                                </vs-td>
+                            </vs-tr>
+                        </template>
+                    </vs-table>
+                </div>
             </vs-col>
             <vs-col w="4" style="padding: 0 10px">
-                <vs-table style="height: 150px" class="cc-vs-table-condensed">
-                    <template #notFound>登録なし</template>
-                    <template #header>
-                        <h3 style="display: flex; align-items: center; justify-content: space-between; margin: 0">
-                            <span><i class="fas fa-exclamation-circle"></i>　プロブレム</span>
-                            <vs-button
-                                @click="showMultiModal('プロブレム', 'Comment1', problems)"
-                                icon
-                                dark
-                                size="small"
-                                animation-type="scale"
-                            >
-                                <i class="fas fa-plus" style="font-size: 14px"></i>
-                                <template #animate>登録</template>
-                            </vs-button>
-                        </h3>
-                    </template>
-                    <template #thead>
-                        <vs-tr style="display: none">
-                            <vs-th></vs-th>
-                            <vs-th></vs-th>
-                        </vs-tr>
-                    </template>
-                    <template #tbody>
-                        <vs-tr v-for="(tr, index) in problems" :key="index">
-                            <vs-td> {{ tr.name }} </vs-td>
-                            <vs-td style="width: 60px">
+                <div class="content-card customHeight" style="padding-bottom: 20px">
+                    <vs-table style="height: 150px" class="cc-vs-table-condensed">
+                        <template #notFound>登録なし</template>
+                        <template #header>
+                            <h3 style="display: flex; align-items: center; justify-content: space-between; margin: 0">
+                                <span><i class="fas fa-exclamation-circle"></i>　プロブレム</span>
                                 <vs-button
-                                    @click="deleteItemAIP(index, 'Comment1', problems)"
-                                    icon danger border
+                                    @click="showMultiModal('プロブレム', 'Comment1', problems)"
+                                    icon
+                                    dark
                                     size="small"
                                     animation-type="scale"
-                                    class="cc-hover-button"
-                                    >
-                                    <i class="far fa-trash-alt" style="font-size: 14px"></i>
-                                    <template #animate>削</template>
+                                >
+                                    <i class="fas fa-plus" style="font-size: 14px"></i>
+                                    <template #animate>登録</template>
                                 </vs-button>
-                            </vs-td>
-                        </vs-tr>
-                    </template>
-                </vs-table>
+                            </h3>
+                        </template>
+                        <template #thead>
+                            <vs-tr style="display: none">
+                                <vs-th></vs-th>
+                                <vs-th></vs-th>
+                            </vs-tr>
+                        </template>
+                        <template #tbody>
+                            <vs-tr v-for="(tr, index) in problems" :key="index">
+                                <vs-td> {{ tr.name }} </vs-td>
+                                <vs-td style="width: 60px">
+                                    <vs-button
+                                        @click="deleteItemAIP(index, 'Comment1', problems)"
+                                        icon danger border
+                                        size="small"
+                                        animation-type="scale"
+                                        class="cc-hover-button"
+                                        >
+                                        <i class="far fa-trash-alt" style="font-size: 14px"></i>
+                                        <template #animate>削</template>
+                                    </vs-button>
+                                </vs-td>
+                            </vs-tr>
+                        </template>
+                    </vs-table>
+                </div>
             </vs-col>
             <vs-col w="4">
-                <vs-table style="height: 150px" class="cc-vs-table-condensed">
-                    <template #notFound>登録なし</template>
-                    <template #header>
-                        <h3 style="display: flex; align-items: center; justify-content: space-between; margin: 0">
-                            <span><i class="fas fa-virus"></i>　感染症</span>
+                <div class="content-card customHeight" style="padding-bottom: 20px">
+                    <vs-table style="height: 150px" class="cc-vs-table-condensed">
+                        <template #notFound>登録なし</template>
+                        <template #header>
+                            <h3 style="display: flex; align-items: center; justify-content: space-between; margin: 0">
+                                <span><i class="fas fa-virus"></i>　感染症</span>
+                                <vs-button
+                                    @click="showMultiModal('感染症', 'Infection1', infections)"
+                                    icon
+                                    dark
+                                    size="small"
+                                    animation-type="scale"
+                                >
+                                    <i class="fas fa-plus" style="font-size: 14px"></i>
+                                    <template #animate>登録</template>
+                                </vs-button>
+                            </h3>
+                        </template>
+                        <template #thead>
+                            <vs-tr style="display: none">
+                                <vs-th></vs-th>
+                                <vs-th></vs-th>
+                            </vs-tr>
+                        </template>
+                        <template #tbody>
+                            <vs-tr v-for="(tr, index) in infections" :key="index">
+                                <vs-td> {{ tr.name }} </vs-td>
+                                <vs-td style="width: 60px">
+                                    <vs-button
+                                        @click="deleteItemAIP(index, 'Infection1', infections)"
+                                        icon danger border
+                                        size="small"
+                                        animation-type="scale"
+                                        class="cc-hover-button"
+                                        >
+                                        <i class="far fa-trash-alt" style="font-size: 14px"></i>
+                                        <template #animate>削</template>
+                                    </vs-button>
+                                </vs-td>
+                            </vs-tr>
+                        </template>
+                    </vs-table>
+                </div>
+            </vs-col>
+        </vs-row>
+        <div class="content-card customHeight">
+            <vs-table style="height: 210px" class="cc-vs-table-condensed">
+                <template #header>
+                    <h3 style="display: flex; align-items: center; justify-content: space-between; margin: 0">
+                        <span><i class="fas fa-disease"></i>　病名</span>
+                        <vs-button
+                            @click="showByoumeiEdit('add', null)"
+                            icon dark
+                            size="small"
+                            animation-type="scale"
+                            >
+                            <i class="fas fa-plus" style="font-size: 14px"></i>
+                            <template #animate>登録</template>
+                        </vs-button>
+                    </h3>
+                </template>
+                <template #thead>
+                    <vs-tr>
+                        <vs-th>病名</vs-th>
+                        <vs-th>疑い・急性</vs-th>
+                        <vs-th>主病</vs-th>
+                        <vs-th>開始日</vs-th>
+                        <vs-th></vs-th>
+                    </vs-tr>
+                </template>
+                <template #tbody>
+                    <vs-tr v-for="(tr, index) in byoumeiActive" :key="index">
+                        <vs-td> {{ tr.Disease_Name }} </vs-td>
+                        <vs-td> {{ utagaiDecode(tr.Disease_SuspectedFlag )}} </vs-td>
+                        <vs-td><span v-if="tr.Disease_Category === 'PD'">主病</span></vs-td>
+                        <vs-td><dateDisplay :date="tr.Disease_StartDate"></dateDisplay></vs-td>
+                        <vs-td style="width: 60px">
                             <vs-button
-                                @click="showMultiModal('感染症', 'Infection1', infections)"
-                                icon
-                                dark
+                                @click="showByoumeiEdit('edit', tr)"
+                                icon dark border
                                 size="small"
                                 animation-type="scale"
-                            >
-                                <i class="fas fa-plus" style="font-size: 14px"></i>
-                                <template #animate>登録</template>
+                                class="cc-hover-button"
+                                >
+                                <i class="far fa-edit" style="font-size: 14px"></i>
+                                <template #animate>編集</template>
                             </vs-button>
-                        </h3>
-                    </template>
-                    <template #thead>
-                        <vs-tr style="display: none">
-                            <vs-th></vs-th>
-                            <vs-th></vs-th>
-                        </vs-tr>
-                    </template>
-                    <template #tbody>
-                        <vs-tr v-for="(tr, index) in infections" :key="index">
-                            <vs-td> {{ tr.name }} </vs-td>
-                            <vs-td style="width: 60px">
+                        </vs-td>
+                    </vs-tr>
+                </template>
+            </vs-table>
+        </div>
+        <div class="content-card customHeight">
+            <vs-table style="height: 50px; margin-bottom: 20px">
+                <template #header>
+                    <h3 style="display: flex; align-items: center; justify-content: space-between; margin: 0">
+                        <span><i class="fas fa-sticky-note"></i>　メモ</span>
+                        <vs-button
+                            @click="editNote(false)"
+                            icon
+                            dark
+                            size="small"
+                            animation-type="scale"
+                        >
+                            <i class="fas fa-plus" style="font-size: 14px"></i>
+                            <template #animate>登録</template>
+                        </vs-button>
+                    </h3>
+                </template>
+            </vs-table>
+            <div style="padding: 10px">
+                <vs-card v-for="(tr, index) in data.notes" :key="index" style="margin: 10px 0px">
+                    <template #title>
+                        <div style="display: flex; justify-content: space-between">
+                            <h4>{{ tr.insertDate }}</h4>
                                 <vs-button
-                                    @click="deleteItemAIP(index, 'Infection1', infections)"
-                                    icon danger border
+                                    @click="editNote(tr)"
+                                    icon dark border
                                     size="small"
                                     animation-type="scale"
                                     class="cc-hover-button"
                                     >
-                                    <i class="far fa-trash-alt" style="font-size: 14px"></i>
-                                    <template #animate>削</template>
+                                    <i class="far fa-edit" style="font-size: 14px"></i>
+                                    <template #animate>編集</template>
                                 </vs-button>
-                            </vs-td>
-                        </vs-tr>
+                        </div>
                     </template>
-                </vs-table>
-            </vs-col>
-        </vs-row>
-        <vs-table style="height: 210px; margin-top: 30px" class="cc-vs-table-condensed">
-            <template #header>
-                <h3 style="display: flex; align-items: center; justify-content: space-between; margin: 0">
-                    <span><i class="fas fa-disease"></i>　病名</span>
-                    <vs-button
-                        @click="showByoumeiEdit('add', null)"
-                        icon dark
-                        size="small"
-                        animation-type="scale"
-                        >
-                        <i class="fas fa-plus" style="font-size: 14px"></i>
-                        <template #animate>登録</template>
-                    </vs-button>
-                </h3>
-            </template>
-            <template #thead>
-                <vs-tr>
-                    <vs-th>病名</vs-th>
-                    <vs-th>疑い・急性</vs-th>
-                    <vs-th>主病</vs-th>
-                    <vs-th>開始日</vs-th>
-                    <vs-th></vs-th>
-                </vs-tr>
-            </template>
-            <template #tbody>
-                <vs-tr v-for="(tr, index) in byoumeiActive" :key="index">
-                    <vs-td> {{ tr.Disease_Name }} </vs-td>
-                    <vs-td> {{ utagaiDecode(tr.Disease_SuspectedFlag )}} </vs-td>
-                    <vs-td><span v-if="tr.Disease_Category === 'PD'">主病</span></vs-td>
-                    <vs-td><dateDisplay :date="tr.Disease_StartDate"></dateDisplay></vs-td>
-                    <vs-td style="width: 60px">
-                        <vs-button
-                            @click="showByoumeiEdit('edit', tr)"
-                            icon dark border
-                            size="small"
-                            animation-type="scale"
-                            class="cc-hover-button"
-                            >
-                            <i class="far fa-edit" style="font-size: 14px"></i>
-                            <template #animate>編集</template>
-                        </vs-button>
-                    </vs-td>
-                </vs-tr>
-            </template>
-        </vs-table>
-        <vs-table style="height: 50px; margin-bottom: 20px">
-            <template #header>
-                <h3 style="display: flex; align-items: center; justify-content: space-between; margin: 0">
-                    <span><i class="fas fa-sticky-note"></i>　メモ</span>
-                    <vs-button
-                        @click="editNote(false)"
-                        icon
-                        dark
-                        size="small"
-                        animation-type="scale"
-                    >
-                        <i class="fas fa-plus" style="font-size: 14px"></i>
-                        <template #animate>登録</template>
-                    </vs-button>
-                </h3>
-            </template>
-        </vs-table>
-        <vs-card v-for="(tr, index) in data.notes" :key="index" style="margin: 10px 0px">
-            <template #title>
-                <div style="display: flex; justify-content: space-between">
-                    <h4>{{ tr.insertDate }}</h4>
-                        <vs-button
-                            @click="editNote(tr)"
-                            icon dark border
-                            size="small"
-                            animation-type="scale"
-                            class="cc-hover-button"
-                            >
-                            <i class="far fa-edit" style="font-size: 14px"></i>
-                            <template #animate>編集</template>
-                        </vs-button>
-                </div>
-            </template>
-            <template #text>
-                {{  tr.note }}
-            </template>
-            <template #buttons>
-            </template>
-        </vs-card>
+                    <template #text>
+                        {{  tr.note }}
+                    </template>
+                    <template #buttons>
+                    </template>
+                </vs-card>
+            </div>
+        </div>
         <vs-dialog
             blur
             v-model="editBasicOpen"
