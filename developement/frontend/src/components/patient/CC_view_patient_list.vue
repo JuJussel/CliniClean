@@ -2,7 +2,7 @@
   <div style="height: 100%">
     <vs-row style="height: 100%">
       <vs-col w="6" style="height: 100%">
-        <div class="content-card" style="height: 100%">
+        <div class="content-card">
           <vs-table striped v-model="selected">
             <template #notFound>
               <img style="width: 200px" src="../../assets/img/empty2.jpg"/>
@@ -40,15 +40,15 @@
               </vs-tr>
             </template>
             <template #tbody>
-                <vs-tr v-for="(tr, i) in searchResults" :key="i" :data="tr" :is-selected="selected == tr">
+                <vs-tr v-for="(tr, i) in searchResults" :key="i" :data="tr" :is-selected="selected == tr" class="cc-click-row">
                   <vs-td> {{ tr.id }} </vs-td>
                   <vs-td> {{ tr.name }} </vs-td>
                   <vs-td><date-display :date="tr.birthdate"></date-display></vs-td>
                   <vs-td>
                     <span style="display: flex">
-                      <vs-button v-if="$acl('reception', 2)" shadow style="width: 60px" @click="reception(tr)">受付</vs-button>
-                      <vs-button v-if="$acl('reception', 2)" shadow style="width: 60px" @click="reservation(tr)">予約</vs-button>
-                      <vs-button shadow style="width: 60px" @click="showDetails(tr)">詳細</vs-button>
+                      <vs-button class="cc-hover-button" v-if="$acl('reception', 2)" shadow style="width: 60px" @click="reception(tr)">受付</vs-button>
+                      <vs-button class="cc-hover-button" v-if="$acl('reception', 2)" shadow style="width: 60px" @click="reservation(tr)">予約</vs-button>
+                      <vs-button class="cc-hover-button" shadow style="width: 60px" @click="showDetails(tr)">詳細</vs-button>
                     </span>
                   </vs-td>
                 </vs-tr>

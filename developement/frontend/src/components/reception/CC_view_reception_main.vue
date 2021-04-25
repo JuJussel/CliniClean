@@ -117,21 +117,12 @@
                       style="
                         width: 65px;
                         display: flex;
-                        justify-content: flex-end;
+                        justify-content: center;
                       "
                     >
-                      <vs-button
-                        @click="
-                          paymentSelect = tr;
-                          paymentOpen = true;
-                        "
-                        shadow
-                        v-if="tr.status === 10 && $acl('reception', 2)"
-                        >会計</vs-button
-                      >
                       <i
                         v-if="tr.locked === 1"
-                        class="el-icon-lock"
+                        class="fas fa-lock"
                         style="margin-right: 5px; font-size: 18px"
                       ></i>
                       <i
@@ -143,6 +134,12 @@
                         class="fas fa-user-clock status-icon"
                         style="color: #03a9f4"
                       ></i>
+                      <i
+                        v-if="tr.status === 10"
+                        class="fas fa-yen-sign"
+                        style="margin-right: 5px; font-size: 18px"
+                      ></i>
+
                     </span>
                     <span
                       v-if="tr.update"
@@ -157,7 +154,17 @@
                   </span>
                 </vs-td>
                 <vs-td>
+                  <vs-button
+                    @click="
+                      paymentSelect = tr;
+                      paymentOpen = true;
+                    "
+                    shadow
+                    v-if="tr.status === 10 && $acl('reception', 2)"
+                    >会計</vs-button
+                  >
                   <vs-select
+                    v-else
                     :disabled="
                       tr.status === 36 || tr.status === 5 || tr.status === 6 || tr.locked === 1
                     "
@@ -229,7 +236,10 @@
             <template #tbody>
               <vs-tr v-for="(tr, i) in doctors" :key="i" :data="tr">
                 <vs-td> {{ tr.name }} </vs-td>
-                <vs-td> {{ tr.status === 1 ? "空" : "診察中" }} </vs-td>
+                <vs-td> 
+                  <span v-if="tr.status === 1" class="cc-tag" style="background: rgb(var(--vs-primary)); color: white">空</span>
+                  <span v-else class="cc-tag" style="background: rgb(var(--vs-danger)); color: white">診察中</span>
+                </vs-td>
               </vs-tr>
             </template>
           </vs-table>
@@ -428,13 +438,7 @@ export default {
   },
   created() {
     this.loading = true
-    this.$get('doctors')
-    .then(result => {
-      this.doctors = result.data
-    })
-    .catch(result => {
-      this.$apiError(result)
-    })
+    this.updateDoctors()
     if(!this.$store.getters.shinsatuTypes) {
       this.$get('shinsatutypes')
         .then(result => {
@@ -595,7 +599,16 @@ export default {
         }
         this.$put('encounters', sendData)
         .then(result => {
+          this.$vs.notification({
+            duration: 2000,
+            color: "primary",
+            position: "top-center",
+            title: "保存しました！",
+            text: "通常に保存しました",
+            icon: '<i class="fas fa-info"></i>',
+          })
           this.updateData()
+          this.updateDoctors()
         })
         .catch(result => {
           this.$apiError(result)
@@ -616,13 +629,23 @@ export default {
         doctor: this.shinsatuStartSelect.doctor.id,
       }
       this.$put('encounters', sendData)
-      .then(result => {
+      .then(() => {
+        this.updateDoctors()
         this.updateData()
       })
       .catch(result => {
         this.$apiError(result)
       })
     },
+    updateDoctors() {
+      this.$get('doctors')
+      .then(result => {
+        this.doctors = result.data
+      })
+      .catch(result => {
+        this.$apiError(result)
+      })
+    }
   },
   sockets: {
     broadcast(data) {

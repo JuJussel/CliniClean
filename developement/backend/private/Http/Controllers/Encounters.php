@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Database\Queries\Encounter;
+use App\Database\Queries\User;
 use stdClass;
 
 class Encounters {
@@ -92,6 +93,21 @@ class Encounters {
         } else {
             $res->message = $query->msg;
         }
+
+        if ($data->status === 3) {
+            
+            $query_data = new stdClass();
+            $query_data->id = $data->doctor;
+            $query_data->status = 2;
+            $db_data = new User();
+            $query = $db_data->set_status($query_data);
+            if ($query->ok) {
+                $res->success = true;    
+            } else {
+                $res->message = $query->msg;
+            }
+        }
+
     }
 
 }

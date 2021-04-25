@@ -617,7 +617,7 @@ class Orcaapi {
                     ';
                 }
                 if ($kk_value->kouiType === "210") {
-                    switch ($kk_value->var['type']) {
+                    switch ($kk_value->var->type) {
                         case '1':
                             $temp_shohou_type = '212';
                             break;
@@ -633,11 +633,11 @@ class Orcaapi {
                     '
                         <Medical_Information_child type="record">
                                 <Medical_Class type="string">' . $temp_shohou_type . '</Medical_Class>
-                                <Medical_Class_Number type="string">' . $kk_value['var']['times'] . '</Medical_Class_Number>
+                                <Medical_Class_Number type="string">' . $kk_value->var->times . '</Medical_Class_Number>
                                 <Medication_info type="array">
                                         <Medication_info_child type="record">
-                                                <Medication_Code type="string">' . $kk_value['kouiCode'] . '</Medication_Code>
-                                                <Medication_Number type="string">' . $kk_value['var']['amount'] . '</Medication_Number>
+                                                <Medication_Code type="string">' . $kk_value->kouiCode . '</Medication_Code>
+                                                <Medication_Number type="string">' . $kk_value->var->amount . '</Medication_Number>
                                         </Medication_info_child>
                                 </Medication_info>
                         </Medical_Information_child>

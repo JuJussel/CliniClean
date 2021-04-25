@@ -165,4 +165,24 @@ class User {
         return $result;
     }
 
+    public function set_status($params) {
+
+        $query =
+        '   UPDATE usr_users u
+            SET
+                u.status = ?
+            WHERE id = ?
+        ';
+
+        $bind_params = [
+            ['i', $params->status],
+            ['i', $params->id]
+        ];
+
+        $db = new DB();
+        $result = $db->query(['query'=>$query, 'bind_params'=>$bind_params]);
+        return $result;
+
+    }
+
 }

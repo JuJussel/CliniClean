@@ -12,7 +12,7 @@
                             v-for="date in dates"
                             :key="date"
                             style="min-width: 120px"
-                        > 
+                            >
                             <dateDisplay :date="date"></dateDisplay>
                         </vs-th>
                     </vs-tr>

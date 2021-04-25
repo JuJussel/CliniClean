@@ -1,6 +1,6 @@
 <template>
     <div style="display: flex; flex-direction: column; height: 100%">
-        <div class="cc-card-header" style="display: flex; justify-content: space-between; border-radius: 15px; margin:10px">
+        <div class="cc-card-header cc-shadow" style="display: flex; justify-content: space-between; border-radius: 15px; margin:10px">
             <vs-button-group>
                 <vs-button
                     border

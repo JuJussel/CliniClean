@@ -6,6 +6,7 @@ use App\Database\Queries\Record;
 use App\Database\Queries\Examination;
 use App\Middleware\Orcaapi;
 use App\Middleware\Websocket;
+use App\Database\Queries\User;
 use stdClass;
 
 class Records {
@@ -185,6 +186,22 @@ class Records {
         if (!$query->ok) {
             $res->message = $query->msg;
             return;
+        }
+
+        if(in_array($request_data->status, [6,10,5,35])) {
+
+            $query_data = (object) [
+                'id' => $meta->doctor,
+                'status' => 1
+            ];
+
+            $db_query = new User;
+            $query = $db_query->set_status($query_data);
+            if (!$query->ok) {
+                $res->message = $query->msg;
+                return;
+            }
+    
         }
 
         if (in_array($req->update[0]->mode, ['pause', 'close', 'healthcheck'])) {

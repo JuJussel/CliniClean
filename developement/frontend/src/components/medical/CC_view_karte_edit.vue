@@ -42,7 +42,7 @@
       </vs-button>
     </span>
     <vs-row style="height: 100%">
-      <vs-col :w="cardWidth[0]" style="height: 100%">
+      <vs-col style="height: 100%; flex: 1">
           <patientHistory
             :patientID="meta.patientID"
             :view="historyTab"
@@ -51,7 +51,7 @@
           >
           </patientHistory>
       </vs-col>
-      <vs-col :w="cardWidth[1]" style="height: 100%">
+      <vs-col style="height: 100%" v-bind:style="{flex: col2Flex}">
         <div class="content-card">
           <div class="cc-card-header" style="height: 50px">
             <vs-row style="justify-content: space-between">
@@ -234,7 +234,7 @@
           </div>
         </div>
       </vs-col>
-      <vs-col :w="cardWidth[2]" style="height: 100%">
+      <vs-col style="height: 100%" v-bind:style="{width: col3Width + 'px'}">
         <div class="content-card">
           <kouiList 
             @addKoui="addKoui"
@@ -450,7 +450,8 @@ export default {
         pause: {open: false, data: null},
         commit: {open: false, data: null,violations: null}
       },
-      cardWidth: [4, 5, 3],
+      col2Flex: 1,
+      col3Width: 400,
       historyTab: "dashboard",
       patientData: {},
       currentKouis: [],
@@ -529,10 +530,12 @@ export default {
 
   methods: {
     changeView() {
-      if (this.cardWidth[0] < 12) {
-        this.cardWidth = [12, 0, 0];
+      if (this.col2Flex === 1) {
+        this.col2Flex = null;
+        this.col3Width = 0;
       } else {
-        this.cardWidth = [4, 5, 3];
+        this.col2Flex = 1;
+        this.col3Width = 400;
       }
     },
     showKShindan() {

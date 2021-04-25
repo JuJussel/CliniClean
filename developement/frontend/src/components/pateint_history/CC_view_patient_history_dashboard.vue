@@ -1,12 +1,24 @@
 <template>
     <div style="height: calc(100% - 10px); overflow: auto" ref="loadCont">
         <vs-row>
-            <vs-col w="7">
-                <div class="content-card customHeight">
-                    <div class="cc-card-header" >
-                        <h2> {{ data.basic.patientName }} </h2>
-                    </div>
-                    <div style="padding: 9px">
+            <div class="content-card customHeight" style="width: 100%">
+                <div class="cc-card-header" style="display: flex; justify-content: space-between">
+                    <h2> {{ data.basic.patientName }} </h2>
+                    <span class="cc-tag" style="background: rgb(var(--vs-danger)); color: white">
+                        妊娠中 予定: {{ data.basic.expectedDate }}
+                    </span>
+                    <vs-button
+                        @click="showEditBasic"
+                        icon
+                        dark
+                        animation-type="scale"
+                        >
+                        <i class="far fa-edit" style="font-size: 14px"></i>
+                        <template #animate>編集</template>
+                    </vs-button>
+                </div>
+                <vs-row style="padding: 10px">
+                    <vs-col w="6">
                         <div class="cc-info-row">
                             <span style="width: 60px" class="cc-info-row-label">患者番号</span>
                             <vs-input style="width: 120px" readonly v-model="data.basic.patientID"/>
@@ -26,54 +38,24 @@
                                 </template>
                             </vs-input>
                         </div>
-                    </div>
-                </div>
-            </vs-col>
-            <vs-col w="5">
-                <div class="content-card customHeight">
-                    <vs-table style="height: 210px" class="cc-vs-table-condensed">
-                        <template #header>
-                            <h3 style="display: flex; align-items: center; justify-content: space-between; margin: 0">
-                                基本情報
-                                <vs-button
-                                    @click="showEditBasic"
-                                    icon
-                                    dark
-                                    size="small"
-                                    animation-type="scale"
-                                >
-                                    <i class="far fa-edit" style="font-size: 14px"></i>
-                                    <template #animate>編集</template>
-                                </vs-button>
-                            </h3>
-                        </template>
-                        <template #thead>
-                            <vs-tr style="display: none">
-                                <vs-th style="width: 100px"></vs-th>
-                                <vs-th></vs-th>
-                            </vs-tr>
-                        </template>
-                        <template #tbody>
-                            <vs-tr danger>
-                                <vs-td>血液型</vs-td>
-                                <vs-td> {{ data.basic.blood }} </vs-td>
-                            </vs-tr>
-                            <vs-tr v-if="data.basic.alc !=='不明'">
-                                <vs-td>アルコール</vs-td>
-                                <vs-td> {{ data.basic.alc }} 杯</vs-td>
-                            </vs-tr>
-                            <vs-tr v-if="data.basic.tab !=='不明'">
-                                <vs-td>タバコ</vs-td>
-                                <vs-td> {{ data.basic.tab }} 本</vs-td>
-                            </vs-tr>
-                            <vs-tr v-if="data.basic.pregnantFlag" style="background: rgba(var(--vs-color), 0.1); color: rgba(var(--vs-color), 1)">
-                                <vs-td>妊娠中</vs-td>
-                                <vs-td> 予定: {{ data.basic.expectedDate }} </vs-td>
-                            </vs-tr>
-                        </template>
-                    </vs-table>
-                </div>
-            </vs-col>
+                    </vs-col>
+                    <vs-col w="6">
+                        <div class="cc-info-row">
+                            <span style="width: 60px" class="cc-info-row-label">血液型</span>
+                            <vs-input style="width: 120px" readonly v-model="data.basic.blood"/>
+                        </div>
+                        <div class="cc-info-row">
+                            <span style="width: 60px" class="cc-info-row-label">アルコール</span>
+                            <vs-input style="width: 120px" readonly v-model="data.basic.alc"/>
+                        </div>
+                        <div class="cc-info-row">
+                            <span style="width: 60px" class="cc-info-row-label">タバコ</span>
+                            <vs-input style="width: 120px" readonly v-model="data.basic.tab"/>
+                        </div>
+
+                    </vs-col>
+                </vs-row>
+            </div>
         </vs-row>
         <vs-row>
             <vs-col w="4">

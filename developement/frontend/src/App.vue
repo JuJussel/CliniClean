@@ -75,6 +75,9 @@ export default {
   button:disabled {
     cursor: not-allowed;
   }
+  .cc-shadow {
+    box-shadow: 0 2px 12px 0 rgb(0 0 0 / 30%)
+  }
   .cc-table-filter-button {
     pointer-events: all;
     margin: 0 5px!important;
@@ -172,7 +175,7 @@ export default {
   .cc-info-row {
     display: flex;
     align-items: center;
-    margin-bottom: 15px;
+    margin: 15px 0;
   }
   .cc-info-row-label {
     margin-right: 20px;

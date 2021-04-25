@@ -210,7 +210,7 @@ class Medicalinfos {
             if ($value['vital_id'] === 104 && $blood === '不明') {
                 $blood = $value['value'];
             }
-            if ($value['vital_id'] === 100 && $expectedDate) {
+            if ($value['vital_id'] === 100 && !$expectedDate) {
                 $expectedDate = $value['value'];
             }
         }
