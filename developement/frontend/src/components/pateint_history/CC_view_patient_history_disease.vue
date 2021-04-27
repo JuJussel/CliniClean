@@ -1,7 +1,7 @@
 <template>
     <div style="height: calc(100% - 10px)" ref="loadCont" v-bind:class="{landscape: landscape}">
         <div class="content-card customHeight" style="height: calc(40% - 10px)">
-            <vs-table style="height: 100%" class="cc-vs-table-condensed">
+            <vs-table style="height: 100%">
                 <template #header>
                     <h3 style="display: flex; align-items: center; justify-content: space-between; margin: 0">
                         <span>有効</span>

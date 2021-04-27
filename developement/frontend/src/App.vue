@@ -134,9 +134,8 @@ export default {
     background-color: rgba(var(--vs-gray-2), 1);
     color: rgba(var(--vs-color), 1);
   }
-  .cc-click-row:hover td {
-    cursor: pointer;
-    background-color: rgba(var(--vs-primary), 0.2)!important
+  .cc-click-row {
+    cursor: pointer
   }
   .fc-left {
     margin-left: 10px;
@@ -216,7 +215,7 @@ export default {
       background: white
   }
   .hover-fix:hover td {
-    background: rgba(var(--vs-gray-2), 1)!important
+    background: rgba(var(--vs-gray-4), 1)!important
   }
   .mx-table-date .today {
     color: rgba(var(--vs-primary), 1)!important
