@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "../../.."
+		},
+		{
+			"path": "../../../../vuesaxcc.bak/vuesax-next-cc/packages/vuesax"
+		},
+		{
+			"path": "../../../../../developement_new/cui/v0"
+		}
+	],
+	"remoteAuthority": "wsl+Ubuntu-20.04"
+}
