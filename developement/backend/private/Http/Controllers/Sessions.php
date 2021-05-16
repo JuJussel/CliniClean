@@ -89,6 +89,7 @@ class Sessions {
                 $req->data->location = '/mobile/home';
             } else {
                 $res->data->location = '/home';
+                $res->data->user->id = $query['id'];
             }
         } else {
             $res->data->ok = false;

@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "../../../../../developement_new/cui/v0"
+		},
+		{
+			"path": "../../../../../developement_new/cliniclean/v0.3"
 		}
 	],
 	"remoteAuthority": "wsl+Ubuntu-20.04"
