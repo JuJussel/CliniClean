@@ -2,7 +2,7 @@ import { createApp } from 'vue'
 import { store } from './store'
 import App from './App.vue'
 import router from './router'
-import Api from '@/plugins/api'
+import Api from '@/services/api.service'
 
 import moment from 'moment'
 import Cui from 'clini-ui-lib'

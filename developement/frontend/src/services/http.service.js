@@ -3,41 +3,31 @@ import Globals from '@/config/global';
 var baseURL = Globals.apiURL;
 
 var request = function(route, data = null, type, abortSignal) {
-  var qs = "?route=" + route;
-  var fd = null;
-  // Check if Get or Delete
-  var getDelete = type === "GET" || type === "DELETE";
-  if (getDelete) {
-    if (data) {
-      qs = qs + "&params=" + JSON.stringify(data);
-    }
-  } else {
-    fd = new FormData();
-    fd.append("data", JSON.stringify(data));
-    if (data && data.hasFiles) {
-      data.fileList.forEach((file) => {
-        fd.append("files[]", file);
-      });
-    }
-  }
+    
   const promise = new Promise(function(resolve, reject) {
-    fetch(baseURL + qs, {
-      credentials: "include",
+    console.log(data);
+    fetch(baseURL + route, {
       method: type,
-      body: fd,
+      // body: JSON.stringify(data),
       signal: abortSignal,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'x-access-token': window.localStorage.getItem('accessToken')
+      }
     })
-      .then((res) => res.json())
-      .then((res) => {
-        if (!res.success) {
-          reject(res);
-        } else {
-          resolve(res);
-        }
+    .then((res) => {
+
+      if (res.status !== 200) {
+        reject({status: res.status, statusText: res.statusText})
+      }
+      res.json().then(data => {
+        resolve(data)
       })
-      .catch((res) => {
-        reject(res);
-      });
+    })
+    .catch((res) => {
+      reject(res);
+    });
   });
   return promise;
 }

@@ -47,3 +47,6 @@ exports.login = (req, res) => {
 
     })
 };
+exports.check = (req,res) => {
+    res.status(200).send()
+}

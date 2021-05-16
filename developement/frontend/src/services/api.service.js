@@ -1,13 +1,16 @@
-import Http from './http'
+import Http from './http.service'
 
 const http = Http
 
 //function(route, data, abortSignal = null)
 const  api = {
     auth: {
-        get: null,
-        post: function(data = {}, abortSignal = null) {
-            return http.post('Sessions', data, abortSignal)
+        login: function(data = {}, abortSignal = null) {
+            return http.post('auth/login', data, abortSignal)
+        },
+        get: function(data = {}) {
+            console.log('check');
+            return http.get('auth/check', data)
         }
     },
     user: {
@@ -32,6 +35,7 @@ const  api = {
 }
 
 export default {
+    api,
     install: (app) => {
         app.config.globalProperties.$api = api
     }

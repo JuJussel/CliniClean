@@ -54,5 +54,4 @@ User.findOne = (username, result) => {
     );
 };
 
-
-  module.exports = User;
+module.exports = User;

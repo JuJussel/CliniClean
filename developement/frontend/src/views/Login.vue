@@ -9,14 +9,14 @@
             :disabled="loading"
             placeholder="ユーザ名"
             icon="fas fa-user"
-            v-model="user.user"
+            v-model="user.username"
           />
           <cui-input
             :disabled="loading"
             placeholder="パスワード"
             icon="fas fa-lock"
             type="password"
-            v-model="user.pass"
+            v-model="user.password"
           />
           <cui-button
             @click="login"
@@ -37,31 +37,30 @@ export default {
   data() {
     return {
       user: {
-        user: '',
-        pass: '',
-        mobile: false
+        username: 'ekurosu2',
+        password: 'Passw0rd!'
       },
-      loading: false
+      loading: false,
+      test: null
     }
   },
   methods: {
     login() {
       this.loading = true
-      return
-      // this.$api.auth.post(this.user)
-      // .then((r) => {
-      //   if (r.data.ok) {
-      //     this.$api.user.get(r.data.user.id).then(user => {
-      //       this.$store.commit('SET_USER', user.data)
-      //       this.$route.push('/')
-      //     })
-      //   } else {
-      //     this.$cui.notification({ text: 'ユーザー名又はパスワードが違います。ご確認してください。', color: 'danger' })
-      //   }
-      // })
-      // .catch(r => {
-      //   this.$cui.notification({ text: r, color: 'danger' })
-      // })
+      this.$api.auth.login(this.user)
+      .then(res => {
+          this.$store.commit('SET_USER', res)
+          localStorage.setItem('accessToken', res.accessToken)
+          this.$router.push('/')
+      })
+      .catch(res => {
+        this.loading = false
+        if (res.status === 401) {
+          this.$cui.notification({ text: 'ユーザー名又はパスワードが違います。ご確認してください。', color: 'danger' })
+        } else {
+          this.$cui.notification({ text: res.statusText, color: 'danger' })
+        }
+      })
 
       
       

@@ -6,6 +6,8 @@
 
 <script>
 
+import Auth from './services/auth.service'
+
 export default {
   name: 'App',
   created() {
@@ -13,8 +15,11 @@ export default {
   },
   methods: {
     isAuthenticated() {
-      const user = this.$store.getters.user
-      if (user) {
+      let a = false
+      Auth.isAuthenticated()
+      .then(() => {console.log('AUTHISOK');})
+      .catch(() => {console.log('NOTOKAUTH');})
+      if (a) {
         this.$router.push('/')
       } else {
         this.$router.push('/login')
