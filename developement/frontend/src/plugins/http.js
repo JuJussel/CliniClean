@@ -1,6 +1,6 @@
-import globals from "../globals";
+import Globals from '@/config/global';
 
-var baseURL = globals.apiURL;
+var baseURL = Globals.apiURL;
 
 var request = function(route, data = null, type, abortSignal) {
   var qs = "?route=" + route;
@@ -43,24 +43,16 @@ var request = function(route, data = null, type, abortSignal) {
 }
 
 export default {
-  install(Vue) {
-    (Vue.prototype.$get = function(route, data, abortSignal = null) {
+    get: function(route, data, abortSignal) {
       return request(route, data, "GET", abortSignal);
-    }),
-    (Vue.prototype.$post = function(route, data, abortSignal = null) {
+    },
+    post: function(route, data, abortSignal) {
       return request(route, data, "POST", abortSignal);
-    }),
-    (Vue.prototype.$put = function(route, data, abortSignal = null) {
+    },
+    put: function(route, data, abortSignal) {
       return request(route, data, "PUT", abortSignal);
-    }),
-    (Vue.prototype.$delete = function(route, data, abortSignal = null) {
+    },
+    delete: function(route, data, abortSignal) {
       return request(route, data, "DELETE", abortSignal);
-    }),
-    (Vue.prototype.$apiError = function(res) {
-      if(res.name !== 'AbortError') {
-        Vue.prototype.$eventHub.$emit("apiError", res.message);
-        return({success: false})
-      }
-    })
-  }
+    }
 }

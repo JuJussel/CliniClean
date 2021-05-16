@@ -1,5 +1,5 @@
 {
-  "name": "clinicleanv3",
+  "name": "frontend",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -8,35 +8,27 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.15.1",
-    "@fullcalendar/daygrid": "^5.5.0",
-    "@fullcalendar/interaction": "^5.5.0",
-    "@fullcalendar/timegrid": "^5.5.1",
-    "@fullcalendar/vue": "^5.5.0",
-    "echarts": "^4.8.0",
-    "liquor-tree": "^0.2.70",
+    "clini-ui-lib": "^0.0.471",
+    "core-js": "^3.6.5",
+    "echarts": "^5.1.1",
+    "moment": "^2.29.1",
     "quill-image-resize": "^3.0.9",
-    "vue": "^2.6.10",
-    "vue-cropperjs": "^4.2.0",
-    "vue-echarts-v3": "^2.0.1",
-    "vue-full-calendar": "^2.8.0",
-    "vue-moment": "^4.1.0",
-    "vue-resize": "^0.4.5",
-    "vue-router": "^3.1.3",
+    "vue": "^3.0.0",
+    "vue-cropperjs": "^5.0.0",
+    "vue-echarts": "*",
+    "vue-router": "^4.0.8",
     "vue-socket.io": "^3.0.10",
-    "vue-tweet-embed": "^2.4.0",
-    "vue2-datepicker": "^3.8.0",
-    "vue2-editor": "^2.10.2",
-    "vuesax": "^4.0.1-alpha.25",
-    "vuex": "^3.1.2"
+    "vue3-editor": "*",
+    "vuex": "^4.0.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-eslint": "^4.1.0",
-    "@vue/cli-service": "^4.1.0",
-    "babel-eslint": "^10.0.3",
-    "eslint": "^5.16.0",
-    "eslint-plugin-vue": "^5.0.0",
-    "vue-template-compiler": "^2.6.10"
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "@vue/compiler-sfc": "^3.0.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^7.0.0"
   },
   "eslintConfig": {
     "root": true,
@@ -44,15 +36,17 @@
       "node": true
     },
     "extends": [
-      "plugin:vue/essential"
+      "plugin:vue/vue3-essential",
+      "eslint:recommended"
     ],
-    "rules": {},
     "parserOptions": {
       "parser": "babel-eslint"
-    }
+    },
+    "rules": {}
   },
   "browserslist": [
     "> 1%",
-    "last 2 versions"
+    "last 2 versions",
+    "not dead"
   ]
 }

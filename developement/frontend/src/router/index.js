@@ -1,42 +1,23 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Login from '../Routes/Login.vue'
-
-Vue.use(VueRouter)
+import { createWebHistory, createRouter } from "vue-router";
+import Home from "@/views/Home.vue";
+import Login from "@/views/Login.vue";
 
 const routes = [
   {
-    path: '/',
-    name: 'login',
-    component: Login,
-    // beforeEnter (to, from, next) {
-    //   if (document.cookie.split('; ').find(row => row.startsWith('PHPSESSID'))) {
-    //     next('/home')
-    //   }
-    //   else {
-    //     next()
-    //   }
-    // }
+    path: "/",
+    name: "Home",
+    component: Home,
   },
   {
-    path: '/home',
-    name: 'home',
-    component: function () {
-      return import( '../Routes/Home.vue')
-    },
-    // beforeEnter (to, from, next) {
-    //   if (document.cookie.split('; ').find(row => row.startsWith('PHPSESSID'))) {
-    //     next()
-    //   }
-    //   else {
-    //     next('/')
-    //   }
-    // }
-  }
-]
+    path: "/login",
+    name: "Login",
+    component: Login,
+  },
+];
 
-const router = new VueRouter({
-  routes
-})
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
+});
 
-export default router
+export default router;
