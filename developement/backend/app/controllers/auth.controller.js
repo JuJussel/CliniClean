@@ -6,7 +6,6 @@ var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 
 exports.login = (req, res) => {
-    console.log(req.body);
     User.findOne(req.body.username, (err, user) => {
         if (err) {
             if (err.kind === 'not_found') {
@@ -21,8 +20,7 @@ exports.login = (req, res) => {
         if (!user) {
             return res.status(404).send({ message: "User Not found." });
         }
-        let a = bcrypt.hashSync(req.body.password, 10);
-        console.log(a);
+
         var passwordIsValid = bcrypt.compareSync(
             req.body.password,
             user.password
