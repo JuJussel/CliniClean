@@ -50,7 +50,7 @@ export default {
       this.$api.auth.login(this.user)
       .then(res => {
           this.$store.commit('SET_USER', res)
-          localStorage.setItem('accessToken', res.accessToken)
+          this.$auth.add(res.accessToken)
           this.$router.push('/')
       })
       .catch(res => {
@@ -61,9 +61,6 @@ export default {
           this.$cui.notification({ text: res.statusText, color: 'danger' })
         }
       })
-
-      
-      
     }
   }
 }
