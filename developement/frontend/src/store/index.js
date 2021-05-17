@@ -11,7 +11,7 @@ export const store = createStore({
   },
 
   getters: {
-      user: state => state.user
+      user: state => state.user,
   },
   
   mutations: {

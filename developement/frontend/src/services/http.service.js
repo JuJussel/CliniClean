@@ -5,17 +5,31 @@ var baseURL = Globals.apiURL;
 var request = function(route, data = null, type, abortSignal) {
     
   const promise = new Promise(function(resolve, reject) {
-    console.log(data);
-    fetch(baseURL + route, {
+
+    let options = {
       method: type,
-      // body: JSON.stringify(data),
       signal: abortSignal,
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'x-access-token': window.localStorage.getItem('accessToken')
       }
-    })
+    }
+
+    if(type !== 'GET') {
+      options = {
+        method: type,
+        body: JSON.stringify(data),
+        signal: abortSignal,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'x-access-token': window.localStorage.getItem('accessToken')
+        }
+      }
+    }
+
+    fetch(baseURL + route, options)
     .then((res) => {
 
       if (res.status !== 200) {

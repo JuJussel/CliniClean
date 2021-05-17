@@ -3,6 +3,7 @@ import { store } from './store'
 import App from './App.vue'
 import router from './router'
 import Api from '@/services/api.service'
+import Auth from '@/services/auth.service'
 
 import moment from 'moment'
 import Cui from 'clini-ui-lib'
@@ -23,6 +24,7 @@ app.use(Cui)
 app.provide('$notification', Cui.notification)
 app.use(router)
 app.use(Api)
+app.use(Auth)
 app.mount('#app')
 
 

@@ -6,8 +6,6 @@
 
 <script>
 
-import Auth from './services/auth.service'
-
 export default {
   name: 'App',
   created() {
@@ -15,15 +13,25 @@ export default {
   },
   methods: {
     isAuthenticated() {
-      let a = false
-      Auth.isAuthenticated()
-      .then(() => {console.log('AUTHISOK');})
-      .catch(() => {console.log('NOTOKAUTH');})
-      if (a) {
-        this.$router.push('/')
-      } else {
+      this.$auth.check()
+      .then(() => {
+        console.log('OK');
+          this.$router.push('/')
+        })
+      .catch(() => {
+        console.log('NOGO');
         this.$router.push('/login')
-      }
+      })
+
+      // let auth = this.$store.getters.isAuthenticated
+      // console.log(auth);
+      // let a = false
+      // // a = Auth.isAuthenticated()
+      // if (a) {
+      //   this.$router.push('/')
+      // } else {
+      //   this.$router.push('/login')
+      // }
     }
   }
 }
