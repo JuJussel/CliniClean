@@ -37,10 +37,13 @@ exports.login = (req, res) => {
             expiresIn: config.lifetime
         });
     
+        var now = new Date();
+        now.setTime(now.getTime() + (config.lifetime * 1000));
+
         res
         .status(200)
         .cookie('token', token, {
-            expires: new Date(Date.now() + config.lifetime),
+            expires: now,
             secure: true,
             httpOnly: true
         })
