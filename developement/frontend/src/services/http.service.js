@@ -9,6 +9,7 @@ var request = function(route, data = null, type, abortSignal) {
     let options = {
       method: type,
       signal: abortSignal,
+      credentials: 'include ',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -21,6 +22,7 @@ var request = function(route, data = null, type, abortSignal) {
         method: type,
         body: JSON.stringify(data),
         signal: abortSignal,
+        credentials: 'include',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',

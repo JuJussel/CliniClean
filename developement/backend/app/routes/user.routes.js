@@ -17,9 +17,10 @@ module.exports = app => {
   
     // Retrieve a single Customer with customerId
     app.get(
-        "/api/users/:userId",
-        [authJwt.verifyToken],
-        user.findOne);
+      "/api/users/:userId",
+      [authJwt.verifyToken],
+      user.findOne
+    );
   
     // // Update a Customer with customerId
     // app.put("/customers/:customerId", customers.update);

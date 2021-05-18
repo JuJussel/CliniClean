@@ -10,7 +10,7 @@
       <template v-slot:center>CliniClean</template>
       <template v-slot:right>
         <div style="display: flex; align-items: center">
-          <cui-avatar />
+          <cui-avatar :image="avatarUrl" />
           <div> {{ $store.getters.user.lastName }} </div>
         </div>
         <cui-menu-bar-item icon="fas fa-sign-out-alt" value="logout"/>
@@ -35,6 +35,11 @@ export default {
         this.$router.push('/login')
       }
       this.activeMenu = val
+    }
+  },
+  computed: {
+    avatarUrl() {
+      return this.$GLOBALS.filesUrl + 'user' + this.$store.getters.user.id + '.png'
     }
   }
 }

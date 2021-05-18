@@ -11,6 +11,7 @@ const auth = {
     },
     add: function(token) {
       localStorage.setItem('accessToken', token)
+      // document.cookie = "token=" + token
     }
 }
 

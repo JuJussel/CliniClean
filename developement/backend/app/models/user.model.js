@@ -8,7 +8,7 @@ const User = function(user) {
 User.findById = (userId, result) => {
     
     sql.query(
-        "SELECT id, user_name, name_first, name_last, user_group, status FROM usr_users WHERE id = ? AND active = 1 LIMIT 1",
+        "SELECT id, username, nameFirst, nameLast, userGroup, status FROM usr_users WHERE id = ? AND active = 1 LIMIT 1",
         [
             userId
         ], (err, res) => {
@@ -32,7 +32,7 @@ User.findById = (userId, result) => {
 User.findOne = (username, result) => {
     
     sql.query(
-        "SELECT id, user_name, password, name_first, name_last, user_group, status FROM usr_users WHERE user_name = ? AND active = 1 LIMIT 1",
+        "SELECT id, username, password, nameFirst, nameLast, userGroup, status FROM usr_users WHERE username = ? AND active = 1 LIMIT 1",
         [
             username
         ], (err, res) => {

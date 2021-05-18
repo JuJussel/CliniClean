@@ -1,13 +1,9 @@
-const express = require('express');
 
 module.exports = app => {
+  const express = require('express');
   const { authJwt } = require("../middleware");
+  const envConfig = require("../../env");
 
-  app.use('/files/*', function(req,res,next){
-    return express.static(__dirname + '/storage');
-    // if(authJwt.verifyToken){
-    // } else {
-    //   res.render(403, 'login', {message:'Please, login!'});
-    // }
-    });     
+  app.use('/files', [authJwt.verifyToken, express.static(envConfig.PROJECT_DIR + '/storage')]);
+
 };

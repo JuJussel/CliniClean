@@ -18,8 +18,6 @@ app.use(helmet());
 app.use(cors(corsOptions));
 app.use('/', routes)
 
-app.use('/files', express.static(__dirname + '/storage'));
-
 https.createServer({
   key: fs.readFileSync('/etc/pki/tls/certs/key.pem'),
   cert: fs.readFileSync('/etc/pki/tls/certs/cert.pem')

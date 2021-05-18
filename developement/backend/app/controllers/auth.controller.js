@@ -37,7 +37,14 @@ exports.login = (req, res) => {
             expiresIn: config.lifetime
         });
     
-        res.status(200).send({
+        res
+        .status(200)
+        .cookie('token', token, {
+            expires: new Date(Date.now() + config.lifetime),
+            secure: true,
+            httpOnly: true
+        })
+        .send({
             id: user.id,
             username: user.username,
             firstName: user.name_first,

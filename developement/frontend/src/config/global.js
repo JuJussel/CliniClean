@@ -10,5 +10,5 @@ export default {
   schemaUrl: 'https://' + url + '/assets/schemas/',
   mapUrl: 'https://' + url + '/maps/tileserver.php',
   assetsUrl: 'https://' + url + '/assets/', //Images
-  filesUrl: 'https://' + url + '/files/',//User created assets
+  filesUrl: 'https://' + url + ':' + apiPort + '/files/',//User created assets
 }
