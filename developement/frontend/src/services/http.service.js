@@ -9,11 +9,10 @@ var request = function(route, data = null, type, abortSignal) {
     let options = {
       method: type,
       signal: abortSignal,
-      credentials: 'include ',
+      credentials: Globals.httpCredPol,
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'x-access-token': window.localStorage.getItem('accessToken')
+        'Content-Type': 'application/json'
       }
     }
 
@@ -22,11 +21,10 @@ var request = function(route, data = null, type, abortSignal) {
         method: type,
         body: JSON.stringify(data),
         signal: abortSignal,
-        credentials: 'include',
+        credentials: Globals.httpCredPol,
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'x-access-token': window.localStorage.getItem('accessToken')
+          'Content-Type': 'application/json'
         }
       }
     }
@@ -39,6 +37,9 @@ var request = function(route, data = null, type, abortSignal) {
       }
       res.json().then(data => {
         resolve(data)
+      })
+      .catch(() => {
+        resolve(null)
       })
     })
     .catch((res) => {

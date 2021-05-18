@@ -7,6 +7,7 @@ const routes = require('./app/routes');
 const app = express();
 const helmet = require('helmet');
 const corsOptions = require('./config/cors.config')
+const cookieParser = require("cookie-parser");
 
 const port = 3003;
 
@@ -14,6 +15,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+app.use(cookieParser());
 app.use(helmet());
 app.use(cors(corsOptions));
 app.use('/', routes)

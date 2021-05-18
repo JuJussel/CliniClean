@@ -1,14 +1,13 @@
 // const configElement = document.getElementById( 'config' ); //Pass data from PHP in index.html
 const url = window.location.hostname
-const apiPort = '3003'
-
+const apiPort = ':3003' //port not needed in production - set to ''
 export default {
   apiUrl: url,
   apiPort: apiPort,
-  apiURL: 'https://' + url + ':' + apiPort + '/api/', // APi
+  apiURL: 'https://' + url + apiPort + '/api/', // APi
   socketIOIP: 'https://' + url + ':1337', // Notification Server
   schemaUrl: 'https://' + url + '/assets/schemas/',
-  mapUrl: 'https://' + url + '/maps/tileserver.php',
   assetsUrl: 'https://' + url + '/assets/', //Images
-  filesUrl: 'https://' + url + ':' + apiPort + '/files/',//User created assets
+  filesUrl: 'https://' + url + apiPort + '/files/', //User created assets,
+  httpCredPol: 'include' //Use include during dev. In production change to 'same-origin'
 }

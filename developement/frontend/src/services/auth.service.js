@@ -4,14 +4,12 @@ const http = Http
 
 const auth = {
     check: function() {
-      return http.get('auth/check', null, null)
+      let r = http.get('auth/check', {}, null)
+      return r
     },
     remove: function() {
+      http.delete('auth/logout', {}, null)
       localStorage.clear()
-    },
-    add: function(token) {
-      localStorage.setItem('accessToken', token)
-      // document.cookie = "token=" + token
     }
 }
 

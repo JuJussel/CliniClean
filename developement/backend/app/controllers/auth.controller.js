@@ -50,13 +50,22 @@ exports.login = (req, res) => {
         .send({
             id: user.id,
             username: user.username,
-            firstName: user.name_first,
-            lastName: user.name_last,
-            accessToken: token
+            nameFirst: user.nameFirst,
+            nameLast: user.nameLast
         });
 
     })
 };
 exports.check = (req,res) => {
     res.status(200).send({tokenOk: true})
+}
+exports.logout = (req, res) => {
+    res
+    .status(200)
+    .clearCookie("token", {
+        secure: true,
+        httpOnly: true
+    })
+    .end();
+
 }

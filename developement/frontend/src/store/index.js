@@ -6,17 +6,23 @@ export const store = createStore({
 
   state () {
     return {
-      user: null
+      user: null,
+      activeView: 'home'
     }
   },
 
   getters: {
       user: state => state.user,
+      userFullName: state => state.user.nameLast + state.user.nameFirst,
+      activeView: state => state.activeView
   },
   
   mutations: {
     SET_USER(state, user) {
       state.user = user
+    },
+    SET_ACTIVE_VIEW(state, view) {
+      state.activeView = view
     }
   }
 })
