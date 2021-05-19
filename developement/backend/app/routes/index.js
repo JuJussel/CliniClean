@@ -9,6 +9,7 @@ routes.get('/', (req, res) => {
 require("./user.routes")(routes);
 require("./auth.routes")(routes);
 require("./file.routes")(routes);
+require("./encounter.routes")(routes);
 
 
 module.exports = routes;

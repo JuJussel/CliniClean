@@ -13,7 +13,7 @@ export const store = createStore({
 
   getters: {
       user: state => state.user,
-      userFullName: state => state.user.nameLast + state.user.nameFirst,
+      userFullName: state => state.user?.nameLast + state.user?.nameFirst,
       activeView: state => state.activeView
   },
   
@@ -24,5 +24,8 @@ export const store = createStore({
     SET_ACTIVE_VIEW(state, view) {
       state.activeView = view
     }
+  },
+  actions: {
+
   }
 })

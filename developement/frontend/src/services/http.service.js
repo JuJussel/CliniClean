@@ -2,7 +2,7 @@ import Globals from '@/config/global';
 
 var baseURL = Globals.apiURL;
 
-var request = function(route, data = null, type, abortSignal) {
+var request = function(route, data, type, abortSignal) {
     
   const promise = new Promise(function(resolve, reject) {
 
@@ -13,6 +13,12 @@ var request = function(route, data = null, type, abortSignal) {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
+      }
+    }
+
+    if(type === 'GET') {
+      if (data) {
+        route = route + '/' + data
       }
     }
 
@@ -50,16 +56,16 @@ var request = function(route, data = null, type, abortSignal) {
 }
 
 export default {
-    get: function(route, data, abortSignal) {
+    get: function(route, data=null, abortSignal=null) {
       return request(route, data, "GET", abortSignal);
     },
-    post: function(route, data, abortSignal) {
+    post: function(route, data=null, abortSignal=null) {
       return request(route, data, "POST", abortSignal);
     },
-    put: function(route, data, abortSignal) {
+    put: function(route, data=null, abortSignal=null) {
       return request(route, data, "PUT", abortSignal);
     },
-    delete: function(route, data, abortSignal) {
+    delete: function(route, data=null, abortSignal=null) {
       return request(route, data, "DELETE", abortSignal);
     }
 }

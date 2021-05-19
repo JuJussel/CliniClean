@@ -10,6 +10,7 @@ import moment from 'moment'
 import Cui from 'clini-ui-lib'
 import 'clini-ui-lib/src/css/globals.css'
 import '@fortawesome/fontawesome-free/css/all.css'
+import Lang from './lang/jp'
 
 
 
@@ -21,6 +22,7 @@ const app = createApp(App)
 
 app.config.globalProperties.$moment = moment
 app.config.globalProperties.$GLOBALS = Globals
+app.config.globalProperties.$lang = Lang
 app.use(store)
 app.use(Cui)
 app.provide('$notification', Cui.notification)
