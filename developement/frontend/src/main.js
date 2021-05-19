@@ -23,6 +23,9 @@ const app = createApp(App)
 app.config.globalProperties.$moment = moment
 app.config.globalProperties.$GLOBALS = Globals
 app.config.globalProperties.$lang = Lang
+app.config.globalProperties.$apiError = function(msg) {
+    this.$cui.notification({ text: msg, color: 'danger' })
+}
 app.use(store)
 app.use(Cui)
 app.provide('$notification', Cui.notification)

@@ -12,6 +12,13 @@
                     <cui-th sort="waitTime">{{ $lang.wait + $lang.time }}</cui-th>
                     <cui-th sort="recTime">{{ $lang.reception + $lang.time }}</cui-th>
                 </template>
+                <template v-slot:row="{ row }">
+                    <td> {{ row.name }} </td>
+                    <td> {{ row.type }} </td>
+                    <td> <cui-select></cui-select> </td>
+                    <td> {{ row.name }} </td>
+                    <td> {{ $moment(row.time, 'HH:mm:ss').format('HH時mm分') }} </td>
+                </template>
             </cui-table>
         </cui-card>
         <cui-card class="cc-reception-calendar">
@@ -31,12 +38,40 @@
 export default {
     name: "ReceptionMainView",
     created() {
-        this.$api.encounters.get(1)
+        this.getEncounters(),
+        this.getExamTypes()
     },
     data() {
         return {
             encounters: []
         }
+    },
+    methods: {
+        getEncounters() {
+            let storeData = this.$store.getters.encounterTypes
+            if (!storeData) {
+                this.$api.lists.get.encounterTypes()
+                .then(res => {
+                    console.log(res);
+                    // this.encounters = res
+                })
+                .catch(res => {
+                    this.$apiError(res.statusText)
+                })                
+            } else {
+                return storeData
+            }
+        },
+        getExamTypes() {
+            this.$api.encounters.get.today()
+            .then(res => {
+                this.encounters = res
+            })
+            .catch(res => {
+                this.$apiError(res.statusText)
+            })
+        }
+        
     },
     computed: {
     }

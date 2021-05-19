@@ -7,14 +7,16 @@ export const store = createStore({
   state () {
     return {
       user: null,
-      activeView: 'home'
+      activeView: 'home',
+      staticLists: []
     }
   },
 
   getters: {
       user: state => state.user,
       userFullName: state => state.user?.nameLast + state.user?.nameFirst,
-      activeView: state => state.activeView
+      activeView: state => state.activeView,
+      encounterTypes: state => state.staticLists.encounterTypes
   },
   
   mutations: {

@@ -4,7 +4,6 @@
       <div class="cc-login-card">
         <span class="logo"></span>
         <div style="width: 300px">
-          {{ $api.user.get }}
           <cui-input
             :disabled="loading"
             placeholder="ユーザ名"
@@ -33,7 +32,7 @@
 
 <script>
 export default {
-  name: 'Login',
+  name: 'LoginView',
   data() {
     return {
       user: {
@@ -55,9 +54,9 @@ export default {
       .catch(res => {
         this.loading = false
         if (res.status === 401) {
-          this.$cui.notification({ text: 'ユーザー名又はパスワードが違います。ご確認してください。', color: 'danger' })
+          this.$apiError('ユーザー名又はパスワードが違います。ご確認してください。')
         } else {
-          this.$cui.notification({ text: res.statusText, color: 'danger' })
+          this.$apiError(res.statusText)
         }
       })
     }

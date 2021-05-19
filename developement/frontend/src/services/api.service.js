@@ -1,4 +1,5 @@
 import Http from './http.service'
+import moment from 'moment'
 
 const http = Http
 
@@ -12,14 +13,22 @@ const  api = {
             return http.get('auth/check')
         }
     },
-    user: {
-        get: null,
-        post: null,
-        update: null
-    },
     encounters: {
-        get: function(data=null) {
-            return http.get('encounters', data)
+        get: {
+            today: function() {
+                const data = {
+                    start: moment().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
+                    end: moment().endOf('day').format('YYYY-MM-DD HH:mm:ss')
+                }
+                return http.get('encounters/range', data)
+            }
+        }
+    },
+    lists: {
+        get: {
+            encounterTypes: function() {
+                return http.get('lists/encounterTypes')
+            }
         }
     },
     patient: {

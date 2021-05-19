@@ -16,12 +16,6 @@ var request = function(route, data, type, abortSignal) {
       }
     }
 
-    if(type === 'GET') {
-      if (data) {
-        route = route + '/' + data
-      }
-    }
-
     if(type !== 'GET') {
       options = {
         method: type,
@@ -35,7 +29,18 @@ var request = function(route, data, type, abortSignal) {
       }
     }
 
-    fetch(baseURL + route, options)
+    var url = baseURL
+    url = new URL(route, url)
+
+    if(type === 'GET') {
+      
+      if (data) {
+        url.search = new URLSearchParams(data).toString()
+      }
+
+    }
+
+    fetch(url.toString(), options)
     .then((res) => {
 
       if (res.status !== 200) {

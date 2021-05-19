@@ -16,9 +16,8 @@ export default {
       this.$auth.check()
       .then(() => {
           this.$router.push('/')
-        })
+      })
       .catch(() => {
-        this.$auth.remove()
         this.$router.push('/login')
       })
     }

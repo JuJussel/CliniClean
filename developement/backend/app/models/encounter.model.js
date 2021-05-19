@@ -1,35 +1,12 @@
 const sql = require("./db.js");
 
-const User = function(encounter) {
-    this.id = encounter.id;
-};
+const Encounter = {}
 
-// User.findById = (userId, result) => {
-    
-//     sql.query(
-//         "SELECT id, username, nameFirst, nameLast, userGroup, status FROM usr_users WHERE id = ? AND active = 1 LIMIT 1",
-//         [
-//             userId
-//         ], (err, res) => {
+Encounter.findRange = (range, result) => {
 
-//             if (err) {
-//                 console.log(err);
-//                 result(err, null);
-//                 return;
-//             }
-        
-//             if (res.length) {
-//                 result(null, res[0]);
-//                 return;
-//             }
-        
-//             // not found User with the id
-//             result({ kind: "not_found" }, null);
-//         }
-//     );
-// };
-User.findAll = (result) => {
-    
+    const start = range.start
+    const end = range.end
+
     sql.query(
         `   SELECT 
                 r.id, r.patient_id AS patientID,
@@ -45,9 +22,10 @@ User.findAll = (result) => {
                 p.name
             FROM usr_encounters  r
             INNER JOIN usr_patients p ON r.patient_id = p.id
-            WHERE date(date) = CURDATE()
+            WHERE date(date) BETWEEN ? AND ?
             ORDER BY time
         `, 
+        [start, end],
         (err, res) => {
 
             if (err) {
@@ -62,4 +40,4 @@ User.findAll = (result) => {
     );
 };
 
-module.exports = User;
+module.exports = Encounter;

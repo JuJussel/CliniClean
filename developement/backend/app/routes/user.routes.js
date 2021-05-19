@@ -1,6 +1,6 @@
 module.exports = app => {
     const { authJwt } = require("../middleware");
-    const user = require("../controllers/user.controller.js");
+    const users = require("../controllers/users.controller.js");
 
     app.use(function(req, res, next) {
         res.header(
@@ -19,7 +19,7 @@ module.exports = app => {
     app.get(
       "/api/users/:userId",
       [authJwt.verifyToken],
-      user.findOne
+      users.findOne
     );
   
     // // Update a Customer with customerId
