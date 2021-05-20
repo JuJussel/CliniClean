@@ -13,12 +13,15 @@
                     <cui-th sort="recTime">{{ $lang.reception + $lang.time }}</cui-th>
                 </template>
                 <template v-slot:row="{ row }">
-                    <td> {{ row.name }} </td>
                     <td> {{ row.type }} </td>
+                    <td> <cui-input v-model="row.type"></cui-input> </td>
                     <td>
                         <cui-select
                             :data="$store.getters.encounterTypes"
                             prop="name"
+                            displayValueProp="name"
+                            returnValueProp="id"
+                            v-model="row.type"
                          />
                     </td>
                     <td> {{ row.name }} </td>
@@ -47,7 +50,7 @@ export default {
     },
     data() {
         return {
-            encounters: []
+            encounters: [],
         }
     },
     methods: {

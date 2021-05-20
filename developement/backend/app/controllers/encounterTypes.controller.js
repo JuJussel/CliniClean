@@ -13,6 +13,10 @@ exports.findAll = (req,res) => {
           message: "Error retrieving Encounters"
         });
     } else {
+      data = data.map(element => ({
+        id: element.id.trim(),
+        name: element.name.split(' ')[0]
+      }))
       res.send(data);
     }
   })

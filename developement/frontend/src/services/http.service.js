@@ -54,6 +54,11 @@ var request = function(route, data, type, abortSignal) {
       })
     })
     .catch((res) => {
+      console.log(res);
+      if (res.statusText) {
+        reject(res)
+      }
+      res = {statusText: res}
       reject(res);
     });
   });

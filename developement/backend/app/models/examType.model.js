@@ -13,9 +13,6 @@ examType.findAll = (result) => {
         `
     )
     .then((data) => {
-        data.forEach((element, index) => {
-            data[index].name = element.name.split(' ')[0]
-        })
         result(null, data);
         return;
     })
