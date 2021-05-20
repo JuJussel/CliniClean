@@ -25,6 +25,9 @@ export const store = createStore({
     },
     SET_ACTIVE_VIEW(state, view) {
       state.activeView = view
+    },
+    SET_ENCOUNTER_TYPES(state, data) {
+      state.staticLists.encounterTypes = data
     }
   },
   actions: {

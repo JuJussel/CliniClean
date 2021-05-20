@@ -15,7 +15,12 @@
                 <template v-slot:row="{ row }">
                     <td> {{ row.name }} </td>
                     <td> {{ row.type }} </td>
-                    <td> <cui-select></cui-select> </td>
+                    <td>
+                        <cui-select
+                            :data="$store.getters.encounterTypes"
+                            prop="name"
+                         />
+                    </td>
                     <td> {{ row.name }} </td>
                     <td> {{ $moment(row.time, 'HH:mm:ss').format('HH時mm分') }} </td>
                 </template>
@@ -30,7 +35,6 @@
         <cui-card>
             Doctors
         </cui-card>
-
     </div>
 </template>
 
@@ -52,8 +56,8 @@ export default {
             if (!storeData) {
                 this.$api.lists.get.encounterTypes()
                 .then(res => {
-                    console.log(res);
-                    // this.encounters = res
+                    this.$store.commit('SET_ENCOUNTER_TYPES', res)
+                    
                 })
                 .catch(res => {
                     this.$apiError(res.statusText)
