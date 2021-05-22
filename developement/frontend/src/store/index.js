@@ -8,7 +8,10 @@ export const store = createStore({
     return {
       user: null,
       activeView: 'home',
-      staticLists: []
+      staticLists: [],
+      transferData: {
+        reception: null
+      }
     }
   },
 
@@ -16,7 +19,8 @@ export const store = createStore({
       user: state => state.user,
       userFullName: state => state.user?.nameLast + state.user?.nameFirst,
       activeView: state => state.activeView,
-      encounterTypes: state => state.staticLists.encounterTypes
+      encounterTypes: state => state.staticLists.encounterTypes,
+      transferData: state => state.transferData
   },
   
   mutations: {
@@ -28,6 +32,9 @@ export const store = createStore({
     },
     SET_ENCOUNTER_TYPES(state, data) {
       state.staticLists.encounterTypes = data
+    },
+    SET_TRANSFER_DATA(state, data) {
+      state[data.target] = data.data
     }
   },
   actions: {

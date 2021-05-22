@@ -3,15 +3,27 @@
         <cui-card class="cc-reception-patient-list" noPadding>
             <cui-table :data="encounters.active">
                 <template #header>
-                <h2>{{ $lang.reception }}</h2>
-                <cui-button label="登録" />
+                    <div style="display: flex; align-items: center">
+                        <h2>{{ $lang.reception }}</h2>
+                        <cui-button 
+                            @click="view.modal.reception = true"
+                            :label="$lang.register" />
+                        <cui-button :label="$lang.reservation" />
+
+                    </div>
+                    <div style="display: flex; align-items: center">
+                        <cui-checkbox v-model="view.reservation" :label="$lang.reservation" />
+                        <cui-checkbox v-model="view.active" style="margin-left: 20px" :label="$lang.activeReceprion" />
+                        <cui-checkbox v-model="view.done" style="margin-left: 20px" :label="$lang.paymentDone" />
+                        <a style="margin-left: 40px">{{ $lang.doctor }}</a>
+                    </div>
                 </template>
                 <template #thead>
                     <cui-th sort="name">{{ $lang.name }}</cui-th>
                     <cui-th sort="examType">{{ $lang.examType }}</cui-th>
                     <cui-th sort="status">{{ $lang.status }}</cui-th>
-                    <cui-th sort="waitTime">{{ $lang.wait + $lang.time }}</cui-th>
-                    <cui-th sort="recTime">{{ $lang.reception + $lang.time }}</cui-th>
+                    <cui-th sort="waitTime">{{ $lang.waitTime }}</cui-th>
+                    <cui-th sort="recTime">{{ $lang.receptionTime }}</cui-th>
                 </template>
                 <template v-slot:row="{ row }">
                     <td> {{ row.name }} </td>
@@ -29,36 +41,38 @@
                 </template>
             </cui-table>
         </cui-card>
-        <cui-card class="cc-reception-calendar">
-            Calendar
-        </cui-card>
         <cui-card noPadding>
-            <cui-table :data="encounters.done">
-                <template #header>
-                <h2>{{ $lang.reception }}</h2>
-                </template>
-                <template #thead>
-                    <cui-th sort="name">{{ $lang.name }}</cui-th>
-                    <cui-th sort="examType">{{ $lang.examType }}</cui-th>
-                    <cui-th sort="recTime">{{ $lang.time }}</cui-th>
-                </template>
-                <template v-slot:row="{ row }">
-                    <td> {{ row.name }} </td>
-                    <td> {{ parseExamType(row.type) }} </td>
-                    <td> {{ $moment(row.time, 'HH:mm:ss').format('HH時mm分') }} </td>
-                </template>
-            </cui-table>
+            <Calendar ref="calendar"></Calendar>
+        </cui-card>
+        <cui-modal :visible="view.modal.reception" closable  @close="view.modal.reception = false">
+            <cui-card style="width: 400px; height: 300px">
+                <template #header> {{ $lang.newReception }} </template>
+                <Walkin />
+            </cui-card>
+        </cui-modal>
+        <cui-modal :visible="view.modal.reservation" closable  @close="view.modal.reception = false">
+            <cui-card style="width: 400px; height: 300px">
+                <template #header> {{ $lang.newReception }} </template>
+                <Reservation />
+            </cui-card>
+        </cui-modal>
 
-        </cui-card>
-        <cui-card>
-            Doctors
-        </cui-card>
     </div>
 </template>
 
 <script>
+
+import Calendar from '../shared/cc_shared_calendar'
+import Reservation from '../shared/cc_shared_reservation'
+import Walkin from './cc_reception_walkin'
+
 export default {
     name: "ReceptionMainView",
+    components: {
+        Calendar,
+        Reservation,
+        Walkin
+    },
     created() {
         this.getEncounters(),
         this.getEncounterTypes()
@@ -69,6 +83,15 @@ export default {
                 active: [],
                 done: []
             },
+            view: {
+                reservation: false,
+                active: true,
+                done: false,
+                modal: {
+                    reception: false,
+                    reservation: false
+                }
+            }
         }
     },
     methods: {
@@ -126,14 +149,7 @@ export default {
 <style scoped>
     .cc-reception-main-cont {
         display: grid;
-        grid-template-columns: 50% 25% auto;
-        grid-template-rows: 70% 30%;
-    }
-    .cc-reception-patient-list {
-        grid-row: 1 / 3;
-        grid-column: 1
-    }
-    .cc-reception-calendar {
-        grid-column: 2 / 4;
+        grid-template-columns: 50% 50%;
+        grid-template-rows: 100%;
     }
 </style>

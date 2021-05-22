@@ -16,6 +16,8 @@ Encounter.findRange = (range, result) => {
                 r.doctor,
                 r.locked,
                 r.shinsatu_start,
+                r.shinsatu_end,
+                r.date,
                 r.orca_id,
                 time(date) AS time,
                 time(last_change) AS lastChange,
