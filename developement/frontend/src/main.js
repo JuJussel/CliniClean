@@ -7,6 +7,7 @@ import Auth from '@/services/auth.service'
 import Globals from '@/config/global';
 
 import moment from 'moment'
+import 'moment/locale/ja';
 import Cui from 'clini-ui-lib'
 import 'clini-ui-lib/src/css/globals.css'
 import '@fortawesome/fontawesome-free/css/all.css'
@@ -20,6 +21,7 @@ import { addDevtools } from "@/devtools/index" //TODO remove once DEvtools suppo
 
 const app = createApp(App)
 
+moment.locale('ja')
 app.config.globalProperties.$moment = moment
 app.config.globalProperties.$GLOBALS = Globals
 app.config.globalProperties.$lang = Lang

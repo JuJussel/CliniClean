@@ -66,16 +66,16 @@ var request = function(route, data, type, abortSignal) {
 }
 
 export default {
-    get: function(route, data=null, abortSignal=null) {
+    get: function(route, data={}, abortSignal=null) {
       return request(route, data, "GET", abortSignal);
     },
-    post: function(route, data=null, abortSignal=null) {
+    post: function(route, data={}, abortSignal=null) {
       return request(route, data, "POST", abortSignal);
     },
-    put: function(route, data=null, abortSignal=null) {
+    put: function(route, data={}, abortSignal=null) {
       return request(route, data, "PUT", abortSignal);
     },
-    delete: function(route, data=null, abortSignal=null) {
+    delete: function(route, data={}, abortSignal=null) {
       return request(route, data, "DELETE", abortSignal);
     }
 }

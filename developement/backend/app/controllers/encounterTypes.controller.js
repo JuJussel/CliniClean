@@ -14,7 +14,7 @@ exports.findAll = (req,res) => {
         });
     } else {
       data = data.map(element => ({
-        id: element.id.trim(),
+        id: parseInt(element.id),
         name: element.name.split(' ')[0]
       }))
       res.send(data);

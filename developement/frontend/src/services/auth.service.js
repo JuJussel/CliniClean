@@ -4,11 +4,11 @@ const http = Http
 
 const auth = {
     check: function() {
-      let r = http.get('auth/check', null, null)
+      let r = http.get('auth/check')
       return r
     },
     remove: function() {
-      http.delete('auth/logout', null, null)
+      http.delete('auth/logout')
       localStorage.clear()
     }
 }

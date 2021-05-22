@@ -1,9 +1,10 @@
 <template>
     <div class="cc-reception-main-cont">
         <cui-card class="cc-reception-patient-list" noPadding>
-            <cui-table :data="encounters">
+            <cui-table :data="encounters.active">
                 <template #header>
                 <h2>{{ $lang.reception }}</h2>
+                <cui-button label="登録" />
                 </template>
                 <template #thead>
                     <cui-th sort="name">{{ $lang.name }}</cui-th>
@@ -13,18 +14,17 @@
                     <cui-th sort="recTime">{{ $lang.reception + $lang.time }}</cui-th>
                 </template>
                 <template v-slot:row="{ row }">
-                    <td> {{ row.type }} </td>
-                    <td> <cui-input v-model="row.type"></cui-input> </td>
+                    <td> {{ row.name }} </td>
+                    <td> {{ parseExamType(row.type) }} </td>
                     <td>
                         <cui-select
                             :data="$store.getters.encounterTypes"
-                            prop="name"
                             displayValueProp="name"
                             returnValueProp="id"
                             v-model="row.type"
                          />
                     </td>
-                    <td> {{ row.name }} </td>
+                    <td> {{ parseWaitTime(row.lastChange).time }} </td>
                     <td> {{ $moment(row.time, 'HH:mm:ss').format('HH時mm分') }} </td>
                 </template>
             </cui-table>
@@ -32,8 +32,23 @@
         <cui-card class="cc-reception-calendar">
             Calendar
         </cui-card>
-        <cui-card>
-            Done
+        <cui-card noPadding>
+            <cui-table :data="encounters.done">
+                <template #header>
+                <h2>{{ $lang.reception }}</h2>
+                </template>
+                <template #thead>
+                    <cui-th sort="name">{{ $lang.name }}</cui-th>
+                    <cui-th sort="examType">{{ $lang.examType }}</cui-th>
+                    <cui-th sort="recTime">{{ $lang.time }}</cui-th>
+                </template>
+                <template v-slot:row="{ row }">
+                    <td> {{ row.name }} </td>
+                    <td> {{ parseExamType(row.type) }} </td>
+                    <td> {{ $moment(row.time, 'HH:mm:ss').format('HH時mm分') }} </td>
+                </template>
+            </cui-table>
+
         </cui-card>
         <cui-card>
             Doctors
@@ -46,15 +61,18 @@ export default {
     name: "ReceptionMainView",
     created() {
         this.getEncounters(),
-        this.getExamTypes()
+        this.getEncounterTypes()
     },
     data() {
         return {
-            encounters: [],
+            encounters: {
+                active: [],
+                done: []
+            },
         }
     },
     methods: {
-        getEncounters() {
+        getEncounterTypes() {
             let storeData = this.$store.getters.encounterTypes
             if (!storeData) {
                 this.$api.lists.get.encounterTypes()
@@ -69,15 +87,35 @@ export default {
                 return storeData
             }
         },
-        getExamTypes() {
+        getEncounters() {
             this.$api.encounters.get.today()
             .then(res => {
                 this.encounters = res
+                this.encounters.active =
+                    res.filter(item => item.status > 1)
+                this.encounters.done =
+                    res.filter(item => item.status === 0)
             })
             .catch(res => {
                 this.$apiError(res.statusText)
             })
+        },
+        parseExamType(type) {
+            const types = this.$store.getters.encounterTypes
+            console.log(types);
+            let string = ''
+            string = types?.find(item => item.id == type).name
+            return string
+        },
+        parseWaitTime(change) {
+            let time = this.$moment(change, "HH:mm").fromNow(true);
+            let diff = this.$moment().diff(this.$moment(change, "HH:mm"), "minutes");
+            return {
+                time: time,
+                diff: diff,
+            };
         }
+
         
     },
     computed: {
