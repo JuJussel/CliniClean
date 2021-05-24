@@ -20,7 +20,7 @@
                 </template>
                 <template #thead>
                     <cui-th sort="name">{{ $lang.name }}</cui-th>
-                    <cui-th sort="examType">{{ $lang.examType }}</cui-th>
+                    <cui-th sort="examType">{{ $lang.encounterType }}</cui-th>
                     <cui-th sort="status">{{ $lang.status }}</cui-th>
                     <cui-th sort="waitTime">{{ $lang.waitTime }}</cui-th>
                     <cui-th sort="recTime">{{ $lang.receptionTime }}</cui-th>
@@ -45,9 +45,26 @@
             <Calendar ref="calendar"></Calendar>
         </cui-card>
         <cui-modal :visible="view.modal.reception" closable  @close="view.modal.reception = false">
-            <cui-card style="width: 400px; height: 300px">
-                <template #header> {{ $lang.newReception }} </template>
+            <cui-card style="width: 800px; height: 500px">
+                <template #header> <h2>{{ $lang.newReception }}</h2> </template>
                 <Walkin />
+                <template #footer>
+                    <div style="flex-grow: 1; display: flex; justify-content: flex-end">
+                        <cui-button
+                            :label="$lang.cancel"
+                            @click="registerWalkin"
+                            plain
+                        />
+                        <cui-button
+                            :label="$lang.register"
+                            @click="cancelWalkin"
+                            primary
+                            :disabled="!inputOK"
+                        />
+
+                    </div>
+                </template>
+
             </cui-card>
         </cui-modal>
         <cui-modal :visible="view.modal.reservation" closable  @close="view.modal.reception = false">
@@ -95,6 +112,12 @@ export default {
         }
     },
     methods: {
+        registerWalkin() {
+
+        },
+        cancelWalkin() {
+
+        },
         getEncounterTypes() {
             let storeData = this.$store.getters.encounterTypes
             if (!storeData) {
@@ -142,6 +165,9 @@ export default {
         
     },
     computed: {
+        inputOK() {
+            return true
+        }
     }
 }
 </script>

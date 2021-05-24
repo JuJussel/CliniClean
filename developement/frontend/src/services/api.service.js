@@ -38,8 +38,15 @@ const  api = {
             }
         }
     },
-    patient: {
-        get: null,
+    patients: {
+        get: {
+            insuranceSets: function(id) {
+                return http.get('patients/' + id + '/insuranceSets')
+            },
+        },
+        search: function(data) {
+            return http.get('patients/search', data)
+        },
         details: {
             get: null,
             post: null,

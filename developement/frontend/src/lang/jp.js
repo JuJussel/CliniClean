@@ -2,7 +2,7 @@ export default {
     reception: '受付',
     patient: '患者',
     medical: '医療',
-    examType: '診察内容',
+    encounterType: '診察内容',
     time: '時間',
     status: 'ステータス',
     memo: 'メモ',
@@ -22,8 +22,15 @@ export default {
     day: '日',
     month: '月',
     year: '年',
-    newReception: '受付登録'
-
+    newReception: '受付登録',
+    selectPatient: '患者選択',
+    searchByNameodID: '名前又はIDで検索',
+    cancel: 'キャンセル',
+    number: '番号',
+    setNumber: 'セット番号',
+    insurance: '保険',
+    publicInsurance: '公費',
+    selectInsurance: '保険選択',
 
 
 }

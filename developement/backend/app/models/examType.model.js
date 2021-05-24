@@ -1,8 +1,6 @@
 const pg = require("./dbOrca.js");
 
-const examType = {
-
-}
+const examType = {}
 examType.findAll = (result) => {
 
     pg.many(
