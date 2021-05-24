@@ -29,6 +29,9 @@ const  api = {
                 }
                 return http.get('encounters/range', data)
             }
+        },
+        post: function(data) {
+            return http.post('encounters/', data)
         }
     },
     lists: {

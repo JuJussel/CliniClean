@@ -9,21 +9,11 @@ module.exports = app => {
         );
         next();
     });
-    // Create a new Encounter
-    // app.post("api/encounters", user.create);
-  
-    // Retrieve all Encounters
-    // app.get("/api/encounters",[authJwt.verifyToken], encounter.findAll);
   
     // Retrieve all Encounters for today
     app.get("/api/encounters/range", [authJwt.verifyToken], encounter.findRange);
 
-    // Retrieve a single Customer with encounterId
-    // app.get("/api/encounters/:encounterId", [authJwt.verifyToken], encounter.findOne);
-  
-    // // Update a Customer with encounterId
-    // app.put("/encounters/:encounterId", encounter.update);
-  
-    // // Delete a Customer with encounterId
-    // app.delete("/encounters/:encounterId", encounter.delete);
+    // Create new Enconter
+    app.post("/api/encounters", [authJwt.verifyToken], encounter.create);
+
   };

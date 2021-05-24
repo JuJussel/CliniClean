@@ -42,4 +42,29 @@ Encounter.findRange = (range, result) => {
     );
 };
 
+Encounter.create = (data, result) => {
+    sql.query(
+        `   INSERT INTO usr_encounters (
+                patient_id,
+                type,
+                ins,
+                memo
+            )
+            VALUES (?,?,?,?)
+        `, 
+        [data.id, data.type, data.ins, data.memo],
+        (err, res) => {
+
+            if (err) {
+                console.log(err);
+                result(err, null);
+                return;
+            }
+
+            result(null, {id: res.insertId});
+            return;
+        }
+    );
+}
+
 module.exports = Encounter;

@@ -2,6 +2,9 @@
     <div class="cc-reception-main-cont">
         <cui-card class="cc-reception-patient-list" noPadding>
             <cui-table :data="encounters.active">
+                <template #emptyImage>
+                    <img src="../../assets/img/empty2.jpg" style="width: 300px">
+                </template>
                 <template #header>
                     <div style="display: flex; align-items: center">
                         <h2>{{ $lang.reception }}</h2>
@@ -45,26 +48,9 @@
             <Calendar ref="calendar"></Calendar>
         </cui-card>
         <cui-modal :visible="view.modal.reception" closable  @close="view.modal.reception = false">
-            <cui-card style="width: 800px; height: 500px">
+            <cui-card style="width: 700px; height: auto; min-height: 200px; max-height: 800px">
                 <template #header> <h2>{{ $lang.newReception }}</h2> </template>
-                <Walkin />
-                <template #footer>
-                    <div style="flex-grow: 1; display: flex; justify-content: flex-end">
-                        <cui-button
-                            :label="$lang.cancel"
-                            @click="registerWalkin"
-                            plain
-                        />
-                        <cui-button
-                            :label="$lang.register"
-                            @click="cancelWalkin"
-                            primary
-                            :disabled="!inputOK"
-                        />
-
-                    </div>
-                </template>
-
+                <Walkin @close="view.modal.reception = false" @created="getEncounters()" />
             </cui-card>
         </cui-modal>
         <cui-modal :visible="view.modal.reservation" closable  @close="view.modal.reception = false">
@@ -163,11 +149,6 @@ export default {
         }
 
         
-    },
-    computed: {
-        inputOK() {
-            return true
-        }
     }
 }
 </script>

@@ -8,8 +8,8 @@
             </cui-button-group>
             <cui-button-group @change="changeView">
                 <cui-button-group-item :label="$lang.day" value="timeGridDay"></cui-button-group-item>
-                <cui-button-group-item :label="$lang.month" value="timeGridWeek"></cui-button-group-item>
-                <cui-button-group-item :label="$lang.year" value="dayGridMonth"></cui-button-group-item>
+                <cui-button-group-item :label="$lang.week" value="timeGridWeek"></cui-button-group-item>
+                <cui-button-group-item :label="$lang.month" value="dayGridMonth"></cui-button-group-item>
             </cui-button-group>
         </div>
         <div ref='calendar' style="margin-top: -59px"></div>

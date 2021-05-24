@@ -1,5 +1,6 @@
 <template>
-    <div>
+    <div style="position: relative">
+        <div class="loader" v-if="loading.all"></div>
         <cui-select 
             :label="$lang.selectPatient"
             :placeholder="$lang.searchByNameodID"
@@ -30,7 +31,16 @@
             :label="$lang.memo"
         />
 
-        <cui-table :data="insuranceResults">
+        <cui-table
+            :data="insuranceResults"
+            style="height: 350px"
+            :loading="loading.insurances"
+            singleSelect
+            @select="setInsurance"
+        >
+            <template #emptyImage>
+                <img src="../../assets/img/empty2.jpg" style="width: 300px">
+            </template>
             <template #header>
                 <h2> {{ $lang.selectInsurance }} </h2>
             </template>
@@ -51,6 +61,19 @@
                 <td> {{ row.PublicInsurance_Information?.[3]?.PublicInsurance_Name }} </td>
             </template>
         </cui-table>
+        <div style="flex-grow: 1; display: flex; justify-content: flex-end">
+            <cui-button
+                :label="$lang.cancel"
+                @click="$emit('close')"
+                plain
+            />
+            <cui-button
+                :label="$lang.register"
+                primary
+                :disabled="!inputOK"
+                @click="registerWalkin"
+            />
+        </div>
     </div>
 </template>
 
@@ -61,19 +84,19 @@ export default {
             this.walkin = this.$store.getters.transferData.reception
         }
     },
+    emits: ['close'],
     data() {
         return {
             searchResults: [],
             insuranceResults: [],
             loading: {
                 patientSearch: false,
-                insurances: false
+                insurances: false,
+                all: false
             },
             walkin: {
                 patient: null,
-                insurance: {
-
-                },
+                insurance: null,
                 encouterType: 1,
                 note: ''
             }
@@ -82,6 +105,7 @@ export default {
     methods: {
         getInsurances() {
             this.loading.insurances = true
+            this.insuranceResults = []
             this.$api.patients.get.insuranceSets(this.walkin.patient.id)
             .then(res => {
                 this.loading.insurances = false
@@ -109,7 +133,31 @@ export default {
                 this.loading.patientSearch = false
                 this.$apiError(res.statusText)
             })
+        },
+        setInsurance(data) {
+            this.walkin.insurance = data.row
+        },
+        registerWalkin() {
+            this.loading.all = true
+            this.$api.encounters.post(this.walkin)
+            .then(() => {
+                this.$emit('created')
+                this.$emit('close')
+            })
+            .catch((res) => {
+                this.loading.all =false
+                this.$apiError(res)
+            })
+
         }
     },
+    computed: {
+        inputOK() {
+            if (this.walkin.patient && this.walkin.insurance) {
+                return true
+            }
+            return false
+        }
+    }
 }
 </script>

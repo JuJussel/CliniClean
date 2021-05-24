@@ -20,6 +20,7 @@ export default {
     today: '今日',
     next: '次',
     day: '日',
+    week: '週',
     month: '月',
     year: '年',
     newReception: '受付登録',
