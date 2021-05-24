@@ -24,6 +24,7 @@ export default {
     month: '月',
     year: '年',
     newReception: '受付登録',
+    newReservation: '予約登録',
     selectPatient: '患者選択',
     searchByNameodID: '名前又はIDで検索',
     cancel: 'キャンセル',

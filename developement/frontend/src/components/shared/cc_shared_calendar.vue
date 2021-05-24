@@ -1,5 +1,5 @@
 <template>
-    <div style="height: 100%; overflow: hidden">
+    <div class="cc-calendar-cont">
         <div class="cal-header">
             <cui-button-group @change="changeView">
                 <cui-button-group-item :label="$lang.prev" :value="1"></cui-button-group-item>
@@ -54,6 +54,7 @@ export default {
                 plugins: [ dayGridPlugin, interactionPlugin, timeGridPlugin ],
                 firstDay: 1,
                 displayEventTime: false,
+                rerenderDelay: 500,
                 fixedWeekCount: false,
                 navLinks: true,
                 height: '100%',
@@ -122,7 +123,7 @@ export default {
                 successCallback(events)
             })
             .catch(result => {
-                this.$apiError(result)
+                this.$apiError(result.statusText)
             })
 
         }
@@ -162,5 +163,11 @@ export default {
     }
     .fc .fc-toolbar.fc-header-toolbar {
         margin-bottom: 1.1em!important
+    }
+    .cc-calendar-cont {
+        height: 100%; 
+        overflow: hidden;
+        border-bottom: solid 1px #dddddd;
+        border-radius: 20px
     }
 </style>

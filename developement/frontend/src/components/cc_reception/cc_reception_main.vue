@@ -10,8 +10,12 @@
                         <h2>{{ $lang.reception }}</h2>
                         <cui-button 
                             @click="view.modal.reception = true"
-                            :label="$lang.register" />
-                        <cui-button :label="$lang.reservation" />
+                            :label="$lang.register" 
+                        />
+                        <cui-button 
+                            @click="view.modal.reservation = true"
+                            :label="$lang.reservation" 
+                        />
 
                     </div>
                     <div style="display: flex; align-items: center">
@@ -53,10 +57,10 @@
                 <Walkin @close="view.modal.reception = false" @created="getEncounters()" />
             </cui-card>
         </cui-modal>
-        <cui-modal :visible="view.modal.reservation" closable  @close="view.modal.reception = false">
-            <cui-card style="width: 400px; height: 300px">
-                <template #header> {{ $lang.newReception }} </template>
-                <Reservation />
+        <cui-modal :visible="view.modal.reservation" closable  @close="view.modal.reservation = false">
+            <cui-card style="width: 900px; height: 620px">
+                <template #header> {{ $lang.newReservation }} </template>
+                <Reservation @close="view.modal.reservation = false" @created="getEncounters()" />
             </cui-card>
         </cui-modal>
 
@@ -66,8 +70,8 @@
 <script>
 
 import Calendar from '../shared/cc_shared_calendar'
-import Reservation from '../shared/cc_shared_reservation'
 import Walkin from './cc_reception_walkin'
+import Reservation from '../shared/cc_shared_reservation'
 
 export default {
     name: "ReceptionMainView",
@@ -98,12 +102,6 @@ export default {
         }
     },
     methods: {
-        registerWalkin() {
-
-        },
-        cancelWalkin() {
-
-        },
         getEncounterTypes() {
             let storeData = this.$store.getters.encounterTypes
             if (!storeData) {

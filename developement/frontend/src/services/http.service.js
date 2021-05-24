@@ -37,20 +37,19 @@ var request = function(route, data, type, abortSignal) {
       if (data) {
         url.search = new URLSearchParams(data).toString()
       }
-
     }
 
     fetch(url.toString(), options)
     .then((res) => {
 
       if (res.status !== 200) {
-        reject({status: res.status, statusText: res.statusText})
+        reject(res)
       }
       res.json().then(data => {
         resolve(data)
       })
-      .catch(() => {
-        resolve(null)
+      .catch((err) => {
+        resolve({statusText: err})
       })
     })
     .catch((res) => {

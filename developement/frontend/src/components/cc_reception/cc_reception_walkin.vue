@@ -29,6 +29,7 @@
 
         <cui-input 
             :label="$lang.memo"
+            v-model="walkin.note"
         />
 
         <cui-table
@@ -84,7 +85,7 @@ export default {
             this.walkin = this.$store.getters.transferData.reception
         }
     },
-    emits: ['close'],
+    emits: ['close', 'created'],
     data() {
         return {
             searchResults: [],
@@ -146,7 +147,7 @@ export default {
             })
             .catch((res) => {
                 this.loading.all =false
-                this.$apiError(res)
+                this.$apiError(res.statusText)
             })
 
         }
