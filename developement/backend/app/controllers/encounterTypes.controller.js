@@ -10,7 +10,7 @@ exports.findAll = (req,res) => {
     
     if (err) {
         res.status(500).send({
-          message: "Error retrieving Encounters"
+          message: err
         });
     } else {
       data = data.map(element => ({

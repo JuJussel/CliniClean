@@ -1,5 +1,5 @@
 const Patient = require("../models/patient.model.js")
-const Orca = require("../middleware/orcaApi.middleware")
+const Orca = require("../utils/orcaApi.util")
 
 // Find a single Customer with a customerId
 exports.findMany = (req, res) => {

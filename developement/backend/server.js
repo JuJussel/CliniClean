@@ -8,6 +8,8 @@ const app = express();
 const helmet = require('helmet');
 const corsOptions = require('./config/cors.config')
 const cookieParser = require("cookie-parser");
+const morgan = require("morgan");
+const winston = require("./app/utils/logger.util");
 
 const port = 3003;
 
@@ -19,6 +21,8 @@ app.use(cookieParser())
 app.use(helmet())
 app.use(cors(corsOptions))
 app.use('/', routes)
+
+app.use(morgan("combined", { stream: winston.stream }))
 
 https.createServer({
   key: fs.readFileSync('/etc/pki/tls/certs/key.pem'),

@@ -18,8 +18,10 @@
     "express": "^4.17.1",
     "helmet": "^4.6.0",
     "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.10.0",
     "mysql": "^2.18.1",
     "pg-promise": "^10.10.2",
+    "winston": "^3.3.3",
     "xml2js": "^0.4.23"
   }
 }
