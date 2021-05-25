@@ -26,6 +26,14 @@
                     returnValueProp="id"
                     v-model="reservation.encouterType"
                  />
+                <cui-datepicker label="Date" v-model="reservation.date" />
+
+                <cui-datepicker 
+                    label="Date" 
+                    type="time" 
+                    v-model="reservation.date"
+                />
+
                 <cui-input
                     :label="$lang.memo" v-model="reservation.note"
                 />

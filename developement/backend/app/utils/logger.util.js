@@ -41,10 +41,9 @@ const loggerConst = winston.createLogger({
     transports
 })
 
-// create a stream object with a 'write' function that will be used by `morgan`. This stream is based on node.js stream https://nodejs.org/api/stream.html.
 loggerConst.stream = {
     write: function(message, encoding) {
-      loggerConst.http(message.substring(0,message.lastIndexOf('\n')));
+      loggerConst.http(message.substring(0,message.lastIndexOf('\n'))); // Remove linebreak
     }
 }
    
