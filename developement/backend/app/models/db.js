@@ -11,8 +11,11 @@ const connection_cliniclean = mysql.createConnection({
 
 // open the MySQL connection
 connection_cliniclean.connect(error => {
-  if (error) throw error;
-  console.log("Successfully connected to the database.");
+  if (error) {
+    $logger.error(error)
+  }
+    
+  $logger.info("Successfully connected to the database.");
 });
 
 module.exports = connection_cliniclean;

@@ -15,7 +15,7 @@ examType.findAll = (result) => {
         return;
     })
     .catch((err) => {
-        console.log(err);
+        $logger.error(err);
         result(err, null);
         return;
     })

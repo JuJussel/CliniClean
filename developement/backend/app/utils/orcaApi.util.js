@@ -1,6 +1,6 @@
 const orcaConfig = require("../../config/orca.config");
 const xml2js = require("xml2js")
-const axios = require('axios')
+const axios = require('axios');
 
 const get = {}
 
@@ -37,6 +37,7 @@ const sendRequest = function(route, method, data = null) {
                 });            
             })
             .catch(err => {
+                $logger.error(err)
                 reject(err.code + ' - ORCA API connection ' + err.message)
             })
         })
@@ -49,6 +50,7 @@ const sendRequest = function(route, method, data = null) {
                 });            
             })
             .catch(err => {
+                $logger.error(err)
                 reject(err.code + ' - ORCA API connection ' + err.message)
             })
         })
@@ -61,6 +63,7 @@ const validate = function(data, acceptedCodes, key) {
     if (acceptedCodes.includes(status)) {
         return true
     } else {
+        $logger.error(data[key].Api_Result_Message)
         return false
     }
 

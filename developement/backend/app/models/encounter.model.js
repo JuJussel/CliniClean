@@ -31,7 +31,7 @@ Encounter.findRange = (range, result) => {
         (err, res) => {
 
             if (err) {
-                console.log(err);
+                $logger.error(err);
                 result(err, null);
                 return;
             }
@@ -56,7 +56,7 @@ Encounter.create = (data, result) => {
         (err, res) => {
 
             if (err) {
-                console.log(err);
+                $logger.error(err)
                 result(err, null);
                 return;
             }

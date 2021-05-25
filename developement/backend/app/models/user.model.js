@@ -14,7 +14,7 @@ User.findById = (userId, result) => {
         ], (err, res) => {
 
             if (err) {
-                console.log(err);
+                $logger.error(err)
                 result(err, null);
                 return;
             }
@@ -38,7 +38,7 @@ User.findOne = (username, result) => {
         ], (err, res) => {
 
             if (err) {
-                console.log(err);
+                $logger.error(err)
                 result(err, null);
                 return;
             }
