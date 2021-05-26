@@ -30,5 +30,6 @@ https.createServer({
   cert: fs.readFileSync('/etc/pki/tls/certs/cert.pem')
 }, app)
 .listen(port, function () {
+  console.log(`Listening on https://localhost:${port}/`);
   logger.info(`Listening on https://localhost:${port}/`)
 })

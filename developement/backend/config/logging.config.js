@@ -1,8 +1,8 @@
-
-const path = require('path')
-
-const root = path.resolve('logs')
-
 module.exports = {
-    logDirectory: root
+    //logDirectory: '',
+    //graylog: {
+    //     servers: [{host: 'localhost', port: '12201'}],
+    //     facility: 'CliniClean'
+    // }
+    logToConsole: true
 }

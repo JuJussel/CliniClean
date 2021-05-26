@@ -31,7 +31,13 @@
                 <cui-datepicker 
                     label="Date" 
                     type="time" 
-                    v-model="reservation.date"
+                    v-model="reservation.time"
+                    format="HH:mm"
+                    :timePickerOptions="{
+                        start: '08:30',
+                        step: '00:30',
+                        end: '18:30',
+                    }"
                 />
 
                 <cui-input

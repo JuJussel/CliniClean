@@ -1,8 +1,9 @@
 const winston = require('winston');
 const globalConfig = require('../../config/logging.config')
 const path = require('path')
+const root = path.resolve('logs')
 
-const logDirectory = globalConfig.logDirectory
+const logDirectory = globalConfig.logDirectory ? globalConfig.logDirectory : root
 
 const levels = {
   error: 0,
@@ -32,7 +33,7 @@ const transports = [
     json: true,
     maxsize: 5242880, // 5MB
     maxFiles: 5
-  }),
+  })
 ]
 
 const loggerConst = winston.createLogger({
@@ -40,6 +41,17 @@ const loggerConst = winston.createLogger({
     format,
     transports
 })
+
+// Add Console Logger as needed
+if (globalConfig.logToConsole) {
+  loggerConst.add(new winston.transports.Console({level: 'error'}))
+}
+
+// Add Graylog if configured
+if (globalConfig.grayLog) {
+  const winstonGraylog2 = require('winston-graylog2')
+  loggerConst.add(new winstonGraylog2(globalConfig))
+}
 
 loggerConst.stream = {
     write: function(message, encoding) {
