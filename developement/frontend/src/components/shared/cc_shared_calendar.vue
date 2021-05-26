@@ -27,6 +27,10 @@ export default {
     props: {
         config: {
             default: null
+        },
+        reRender: {
+            default: null,
+            type: Number
         }
     },
     mounted() {
@@ -34,6 +38,9 @@ export default {
         let calendar = new Calendar(calEl, this.options);
         calendar.render()
         this.cal = calendar
+        if (this.reRender) {
+            setTimeout(function() {this.cal.render()}.bind(this), this.reRender)
+        }
     },
     created() {
         if(this.config) {
@@ -54,7 +61,6 @@ export default {
                 plugins: [ dayGridPlugin, interactionPlugin, timeGridPlugin ],
                 firstDay: 1,
                 displayEventTime: false,
-                rerenderDelay: 500,
                 fixedWeekCount: false,
                 navLinks: true,
                 height: '100%',

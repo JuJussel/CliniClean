@@ -26,12 +26,13 @@
                     returnValueProp="id"
                     v-model="reservation.encouterType"
                  />
-                <cui-datepicker label="Date" v-model="reservation.date" />
+                <cui-datepicker :label="$lang.date" v-model="reservation.date" />
 
                 <cui-datepicker 
-                    label="Date" 
+                    :label="$lang.time" 
                     type="time" 
                     v-model="reservation.time"
+                    valueFormat="HH:mm"
                     format="HH:mm"
                     :timePickerOptions="{
                         start: '08:30',
@@ -44,7 +45,7 @@
                     :label="$lang.memo" v-model="reservation.note"
                 />
             </div>
-            <Calendar ref="calendar"></Calendar>
+            <Calendar ref="calendar" :reRender="350" @selectDate="selectDate"></Calendar>
         </div>
 
         <div style="flex-grow: 1; display: flex; justify-content: flex-end">
@@ -120,7 +121,9 @@ export default {
                 this.loading.all =false
                 this.$apiError(res.statusText)
             })
-
+        },
+        selectDate (date) {
+            console.log(date);
         }
     },
     computed: {

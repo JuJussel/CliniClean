@@ -33,6 +33,7 @@ export default {
     insurance: '保険',
     publicInsurance: '公費',
     selectInsurance: '保険選択',
+    date: '日付',
 
 
 }

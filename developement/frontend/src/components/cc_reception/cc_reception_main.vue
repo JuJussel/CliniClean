@@ -49,7 +49,7 @@
             </cui-table>
         </cui-card>
         <cui-card noPadding>
-            <Calendar ref="calendar"></Calendar>
+            <Calendar style="height: calc(100% - 1px)" ref="calendar"></Calendar>
         </cui-card>
         <cui-modal :visible="view.modal.reception" closable  @close="view.modal.reception = false">
             <cui-card style="width: 700px; height: auto; min-height: 200px; max-height: 800px">
