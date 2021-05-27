@@ -122,8 +122,13 @@ export default {
                 this.$apiError(res.statusText)
             })
         },
-        selectDate (date) {
-            console.log(date);
+        selectDate (i) {
+            let date = this.$moment(i.start).format('YYYY-MM-DD')
+            let time = this.$moment(i.start).format('HH:mm:ss')
+            if (!i.allDay) {
+                this.reservation.time = time                
+            }
+            this.reservation.date = date
         }
     },
     computed: {

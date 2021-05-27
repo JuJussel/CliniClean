@@ -109,9 +109,9 @@ export default {
             }
         },
         getEvents(i, successCallback) {
-
-            let start =this.$moment(i.start.valueOf()).format("YYYY-M-D HH:mm:ss")
-            let end =this.$moment(i.end.valueOf()).format("YYYY-M-D HH:mm:ss")
+            console.log(i);
+            let start =this.$moment(i.start.valueOf()).format("YYYY-MM-DD HH:mm:ss")
+            let end =this.$moment(i.end.valueOf()).format("YYYY-MM-DD HH:mm:ss")
             let range = {start: start, end: end}
             this.$api.encounters.get.range(range)
             .then(result => {

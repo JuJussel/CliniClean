@@ -6,7 +6,8 @@ Encounter.findRange = (range, result) => {
 
     const start = range.start
     const end = range.end
-
+    console.log(start);
+    console.log(end);
     sql.query(
         `   SELECT 
                 r.id, r.patient_id AS patientID,
@@ -47,12 +48,14 @@ Encounter.create = (data, result) => {
         `   INSERT INTO usr_encounters (
                 patient_id,
                 type,
+                date,
                 ins,
-                memo
+                memo,
+                status
             )
-            VALUES (?,?,?,?)
+            VALUES (?,?,?,?,?,?)
         `, 
-        [data.id, data.type, data.ins, data.memo],
+        [data.id, data.type, data.date, data.ins, data.memo, data.status],
         (err, res) => {
 
             if (err) {

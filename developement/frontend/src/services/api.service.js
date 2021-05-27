@@ -22,11 +22,7 @@ const  api = {
                 }
                 return http.get('encounters/range', data)
             },
-            range: function() {
-                const data = {
-                    start: moment().startOf('day').format('YYYY-MM-DD HH:mm:ss'),
-                    end: moment().endOf('day').format('YYYY-MM-DD HH:mm:ss')
-                }
+            range: function(data) {
                 return http.get('encounters/range', data)
             }
         },

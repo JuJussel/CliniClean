@@ -1,4 +1,5 @@
 const Encounter = require("../models/encounter.model.js");
+const moment = require("moment");
 
 exports.findRange = (req, res) => {
 
@@ -28,11 +29,23 @@ exports.findAll = (req,res) => {
 exports.create = (req,res) => {
 
   let request = req.body
+  let status = 2
+  let date = moment().format('YYYY-MM-DD HH:mm:ss')
+
+  if (request.date && request.time) {
+    date = request.date + ' ' + request.time
+    status = 1
+  }
+
+  console.log(date);
+
   request = {
     id: request.patient.id,
     type: request.encouterType,
-    ins: request.insurance.Insurance_Combination_Number,
-    memo: request.note !== '' ? request.note : null
+    date: date,
+    ins: request.insurance?.Insurance_Combination_Number ? request.insurance.Insurance_Combination_Number : null,
+    memo: request.note !== '' ? request.note : null,
+    status: status
   }
   
   Encounter.create(request, (err, result) => {

@@ -132,7 +132,6 @@ export default {
         },
         parseExamType(type) {
             const types = this.$store.getters.encounterTypes
-            console.log(types);
             let string = ''
             string = types?.find(item => item.id == type).name
             return string
