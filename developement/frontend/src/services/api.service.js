@@ -13,6 +13,13 @@ const  api = {
             return http.get('auth/check')
         }
     },
+    doctors: {
+        get: {
+            all: function() {
+                return http.get('doctors')
+            }
+        }
+    },
     encounters: {
         get: {
             today: function() {

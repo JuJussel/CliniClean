@@ -16,13 +16,17 @@
                             @click="view.modal.reservation = true"
                             :label="$lang.reservation" 
                         />
-
                     </div>
                     <div style="display: flex; align-items: center">
                         <cui-checkbox v-model="view.reservation" :label="$lang.reservation" />
                         <cui-checkbox v-model="view.active" style="margin-left: 20px" :label="$lang.activeReceprion" />
-                        <cui-checkbox v-model="view.done" style="margin-left: 20px" :label="$lang.paymentDone" />
-                        <a style="margin-left: 40px">{{ $lang.doctor }}</a>
+                        <cui-checkbox v-model="view.done" style="margin-left: 20px; margin-right: 40px" :label="$lang.paymentDone" />
+                        <cui-tooltip>
+                            <a>{{ $lang.doctor }}</a>
+                            <template #tooltip>
+                                AAA
+                            </template>
+                        </cui-tooltip>
                     </div>
                 </template>
                 <template #thead>
@@ -83,6 +87,7 @@ export default {
     created() {
         this.getEncounters(),
         this.getEncounterTypes()
+        this.getDoctors()
     },
     data() {
         return {
@@ -98,10 +103,24 @@ export default {
                     reception: false,
                     reservation: false
                 }
-            }
+            },
+            doctors: []
         }
     },
     methods: {
+        getDoctors() {
+            let doctors = this.$store.getters.doctors
+            if (!doctors) {
+                this.$api.doctors.get.all()
+                .then(result => {
+                    this.doctors = result
+                })
+                .catch(res => {
+                    this.$apiError(res.statusText)
+                })                
+
+            }
+        },
         getEncounterTypes() {
             let storeData = this.$store.getters.encounterTypes
             if (!storeData) {
@@ -144,8 +163,6 @@ export default {
                 diff: diff,
             };
         }
-
-        
     }
 }
 </script>
