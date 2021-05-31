@@ -1,6 +1,6 @@
 const sql = require("./db.js");
 
-const Doctor = function(user) {
+const Doctor = function(doctor) {
     this.id = doctor.id;
     this.name = doctor.name;
 };
@@ -8,9 +8,9 @@ const Doctor = function(user) {
 Doctor.findAll = (result) => {
     
     sql.query(
-        `   SELECT CONCAT(name_last, name_first) AS name, status, id 
+        `   SELECT CONCAT(nameLast, nameFirst) AS name, status, id 
             FROM usr_users
-            WHERE visible = 1 AND role = 1
+            WHERE active = 1 AND userGroup = 2
         `,
         (err, res) => {
 
@@ -19,16 +19,11 @@ Doctor.findAll = (result) => {
                 result(err, null);
                 return;
             }
+            result(null, res);
+            return;
         
-            if (res.length) {
-                result(null, res[0]);
-                return;
-            }
-        
-            // not found User with the id
-            result({ kind: "not_found" }, null);
         }
     );
 };
 
-module.exports = User;
+module.exports = Doctor;

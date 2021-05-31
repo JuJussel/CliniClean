@@ -22,9 +22,25 @@
                         <cui-checkbox v-model="view.active" style="margin-left: 20px" :label="$lang.activeReceprion" />
                         <cui-checkbox v-model="view.done" style="margin-left: 20px; margin-right: 40px" :label="$lang.paymentDone" />
                         <cui-tooltip>
-                            <a>{{ $lang.doctor }}</a>
+                            <a>{{ $lang.doctor }} {{ doctorsFree }} </a>
                             <template #tooltip>
-                                AAA
+                                    <cui-table :data="doctors" style="margin: -10px">
+                                        <template #thead>
+                                            <cui-th> {{ $lang.name }} </cui-th>
+                                            <cui-th> {{ $lang.status }} </cui-th>
+                                        </template>
+                                        <template v-slot:row="{ row }">
+                                            <td> {{ row.name }} </td>
+                                            <td> 
+                                                <cui-tag
+                                                    :danger="row.status === 2"
+                                                    :primary="row.status === 1"
+                                                >
+                                                    {{ docStati[row.status] }}
+                                                </cui-tag>
+                                            </td>
+                                        </template>
+                                    </cui-table>
                             </template>
                         </cui-tooltip>
                     </div>
@@ -104,22 +120,21 @@ export default {
                     reservation: false
                 }
             },
+            docStati: [
+                null, this.$lang.free, this.$lang.inEncounter 
+            ],
             doctors: []
         }
     },
     methods: {
         getDoctors() {
-            let doctors = this.$store.getters.doctors
-            if (!doctors) {
-                this.$api.doctors.get.all()
-                .then(result => {
-                    this.doctors = result
-                })
-                .catch(res => {
-                    this.$apiError(res.statusText)
-                })                
-
-            }
+            this.$api.doctors.get.all()
+            .then(result => {
+                this.doctors = result
+            })
+            .catch(res => {
+                this.$apiError(res.statusText)
+            })                
         },
         getEncounterTypes() {
             let storeData = this.$store.getters.encounterTypes
@@ -162,6 +177,12 @@ export default {
                 time: time,
                 diff: diff,
             };
+        }
+    },
+    computed: {
+        doctorsFree() {
+            let free = this.doctors.filter(doc => doc.status === 1).length
+            return free + '/' + this.doctors.length
         }
     }
 }

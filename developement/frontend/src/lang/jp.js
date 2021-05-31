@@ -34,6 +34,7 @@ export default {
     publicInsurance: '公費',
     selectInsurance: '保険選択',
     date: '日付',
-
+    free: '空き',
+    inEncounter: '診察中'
 
 }

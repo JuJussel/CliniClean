@@ -12,6 +12,7 @@ require("./file.routes")(routes);
 require("./encounter.routes")(routes);
 require("./list.routes")(routes);
 require("./patient.routes")(routes);
+require("./doctor.routes")(routes);
 
 
 module.exports = routes;

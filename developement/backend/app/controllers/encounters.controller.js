@@ -37,8 +37,6 @@ exports.create = (req,res) => {
     status = 1
   }
 
-  console.log(date);
-
   request = {
     id: request.patient.id,
     type: request.encouterType,
