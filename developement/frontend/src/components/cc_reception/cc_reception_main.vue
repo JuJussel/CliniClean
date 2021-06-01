@@ -1,7 +1,7 @@
 <template>
     <div class="cc-reception-main-cont">
         <cui-card class="cc-reception-patient-list" noPadding>
-            <cui-table :data="encounters.active">
+            <cui-table :data="visibleEncounters">
                 <template #emptyImage>
                     <img src="../../assets/img/empty2.jpg" style="width: 300px">
                 </template>
@@ -107,10 +107,7 @@ export default {
     },
     data() {
         return {
-            encounters: {
-                active: [],
-                done: []
-            },
+            encounters: [],
             view: {
                 reservation: false,
                 active: true,
@@ -155,10 +152,6 @@ export default {
             this.$api.encounters.get.today()
             .then(res => {
                 this.encounters = res
-                this.encounters.active =
-                    res.filter(item => item.status > 1)
-                this.encounters.done =
-                    res.filter(item => item.status === 0)
             })
             .catch(res => {
                 this.$apiError(res.statusText)
@@ -183,6 +176,22 @@ export default {
         doctorsFree() {
             let free = this.doctors.filter(doc => doc.status === 1).length
             return free + '/' + this.doctors.length
+        },
+        visibleEncounters() {
+            let enc = []
+            if (this.view.reservation) {
+                let add = this.encounters.filter(e => e.status === 1)
+                enc.push(...add)
+            }
+            if (this.view.active) {
+                let add = this.encounters.filter(e => e.status === 2)
+                enc.push(...add)
+            }
+            if (this.view.done) {
+                let add = this.encounters.filter(e => e.status === 0)
+                enc.push(...add)
+            }
+            return enc
         }
     }
 }

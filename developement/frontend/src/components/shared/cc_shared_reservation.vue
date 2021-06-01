@@ -40,10 +40,7 @@
                         end: '18:30',
                     }"
                 />
-
-                <cui-input
-                    :label="$lang.memo" v-model="reservation.note"
-                />
+                <cui-input :label="$lang.memo" v-model="reservation.note" />
             </div>
             <Calendar ref="calendar" :reRender="350" @selectDate="selectDate"></Calendar>
         </div>
