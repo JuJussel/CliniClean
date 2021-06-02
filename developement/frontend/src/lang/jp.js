@@ -13,7 +13,7 @@ export default {
     register: '登録',
     display: '表示',
     paymentDone: '会計済',
-    activeReceprion: '受付中',
+    activeReception: '外来中',
     reservation: '予約',
     doctor: '医師',
     prev: '前',

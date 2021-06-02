@@ -19,7 +19,7 @@
                     </div>
                     <div style="display: flex; align-items: center">
                         <cui-checkbox v-model="view.reservation" :label="$lang.reservation" />
-                        <cui-checkbox v-model="view.active" style="margin-left: 20px" :label="$lang.activeReceprion" />
+                        <cui-checkbox v-model="view.active" style="margin-left: 20px" :label="$lang.activeReception" />
                         <cui-checkbox v-model="view.done" style="margin-left: 20px; margin-right: 40px" :label="$lang.paymentDone" />
                         <cui-tooltip>
                             <a>{{ $lang.doctor }} {{ doctorsFree }} </a>
@@ -57,10 +57,11 @@
                     <td> {{ parseExamType(row.type) }} </td>
                     <td>
                         <cui-select
-                            :data="$store.getters.encounterTypes"
+                            :data="examStatiOptions(row)"
                             displayValueProp="name"
-                            returnValueProp="id"
-                            v-model="row.type"
+                            returnValueProp="status"
+                            v-model="row.status"
+                            :disabled="examStatiOptions(row).disabled"
                          />
                     </td>
                     <td> {{ parseWaitTime(row.lastChange).time }} </td>
@@ -163,6 +164,24 @@ export default {
             string = types?.find(item => item.id == type).name
             return string
         },
+        examStatiOptions(row) {
+            const currentStatus = row.status
+            const encounterStati = {
+                0: [{name: '会計済み', status: 0, disabled: true}],
+                1: [{name: '予約', status: 1},{name: '待ち', status: 2}],
+                2: [{name: '待ち', status: 2},{name: '診察中', status: 3}],
+                3: [{name: '診察中', status: 3}],
+                4: [{name: '健康診断中', status: 4}],
+                5: [{name: 'オーダー待ち', status: 5}],
+                6: [{name: 'オーダー待ち', status: 6}],
+                10: [{name: '会計待ち', status: 10}],
+                35: [{name: '再開待ち', status: 35},{name: '診察中', status: 3}],
+                45: [{name: '健康診断中・医者', status: 45}]
+            }
+            return encounterStati[currentStatus]
+
+
+        },
         parseWaitTime(change) {
             let time = this.$moment(change, "HH:mm").fromNow(true);
             let diff = this.$moment().diff(this.$moment(change, "HH:mm"), "minutes");
@@ -184,7 +203,15 @@ export default {
                 enc.push(...add)
             }
             if (this.view.active) {
-                let add = this.encounters.filter(e => e.status === 2)
+                let add = this.encounters.filter((e) => {
+                    if (e.status > 1 && e.status < 10) {
+                        return true
+                    }
+                    if (e.status > 34) {
+                        return true
+                    }
+                    return false
+                })
                 enc.push(...add)
             }
             if (this.view.done) {

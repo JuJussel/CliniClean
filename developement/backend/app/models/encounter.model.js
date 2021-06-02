@@ -6,8 +6,6 @@ Encounter.findRange = (range, result) => {
 
     const start = range.start
     const end = range.end
-    console.log(start);
-    console.log(end);
     sql.query(
         `   SELECT 
                 r.id, r.patient_id AS patientID,
