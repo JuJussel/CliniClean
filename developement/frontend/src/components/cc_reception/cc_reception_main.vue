@@ -62,6 +62,7 @@
                             returnValueProp="status"
                             v-model="row.status"
                             :disabled="examStatiOptions(row).disabled"
+                            color="var(--cui-primary)"
                          />
                     </td>
                     <td> {{ parseWaitTime(row.lastChange).time }} </td>
