@@ -61,8 +61,10 @@
                             displayValueProp="name"
                             returnValueProp="status"
                             v-model="row.status"
-                            :disabled="examStatiOptions(row).disabled"
-                            color="var(--cui-primary)"
+                            :disabled="examStatiOptions(row)[0].disabled"
+                            :color="examStatiOptions(row)[0].color"
+                            noNote
+                            @select="changeStatus(row)"
                          />
                     </td>
                     <td> {{ parseWaitTime(row.lastChange).time }} </td>
@@ -85,6 +87,13 @@
                 <Reservation @close="view.modal.reservation = false" @created="getEncounters()" />
             </cui-card>
         </cui-modal>
+        <cui-modal :visible="view.modal.reservationAccept" closable  @close="view.modal.reservationAccept = false">
+            <cui-card style="width: 900px; height: 500px">
+                <template #header> {{ $lang.newReservation }} </template>
+                <ReservationAccept @close="view.modal.reservationAccept = false" :data="view.modal.reservationAccept"/>
+            </cui-card>
+        </cui-modal>
+
 
     </div>
 </template>
@@ -94,13 +103,16 @@
 import Calendar from '../shared/cc_shared_calendar'
 import Walkin from './cc_reception_walkin'
 import Reservation from '../shared/cc_shared_reservation'
+import ReservationAccept from './cc_reception_reservation_accept'
+
 
 export default {
     name: "ReceptionMainView",
     components: {
         Calendar,
         Reservation,
-        Walkin
+        Walkin,
+        ReservationAccept
     },
     created() {
         this.getEncounters(),
@@ -111,12 +123,13 @@ export default {
         return {
             encounters: [],
             view: {
-                reservation: false,
+                reservation: true,
                 active: true,
                 done: false,
                 modal: {
                     reception: false,
-                    reservation: false
+                    reservation: false,
+                    reservationAccept: false
                 }
             },
             docStati: [
@@ -170,14 +183,14 @@ export default {
             const encounterStati = {
                 0: [{name: '会計済み', status: 0, disabled: true}],
                 1: [{name: '予約', status: 1},{name: '待ち', status: 2}],
-                2: [{name: '待ち', status: 2},{name: '診察中', status: 3}],
-                3: [{name: '診察中', status: 3}],
-                4: [{name: '健康診断中', status: 4}],
-                5: [{name: 'オーダー待ち', status: 5}],
-                6: [{name: 'オーダー待ち', status: 6}],
-                10: [{name: '会計待ち', status: 10}],
-                35: [{name: '再開待ち', status: 35},{name: '診察中', status: 3}],
-                45: [{name: '健康診断中・医者', status: 45}]
+                2: [{name: '待ち', status: 2, color: '#E29578'},{name: '診察中', status: 3}],
+                3: [{name: '診察中', status: 3, disabled: true, color: 'var(--cui-primary)'}],
+                4: [{name: '健康診断中', status: 4, color: 'var(--cui-primary)'}],
+                5: [{name: 'オーダー待ち', status: 5, disabled: true, color: '#E29578'}],
+                6: [{name: 'オーダー待ち', status: 6, disabled: true, color: '#E29578'}],
+                10: [{name: '会計待ち', status: 10, color: '#E29578'}],
+                35: [{name: '再開待ち', status: 35, color: '#E29578'},{name: '診察中', status: 3}],
+                45: [{name: '健康診断中・医者', status: 45, disabled: true, color: 'var(--cui-primary)'}]
             }
             return encounterStati[currentStatus]
 
@@ -190,6 +203,12 @@ export default {
                 time: time,
                 diff: diff,
             };
+        },
+        changeStatus(row) {
+            const status = row.status
+            if (status === 2) {
+                this.view.modal.reservationAccept = row
+            }
         }
     },
     computed: {

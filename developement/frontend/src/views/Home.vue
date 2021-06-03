@@ -28,11 +28,12 @@
 <script>
 
 import reception from '../components/cc_reception/cc_reception_main'
+import patient from'../components/cc_patient/cc_patient_main'
 
 export default {
   name: 'HomeView',
   components: {
-    'reception': reception
+    reception, patient
   },
   data() {
     return {
