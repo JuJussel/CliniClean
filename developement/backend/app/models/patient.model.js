@@ -8,11 +8,9 @@ const PatientSchema = new Schema({
     visible: {type: Boolean, default: true},
     active: {type: Boolean, default: true},
     doctor: Number
-});
+},{ toJSON: { virtuals: true } });
 
-// PatientSchema.virtual('id')
-
-module.exports = mongoose.model("Patient", PatientSchema);
+module.exports = mongoose.model("pub_patients", PatientSchema);
 
 // Patient.findMany  = () => {
 //     const test = mongo.collection('users').find()

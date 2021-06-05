@@ -1,29 +1,22 @@
-const Patient = require("../models/patient.model.js")
-const Orca = require("../utils/orcaApi.util")
+const Patient = require("../models/patient.model.js");
+const Orca = require("../utils/orcaApi.util");
 
 // Find a single Customer with a customerId
 exports.findMany = (req, res) => {
   let name = req.query.id;
-  let id = isNaN(parseInt(name)) ? null : name
-  Patient.find({
-    $or: [
-      {_id: id}, 
-      {name: new RegExp('^' + name, 'i')}
-    ]
-  }, (err, patient) => {
-    if (err) $logger.error(err)
-    res.send(patient)
-  })
-
-  // Patient.findMany(req.query, (err, data) => {
-  //   if (err) {
-  //     res.status(500).send({
-  //       message: "Error retrieving Patient",
-  //     });
-  //   } else {
-  //     res.send(data);
-  //   }
-  // });
+  let id = isNaN(parseInt(name)) ? null : name;
+  Patient.find(
+    {
+      $or: [{ _id: id }, { name: new RegExp("^" + name, "i") }],
+    },
+    (err, patient) => {
+      if (err) {
+        $logger.error(err);
+        res.status(500).send({message: "Error retrieving Doctors"})
+      }
+      res.send(patient);
+    }
+  );
 };
 
 exports.insuranceSets = (req, res) => {
@@ -38,20 +31,28 @@ exports.insuranceSets = (req, res) => {
       // Need to loop and make sure both are arrays
       data.forEach((element, index) => {
         if (element.PublicInsurance_Information) {
-          if (Array.isArray(element.PublicInsurance_Information.PublicInsurance_Information_child)) {
-            data[index].PublicInsurance_Information = element.PublicInsurance_Information.PublicInsurance_Information_child
+          if (
+            Array.isArray(
+              element.PublicInsurance_Information
+                .PublicInsurance_Information_child
+            )
+          ) {
+            data[index].PublicInsurance_Information =
+              element.PublicInsurance_Information.PublicInsurance_Information_child;
           } else {
-            data[index].PublicInsurance_Information = [element.PublicInsurance_Information.PublicInsurance_Information_child]
+            data[index].PublicInsurance_Information = [
+              element.PublicInsurance_Information
+                .PublicInsurance_Information_child,
+            ];
           }
         }
       });
       //Bullshit end
-      
+
       res.send(data);
     }
-
-  })
-}
+  });
+};
 
 exports.insurances = (req, res) => {
   Orca.get.insuranceSets(req.params.patientID, (err, data) => {
@@ -62,6 +63,5 @@ exports.insurances = (req, res) => {
     } else {
       res.send(data);
     }
-
-  })
-}
+  });
+};

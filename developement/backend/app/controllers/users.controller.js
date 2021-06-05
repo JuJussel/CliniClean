@@ -4,6 +4,7 @@ const User = require("../models/user.model.js");
 exports.findOne = (req, res) => {
     User.findById(req.params.userId, (err, data) => {
         if (err) {
+          $logger.error(err);
           if (err.kind === "not_found") {
             res.status(404).send({
               message: `Not found User with id ${req.params.customerId}.`

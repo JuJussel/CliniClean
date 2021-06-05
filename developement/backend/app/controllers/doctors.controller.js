@@ -1,14 +1,13 @@
-const Doctor = require("../models/doctor.model.js");
+const Doctor = require("../models/user.model.js");
 
 // Find a single Customer with a customerId
 exports.findAll = (req, res) => {
-  Doctor.findAll((err, data) => {
+
+  Doctor.find(null, ['status', 'nameFirst', 'nameLast'], (err, doctor) => {
     if (err) {
-        res.status(500).send({
-          message: "Error retrieving Doctors"
-      })
-    } else {
-      res.send(data);
+      $logger.error(err);
+      res.status(500).send({message: "Error retrieving Doctors"})
     }
+    res.send(doctor);
   });
-};
+}

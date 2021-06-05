@@ -6,8 +6,13 @@ var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 
 exports.login = (req, res) => {
-    User.findOne(req.body.username, (err, user) => {
+
+    let username = req.body.username
+
+    User.findOne({username: username}, (err, user) => {
+
         if (err) {
+            $logger.error(err);
             if (err.kind === 'not_found') {
                 return res.status(401).send({
                     accessToken: null,
@@ -25,11 +30,13 @@ exports.login = (req, res) => {
             req.body.password,
             user.password
         );
-    
+        delete req.body.password
+        
         if (!passwordIsValid) {
+            $logger.error({'InvalidPassword': req})
             return res.status(401).send({
-            accessToken: null,
-            message: "Invalid!"
+                accessToken: null,
+                message: "Invalid!"
             });
         }
     
