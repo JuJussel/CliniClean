@@ -30,7 +30,7 @@
                                             <cui-th> {{ $lang.status }} </cui-th>
                                         </template>
                                         <template v-slot:row="{ row }">
-                                            <td> {{ row.name }} </td>
+                                            <td> {{ row.nameFull }} </td>
                                             <td> 
                                                 <cui-tag
                                                     :danger="row.status === 2"
@@ -68,7 +68,7 @@
                          />
                     </td>
                     <td> {{ parseWaitTime(row.lastChange).time }} </td>
-                    <td> {{ $moment(row.time, 'HH:mm:ss').format('HH時mm分') }} </td>
+                    <td> {{ $moment(row.date).format('HH時mm分') }} </td>
                 </template>
             </cui-table>
         </cui-card>
@@ -197,8 +197,8 @@ export default {
 
         },
         parseWaitTime(change) {
-            let time = this.$moment(change, "HH:mm").fromNow(true);
-            let diff = this.$moment().diff(this.$moment(change, "HH:mm"), "minutes");
+            let time = this.$moment(change).fromNow(true);
+            let diff = this.$moment().diff(this.$moment(change), "minutes");
             return {
                 time: time,
                 diff: diff,

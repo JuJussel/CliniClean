@@ -2,14 +2,16 @@ const Encounter = require("../models/encounter.model.js");
 const moment = require("moment");
 
 exports.findRange = (req, res) => {
-
-  Encounter.findRange(req.query, (err, result) => {
+  let start = req.query.start;
+  let end = req.query.end;
+  Encounter.find({date: {$gte: start, $lt: end}}, function(err,encounter) {
     if (err) {
-        res.status(500).send({
-          message: "Error retrieving Encounters"
-        });
+      $logger.error(err)
+      res.status(500).send({
+        message: "Error retrieving Encounters"
+      });
     } else {
-      res.send(result);
+      res.send(encounter);
     }
   })
 }

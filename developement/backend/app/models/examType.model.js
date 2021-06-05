@@ -1,4 +1,4 @@
-const pg = require("./dbOrca.js");
+const pg = require("./orca.db.js");
 
 const examType = {}
 examType.findAll = (result) => {
