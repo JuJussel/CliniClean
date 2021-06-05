@@ -9,13 +9,7 @@ module.exports = app => {
         );
         next();
     });
-    // Create a new Customer
-    // app.post("/users", user.create);
   
-    // // Retrieve all Customers
-    // app.get("/customers", customers.findAll);
-  
-    // Retrieve a single Customer with customerId
     app.get(
       "/api/doctors",
       [authJwt.verifyToken],

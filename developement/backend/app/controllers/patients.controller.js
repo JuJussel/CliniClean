@@ -3,15 +3,27 @@ const Orca = require("../utils/orcaApi.util")
 
 // Find a single Customer with a customerId
 exports.findMany = (req, res) => {
-  Patient.findMany(req.query, (err, data) => {
-    if (err) {
-      res.status(500).send({
-        message: "Error retrieving Patient",
-      });
-    } else {
-      res.send(data);
-    }
-  });
+  let name = req.query.id;
+  let id = isNaN(parseInt(name)) ? null : name
+  Patient.find({
+    $or: [
+      {_id: id}, 
+      {name: new RegExp('^' + name, 'i')}
+    ]
+  }, (err, patient) => {
+    if (err) $logger.error(err)
+    res.send(patient)
+  })
+
+  // Patient.findMany(req.query, (err, data) => {
+  //   if (err) {
+  //     res.status(500).send({
+  //       message: "Error retrieving Patient",
+  //     });
+  //   } else {
+  //     res.send(data);
+  //   }
+  // });
 };
 
 exports.insuranceSets = (req, res) => {
