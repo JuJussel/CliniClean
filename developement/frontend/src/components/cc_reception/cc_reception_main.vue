@@ -139,38 +139,14 @@ export default {
         }
     },
     methods: {
-        getDoctors() {
-            this.$api.doctors.get.all()
-            .then(result => {
-                this.doctors = result
-            })
-            .catch(res => {
-                this.$apiError(res.statusText)
-            })                
+        async getDoctors() {
+            this.doctors = await this.$dataService().get.doctors.all()
         },
-        getEncounterTypes() {
-            let storeData = this.$store.getters.encounterTypes
-            if (!storeData) {
-                this.$api.lists.get.encounterTypes()
-                .then(res => {
-                    this.$store.commit('SET_ENCOUNTER_TYPES', res)
-                    
-                })
-                .catch(res => {
-                    this.$apiError(res.statusText)
-                })                
-            } else {
-                return storeData
-            }
+        async getEncounterTypes() {
+            return await this.$dataService().get.lists.encounterTypes()
         },
-        getEncounters() {
-            this.$api.encounters.get.today()
-            .then(res => {
-                this.encounters = res
-            })
-            .catch(res => {
-                this.$apiError(res.statusText)
-            })
+        async getEncounters() {
+            this.encounters = await this.$dataService().get.encounters.today()
         },
         parseExamType(type) {
             const types = this.$store.getters.encounterTypes
