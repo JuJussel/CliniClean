@@ -3,16 +3,20 @@
     <cui-card>
       <patientList @selected="showPatientQuick"></patientList>
     </cui-card>
-    <cui-card></cui-card>
+    <cui-card noPadding>
+      <patientInfo></patientInfo>
+    </cui-card>
   </div>
 </template>
 
 <script>
 import patientList from "../shared/cc_shared_patient_list.vue";
+import patientInfo from "../shared/cc_shared_patient_info.vue"
 
 export default {
   components: {
     patientList,
+    patientInfo
   },
   data() {
     return {
