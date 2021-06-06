@@ -17,25 +17,14 @@ export default {
   data() {
     return {
       loading: {},
+      patienrData: null
     };
   },
   methods: {
     async showPatientQuick(id) {
-      const patientInfo = await this.getPatientInfo(id);
-      console.log(patientInfo);
-    },
-  },
-  getPatientInfo(id) {
-    this.$api.get.patient.details(id)
-      .then((res) => {
-        this.loading.patientDetails = false;
-        this.patientDetails = res;
-      })
-      .catch((res) => {
-        this.loading.patientDetails = false;
-        this.$apiError(res.statusText);
-      });
-  },
+      this.patientData = await this.dataService().get.patient.details(id)
+    }
+  }
 };
 </script>
 
