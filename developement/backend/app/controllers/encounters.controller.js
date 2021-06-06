@@ -1,10 +1,13 @@
 const Encounter = require("../models/encounter.model.js");
-const moment = require("moment");
 
 exports.findRange = (req, res) => {
   let start = req.query.start;
   let end = req.query.end;
-  Encounter.find({date: {$gte: start, $lt: end}}, function(err,encounter) {
+  Encounter.find({date: {$gte: start, $lt: end}})
+  .populate('patient')
+    .exec(
+    
+    function(err,encounter) {
     if (err) {
       $logger.error(err)
       res.status(500).send({
@@ -40,7 +43,7 @@ exports.create = (req,res) => {
     }
 
     request = {
-      patientId: request.patient.id,
+      patient: request.patient.id,
       type: request.encouterType,
       date: date,
       ins: request.insurance?.Insurance_Combination_Number ? request.insurance.Insurance_Combination_Number : null,

@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 // https://stackoverflow.com/questions/39596625/nested-objects-in-mongoose-schemas
 
 const EncounterSchema = new Schema({
-    patientId: {type:Number, required: true},
+    patient: { type: Number, ref: "pub_patients", required: true},
     type: {type:Number, required: true},
     ins: String,
     note: String,
@@ -25,7 +25,6 @@ const EncounterSchema = new Schema({
 },{ toJSON: { virtuals: true } });
 
 module.exports = mongoose.model("pub_encounters", EncounterSchema);
-
 // const sql = require("./db.js");
 
 // const Encounter = {}

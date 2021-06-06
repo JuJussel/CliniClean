@@ -108,30 +108,22 @@ export default {
                 this.cal.changeView(view)
             }
         },
-        getEvents(i, successCallback) {
-            console.log(i);
+        async getEvents(i, successCallback) {
             let start =this.$moment(i.start.valueOf()).format("YYYY-MM-DD HH:mm:ss")
             let end =this.$moment(i.end.valueOf()).format("YYYY-MM-DD HH:mm:ss")
             let range = {start: start, end: end}
-            this.$api.encounters.get.range(range)
-            .then(result => {
-                let events = result
-                .filter(item => item.status === 0)
-                .map(function(event) {
-                    return {
-                        id: event.id,
-                        title: event.name,
-                        start: event.date,
-                        end: event.shinsatu_end,
-                        meta: event
-                    }
-                })
-                successCallback(events)
+            let events = await this.$dataService().get.encounters.range(range)
+            events = events.filter(item => item.status === 0)
+            .map(function(event) {
+                return {
+                    id: event.id,
+                    title: event.patient.name,
+                    start: event.date,
+                    end: event.shinsatu_end,
+                    meta: event
+                }
             })
-            .catch(result => {
-                this.$apiError(result.statusText)
-            })
-
+            successCallback(events)
         }
     },
     watch: {

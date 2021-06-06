@@ -1,7 +1,7 @@
 <template>
     <div class="cc-reception-main-cont">
         <cui-card class="cc-reception-patient-list" noPadding>
-            <cui-table :data="visibleEncounters">
+            <cui-table :data="visibleEncounters" :loading="loading.recTable">
                 <template #emptyImage>
                     <img src="../../assets/img/empty2.jpg" style="width: 300px">
                 </template>
@@ -53,7 +53,7 @@
                     <cui-th sort="recTime">{{ $lang.receptionTime }}</cui-th>
                 </template>
                 <template v-slot:row="{ row }">
-                    <td> {{ row.name }} </td>
+                    <td> {{ row.patient?.name }} </td>
                     <td> {{ parseExamType(row.type) }} </td>
                     <td>
                         <cui-select
@@ -122,6 +122,9 @@ export default {
     data() {
         return {
             encounters: [],
+            loading: {
+                recTable: false
+            },
             view: {
                 reservation: true,
                 active: true,
@@ -146,7 +149,9 @@ export default {
             return await this.$dataService().get.lists.encounterTypes()
         },
         async getEncounters() {
+            this.loading.recTable = true
             this.encounters = await this.$dataService().get.encounters.today()
+            this.loading.recTable = false
         },
         parseExamType(type) {
             const types = this.$store.getters.encounterTypes

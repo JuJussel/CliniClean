@@ -7,7 +7,7 @@ exports.findMany = (req, res) => {
   let id = isNaN(parseInt(name)) ? null : name;
   Patient.find(
     {
-      $or: [{ _id: id }, { name: new RegExp("^" + name, "i") }],
+      $or: [{ patientId: id }, { name: new RegExp("^" + name, "i") }],
     },
     (err, patient) => {
       if (err) {

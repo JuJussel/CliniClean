@@ -85,6 +85,18 @@ export default {
                                     reject
                                 })
                             })
+                        },
+                        range: function(range) {
+                            return new Promise (function(resolve, reject) {
+                                http.get('encounters/range', range)
+                                .then(result => {
+                                    resolve(result)
+                                })
+                                .catch(result => {
+                                    instance.$cui.notification({ text: result, color: 'danger' })
+                                    reject
+                                })
+                            })
                         }
                     },
                     //>----Lists-----//
