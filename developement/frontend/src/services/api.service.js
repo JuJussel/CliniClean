@@ -49,6 +49,9 @@ const  api = {
             insuranceSets: function(id) {
                 return http.get('patients/' + id + '/insuranceSets')
             },
+            details: function (id) {
+                return http.get('patients/' + id + 'details')
+            }
         },
         search: function(data) {
             return http.get('patients/search', data)

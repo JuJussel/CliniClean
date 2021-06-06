@@ -1,48 +1,47 @@
 <template>
-    <div class="cc-patient-list-main-cont">
-        <cui-card>
-            <cui-table :data="patientList" style="margin: -10px">
-                <template #header>
-                    <div style="display: flex; align-items: center">
-                        <h2>{{ $lang.reception }}</h2>
-                        <cui-input noNote></cui-input>
-                    </div>
-                </template>
-                <template #thead>
-                    <cui-th> {{ $lang.name }} </cui-th>
-                    <cui-th> {{ $lang.status }} </cui-th>
-                </template>
-                <template v-slot:row="{ row }">
-                    <td> {{ row.name }} </td>
-                    <td> 
-                        <cui-tag
-                            :danger="row.status === 2"
-                            :primary="row.status === 1"
-                        >
-                            {{ docStati[row.status] }}
-                        </cui-tag>
-                    </td>
-                </template>
-            </cui-table>
-
-        </cui-card>
-        <cui-card>B</cui-card>
-    </div>
+  <div class="cc-patient-list-main-cont">
+    <cui-card>
+      <patientList @selected="showPatientQuick"></patientList>
+    </cui-card>
+    <cui-card></cui-card>
+  </div>
 </template>
 
 <script>
+import patientList from "../shared/cc_shared_patient_list.vue";
+
 export default {
-    data() {
-        return {
-            patientList: []
-        }
-    }
-}
+  components: {
+    patientList,
+  },
+  data() {
+    return {
+      loading: {},
+    };
+  },
+  methods: {
+    async showPatientQuick(id) {
+      const patientInfo = await this.getPatientInfo(id);
+      console.log(patientInfo);
+    },
+  },
+  getPatientInfo(id) {
+    this.$api.get.patient.details(id)
+      .then((res) => {
+        this.loading.patientDetails = false;
+        this.patientDetails = res;
+      })
+      .catch((res) => {
+        this.loading.patientDetails = false;
+        this.$apiError(res.statusText);
+      });
+  },
+};
 </script>
 
 <style scoped>
-    .cc-patient-list-main-cont {
-        height: 100%;
-        display: flex
-    }
+.cc-patient-list-main-cont {
+  height: 100%;
+  display: flex;
+}
 </style>

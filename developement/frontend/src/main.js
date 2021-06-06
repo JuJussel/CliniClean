@@ -13,6 +13,7 @@ import 'clini-ui-lib/src/css/globals.css'
 import '@fortawesome/fontawesome-free/css/all.css'
 import Lang from './lang/jp'
 
+import DataService from '@/services/data.service'
 
 
 import { addDevtools } from "@/devtools/index" //TODO remove once DEvtools support VUEX4
@@ -32,6 +33,7 @@ app.use(store)
 app.use(Cui)
 app.provide('$notification', Cui.notification)
 app.use(router)
+app.use(DataService)
 app.use(Api)
 app.use(Auth)
 app.mount('#app')
