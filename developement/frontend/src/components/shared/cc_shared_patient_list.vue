@@ -16,6 +16,7 @@
           :placeholder="$lang.searchByNameodID"
           :loading="loading.patientSearch"
         ></cui-input>
+        <slot name="buttons"></slot>
       </div>
     </template>
     <template #thead>

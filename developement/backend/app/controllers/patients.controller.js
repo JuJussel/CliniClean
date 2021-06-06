@@ -7,7 +7,7 @@ exports.findMany = (req, res) => {
   let id = isNaN(parseInt(name)) ? null : name;
   Patient.find(
     {
-      $or: [{ patientId: id }, { name: new RegExp("^" + name, "i") }],
+      $or: [{ _id: id }, { name: new RegExp("^" + name, "i") }],
     },
     (err, patient) => {
       if (err) {
@@ -19,9 +19,41 @@ exports.findMany = (req, res) => {
   );
 };
 
+exports.findOne = (req, res) => {
+
+  let id = req.params.patientId
+
+  Orca.get.patientInfo(id, (err, data) => {
+    if (err) {
+      $logger.error(err)
+      res.status(500).send({
+        message: err,
+      });
+    }
+    console.log(data);
+  })
+
+  // let name = req.query.id;
+  // let id = isNaN(parseInt(name)) ? null : name;
+  // Patient.find(
+  //   {
+  //     $or: [{ _id: id }, { name: new RegExp("^" + name, "i") }],
+  //   },
+  //   (err, patient) => {
+  //     if (err) {
+  //       $logger.error(err);
+  //       res.status(500).send({message: "Error retrieving Doctors"})
+  //     }
+  //     res.send(patient);
+  //   }
+  // );
+
+};
+
 exports.insuranceSets = (req, res) => {
   Orca.get.insuranceSets(req.params.patientID, (err, data) => {
     if (err) {
+      $logger.error(err)
       res.status(500).send({
         message: err,
       });

@@ -1,10 +1,9 @@
 <template>
     <div class="cc-patient-main-cont">
-        <cui-button-group>
-            <cui-button-group-item icon="fas fa-sign-out-alt" label="Button1" value="1"></cui-button-group-item>
+        <cui-button-group v-model="activeTab">
+            <cui-button-group-item icon="fas fa-sign-out-alt" :label="$lang.patientList" value="patientList"></cui-button-group-item>
             <cui-button-group-item label="Button2" value="2"></cui-button-group-item>
             <cui-button-group-item label="Button3" value="3"></cui-button-group-item>
-            <cui-button-group-item label="Button4" value="4"></cui-button-group-item>
         </cui-button-group>
         <div>
             <component :is="activeTab"></component>
@@ -15,7 +14,7 @@
 
 <script>
 
-    import patientList from './cc_patient_list'
+    import patientList from './cc_patient_overview'
 
 export default {
     components: {

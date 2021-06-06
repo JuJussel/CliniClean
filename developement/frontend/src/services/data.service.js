@@ -44,7 +44,7 @@ export default {
                         //>>---Details-----//
                         details: function(id) {
                             return new Promise (function(resolve, reject) {
-                                http.get('patients/' + id + 'details')
+                                http.get('patients/' + id + '/details')
                                 .then(result => {
                                     resolve(result)
                                 })

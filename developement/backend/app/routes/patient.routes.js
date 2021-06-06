@@ -21,5 +21,11 @@ module.exports = app => {
       [authJwt.verifyToken],
       patients.findMany
     )
+    app.get(
+      "/api/patients/:patientId/details",
+      [authJwt.verifyToken],
+      patients.findOne
+    )
+
 
   }
