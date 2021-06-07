@@ -2,11 +2,16 @@
     <div class="cc-patient-main-cont">
         <cui-button-group v-model="activeTab">
             <cui-button-group-item icon="fas fa-sign-out-alt" :label="$lang.patientList" value="patientList"></cui-button-group-item>
-            <cui-button-group-item label="Button2" value="2"></cui-button-group-item>
-            <cui-button-group-item label="Button3" value="3"></cui-button-group-item>
+            <cui-button-group-item 
+                v-for="(item, index) in dynamicTabs" :key="index" 
+                :label="item.label"
+                :value="item.value"
+                :icon="item.icon"
+            />
+
         </cui-button-group>
         <div>
-            <component :is="activeTab"></component>
+            <component :is="activeTabContent" @newPatient="newPatient"></component>
         </div>
 
     </div>
@@ -15,19 +20,41 @@
 <script>
 
     import patientList from './cc_patient_overview'
+    import patientDetails from './cc_patient_details'
+    import patientNew from './cc_patient_new'
 
 export default {
     components: {
-        patientList
+        patientList,
+        patientDetails,
+        patientNew
     },
     data() {
         return {
-            activeTab: 'patientList'
+            activeTab: 'patientList',
+            dynamicTabs: []
+        }
+    },
+    methods: {
+        newPatient() {
+            let key = this.dynamicTabs.length
+            this.dynamicTabs.push({label: this.$lang.patientNew, value: 'patientNew_' + key, icon: ''})
+            this.$nextTick(() => {
+                this.activeTab = 'patientNew_' + key
+            })
+        }
+    },
+    computed: {
+        activeTabContent() {
+            if (this.activeTab.includes('patientNew')) {
+                return 'patientNew'
+            }
+            return this.activeTab
         }
     }
 }
 </script>
-
+    
 <style scoped>
     .cc-patient-main-cont {
         display: grid;

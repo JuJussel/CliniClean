@@ -24,6 +24,7 @@ export default {
     patient: '患者',
     patientId: '患者番号',
     patientList: '患者一覧',
+    patientNew: '患者登録',
     paymentDone: '会計済',
     prev: '前',
     publicInsurance: '公費',
