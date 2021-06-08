@@ -1,5 +1,6 @@
 export default {
     activeReception: '外来中',
+    add: '追加',
     address: '住所',
     basic: '基本',
     birthdate: '生年月日',
