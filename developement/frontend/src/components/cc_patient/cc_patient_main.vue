@@ -21,13 +21,13 @@
 
     import patientList from './cc_patient_overview'
     import patientDetails from './cc_patient_details'
-    import patientNew from './cc_patient_new'
+    import patientEdit from './cc_patient_edit'
 
 export default {
     components: {
         patientList,
         patientDetails,
-        patientNew
+        patientEdit
     },
     data() {
         return {
@@ -38,23 +38,23 @@ export default {
     methods: {
         newPatient() {
             let key = this.dynamicTabs.length
-            this.dynamicTabs.push({label: this.$lang.patientNew, value: 'patientNew_' + key, icon: ''})
+            this.dynamicTabs.push({label: this.$lang.patientNew, value: 'patientEdit_' + key, icon: ''})
             this.$nextTick(() => {
-                this.activeTab = 'patientNew_' + key
+                this.activeTab = 'patientEdit_' + key
             })
         }
     },
     computed: {
         activeTabContent() {
-            if (this.activeTab.includes('patientNew')) {
-                return 'patientNew'
+            if (this.activeTab.includes('patientEdit')) {
+                return 'patientEdit'
             }
             return this.activeTab
         }
     }
 }
 </script>
-    
+
 <style scoped>
     .cc-patient-main-cont {
         display: grid;
