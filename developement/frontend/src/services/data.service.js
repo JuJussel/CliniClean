@@ -104,7 +104,6 @@ export default {
                         //>----Encounter Types-----//
                         encounterTypes: function() {
                             if (instance.$store.getters.encounterTypes) {
-                                console.log(instance.$store.getters.encounterTypes);
                                 return instance.$store.getters.encounterTypes
                             } else {
                                 return new Promise (function(resolve, reject) {
@@ -120,7 +119,24 @@ export default {
                                 })
                             }
                         },
-
+                        //>----Occupations-----//
+                        occupations: function() {
+                            if (instance.$store.getters.occupations) {
+                                return instance.$store.getters.occupations
+                            } else {
+                                return new Promise (function(resolve, reject) {
+                                    return http.get('lists/occupations')
+                                    .then(result => {
+                                        instance.$store.commit('SET_OCCUPATIONS', result)
+                                        resolve(result)
+                                    })
+                                    .catch(result => {
+                                        instance.$cui.notification({ text: result, color: 'danger' })
+                                        reject
+                                    })
+                                })
+                            }
+                        },
                     }
                 }
             }

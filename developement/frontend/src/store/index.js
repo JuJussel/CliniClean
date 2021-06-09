@@ -20,6 +20,7 @@ export const store = createStore({
       userFullName: state => state.user?.nameLast + state.user?.nameFirst,
       activeView: state => state.activeView,
       encounterTypes: state => state.staticLists.encounterTypes,
+      occupations: state => state.staticLists.occupations,
       transferData: state => state.transferData
   },
   
@@ -32,6 +33,9 @@ export const store = createStore({
     },
     SET_ENCOUNTER_TYPES(state, data) {
       state.staticLists.encounterTypes = data
+    },
+    SET_OCCUPATIONS(state, data) {
+      state.staticLists.occupations = data
     },
     SET_TRANSFER_DATA(state, data) {
       state[data.target] = data.data
