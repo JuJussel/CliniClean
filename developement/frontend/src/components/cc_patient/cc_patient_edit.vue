@@ -44,29 +44,58 @@
             <cui-input v-model="patient.company.zip" :label="$lang.zipCode"></cui-input>
             <cui-input v-model="patient.company.addr" :label="$lang.address"></cui-input>
             <cui-input v-model="patient.company.tel" :label="$lang.telephone"></cui-input>
-
         </cui-card>
-        <cui-card>
+        <cui-card noPadding>
             <template #header>
                 <div class="circle-number">4</div>
                 <h2> {{ $lang.insurance }} </h2>
-                <cui-button :label="$lang.add" />
+                <cui-button @click="modals.insuranceNew = true" :label="$lang.add" />
             </template>
+            <cui-table :data="patient.insurance">
+                <template #thead>
+                    <cui-th> {{ $lang.insuranceSymbol }} </cui-th>
+                    <cui-th> {{ $lang.insuranceNumber }} </cui-th>
+                    <cui-th> {{ $lang.insuranceProviderNumber }} </cui-th>
+                    <cui-th> {{ $lang.insuranceProviderName }} </cui-th>
+                    <cui-th> {{ $lang.insuranceInsuredName }} </cui-th>
+                    <cui-th> {{ $lang.validUntil }} </cui-th>
+                    <cui-th></cui-th>
+                </template>
+                <template v-slot:row="row">
+                    <td> {{ row.symbol }} </td>
+                    <td> {{ row.number }} </td>
+                    <td> {{ row.providerNumber }} </td>
+                    <td> {{ row.providerNumber }} </td>
+                    <td> {{ row.insuredName }} </td>
+                    <td> {{ row.endDate }} </td>
+                    <td></td>
+                </template>
+            </cui-table>
+            <cui-modal :visible="modals.insuranceNew" @close="modals.insuranceNew = false" @add="addInsurance">
+                <cui-card style="height: 600px; width: 850px">
+                    <template #header> {{ $lang.insuranceAdd }} </template>
+                    <insuranceNew></insuranceNew>
+                </cui-card>
+            </cui-modal>
         </cui-card>
-
     </div>
 </template>
 
 <script>
 
+import insuranceNew from './cc_patient_insurance_new.vue'
 
 export default {
+    components: {insuranceNew},
     created() {
         this.populateData()
     },
     data() {
         return {
             loading: false,
+            modals: {
+                insuranceNew: false
+            },
             patient: {
                 id: 0,
                 name: 'TestPatient2',
@@ -96,6 +125,9 @@ export default {
         populateData() {
             this.loading = true;
             this.$dataService().get.lists.occupations();
+        },
+        addInsurance(ins) {
+            console.log(ins);
         }
     }
 }
