@@ -67,5 +67,12 @@ export default {
     workOrSchool: '会社・学校',
     workOrSchoolName: '会社・学校名',
     year: '年',
-    zipCode: '郵便番号'
+    zipCode: '郵便番号',
+
+    validationMessages: {
+        'string.empty': 'ご入力してください',
+        'number.base': '数字をご入力してください',
+        'date.base': '日付を選択してください',
+        'array.includesRequiredUnknowns': '選択してください'
+    }
 }

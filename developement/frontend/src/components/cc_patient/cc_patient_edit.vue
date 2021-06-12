@@ -72,9 +72,16 @@
                 </template>
             </cui-table>
             <cui-modal :visible="modals.insuranceNew" @close="modals.insuranceNew = false" @add="addInsurance">
-                <cui-card style="height: 600px; width: 850px">
-                    <template #header> {{ $lang.insuranceAdd }} </template>
-                    <insuranceNew></insuranceNew>
+                <cui-card style="height: 500px; width: 850px">
+                    <template #header> 
+                        {{ $lang.insuranceAdd }} 
+                        <cui-button-group v-model="modals.newInsuranceType">
+                            <cui-button-group-item :label="$lang.insurance" value="insuranceNew"></cui-button-group-item>
+                            <cui-button-group-item :label="$lang.publicInsurance" value="publicNew"></cui-button-group-item>
+                        </cui-button-group>
+
+                    </template>
+                    <component :is="modals.newInsuranceType" @close="modals.insuranceNew = false"></component>
                 </cui-card>
             </cui-modal>
         </cui-card>
@@ -84,9 +91,10 @@
 <script>
 
 import insuranceNew from './cc_patient_insurance_new.vue'
+import publicNew from './cc_patient_public_new.vue'
 
 export default {
-    components: {insuranceNew},
+    components: {insuranceNew, publicNew},
     created() {
         this.populateData()
     },
@@ -94,7 +102,8 @@ export default {
         return {
             loading: false,
             modals: {
-                insuranceNew: false
+                insuranceNew: false,
+                newInsuranceType: "insuranceNew"
             },
             patient: {
                 id: 0,
