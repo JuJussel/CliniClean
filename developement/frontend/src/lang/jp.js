@@ -73,6 +73,9 @@ export default {
         'string.empty': 'ご入力してください',
         'number.base': '数字をご入力してください',
         'date.base': '日付を選択してください',
-        'array.includesRequiredUnknowns': '選択してください'
+        'array.includesRequiredUnknowns': '選択してください',
+        'string.pattern.base': '入力に誤りがあります',
+        'any.invalid': '入力に誤りがあります',
+        'date.max':  ''
     }
 }

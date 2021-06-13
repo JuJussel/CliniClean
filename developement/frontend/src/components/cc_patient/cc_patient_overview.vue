@@ -3,7 +3,7 @@
     <cui-card>
       <patientList @selected="showPatientQuick">
         <template #buttons>
-          <cui-button :label="$lang.createNew" @click="newPatient" />
+          <cui-button icon="fas fa-user-plus" :label="$lang.createNew" @click="newPatient" />
         </template>
       </patientList>
     </cui-card>
