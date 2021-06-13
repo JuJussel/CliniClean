@@ -21,7 +21,7 @@
             @click="login"
             :loading="loading"
             label="ログイン"
-            style="fload: left; width: 100%" primary
+            style="float: right" primary
           />
 
         </div>

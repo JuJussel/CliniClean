@@ -4,8 +4,8 @@
       <template v-slot:left>
         <cui-menu-bar-item icon="fa fa-home menu-icon" value="home"/>
         <cui-menu-bar-item icon="fas fa-user-clock" :label="$lang.reception" value="reception"/>
-        <cui-menu-bar-item icon="fa fa-home menu-icon" :label="$lang.patient" value="patient"/>
-        <cui-menu-bar-item icon="fa fa-home menu-icon" :label="$lang.medical" value="medical" />
+        <cui-menu-bar-item icon="fas fa-users menu-icon" :label="$lang.patient" value="patient"/>
+        <cui-menu-bar-item icon="fas fa-laptop-medical menu-icon" :label="$lang.medical" value="medical" />
       </template>
       <template v-slot:center>CliniClean</template>
       <template v-slot:right>
