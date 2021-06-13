@@ -67,7 +67,9 @@
                             @select="changeStatus(row)"
                          />
                     </td>
-                    <td> {{ parseWaitTime(row.lastChange).time }} </td>
+                    <td> 
+                        <span v-if="row.status !== 1">{{ parseWaitTime(row.lastChange).time }}</span> 
+                    </td>
                     <td> {{ $moment(row.date).format('HH時mm分') }} </td>
                 </template>
             </cui-table>

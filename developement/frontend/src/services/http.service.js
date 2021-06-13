@@ -42,7 +42,7 @@ var request = function(route, data, type, abortSignal) {
     fetch(url.toString(), options)
     .then((res) => {
 
-      if (res.status !== 200) {
+      if (res.status !== 200 && res.status !== 204) {
         reject(res)
       }
       res.json().then(data => {
@@ -53,7 +53,6 @@ var request = function(route, data, type, abortSignal) {
       })
     })
     .catch((res) => {
-      console.log(res);
       if (res.statusText) {
         reject(res)
       }

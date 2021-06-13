@@ -11,6 +11,19 @@ export default {
                 //--------Getter-----------//
                 //-------------------------//
                 get: {
+                    //>----Authentication-----//
+                    auth: function() {
+                        return new Promise(function (resolve, reject) {
+                            http.get('auth/check')
+                            .then(result => {
+                                resolve(result)
+                            })
+                            .catch(result => {
+                                instance.$cui.notification({ text: result, color: 'danger' })
+                                reject
+                            })
+                        })
+                    },
                     //>----Doctors-----//
                     doctors: {
                         all: function() {
@@ -119,6 +132,20 @@ export default {
                                 })
                             }
                         },
+                        //>----Insurance Providers-----//
+                        insuranceProviders: function(number) {
+                            return new Promise (function(resolve, reject) {
+                                return http.get('lists/insuranceProviders/' + number)
+                                .then(result => {
+                                    instance.$store.commit('SET_OCCUPATIONS', result)
+                                    resolve(result)
+                                })
+                                .catch(result => {
+                                    instance.$cui.notification({ text: result, color: 'danger' })
+                                    reject
+                                })
+                            })
+                        },
                         //>----Occupations-----//
                         occupations: function() {
                             if (instance.$store.getters.occupations) {
@@ -138,9 +165,36 @@ export default {
                             }
                         },
                     }
+                },
+                post: {
+                    //>----Authentication-----//
+                    auth: function(data) {
+                        return new Promise(function(resolve,reject) {
+                            return http.post('auth/login', data)
+                            .then(result => {
+                                resolve(result)
+                            })
+                            .catch(() => {
+                                instance.$cui.notification({ text: 'ユーザー名又はパスワードが違います。ご確認してください。', color: 'danger' })
+                                reject
+                            })
+                        }) 
+                    },
+                    //>----Encounters-----//
+                    encounters: function(data) {
+                        return new Promise(function(resolve,reject) {
+                            return http.post('encounters', data)
+                            .then(result => {
+                                resolve(result)
+                            })
+                            .catch(result => {
+                                instance.$cui.notification({ text: result, color: 'danger' })
+                                reject
+                            })
+                        }) 
+                    }
                 }
             }
-
 
             return helper
 

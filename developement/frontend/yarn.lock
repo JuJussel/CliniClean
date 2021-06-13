@@ -904,7 +904,7 @@
 
 "@fortawesome/fontawesome-free@^5.15.3":
   version "5.15.3"
-  resolved "https://registry.npmjs.org/@fortawesome/fontawesome-free/-/fontawesome-free-5.15.3.tgz"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.15.3.tgz#c36ffa64a2a239bf948541a97b6ae8d729e09a9a"
   integrity sha512-rFnSUN/QOtnOAgqFRooTA3H57JLDm0QEG/jPdk+tLQNL/eWd+Aok8g3qCI+Q1xuDPWpGW/i9JySpJVsq8Q0s9w==
 
 "@fullcalendar/common@~5.7.0":
@@ -1016,7 +1016,7 @@
 
 "@popperjs/core@^2.9.2":
   version "2.9.2"
-  resolved "https://registry.npmjs.org/@popperjs/core/-/core-2.9.2.tgz"
+  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.9.2.tgz#adea7b6953cbb34651766b0548468e743c6a2353"
   integrity sha512-VZMYa7+fXHdwIq1TDhSXoVmSPEGM/aa+6Aiq3nVVJ9bXr24zScr+NlKFKC3iPljA7ho/GAZr+d2jOf5GIRC30Q==
 
 "@sideway/address@^4.1.0":
@@ -2620,7 +2620,7 @@ cli-width@^3.0.0:
 
 clini-ui-lib@^0.0.479:
   version "0.0.479"
-  resolved "https://registry.npmjs.org/clini-ui-lib/-/clini-ui-lib-0.0.479.tgz"
+  resolved "https://registry.yarnpkg.com/clini-ui-lib/-/clini-ui-lib-0.0.479.tgz#d8505b9e90e42a92e6c74d7877db2c807a14595c"
   integrity sha512-T+7dGfWgcmLQVEh9o5OD/Gd9t648I8hhIOBNLwHMXh4bd3uENBagl+Ef1EPpcFqM/aA+xxn0gqQKwl+v+4tpIw==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.15.3"
@@ -3182,7 +3182,7 @@ dashdash@^1.12.0:
 
 date-format-parse@^0.2.5:
   version "0.2.6"
-  resolved "https://registry.npmjs.org/date-format-parse/-/date-format-parse-0.2.6.tgz"
+  resolved "https://registry.yarnpkg.com/date-format-parse/-/date-format-parse-0.2.6.tgz#7ed42817efb6ec39532169eada9670ae3c627aa7"
   integrity sha512-sdxnYAWmLopeb+6Hmw+vo3or4OCJOnh4+YoJ9p+Id3o2EnNP0INpTqx7wr8UregfMpgaSZAH473R/ytiaB3gVg==
 
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3:
@@ -8637,7 +8637,7 @@ vue-template-es2015-compiler@^1.9.0:
 
 vue2-datepicker@^4.0.0-beta.2:
   version "4.0.0-beta.2"
-  resolved "https://registry.npmjs.org/vue2-datepicker/-/vue2-datepicker-4.0.0-beta.2.tgz"
+  resolved "https://registry.yarnpkg.com/vue2-datepicker/-/vue2-datepicker-4.0.0-beta.2.tgz#9b6d2e55cbf851a491a5edce891f3b2da87acc6d"
   integrity sha512-khkA8W+KHFVqrQhE6jj3v1iBHifDycNUGubGvCamjTEOizc8FdaJkmQ/UYg61wa4lXYIF4/8Uw7LoamHo4sm5g==
   dependencies:
     date-format-parse "^0.2.5"

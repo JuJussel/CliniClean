@@ -90,34 +90,23 @@ export default {
         }
     },
     methods: {
-        searchPatient(input) {
+        async searchPatient(input) {
             if (input === '') {
                 this.reservation.patient = null
                 this.searchResults = []
                 return
             }
-            this.loading.patientSearch = true
-            this.$api.patients.search({name: input, id: input})
-            .then(res => {
-                this.loading.patientSearch = false
-                this.searchResults = res
-            })
-            .catch(res => {
-                this.loading.patientSearch = false
-                this.$apiError(res.statusText)
-            })
+            this.loading.patientSearch = true;
+            const res = await this.$dataService().get.patient.search({name: input, id: input});
+            this.loading.patientSearch = false;
+            this.searchResults = res
         },
-        registerReservation() {
-            this.loading.all = true
-            this.$api.encounters.post(this.reservation)
-            .then(() => {
-                this.$emit('created')
-                this.$emit('close')
-            })
-            .catch((res) => {
-                this.loading.all =false
-                this.$apiError(res.statusText)
-            })
+        async registerReservation() {
+            this.loading.all = true;
+            await this.$dataService().post.encounters(this.reservation);
+            this.loading.all = true;
+            this.$emit('created');
+            this.$emit('close');
         },
         selectDate (i) {
             let date = this.$moment(i.start).format('YYYY-MM-DD')

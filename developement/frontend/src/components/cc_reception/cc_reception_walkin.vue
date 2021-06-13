@@ -104,52 +104,36 @@ export default {
         }
     },
     methods: {
-        getInsurances() {
-            this.loading.insurances = true
-            this.insuranceResults = []
-            this.$api.patients.get.insuranceSets(this.walkin.patient.id)
-            .then(res => {
-                this.loading.insurances = false
-                this.insuranceResults = res
-            })
-            .catch(res => {
-                this.loading.insurances = false
-                this.$apiError(res.statusText)
-            })
+        async getInsurances() {
+            this.loading.insurances = true;
+            this.insuranceResults = [];
+
+            const res = await this.$dataService().get.patient.insuranceSets(this.walkin.patient.id);
+            this.loading.insurances = false;
+            this.insuranceResults = res
 
         },
-        searchPatient(input) {
+        async searchPatient(input) {
             if (input === '') {
                 this.walkin.patient = null
                 this.searchResults = []
                 return
             }
-            this.loading.patientSearch = true
-            this.$api.patients.search({name: input, id: input})
-            .then(res => {
-                this.loading.patientSearch = false
-                this.searchResults = res
-            })
-            .catch(res => {
-                this.loading.patientSearch = false
-                this.$apiError(res.statusText)
-            })
+            this.loading.patientSearch = true;
+            const res = await this.$dataService().get.patient.search({name: input, id: input});
+            this.loading.patientSearch = false;
+            this.searchResults = res;
         },
         setInsurance(data) {
             this.walkin.insurance = data.row
         },
-        registerWalkin() {
-            this.loading.all = true
-            this.$api.encounters.post(this.walkin)
-            .then(() => {
-                this.$emit('created')
-                this.$emit('close')
-            })
-            .catch((res) => {
-                this.loading.all =false
-                this.$apiError(res.statusText)
-            })
+        async registerWalkin() {
+            this.loading.all = true;
 
+            await this.$dataService().post.encounters(this.walkin);
+            this.loading.all = false;
+            this.$emit('created')
+            this.$emit('close')
         }
     },
     computed: {

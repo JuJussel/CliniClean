@@ -41,7 +41,7 @@
                 :label="$lang.register"
                 primary
                 :disabled="!inputOK"
-                @click="registerWalkin"
+                @click="acceptEncounter"
             />
         </div>
     </div>
@@ -73,34 +73,22 @@ export default {
         }
     },
     methods: {
-        getInsurances() {
+        async getInsurances() {
             this.loading.insurances = true
             this.insuranceResults = []
-            this.$api.patients.get.insuranceSets(this.data.patientID)
-            .then(res => {
-                this.loading.insurances = false
-                this.insuranceResults = res
-            })
-            .catch(res => {
-                this.loading.insurances = false
-                this.$apiError(res.statusText)
-            })
-
+            const insurances = await this.$dataService().get.patient.insuranceSets(this.data.patient.id)
+            this.loading.insurances = false
+            this.insuranceResults = insurances
         },
         setInsurance(data) {
             this.selectedData.insurance = data.row
         },
-        acceptFencounter() {
-            this.loading.all = true
-            this.$api.encounters.post(this.walkin)
-            .then(() => {
-                this.$emit('created')
-                this.$emit('close')
-            })
-            .catch((res) => {
-                this.loading.all =false
-                this.$apiError(res.statusText)
-            })
+        async acceptEncounter() {
+            this.loading.all = true;
+            await this.$dataService().post.encounters(this.walkin);
+            this.loading.all = false;
+            this.$emit('created');
+            this.$emit('close');
         }
     },
     computed: {

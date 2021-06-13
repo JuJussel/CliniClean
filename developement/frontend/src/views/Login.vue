@@ -44,21 +44,27 @@ export default {
     }
   },
   methods: {
-    login() {
-      this.loading = true
-      this.$api.auth.login(this.user)
-      .then(res => {
-          this.$store.commit('SET_USER', res)
-          this.$router.push('/')
-      })
-      .catch(res => {
-        this.loading = false
-        if (res.status === 401) {
-          this.$apiError('ユーザー名又はパスワードが違います。ご確認してください。')
-        } else {
-          this.$apiError(res.statusText)
-        }
-      })
+    async login() {
+      this.loading = true;
+      const res = await this.$dataService().post.auth(this.user);
+      this.loading = false;
+      this.$store.commit('SET_USER', res);
+      this.$router.push('/');
+
+
+      // this.$api.auth.login(this.user)
+      // .then(res => {
+      //     this.$store.commit('SET_USER', res)
+      //     this.$router.push('/')
+      // })
+      // .catch(res => {
+      //   this.loading = false
+      //   if (res.status === 401) {
+      //     this.$apiError('ユーザー名又はパスワードが違います。ご確認してください。')
+      //   } else {
+      //     this.$apiError(res.statusText)
+      //   }
+      // })
     }
   }
 }

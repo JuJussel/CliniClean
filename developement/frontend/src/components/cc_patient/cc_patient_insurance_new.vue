@@ -38,6 +38,7 @@
                 :note="errors.providerNumber"
                 v-model="insurance.providerNumber"
                 :label="$lang.insuranceProviderNumber"
+                @input="getInsuranceName"
             ></cui-input>
             <cui-input
                 :note="errors.providerName"
@@ -113,6 +114,13 @@ export default {
     methods: {
         updateFiles(files) {
             this.insurance.files = files;
+        },
+        async getInsuranceName() {
+            const number = this.insurance.providerNumber;
+            if(number.length === 6 || number.length === 8){
+                const data= await this.$dataService().get.lists.insuranceProviders(number)
+                this.insurance.providerName = data.name;
+            }
         },
         checkInsuranceNumber(value, helpers) {
             if (value.length != 8 && value.length != 6) {
@@ -190,7 +198,8 @@ export default {
                     allowUnknown: true,
                     messages: this.$lang.validationMessages,
                 });
-                this.$emit('confirm', this.insurance)
+                this.$emit('confirm', this.insurance);
+                this.$emit('close');
             } catch (err) {
                 console.dir(err);
                 err.details.forEach((e) => {
