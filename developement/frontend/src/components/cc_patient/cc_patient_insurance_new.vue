@@ -89,6 +89,7 @@ export default {
     data() {
         return {
             insurance: {
+                type: 'ins',
                 relation: this.$lang.thisPerson,
                 insuredName: this.patientName,
                 symbol: "",
@@ -201,7 +202,6 @@ export default {
                 this.$emit('confirm', this.insurance);
                 this.$emit('close');
             } catch (err) {
-                console.dir(err);
                 err.details.forEach((e) => {
                     this.errors[e.context.label] = null;
                     setTimeout(
@@ -212,9 +212,6 @@ export default {
                     );
                 });
             }
-        },
-        addInsurance() {
-            this.$emit('confirm', this.insurance)
         },
     }
 };

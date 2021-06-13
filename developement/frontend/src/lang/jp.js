@@ -46,6 +46,8 @@ export default {
     paymentDone: '会計済',
     prev: '前',
     publicInsurance: '公費',
+    publicInsuranceProvider: '公費負担者番号',
+    publicInsuranceRecepient: '公費受給者番号',
     relation: '',
     reception: '受付',
     receptionTime: '受付時間',

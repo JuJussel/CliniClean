@@ -1,6 +1,6 @@
 <template>
-    <div class="cc-patient-new-main">
-        <cui-card class="cc-patient-new-header">
+    <div class="cc-patient-edit-main">
+        <cui-card class="cc-patient-edit-header">
             <template #header>
                 <h2>{{ $lang.patientNew }}</h2>
                 <cui-button plain :label="$lang.cancel" />
@@ -12,7 +12,7 @@
                 <div class="circle-number">1</div>
                 <h2>{{ $lang.basic }}</h2>
             </template>
-            <div class="cc-patient-new-form">
+            <div class="cc-patient-edit-form">
                 <cui-input
                     v-model="patient.name"
                     required
@@ -91,16 +91,21 @@
             ></cui-input>
         </cui-card>
         <cui-card noPadding>
-            <template #header>
-                <div class="circle-number">4</div>
-                <h2>{{ $lang.insurance }}</h2>
-                <cui-button
-                    @click="modals.insuranceNew = true"
-                    :label="$lang.add"
-                    icon="far fa-plus-square"
-                />
-            </template>
-            <cui-table :data="patient.insurance">
+            <cui-table :data="patient.insurance" sqaure style="height: 270px">
+                <template #header>
+                    <div>
+                        <div style="display: flex; align-items: center">
+                            <div class="circle-number">4</div>
+                            <h2>{{ $lang.insurance }}</h2>
+                            <cui-button
+                                @click="modals.insuranceNew = true"
+                                :label="$lang.add"
+                                icon="far fa-plus-square"
+                            />
+                        </div>
+                        <div>保険</div>
+                    </div>
+                </template>
                 <template #thead>
                     <cui-th> {{ $lang.insuranceSymbol }} </cui-th>
                     <cui-th> {{ $lang.insuranceNumber }} </cui-th>
@@ -122,6 +127,30 @@
                     </td>
                 </template>
             </cui-table>
+            <cui-table :data="patient.insurance" square style="height: 200px">
+                <template #header>公費</template>
+                <template #thead>
+                    <cui-th> {{ $lang.insuranceSymbol }} </cui-th>
+                    <cui-th> {{ $lang.insuranceNumber }} </cui-th>
+                    <cui-th> {{ $lang.insuranceProviderNumber }} </cui-th>
+                    <cui-th> {{ $lang.insuranceProviderName }} </cui-th>
+                    <cui-th> {{ $lang.insuranceInsuredName }} </cui-th>
+                    <cui-th> {{ $lang.validUntil }} </cui-th>
+                    <cui-th></cui-th>
+                </template>
+                <template v-slot:row="row">
+                    <td>{{ row.symbol }}</td>
+                    <td>{{ row.number }}</td>
+                    <td>{{ row.providerNumber }}</td>
+                    <td>{{ row.providerNumber }}</td>
+                    <td>{{ row.insuredName }}</td>
+                    <td>{{ $moment(row.validDate[1]).format('YYYY年MM月DD日') }}</td>
+                    <td>
+                        <cui-button icon="far fa-trash-alt" danger @click="removeInsurance(row._index)" />
+                    </td>
+                </template>
+            </cui-table>
+
             <cui-modal
                 :visible="modals.insuranceNew"
                 @close="modals.insuranceNew = false"
@@ -212,14 +241,14 @@ export default {
 </script>
 
 <style scoped>
-.cc-patient-new-main {
+.cc-patient-edit-main {
     height: 100%;
     display: grid;
-    grid-template-rows: 85px 400px;
+    grid-template-rows: 85px 500px;
     grid-template-columns: 15% 15% 15% 55%;
     grid-template-areas: "header header header header";
 }
-.cc-patient-new-header {
+.cc-patient-edit-header {
     grid-area: header;
 }
 .circle-number {
