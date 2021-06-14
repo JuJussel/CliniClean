@@ -3,8 +3,8 @@
         <cui-card class="cc-patient-edit-header">
             <template #header>
                 <h2>{{ $lang.patientNew }}</h2>
-                <cui-button plain :label="$lang.cancel" />
-                <cui-button primary :label="$lang.register" />
+                <cui-button plain :label="$lang.cancel" @click="$emit('cancel')" />
+                <cui-button primary :label="$lang.register" @click="validateForm"/>
             </template>
         </cui-card>
         <cui-card>
@@ -14,11 +14,20 @@
             </template>
             <div class="cc-patient-edit-form">
                 <cui-input
+                    :note="errors.name"
                     v-model="patient.name"
                     required
                     :label="$lang.name"
                 ></cui-input>
+                <cui-input
+                    :note="errors.nameKana"
+                    v-model="patient.nameKana"
+                    required
+                    :label="$lang.nameKana"
+                ></cui-input>
+
                 <cui-datepicker
+                    :note="errors.birthdate"
                     v-model="patient.birthdate"
                     required
                     :label="$lang.birthdate"
@@ -38,6 +47,7 @@
                     />
                 </div>
                 <cui-select
+                    :note="errors.occupation"
                     v-model="patient.occupation"
                     :label="$lang.occupation"
                     :data="$store.getters.occupations"
@@ -51,20 +61,24 @@
             </template>
 
             <cui-input
+                :note="errors.addresszip"
                 v-model="patient.address.zip"
                 :label="$lang.zipCode"
                 pattern="[0-9]*"
                 @input="getAddress('address')"
             ></cui-input>
             <cui-input
+                :note="errors.addressaddr"
                 v-model="patient.address.addr"
                 :label="$lang.address"
             ></cui-input>
             <cui-input
+                :note="errors.phone"
                 v-model="patient.phone"
                 :label="$lang.telephone"
             ></cui-input>
             <cui-input
+                :note="errors.mail"
                 v-model="patient.mail"
                 :label="$lang.mailAddress"
             ></cui-input>
@@ -75,20 +89,24 @@
                 <h2>{{ $lang.workOrSchool }}</h2>
             </template>
             <cui-input
+                :note="errors.companyname"
                 v-model="patient.company.name"
                 :label="$lang.workOrSchoolName"
             ></cui-input>
             <cui-input
+                :note="errors.companyzip"
                 v-model="patient.company.zip"
                 :label="$lang.zipCode"
                 @input="getAddress('company')"
             ></cui-input>
             <cui-input
+                :note="errors.companyaddr"
                 v-model="patient.company.addr"
                 :label="$lang.address"
             ></cui-input>
             <cui-input
-                v-model="patient.company.tel"
+                :note="errors.companyphone"
+                v-model="patient.company.phone"
                 :label="$lang.telephone"
             ></cui-input>
         </cui-card>
@@ -166,9 +184,11 @@
 <script>
 import insuranceNew from "./cc_patient_insurance_new.vue";
 import publicNew from "./cc_patient_public_new.vue";
+import Joi from "joi";
 
 export default {
     components: { insuranceNew, publicNew },
+    emits: ['cancel', 'save'],
     created() {
         this.populateData();
     },
@@ -198,10 +218,29 @@ export default {
                     name: "Cordeos",
                     zip: "1234323",
                     addr: "東京千代田区",
-                    tel: "032345677",
+                    phone: "032345677",
                 },
                 insurance: [],
             },
+            errors: {
+                id: '',
+                name: '',
+                nameKana: '',
+                birthdate: '',
+                gender: '',
+                householderName: '',
+                relation: '',
+                occupation: '',
+                phone: '',
+                mail: '',
+                addresszip: '',
+                addressaddr: '',
+                companyname: '',
+                companyzip: '',
+                companyaddr: '',
+                companyphone: '',
+                insurance: ''
+            }
         };
     },
     methods: {
@@ -222,6 +261,62 @@ export default {
                 const addr = await this.$dataService().get.lists.addresses(zip);
                 this.patient[target].addr = addr.addr;
             }
+        },
+        validateForm() {
+
+            Object.keys(this.errors).forEach((key) => {
+                this.errors[key] = "";
+            });
+
+            const schema = Joi.object({
+                id: Joi.string().pattern(/^[0-9]*$/),
+                name: Joi.string().required(),
+                nameKana: Joi.string().required(),
+                birthdate: Joi.date().min('now').required,
+                gender: Joi.number().required(),
+                householderName: Joi.string(),
+                relation: Joi.number(),
+                occupation: Joi.string(),
+                phone: Joi.string().pattern(/^[0-9]*$/),
+                mail: Joi.string().email({ tlds: false }),
+                address: Joi.object({
+                    zip: Joi.string().pattern(/^[0-9]*$/),
+                    addr: Joi.string(),
+                }),
+                company: Joi.object({
+                    name: Joi.string(),
+                    zip: Joi.string().pattern(/^[0-9]*$/),
+                    addr: Joi.string(),
+                    phone: Joi.string().pattern(/^[0-9]*$/),
+                }),
+                insurance: Joi.array()
+            });
+            try {
+                Joi.assert(this.patient, schema, {
+                    abortEarly: false,
+                    allowUnknown: true,
+                    messages: this.$lang.validationMessages,
+                });
+                this.save()
+            } catch (err) {
+                err.details.forEach((e) => {
+                    console.log(e);
+                    let key = e.path[0];
+                    if (e.path.length > 1) {
+                        key = key + e.path[1]
+                    }
+                    this.errors[key] = null;
+                    setTimeout(
+                        function () {
+                            this.errors[key] = e.message;
+                        }.bind(this),
+                        50
+                    );
+                });
+            }
+        },
+        save() {
+            console.log('Save');
         }
     },
 };

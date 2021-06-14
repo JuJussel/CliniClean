@@ -33,6 +33,7 @@ export default {
     memo: 'メモ',
     month: '月',
     name: '名前',
+    nameKana: '名前カナ',
     newReception: '受付登録',
     newReservation: '予約登録',
     next: '次',
