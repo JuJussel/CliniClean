@@ -164,6 +164,18 @@ export default {
                                 })
                             }
                         },
+                        addresses: function(zip) {
+                            return new Promise (function(resolve, reject) {
+                                return http.get('lists/addresses/' + zip)
+                                .then(result => {
+                                    resolve(result)
+                                })
+                                .catch(result => {
+                                    instance.$cui.notification({ text: result, color: 'danger' })
+                                    reject
+                                })
+                            })
+                        }
                     }
                 },
                 post: {

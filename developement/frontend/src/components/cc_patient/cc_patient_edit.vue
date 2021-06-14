@@ -54,6 +54,7 @@
                 v-model="patient.address.zip"
                 :label="$lang.zipCode"
                 pattern="[0-9]*"
+                @input="getAddress('address')"
             ></cui-input>
             <cui-input
                 v-model="patient.address.addr"
@@ -80,6 +81,7 @@
             <cui-input
                 v-model="patient.company.zip"
                 :label="$lang.zipCode"
+                @input="getAddress('company')"
             ></cui-input>
             <cui-input
                 v-model="patient.company.addr"
@@ -91,24 +93,22 @@
             ></cui-input>
         </cui-card>
         <cui-card noPadding>
-            <cui-table :data="patient.insurance" sqaure style="height: 270px">
+            <cui-table :data="patient.insurance">
                 <template #header>
-                    <div>
-                        <div style="display: flex; align-items: center">
-                            <div class="circle-number">4</div>
-                            <h2>{{ $lang.insurance }}</h2>
-                            <cui-button
-                                @click="modals.insuranceNew = true"
-                                :label="$lang.add"
-                                icon="far fa-plus-square"
-                            />
-                        </div>
-                        <div>保険</div>
+                    <div style="display: flex; align-items: center">
+                        <div class="circle-number">4</div>
+                        <h2>{{ $lang.insurance }} ・ {{ $lang.publicInsurance }}</h2>
+                        <cui-button
+                            @click="modals.insuranceNew = true"
+                            :label="$lang.add"
+                            icon="far fa-plus-square"
+                        />
                     </div>
                 </template>
                 <template #thead>
-                    <cui-th> {{ $lang.insuranceSymbol }} </cui-th>
-                    <cui-th> {{ $lang.insuranceNumber }} </cui-th>
+                    <cui-th></cui-th>
+                    <cui-th style="width: 200px"> {{ $lang.insuranceSymbol }}・{{ $lang.publicInsuranceProvider }} </cui-th>
+                    <cui-th style="width: 200px"> {{ $lang.insuranceNumber }}・{{ $lang.publicInsuranceRecepient }} </cui-th>
                     <cui-th> {{ $lang.insuranceProviderNumber }} </cui-th>
                     <cui-th> {{ $lang.insuranceProviderName }} </cui-th>
                     <cui-th> {{ $lang.insuranceInsuredName }} </cui-th>
@@ -116,8 +116,12 @@
                     <cui-th></cui-th>
                 </template>
                 <template v-slot:row="row">
-                    <td>{{ row.symbol }}</td>
-                    <td>{{ row.number }}</td>
+                    <td>
+                        <cui-tag v-if="row.type === 'pub'">公</cui-tag>
+                        <cui-tag v-else>保</cui-tag>
+                    </td>
+                    <td>{{ row.symbol }} {{ row.provider }}</td>
+                    <td>{{ row.number }} {{ row.recepient }}</td>
                     <td>{{ row.providerNumber }}</td>
                     <td>{{ row.providerNumber }}</td>
                     <td>{{ row.insuredName }}</td>
@@ -127,59 +131,35 @@
                     </td>
                 </template>
             </cui-table>
-            <cui-table :data="patient.insurance" square style="height: 200px">
-                <template #header>公費</template>
-                <template #thead>
-                    <cui-th> {{ $lang.insuranceSymbol }} </cui-th>
-                    <cui-th> {{ $lang.insuranceNumber }} </cui-th>
-                    <cui-th> {{ $lang.insuranceProviderNumber }} </cui-th>
-                    <cui-th> {{ $lang.insuranceProviderName }} </cui-th>
-                    <cui-th> {{ $lang.insuranceInsuredName }} </cui-th>
-                    <cui-th> {{ $lang.validUntil }} </cui-th>
-                    <cui-th></cui-th>
-                </template>
-                <template v-slot:row="row">
-                    <td>{{ row.symbol }}</td>
-                    <td>{{ row.number }}</td>
-                    <td>{{ row.providerNumber }}</td>
-                    <td>{{ row.providerNumber }}</td>
-                    <td>{{ row.insuredName }}</td>
-                    <td>{{ $moment(row.validDate[1]).format('YYYY年MM月DD日') }}</td>
-                    <td>
-                        <cui-button icon="far fa-trash-alt" danger @click="removeInsurance(row._index)" />
-                    </td>
-                </template>
-            </cui-table>
-
-            <cui-modal
-                :visible="modals.insuranceNew"
-                @close="modals.insuranceNew = false"
-                @add="addInsurance"
-            >
-                <cui-card style="height: 540px; width: 850px">
-                    <template #header>
-                        {{ $lang.insuranceAdd }}
-                        <cui-button-group v-model="modals.newInsuranceType">
-                            <cui-button-group-item
-                                :label="$lang.insurance"
-                                value="insuranceNew"
-                            ></cui-button-group-item>
-                            <cui-button-group-item
-                                :label="$lang.publicInsurance"
-                                value="publicNew"
-                            ></cui-button-group-item>
-                        </cui-button-group>
-                    </template>
-                    <component
-                        :is="modals.newInsuranceType"
-                        :patientName="patient.name"
-                        @close="modals.insuranceNew = false"
-                        @confirm="addInsurance"
-                    >
-                    </component>
-                </cui-card>
-            </cui-modal>
         </cui-card>
+        <cui-modal
+            :visible="modals.insuranceNew"
+            @close="modals.insuranceNew = false"
+            @add="addInsurance"
+        >
+            <cui-card style="height: 540px; width: 850px">
+                <template #header>
+                    {{ $lang.insuranceAdd }}
+                    <cui-button-group v-model="modals.newInsuranceType">
+                        <cui-button-group-item
+                            :label="$lang.insurance"
+                            value="insuranceNew"
+                        ></cui-button-group-item>
+                        <cui-button-group-item
+                            :label="$lang.publicInsurance"
+                            value="publicNew"
+                        ></cui-button-group-item>
+                    </cui-button-group>
+                </template>
+                <component
+                    :is="modals.newInsuranceType"
+                    :patientName="patient.name"
+                    @close="modals.insuranceNew = false"
+                    @confirm="addInsurance"
+                >
+                </component>
+            </cui-card>
+        </cui-modal>
     </div>
 </template>
 
@@ -235,6 +215,13 @@ export default {
         },
         removeInsurance(index) {
             this.patient.insurance.splice(index, 1)
+        },
+        async getAddress(target) {
+            let zip = this.patient[target].zip;
+            if (zip.length === 7) {
+                const addr = await this.$dataService().get.lists.addresses(zip);
+                this.patient[target].addr = addr.addr;
+            }
         }
     },
 };
