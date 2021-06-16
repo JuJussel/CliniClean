@@ -7,11 +7,12 @@
                 :label="item.label"
                 :value="item.value"
                 :icon="item.icon"
+                :index="index"
             />
 
         </cui-button-group>
         <div>
-            <component :is="activeTabContent" @newPatient="newPatient"></component>
+            <component :is="activeTabContent" @newPatient="newPatient" @cancel="closeTab"></component>
         </div>
 
     </div>
@@ -38,18 +39,28 @@ export default {
     methods: {
         newPatient() {
             let key = this.dynamicTabs.length
-            this.dynamicTabs.push({label: this.$lang.patientNew, value: 'patientEdit_' + key, icon: ''})
+            let item = {label: this.$lang.patientNew, value: 'patientEdit_' + key, icon: '',  index: key}
+            this.dynamicTabs.push(item)
             this.$nextTick(() => {
-                this.activeTab = 'patientEdit_' + key
+                this.activeTab = item.value
             })
+        },
+        closeTab(index = null) {
+            if (!index) {
+                let value = this.activeTab;
+                index = this.dynamicTabs.indexOf(value);
+            }
+            this.dynamicTabs.splice(index, 1);
+            if (this.dynamicTabs.length < 1) {
+                this.activeTab = 'patientList';
+            } else {
+                this.activeTab = this.dynamicTabs[index - 1];
+            }
         }
     },
     computed: {
         activeTabContent() {
-            if (this.activeTab.includes('patientEdit')) {
-                return 'patientEdit'
-            }
-            return this.activeTab
+            return this.activeTab.split('_')[0]
         }
     }
 }

@@ -7,7 +7,7 @@
                 <cui-button primary :label="$lang.register" @click="validateForm"/>
             </template>
         </cui-card>
-        <cui-card>
+        <cui-card :loading="loading">
             <template #header>
                 <div class="circle-number">1</div>
                 <h2>{{ $lang.basic }}</h2>
@@ -54,7 +54,7 @@
                 ></cui-select>
             </div>
         </cui-card>
-        <cui-card>
+        <cui-card :loading="loading">
             <template #header>
                 <div class="circle-number">2</div>
                 <h2>{{ $lang.contactInfo }}</h2>
@@ -83,7 +83,7 @@
                 :label="$lang.mailAddress"
             ></cui-input>
         </cui-card>
-        <cui-card>
+        <cui-card :loading="loading">
             <template #header>
                 <div class="circle-number">3</div>
                 <h2>{{ $lang.workOrSchool }}</h2>
@@ -110,7 +110,7 @@
                 :label="$lang.telephone"
             ></cui-input>
         </cui-card>
-        <cui-card noPadding>
+        <cui-card noPadding :loading="loading">
             <cui-table :data="patient.insurance">
                 <template #header>
                     <div style="display: flex; align-items: center">
@@ -200,7 +200,7 @@ export default {
                 newInsuranceType: "insuranceNew",
             },
             patient: {
-                id: 0,
+                id: '',
                 name: "TestPatient2",
                 nameKana: "TestPatient2",
                 birthdate: "1990-01-01",
@@ -247,6 +247,7 @@ export default {
         populateData() {
             this.loading = true;
             this.$dataService().get.lists.occupations();
+            this.loading = false;
         },
         addInsurance(ins) {
             this.patient.insurance.push(ins)
@@ -263,16 +264,14 @@ export default {
             }
         },
         validateForm() {
-
             Object.keys(this.errors).forEach((key) => {
                 this.errors[key] = "";
             });
 
             const schema = Joi.object({
-                id: Joi.string().pattern(/^[0-9]*$/),
                 name: Joi.string().required(),
                 nameKana: Joi.string().required(),
-                birthdate: Joi.date().min('now').required,
+                birthdate: Joi.date().max('now').required(),
                 gender: Joi.number().required(),
                 householderName: Joi.string(),
                 relation: Joi.number(),
@@ -297,10 +296,10 @@ export default {
                     allowUnknown: true,
                     messages: this.$lang.validationMessages,
                 });
-                this.save()
+                this.save();
+                console.log('Save');
             } catch (err) {
                 err.details.forEach((e) => {
-                    console.log(e);
                     let key = e.path[0];
                     if (e.path.length > 1) {
                         key = key + e.path[1]
@@ -316,6 +315,7 @@ export default {
             }
         },
         save() {
+            this.loading = true;
             console.log('Save');
         }
     },

@@ -79,6 +79,7 @@ export default {
         'array.includesRequiredUnknowns': '選択してください',
         'string.pattern.base': '入力に誤りがあります',
         'any.invalid': '入力に誤りがあります',
-        'date.max':  ''
+        'date.min':  '過去の日付を選択してください',
+        'date.max':  '未来の日付を選択してください'
     }
 }
