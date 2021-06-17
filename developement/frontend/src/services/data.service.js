@@ -204,7 +204,21 @@ export default {
                                 reject
                             })
                         }) 
+                    },
+                    //>----patients-----//
+                    patients: function(data) {
+                        return new Promise(function(resolve,reject) {
+                            return http.post('patients', data)
+                            .then(result => {
+                                resolve(result)
+                            })
+                            .catch(result => {
+                                instance.$cui.notification({ text: result, color: 'danger' })
+                                reject
+                            })
+                        }) 
                     }
+                    
                 }
             }
 

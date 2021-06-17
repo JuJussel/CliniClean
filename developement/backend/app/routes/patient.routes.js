@@ -27,5 +27,10 @@ module.exports = app => {
       patients.findOne
     )
 
+    app.post(
+      "/api/patients",
+      [authJwt.verifyToken],
+      patients.create
+    )
 
   }

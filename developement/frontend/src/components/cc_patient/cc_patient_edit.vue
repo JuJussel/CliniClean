@@ -3,8 +3,8 @@
         <cui-card class="cc-patient-edit-header">
             <template #header>
                 <h2>{{ $lang.patientNew }}</h2>
-                <cui-button plain :label="$lang.cancel" @click="$emit('cancel')" />
-                <cui-button primary :label="$lang.register" @click="validateForm"/>
+                <cui-button plain :label="$lang.cancel" @click="$emit('cancel')" :loading="loading"/>
+                <cui-button primary :label="$lang.register" @click="validateForm" :loading="loading"/>
             </template>
         </cui-card>
         <cui-card :loading="loading">
@@ -82,6 +82,10 @@
                 v-model="patient.mail"
                 :label="$lang.mailAddress"
             ></cui-input>
+            <div style="display: grid; grid-template-columns: 50% 50%">
+                <cui-input :label="$lang.householder"></cui-input>
+                <cui-select :label="$lang.relation" style="padding-left: 10px"></cui-select>
+            </div>
         </cui-card>
         <cui-card :loading="loading">
             <template #header>
@@ -314,9 +318,10 @@ export default {
                 });
             }
         },
-        save() {
+        async save() {
             this.loading = true;
-            console.log('Save');
+            const newPatient = await this.$dataService().post.patients(this.patient)
+            console.log(newPatient);
         }
     },
 };

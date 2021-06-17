@@ -12,7 +12,7 @@ exports.findMany = (req, res) => {
     (err, patient) => {
       if (err) {
         $logger.error(err);
-        res.status(500).send({message: "Error retrieving Doctors"})
+        res.status(500).send({ message: "Error retrieving Doctors" });
       }
       res.send(patient);
     }
@@ -20,18 +20,17 @@ exports.findMany = (req, res) => {
 };
 
 exports.findOne = (req, res) => {
-
-  let id = req.params.patientId
+  let id = req.params.patientId;
 
   Orca.get.patientInfo(id, (err, data) => {
     if (err) {
-      $logger.error(err)
+      $logger.error(err);
       res.status(500).send({
         message: err,
       });
     }
     console.log(data);
-  })
+  });
 
   // let name = req.query.id;
   // let id = isNaN(parseInt(name)) ? null : name;
@@ -47,13 +46,12 @@ exports.findOne = (req, res) => {
   //     res.send(patient);
   //   }
   // );
-
 };
 
 exports.insuranceSets = (req, res) => {
   Orca.get.insuranceSets(req.params.patientID, (err, data) => {
     if (err) {
-      $logger.error(err)
+      $logger.error(err);
       res.status(500).send({
         message: err,
       });
@@ -96,4 +94,19 @@ exports.insurances = (req, res) => {
       res.send(data);
     }
   });
+};
+
+exports.create = (req, res) => {
+  let request = req.body;
+
+  Orca.post.patient(request, (err, data) => {
+    if (err) {
+      res.status(500).send({
+        message: err,
+      });
+    } else {
+      res.send(data);
+    }
+  });
+
 };
