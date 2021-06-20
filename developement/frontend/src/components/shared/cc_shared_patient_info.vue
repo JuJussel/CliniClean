@@ -1,17 +1,17 @@
 <template>
         <div>
-            <cui-table :data="patient" square>
+            <cui-table :data="patientDetails" square>
                 <template #header>
-                    <h2>基本</h2>
+                    <h2> {{ $lang.basic }} </h2>
                 </template>
                 <template v-slot:row="row">
                     <td> {{row.label}} </td>
                     <td>{{ row.value }}</td>
                 </template>
             </cui-table>
-            <cui-table :data="patient" square>
+            <cui-table :data="patient" square :loading="!patientData">
                 <template #header>
-                    <h2>保険</h2>
+                    <h2> {{ $lang.insurance }} </h2>
                 </template>
                 <template v-slot:row="row">
                     <td> {{row.label}} </td>
@@ -32,15 +32,34 @@ export default {
     },
     data() {
         return {
-            test: "Hello",
+            patientData: null,
             patient: [
-                {label: '名前', value: '渡辺春子'},
-                {label: '生年月日', value: '1998年1月12日'},
-                {label: '性別', value: '女性'},
-                {label: '住所', value: '142-0063品川区荏原'},
-                {label: '電話番号', value: '08044938473'},
-
             ]
+        }
+    },
+    created() {
+        this.getPatientData()
+    },
+    methods: {
+        async getPatientData() {
+            const patientData = await this.$dataService().get.patient.details(this.patientId);
+            this.patientData = patientData.patientData;
+        }
+    },
+    computed: {
+        patientDetails() {
+            if (!this.patientData)  return [];
+            let tableData = [
+                {label: this.$lang.name, value: this.patientData?.name},
+                {label: this.$lang.birthdate, value: this.patientData?.birthdate},
+                {label: this.$lang.gender, value: this.patientData?.gender},
+                {label: this.$lang.address, value: this.patientData?.address?.zip + " " + this.patientData?.address?.addr},
+                {label: this.$lang.occupation, value: this.patientData?.occupation},
+                {label: this.$lang.workOrSchoolName, value: this.patientData?.company?.name},
+                {label: this.$lang.telephone, value: this.patientData?.phone},
+                {label: this.$lang.mailAddress, value: this.patientData?.mail}
+            ];
+            return tableData;
         }
     }
     

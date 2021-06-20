@@ -9,7 +9,12 @@ exports.findOne = (req,res) => {
           message: err
         });
     } else {
-      res.send({name: data.seidoname});
+      if (data) {
+        res.send({name: data.seidoname});
+      } else {
+        res.send({name: ""});
+      }
+      
     }
   })
 }

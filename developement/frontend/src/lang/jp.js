@@ -50,7 +50,7 @@ export default {
     publicInsurance: '公費',
     publicInsuranceProvider: '公費負担者番号',
     publicInsuranceRecepient: '公費受給者番号',
-    relation: '関連',
+    relation: '続柄',
     reception: '受付',
     receptionTime: '受付時間',
     register: '登録',

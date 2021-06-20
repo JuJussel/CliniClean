@@ -17,6 +17,7 @@ examType.findOne = (number, result) => {
     .catch((err) => {
         if (err.code === 0) {
             result(null, null);
+            return;
         }
         $logger.error(err);
         result(err, null);

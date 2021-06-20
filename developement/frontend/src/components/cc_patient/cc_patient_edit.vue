@@ -17,6 +17,7 @@
                     :note="errors.name"
                     v-model="patient.name"
                     required
+                    @input="updateHouseholder"
                     :label="$lang.name"
                 ></cui-input>
                 <cui-input
@@ -83,8 +84,16 @@
                 :label="$lang.mailAddress"
             ></cui-input>
             <div style="display: grid; grid-template-columns: 50% 50%">
-                <cui-input :label="$lang.householder"></cui-input>
-                <cui-select :label="$lang.relation" style="padding-left: 10px"></cui-select>
+                <cui-input v-model="patient.householderName" :label="$lang.householder"></cui-input>
+                <cui-select 
+                    :label="$lang.relation" style="padding-left: 10px"
+                    :note="errors.relation"
+                    @select="updateHouseholder"
+                    displayValueProp="name"
+                    returnValueProp="name"
+                    v-model="patient.relation"
+                    :data="$store.getters.relations"
+                />
             </div>
         </cui-card>
         <cui-card :loading="loading">
@@ -192,7 +201,7 @@ import Joi from "joi";
 
 export default {
     components: { insuranceNew, publicNew },
-    emits: ['cancel', 'save'],
+    emits: ['cancel', 'save', 'showPatient'],
     created() {
         this.populateData();
     },
@@ -209,8 +218,8 @@ export default {
                 nameKana: "TestPatient2",
                 birthdate: "1990-01-01",
                 gender: 1,
-                householderName: "本人",
-                relation: 1,
+                householderName: "",
+                relation: "本人",
                 occupation: "学生",
                 phone: "08000326702",
                 mail: "test@mail.com",
@@ -224,7 +233,24 @@ export default {
                     addr: "東京千代田区",
                     phone: "032345677",
                 },
-                insurance: [],
+                insurance: [
+                    {"type":"ins","relation":"1","insuredName":"TestPatient2","symbol":"123","number":"456","providerNumber":"138057","providerName":"生活保護","getDate":"2021-06-18","validDate":["2021-06-21","2021-07-01"],"files":["[object File]"],"_index":0},
+                    {
+                        "type": "pub",
+                        "provider": "12345674",
+                        "recepient": "1234566",
+                        "validDate": [
+                            "2021-09-01",
+                            "2021-09-03"
+                        ],
+                        "files": [
+                            {
+                            "_index": 0
+                            }
+                        ],
+                        "_index": 1
+                    }
+                ],
             },
             errors: {
                 id: '',
@@ -248,9 +274,15 @@ export default {
         };
     },
     methods: {
-        populateData() {
+        updateHouseholder() {
+            if (this.patient.relation === "本人") {
+                this.patient.householderName = this.patient.name                
+            }
+        },
+        async populateData() {
             this.loading = true;
-            this.$dataService().get.lists.occupations();
+            await this.$dataService().get.lists.occupations();
+            await this.$dataService().get.lists.relations();
             this.loading = false;
         },
         addInsurance(ins) {
@@ -277,20 +309,20 @@ export default {
                 nameKana: Joi.string().required(),
                 birthdate: Joi.date().max('now').required(),
                 gender: Joi.number().required(),
-                householderName: Joi.string(),
-                relation: Joi.number(),
-                occupation: Joi.string(),
-                phone: Joi.string().pattern(/^[0-9]*$/),
-                mail: Joi.string().email({ tlds: false }),
+                householderName: Joi.string().allow(''),
+                relation: Joi.string().allow(''),
+                occupation: Joi.string().allow(''),
+                phone: Joi.string().pattern(/^[0-9]*$/).allow(''),
+                mail: Joi.string().email({ tlds: false }).allow(''),
                 address: Joi.object({
-                    zip: Joi.string().pattern(/^[0-9]*$/),
+                    zip: Joi.string().pattern(/^[0-9]*$/).allow(''),
                     addr: Joi.string(),
                 }),
                 company: Joi.object({
-                    name: Joi.string(),
-                    zip: Joi.string().pattern(/^[0-9]*$/),
-                    addr: Joi.string(),
-                    phone: Joi.string().pattern(/^[0-9]*$/),
+                    name: Joi.string().allow(''),
+                    zip: Joi.string().pattern(/^[0-9]*$/).allow(''),
+                    addr: Joi.string().allow(''),
+                    phone: Joi.string().pattern(/^[0-9]*$/).allow(''),
                 }),
                 insurance: Joi.array()
             });
@@ -301,7 +333,6 @@ export default {
                     messages: this.$lang.validationMessages,
                 });
                 this.save();
-                console.log('Save');
             } catch (err) {
                 err.details.forEach((e) => {
                     let key = e.path[0];
@@ -320,8 +351,9 @@ export default {
         },
         async save() {
             this.loading = true;
-            const newPatient = await this.$dataService().post.patients(this.patient)
-            console.log(newPatient);
+            const newPatientId = await this.$dataService().post.patients(this.patient);
+            this.$emit('showPatient', newPatientId);
+            this.$emit('cancel');
         }
     },
 };

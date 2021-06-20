@@ -12,7 +12,12 @@
 
         </cui-button-group>
         <div>
-            <component :is="activeTabContent" @newPatient="newPatient" @cancel="closeTab"></component>
+            <component
+             :is="activeTabContent"
+             @newPatient="newPatient"
+             @cancel="closeTab"
+             @showPatient="showPatientQuickInfo"
+            ></component>
         </div>
 
     </div>
@@ -56,6 +61,14 @@ export default {
             } else {
                 this.activeTab = this.dynamicTabs[index - 1];
             }
+        },
+        showPatientQuickInfo(id) {
+            let transferData = {
+                target: 'patientList',
+                data: id
+            };
+            this.$store.commit('SET_TRANSFER_DATA', transferData);
+            this.activeTab = 'patientList';
         }
     },
     computed: {

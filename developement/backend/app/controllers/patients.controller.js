@@ -22,14 +22,40 @@ exports.findMany = (req, res) => {
 exports.findOne = (req, res) => {
   let id = req.params.patientId;
 
-  Orca.get.patientInfo(id, (err, data) => {
+  Orca.get.patient(id, (err, data) => {
     if (err) {
       $logger.error(err);
       res.status(500).send({
         message: err,
       });
+    } else {
+      let responseData = {
+        id: parseInt(data.Patient_ID),
+        name: data.WholeName,
+        nameKana: data.WholeName_inKana,
+        birthdate: data.BirthDate,
+        gender: parseInt(data.Sex),
+        householderName: data.HouseHolder_WholeName,
+        relation: data.Relationship,
+        occupation: data.Occupation,
+        phone: data.CellularNumber,
+        mail: data.EmailAddress,
+        address: {
+            zip: data.Home_Address_Information?.Address_ZipCode,
+            addr: data.Home_Address_Information?.WholeAddress1,
+        },
+        company: {
+            name: data.WorkPlace_Information?.WholeName,
+            zip: data.WorkPlace_Information?.Address_ZipCode,
+            addr: data.WorkPlace_Information?.WholeAddress1,
+            phone: data.WorkPlace_Information?.PhoneNumber,
+        },
+        insurance: [
+          data.HealthInsurance_Information?.HealthInsurance_Information_child
+        ]
+      }
+      res.send({patientData: responseData});
     }
-    console.log(data);
   });
 
   // let name = req.query.id;
@@ -105,7 +131,14 @@ exports.create = (req, res) => {
         message: err,
       });
     } else {
-      res.send(data);
+      request._id = data;
+      Patient.create(request, (err, patient) => {
+        if (err) {
+          $logger.error(err);
+          res.status(500).send({ message: "Error creating Patient" });
+        }
+        res.send({patientId: data});
+      })
     }
   });
 

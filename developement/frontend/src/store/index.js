@@ -10,7 +10,8 @@ export const store = createStore({
       activeView: 'home',
       staticLists: [],
       transferData: {
-        reception: null
+        reception: null,
+        patientList: null
       }
     }
   },
@@ -21,6 +22,7 @@ export const store = createStore({
       activeView: state => state.activeView,
       encounterTypes: state => state.staticLists.encounterTypes,
       occupations: state => state.staticLists.occupations,
+      relations: state => state.staticLists.relations,
       transferData: state => state.transferData
   },
   
@@ -36,6 +38,9 @@ export const store = createStore({
     },
     SET_OCCUPATIONS(state, data) {
       state.staticLists.occupations = data
+    },
+    SET_RELATIONS(state, data) {
+      state.staticLists.relations = data
     },
     SET_TRANSFER_DATA(state, data) {
       state[data.target] = data.data

@@ -164,6 +164,24 @@ export default {
                                 })
                             }
                         },
+                        //>----Relations-----//
+                        relations: function() {
+                            if (instance.$store.getters.relations) {
+                                return instance.$store.getters.relations
+                            } else {
+                                return new Promise (function(resolve, reject) {
+                                    return http.get('lists/relations')
+                                    .then(result => {
+                                        instance.$store.commit('SET_RELATIONS', result)
+                                        resolve(result)
+                                    })
+                                    .catch(result => {
+                                        instance.$cui.notification({ text: result, color: 'danger' })
+                                        reject
+                                    })
+                                })
+                            }
+                        },
                         addresses: function(zip) {
                             return new Promise (function(resolve, reject) {
                                 return http.get('lists/addresses/' + zip)

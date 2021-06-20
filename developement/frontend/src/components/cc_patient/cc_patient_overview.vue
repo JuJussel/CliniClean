@@ -8,7 +8,7 @@
       </patientList>
     </cui-card>
     <cui-card noPadding>
-      <patientInfo>
+      <patientInfo v-if="selectedPatientId" :patientId="selectedPatientId">
       </patientInfo>
     </cui-card>
   </div>
@@ -24,15 +24,21 @@ export default {
     patientList,
     patientInfo
   },
+  created() {
+    if (this.$store.getters.transferData.patientList) {
+      this.selectedPatientId = parseInt(this.$store.getters.transferData.patientList);
+    }
+  },
   data() {
     return {
       loading: {},
-      patienrData: null
+      patientData: null,
+      selectedPatientId: null
     };
   },
   methods: {
-    async showPatientQuick(id) {
-      this.patientData = await this.$dataService().get.patient.details(id)
+    showPatientQuick(id) {
+      this.selectedPatientId = parseInt(id);
     },
     newPatient() {
       this.$emit('newPatient')

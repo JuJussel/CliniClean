@@ -21,14 +21,14 @@
                 <cui-radio
                     style="margin-left: 10px"
                     :label="$lang.thisPerson"
-                    :value="$lang.thisPerson"
+                    :value="1"
                     v-model="insurance.relation"
                     @select="insurance.insuredName = patientName"
                 />
                 <cui-radio
                     style="margin-left: 10px"
                     :label="$lang.dependent"
-                    :value="$lang.dependent"
+                    :value="2"
                     v-model="insurance.relation"
                     @select="insurance.insuredName = insurance.insuredName"
                 />
@@ -90,7 +90,7 @@ export default {
         return {
             insurance: {
                 type: 'ins',
-                relation: this.$lang.thisPerson,
+                relation: 1,
                 insuredName: this.patientName,
                 symbol: "",
                 number: "",
