@@ -51,7 +51,7 @@ export default {
             if (!this.patientData)  return [];
             let tableData = [
                 {label: this.$lang.name, value: this.patientData?.name},
-                {label: this.$lang.birthdate, value: this.patientData?.birthdate},
+                {label: this.$lang.birthdate, value: this.$moment(this.patientData?.birthdate).format('YYYY年MM月DD日')},
                 {label: this.$lang.gender, value: this.patientData?.gender},
                 {label: this.$lang.address, value: this.patientData?.address?.zip + " " + this.patientData?.address?.addr},
                 {label: this.$lang.occupation, value: this.patientData?.occupation},

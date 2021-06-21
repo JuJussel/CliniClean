@@ -40,25 +40,18 @@ var request = function(route, data, type, abortSignal) {
     }
 
     fetch(url.toString(), options)
-    .then((res) => {
-
-      if (res.status !== 200 && res.status !== 204) {
-        reject(res)
-      }
-      res.json().then(data => {
-        resolve(data)
+      .then((res) => {
+        if (!res.ok) {
+          res.json().then(result => reject(result.message));
+        }
+        res.json().then(result => resolve(result));
       })
-      .catch((err) => {
-        resolve({statusText: err})
-      })
-    })
-    .catch((res) => {
-      if (res.statusText) {
-        reject(res)
-      }
-      res = {statusText: res}
-      reject(res);
-    });
+      .catch((res) => {
+        if (res.statusText) {
+          reject(res.statusText)
+        }
+        reject(res);
+      });
   });
   return promise;
 }

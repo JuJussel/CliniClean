@@ -2,7 +2,6 @@ import { createApp } from 'vue'
 import { store } from './store'
 import App from './App.vue'
 import router from './router'
-import Api from '@/services/api.service'
 import Auth from '@/services/auth.service'
 import Globals from '@/config/global';
 
@@ -34,7 +33,6 @@ app.use(Cui)
 app.provide('$notification', Cui.notification)
 app.use(router)
 app.use(DataService)
-app.use(Api)
 app.use(Auth)
 app.mount('#app')
 
