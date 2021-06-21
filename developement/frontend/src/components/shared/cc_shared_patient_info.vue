@@ -9,13 +9,27 @@
                     <td>{{ row.value }}</td>
                 </template>
             </cui-table>
-            <cui-table :data="patient" square :loading="!patientData">
+            <cui-table :data="patientData?.insurance[0]" square :loading="!patientData">
                 <template #header>
                     <h2> {{ $lang.insurance }} </h2>
                 </template>
+                <template #thead>
+                    <cui-th>Comb</cui-th>
+                    <cui-th>Ins</cui-th>
+                    <cui-th>Pub1</cui-th>
+                    <cui-th>Pub2</cui-th>
+                    <cui-th>Pub3</cui-th>
+                    <cui-th>Pub4</cui-th>
+                    <cui-th>Valid</cui-th>
+                </template>
                 <template v-slot:row="row">
-                    <td> {{row.label}} </td>
-                    <td>{{ row.value }}</td>
+                    <td> {{row.Insurance_Combination_Number}} </td>
+                    <td>{{ row.InsuranceProvider_WholeName }}</td>
+                    <td>{{ buildPublicIns(0, row) }}</td>
+                    <td>{{ buildPublicIns(1, row) }}</td>
+                    <td>{{ buildPublicIns(2, row) }}</td>
+                    <td>{{ buildPublicIns(3, row) }}</td>
+                    <td>{{ row.InsuranceProvider_WholeName }}</td>
                 </template>
             </cui-table>
 
@@ -44,6 +58,18 @@ export default {
         async getPatientData() {
             const patientData = await this.$dataService().get.patient.details(this.patientId);
             this.patientData = patientData.patientData;
+        },
+        buildPublicIns(index, row) {
+            if (index > 0) {
+                if (row.PublicInsurance_Information?.PublicInsurance_Information_child?.[index]) {
+                    return row.PublicInsurance_Information.PublicInsurance_Information_child[index].PublicInsurance_Name;                      
+                }
+            } else {
+                if (row.PublicInsurance_Information?.PublicInsurance_Information_child?.PublicInsurance_Name) {
+                    return row.PublicInsurance_Information.PublicInsurance_Information_child.PublicInsurance_Name;
+                }
+            }
+            return '';
         }
     },
     computed: {
