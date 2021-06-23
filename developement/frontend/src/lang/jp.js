@@ -20,6 +20,7 @@ export default {
     inEncounter: '診察中',
     insurance: '保険',
     insuranceAdd: '保険・公費追加',
+    insuranceCombinationNumber: '組合せ番号',
     insuranceGetDate: '資格取得',
     insuranceSymbol: '記号',
     insuranceNumber: '番号',
