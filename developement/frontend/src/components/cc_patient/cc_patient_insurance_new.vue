@@ -44,6 +44,7 @@
                 :note="errors.providerName"
                 v-model="insurance.providerName"
                 :label="$lang.insuranceProviderName"
+                :loading="loading.provider"
             ></cui-input>
         </div>
         <div style="margin-left: 20px">
@@ -88,6 +89,9 @@ export default {
     emits: ["close", "confirm"],
     data() {
         return {
+            loading: {
+                provider: false
+            },
             insurance: {
                 type: 'ins',
                 relation: 1,
@@ -117,10 +121,12 @@ export default {
             this.insurance.files = files;
         },
         async getInsuranceName() {
+            this.loading.provider = true;
             const number = this.insurance.providerNumber;
             if(number.length === 6 || number.length === 8){
                 const data= await this.$dataService().get.lists.insuranceProviders(number)
-                this.insurance.providerName = data.name;
+                this.insurance.providerName = data.Insurance_Number_Name + " - " +data.InsuranceProvider_WholeName;
+                this.loading.provider = false;
             }
         },
         checkInsuranceNumber(value, helpers) {

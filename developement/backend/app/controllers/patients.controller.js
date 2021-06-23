@@ -1,10 +1,11 @@
 const Patient = require("../models/patient.model.js");
 const Orca = require("../utils/orcaApi.util");
+const japUtils = require("japanese-string-utils");
 
-// Find a single Customer with a customerId
 exports.findMany = (req, res) => {
   let name = req.query.id;
   let id = isNaN(parseInt(name)) ? null : name;
+  name = japUtils.toFullwidth(name);
   Patient.find(
     {
       $or: [{ _id: id }, { name: new RegExp("^" + name, "i") }],
@@ -12,7 +13,7 @@ exports.findMany = (req, res) => {
     (err, patient) => {
       if (err) {
         $logger.error(err);
-        res.status(500).send({ message: "Error retrieving Doctors" });
+        res.status(500).send({ message: "Error retrieving Patients" });
       }
       res.send(patient);
     }

@@ -156,6 +156,39 @@ get.insuranceSets = function (data, result) {
 };
 
 ////////////////////////////////////////////////////////////////////////////
+//////////////////////// Get  Insucance Provider ///////////////////////////
+////////////////////////////////////////////////////////////////////////////
+get.insuranceProvider = function (data, result) {
+
+    const requestData = {
+        data: {
+            insprogetreq: {
+                $: { type: "record" },
+                InsuranceProvider_Number: { $: { type: "string" }, _: data },
+                Insurance_Number: { $: { type: "string" } },
+            }
+        }
+    };
+
+    const route = "/api01rv2/insprogetv2";
+
+    sendRequest(route, "POST", requestData)
+      .then((responseData) => {
+        if (validate(responseData, ["00"], "insprogetres")) {
+          responseData = responseData.insprogetres.TInsuranceProvider_Information.TInsuranceProvider_Information_child;
+          result(null, responseData);
+        } else {
+          result(responseData.insprogetres.Api_Result_Message, null);
+        }
+        return;
+      })
+      .catch((responseData) => {
+        result(responseData, null);
+        return;
+      });
+  };
+  
+////////////////////////////////////////////////////////////////////////////
 ////////////////////////////// Create Patient //////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 post.patient = async function (data, result) {
