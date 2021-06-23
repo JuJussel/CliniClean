@@ -1,8 +1,11 @@
 <template>
         <div>
-            <cui-table :data="patientDetails" square>
+            <cui-table :data="patientDetails" square :loading="!patientData">
                 <template #header>
-                    <h2> {{ $lang.basic }} </h2>
+                    <div style="display: flex; align-items: center">
+                        <h2> {{ $lang.basic }} </h2>
+                        <slot name="buttons" :patient="patientData?.id" v-bind="patient"></slot>
+                    </div>
                 </template>
                 <template v-slot:row="row">
                     <td> {{row.label}} </td>
@@ -29,7 +32,7 @@
                     <td>{{ buildPublicIns(1, row) }}</td>
                     <td>{{ buildPublicIns(2, row) }}</td>
                     <td>{{ buildPublicIns(3, row) }}</td>
-                    <td>{{ row.InsuranceProvider_WholeName }}</td>
+                    <td>{{ $moment(row.Certificate_ExpiredDate).format('YYYY年MM月DD日') }}</td>
                 </template>
             </cui-table>
 
@@ -58,6 +61,7 @@ export default {
         async getPatientData() {
             const patientData = await this.$dataService().get.patient.details(this.patientId);
             this.patientData = patientData.patientData;
+            this.loading
         },
         buildPublicIns(index, row) {
             if (index > 0) {
@@ -76,6 +80,7 @@ export default {
         patientDetails() {
             if (!this.patientData)  return [];
             let tableData = [
+                {label: this.$lang.patientId, value: this.patientData?.id},
                 {label: this.$lang.name, value: this.patientData?.name},
                 {label: this.$lang.birthdate, value: this.$moment(this.patientData?.birthdate).format('YYYY年MM月DD日')},
                 {label: this.$lang.gender, value: this.patientData?.gender},
@@ -86,6 +91,11 @@ export default {
                 {label: this.$lang.mailAddress, value: this.patientData?.mail}
             ];
             return tableData;
+        }
+    },
+    watch: {
+        patientId() {
+            this.getPatientData();
         }
     }
     

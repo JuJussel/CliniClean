@@ -43,7 +43,7 @@ export const store = createStore({
       state.staticLists.relations = data
     },
     SET_TRANSFER_DATA(state, data) {
-      state[data.target] = data.data
+      state.transferData[data.target] = data.data
     }
   },
   actions: {

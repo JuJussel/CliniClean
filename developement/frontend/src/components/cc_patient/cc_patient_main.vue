@@ -62,10 +62,10 @@ export default {
                 this.activeTab = this.dynamicTabs[index - 1];
             }
         },
-        showPatientQuickInfo(id) {
+        showPatientQuickInfo(pat) {
             let transferData = {
                 target: 'patientList',
-                data: id
+                data: pat.patientId
             };
             this.$store.commit('SET_TRANSFER_DATA', transferData);
             this.activeTab = 'patientList';

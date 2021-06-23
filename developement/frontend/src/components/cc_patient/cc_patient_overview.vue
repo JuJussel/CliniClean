@@ -9,6 +9,9 @@
     </cui-card>
     <cui-card noPadding>
       <patientInfo v-if="selectedPatientId" :patientId="selectedPatientId">
+        <template v-slot:buttons="{ patient }">
+          <cui-button :label="$lang.reception" @click="patientReception(patient)"></cui-button>
+        </template>
       </patientInfo>
     </cui-card>
   </div>
@@ -20,7 +23,7 @@ import patientInfo from "../shared/cc_shared_patient_info.vue"
 
 export default {
   emits: ['newPatient'],
-  components: {
+    components: {
     patientList,
     patientInfo
   },
@@ -28,6 +31,13 @@ export default {
     if (this.$store.getters.transferData.patientList) {
       this.selectedPatientId = parseInt(this.$store.getters.transferData.patientList);
     }
+  },
+  unmounted() {
+      let transferData = {
+          target: 'patientList',
+          data: null
+      };
+      this.$store.commit('SET_TRANSFER_DATA', transferData);
   },
   data() {
     return {
@@ -42,6 +52,9 @@ export default {
     },
     newPatient() {
       this.$emit('newPatient')
+    },
+    patientReception(id) {
+      console.log(id);
     }
   }
 };

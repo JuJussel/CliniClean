@@ -43,6 +43,7 @@ var request = function(route, data, type, abortSignal) {
       .then((res) => {
         if (!res.ok) {
           res.json().then(result => reject(result.message));
+          return;
         }
         res.json().then(result => resolve(result));
       })
