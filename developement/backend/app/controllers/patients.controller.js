@@ -124,23 +124,43 @@ exports.insurances = (req, res) => {
 };
 
 exports.create = (req, res) => {
+  const fs = require('fs');
+  const envConfig = require("../../env");
+
   let request = req.body;
 
-  Orca.post.patient(request, (err, data) => {
-    if (err) {
-      res.status(500).send({
-        message: err,
-      });
-    } else {
-      request._id = data;
-      Patient.create(request, (err, patient) => {
-        if (err) {
-          $logger.error(err);
-          res.status(500).send({ message: "Error creating Patient" });
-        }
-        res.send({patientId: data});
-      })
-    }
-  });
+  let files = [];
+  request.insurance.forEach(item => {
+    files.push(...item.files);
+  })
+
+  for (let i = 0; i < files.length; i++) {
+    let base64Data = files[i].data.replace("data:", "").replace(/^.+,/, "");
+    let filename = i + 'ins_8_.jpg';
+    fs.writeFile(envConfig.PROJECT_DIR + '/storage/' + filename, base64Data, 'base64', function(err) {
+      $logger.error(err);
+    });    
+  }
+
+
+  // Orca.post.patient(request, (err, data) => {
+  //   if (err) {
+  //     res.status(500).send({
+  //       message: err,
+  //     });
+  //   } else {
+  //     request._id = data;
+
+
+
+  //     Patient.create(request, (err, patient) => {
+  //       if (err) {
+  //         $logger.error(err);
+  //         res.status(500).send({ message: "Error creating Patient" });
+  //       }
+  //       res.send({patientId: data});
+  //     })
+  //   }
+  // });
 
 };

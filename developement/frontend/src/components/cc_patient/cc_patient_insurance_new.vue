@@ -181,7 +181,31 @@ export default {
                 return value;
             }
         },
-        validate() {
+        async convertFiles(files) {
+            let that = this
+            return Promise.all(files.map(file => {return readAsDataURL(file)} ));
+                function readAsDataURL(file) {
+                    return new Promise((resolve)=>{
+                        let fileReader = new FileReader();
+                        fileReader.onload = function(){
+                            return resolve({
+                                data:fileReader.result, 
+                                name:file.name, 
+                                size: file.size, 
+                                type: file.type,
+                                meta: {
+                                    source: 'insurance',
+                                    symbol: that.insurance.symbol,
+                                    number: that.insurance.number,
+                                    provider: that.insurance.providerNumber
+                                }
+                            });
+                        }
+                        fileReader.readAsDataURL(file);
+                    })
+                } 
+        },
+        async validate() {
             Object.keys(this.errors).forEach((key) => {
                 this.errors[key] = "";
             });
@@ -205,6 +229,9 @@ export default {
                     allowUnknown: true,
                     messages: this.$lang.validationMessages,
                 });
+
+                this.insurance.files = await this.convertFiles(this.insurance.files);
+
                 this.$emit('confirm', this.insurance);
                 this.$emit('close');
             } catch (err) {

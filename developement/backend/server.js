@@ -2,7 +2,7 @@ const express = require('express');
 const fs = require('fs')
 const https = require('https')
 const cors = require("cors");
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
 const routes = require('./app/routes');
 const app = express();
 const helmet = require('helmet');
@@ -14,10 +14,12 @@ global.$logger = logger;
 
 const port = 3003;
 
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({
-  extended: true
+app.use(express.json({limit: '50mb'}))
+app.use(express.urlencoded({
+  extended: true,
+  limit: '50mb'
 }));
+
 app.use(cookieParser())
 app.use(helmet())
 app.use(cors(corsOptions))
