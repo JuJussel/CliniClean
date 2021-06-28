@@ -17,13 +17,13 @@
                     <h2> {{ $lang.insurance }} </h2>
                 </template>
                 <template #thead>
-                    <cui-th>Comb</cui-th>
-                    <cui-th>Ins</cui-th>
-                    <cui-th>Pub1</cui-th>
-                    <cui-th>Pub2</cui-th>
-                    <cui-th>Pub3</cui-th>
-                    <cui-th>Pub4</cui-th>
-                    <cui-th>Valid</cui-th>
+                    <cui-th> {{ $lang.insuranceCombinationNumber }} </cui-th>
+                    <cui-th> {{ $lang.insurance }} </cui-th>
+                    <cui-th> {{ $lang.publicInsurance }} 1 </cui-th>
+                    <cui-th> {{ $lang.publicInsurance }} 2 </cui-th>
+                    <cui-th> {{ $lang.publicInsurance }} 3 </cui-th>
+                    <cui-th> {{ $lang.publicInsurance }} 4 </cui-th>
+                    <cui-th> {{ $lang.validUntil }} </cui-th>
                 </template>
                 <template v-slot:row="row">
                     <td> {{row.Insurance_Combination_Number}} </td>
