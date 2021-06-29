@@ -1,6 +1,7 @@
 const Patient = require("../models/patient.model.js");
 const Orca = require("../utils/orcaApi.util");
 const japUtils = require("japanese-string-utils");
+const File = require("../models/file.model.js");
 
 exports.findMany = (req, res) => {
   let name = req.query.id;
@@ -130,6 +131,7 @@ exports.create = (req, res) => {
   let request = req.body;
 
   let files = [];
+  let fileIds = [];
   request.insurance.forEach(item => {
     files.push(...item.files);
   })
@@ -139,28 +141,35 @@ exports.create = (req, res) => {
     let filename = i + 'ins_8_.jpg';
     fs.writeFile(envConfig.PROJECT_DIR + '/storage/' + filename, base64Data, 'base64', function(err) {
       $logger.error(err);
-    });    
+    });
+    files[i].filename = filename;
+    File.create(files[i], (err, file) => {
+      if(err) {
+        $logger.error(err);
+        res.status(500).send({ message: "Error creating Patient" });
+      }
+      fileIds.push(file._id);
+    })
   }
 
+  request.files = fileIds;
 
-  // Orca.post.patient(request, (err, data) => {
-  //   if (err) {
-  //     res.status(500).send({
-  //       message: err,
-  //     });
-  //   } else {
-  //     request._id = data;
+  Orca.post.patient(request, (err, data) => {
+    if (err) {
+      res.status(500).send({
+        message: err,
+      });
+    } else {
+      request._id = data;
 
-
-
-  //     Patient.create(request, (err, patient) => {
-  //       if (err) {
-  //         $logger.error(err);
-  //         res.status(500).send({ message: "Error creating Patient" });
-  //       }
-  //       res.send({patientId: data});
-  //     })
-  //   }
-  // });
+      Patient.create(request, (err, patient) => {
+        if (err) {
+          $logger.error(err);
+          res.status(500).send({ message: "Error creating Patient" });
+        }
+        res.send({patientId: data});
+      })
+    }
+  });
 
 };
