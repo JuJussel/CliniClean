@@ -10,7 +10,9 @@
     <cui-card noPadding>
       <patientInfo v-if="selectedPatientId" :patientId="selectedPatientId">
         <template v-slot:buttons="{ patient }">
-          <cui-button :label="$lang.reception" @click="patientReception(patient)"></cui-button>
+          <cui-button icon="fas fa-calendar-plus" :label="$lang.reservation" @click="patientReception(patient)"></cui-button>
+          <cui-button icon="fas fa-walking" :label="$lang.reception" @click="patientReception(patient)"></cui-button>
+          <cui-button icon="fas fa-info-circle" :label="$lang.details" @click="patientReception(patient)"></cui-button>
         </template>
       </patientInfo>
     </cui-card>

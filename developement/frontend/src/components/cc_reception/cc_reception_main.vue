@@ -10,11 +10,13 @@
                         <h2>{{ $lang.reception }}</h2>
                         <cui-button 
                             @click="view.modal.reception = true"
-                            :label="$lang.register" 
+                            :label="$lang.register"
+                             icon="fas fa-walking" 
                         />
                         <cui-button 
                             @click="view.modal.reservation = true"
-                            :label="$lang.reservation" 
+                            :label="$lang.reservation"
+                             icon="fas fa-calendar-plus"
                         />
                     </div>
                     <div style="display: flex; align-items: center">

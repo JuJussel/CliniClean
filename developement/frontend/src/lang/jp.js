@@ -10,6 +10,7 @@ export default {
     date: '日付',
     day: '日',
     dependent: '配偶者',
+    details: "詳細",
     display: '表示',
     doctor: '医師',
     encounterType: '診察内容',
