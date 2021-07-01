@@ -10,9 +10,10 @@
     <cui-card noPadding>
       <patientInfo v-if="selectedPatientId" :patientId="selectedPatientId">
         <template v-slot:buttons="{ patient }">
-          <cui-button icon="fas fa-calendar-plus" :label="$lang.reservation" @click="patientReception(patient)"></cui-button>
-          <cui-button icon="fas fa-walking" :label="$lang.reception" @click="patientReception(patient)"></cui-button>
-          <cui-button icon="fas fa-info-circle" :label="$lang.details" @click="patientReception(patient)"></cui-button>
+          <cui-button icon="fas fa-calendar-plus" :label="$lang.reservation" @click="walkinPatient(patient)"></cui-button>
+          <cui-button icon="fas fa-walking" :label="$lang.reception" @click="walkinPatient(patient)"></cui-button>
+          <cui-button icon="fas fa-info-circle" :label="$lang.details" @click="walkinPatient(patient)"></cui-button>
+          <cui-button icon="fas fa-edit" :label="$lang.edit" @click="editPatient(patient)"></cui-button>
         </template>
       </patientInfo>
     </cui-card>
@@ -24,10 +25,11 @@ import patientList from "../shared/cc_shared_patient_list.vue";
 import patientInfo from "../shared/cc_shared_patient_info.vue"
 
 export default {
-  emits: ['newPatient'],
+  emits: ['newPatient', 'editPatient'],
     components: {
     patientList,
     patientInfo
+    
   },
   created() {
     if (this.$store.getters.transferData.patientList) {
@@ -55,8 +57,11 @@ export default {
     newPatient() {
       this.$emit('newPatient')
     },
-    patientReception(id) {
+    walkinPatient(id) {
       console.log(id);
+    },
+    editPatient(id) {
+      this.$emit('editPatient', id)
     }
   }
 };

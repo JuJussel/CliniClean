@@ -13,6 +13,7 @@ export default {
     details: "詳細",
     display: '表示',
     doctor: '医師',
+    edit: "編集",
     encounterType: '診察内容',
     female: '女性',
     free: '空き',

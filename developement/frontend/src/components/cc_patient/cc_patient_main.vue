@@ -11,10 +11,15 @@
             />
 
         </cui-button-group>
-        <div>
+        <div class="cc-patient-main-tab-hidden" v-bind:class="{ 'cc-patient-main-tab-visible': 'patientList' === activeTab }">
+            <patientList 
+                @newPatient="newPatient"
+                @editPatient="editPatient"
+            />
+        </div>
+        <div v-for="(tab, index) in dynamicTabs" :key="index" class="cc-patient-main-tab-hidden" v-bind:class="{ 'cc-patient-main-tab-visible': tab.value === activeTab }">
             <component
-             :is="activeTabContent"
-             @newPatient="newPatient"
+             :is="tabContent(tab.value)"
              @cancel="closeTab"
              @showPatient="showPatientQuickInfo"
             ></component>
@@ -42,6 +47,9 @@ export default {
         }
     },
     methods: {
+        tabContent(tab) {
+            return tab.split('_')[0]
+        },
         newPatient() {
             let key = this.dynamicTabs.length
             let item = {label: this.$lang.patientNew, value: 'patientEdit_' + key, icon: '',  index: key}
@@ -49,6 +57,9 @@ export default {
             this.$nextTick(() => {
                 this.activeTab = item.value
             })
+        },
+        editPatient(id) {
+            console.log(id);
         },
         closeTab(index = null) {
             if (!index) {
@@ -85,5 +96,11 @@ export default {
         grid-template-columns: 100%;
         grid-template-rows: 5% 95%;
         height: 100%
+    }
+    .cc-patient-main-tab-hidden {
+        display: none;
+    }
+    .cc-patient-main-tab-visible {
+        display: block;
     }
 </style>
