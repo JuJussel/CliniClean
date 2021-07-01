@@ -20,6 +20,7 @@
         <div v-for="(tab, index) in dynamicTabs" :key="index" class="cc-patient-main-tab-hidden" v-bind:class="{ 'cc-patient-main-tab-visible': tab.value === activeTab }">
             <component
              :is="tabContent(tab.value)"
+             :id="tab.id ? tab.id : null"
              @cancel="closeTab"
              @showPatient="showPatientQuickInfo"
             ></component>
@@ -59,7 +60,12 @@ export default {
             })
         },
         editPatient(id) {
-            console.log(id);
+            let key = this.dynamicTabs.length
+            let item = {label: this.$lang.patientEdit, value: 'patientEdit_' + key, icon: '',  index: key, id: id}
+            this.dynamicTabs.push(item)
+            this.$nextTick(() => {
+                this.activeTab = item.value
+            })
         },
         closeTab(index = null) {
             if (!index) {

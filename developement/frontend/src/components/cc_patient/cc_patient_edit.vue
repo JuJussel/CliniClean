@@ -202,6 +202,9 @@ import Joi from "joi";
 export default {
     components: { insuranceNew, publicNew },
     emits: ['cancel', 'save', 'showPatient'],
+    props: {
+        id: {default: null}
+    },
     created() {
         this.populateData();
     },
