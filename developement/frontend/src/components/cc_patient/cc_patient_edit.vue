@@ -2,18 +2,22 @@
     <div class="cc-patient-edit-main">
         <cui-card class="cc-patient-edit-header">
             <template #header>
-                <h2>{{ $lang.patientNew }}</h2>
+                <h2>{{ editData ? $lang.patientEdit : $lang.patientNew }}</h2>
                 <cui-button plain :label="$lang.cancel" @click="$emit('cancel')" :loading="loading"/>
-                <cui-button primary :label="$lang.register" @click="validateForm" :loading="loading"/>
+                <cui-button primary :label=" editData ? $lang.save : $lang.register" @click="validateForm" :loading="loading"/>
             </template>
         </cui-card>
         <cui-card :loading="loading">
             <template #header>
                 <div class="circle-number">1</div>
                 <h2>{{ $lang.basic }}</h2>
+                <div v-if="editData" style="margin-left: 10px">
+                    <cui-checkbox v-model="patient.editSexOrBirthdate" :label="$lang.editSexOrBirthdate"></cui-checkbox>
+                </div>
             </template>
             <div class="cc-patient-edit-form">
                 <cui-input
+                    :disabled="editData && patient.editSexOrBirthdate"
                     :note="errors.name"
                     v-model="patient.name"
                     required
@@ -21,6 +25,7 @@
                     :label="$lang.name"
                 ></cui-input>
                 <cui-input
+                    :disabled="editData && patient.editSexOrBirthdate"
                     :note="errors.nameKana"
                     v-model="patient.nameKana"
                     required
@@ -28,6 +33,7 @@
                 ></cui-input>
 
                 <cui-datepicker
+                    :disabled="editData && !patient.editSexOrBirthdate"
                     :note="errors.birthdate"
                     v-model="patient.birthdate"
                     required
@@ -35,12 +41,14 @@
                 ></cui-datepicker>
                 <div style="display: flex; align-items: flex-end">
                     <cui-radio
+                        :disabled="editData && !patient.editSexOrBirthdate"
                         :caption="$lang.gender"
                         :label="$lang.male"
                         :value="1"
                         v-model="patient.gender"
                     />
                     <cui-radio
+                        :disabled="editData && !patient.editSexOrBirthdate"
                         style="margin-left: 10px"
                         :label="$lang.female"
                         :value="2"
@@ -203,7 +211,7 @@ export default {
     components: { insuranceNew, publicNew },
     emits: ['cancel', 'save', 'showPatient'],
     props: {
-        id: {default: null}
+        editData: {default: null}
     },
     created() {
         this.populateData();
@@ -216,44 +224,28 @@ export default {
                 newInsuranceType: "insuranceNew",
             },
             patient: {
+                editSexOrBirthdate: false, 
                 id: '',
-                name: "TestPatient2",
-                nameKana: "TestPatient2",
-                birthdate: "1990-01-01",
+                name: '',
+                nameKana: '',
+                birthdate: '',
                 gender: 1,
-                householderName: "",
-                relation: "本人",
-                occupation: "学生",
-                phone: "08000326702",
-                mail: "test@mail.com",
+                householderName: '',
+                relation: '本人',
+                occupation: '',
+                phone: '',
+                mail: '',
                 address: {
-                    zip: "1232232",
-                    addr: "東京千代田区",
+                    zip: '',
+                    addr: '',
                 },
                 company: {
-                    name: "Cordeos",
-                    zip: "1234323",
-                    addr: "東京千代田区",
-                    phone: "032345677",
+                    name: '',
+                    zip: '',
+                    addr: '',
+                    phone: '',
                 },
-                insurance: [
-                    {"type":"ins","relation":"1","insuredName":"TestPatient2","symbol":"123","number":"456","providerNumber":"138057","providerName":"生活保護","getDate":"2021-06-18","validDate":["2021-06-21","2021-07-01"],"files":["[object File]"],"_index":0},
-                    {
-                        "type": "pub",
-                        "provider": "12345674",
-                        "recepient": "1234566",
-                        "validDate": [
-                            "2021-09-01",
-                            "2021-09-03"
-                        ],
-                        "files": [
-                            {
-                            "_index": 0
-                            }
-                        ],
-                        "_index": 1
-                    }
-                ],
+                insurance: []
             },
             errors: {
                 id: '',
@@ -284,6 +276,13 @@ export default {
         },
         async populateData() {
             this.loading = true;
+            if (this.editData) {
+                let editData = JSON.parse(JSON.stringify(this.editData));
+                editData.currentInsSets = editData.insurance;
+                editData.insurance = []; 
+                this.patient = editData;
+                this.patient.householderName = this.patient.name;
+            }
             await this.$dataService().get.lists.occupations();
             await this.$dataService().get.lists.relations();
             this.loading = false;
@@ -354,7 +353,12 @@ export default {
         },
         async save() {
             this.loading = true;
-            const newPatientId = await this.$dataService().post.patients(this.patient);
+            let newPatientId = null;
+            if (this.editData) {
+                newPatientId = await this.$dataService().put.patients(this.patient);         
+            } else {
+                newPatientId = await this.$dataService().post.patients(this.patient);
+            }
             this.$emit('showPatient', newPatientId);
             this.$emit('cancel');
         }

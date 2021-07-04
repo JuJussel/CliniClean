@@ -33,4 +33,10 @@ module.exports = app => {
       patients.create
     )
 
+    app.put(
+      "/api/patients/:patientId",
+      [authJwt.verifyToken],
+      patients.edit
+    )
+
   }

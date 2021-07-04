@@ -8,7 +8,7 @@ export default {
             const instance = this
             const helper = {
                 //-------------------------//
-                //--------Getter-----------//
+                //----------Get------------//
                 //-------------------------//
                 get: {
                     //>----Authentication-----//
@@ -182,6 +182,7 @@ export default {
                                 })
                             }
                         },
+                        //>----Addresses-----//
                         addresses: function(zip) {
                             return new Promise (function(resolve, reject) {
                                 return http.get('lists/addresses/' + zip)
@@ -196,6 +197,9 @@ export default {
                         }
                     }
                 },
+                //-------------------------//
+                //----------Post-----------//
+                //-------------------------//
                 post: {
                     //>----Authentication-----//
                     auth: function(data) {
@@ -237,7 +241,26 @@ export default {
                         }) 
                     }
                     
+                },
+                //-------------------------//
+                //----------Put-----------//
+                //-------------------------//
+                put: {
+                    patients: function(data) {
+                        return new Promise(function(resolve,reject) {
+                            return http.put('patients/' + data.id, data)
+                            .then(result => {
+                                resolve(result);
+                            })
+                            .catch(result => {
+                                instance.$cui.notification({ text: result, color: 'danger' })
+                                reject
+                            })
+                        })
+
+                    }
                 }
+
             }
 
             return helper

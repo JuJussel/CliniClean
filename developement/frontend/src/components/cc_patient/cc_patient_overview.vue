@@ -8,12 +8,12 @@
       </patientList>
     </cui-card>
     <cui-card noPadding>
-      <patientInfo v-if="selectedPatientId" :patientId="selectedPatientId">
+      <patientInfo v-if="selectedPatientId" :patientId="selectedPatientId" ref="patientInfo">
         <template v-slot:buttons="{ patient }">
           <cui-button icon="fas fa-calendar-plus" :label="$lang.reservation" @click="walkinPatient(patient)"></cui-button>
           <cui-button icon="fas fa-walking" :label="$lang.reception" @click="walkinPatient(patient)"></cui-button>
           <cui-button icon="fas fa-info-circle" :label="$lang.details" @click="walkinPatient(patient)"></cui-button>
-          <cui-button icon="fas fa-edit" :label="$lang.edit" @click="editPatient(patient)"></cui-button>
+          <cui-button icon="fas fa-edit" :label="$lang.edit" @click="editPatient"></cui-button>
         </template>
       </patientInfo>
     </cui-card>
@@ -60,8 +60,8 @@ export default {
     walkinPatient(id) {
       console.log(id);
     },
-    editPatient(id) {
-      this.$emit('editPatient', id)
+    editPatient() {
+      this.$emit('editPatient', this.$refs.patientInfo.patientData);
     }
   }
 };

@@ -189,7 +189,7 @@ get.insuranceProvider = function (data, result) {
   };
   
 ////////////////////////////////////////////////////////////////////////////
-////////////////////////////// Create Patient //////////////////////////////
+////////////////////////////// Create/Edit Patient /////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 post.patient = async function (data, result) {
     data.name = japUtils.toFullwidth(data.name);
@@ -200,7 +200,8 @@ post.patient = async function (data, result) {
         data: {
             patientmodreq: {
                 $: { type: "record" },
-                Patient_ID: { $: { type: "string" }, _: "*" },
+                Mod_Key: {$: { type: "string" }, _: data.editSexOrBirthdate ? "2" : "1"},
+                Patient_ID: { $: { type: "string" }, _: data.edit ? data.id : "*" },
                 WholeName: { $: { type: "string" }, _: data.name },
                 WholeName_inKana: { $: { type: "string" }, _: data.nameKana },
                 BirthDate: { $: { type: "string" }, _: data.birthdate },
@@ -236,14 +237,14 @@ post.patient = async function (data, result) {
         },
     };
 
-    const route = "/orca12/patientmodv2?class=01";
+    const route = data.edit? "/orca12/patientmodv2?class=02" : "/orca12/patientmodv2?class=01";
     const responseData = await sendRequest(route, "POST", requestData)
         .catch((responseData) => {
             result(responseData, null);
             return;
         });
     if (!validate(responseData,["00", "K1", "K2", "K3", "K4", "K5"],"patientmodres")) {
-        result(responseData.patientlst2res.Api_Result_Message, null);
+        result(responseData.patientmodres.Api_Result_Message, null);
         return;
     }
 

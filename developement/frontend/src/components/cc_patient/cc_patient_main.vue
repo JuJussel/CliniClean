@@ -20,7 +20,7 @@
         <div v-for="(tab, index) in dynamicTabs" :key="index" class="cc-patient-main-tab-hidden" v-bind:class="{ 'cc-patient-main-tab-visible': tab.value === activeTab }">
             <component
              :is="tabContent(tab.value)"
-             :id="tab.id ? tab.id : null"
+             :editData="tab.patientData ? tab.patientData : null"
              @cancel="closeTab"
              @showPatient="showPatientQuickInfo"
             ></component>
@@ -53,15 +53,15 @@ export default {
         },
         newPatient() {
             let key = this.dynamicTabs.length
-            let item = {label: this.$lang.patientNew, value: 'patientEdit_' + key, icon: '',  index: key}
+            let item = {label: this.$lang.patientNew, value: 'patientEdit_' + key, icon: 'fas fa-user-plus',  index: key}
             this.dynamicTabs.push(item)
             this.$nextTick(() => {
                 this.activeTab = item.value
             })
         },
-        editPatient(id) {
+        editPatient(patientData) {
             let key = this.dynamicTabs.length
-            let item = {label: this.$lang.patientEdit, value: 'patientEdit_' + key, icon: '',  index: key, id: id}
+            let item = {label: this.$lang.patientEdit, value: 'patientEdit_' + key, icon: 'fas fa-edit',  index: key, patientData: patientData}
             this.dynamicTabs.push(item)
             this.$nextTick(() => {
                 this.activeTab = item.value
