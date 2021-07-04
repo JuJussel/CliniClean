@@ -229,15 +229,30 @@ exports.edit = async (req, res) => {
         message: err,
       });
     } else {
-      request._id = data;
+      
+      Patient.findOneAndUpdate(
+        { _id: request.id },
+        {
+          $set: {
+            name: request.name,
+            birthdate: request.birthdate
+          },
+          $push: {
+            files: { $each: request.files}
+          }
+        },
+        {
+          runValidators: true
+        },
+        (err) => {
+          if (err) {
+            $logger.error(err);
+            res.status(500).send({ message: "Error creating Patient" });
+          }
+          res.send({patientId: data});
 
-      Patient.create(request, (err, patient) => {
-        if (err) {
-          $logger.error(err);
-          res.status(500).send({ message: "Error creating Patient" });
         }
-        res.send({patientId: data});
-      })
+      );
     }
   });
 

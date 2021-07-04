@@ -254,7 +254,7 @@ export default {
                             })
                             .catch(result => {
                                 instance.$cui.notification({ text: result, color: 'danger' })
-                                reject
+                                reject(result);
                             })
                         })
 

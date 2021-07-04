@@ -355,10 +355,27 @@ export default {
             this.loading = true;
             let newPatientId = null;
             if (this.editData) {
-                newPatientId = await this.$dataService().put.patients(this.patient);         
+                try {
+                    newPatientId = await this.$dataService().put.patients(this.patient);
+                }
+                catch(err) {
+                    this.loading = false;
+                    return;
+                }
             } else {
-                newPatientId = await this.$dataService().post.patients(this.patient);
+                try {
+                    newPatientId = await this.$dataService().post.patients(this.patient);
+                }
+                catch(err) {
+                    this.loading = false;
+                    return;
+                }
             }
+            this.$cui.notification({
+                text: this.$lang.saved,
+                duration: 2000,
+                color: 'primary'
+            })
             this.$emit('showPatient', newPatientId);
             this.$emit('cancel');
         }

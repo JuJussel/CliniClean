@@ -15,6 +15,7 @@
             <patientList 
                 @newPatient="newPatient"
                 @editPatient="editPatient"
+                :key="listResetter"
             />
         </div>
         <div v-for="(tab, index) in dynamicTabs" :key="index" class="cc-patient-main-tab-hidden" v-bind:class="{ 'cc-patient-main-tab-visible': tab.value === activeTab }">
@@ -43,6 +44,7 @@ export default {
     },
     data() {
         return {
+            listResetter: 1,
             activeTab: 'patientList',
             dynamicTabs: []
         }
@@ -85,6 +87,7 @@ export default {
                 data: pat.patientId
             };
             this.$store.commit('SET_TRANSFER_DATA', transferData);
+            this.listResetter++;
             this.activeTab = 'patientList';
         }
     },
