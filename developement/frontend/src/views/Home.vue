@@ -29,11 +29,12 @@
 
 import reception from '../components/cc_reception/cc_reception_main'
 import patient from'../components/cc_patient/cc_patient_main'
+import medical from '../components/cc_medical/cc_medical_main.vue'
 
 export default {
   name: 'HomeView',
   components: {
-    reception, patient
+    reception, patient, medical
   },
   data() {
     return {
