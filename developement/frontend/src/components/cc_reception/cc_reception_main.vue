@@ -119,9 +119,9 @@ export default {
         ReservationAccept
     },
     created() {
-        this.getEncounters(),
-        this.getEncounterTypes()
-        this.getDoctors()
+        this.getEncounters();
+        this.getEncounterTypes();
+        this.getDoctors();
     },
     data() {
         return {

@@ -145,7 +145,7 @@ get.insuranceSets = function (data, result) {
             .HealthInsurance_Information.HealthInsurance_Information_child;
         result(null, responseData);
       } else {
-        result(responseData.patientlst2res.Api_Result_Message, null);
+        result(responseData.patientinfores.Api_Result_Message, null);
       }
       return;
     })

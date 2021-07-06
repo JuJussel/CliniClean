@@ -87,6 +87,9 @@ exports.insuranceSets = (req, res) => {
       // Bullshit start
       // Orca has the habit to return an Object if one element is present, but return an array if multiple items are found..
       // Need to loop and make sure both are arrays
+      if (data.Insurance_Combination_Number) {
+        data = [data];
+      }
       data.forEach((element, index) => {
         if (element.PublicInsurance_Information) {
           if (

@@ -73,6 +73,7 @@ export default {
     time: '時間',
     today: '今日',
     validUntil: '有効期限',
+    waiting: '待ち',
     waitTime: '待ち時間',
     week: '週',
     workOrSchool: '会社・学校',
