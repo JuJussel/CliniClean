@@ -26,7 +26,6 @@
              @showPatient="showPatientQuickInfo"
             ></component>
         </div>
-
     </div>
 </template>
 
