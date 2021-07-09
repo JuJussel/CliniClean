@@ -1,5 +1,5 @@
 <template>
-    <div class="cc-medical-main-cont">
+    <div class="cc-medical-list-cont">
         <cui-card noPadding>
             <cui-table :data="encounters" :loading="loading.encounters" single-select @select="selectEncounter">
                     <template #emptyImage>
@@ -109,9 +109,10 @@ export default {
 </script>
 
 <style scoped>
-    .cc-medical-main-cont {
+    .cc-medical-list-cont {
         display: grid;
         grid-template-columns: 50% 50%;
         grid-template-rows: 100%;
+        height: 100%
     }
 </style>

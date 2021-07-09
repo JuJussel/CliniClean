@@ -1,7 +1,7 @@
 <template>
     <div class="cc-patient-main-cont">
         <cui-button-group v-model="activeTab">
-            <cui-button-group-item icon="fas fa-sign-out-alt" :label="$lang.patientList" value="patientList"></cui-button-group-item>
+            <cui-button-group-item icon="fas fa-list" :label="$lang.patientList" value="patientList"></cui-button-group-item>
             <cui-button-group-item 
                 v-for="(item, index) in dynamicTabs" :key="index" 
                 :label="item.label"

@@ -1,7 +1,7 @@
 <template>
     <div class="cc-medical-main-cont">
         <cui-button-group v-model="activeTab">
-            <cui-button-group-item icon="fas fa-sign-out-alt" :label="$lang.patientList" value="encounterList"></cui-button-group-item>
+            <cui-button-group-item icon="fas fa-list" :label="$lang.receptionList" value="encounterList"></cui-button-group-item>
             <cui-button-group-item 
                 v-for="(item, index) in dynamicTabs" :key="index" 
                 :label="item.label"
@@ -46,7 +46,13 @@ export default {
         },
         showEncounter(enc) {
             let key = this.dynamicTabs.length;
-            let item = {label: this.$lang.patientNew, value: 'encounterEdit_' + key, icon: 'fas fa-user-plus',  index: key, meta: enc.row};
+            let item = {
+                label: this.$lang.examination + enc.row.patient.name,
+                value: 'encounterEdit_' + key,
+                icon: 'fas fa-clipboard',
+                index: key,
+                meta: enc.row
+            };
             this.dynamicTabs.push(item);
             this.$nextTick(() => {
                 this.activeTab = item.value;
