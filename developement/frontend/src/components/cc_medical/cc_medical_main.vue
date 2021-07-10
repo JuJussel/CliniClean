@@ -20,6 +20,7 @@
         <div v-for="(tab, index) in dynamicTabs" :key="index" class="cc-medical-main-tab-hidden" v-bind:class="{ 'cc-medical-main-tab-visible': tab.value === activeTab }">
             <component
              :is="tabContent(tab.value)"
+             :encounter="tab.meta"
              @cancel="closeTab"
             ></component>
         </div>
@@ -28,10 +29,12 @@
 
 <script>
 import encounterList from "./cc_medical_list.vue";
+import examination from "./cc_medical_examination.vue"
 
 export default {
     components: {
-        encounterList
+        encounterList,
+        examination
     },
     data() {
         return {
@@ -48,7 +51,7 @@ export default {
             let key = this.dynamicTabs.length;
             let item = {
                 label: this.$lang.examination + enc.row.patient.name,
-                value: 'encounterEdit_' + key,
+                value: 'examination_' + key,
                 icon: 'fas fa-clipboard',
                 index: key,
                 meta: enc.row
@@ -79,7 +82,7 @@ export default {
     .cc-medical-main-cont {
         display: grid;
         grid-template-columns: 100%;
-        grid-template-rows: 5% 95%;
+        grid-template-rows: 50px calc(100% - 50px);
         height: 100%
     }
     .cc-medical-main-tab-hidden {

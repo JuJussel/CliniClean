@@ -38,11 +38,20 @@
                 </template>
             </cui-table>
         </cui-card>
+        <cui-card>
+            <patientList></patientList>
+        </cui-card>
     </div>
 </template>
 
 <script>
+
+import patientList from "../shared/cc_shared_patient_list.vue"
+
 export default {
+    components: {
+        patientList
+    },
     created() {
         this.getEncounters();
         this.getEncounterTypes();
