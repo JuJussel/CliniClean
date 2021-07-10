@@ -1,6 +1,8 @@
 <template>
     <div class="control-floater">
-        <cui-button label="ddd"></cui-button>
+        <cui-button :label="$lang.save"></cui-button>
+        <cui-button :label="$lang.save"></cui-button>
+        <cui-button :label="$lang.save"></cui-button>
     </div>
     <div class="cc-medical-examination-main">
         <cui-card></cui-card>
@@ -41,11 +43,12 @@ export default {
         position: absolute;
         right: 0;
         top: 0;
-        background: red;
         width: 400px;
         height: 45px;
         margin: 5px 10px;
         border-radius: 10px;
-        padding-top: 3px
+        padding-top: 3px;
+        box-shadow: 0 2px 12px 0 rgb(0 0 0 / 30%);
+        display: flex;
     }
 </style>
