@@ -16,5 +16,7 @@ export default {
 
 <style>
     .cc-medical-karte-main {
+        display: grid;
+        
     }
 </style>
