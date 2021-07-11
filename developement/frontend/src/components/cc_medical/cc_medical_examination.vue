@@ -6,9 +6,9 @@
     </div>
     <div class="cc-medical-examination-main">
         <cui-card></cui-card>
-        <cui-card>
+        <cui-card no-padding>
             <template #header>
-                {{ $lang.karte }}
+                <h2>{{ $lang.karte }}</h2>
             </template>
             <karte :encounter="encounter"/>
         </cui-card>

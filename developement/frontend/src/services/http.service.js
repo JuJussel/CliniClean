@@ -17,16 +17,34 @@ var request = function(route, data, type, abortSignal) {
     }
 
     if(type !== 'GET') {
-      options = {
-        method: type,
-        body: JSON.stringify(data),
-        signal: abortSignal,
-        credentials: Globals.httpCredPol,
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
+
+      if (route === "uploads") {
+        let fd = new FormData();
+        fd.append("data", JSON.stringify(data.meta));
+        data.fileList.forEach((file) => {
+          fd.append("files[]", file);
+        });
+        options = {
+          method: type,
+          body: fd,
+          signal: abortSignal,
+          credentials: Globals.httpCredPol
         }
+      } else {
+
+        options = {
+          method: type,
+          body: JSON.stringify(data),
+          signal: abortSignal,
+          credentials: Globals.httpCredPol,
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        }
+
       }
+
     }
 
     var url = baseURL

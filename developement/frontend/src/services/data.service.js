@@ -227,7 +227,7 @@ export default {
                             })
                         }) 
                     },
-                    //>----patients-----//
+                    //>----Patients-----//
                     patients: function(data) {
                         return new Promise(function(resolve,reject) {
                             return http.post('patients', data)
@@ -239,7 +239,21 @@ export default {
                                 reject
                             })
                         }) 
+                    },
+                    //>----Uploads-----//
+                    uploads: function(data) {
+                        return new Promise(function(resolve,reject) {
+                            return http.post('uploads', data)
+                            .then(result => {
+                                resolve(result)
+                            })
+                            .catch(result => {
+                                instance.$cui.notification({ text: result, color: 'danger' })
+                                reject
+                            })
+                        }) 
                     }
+                    
                     
                 },
                 //-------------------------//

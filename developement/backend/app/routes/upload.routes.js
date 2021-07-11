@@ -1,18 +1,19 @@
 module.exports = app => {
     const { authJwt } = require("../middleware");
-    const users = require("../controllers/users.controller.js");
+    const uploads = require("../controllers/uploads.controller.js");
 
     app.use(function(req, res, next) {
         res.header(
           "Access-Control-Allow-Headers",
           "Origin, Content-Type, Accept"
         );
-        next();
-    });
-    app.get(
-      "/api/users/:userId",
+        next()
+    })
+    
+    app.post(
+      "/api/uploads",
       [authJwt.verifyToken],
-      users.findOne
-    );
-  
-  };
+      uploads.create
+    )
+
+  }
