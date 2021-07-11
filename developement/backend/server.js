@@ -20,12 +20,11 @@ app.use(express.urlencoded({
   limit: '50mb'
 }));
 
-app.use(cookieParser())
-app.use(helmet())
-app.use(cors(corsOptions))
-app.use(morgan("short", { stream: logger.stream }))
-app.use('/', routes)
-
+app.use(cookieParser());
+app.use(helmet());
+app.use(cors(corsOptions));
+app.use(morgan("short", { stream: logger.stream }));
+app.use('/', routes);
 
 https.createServer({
   key: fs.readFileSync('/etc/pki/tls/certs/key.pem'),

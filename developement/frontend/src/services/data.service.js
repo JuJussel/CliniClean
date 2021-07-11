@@ -1,5 +1,7 @@
-import Http from './http.service'
-import moment from 'moment'
+import Http from './http.service';
+import moment from 'moment';
+import Globals from '@/config/global';
+
 
 export default {
     install: (app) => {
@@ -241,18 +243,22 @@ export default {
                         }) 
                     },
                     //>----Uploads-----//
-                    uploads: function(data) {
-                        return new Promise(function(resolve,reject) {
-                            return http.post('uploads', data)
-                            .then(result => {
-                                resolve(result)
-                            })
-                            .catch(result => {
-                                instance.$cui.notification({ text: result, color: 'danger' })
-                                reject
-                            })
-                        }) 
+                    uploads: {
+                        single: function(data) {
+                            return new Promise(function(resolve,reject) {
+                                http.post('uploads/single', data)
+                                .then(result => {
+                                    let url = Globals.filesUrl + result.url;
+                                    resolve(url)
+                                })
+                                .catch(result => {
+                                    instance.$cui.notification({ text: result, color: 'danger' })
+                                    reject
+                                })
+                            }) 
+                        }
                     }
+                    
                     
                     
                 },

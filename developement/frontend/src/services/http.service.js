@@ -18,12 +18,10 @@ var request = function(route, data, type, abortSignal) {
 
     if(type !== 'GET') {
 
-      if (route === "uploads") {
+      if (route === "uploads/single") {
         let fd = new FormData();
         fd.append("data", JSON.stringify(data.meta));
-        data.fileList.forEach((file) => {
-          fd.append("files[]", file);
-        });
+        fd.append("file", data.file);
         options = {
           method: type,
           body: fd,

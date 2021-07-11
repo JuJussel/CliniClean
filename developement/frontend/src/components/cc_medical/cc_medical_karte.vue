@@ -19,7 +19,7 @@
 
 <script>
 
-import textEditor from "../shared/cc_shared_text_editor.vue"
+import textEditor from "../shared/cc_shared_text_editor_next.vue"
 
 export default {
     components: {

@@ -11,6 +11,7 @@
         <vue-editor
             :disabled="loading || loadingLocal"
             style="overflow: auto; height: calc(100% - 40px)"
+            v-bind:class="{'cc-shared-test-editor-disabled': loadingLocal}"
             ref="editor"
             useCustomImageHandler
             @image-added="addImage"
@@ -81,18 +82,20 @@ export default {
         async addImage(file, Editor, cursorLocation) {
             this.loadingLocal = true;
             let sendData  = {
-                fileList: [file],
-                hasFiles: true,
+                file: file,
                 meta: {
-                    fileInfo: ['soapImage'],
-                    info: this.$store.getters.activePatient,
-                    type: 10
+                    source: 'soapImage',
+                    patient: this.meta.patient.id,
+                    encounter: this.meta.id
                 }
             }
 
 
-            const url = await this.$dataService().post.uploads(sendData);
+            const url = await this.$dataService().post.uploads.single(sendData);
             Editor.insertEmbed(cursorLocation, 'image', url);
+            console.log(cursorLocation);
+            Editor.insertText(cursorLocation + 1, 'Image');
+            Editor.setSelection(cursorLocation + 1)
             this.loadingLocal = false;
 
 
@@ -122,5 +125,8 @@ export default {
         border-right: none!important;
         border-bottom: none!important;
         border-top: solid 1px var(--cui-gray-5);
+    }
+    .cc-shared-test-editor-disabled {
+        opacity: 0.2
     }
 </style>

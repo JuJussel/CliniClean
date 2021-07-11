@@ -1,18 +1,32 @@
-const File = require("../models/file.model.js");
+const Patient = require("../models/patient.model.js");
 
+exports.createSingle = async (req, res) => {
+  
+  let uploadedFiles = req.file.filename.split('.')[0];
+  uploadedFiles = [uploadedFiles];
 
+  let patient = parseInt(JSON.parse(req.body.data).patient);
 
+  Patient.findOneAndUpdate(
+    { _id: patient },
+    {
+      $push: {
+        files: { $each: uploadedFiles}
+      }
+    },
+    {
+      runValidators: true
+    },
+    (err) => {
+      if (err) {
+        $logger.error(err);
+        res.status(500).send({ message: "Error creating Patient" });
+      }
+      res.send({url: req.file.filename});
 
+    }
+  );
 
-exports.create = async (req, res) => {
-
-  // console.log(req);
-  res.status(500).send({ message: "Error creating Patient" });
-
-  // const fs = require('fs');
-  // const envConfig = require("../../env");
-
-  // let request = req.body;
 
   // let files = [];
   // let fileIds = [];
