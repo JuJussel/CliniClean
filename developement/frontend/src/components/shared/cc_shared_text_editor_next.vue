@@ -1,8 +1,10 @@
 <template>
-    <div>
+    <div class="cc-shared-text-editor">
         <cui-button label="B" plain></cui-button>
     </div>
-  <editor-content :editor="editor" />
+  <div style="margin: 10px">
+    <editor-content :editor="editor" />
+  </div>
 </template>
 
 <script>
@@ -34,3 +36,9 @@ export default {
   },
 }
 </script>
+
+<style>
+  .cc-shared-text-editor {
+
+  }
+</style>
