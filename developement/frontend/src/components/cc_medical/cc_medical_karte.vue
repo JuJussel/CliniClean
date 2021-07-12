@@ -2,13 +2,9 @@
     <div class="cc-medical-karte-main">
         <div class="cc-medical-karte-soap">
             <div class="cc-medical-karte-headers"><b>{{ $lang.soapObservation }}</b></div>
-            <textEditor
-                :meta="encounter"
-                headerStyle="border: none"
-                bodyStyle=""
-                style="height: calc(100% - 40px);"
-                ref="soapText"
-            ></textEditor>
+            <cui-editor
+                style="height: calc(100% - 40px); margin: 10px"
+            />
         </div>
         <div>
             <div class="cc-medical-karte-headers">{{ $lang.procedures }}</div>
@@ -19,12 +15,7 @@
 
 <script>
 
-import textEditor from "../shared/cc_shared_text_editor_next.vue"
-
 export default {
-    components: {
-        textEditor
-    },
     props: {
         encounter: {
             default: null
