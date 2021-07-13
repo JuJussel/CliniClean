@@ -2,8 +2,8 @@ const Patient = require("../models/patient.model.js");
 
 exports.createSingle = async (req, res) => {
   
-  let uploadedFiles = req.file.filename.split('.')[0];
-  uploadedFiles = [uploadedFiles];
+  let uploadedFileId = req.file.filename.split('.')[0];
+  uploadedFiles = [uploadedFileId];
 
   let patient = parseInt(JSON.parse(req.body.data).patient);
 
@@ -22,7 +22,7 @@ exports.createSingle = async (req, res) => {
         $logger.error(err);
         res.status(500).send({ message: "Error creating Patient" });
       }
-      res.send({url: req.file.filename});
+      res.send({url: req.file.filename, id: uploadedFileId});
 
     }
   );
