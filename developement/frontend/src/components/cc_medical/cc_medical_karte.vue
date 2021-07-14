@@ -19,7 +19,7 @@
 
 <script>
 
-import { Node } from '@tiptap/core'
+import VueComponent  from "../shared/cc_shared_tiptap_extensions/cc_tiptap_imageTag/cc_tiptap_imageTag"
 
 export default {
     props: {
@@ -37,27 +37,7 @@ export default {
                 }
             ],
             customTextExtensions: [
-                Node.create({
-                    name: 'imageTag',
-                    group: 'inline',
-                    inline: true,
-                    atom: true,
-                    content: 'text*',
-                    addAttributes() {
-                        return {
-                            color: {
-                                default: 'red',
-                                // Take the attribute values
-                                renderHTML: () => {
-                                    // … and return an object with HTML attributes.
-                                    return {
-                                        style: 'color: red',
-                                    }
-                                },
-                            },
-                        }
-                    },
-                })
+                VueComponent 
             ],
             images: [],
             procedures: [],
@@ -66,10 +46,7 @@ export default {
     },
     methods: {
         test() {
-                this.$refs.textEditor.editor.commands.insertContent({
-                    "type": 'imageTag',
-                    content: ['tre']
-                })
+                this.$refs.textEditor.editor.commands.insertContent("<vue-component count='1'></vue-component>")
 
         },
         async addImage() {
