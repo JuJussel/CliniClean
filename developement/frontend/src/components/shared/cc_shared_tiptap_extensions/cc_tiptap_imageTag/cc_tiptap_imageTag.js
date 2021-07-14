@@ -3,30 +3,37 @@ import { VueNodeViewRenderer } from '@tiptap/vue-3'
 import Component from './cc_tiptap_imageTag.vue'
 
 export default Node.create({
-  name: 'vueComponent',
+  name: 'imageTag',
 
-  group: 'block',
+  group: 'inline',
+
+  inline: true,
 
   atom: true,
 
+  draggable: true,
+
   addAttributes() {
     return {
-      count: {
-        default: 0,
+      index: {
+        default: 0
       },
+      url: {
+        default: ''
+      }
     }
   },
 
   parseHTML() {
     return [
       {
-        tag: 'vue-component',
+        tag: 'imageTag',
       },
     ]
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['vue-component', mergeAttributes(HTMLAttributes)]
+    return ['imageTag', mergeAttributes(HTMLAttributes)]
   },
 
   addNodeView() {

@@ -19,7 +19,7 @@
 
 <script>
 
-import VueComponent  from "../shared/cc_shared_tiptap_extensions/cc_tiptap_imageTag/cc_tiptap_imageTag"
+import imageTag  from "../shared/cc_shared_tiptap_extensions/cc_tiptap_imageTag/cc_tiptap_imageTag"
 
 export default {
     props: {
@@ -37,7 +37,7 @@ export default {
                 }
             ],
             customTextExtensions: [
-                VueComponent 
+                imageTag 
             ],
             images: [],
             procedures: [],
@@ -46,7 +46,7 @@ export default {
     },
     methods: {
         test() {
-                this.$refs.textEditor.editor.commands.insertContent("<vue-component count='1'></vue-component>")
+                this.$refs.textEditor.editor.commands.insertContent("<imageTag index='1' url='https://localhost:3003/files/user16.png'></imageTag>")
 
         },
         async addImage() {
