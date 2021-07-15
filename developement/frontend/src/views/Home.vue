@@ -75,3 +75,14 @@ export default {
     transform: scale3d(1.03, 1.03, 1.03);
   }
 </style>
+<style >
+  .h2-header {
+    background: var(--cui-gray-0);
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+  }
+</style>

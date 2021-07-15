@@ -21,6 +21,7 @@ export default {
     free: '空き',
     gender: '性別',
     householder: '世代主',
+    image: "画像",
     inEncounter: '診察中',
     insurance: '保険',
     insuranceAdd: '保険・公費追加',

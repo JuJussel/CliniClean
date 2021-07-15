@@ -3,15 +3,17 @@
         <div class="cc-medical-karte-soap">
             <div class="cc-medical-karte-headers"><b>{{ $lang.soapObservation }}</b></div>
             <cui-editor
-                style="height: calc(100% - 40px)"
+                style="height: calc(60% - 40px)"
                 :customMenuItems="customMenuItems"
                 :customExtensions="customTextExtensions"
                 ref="textEditor"
             />
+            <div class="h2-header"> <b>{{ $lang.image }}</b> </div>
+            <div></div>
             <input style="display: none" type="file" ref="file" v-on:change="addImage()" accept="image/png, image/gif, image/jpeg"/>
         </div>
         <div>
-            <div class="cc-medical-karte-headers">{{ $lang.procedures }}</div>
+            <div class="cc-medical-karte-headers"><b> {{ $lang.procedures }} </b></div>
             <cui-table style="height: calc(100% - 40px)"></cui-table>
         </div>
     </div>
