@@ -1,5 +1,8 @@
 <template>
-  <node-view-wrapper style="display: inline">
+  <node-view-wrapper style="display: inline"
+      draggable="true"
+      data-drag-handle
+  >
     <span class="cc-image-tag-content" @click="show">
       画像{{ node.attrs.index }}
     </span>

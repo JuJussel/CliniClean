@@ -33,11 +33,11 @@ export default {
                 {
                     icon: 'fas fa-image',
                     title: 'Redo',
-                    action: () => this.test()
+                    action: () => this.$refs.file.click()
                 }
             ],
             customTextExtensions: [
-                imageTag 
+                imageTag
             ],
             images: [],
             procedures: [],
@@ -46,7 +46,7 @@ export default {
     },
     methods: {
         test() {
-                this.$refs.textEditor.editor.commands.insertContent("<imageTag index='1' url='https://localhost:3003/files/user16.png'></imageTag>")
+            this.$refs.textEditor.editor.commands.insertContent("<imageTag index='1' url='https://localhost:3003/files/user16.png'></imageTag>")
 
         },
         async addImage() {
@@ -66,10 +66,10 @@ export default {
                 }
                 const url = await this.$dataService().post.uploads.single(sendData);
                 this.images.push(url);
-                this.$refs.textEditor.editor.commands.insertContent({
-                    type: 'imageTag',
-                    content: 'gggg'
-                })
+                const index = this.images.length - 1;
+                this.$refs.textEditor.editor.commands.insertContent(
+                    "<imageTag index='" + index + "' url='" + url + "'></imageTag>"
+                )
             }
         }
     }

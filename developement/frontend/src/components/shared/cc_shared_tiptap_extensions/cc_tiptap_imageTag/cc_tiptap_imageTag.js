@@ -4,6 +4,7 @@ import Component from './cc_tiptap_imageTag.vue'
 
 export default Node.create({
   name: 'imageTag',
+  draggable: true,
 
   group: 'inline',
 
@@ -11,7 +12,8 @@ export default Node.create({
 
   atom: true,
 
-  draggable: true,
+  selectable: true,
+
 
   addAttributes() {
     return {
