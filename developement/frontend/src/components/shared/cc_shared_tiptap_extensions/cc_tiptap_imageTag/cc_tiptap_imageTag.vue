@@ -22,8 +22,7 @@ export default {
   methods: {
     show() {
       window.open(this.node.attrs.url, '_blank', "resizable=yes, scrollbars=yes, titlebar=yes, width=800, height=900, top=100, left=10")
-
-    },
+    }
   },
 }
 </script>

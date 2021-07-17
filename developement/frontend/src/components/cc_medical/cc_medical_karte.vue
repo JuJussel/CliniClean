@@ -9,7 +9,12 @@
                 ref="textEditor"
             />
             <div class="h2-header"> <b>{{ $lang.image }}</b> </div>
-            <div></div>
+            <div class="cc-medical-karte-image-cont">
+                <cui-card v-for="(img, index) in images" :key="index" no-padding @click="showImage(img)" class="cc-medical-karte-image-card">
+                    <img class="cc-medical-karte-image-card-img" :src="img" :alt=" $lang.image + index ">
+                    <div class="cc-medical-karte-image-card-text"> {{ $lang.image + index }} </div>
+                </cui-card>
+            </div>
             <input style="display: none" type="file" ref="file" v-on:change="addImage()" accept="image/png, image/gif, image/jpeg"/>
         </div>
         <div>
@@ -41,15 +46,21 @@ export default {
             customTextExtensions: [
                 imageTag
             ],
-            images: [],
+            images: [
+                "https://localhost:3003/files/60f28ea80a72be49cfbcdf7e.jpg",
+                "https://localhost:3003/files/60f28ea80a72be49cfbcdf7e.jpg",
+                "https://localhost:3003/files/60f28ea80a72be49cfbcdf7e.jpg",
+                "https://localhost:3003/files/60f28ea80a72be49cfbcdf7e.jpg",
+                "https://localhost:3003/files/60f28ea80a72be49cfbcdf7e.jpg",
+                "https://localhost:3003/files/60f28ea80a72be49cfbcdf7e.jpg"
+            ],
             procedures: [],
             
         }
     },
     methods: {
-        test() {
-            this.$refs.textEditor.editor.commands.insertContent("<imageTag index='1' url='https://localhost:3003/files/user16.png'></imageTag>")
-
+        showImage(img) {
+            window.open(img, '_blank', "resizable=yes, scrollbars=yes, titlebar=yes, width=800, height=900, top=100, left=10")
         },
         async addImage() {
             let accept = ['.png','.jpeg','.jpg'];
@@ -78,7 +89,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     .cc-medical-karte-main {
         display: grid;
         grid-template-columns: 50% 50%;
@@ -95,7 +106,29 @@ export default {
         background: var(--cui-gray-0);
         height: 25px;
     }
-    .cc-medical-karte-soap-image {
-        color: green
+    .cc-medical-karte-image-cont {
+        height: calc(40% - 40px);
+        display: flex;
+        flex-wrap: wrap;
+        overflow: auto
     }
+    .cc-medical-karte-image-card {
+        width: 170px;
+        height: 132px;
+        overflow: hidden
+    }
+    .cc-medical-karte-image-card-img {
+        width: 150px
+    }
+    .cc-medical-karte-image-card-text {
+        color: var(--cui-dark);
+        padding: 3px 10px
+    }
+
+</style>
+<style>
+ .cc-medical-karte-image-card .cui-card {
+    cursor: pointer;
+ }
+    
 </style>
