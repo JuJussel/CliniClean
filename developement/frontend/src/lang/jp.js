@@ -67,6 +67,7 @@ export default {
     reservation: '予約',
     save: '保存',
     saved: '保存しました',
+    schema: 'シェーマ',
     searchByNameodID: '名前又はIDで検索',
     select: '選択',
     selectInsurance: '保険選択',

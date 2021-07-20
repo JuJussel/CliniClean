@@ -21,6 +21,11 @@
             <div class="cc-medical-karte-headers"><b> {{ $lang.procedures }} </b></div>
             <cui-table style="height: calc(100% - 40px)"></cui-table>
         </div>
+        <cui-modal :visible="modal.schema" closable  @close="modal.schema = false">
+            <cui-card style="width: 700px; height: auto; min-height: 200px; max-height: 800px">
+                <template #header> <h2>{{ $lang.schema }}</h2> </template>
+            </cui-card>
+        </cui-modal>
     </div>
 </template>
 
@@ -39,23 +44,24 @@ export default {
             customMenuItems: [
                 {
                     icon: 'fas fa-image',
-                    title: 'Redo',
+                    title: this.$lang.image,
                     action: () => this.$refs.file.click()
+                },
+                {
+                    icon: 'fas fa-pencil-alt',
+                    title: 'Redo',
+                    action: () => this.modal.schema = true
                 }
+
             ],
             customTextExtensions: [
                 imageTag
             ],
-            images: [
-                "https://localhost:3003/files/60f28ea80a72be49cfbcdf7e.jpg",
-                "https://localhost:3003/files/60f28ea80a72be49cfbcdf7e.jpg",
-                "https://localhost:3003/files/60f28ea80a72be49cfbcdf7e.jpg",
-                "https://localhost:3003/files/60f28ea80a72be49cfbcdf7e.jpg",
-                "https://localhost:3003/files/60f28ea80a72be49cfbcdf7e.jpg",
-                "https://localhost:3003/files/60f28ea80a72be49cfbcdf7e.jpg"
-            ],
+            images: [],
             procedures: [],
-            
+            modal: {
+                schema: false
+            }
         }
     },
     methods: {
