@@ -24,6 +24,7 @@
         <cui-modal :visible="modal.schema" closable  @close="modal.schema = false">
             <cui-card style="width: 700px; height: auto; min-height: 200px; max-height: 800px">
                 <template #header> <h2>{{ $lang.schema }}</h2> </template>
+                <painter style="height: 400px"></painter>
             </cui-card>
         </cui-modal>
     </div>
@@ -31,9 +32,13 @@
 
 <script>
 
-import imageTag  from "../shared/cc_shared_tiptap_extensions/cc_tiptap_imageTag/cc_tiptap_imageTag"
+import imageTag  from "../shared/cc_shared_tiptap_extensions/cc_tiptap_imageTag/cc_tiptap_imageTag";
+import painter from "../shared/cc_shared_painter.vue"
 
 export default {
+    components: {
+        painter
+    },
     props: {
         encounter: {
             default: null
