@@ -48,6 +48,7 @@ export default {
     noSearchResults: '検索結果なし',
     number: '番号',
     occupation: '職業',
+    painter: "ペインター",
     patient: '患者',
     patientId: '患者番号',
     patientList: '患者一覧',

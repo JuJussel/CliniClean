@@ -1,38 +1,33 @@
 <template>
   <div @mouseup="upAddTextFloater">
-    <div style="display: flex; margin-bottom: 10px">
-      <!-- <vs-button-group style="margin-right: 20px">
-        <vs-button dark border @click="drawMode = 'pencil'" :active="drawMode === 'pencil'">
+    <div style="display: flex; border-bottom: solid 1px var(--cui-dark); padding: 5px">
+      <button class="menu-item" v-bind:class="{ 'is-active': drawMode === 'pencil' }" @click="drawMode = 'pencil'">
           <i class="fas fa-pencil-alt"></i>
-        </vs-button>
-        <vs-button dark border @click="drawMode = 'line'" :active="drawMode === 'line'">
+      </button>
+      <button class="menu-item" v-bind:class="{ 'is-active': drawMode === 'line' }" @click="drawMode = 'line'">
           <i class="fas fa-minus"></i>
-        </vs-button>
-        <vs-button dark border @click="drawMode = 'box'" :active="drawMode === 'box'">
+      </button>
+      <button class="menu-item" v-bind:class="{ 'is-active': drawMode === 'box' }" @click="drawMode = 'box'">
           <i class="fas fa-square"></i>
-        </vs-button>
-        <vs-button dark border @click="drawMode = 'text'" :active="drawMode === 'text'">
+      </button>
+      <button class="menu-item" v-bind:class="{ 'is-active': drawMode === 'text' }" @click="drawMode = 'text'">
           <i class="fas fa-font"></i>
-        </vs-button>
-      </vs-button-group>
-      <vs-button-group>
-        <vs-button dark border @click="strokeColor = 'black'" :active="strokeColor === 'black'">
+      </button>
+      <button class="menu-item" v-bind:class="{ 'is-active': strokeColor === 'black' }" @click="strokeColor = 'black'">
           <i class="fas fa-square" style="-webkit-text-fill-color: black"></i>
-        </vs-button>
-        <vs-button dark border @click="strokeColor = 'red'" :active="strokeColor === 'red'">
+      </button>
+      <button class="menu-item" v-bind:class="{ 'is-active': strokeColor === 'red' }" @click="strokeColor = 'red'">
           <i class="fas fa-square" style="-webkit-text-fill-color: red"></i>
-        </vs-button>
-        <vs-button dark border @click="strokeColor = 'blue'" :active="strokeColor === 'blue'">
+      </button>
+      <button class="menu-item" v-bind:class="{ 'is-active': strokeColor === 'blue' }" @click="strokeColor = 'blue'">
           <i class="fas fa-square" style="-webkit-text-fill-color: blue"></i>
-        </vs-button>
-        <vs-button dark border @click="strokeColor = 'green'" :active="strokeColor === 'green'">
+      </button>
+      <button class="menu-item" v-bind:class="{ 'is-active': strokeColor === 'green' }" @click="strokeColor = 'green'">
           <i class="fas fa-square" style="-webkit-text-fill-color: green"></i>
-        </vs-button>
-      </vs-button-group> -->
+      </button>
     </div>
 
     <div ref="canvasCont" style="position: relative; height: 100%">
-
       <canvas class="canvas" :id="'canvasImg' + id" :width="canvasSize.wa" :height="canvasSize.ha"></canvas>
       <canvas class="temp" :id="'canvas' + id" :width="canvasSize.wa" :height="canvasSize.ha"></canvas>
       <canvas
@@ -68,29 +63,26 @@
         >
           <div style="width: 120px; display: flex; flex-wrap: wrap">
             <cui-button
+              icon="fas fa-plus"
               @click="fontSize=fontSize+4"
-              @mousemove="moveAddTextFloater">
-              <i class="fas fa-font"></i><i class="fas fa-plus"></i>
-            </cui-button>
+              @mousemove="moveAddTextFloater"
+            />
             <cui-button
+              icon="fas fa-arrows-alt"
               @mousedown="downAddTextFloater"
               @mouseup="upAddTextFloater"
               @mousemove="moveAddTextFloater"
-            >
-              <i class="fas fa-arrows-alt"></i>
-            </cui-button>
+            />
             <cui-button
+              icon="fas fa-minus"
               @click="fontSize=fontSize-4" 
               @mousemove="moveAddTextFloater"
-            >
-              <i class="fas fa-font"></i><i class="fas fa-minus"></i>
-            </cui-button>
+            />
             <cui-button
+              icon="fas fa-check"
               @click="drawText"
               @mousemove="moveAddTextFloater"
-            >
-              <i class="fas fa-check"></i>
-            </cui-button>
+            />
           </div>
         </div>
         <!-- <resize-observer style="display: none" @notify="onResize"/> -->
@@ -106,11 +98,11 @@ export default {
 //     "resize-observer": ResizeObserver
 //   },
   props: {
-    parentWidth: {
+    width: {
       type: Number,
       default: 600
     }, 
-    parentHeight: {
+    height: {
       type: Number,
       default: 500
     }, 
@@ -169,8 +161,8 @@ export default {
       return new Date().getTime();
     },
     canvasSize() {
-      var h = this.parentHeight;
-      var w = this.parentWidth;
+      var h = this.height;
+      var w = this.width;
       return {
         w: w + "px",
         h: h + "px",
@@ -446,11 +438,6 @@ export default {
 </script>
 
 <style scoped>
-.canvas {
-  border: solid 1px;
-  border-radius: 14px;
-}
-
 .temp {
   position: absolute;
   top: 0;
@@ -469,5 +456,22 @@ export default {
 }
 .addTextFloaterInput:focus {
   outline: none;
+}
+.menu-item {
+  width: 1.75rem;
+  height: 1.75rem;
+  color: var(--cui-font-color);
+  border: none;
+  background-color: transparent;
+  border-radius: 0.4rem;
+  padding: 0.25rem;
+  margin-right: 0.25rem;
+  cursor: pointer
+}
+
+.menu-item.is-active,
+.menu-item:hover {
+    color: #FFF;
+    background-color: var(--cui-dark);
 }
 </style>

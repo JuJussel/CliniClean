@@ -22,9 +22,9 @@
             <cui-table style="height: calc(100% - 40px)"></cui-table>
         </div>
         <cui-modal :visible="modal.schema" closable  @close="modal.schema = false">
-            <cui-card style="width: 700px; height: auto; min-height: 200px; max-height: 800px">
+            <cui-card style="width: 1000px; height: 700px" noPadding>
                 <template #header> <h2>{{ $lang.schema }}</h2> </template>
-                <painter style="height: 400px"></painter>
+                <schema-editor></schema-editor>
             </cui-card>
         </cui-modal>
     </div>
@@ -33,11 +33,11 @@
 <script>
 
 import imageTag  from "../shared/cc_shared_tiptap_extensions/cc_tiptap_imageTag/cc_tiptap_imageTag";
-import painter from "../shared/cc_shared_painter.vue"
+import schemaEditor from "../shared/cc_shared_schema_editor.vue"
 
 export default {
     components: {
-        painter
+        schemaEditor
     },
     props: {
         encounter: {
@@ -109,13 +109,6 @@ export default {
     .cc-medical-karte-soap {
         border-right: solid 1px var(--cui-gray-5);
         overflow: hidden;
-    }
-    .cc-medical-karte-headers {
-        border-bottom: solid 1px var(--cui-gray-5);
-        border-top: solid 1px var(--cui-gray-5);
-        padding: 5px;
-        background: var(--cui-gray-0);
-        height: 25px;
     }
     .cc-medical-karte-image-cont {
         height: calc(40% - 40px);

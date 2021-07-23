@@ -85,4 +85,12 @@ export default {
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
   }
+  .cc-medical-karte-headers {
+      border-bottom: solid 1px var(--cui-gray-5);
+      border-top: solid 1px var(--cui-gray-5);
+      padding: 5px;
+      background: var(--cui-gray-0);
+      height: 25px;
+    }
+
 </style>

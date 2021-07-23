@@ -196,6 +196,19 @@ export default {
                                     reject
                                 })
                             })
+                        },
+                        //>----Schemas-----//
+                        schemas: function() {
+                            return new Promise (function(resolve, reject) {
+                                http.get('lists/schemas/')
+                                .then(result => {
+                                    resolve(result)
+                                })
+                                .catch(result => {
+                                    instance.$cui.notification({ text: result, color: 'danger' })
+                                    reject
+                                })
+                            })
                         }
                     }
                 },
