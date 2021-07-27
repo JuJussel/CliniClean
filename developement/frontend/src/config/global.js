@@ -6,7 +6,7 @@ export default {
   apiPort: apiPort,
   apiURL: 'https://' + url + apiPort + '/api/', // APi
   socketIOIP: 'https://' + url + ':1337', // Notification Server
-  schemaUrl: 'https://' + url + '/assets/schemas/',
+  schemaUrl: 'https://' + url + apiPort + '/assets/schemas/',
   assetsUrl: 'https://' + url + '/assets/', //Images
   filesUrl: 'https://' + url + apiPort + '/files/', //User created assets,
   httpCredPol: 'include' //Use include during dev. In production change to 'same-origin'

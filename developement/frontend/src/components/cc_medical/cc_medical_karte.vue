@@ -1,7 +1,7 @@
 <template>
     <div class="cc-medical-karte-main">
         <div class="cc-medical-karte-soap">
-            <div class="cc-medical-karte-headers"><b>{{ $lang.soapObservation }}</b></div>
+            <div class="cc-headers"><b>{{ $lang.soapObservation }}</b></div>
             <cui-editor
                 style="height: calc(60% - 40px)"
                 :customMenuItems="customMenuItems"
@@ -9,20 +9,22 @@
                 ref="textEditor"
             />
             <div class="h2-header"> <b>{{ $lang.image }}</b> </div>
-            <div class="cc-medical-karte-image-cont">
-                <cui-card v-for="(img, index) in images" :key="index" no-padding @click="showImage(img)" class="cc-medical-karte-image-card">
-                    <img class="cc-medical-karte-image-card-img" :src="img" :alt=" $lang.image + index ">
-                    <div class="cc-medical-karte-image-card-text"> {{ $lang.image + index }} </div>
+            <div class="cc-image-cont" style="height: calc(40% - 40px)">
+                <cui-card v-for="(img, index) in images" :key="index" no-padding @click="showImage(img)" class="cc-image-card">
+                    <div class="cc-image-card-schema-cont">
+                        <img class="cc-image-card-img" :src="img" :alt=" $lang.image + index ">
+                        <div class="cc-image-card-text"> {{ $lang.image + index }} </div>
+                    </div>
                 </cui-card>
             </div>
             <input style="display: none" type="file" ref="file" v-on:change="addImage()" accept="image/png, image/gif, image/jpeg"/>
         </div>
         <div>
-            <div class="cc-medical-karte-headers"><b> {{ $lang.procedures }} </b></div>
+            <div class="cc-headers"><b> {{ $lang.procedures }} </b></div>
             <cui-table style="height: calc(100% - 40px)"></cui-table>
         </div>
         <cui-modal :visible="modal.schema" closable  @close="modal.schema = false">
-            <cui-card style="width: 1000px; height: 700px" noPadding>
+            <cui-card style="width: 1160px; height: 700px" noPadding>
                 <template #header> <h2>{{ $lang.schema }}</h2> </template>
                 <schema-editor></schema-editor>
             </cui-card>
@@ -110,25 +112,6 @@ export default {
         border-right: solid 1px var(--cui-gray-5);
         overflow: hidden;
     }
-    .cc-medical-karte-image-cont {
-        height: calc(40% - 40px);
-        display: flex;
-        flex-wrap: wrap;
-        overflow: auto
-    }
-    .cc-medical-karte-image-card {
-        width: 170px;
-        height: 132px;
-        overflow: hidden
-    }
-    .cc-medical-karte-image-card-img {
-        width: 150px
-    }
-    .cc-medical-karte-image-card-text {
-        color: var(--cui-dark);
-        padding: 3px 10px
-    }
-
 </style>
 <style>
  .cc-medical-karte-image-card .cui-card {

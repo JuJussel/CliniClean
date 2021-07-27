@@ -202,7 +202,14 @@ export default {
                             return new Promise (function(resolve, reject) {
                                 http.get('lists/schemas/')
                                 .then(result => {
-                                    resolve(result)
+                                    let schemaList = result.map(schema => {
+                                        let filename = schema;
+                                        return schema = {
+                                            name: filename.split('.')[0],
+                                            url: Globals.schemaUrl + filename
+                                        }
+                                    });
+                                    resolve(schemaList)
                                 })
                                 .catch(result => {
                                     instance.$cui.notification({ text: result, color: 'danger' })

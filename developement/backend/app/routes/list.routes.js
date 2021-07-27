@@ -5,6 +5,7 @@ module.exports = app => {
     const relations = require("../controllers/relations.controller.js");
     const insuranceProviders = require("../controllers/insuranceProviders.controller.js");
     const addresses = require("../controllers/addresses.controller.js")
+    const schemas = require("../controllers/schemas.controller.js")
 
     app.use(function(req, res, next) {
         res.header(
@@ -19,4 +20,5 @@ module.exports = app => {
     app.get("/api/lists/relations",[authJwt.verifyToken], relations.findAll);
     app.get("/api/lists/insuranceProviders/:number",[authJwt.verifyToken], insuranceProviders.findOne);
     app.get("/api/lists/addresses/:zip",[authJwt.verifyToken], addresses.findOne);
+    app.get("/api/lists/schemas",[authJwt.verifyToken], schemas.findAll);
   };

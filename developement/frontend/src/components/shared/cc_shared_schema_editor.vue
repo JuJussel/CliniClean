@@ -1,23 +1,25 @@
 <template>
     <div style="height: 100%">
         <div class="cc_shared_schema_editor_cont">
-            <div style="border-right: solid 1px var(--cui-gray-5)">
-                <div class="cc-medical-karte-headers">
+            <div style="border-right: solid 1px var(--cui-gray-5); overflow: hidden">
+                <div class="cc-headers">
                     {{ $lang.schema}}
                     {{ $lang.select}}
                 </div>
-                <div class="cc-medical-karte-image-cont">
-                    <cui-card v-for="(img, index) in schemas" :key="index" no-padding @click="addImage(img)" class="cc-medical-karte-image-card">
-                        <img class="cc-medical-karte-image-card-img" :src="img" :alt="img.name">
-                        <div class="cc-medical-karte-image-card-text"> {{ img.name }} </div>
+                <div class="cc-image-cont" style="height: calc(100% - 37px)">
+                    <cui-card v-for="(img, index) in schemas" :key="index" no-padding @click="addImage(img)" class="cc-image-card">
+                        <div class="cc-image-card-schema-cont">
+                            <img class="cc-image-card-img" :src="img.url" :alt="img.name">
+                            <div class="cc-image-card-text"> {{ img.name }} </div>
+                        </div>
                     </cui-card>
                 </div>
             </div>
             <div>
-                <div class="cc-medical-karte-headers">
+                <div class="cc-headers">
                     {{ $lang.painter}}
                 </div>
-                <painter :height="500" :width="500"></painter>
+                <painter :height="500" :width="580"></painter>
             </div>
             <div style="border-top: solid 1px var(--cui-gray-5);">a</div>
             <div style="border-top: solid 1px var(--cui-gray-5);">b</div>
@@ -67,23 +69,4 @@ export default {
         grid-template-rows: auto 60px;
         height: 100%
     }
-    .cc-medical-karte-image-cont {
-        height: calc(40% - 40px);
-        display: flex;
-        flex-wrap: wrap;
-        overflow: auto
-    }
-    .cc-medical-karte-image-card {
-        width: 170px;
-        height: 132px;
-        overflow: hidden
-    }
-    .cc-medical-karte-image-card-img {
-        width: 150px
-    }
-    .cc-medical-karte-image-card-text {
-        color: var(--cui-dark);
-        padding: 3px 10px
-    }
-
 </style>

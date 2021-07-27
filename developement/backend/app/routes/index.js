@@ -9,6 +9,7 @@ routes.get('/', (req, res) => {
 require("./user.routes")(routes);
 require("./auth.routes")(routes);
 require("./file.routes")(routes);
+require("./assets.routes")(routes);
 require("./encounter.routes")(routes);
 require("./list.routes")(routes);
 require("./patient.routes")(routes);
