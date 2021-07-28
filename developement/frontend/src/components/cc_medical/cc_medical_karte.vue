@@ -26,7 +26,7 @@
         <cui-modal :visible="modal.schema" closable  @close="modal.schema = false">
             <cui-card style="width: 1160px; height: 700px" noPadding>
                 <template #header> <h2>{{ $lang.schema }}</h2> </template>
-                <schema-editor></schema-editor>
+                <schema-editor @addSchema="addSchema" @cancel="modal.schema = false"></schema-editor>
             </cui-card>
         </cui-modal>
     </div>
@@ -75,9 +75,19 @@ export default {
         showImage(img) {
             window.open(img, '_blank', "resizable=yes, scrollbars=yes, titlebar=yes, width=800, height=900, top=100, left=10")
         },
-        async addImage() {
+        addSchema(schema) {
+            schema.toBlob(function(blob) {
+                let img = new File([blob], "fileName.jpg", { type: "image/png" });
+                this.uploadImage('schema', img)
+            }.bind(this))
+        },
+        addImage() {
+            let img = this.$refs.file.files[0];
+            this.uploadImage('soapImage', img);
+        },
+        async uploadImage(target, img) {
             let accept = ['.png','.jpeg','.jpg'];
-            let file = this.$refs.file.files[0]
+            let file = img;
             let ext = file.name.split('.');
             let last = ext.length - 1;
             ext = '.' + ext[last];
@@ -85,7 +95,7 @@ export default {
                 let sendData  = {
                     file: file,
                     meta: {
-                        source: 'soapImage',
+                        source: target,
                         patient: this.encounter.patient.id,
                         encounter: this.encounter.id
                     }

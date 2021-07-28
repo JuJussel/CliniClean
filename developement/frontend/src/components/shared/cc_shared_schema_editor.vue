@@ -7,8 +7,8 @@
                     {{ $lang.select}}
                 </div>
                 <div class="cc-image-cont" style="height: calc(100% - 37px)">
-                    <cui-card v-for="(img, index) in schemas" :key="index" no-padding @click="addImage(img)" class="cc-image-card">
-                        <div class="cc-image-card-schema-cont">
+                    <cui-card v-for="(img, index) in schemas" :key="index" no-padding class="cc-image-card">
+                        <div class="cc-image-card-schema-cont" @click="setSchemaImage(img)">
                             <img class="cc-image-card-img" :src="img.url" :alt="img.name">
                             <div class="cc-image-card-text"> {{ img.name }} </div>
                         </div>
@@ -19,10 +19,13 @@
                 <div class="cc-headers">
                     {{ $lang.painter}}
                 </div>
-                <painter :height="500" :width="580"></painter>
+                <painter :height="500" :width="580" ref="painter"></painter>
             </div>
-            <div style="border-top: solid 1px var(--cui-gray-5);">a</div>
-            <div style="border-top: solid 1px var(--cui-gray-5);">b</div>
+            <div class="cc-shared-schema-editor-footer"></div>
+            <div class="cc-shared-schema-editor-footer">
+                <cui-button plain :label="$lang.cancel" @click="$emit('cancel')"></cui-button>
+                <cui-button :label="$lang.add" @click="addSchema"></cui-button>
+            </div>
         </div>
     </div>
 </template>
@@ -36,6 +39,10 @@ export default {
     components: {
         painter
     },
+    emits: [
+        'cancel',
+        'addSchema'
+    ],
     data() {
         return {
             schemas: [],
@@ -48,13 +55,18 @@ export default {
         this.getSchemas();
     },
     methods: {
-        addImage() {
-
+        setSchemaImage(img) {
+            this.$refs.painter.addImage(img.url);
         },
         async getSchemas() {
             this.loading.schemas = true;
             this.schemas = await this.$dataService().get.lists.schemas();
             this.loading.schemas = false;
+        },
+        addSchema() {
+            let img = this.$refs.painter.getPainting();
+            this.$emit('addSchema', img);
+            this.$emit('cancel');
         }
     }
     
@@ -68,5 +80,12 @@ export default {
         grid-template-columns: 50% 50%;
         grid-template-rows: auto 60px;
         height: 100%
+    }
+    .cc-shared-schema-editor-footer {
+        border-top: solid 1px var(--cui-gray-5);
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding: 10px;
     }
 </style>

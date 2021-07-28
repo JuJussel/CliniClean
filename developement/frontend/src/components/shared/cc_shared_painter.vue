@@ -349,10 +349,10 @@ export default {
       this.outputCanvas.ctx.fillText(this.textToAdd, x + 2, y + 4);
       this.drawMode = "pencil";
     },
-    addImage(file) {
+    addImage(url) {
       var img = document.createElement("img");
-      img.setAttribute("crossOrigin", "anonymous");
-      img.src = this.$globals.assetsUrl + "schemas/" + file;
+      // img.setAttribute("crossOrigin", "anonymous");
+      img.src = url;
       img.onload = function() {
         var ratio = this.canvasSize.ha / 1400;
         var w = img.width * ratio;
