@@ -24,7 +24,7 @@
             <karte :encounter="encounter"/>
         </cui-card>
         <cui-card>
-            Procedures
+            <procedures-browser></procedures-browser>
         </cui-card>
     </div>
 </template>
@@ -32,10 +32,12 @@
 <script>
 
 import karte from "./cc_medical_karte.vue"
+import proceduresBrowser from "../shared/cc_shared_procedures_browser.vue"
 
 export default {
     components: {
-        karte
+        karte,
+        proceduresBrowser
     },
     props: {
         encounter: {

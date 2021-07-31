@@ -23,7 +23,8 @@ export const store = createStore({
       encounterTypes: state => state.staticLists.encounterTypes,
       occupations: state => state.staticLists.occupations,
       relations: state => state.staticLists.relations,
-      transferData: state => state.transferData
+      transferData: state => state.transferData,
+      procedureCategories: state => state.staticLists.procedureCategories
   },
   
   mutations: {
@@ -41,6 +42,9 @@ export const store = createStore({
     },
     SET_RELATIONS(state, data) {
       state.staticLists.relations = data
+    },
+    SET_PROCEDURE_CATEGORIES(state, data) {
+      state.staticLists.procedureCategories = data
     },
     SET_TRANSFER_DATA(state, data) {
       state.transferData[data.target] = data.data

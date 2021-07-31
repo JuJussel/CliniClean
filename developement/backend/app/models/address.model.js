@@ -1,7 +1,7 @@
 const pg = require("./orca.db.js");
 
-const examType = {}
-examType.findOne = (zip, result) => {
+const address = {}
+address.findOne = (zip, result) => {
     pg.one(
         `   SELECT editadrs_name 
             FROM public.tbl_adrs
@@ -25,4 +25,4 @@ examType.findOne = (zip, result) => {
 
 }
 
-module.exports = examType
+module.exports = address

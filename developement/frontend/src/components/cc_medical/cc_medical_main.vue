@@ -9,7 +9,6 @@
                 :icon="item.icon"
                 :index="index"
             />
-
         </cui-button-group>
         <div class="cc-medical-main-tab-hidden" v-bind:class="{ 'cc-medical-main-tab-visible': 'encounterList' === activeTab }">
             <encounterList 

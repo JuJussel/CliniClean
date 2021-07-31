@@ -59,7 +59,7 @@ export default {
     paymentDone: '会計済',
     prev: '前',
     procedures: "行為・処方",
-    proceduresLabels: {
+    procedureCategoryLabels: {
         set: 'セット',
         perscription: '処方',
         shot: '接種',
@@ -84,6 +84,7 @@ export default {
     saving: '保存中',
     schema: 'シェーマ',
     searchByNameodID: '名前又はIDで検索',
+    searchProcedure: '行為検索',
     select: '選択',
     selectInsurance: '保険選択',
     selectPatient: '患者選択',

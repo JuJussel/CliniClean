@@ -216,6 +216,50 @@ export default {
                                     reject
                                 })
                             })
+                        },
+                        procedures: {
+                            //>----Encounter Types-----//
+                            categories: function() {
+                                if (instance.$store.getters.procedureCategories) {
+                                    return instance.$store.getters.procedureCategories
+                                } else {
+                                    return new Promise (function(resolve, reject) {
+                                        return http.get('lists/procedures/categories/')
+                                        .then(result => {
+                                            instance.$store.commit('SET_PROCEDURE_CATEGORIES', result)
+                                            resolve(result)
+                                        })
+                                        .catch(result => {
+                                            instance.$cui.notification({ text: result, color: 'danger' })
+                                            reject
+                                        })
+                                    })
+                                }
+                            },
+                            favourites: function(cat) {
+                                return new Promise (function(resolve, reject) {
+                                    return http.get('lists/procedures/favourites/' + cat)
+                                    .then(result => {
+                                        resolve(result)
+                                    })
+                                    .catch(result => {
+                                        instance.$cui.notification({ text: result, color: 'danger' })
+                                        reject
+                                    })
+                                })
+                            },
+                            search: function(search) {
+                                return new Promise (function(resolve, reject) {
+                                    return http.get('lists/procedures/search/' + search)
+                                    .then(result => {
+                                        resolve(result)
+                                    })
+                                    .catch(result => {
+                                        instance.$cui.notification({ text: result, color: 'danger' })
+                                        reject
+                                    })
+                                })
+                            }
                         }
                     }
                 },
