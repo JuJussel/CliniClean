@@ -12,20 +12,4 @@ exports.findOne = (req,res) => {
       res.send(data);
     }
   });
-
-
-  // InsuranceProvider.findOne(hknum, (err, data) => {
-  //   if (err) {
-  //       res.status(500).send({
-  //         message: err
-  //       });
-  //   } else {
-  //     if (data) {
-  //       res.send({name: data.seidoname});
-  //     } else {
-  //       res.send({name: ""});
-  //     }
-      
-  //   }
-  // })
 }

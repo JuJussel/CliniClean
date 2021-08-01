@@ -1,7 +1,34 @@
 <template>
     <div>
-        <cui-input :placeholder="$lang.searchProcedure" icon="fas fa-search" style="margin: 20px"></cui-input>
-        <cui-table></cui-table>
+        <cui-table 
+            :data="results" 
+            style="height: 100%" 
+            singleSelect 
+            :loading="loading"
+            @select="selectItem">
+            <template #header>
+                <div style="display: flex; align-items: center">
+                    <h2> {{ $lang.procedureCategoryLabels[category.label] }} </h2>
+                    <cui-input
+                        :placeholder="$lang.searchProcedure"
+                        icon="fas fa-search"
+                        darker
+                        v-model="search"
+                        @input="searchProcedures"
+                        noNote
+                        style="margin-left: 20px"
+                    />
+                </div>
+            </template>
+            <template #thead>
+                <cui-th> {{ $lang.procedureName}} </cui-th>
+                <cui-th> {{ $lang.points}} </cui-th>
+            </template>
+            <template v-slot:row="{ row }">
+                <td> {{ row.name }} </td>
+                <td> {{ row.cost.split('.')[0] }} </td>
+            </template>
+        </cui-table>
     </div>
 </template>
 
@@ -9,10 +36,13 @@
 export default {
     props: {
         category: {
-            type: Array,
+            type: Object,
             default: null
         }
     },
+    emits: [
+        'select'
+    ],
     data() {
         return {
             loading: false,
@@ -21,18 +51,22 @@ export default {
         }
     },
     created() {
-        this.getFavourites()
+        // this.getFavourites()
     },
     methods: {
         async searchProcedures() {
+            if (this.search === '') return;
             this.loading = true;
-            this.results = await this.$dataService().get.lists.procedures.search(this.search);
+            this.results = await this.$dataService().get.lists.procedures.search(this.category.code, this.search);
             this.loading = false;
         },
         async getFavourites() {
             this.loading = true;
             this.results = await this.$dataService().get.lists.procedures.favourites(this.category);
             this.loading = false;
+        },
+        selectItem(item) {
+            this.$emit('select', item);
         }
     }
 }

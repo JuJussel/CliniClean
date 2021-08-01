@@ -1,4 +1,5 @@
 const Config = require("../models/config.model.js");
+const Procedure = require("../models/procedure.model.js");
 
 exports.categories = {
   findOne: (req,res) => {
@@ -12,3 +13,32 @@ exports.categories = {
     });  
   }
 }
+
+exports.search = {
+  findMany: (req, res) => {
+    let cat = req.params.cat;
+    let search = req.params.search;
+    Procedure.findMany(cat, search, (err, data) => {
+      if (err) {
+          res.status(500).send({
+            message: err
+          });
+      } else {
+        res.send(data);
+      }
+    })
+  
+
+  }
+}
+
+exports.favourites = {
+  findMany: (req, res) => {
+
+    let cat = req.params.cat;
+    let search = req.params.search;
+
+
+  }
+}
+

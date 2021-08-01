@@ -248,9 +248,9 @@ export default {
                                     })
                                 })
                             },
-                            search: function(search) {
+                            search: function(cat, search) {
                                 return new Promise (function(resolve, reject) {
-                                    return http.get('lists/procedures/search/' + search)
+                                    return http.get('lists/procedures/search/' + cat + '/' + search)
                                     .then(result => {
                                         resolve(result)
                                     })

@@ -12,7 +12,7 @@
                     <td>{{ row.value }}</td>
                 </template>
             </cui-table>
-            <cui-table :data="patientData?.insurance" square :loading="!patientData">
+            <cui-table :data="patientData?.insurance[0][0] ? patientData?.insurance[0] : patientData?.insurance" square :loading="!patientData">
                 <template #header>
                     <h2> {{ $lang.insurance }} </h2>
                 </template>

@@ -58,7 +58,9 @@ export default {
     pause: '一時停止',
     paymentDone: '会計済',
     prev: '前',
+    points: '点数',
     procedures: "行為・処方",
+    procedureName: '行為名',
     procedureCategoryLabels: {
         set: 'セット',
         perscription: '処方',

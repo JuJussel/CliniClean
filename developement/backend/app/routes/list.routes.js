@@ -24,5 +24,5 @@ module.exports = app => {
     app.get("/api/lists/schemas",[authJwt.verifyToken], schemas.findAll);
     app.get("/api/lists/procedures/categories", [authJwt.verifyToken], procedures.categories.findOne);
     app.get("/api/lists/procedures/favourites/:cat", [authJwt.verifyToken], procedures.favourites.findMany);
-    app.get("/api/lists/procedures/search/:search", [authJwt.verifyToken], procedures.search.findMany);
+    app.get("/api/lists/procedures/search/:cat/:search", [authJwt.verifyToken], procedures.search.findMany);
   };

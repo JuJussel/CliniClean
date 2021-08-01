@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <div v-if="!loading.categories" class="cc-shared-procedures-browser-button-cont">
+    <div class="cc-shared-procedures-browser-cont">
+        <div v-if="!loading.categories" class="cc-shared-procedures-browser-buttons">
             <cui-button-group v-model="activeCategory">
                 <cui-button-group-item
                     v-for="(cat, index) in filteredProcedureCategories[0]" :key="index"
@@ -20,7 +20,14 @@
                 />
             </cui-button-group>
         </div>
-        <procedures-search v-for="(cat, index) in categories" :key="index" v-show="activeCategory === cat.code" :category="cat"/>
+        <procedures-search 
+            v-for="(cat, index) in categories" 
+            :key="index" 
+            v-show="activeCategory === cat.code" 
+            :category="cat"
+            style="margin: -10px"
+            @select="selectProcedure"
+        />
     </div>
 </template>
 
@@ -50,6 +57,9 @@ export default {
             this.categories = await this.$dataService().get.lists.procedures.categories();
             this.activeCategory = this.categories[0].code;
             this.loading.categories = false;
+        },
+        selectProcedure() {
+            
         }
     },
     computed: {
@@ -67,10 +77,21 @@ export default {
 </script>
 
 <style>
-    .cc-shared-procedures-browser-button-cont .cui-button-group {
+    .cc-shared-procedures-browser-cont {
+        display: grid;
+        grid-template-rows: 100px calc(100% - 100px);
+        height: 100%
+    }
+    .cc-shared-procedures-browser-buttons {
+        margin-bottom: 20px
+    }
+    .cc-shared-procedures-browser-buttons .cui-button-group {
         margin: 0!important;
     }
-    .cc-shared-procedures-browser-button-cont .cui-button-group .cui-button-group-item {
+    .cc-shared-procedures-browser-buttons .cui-button-group .cui-button-group-item {
         flex-grow: 1;
+    }
+    .cc-shared-procedures-browser-search {
+
     }
 </style>
