@@ -1,35 +1,18 @@
 const pg = require("./orca.db.js");
+const japUtils = require("japanese-string-utils");
 
 const procedure = {}
-// examType.findAll = (result) => {
 
-//     pg.many(
-//         `   SELECT kbncd AS id, kanritbl AS name 
-//             FROM public.tbl_syskanri
-//             WHERE kanricd = '1012'
-//             ORDER BY id
-//         `
-//     )
-//     .then((data) => {
-//         result(null, data);
-//         return;
-//     })
-//     .catch((err) => {
-//         $logger.error(err);
-//         result(err, null);
-//         return;
-//     })
-
-// }
 procedure.findMany = (cat, search, result) => {
 
     let searchCode = search;
     let searchName = search + '%';
+    let searchNameKana = japUtils.toFullwidth(search) + '%';
 
     //Build where clauses
     let where = `
         srykbn IN ($1) 
-        AND (name LIKE $2 OR srycd IN ($3))
+        AND (name LIKE $2 OR kananame LIKE $3 OR srycd IN ($4))
         AND yukoedymd = '99999999'
     `;
 
@@ -37,7 +20,7 @@ procedure.findMany = (cat, search, result) => {
         where = `
             srykbn = $1
             AND (ykzkbn = '1' OR ykzkbn = '6')
-            AND (name LIKE $2 or srycd IN ($3))
+            AND (name LIKE $2 OR kananame LIKE $3 or srycd IN ($4))
             AND yukoedymd = '99999999'
         `;
     }
@@ -46,7 +29,7 @@ procedure.findMany = (cat, search, result) => {
         where = `
             srykbn = $1
             AND ykzkbn = '4'
-            AND (name LIKE $2 OR srycd IN ($3))
+            AND (name LIKE $2 OR kananame LIKE $3 OR srycd IN ($4))
             AND yukoedymd = '99999999'
         `;
     }
@@ -62,7 +45,7 @@ procedure.findMany = (cat, search, result) => {
         WHERE ` + where + ` LIMIT 200
     `;
     
-    pg.many(select, [cat, searchName, searchCode])
+    pg.many(select, [cat, searchName, seachNameKana, searchCode])
         .then((data) => {
             result(null, data);
             return;    
