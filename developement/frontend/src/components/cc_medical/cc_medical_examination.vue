@@ -21,10 +21,10 @@
                     </div>
                 </div>
             </template>
-            <karte :encounter="encounter"/>
+            <karte :encounter="encounter" ref="karte" />
         </cui-card>
         <cui-card>
-            <procedures-browser></procedures-browser>
+            <procedures-browser @select="addProcedure"></procedures-browser>
         </cui-card>
     </div>
 </template>
@@ -47,6 +47,11 @@ export default {
     data() {
         return {
             saving: false
+        }
+    },
+    methods: {
+        addProcedure(item) {
+            this.$refs.karte.addProcedure(item);
         }
     }
 }

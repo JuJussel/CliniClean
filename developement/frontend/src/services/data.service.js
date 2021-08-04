@@ -216,42 +216,32 @@ export default {
                                     reject
                                 })
                             })
-                        },
-                        procedures: {
-                            //>----Encounter Types-----//
-                            categories: function() {
-                                if (instance.$store.getters.procedureCategories) {
-                                    return instance.$store.getters.procedureCategories
-                                } else {
-                                    return new Promise (function(resolve, reject) {
-                                        return http.get('lists/procedures/categories/')
-                                        .then(result => {
-                                            instance.$store.commit('SET_PROCEDURE_CATEGORIES', result)
-                                            resolve(result)
-                                        })
-                                        .catch(result => {
-                                            instance.$cui.notification({ text: result, color: 'danger' })
-                                            reject
-                                        })
-                                    })
-                                }
-                            },
-                            favourites: function(cat) {
-                                return new Promise (function(resolve, reject) {
-                                    return http.get('lists/procedures/favourites/' + cat)
-                                    .then(result => {
-                                        resolve(result)
-                                    })
-                                    .catch(result => {
-                                        instance.$cui.notification({ text: result, color: 'danger' })
-                                        reject
-                                    })
+                        }
+                    },
+                    medications: {
+                        search: function(cat, search) {
+                            return new Promise (function(resolve, reject) {
+                                return http.get('medications/' + cat + '/' + search)
+                                .then(result => {
+                                    resolve(result)
                                 })
-                            },
-                            search: function(cat, search) {
+                                .catch(result => {
+                                    instance.$cui.notification({ text: result, color: 'danger' })
+                                    reject
+                                })
+                            })
+                        }
+                    },
+                    procedures: {
+                        //>----Encounter Types-----//
+                        categories: function() {
+                            if (instance.$store.getters.procedureCategories) {
+                                return instance.$store.getters.procedureCategories
+                            } else {
                                 return new Promise (function(resolve, reject) {
-                                    return http.get('lists/procedures/search/' + cat + '/' + search)
+                                    return http.get('procedures/categories/')
                                     .then(result => {
+                                        instance.$store.commit('SET_PROCEDURE_CATEGORIES', result)
                                         resolve(result)
                                     })
                                     .catch(result => {
@@ -260,6 +250,30 @@ export default {
                                     })
                                 })
                             }
+                        },
+                        favourites: function(cat) {
+                            return new Promise (function(resolve, reject) {
+                                return http.get('procedures/' + cat + '/favourites')
+                                .then(result => {
+                                    resolve(result)
+                                })
+                                .catch(result => {
+                                    instance.$cui.notification({ text: result, color: 'danger' })
+                                    reject
+                                })
+                            })
+                        },
+                        search: function(cat, search) {
+                            return new Promise (function(resolve, reject) {
+                                return http.get('procedures/' + cat + '/' + search)
+                                .then(result => {
+                                    resolve(result)
+                                })
+                                .catch(result => {
+                                    instance.$cui.notification({ text: result, color: 'danger' })
+                                    reject
+                                })
+                            })
                         }
                     }
                 },

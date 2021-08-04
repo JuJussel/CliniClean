@@ -107,6 +107,9 @@ export default {
                     "<imageTag index='" + index + "' url='" + url + "'></imageTag>"
                 )
             }
+        },
+        addProcedure(item) {
+            console.log(item);
         }
     }
 }

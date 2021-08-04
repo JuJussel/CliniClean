@@ -1,37 +1,26 @@
 const pg = require("./orca.db.js");
 const japUtils = require("japanese-string-utils");
 
-const procedure = {}
+const med = {}
 
-procedure.findMany = (cat, search, result) => {
+med.findMany = (cat, search, result) => {
 
     let searchCode = search;
     let searchName = search + '%';
     let searchNameKana = japUtils.toKatakana(search) + '%';
 
     // Build where clauses
-    let where = `
-        srykbn IN ($1) 
-        AND (name LIKE $2 OR kananame LIKE $3 OR srycd IN ($4))
+    let where =  `
+        (ykzkbn = '1' OR ykzkbn = '6')
+        AND (name LIKE $1 OR kananame LIKE $2 or srycd IN ($3))
         AND yukoedymd = '99999999'
     `;
-
-    if(cat == 25) {
-        cat = '%';
-        where = `
-            srykbn LIKE $1
-            AND (ykzkbn = '1' OR ykzkbn = '6')
-            AND (name LIKE $2 OR kananame LIKE $3 or srycd IN ($4))
-            AND yukoedymd = '99999999'
-        `;
-    }
 
     if( cat == 30) {
         cat = '%';
         where = `
-            srykbn LIKE $1
-            AND ykzkbn = '4'
-            AND (name LIKE $2 OR kananame LIKE $3 OR srycd IN ($4))
+            ykzkbn = '4'
+            AND (name LIKE $1 OR kananame LIKE $2 OR srycd IN ($3))
             AND yukoedymd = '99999999'
         `;
     }
@@ -43,13 +32,14 @@ procedure.findMany = (cat, search, result) => {
             srycd,
             name,
             taniname,
+            yakkakjncd,
             ten AS cost
         FROM public.tbl_tensu
         WHERE ` + where + ` LIMIT 200
     `;
     
     // Query
-    pg.many(select, [cat, searchName, searchNameKana, searchCode])
+    pg.many(select, [searchName, searchNameKana, searchCode])
         .then((data) => {
             result(null, data);
             return;    
@@ -66,4 +56,4 @@ procedure.findMany = (cat, search, result) => {
 }
 
 
-module.exports = procedure
+module.exports = med;

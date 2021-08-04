@@ -14,7 +14,8 @@ require("./encounter.routes")(routes);
 require("./list.routes")(routes);
 require("./patient.routes")(routes);
 require("./doctor.routes")(routes);
-require("./upload.routes")(routes)
-
+require("./upload.routes")(routes);
+require("./procedure.routes")(routes);
+require("./medication.routes")(routes);
 
 module.exports = routes;

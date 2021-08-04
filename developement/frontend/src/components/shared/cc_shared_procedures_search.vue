@@ -57,12 +57,15 @@ export default {
         async searchProcedures() {
             if (this.search === '') return;
             this.loading = true;
-            this.results = await this.$dataService().get.lists.procedures.search(this.category.code, this.search);
+            if (this.category.code == 25 || this.category.code == 30) {
+                this.results = await this.$dataService().get.medications.search(this.category.code, this.search);
+            }
+            else this.results = await this.$dataService().get.procedures.search(this.category.code, this.search);
             this.loading = false;
         },
         async getFavourites() {
             this.loading = true;
-            this.results = await this.$dataService().get.lists.procedures.favourites(this.category);
+            this.results = await this.$dataService().get.procedures.favourites(this.category);
             this.loading = false;
         },
         selectItem(item) {

@@ -39,6 +39,9 @@ export default {
     components: {
         proceduresSearch
     },
+    emits: [
+        'select'
+    ],
     created() {
         this.getCategories()
     },
@@ -54,12 +57,12 @@ export default {
     methods: {
         async getCategories() {
             this.loading.categories = true;
-            this.categories = await this.$dataService().get.lists.procedures.categories();
+            this.categories = await this.$dataService().get.procedures.categories();
             this.activeCategory = this.categories[0].code;
             this.loading.categories = false;
         },
-        selectProcedure() {
-            
+        selectProcedure(item) {
+            this.$emit('select', item)
         }
     },
     computed: {
