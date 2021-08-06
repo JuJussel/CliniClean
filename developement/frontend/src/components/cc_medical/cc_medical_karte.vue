@@ -59,13 +59,13 @@ export default {
                     title: 'Redo',
                     action: () => this.modal.schema = true
                 }
-
             ],
             customTextExtensions: [
                 imageTag
             ],
             images: [],
             procedures: [],
+            editorContent: null,
             modal: {
                 schema: false
             }
