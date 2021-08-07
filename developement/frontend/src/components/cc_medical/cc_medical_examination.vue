@@ -51,6 +51,7 @@ export default {
     },
     methods: {
         addProcedure(item) {
+            item = JSON.parse(JSON.stringify(item.row));
             this.$refs.karte.addProcedure(item);
         }
     }

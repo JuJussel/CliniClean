@@ -21,7 +21,7 @@
         </div>
         <div>
             <div class="cc-headers"><b> {{ $lang.procedures }} </b></div>
-            <cui-table style="height: calc(100% - 40px)"></cui-table>
+            <proceduresList style="height: calc(100% - 40px)" :procedures="procedures"/>
         </div>
         <cui-modal :visible="modal.schema" closable  @close="modal.schema = false">
             <cui-card style="width: 1160px; height: 700px" noPadding>
@@ -36,10 +36,12 @@
 
 import imageTag  from "../shared/cc_shared_tiptap_extensions/cc_tiptap_imageTag/cc_tiptap_imageTag";
 import schemaEditor from "../shared/cc_shared_schema_editor.vue"
+import proceduresList from "../shared/cc_shared_procedures_list.vue"
 
 export default {
     components: {
-        schemaEditor
+        schemaEditor,
+        proceduresList
     },
     props: {
         encounter: {
@@ -109,7 +111,7 @@ export default {
             }
         },
         addProcedure(item) {
-            console.log(item);
+            this.procedures.push(item);
         }
     }
 }
