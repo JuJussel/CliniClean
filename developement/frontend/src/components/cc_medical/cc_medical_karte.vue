@@ -6,6 +6,7 @@
                 style="height: calc(60% - 40px)"
                 :customMenuItems="customMenuItems"
                 :customExtensions="customTextExtensions"
+                :content="soap"
                 ref="textEditor"
                 @update="updateState"
             />
@@ -86,6 +87,14 @@ export default {
             deep: true
         }
     },
+    mounted() {
+        if (this.encounter?.karte?.soap?.html) {
+            this.$refs.textEditor.setContent(this.encounter.karte.soap.html);
+            this.soap = this.encounter.karte.soap;
+        }
+        if (this.encounter?.karte?.images) this.images = this.encounter.karte.images;
+        if (this.encounter?.karte?.procedures) this.procedures = this.encounter.karte.procedures;
+    },
     methods: {
         showImage(img) {
             window.open(img, '_blank', "resizable=yes, scrollbars=yes, titlebar=yes, width=800, height=900, top=100, left=10")
@@ -101,10 +110,13 @@ export default {
             this.uploadImage('soapImage', img);
         },
         updateState(text) {
+            console.log(text);
+            console.log(this.soap);
             if(text) this.soap = text;
             this.$emit('update', {
                 soap: this.soap,
-                procedures: this.procedures
+                procedures: this.procedures,
+                images: this.images
             })
         },
         async uploadImage(target, img) {
