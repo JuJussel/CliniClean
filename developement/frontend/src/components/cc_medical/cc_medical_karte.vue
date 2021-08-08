@@ -7,6 +7,7 @@
                 :customMenuItems="customMenuItems"
                 :customExtensions="customTextExtensions"
                 ref="textEditor"
+                @update="updateState"
             />
             <div class="h2-header"> <b>{{ $lang.image }}</b> </div>
             <div class="cc-image-cont" style="height: calc(40% - 40px)">
@@ -43,6 +44,9 @@ export default {
         schemaEditor,
         proceduresList
     },
+    emits: [
+        'update'
+    ],
     props: {
         encounter: {
             default: null
@@ -67,10 +71,19 @@ export default {
             ],
             images: [],
             procedures: [],
+            soap: null,
             editorContent: null,
             modal: {
                 schema: false
             }
+        }
+    },
+    watch: {
+        procedures: {
+            handler() {
+                this.updateState()
+            },
+            deep: true
         }
     },
     methods: {
@@ -86,6 +99,13 @@ export default {
         addImage() {
             let img = this.$refs.file.files[0];
             this.uploadImage('soapImage', img);
+        },
+        updateState(text) {
+            if(text) this.soap = text;
+            this.$emit('update', {
+                soap: this.soap,
+                procedures: this.procedures
+            })
         },
         async uploadImage(target, img) {
             let accept = ['.png','.jpeg','.jpg'];

@@ -62,6 +62,32 @@ exports.create = (req,res) => {
     })
 }
 
+exports.edit = (req,res) => {
+
+  let request = req.body;
+
+  Encounter.findOneAndUpdate(
+    { _id: request.id},
+    {
+      $set: {
+        karte: request.karte
+      }
+    },
+    {
+      runValidators: true
+    },
+    (err) => {
+      if (err) {
+        $logger.error(err);
+        res.status(500).send({ message: "Error saving Encounter" });
+      }
+      res.send({ok: true});
+
+    }
+  )
+
+}
+
 // exports.create = (req,res) => {
 
 //   let request = req.body

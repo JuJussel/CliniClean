@@ -21,7 +21,7 @@
                     </div>
                 </div>
             </template>
-            <karte :encounter="encounter" ref="karte" />
+            <karte :encounter="encounter" ref="karte" @update="updateState"/>
         </cui-card>
         <cui-card>
             <procedures-browser @select="addProcedure"></procedures-browser>
@@ -39,6 +39,9 @@ export default {
         karte,
         proceduresBrowser
     },
+    emits: [
+        'cancel'
+    ],
     props: {
         encounter: {
             default: null
@@ -46,13 +49,24 @@ export default {
     },
     data() {
         return {
-            saving: false
+            saving: false,
+            encounterState: null
         }
+    },
+    mounted() {
+        this.encounterState = JSON.parse(JSON.stringify(this.encounter));
     },
     methods: {
         addProcedure(item) {
             item = JSON.parse(JSON.stringify(item.row));
             this.$refs.karte.addProcedure(item);
+        },
+        async updateState(state) {
+            this.saving = true;
+            this.encounterState.karte = state;
+            await this.$dataService().put.encounter(this.encounterState);
+            this.saving = false;
+            
         }
     }
 }

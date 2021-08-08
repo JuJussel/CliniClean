@@ -356,6 +356,18 @@ export default {
                             })
                         })
 
+                    },
+                    encounter: function(encounter) {
+                        return new Promise(function(resolve,reject) {
+                            return http.put('encounters/' + encounter.id, encounter)
+                            .then(result => {
+                                resolve(result);
+                            })
+                            .catch(result => {
+                                instance.$cui.notification({ text: result, color: 'danger' })
+                                reject(result);
+                            })
+                        })
                     }
                 }
 

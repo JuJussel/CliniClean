@@ -16,4 +16,7 @@ module.exports = app => {
     // Create new Enconter
     app.post("/api/encounters", [authJwt.verifyToken], encounter.create);
 
+    // Edit Encounter
+    app.put("/api/encounters/:encounterId", [authJwt.verifyToken], encounter.edit)
+
   };

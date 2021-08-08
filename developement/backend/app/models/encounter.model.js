@@ -15,6 +15,7 @@ const EncounterSchema = new Schema({
     locked: Boolean,
     doctor: Number,
     orcaId: Number,
+    karte: {type: {}},
     department: {type: Number, default: 1},
     contentSoap: String,
     contentProcedures: String,
