@@ -2,7 +2,7 @@ const mongoose = require('./mongo.db')
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-    _id:  {type:String, required: true},
+    _id:  {type:Number, required: true},
     username: {type:String, required: true},
     password: {type:String, required: true},
     nameFirst: {type:String, required: true},
@@ -12,7 +12,8 @@ const UserSchema = new Schema({
     status: {type: Number, required: true},
     isDirectory: {type: Boolean, default: false},
     hasOrca:  {type: Boolean, default: false},
-    created:  {type: Date, default: Date.now}
+    created:  {type: Date, default: Date.now},
+    preferences: {type: {}, required: false}
 },{ toJSON: { virtuals: true } });
 
 UserSchema.virtual('nameFull').get(function() {

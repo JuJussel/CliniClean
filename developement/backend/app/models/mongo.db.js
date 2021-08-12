@@ -13,7 +13,7 @@ const dbOptions = {
 
 mongoose.connect(
     dbPath,
-    { useNewUrlParser: true, useUnifiedTopology: true }, 
+    dbOptions, 
     (err, client) => {
         if (err) {
             $logger.error(err)

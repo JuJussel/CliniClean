@@ -110,8 +110,6 @@ export default {
             this.uploadImage('soapImage', img);
         },
         updateState(text) {
-            console.log(text);
-            console.log(this.soap);
             if(text) this.soap = text;
             this.$emit('update', {
                 soap: this.soap,
@@ -153,6 +151,7 @@ export default {
     .cc-medical-karte-main {
         display: grid;
         grid-template-columns: 50% 50%;
+        grid-template-rows: 100%;
         height: 100%
     }
     .cc-medical-karte-soap {

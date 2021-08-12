@@ -13,6 +13,7 @@ export default {
     details: "詳細",
     display: '表示',
     doctor: '医師',
+    done: "済",
     edit: "編集",
     editSexOrBirthdate: "性別・生年月日を変更",
     encounterType: '診察内容',

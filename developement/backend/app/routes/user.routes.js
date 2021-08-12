@@ -9,10 +9,9 @@ module.exports = app => {
         );
         next();
     });
-    app.get(
-      "/api/users/:userId",
-      [authJwt.verifyToken],
-      users.findOne
-    );
+    app.get("/api/users/:userId", [authJwt.verifyToken], users.findOne);
+    app.get("/api/users/:userId/favourites", [authJwt.verifyToken], users.findFavourites);
+
+    app.put("/api/users/:userId/favourites", [authJwt.verifyToken], users.updateFavourites);
   
   };

@@ -27,6 +27,7 @@
             :category="cat"
             style="margin: -10px"
             @select="selectProcedure"
+            :favourites="favourites"
         />
     </div>
 </template>
@@ -44,6 +45,7 @@ export default {
     ],
     created() {
         this.getCategories()
+        this.getFavourites()
     },
     data() {
         return {
@@ -51,7 +53,8 @@ export default {
                 categories: true
             },
             categories: [],
-            activeCategory: null
+            activeCategory: null,
+            favourites: []
         }
     },
     methods: {
@@ -61,8 +64,17 @@ export default {
             this.activeCategory = this.categories[0].code;
             this.loading.categories = false;
         },
-        selectProcedure(item) {
+        async selectProcedure(item) {
             this.$emit('select', item)
+            this.favourites = await this.$dataService().put.user.favourites(
+                this.$store.getters.user.id,
+                item.row
+            );
+        },
+        async getFavourites() {
+            this.favourites = await this.$dataService().get.users.favourites(
+                this.$store.getters.user.id
+            )
         }
     },
     computed: {

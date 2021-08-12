@@ -1,7 +1,7 @@
 <template>
     <div>
         <cui-table 
-            :data="results" 
+            :data="search !== '' ? results : categoryFavourites" 
             style="height: 100%" 
             singleSelect 
             :loading="loading"
@@ -38,6 +38,10 @@ export default {
         category: {
             type: Object,
             default: null
+        },
+        favourites: {
+            type: Array,
+            default: null
         }
     },
     emits: [
@@ -49,9 +53,6 @@ export default {
             results: [],
             search: ''
         }
-    },
-    created() {
-        // this.getFavourites()
     },
     methods: {
         async searchProcedures() {
@@ -71,6 +72,11 @@ export default {
         selectItem(item) {
             item.row.cat = this.category;
             this.$emit('select', item);
+        }
+    },
+    computed: {
+        categoryFavourites() {
+            return this.favourites.filter(item => item.cat.code === this.category.code)                
         }
     }
 }

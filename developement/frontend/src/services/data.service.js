@@ -26,6 +26,21 @@ export default {
                             })
                         })
                     },
+                    //>----User-----//
+                    users: {
+                        favourites: function(userId) {
+                            return new Promise(function (resolve, reject) {
+                                http.get('users/' + userId + '/favourites')
+                                .then(result => {
+                                    resolve(result)
+                                })
+                                .catch(result => {
+                                    instance.$cui.notification({ text: result, color: 'danger' })
+                                    reject
+                                })
+                            })    
+                        }
+                    },
                     //>----Doctors-----//
                     doctors: {
                         all: function() {
@@ -368,6 +383,20 @@ export default {
                                 reject(result);
                             })
                         })
+                    },
+                    user: {
+                        favourites: function(patientId, item) {
+                            return new Promise(function(resolve,reject) {
+                                return http.put('users/' + patientId + "/favourites", item)
+                                .then(result => {
+                                    resolve(result);
+                                })
+                                .catch(result => {
+                                    instance.$cui.notification({ text: result, color: 'danger' })
+                                    reject(result);    
+                                })
+                            })
+                        }
                     }
                 }
 

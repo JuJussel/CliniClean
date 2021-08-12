@@ -19,6 +19,10 @@
                         <div> {{ $lang.saving }} </div>
                         <div class="loader" style="background-color: transparent"/>
                     </div>
+                    <div v-else-if="saved">
+                        <i class="fas fa-check"></i>
+                        {{ $lang.save }}{{ $lang.done }}
+                    </div>
                 </div>
             </template>
             <karte :encounter="encounter" ref="karte" @update="updateState"/>
@@ -50,6 +54,7 @@ export default {
     data() {
         return {
             saving: false,
+            saved: false,
             encounterState: null
         }
     },
@@ -62,11 +67,12 @@ export default {
             this.$refs.karte.addProcedure(item);
         },
         async updateState(state) {
+            this.saved = false;
             this.saving = true;
             this.encounterState.karte = state;
             await this.$dataService().put.encounter(this.encounterState);
             this.saving = false;
-            
+            this.saved = true;
         }
     }
 }
