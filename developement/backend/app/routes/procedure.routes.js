@@ -11,6 +11,6 @@ module.exports = app => {
     });
 
     app.get("/api/procedures/categories", [authJwt.verifyToken], procedures.categories.findAll);
-    app.get("/api/procedures/:cat/favourites", [authJwt.verifyToken], procedures.favourites.findMany);
-    app.get("/api/procedures/:cat/:search", [authJwt.verifyToken], procedures.findMany);
+    app.get("/api/procedures/:cat/search/:search", [authJwt.verifyToken], procedures.findMany);
+    app.get("/api/procedures/:code/examresults", [authJwt.verifyToken], procedures.results.findMany);
   };

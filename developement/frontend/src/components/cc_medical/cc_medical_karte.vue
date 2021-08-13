@@ -38,7 +38,7 @@
 
 import imageTag  from "../shared/cc_shared_tiptap_extensions/cc_tiptap_imageTag/cc_tiptap_imageTag";
 import schemaEditor from "../shared/cc_shared_schema_editor.vue"
-import proceduresList from "../shared/cc_shared_procedures_list.vue"
+import proceduresList from "../shared/cc_shared_procedures_list/cc_shared_procedures_list.vue"
 
 export default {
     components: {

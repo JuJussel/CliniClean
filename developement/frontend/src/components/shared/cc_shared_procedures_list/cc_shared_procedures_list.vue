@@ -30,14 +30,22 @@
                 </td>
             </template>
             <template v-slot:expand="{ expand }">
-                <div> {{ expand.name }} </div>
+                <div>
+                    <component :is="expand.cat.label" :item="expand"></component>
+                </div>
             </template>
         </cui-table>
     </div>
 </template>
 
 <script>
+
+import exam from "./cc_shared_procedure_exam.vue"
+
 export default {
+    components: {
+        'exam': exam
+    },
     props: {
         procedures: {
             default: null,

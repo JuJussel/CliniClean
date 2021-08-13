@@ -280,7 +280,19 @@ export default {
                         },
                         search: function(cat, search) {
                             return new Promise (function(resolve, reject) {
-                                return http.get('procedures/' + cat + '/' + search)
+                                return http.get('procedures/' + cat + '/search/' + search)
+                                .then(result => {
+                                    resolve(result)
+                                })
+                                .catch(result => {
+                                    instance.$cui.notification({ text: result, color: 'danger' })
+                                    reject
+                                })
+                            })
+                        },
+                        examresults:  function(procedure) {
+                            return new Promise (function(resolve, reject) {
+                                return http.get('procedures/' + procedure + '/examresults')
                                 .then(result => {
                                     resolve(result)
                                 })
