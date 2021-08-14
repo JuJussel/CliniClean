@@ -7,6 +7,7 @@
                 </td>
                 <td> 
                     {{ row.name }}
+                    <i class="fas fa-clipboard-list"></i>
                 </td>
                 <td style="width: 60px">
                     <div class="cc-shared-procedures-list-row-buttons">
@@ -31,7 +32,7 @@
             </template>
             <template v-slot:expand="{ expand }">
                 <div>
-                    <component :is="expand.cat.label" :item="expand"></component>
+                    <component :is="expand.cat.label" :item="expand" @update="item => expand.varData = item"></component>
                 </div>
             </template>
         </cui-table>

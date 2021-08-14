@@ -22,8 +22,20 @@
             </template>
             <template v-slot:row="{ row }">
                 <td> {{ row.result.single.name }} </td>
-                <td>
-                    <span v-if="row.unit.name !== '＊未設定'"> {{ row.unit.name }}</span>
+                <td style="width: 150px">
+                    <cui-input 
+                        v-model="row.value"
+                        noNote 
+                        :placeholder="$lang.value + $lang.input"
+                        :append="row.unit.name !== '＊未設定' ? row.unit.name: null"
+                    />
+                </td>
+                <td class="cc-shared-procedure-exam-row-buttons">
+                    <cui-button
+                        icon="far fa-trash-alt"
+                        danger
+                        @click="removeResult(row)"
+                    />
                 </td>
             </template>
         </cui-table>
@@ -38,7 +50,10 @@ export default {
             type: Object
         }
     },
+    emits: ['update'],
     created() {
+        if (this.item.varData) this.results = this.item.varData;
+
         this.getResults();
     },
     data() {
@@ -50,6 +65,14 @@ export default {
             selectDummy: null
         }
     },
+    watch: {
+        results: {
+            handler() {
+                this.$emit('update', this.results)
+            },
+            deep: true
+        }
+    },
     methods: {
        async getResults() {
            this.resultsFull = await this.$dataService().get.procedures.examresults(this.item.srycd)
@@ -57,8 +80,13 @@ export default {
        selectResult(result) {
             this.selectedResults.push(result);
             let fullResult = this.resultsFull.find(i => i.result.single.name === result || i.result.shared.name === result)
+            fullResult.value = "";
             this.results.push(fullResult);
             this.selectDummy = this.$lang.results + this.$lang.add;
+       },
+       removeResult(result) {
+           this.results.splice(result._index, 1);
+
        }
     },
     computed: {
@@ -85,7 +113,10 @@ export default {
             return this.resultsSingle.concat(this.resultsShared);
         },
         filteredResults() {
-            let array = this.combinedResults.filter(item => !this.selectedResults.includes(item));
+            let selectedItems1 = [...new Set(this.results.map(v => v.result.single.name))];
+            let selectedItems2 = [...new Set(this.results.map(v => v.result.shared.name))];
+            let selectedItems = selectedItems1.concat(selectedItems2);
+            let array = this.combinedResults.filter(item => !selectedItems.includes(item));
             if (this.filter === "") {
                 return array
             } else {
@@ -95,3 +126,17 @@ export default {
     }
 }
 </script>
+
+<style>
+    .cui-table tbody tr:not(.selected, .expanded, .noHover):hover
+    .cc-shared-procedure-exam-row-buttons {
+        opacity: 1;
+    }
+    .cc-shared-procedure-exam-row-buttons {
+        opacity: 0;
+        padding: 0!important;
+        transition: all .2s ease;
+        width: 60px
+    }
+
+</style>
