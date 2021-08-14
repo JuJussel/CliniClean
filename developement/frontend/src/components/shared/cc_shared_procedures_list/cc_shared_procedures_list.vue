@@ -7,7 +7,7 @@
                 </td>
                 <td> 
                     {{ row.name }}
-                    <i class="fas fa-clipboard-list"></i>
+                    <i v-if="row.varData" class="fas fa-clipboard-list"></i>
                 </td>
                 <td style="width: 60px">
                     <div class="cc-shared-procedures-list-row-buttons">
