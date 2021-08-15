@@ -83,7 +83,7 @@ export default {
         height: 100%;
         display: grid;
         grid-template-rows: 100%;
-        grid-template-columns: 38% auto 450px;
+        grid-template-columns: 30% auto 400px;
     }
     .control-floater {
         position: absolute;
