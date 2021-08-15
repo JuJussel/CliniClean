@@ -23,7 +23,7 @@
         </div>
         <div>
             <div class="cc-headers"><b> {{ $lang.procedures }} </b></div>
-            <proceduresList style="height: calc(100% - 40px)" :procedures="procedures" @remove="removeProcedure" />
+            <proceduresList style="height: calc(100% - 40px)" :encounter="encounter" :procedures="procedures" @remove="removeProcedure" />
         </div>
         <cui-modal :visible="modal.schema" closable  @close="modal.schema = false">
             <cui-card style="width: 1160px; height: 700px" noPadding>

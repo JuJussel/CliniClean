@@ -417,7 +417,21 @@ export default {
                                 })
                             }) 
                         }
-                    }
+                    },
+                    //>----Orders-----//
+                    orders: function(data) {
+                        return new Promise(function(resolve,reject) {
+                            return http.post('orders', data)
+                            .then(result => {
+                                resolve(result)
+                            })
+                            .catch(result => {
+                                instance.$cui.notification({ text: result, color: 'danger' })
+                                reject
+                            })
+                        }) 
+                    },
+                    
                     
                     
                     

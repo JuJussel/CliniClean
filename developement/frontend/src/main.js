@@ -15,10 +15,6 @@ import Lang from './lang/jp'
 import DataService from '@/services/data.service'
 
 
-import { addDevtools } from "@/devtools/index" //TODO remove once DEvtools support VUEX4
-
-
-
 const app = createApp(App)
 
 moment.locale('ja')
@@ -35,7 +31,3 @@ app.use(router)
 app.use(DataService)
 app.use(Auth)
 app.mount('#app')
-
-
-
-addDevtools(app, store) //TODO remove once DEvtools support VUEX4

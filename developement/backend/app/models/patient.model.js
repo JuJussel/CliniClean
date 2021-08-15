@@ -8,7 +8,7 @@ const PatientSchema = new Schema({
     visible: {type: Boolean, default: true},
     active: {type: Boolean, default: true},
     doctor: Number,
-    files: {}
+    files: {type: Array}
 },{ toJSON: { virtuals: true } });
 
 module.exports = mongoose.model("pub_patients", PatientSchema);
