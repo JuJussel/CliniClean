@@ -24,7 +24,10 @@ export const store = createStore({
       occupations: state => state.staticLists.occupations,
       relations: state => state.staticLists.relations,
       transferData: state => state.transferData,
-      procedureCategories: state => state.staticLists.procedureCategories
+      procedureCategories: state => state.staticLists.procedureCategories,
+      shotLocations: state => state.staticLists.shotLocations,
+      perscriptionTypes: state => state.staticLists.perscriptionTypes,
+      perscriptionTimings: state => state.staticLists.perscriptionTimings,
   },
   
   mutations: {
@@ -48,6 +51,15 @@ export const store = createStore({
     },
     SET_TRANSFER_DATA(state, data) {
       state.transferData[data.target] = data.data
+    },
+    SET_SHOT_LOCATIONS(state, data) {
+      state.staticLists.shotLocations = data
+    },
+    SET_PERSCRIPTION_TYPES(state, data) {
+      state.staticLists.perscriptionTypes = data
+    },
+    SET_PERSCRIPTION_TIMINGS(state, data) {
+      state.staticLists.perscriptionTimings = data
     }
   },
   actions: {

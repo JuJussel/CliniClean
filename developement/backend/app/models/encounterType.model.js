@@ -1,7 +1,7 @@
 const pg = require("./orca.db.js");
 
-const examType = {}
-examType.findAll = (result) => {
+const encounterType = {}
+encounterType.findAll = (result) => {
 
     pg.many(
         `   SELECT kbncd AS id, kanritbl AS name 
@@ -22,4 +22,4 @@ examType.findAll = (result) => {
 
 }
 
-module.exports = examType
+module.exports = encounterType

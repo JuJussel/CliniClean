@@ -6,7 +6,7 @@
                     <i :class="row.cat.icon"></i>
                 </td>
                 <td> 
-                    {{ row.name }}
+                    <b>{{ row.name }}</b>
                     <i v-if="row.varData" class="fas fa-clipboard-list"></i>
                 </td>
                 <td style="width: 60px">
@@ -32,7 +32,18 @@
             </template>
             <template v-slot:expand="{ expand }">
                 <div>
-                    <component :is="expand.cat.label" :item="expand" @update="item => expand.varData = item"></component>
+                    <component 
+                        :is="expand.cat.label" 
+                        :item="expand" 
+                        @update="item => expand.varData = item"
+                        v-if="expand.cat.code !== '40' || expand.cat.code !== '50'"
+                    />
+                    <div>
+                        <cui-input 
+                            :label="$lang.comment"
+                            v-model="expand.comment"
+                        />
+                    </div>
                 </div>
             </template>
         </cui-table>
@@ -42,10 +53,15 @@
 <script>
 
 import exam from "./cc_shared_procedure_exam.vue"
+import shot from "./cc_shared_procedure_shot.vue"
+import perscription from "./cc_shared_procedure_perscription.vue"
 
 export default {
     components: {
-        'exam': exam
+        'exam': exam,
+        'shot': shot,
+        'perVac': shot,
+        'perscription': perscription
     },
     props: {
         procedures: {

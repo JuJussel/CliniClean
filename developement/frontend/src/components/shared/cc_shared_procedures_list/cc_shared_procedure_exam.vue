@@ -62,13 +62,20 @@ export default {
             filter: "",
             selectedResults: [],
             results: [],
-            selectDummy: null
+            selectDummy: null,
+            timer: null
         }
     },
     watch: {
         results: {
             handler() {
-                this.$emit('update', this.results)
+                this.$emit('update', JSON.parse(JSON.stringify(this.results)))
+                if(this.timer) {
+                    clearTimeout(this.timer)
+                }
+                this.timer = setTimeout(function() {
+                    this.$emit('update', JSON.parse(JSON.stringify(this.results)))
+                }.bind(this), 1000)
             },
             deep: true
         }

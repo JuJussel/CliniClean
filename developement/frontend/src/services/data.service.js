@@ -231,7 +231,62 @@ export default {
                                     reject
                                 })
                             })
+                        },
+                        //>----Shot Locations-----//
+                        shotLocations() {
+                            if (instance.$store.getters.shotLocations) {
+                                return instance.$store.getters.shotLocations
+                            } else {
+                                return new Promise (function(resolve, reject) {
+                                    return http.get('lists/shotLocations')
+                                    .then(result => {
+                                        instance.$store.commit('SET_SHOT_LOCATIONS', result)
+                                        resolve(result)
+                                    })
+                                    .catch(result => {
+                                        instance.$cui.notification({ text: result, color: 'danger' })
+                                        reject
+                                    })
+                                })
+                            }
+                        },
+                        //>----Perscription Types-----//
+                        perscriptionTypes() {
+                            if (instance.$store.getters.perscriptionTypes) {
+                                return instance.$store.getters.perscriptionTypes
+                            } else {
+                                return new Promise (function(resolve, reject) {
+                                    return http.get('lists/perscriptionTypes')
+                                    .then(result => {
+                                        instance.$store.commit('SET_PERSCRIPTION_TYPES', result)
+                                        resolve(result)
+                                    })
+                                    .catch(result => {
+                                        instance.$cui.notification({ text: result, color: 'danger' })
+                                        reject
+                                    })
+                                })
+                            }
+                        },
+                        //>----Perscription Timings-----//
+                        perscriptionTimings() {
+                            if (instance.$store.getters.perscriptionTimings) {
+                                return instance.$store.getters.perscriptionTimings
+                            } else {
+                                return new Promise (function(resolve, reject) {
+                                    return http.get('lists/perscriptionTimings')
+                                    .then(result => {
+                                        instance.$store.commit('SET_PERSCRIPTION_TIMINGS', result)
+                                        resolve(result)
+                                    })
+                                    .catch(result => {
+                                        instance.$cui.notification({ text: result, color: 'danger' })
+                                        reject
+                                    })
+                                })
+                            }
                         }
+                        
                     },
                     medications: {
                         search: function(cat, search) {
