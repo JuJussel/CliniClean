@@ -10,21 +10,19 @@
                     <i v-if="row.varData" class="fas fa-clipboard-list"></i>
                 </td>
                 <td style="width: 60px">
-                    <div class="cc-shared-procedures-list-row-buttons">
+                    <div class="cc-shared-procedures-list-row-buttons" @click.stop="">
                         <cui-button
                             icon="fas fa-shopping-basket"
                             white
-                            @click.stop=""
                         />
                         <cui-button
                             icon="fas fa-yen-sign"
                             white
-                            @click.stop=""
                         />
                         <cui-button
                             icon="far fa-trash-alt"
                             danger
-                            @click.stop=""
+                            @click="removeProcedure(row)"
                         />
                     </div>
 
@@ -63,10 +61,16 @@ export default {
         'perVac': shot,
         'perscription': perscription
     },
+    emits: ['remove'],
     props: {
         procedures: {
             default: null,
             type: Array
+        }
+    },
+    methods: {
+        removeProcedure(procedure) {
+            this.$emit('remove', procedure._index)
         }
     }
 }

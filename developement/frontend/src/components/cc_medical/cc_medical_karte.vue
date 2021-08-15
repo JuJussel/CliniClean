@@ -23,7 +23,7 @@
         </div>
         <div>
             <div class="cc-headers"><b> {{ $lang.procedures }} </b></div>
-            <proceduresList style="height: calc(100% - 40px)" :procedures="procedures"/>
+            <proceduresList style="height: calc(100% - 40px)" :procedures="procedures" @remove="removeProcedure" />
         </div>
         <cui-modal :visible="modal.schema" closable  @close="modal.schema = false">
             <cui-card style="width: 1160px; height: 700px" noPadding>
@@ -76,7 +76,8 @@ export default {
             editorContent: null,
             modal: {
                 schema: false
-            }
+            },
+            timer: null
         }
     },
     watch: {
@@ -110,12 +111,15 @@ export default {
             this.uploadImage('soapImage', img);
         },
         updateState(text) {
-            if(text) this.soap = text;
-            this.$emit('update', {
-                soap: this.soap,
-                procedures: this.procedures,
-                images: this.images
-            })
+            if(this.timer) clearTimeout(this.timer);
+            this.timer = setTimeout( function() {
+                if(text) this.soap = text;
+                this.$emit('update', {
+                    soap: this.soap,
+                    procedures: this.procedures,
+                    images: this.images
+                })
+            }.bind(this), 1000)
         },
         async uploadImage(target, img) {
             let accept = ['.png','.jpeg','.jpg'];
@@ -142,6 +146,9 @@ export default {
         },
         addProcedure(item) {
             this.procedures.push(item);
+        },
+        removeProcedure(item) {
+            this.procedures.splice(item, 1)
         }
     }
 }

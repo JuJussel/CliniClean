@@ -56,8 +56,7 @@ export default {
                 timing: null,
                 amount: null,
                 duration: null
-            },
-            timer: null
+            }
         }
     },
     methods: {
@@ -68,13 +67,7 @@ export default {
             this.timings = await this.$dataService().get.lists.perscriptionTimings();
         },
         updateValue() {
-            if(this.timer) {
-                clearTimeout(this.timer)
-            }
-            this.timer = setTimeout(function() {
-                console.log('timer');
-                this.$emit('update', JSON.parse(JSON.stringify(this.varData)))
-            }.bind(this), 1000)
+            this.$emit('update', this.varData);
         },
         setData() {
             if (this.item.varData) {

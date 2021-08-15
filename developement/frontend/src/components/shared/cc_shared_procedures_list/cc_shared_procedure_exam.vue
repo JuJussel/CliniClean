@@ -21,7 +21,10 @@
                 </div>
             </template>
             <template v-slot:row="{ row }">
-                <td> {{ row.result.single.name }} </td>
+                <td> 
+                    <span v-if="row.result.shared.name === '分析物固有結果コード'"> {{ row.result.single.name }} </span>
+                    <span v-else> {{ row.result.shared.name }} </span>
+                </td>
                 <td style="width: 150px">
                     <cui-input 
                         v-model="row.value"
@@ -69,13 +72,7 @@ export default {
     watch: {
         results: {
             handler() {
-                this.$emit('update', JSON.parse(JSON.stringify(this.results)))
-                if(this.timer) {
-                    clearTimeout(this.timer)
-                }
-                this.timer = setTimeout(function() {
-                    this.$emit('update', JSON.parse(JSON.stringify(this.results)))
-                }.bind(this), 1000)
+                this.$emit('update', this.results);
             },
             deep: true
         }

@@ -40,13 +40,7 @@ export default {
             this.shotLocations = await this.$dataService().get.lists.shotLocations();
         },
         updateValue() {
-            if(this.timer) {
-                clearTimeout(this.timer)
-            }
-            this.timer = setTimeout(function() {
-                console.log('timer');
-                this.$emit('update', JSON.parse(JSON.stringify(this.varData)))
-            }.bind(this), 1000)
+            this.$emit('update', this.varData)
         },
         setData() {
             if (this.item.varData) {
@@ -62,8 +56,7 @@ export default {
                 location: null,
                 amount: "",
                 lot: ""
-            },
-            timer: null
+            }
         }
     }
 }

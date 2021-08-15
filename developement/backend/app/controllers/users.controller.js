@@ -53,10 +53,13 @@ exports.updateFavourites = async (req, res) => {
     let favourites = user.preferences?.procedures?.favourites ? user.preferences.procedures.favourites : null;
     let codeSorted = {};
     let newFavourites = [];
+    let pushNew = true;
 
     if(favourites) {
 
       favourites.forEach(item => {
+        
+        if (item.srycd === req.body.srycd) pushNew = false;
         codeSorted[item.cat.code] ? codeSorted[item.cat.code].push(item) : codeSorted[item.cat.code] = [item];
         let codeContainer = codeSorted[item.cat.code];
         if (codeContainer.length > 9) {
@@ -70,8 +73,8 @@ exports.updateFavourites = async (req, res) => {
 
       // For future feature to have pinned procedures
       req.body.pinned = false;
-
-      newFavourites.push(req.body);
+      console.log(pushNew);
+      if(pushNew) newFavourites.push(req.body);
 
     } else {
       newFavourites = [req.body];
