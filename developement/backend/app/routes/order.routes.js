@@ -10,7 +10,7 @@ module.exports = app => {
         next();
     });
   
-    // Create new Enconter
     app.post("/api/orders", [authJwt.verifyToken], orders.create);
+    app.delete("/api/orders/:orderId", [authJwt.verifyToken], orders.delete);
 
   };

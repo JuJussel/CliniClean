@@ -48,6 +48,16 @@
                 </div>
             </template>
         </cui-table>
+        <cui-modal :visible="confirmOrderDelete" @close="confirmOrderDelete = false">
+            <cui-card style="width: 250px; height: 180px">
+                <template #header> {{ $lang.confirm }} </template>
+                <h4> {{ $lang.confirmOrderDelete }} </h4>
+                <div style="display: flex; justify-content: flex-end">
+                    <cui-button plain :label="$lang.cancel" @click="confirmOrderDelete = false"/>
+                    <cui-button danger :label="$lang.delete" @click="deleteOrder"/>
+                </div>
+            </cui-card>
+        </cui-modal>
     </div>
 </template>
 
@@ -74,19 +84,36 @@ export default {
             default: null
         }
     },
+    data() {
+        return {
+            confirmOrderDelete: false,
+            orderBuffer: null
+        }
+    },
     methods: {
         removeProcedure(procedure) {
             this.$emit('remove', procedure._index)
         },
         async toggleOrder(item) {
-            let requestData = {
-                encounterId: this.encounter._id,
-                patientId: this.encounter.patient._id,
-                procedure: item,
-                requester: this.$store.getters.user.id
+            if (item.order) {
+                this.orderBuffer = item;
+                this.confirmOrderDelete = true;
+            } else {
+                let requestData = {
+                    encounterId: this.encounter._id,
+                    patientId: this.encounter.patient._id,
+                    procedure: item,
+                    requester: this.$store.getters.user.id
+                }
+                let order = await this.$dataService().post.orders(requestData);
+                item.order = order._id
             }
-            let order = await this.$dataService().post.orders(requestData);
-            item.order = order._id
+        },
+        async deleteOrder() {
+            await this.$dataService().delete.orders(this.orderBuffer.order);
+            this.orderBuffer.order = null;
+            this.orderBuffer = null;
+            this.confirmOrderDelete = false;
         }
     }
 }
