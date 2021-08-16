@@ -6,7 +6,7 @@
         <div style="display: flex">
             <cui-button :label="$lang.reservation" icon="fas fa-calendar-plus"></cui-button>
             <cui-button warn :label="$lang.pause" icon="fas fa-pause"></cui-button>
-            <cui-button primary :label="$lang.finish" icon="fas fa-check-double" @click="closeExamination"></cui-button>
+            <cui-button primary :label="$lang.finish" icon="fas fa-check-double" @click="confirmExaminationClose = true"></cui-button>
         </div>
     </div>
     <div class="cc-medical-examination-main">
@@ -32,6 +32,17 @@
         </cui-card>
     </div>
     <div class="loader" v-if="loading"></div>
+    <cui-modal :visible="confirmExaminationClose" @close="confirmOrderDelete = false">
+        <cui-card style="width: 250px; height: 180px">
+            <template #header> {{ $lang.confirm }} </template>
+            <h4> {{ $lang.confirmExaminationClose }} </h4>
+            <div style="display: flex; justify-content: flex-end">
+                <cui-button plain :label="$lang.cancel" @click="confirmExaminationClose = false"/>
+                <cui-button primary :label="$lang.finish" @click="closeExamination"/>
+            </div>
+        </cui-card>
+    </cui-modal>
+
 </template>
 
 <script>
@@ -57,7 +68,8 @@ export default {
             saving: false,
             saved: false,
             encounterState: null,
-            loading: false
+            loading: false,
+            confirmExaminationClose: false
         }
     },
     mounted() {
@@ -78,6 +90,10 @@ export default {
         },
         async closeExamination() {
             this.loading = true;
+            this.confirmExaminationClose = false;
+            let encounter = JSON.Nparse(JSON.stringify(this.encounter));
+            encounter.status = 10;
+            await this.$dataService().put.encounter()
 
         }
     }
