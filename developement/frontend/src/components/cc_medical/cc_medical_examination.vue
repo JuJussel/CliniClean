@@ -6,7 +6,7 @@
         <div style="display: flex">
             <cui-button :label="$lang.reservation" icon="fas fa-calendar-plus"></cui-button>
             <cui-button warn :label="$lang.pause" icon="fas fa-pause"></cui-button>
-            <cui-button primary :label="$lang.finish" icon="fas fa-check-double"></cui-button>
+            <cui-button primary :label="$lang.finish" icon="fas fa-check-double" @click="closeExamination"></cui-button>
         </div>
     </div>
     <div class="cc-medical-examination-main">
@@ -31,6 +31,7 @@
             <procedures-browser @select="addProcedure"></procedures-browser>
         </cui-card>
     </div>
+    <div class="loader" v-if="loading"></div>
 </template>
 
 <script>
@@ -55,7 +56,8 @@ export default {
         return {
             saving: false,
             saved: false,
-            encounterState: null
+            encounterState: null,
+            loading: false
         }
     },
     mounted() {
@@ -73,6 +75,10 @@ export default {
             await this.$dataService().put.encounter(this.encounterState);
             this.saving = false;
             this.saved = true;
+        },
+        async closeExamination() {
+            this.loading = true;
+
         }
     }
 }
