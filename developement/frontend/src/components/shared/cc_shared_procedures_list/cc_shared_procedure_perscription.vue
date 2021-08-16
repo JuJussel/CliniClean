@@ -1,10 +1,11 @@
 <template>
-    <div style="display: flex">
+    <div style="display: flex; flex-wrap: wrap">
         <cui-select 
             :data="types"
             displayValueProp="name"
             v-model="varData.type"
             :label="$lang.perscriptionType"
+            style="margin-right: 30px"
             @update:modelValue="updateValue"
         />
         <cui-select 
@@ -12,14 +13,14 @@
             displayValueProp="name"
             v-model="varData.timing"
             :label="$lang.perscriptionTiming" 
-            style="margin-left: 30px; width: 150px"
+            style="margin-right: 30px; width: 150px"
             @update:modelValue="updateValue"
         />
         <cui-input 
             :append="item?.taniname" 
             v-model="varData.amount"
             :label="$lang.perscriptionAmount" 
-            style="margin-left: 30px; width: 80px"
+            style="margin-right: 30px; width: 80px"
             :disabled="!varData.type || !varData.timing"
             @update:modelValue="updateValue"
         />
@@ -27,7 +28,7 @@
             :append="varData.timing?.unit" 
             v-model="varData.lot"
             :label="$lang.perscriptionDuration" 
-            style="margin-left: 30px; width: 80px"
+            style="width: 80px"
             :disabled="!varData.type || !varData.timing"
             @update:modelValue="updateValue"
         />
