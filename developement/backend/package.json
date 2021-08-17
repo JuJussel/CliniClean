@@ -28,6 +28,7 @@
     "pg-promise": "^10.10.2",
     "winston": "^3.3.3",
     "winston-graylog2": "^2.1.2",
+    "ws": "^8.1.0",
     "xml2js": "^0.4.23"
   }
 }

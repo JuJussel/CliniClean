@@ -58,5 +58,6 @@ loggerConst.stream = {
       loggerConst.http(message.substring(0,message.lastIndexOf('\n'))); // Remove linebreak
     }
 }
-   
-module.exports = loggerConst;
+
+global.$logger = loggerConst;
+// module.exports = loggerConst;
