@@ -24,6 +24,7 @@ export default {
     encounterType: "診察内容",
     examination: "診察",
     exam: "検査",
+    examinationClosed: "診察を終了しました。",
     female: "女性",
     finish: "終了",
     free: "空き",

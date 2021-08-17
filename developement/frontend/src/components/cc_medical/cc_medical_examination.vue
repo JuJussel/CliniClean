@@ -32,7 +32,9 @@
         </cui-card>
     </div>
     <div class="loader" v-if="loading"></div>
-    <cui-modal :visible="confirmExaminationClose" @close="confirmOrderDelete = false">
+
+    <!-- Modals -->
+    <cui-modal :visible="confirmExaminationClose" @close="confirmExaminationClose = false">
         <cui-card style="width: 250px; height: 180px">
             <template #header> {{ $lang.confirm }} </template>
             <h4> {{ $lang.confirmExaminationClose }} </h4>
@@ -42,6 +44,17 @@
             </div>
         </cui-card>
     </cui-modal>
+    <cui-modal :visible="postExaminationClose" @close="postExaminationClose = false">
+        <cui-card style="width: 250px; height: 180px">
+            <template #header> {{ $lang.confirm }} </template>
+            <h4> {{ $lang.postExaminationClose }} </h4>
+            <div style="display: flex; justify-content: flex-end">
+                <cui-button plain :label="$lang.cancel" @click="postExaminationClose = false"/>
+                <cui-button primary :label="$lang.finish" @click="closeExamination"/>
+            </div>
+        </cui-card>
+    </cui-modal>
+
 
 </template>
 
@@ -69,7 +82,8 @@ export default {
             saved: false,
             encounterState: null,
             loading: false,
-            confirmExaminationClose: false
+            confirmExaminationClose: false,
+            postExaminationClose: false
         }
     },
     mounted() {
@@ -91,10 +105,16 @@ export default {
         async closeExamination() {
             this.loading = true;
             this.confirmExaminationClose = false;
-            let encounter = JSON.Nparse(JSON.stringify(this.encounter));
+            let encounter = this.encounterState;
             encounter.status = 10;
-            await this.$dataService().put.encounter()
-
+            encounter.pushNotification = true;
+            await this.$dataService().put.encounter(encounter);
+            this.$cui.notification({
+                text: this.$lang.examinationClosed,
+                duration: 3000,
+                color: 'primary'
+            })
+            this.postExaminationClose = true;
         }
     }
 }
