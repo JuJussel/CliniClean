@@ -17,6 +17,7 @@ export const store = createStore({
   },
 
   getters: {
+      config: state => state.config,
       user: state => state.user,
       userFullName: state => state.user?.nameLast + state.user?.nameFirst,
       activeView: state => state.activeView,
@@ -31,6 +32,9 @@ export const store = createStore({
   },
   
   mutations: {
+    SET_CONFIG(state, config) {
+      state.config = config
+    },
     SET_USER(state, user) {
       state.user = user
     },

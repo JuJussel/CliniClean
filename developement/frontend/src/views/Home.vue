@@ -1,5 +1,6 @@
 <template>
-    <div>
+    <div class="loader" v-if="!ready"></div>
+    <div v-if="ready">
         <cui-menu-bar @change="changeMenu" :value="activeTab">
             <template v-slot:left>
                 <cui-menu-bar-item icon="fa fa-home menu-icon" value="home" />
@@ -53,9 +54,16 @@ export default {
         patient,
         medical
     },
+    async created() {
+        let config = null;
+        config = await this.$dataService().get.config();
+        this.$store.commit('SET_CONFIG', config);
+        this.ready = true;            
+    },
     data() {
         return {
-            activeTab: "home"
+            activeTab: "home",
+            ready: false
         };
     },
     methods: {

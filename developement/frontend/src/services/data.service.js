@@ -29,6 +29,22 @@ export default {
                                 });
                         });
                     },
+                    //>----Config-----//
+                    config: function() {
+                        return new Promise(function(resolve, reject) {
+                            http.get("configs")
+                                .then((result) => {
+                                    resolve(result);
+                                })
+                                .catch((result) => {
+                                    instance.$cui.notification({
+                                        text: result,
+                                        color: "danger",
+                                    });
+                                    reject;
+                                });
+                        });
+                    },
                     //>----User-----//
                     users: {
                         favourites: function(userId) {
@@ -631,8 +647,8 @@ export default {
                                         reject(result);
                                     });
                             });
-                        }
-                    }
+                        },
+                    },
                 },
                 //-------------------------//
                 //----------Delete---------//
@@ -641,9 +657,7 @@ export default {
                     orders: function(orderId) {
                         return new Promise(function(resolve, reject) {
                             return http
-                                .delete(
-                                    "orders/" + orderId
-                                )
+                                .delete("orders/" + orderId)
                                 .then((result) => {
                                     resolve(result);
                                 })
@@ -655,8 +669,8 @@ export default {
                                     reject(result);
                                 });
                         });
-                    }
-                }
+                    },
+                },
             };
 
             return helper
