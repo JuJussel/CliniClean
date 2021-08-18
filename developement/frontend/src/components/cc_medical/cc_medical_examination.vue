@@ -44,17 +44,6 @@
             </div>
         </cui-card>
     </cui-modal>
-    <cui-modal :visible="postExaminationClose" @close="postExaminationClose = false">
-        <cui-card style="width: 250px; height: 180px">
-            <template #header> {{ $lang.confirm }} </template>
-            <h4> {{ $lang.postExaminationClose }} </h4>
-            <div style="display: flex; justify-content: flex-end">
-                <cui-button plain :label="$lang.cancel" @click="postExaminationClose = false"/>
-                <cui-button primary :label="$lang.finish" @click="closeExamination"/>
-            </div>
-        </cui-card>
-    </cui-modal>
-
 
 </template>
 
@@ -69,7 +58,8 @@ export default {
         proceduresBrowser
     },
     emits: [
-        'cancel'
+        'cancel',
+        'examinationClosed'
     ],
     props: {
         encounter: {
@@ -114,7 +104,8 @@ export default {
                 duration: 3000,
                 color: 'primary'
             })
-            this.postExaminationClose = true;
+            this.$emit('examinationClosed');
+            this.$emit('cancel');
         }
     }
 }

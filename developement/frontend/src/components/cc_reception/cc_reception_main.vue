@@ -164,21 +164,10 @@ export default {
             return string
         },
         examStatiOptions(row) {
-            const currentStatus = row.status
-            const encounterStati = [
-                [{name: '会計済み', status: 0, disabled: true}],
-                [{name: '予約', status: 1},{name: '待ち', status: 2}],
-                [{name: '待ち', status: 2, color: '#E29578'},{name: '診察中', status: 3}],
-                [{name: '診察中', status: 3, disabled: true, color: 'var(--cui-primary)'}],
-                [{name: '健康診断中', status: 4, color: 'var(--cui-primary)'}],
-                [{name: 'オーダー待ち', status: 5, disabled: true, color: '#E29578'}],
-                [{name: 'オーダー待ち', status: 6, disabled: true, color: '#E29578'}],
-                [{name: '会計待ち', status: 10, color: '#E29578'}],
-                [{name: '再開待ち', status: 35, color: '#E29578'},{name: '診察中', status: 3}],
-                [{name: '健康診断中・医者', status: 45, disabled: true, color: 'var(--cui-primary)'}]
-            ]
-            let status = encounterStati.find(item => item[0].status === currentStatus)
-            return status
+            const currentStatus = row.status;
+            const encounterStati = this.$store.getters.config.encounterStati;
+            let status = encounterStati.find(item => item[0].status === currentStatus);
+            return status;
 
 
         },

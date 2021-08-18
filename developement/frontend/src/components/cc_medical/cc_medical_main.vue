@@ -14,6 +14,7 @@
             <encounterList 
                 :key="listResetter"
                 @showEncounter="showEncounter"
+                ref="list"
             />
         </div>
         <div v-for="(tab, index) in dynamicTabs" :key="index" class="cc-medical-main-tab-hidden" v-bind:class="{ 'cc-medical-main-tab-visible': tab.value === activeTab }">
@@ -21,9 +22,11 @@
              :is="tabContent(tab.value)"
              :encounter="tab.meta"
              @cancel="closeTab"
+             @examinationClosed="examinationClosed()"
             ></component>
         </div>
     </div>
+
 </template>
 
 <script>
@@ -72,6 +75,9 @@ export default {
                 this.activeTab = this.dynamicTabs[index - 1];
             }
         },
+        examinationClosed() {
+            this.$refs.list.getEncounters()
+        }
     }
 
 }

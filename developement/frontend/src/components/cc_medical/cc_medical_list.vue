@@ -30,7 +30,7 @@
                         </cui-tag>
                     </td>
                     <td>
-                        {{ encounterStati[row.status] }}
+                        {{ decodeEncounterStati([row.status]) }}
                     </td>
                     <td> 
                         <span v-if="row.status !== 1">{{ parseWaitTime(row.lastChange).time }}</span> 
@@ -69,18 +69,6 @@ export default {
                 waiting: true,
                 examination: false,
                 done: false,
-            },
-            encounterStati: {
-                0: '会計済み',
-                1: '予約',
-                2: '待ち',
-                3: '診察中',
-                4: '健康診断中',
-                5: 'オーダー待ち',
-                6: 'オーダー待ち',
-                10: '会計待ち',
-                35: '再開待ち',
-                45: '健康診断中・医者'
             }
         }
     },
@@ -109,9 +97,11 @@ export default {
         },
         selectEncounter(enc) {
             this.$emit('showEncounter', enc)
+        },
+        decodeEncounterStati(status) {
+            let item = this.$store.getters.config.encounterStati.find(s => s[0].status === status[0])
+            return item[0].name;
         }
-
-
     }
 
 }

@@ -58,7 +58,6 @@ export default {
         let config = null;
         config = await this.$dataService().get.config();
         this.$websocket = new WebSocket('wss://localhost:3003/');
-        console.log(this.$websocket);
         this.$store.commit('SET_CONFIG', config);
         this.ready = true;            
     },

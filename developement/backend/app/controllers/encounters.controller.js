@@ -70,15 +70,15 @@ exports.edit = (req,res) => {
     $wss.broadcast({event: 'updateEncounter', data: request.id});
     delete request.pushNotification;
   }
-  res.send({ ok: true });
-  // Encounter.findOneAndUpdate(
 
-  //   { _id: request.id }, request, {runValidators: true,}, (err) => {
-  //       if (err) {
-  //           $logger.error(err);
-  //           res.status(500).send({ message: "Error saving Encounter" });
-  //       }
-  //       res.send({ ok: true });
-  //   }
-  // );
+  Encounter.findOneAndUpdate(
+
+    { _id: request.id }, request, {runValidators: true,}, (err) => {
+        if (err) {
+            $logger.error(err);
+            res.status(500).send({ message: "Error saving Encounter" });
+        }
+        res.send({ ok: true });
+    }
+  );
 }
