@@ -44,14 +44,12 @@ export default {
     },
     emits: ['update'],
     created() {
-        this.getTypes();
-        this.getTimings();
         this.setData()
     },
     data() {
         return {
-            types: [],
-            timings: [],
+            types: this.$store.getters.config.perscriptionTypes,
+            timings: this.$store.getters.config.perscriptionTimings,
             varData: {
                 type: null,
                 timing: null,
@@ -61,12 +59,6 @@ export default {
         }
     },
     methods: {
-        async getTypes() {
-            this.types = await this.$dataService().get.lists.perscriptionTypes();
-        },
-        async getTimings() {
-            this.timings = await this.$dataService().get.lists.perscriptionTimings();
-        },
         updateValue() {
             this.$emit('update', this.varData);
         },

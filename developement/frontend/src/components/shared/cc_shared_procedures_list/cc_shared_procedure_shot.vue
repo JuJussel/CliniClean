@@ -31,14 +31,10 @@ export default {
         }
     },
     created() {
-        this.getShotLocations();
         this.setData()
     },
     emits: ['update'],
     methods: {
-        async getShotLocations() {
-            this.shotLocations = await this.$dataService().get.lists.shotLocations();
-        },
         updateValue() {
             this.$emit('update', this.varData)
         },
@@ -51,7 +47,7 @@ export default {
     },
     data() {
         return {
-            shotLocations: [],
+            shotLocations: this.$store.getters.config.shotLocations,
             varData: {
                 location: null,
                 amount: "",

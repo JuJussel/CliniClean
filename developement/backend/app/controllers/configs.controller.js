@@ -8,7 +8,7 @@ exports.findAll = (req, res) => {
       $logger.error(err);
       res.status(500).send({message: "Error retrieving Configuration"})
     }
-
-    res.send(configs);
+    
+    res.send(configs[0]);
   });
 }

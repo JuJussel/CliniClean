@@ -1,6 +1,6 @@
 <template>
     <div class="cc-shared-procedures-browser-cont">
-        <div v-if="!loading.categories" class="cc-shared-procedures-browser-buttons">
+        <div class="cc-shared-procedures-browser-buttons">
             <cui-button-group v-model="activeCategory">
                 <cui-button-group-item
                     v-for="(cat, index) in filteredProcedureCategories[0]" :key="index"
@@ -44,26 +44,17 @@ export default {
         'select'
     ],
     created() {
-        this.getCategories()
+        this.activeCategory = this.categories[0].code;
         this.getFavourites()
     },
     data() {
         return {
-            loading: {
-                categories: true
-            },
-            categories: [],
+            categories: this.$store.getters.config.procedureCategories,
             activeCategory: null,
             favourites: []
         }
     },
     methods: {
-        async getCategories() {
-            this.loading.categories = true;
-            this.categories = await this.$dataService().get.procedures.categories();
-            this.activeCategory = this.categories[0].code;
-            this.loading.categories = false;
-        },
         async selectProcedure(item) {
             this.$emit('select', item)
             this.favourites = await this.$dataService().put.user.favourites(

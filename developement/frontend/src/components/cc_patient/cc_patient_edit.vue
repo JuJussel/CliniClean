@@ -59,7 +59,7 @@
                     :note="errors.occupation"
                     v-model="patient.occupation"
                     :label="$lang.occupation"
-                    :data="$store.getters.occupations"
+                    :data="$store.getters.config.occupations"
                 ></cui-select>
             </div>
         </cui-card>
@@ -100,7 +100,7 @@
                     displayValueProp="name"
                     returnValueProp="name"
                     v-model="patient.relation"
-                    :data="$store.getters.relations"
+                    :data="$store.getters.config.relations"
                 />
             </div>
         </cui-card>
@@ -274,7 +274,7 @@ export default {
                 this.patient.householderName = this.patient.name                
             }
         },
-        async populateData() {
+        populateData() {
             this.loading = true;
             if (this.editData) {
                 let editData = JSON.parse(JSON.stringify(this.editData));
@@ -283,8 +283,6 @@ export default {
                 this.patient = editData;
                 this.patient.householderName = this.patient.name;
             }
-            await this.$dataService().get.lists.occupations();
-            await this.$dataService().get.lists.relations();
             this.loading = false;
         },
         addInsurance(ins) {

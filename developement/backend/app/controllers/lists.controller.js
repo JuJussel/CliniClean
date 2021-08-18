@@ -1,5 +1,4 @@
 const EncounterType = require("../models/encounterType.model.js");
-const Config = require("../models/config.model.js");
 const Orca = require("../utils/orcaApi.util");
 const Address = require("../models/address.model.js");
 
@@ -18,30 +17,6 @@ exports.encounterTypes = {
               res.send(data);
             }
         })        
-    }
-}
-
-exports.occupations = {
-    findAll: (req,res) => {
-        Config.findOne({configName: 'listOccupations'},{ '_id': 0, 'value': 1}, (err, occupation) => {
-            if (err) {
-              $logger.error(err);
-              res.status(500).send({message: "Error retrieving Occupations"})
-            }
-            res.send(occupation.value);
-        });        
-    }
-}
-
-exports.relations = {
-    findAll: (req,res) => {
-        Config.findOne({configName: 'listRelations'},{ '_id': 0, 'value': 1}, (err, relation) => {
-            if (err) {
-              $logger.error(err);
-              res.status(500).send({message: "Error retrieving relations"})
-            }
-            res.send(relation.value);
-        });        
     }
 }
 
@@ -92,42 +67,4 @@ exports.schemas = {
             res.send(schemas);
           })
     }
-}
-
-exports.shotLocations = {
-    findAll: (req,res) => {
-        Config.findOne({configName: 'shotLocations'},{ '_id': 0, 'value': 1}, (err, occupation) => {
-            if (err) {
-              $logger.error(err);
-              res.status(500).send({message: "Error retrieving Occupations"})
-            }
-            res.send(occupation.value);
-        });        
-    }
-}
-
-exports.perscriptionTypes = {
-    findAll: (req,res) => {
-        Config.findOne({configName: 'perscriptionTypes'},{ '_id': 0, 'value': 1}, (err, occupation) => {
-            if (err) {
-              $logger.error(err);
-              res.status(500).send({message: "Error retrieving Occupations"})
-            }
-            res.send(occupation.value);
-        });        
-    }
-
-}
-
-exports.perscriptionTimings = {
-    findAll: (req,res) => {
-        Config.findOne({configName: 'perscriptionTimings'},{ '_id': 0, 'value': 1}, (err, occupation) => {
-            if (err) {
-              $logger.error(err);
-              res.status(500).send({message: "Error retrieving Occupations"})
-            }
-            res.send(occupation.value);
-        });        
-    }
-
 }
