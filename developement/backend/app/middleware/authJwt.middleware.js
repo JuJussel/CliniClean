@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const { firstCharLowerCase } = require("xml2js/lib/processors");
 const config = require("../../config/auth.config");
 
 verifyToken = (req, res, next) => {
@@ -20,8 +21,18 @@ verifyToken = (req, res, next) => {
       next();
     });
   };
+verifyTokenWs = (token) => {
+  let ok = false;
+  jwt.verify(token, config.secret, (err) => {
+    if (!err) {
+      ok = true;
+    }
+  });
+  return ok;
+}
 
   const authJwt = {
-    verifyToken: verifyToken
+      verifyToken: verifyToken,
+      verifyTokenWs: verifyTokenWs
   };
   module.exports = authJwt;

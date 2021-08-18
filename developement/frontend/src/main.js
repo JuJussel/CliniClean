@@ -17,10 +17,11 @@ import DataService from '@/services/data.service'
 
 const app = createApp(App)
 
-moment.locale('ja')
-app.config.globalProperties.$moment = moment
-app.config.globalProperties.$GLOBALS = Globals
-app.config.globalProperties.$lang = Lang
+moment.locale('ja');
+app.config.globalProperties.$moment = moment;
+app.config.globalProperties.$GLOBALS = Globals;
+app.config.globalProperties.$lang = Lang;
+app.config.globalProperties.$websocket = null;
 app.config.globalProperties.$apiError = function(msg) {
     this.$cui.notification({ text: msg, color: 'danger' })
 }
