@@ -59,6 +59,7 @@
                     <td> {{ parseExamType(row.type) }} </td>
                     <td>
                         <cui-select
+                            v-if="row.status !== 10"
                             :data="examStatiOptions(row)"
                             displayValueProp="name"
                             returnValueProp="status"
@@ -67,6 +68,11 @@
                             :color="examStatiOptions(row)[0].color"
                             noNote
                             @select="changeStatus(row)"
+                         />
+                         <cui-button 
+                            v-else 
+                            :label="examStatiOptions(row)[0].name"
+                            primary
                          />
                     </td>
                     <td> 
