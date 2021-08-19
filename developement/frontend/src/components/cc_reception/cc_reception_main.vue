@@ -202,7 +202,7 @@ export default {
             }
             if (this.view.active) {
                 let add = this.encounters.filter((e) => {
-                    if (e.status > 1 && e.status < 10) {
+                    if (e.status > 1 && e.status < 11) {
                         return true
                     }
                     if (e.status > 34) {
