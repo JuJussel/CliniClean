@@ -122,6 +122,9 @@ export default {
         this.getEncounters();
         this.getEncounterTypes();
         this.getDoctors();
+        this.$options.sockets.onmessage = () => this.getEncounters();
+
+
     },
     data() {
         return {
