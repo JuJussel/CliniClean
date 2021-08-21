@@ -1,4 +1,5 @@
 const Encounter = require("../models/encounter.model.js");
+const Orca = require("../utils/orcaApi.util");
 
 exports.findRange = (req, res) => {
   let start = req.query.start;
@@ -70,14 +71,25 @@ exports.edit = (req,res) => {
     $wss.broadcast({event: 'updateEncounter', data: request.id});
     delete request.pushNotification;
   }
-  Encounter.findOneAndUpdate(
 
-    { _id: request.id }, request, {runValidators: true,}, (err) => {
-        if (err) {
-            $logger.error(err);
-            res.status(500).send({ message: "Error saving Encounter" });
-        }
-        res.send({ ok: true });
-    }
-  );
+  Orca.post.procedures(request, (err, data) => {
+
+    
+
+
+
+
+
+    Encounter.findOneAndUpdate(
+  
+      { _id: request.id }, request, {runValidators: true,}, (err) => {
+          if (err) {
+              $logger.error(err);
+              res.status(500).send({ message: "Error saving Encounter" });
+          }
+          res.send({ ok: true });
+      }
+    );
+  });
+
 }

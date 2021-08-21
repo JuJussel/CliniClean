@@ -361,5 +361,39 @@ post.patient = async function (data, result) {
 
 };
 
+////////////////////////////////////////////////////////////////////////////
+//////////////////////// Register Koui//////////////////////////////////////
+//////////////// Includes Shohou, Kensa, Shot, Koui ////////////////////////
+////////////////////////////////////////////////////////////////////////////
+
+post.procedures = async function (data, result) {
+
+  let insurance = data.ins;
+  let procedures = data.karte.procedures;
+  let patientId = data.patient.id;
+  let orcaProcedures = {};
+
+  // Loop procedures
+  procedures.map(item => {
+    // Assign correct Orca procedure codes
+    if (item.cat.code === 30 && item.varData?.location === "静脈") item.cat.orcaCode = "320";
+    // Medications as outside medication by default. If medication is in stor inhouse and given
+    // inhouse, should use code 211,221,231 - need to add an option to choose inhouse or out
+    // in the procedure item on frontend
+    if (item.cat.code === 25 && item.varData?.type?.code === 3) item.cat.orcaCode = "222";
+    if (item.cat.code === 25 && item.varData?.type?.code === 5) item.cat.orcaCode = "232";
+
+    // If item is billed as self cost
+    if (item.ins === "0001") item.cat.orcaCode = "960";
+
+
+    return item;
+  })
+
+}
+
+
+
+
 module.exports.get = get;
 module.exports.post = post;
