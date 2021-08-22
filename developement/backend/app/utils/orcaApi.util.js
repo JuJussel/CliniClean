@@ -374,21 +374,120 @@ post.procedures = async function (data, result) {
   let orcaProcedures = {};
 
   // Loop procedures
-  procedures.map(item => {
-    // Assign correct Orca procedure codes
-    if (item.cat.code === 30 && item.varData?.location === "静脈") item.cat.orcaCode = "320";
-    // Medications as outside medication by default. If medication is in stor inhouse and given
-    // inhouse, should use code 211,221,231 - need to add an option to choose inhouse or out
-    // in the procedure item on frontend
-    if (item.cat.code === 25 && item.varData?.type?.code === 3) item.cat.orcaCode = "222";
-    if (item.cat.code === 25 && item.varData?.type?.code === 5) item.cat.orcaCode = "232";
+  procedures.forEach(item => {
 
-    // If item is billed as self cost
-    if (item.ins === "0001") item.cat.orcaCode = "960";
+    // Base XML
+    let orcaXml = {
+        $: { type: "record" },
+        Medical_Class: { $: { type: "string" }, _: item.cat.orcaCode },
+        Medical_Class_Number: {
+            $: { type: "string" },
+            _: item.count ? item.count : "1",
+        },
+        Medication_info: { $: { type: "array" }, Medication_info_child: [] },
+    };
 
 
-    return item;
+    if (item.cat.code === 30) {
+
+      item.procCode = "130000510";
+      if (item.varData?.location === "静脈") {
+        item.cat.orcaCode = "320";
+        item.procCode = "130003510"
+      };
+
+      let itemXml = {
+          Medication_Code: { $: { type: "string" }, _: item.procCode },
+          Medication_Name: { $: { type: "string" }, _: "" }
+      };
+      orcaXml.Medication_info.Medication_info_child.push(itemXml);
+      
+      itemXml = {
+          Medication_Code: { $: { type: "string" }, _: item.srycd },
+          Medication_Name: { $: { type: "string" }, _: "" },
+          Medication_Number: {
+              $: { type: "string" },
+              _: item.varData.amount,
+          },
+      };
+      orcaXml.Medication_info.Medication_info_child.push(itemXml);
+
+    } else if (item.cat.code === 25) {
+
+        orcaXml.Medical_Class_Number = item.varData.duration;
+
+        // Medications as outside medication by default. If medication is in stor inhouse and given
+        // inhouse, should use code 211,221,231 - need to add an option to choose inhouse or out
+        // in the procedure item on frontend
+        if (item.varData?.type?.code === 3) item.cat.orcaCode = "222";
+        if (item.varData?.type?.code === 5) item.cat.orcaCode = "232";
+
+        let itemXml = {
+            Medication_Code: { $: { type: "string" }, _: item.srycd },
+            Medication_Number: {
+                $: { type: "string" },
+                _: item.varData.amount,
+            },
+        };
+        orcaXml.Medication_info.Medication_info_child.push(itemXml);
+    } else {
+      let itemXml = {
+          Medication_Code: { $: { type: "string" }, _: item.srycd },
+          Medication_Name: { $: { type: "string" }, _: "" }
+      };
+      orcaXml.Medication_info.Medication_info_child.push(itemXml);
+
+    }
+
+    if (orcaProcedures[item.ins]) {
+      orcaProcedures[item.ins].push(orcaXml);
+    } else {
+      orcaProcedures[item.ins] = [orcaXml];
+    }
   })
+  // !!!!!!!! in theory we should now have an object with all the insurances and sub xml documents.
+  // Need to build the main XML and add
+  //WRONGWRONGWRONG
+
+  orcaProcedures.map(item => {
+
+    let baseXml = {
+        $: { type: "record" },
+        Medical_Class: { $: { type: "string" }, _: item.cat.orcaCode },
+        Medical_Class_Number: { $: { type: "string" }, _: item.cat.count ? item.cat.count : "1"},
+        Medication_info: { $: {type: "array"}, Medication_info_child: [] }
+    };
+
+
+
+
+  })
+
+
+
+  let pubInstance = {
+      $: { type: "record" },
+      PublicInsurance_Class: { $: { type: "string" }, _: "" },
+      PublicInsurer_Number: {
+          $: { type: "string" },
+          _: pub.provider,
+      },
+      PublicInsuredPerson_Number: {
+          $: { type: "string" },
+          _: pub.recepient,
+      },
+      Certificate_IssuedDate: {
+          $: { type: "string" },
+          _: pub.validDate[0],
+      },
+      Certificate_ExpiredDate: {
+          $: { type: "string" },
+          _: pub.validDate[1],
+      },
+  };
+
+
+
 
 }
 
