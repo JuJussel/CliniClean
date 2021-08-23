@@ -78,6 +78,7 @@ export default {
     },
     mounted() {
         this.encounterState = JSON.parse(JSON.stringify(this.encounter));
+        this.encounterState.doctor = this.$store.getters.user.id;
     },
     methods: {
         addProcedure(item) {
@@ -97,7 +98,7 @@ export default {
             this.confirmExaminationClose = false;
             let encounter = this.encounterState;
             encounter.status = 10;
-            encounter.pushNotification = true;
+            encounter.closeEncounter = true;
             await this.$dataService().put.encounter(encounter);
             this.$cui.notification({
                 text: this.$lang.examinationClosed,

@@ -439,52 +439,57 @@ post.procedures = async function (data, result) {
 
     }
 
-    if (orcaProcedures[item.ins]) {
-      orcaProcedures[item.ins].push(orcaXml);
+    let itemIns = item.ins ? item.ins : insurance;
+
+    if (orcaProcedures[itemIns]) {
+      orcaProcedures[itemIns].push(orcaXml);
     } else {
-      orcaProcedures[item.ins] = [orcaXml];
+      orcaProcedures[itemIns] = [orcaXml];
     }
   })
   // !!!!!!!! in theory we should now have an object with all the insurances and sub xml documents.
   // Need to build the main XML and add
   //WRONGWRONGWRONG
 
-  orcaProcedures.map(item => {
+  Object.entries(orcaProcedures).forEach(([key, value]) => {
 
-    let baseXml = {
-        $: { type: "record" },
-        Medical_Class: { $: { type: "string" }, _: item.cat.orcaCode },
-        Medical_Class_Number: { $: { type: "string" }, _: item.cat.count ? item.cat.count : "1"},
-        Medication_info: { $: {type: "array"}, Medication_info_child: [] }
+    let xml = {
+        data: {
+            medicalreq: {
+                $: { type: "record" },
+                InOut: { type: "string", _: "" },
+                Patient_ID: { type: "string", _: patientId },
+                Medical_Uid: { type: "string", _: "" },
+                Diagnosis_Information: {
+                    type: "record",
+                    Department_Code: { type: "string", _: data.department },
+                    Physician_Code: {
+                        type: "string",
+                        _: data.doctor,
+                    },
+                    HealthInsurance_Information: {
+                        type: "record",
+                        Insurance_Combination_Number: {
+                            type: "string",
+                            _: key,
+                        },
+                    },
+                    Medical_Information: {
+                        type: "array",
+                        Medical_Information_child: value
+                    }
+                }
+            }
+        }
     };
 
 
 
 
-  })
+
+  });
 
 
-
-  let pubInstance = {
-      $: { type: "record" },
-      PublicInsurance_Class: { $: { type: "string" }, _: "" },
-      PublicInsurer_Number: {
-          $: { type: "string" },
-          _: pub.provider,
-      },
-      PublicInsuredPerson_Number: {
-          $: { type: "string" },
-          _: pub.recepient,
-      },
-      Certificate_IssuedDate: {
-          $: { type: "string" },
-          _: pub.validDate[0],
-      },
-      Certificate_ExpiredDate: {
-          $: { type: "string" },
-          _: pub.validDate[1],
-      },
-  };
 
 
 

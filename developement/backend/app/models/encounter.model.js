@@ -16,7 +16,7 @@ const EncounterSchema = new Schema({
     doctor: Number,
     orcaId: Number,
     karte: {type: {}},
-    department: {type: Number, default: 1},
+    department: {type: String, default: '01'},
     contentSoap: String,
     contentProcedures: String,
     examinationStart: Date,
