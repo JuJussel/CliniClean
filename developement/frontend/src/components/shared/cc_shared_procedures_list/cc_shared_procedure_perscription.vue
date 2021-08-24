@@ -26,7 +26,7 @@
         />
         <cui-input 
             :append="varData.timing?.unit" 
-            v-model="varData.lot"
+            v-model="varData.duration"
             :label="$lang.perscriptionDuration" 
             style="width: 80px"
             :disabled="!varData.type || !varData.timing"
@@ -44,17 +44,18 @@ export default {
     },
     emits: ['update'],
     created() {
-        this.setData()
+        // this.setData()
     },
     data() {
         return {
+            ready: false,
             types: this.$store.getters.config.perscriptionTypes,
             timings: this.$store.getters.config.perscriptionTimings,
             varData: {
-                type: null,
-                timing: null,
-                amount: null,
-                duration: null
+                type: this.item?.varData?.type ? this.item.varData.type : null,
+                timing: this.item?.varData?.timing ? this.item.varData.timing : null,
+                amount: this.item?.varData?.amount ? this.item.varData.amount : null,
+                duration: this.item?.varData?.duration ? this.item.varData.duration : null,
             }
         }
     },
@@ -66,6 +67,7 @@ export default {
             if (this.item.varData) {
                 this.varData = this.item.varData
             }
+            this.ready = true;
         }
     },
     computed: {

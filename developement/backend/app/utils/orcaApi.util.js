@@ -11,7 +11,7 @@ const sendRequest = function (route, method, data = null) {
     var builder = new xml2js.Builder();
     data = builder.buildObject(data);
   }
-  console.log(data);
+
   const config = {
     headers: {
       "Content-Type": "text/xml",
@@ -366,7 +366,7 @@ post.patient = async function (data, result) {
 //////////////// Includes Shohou, Kensa, Shot, Koui ////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 
-post.procedures = async function (data, result) {
+post.procedures = async function (data) {
 
   let insurance = data.ins;
   let procedures = data.karte.procedures;
@@ -386,7 +386,7 @@ post.procedures = async function (data, result) {
             $: { type: "string" },
             _: item.count ? item.count : "1",
         },
-        Medication_info: { $: { type: "array" }, Medication_info_child: [] },
+        Medication_info: { $: { type: "array" }, Medication_info_child: [] }
     };
 
 
@@ -399,12 +399,14 @@ post.procedures = async function (data, result) {
       };
 
       let itemXml = {
+          $: { type: "record" },
           Medication_Code: { $: { type: "string" }, _: item.procCode },
           Medication_Name: { $: { type: "string" }, _: "" }
       };
       orcaXml.Medication_info.Medication_info_child.push(itemXml);
       
       itemXml = {
+          $: { type: "record" },
           Medication_Code: { $: { type: "string" }, _: item.srycd },
           Medication_Name: { $: { type: "string" }, _: "" },
           Medication_Number: {
@@ -425,6 +427,7 @@ post.procedures = async function (data, result) {
         if (item.varData?.type?.code === 5) item.cat.orcaCode = "232";
 
         let itemXml = {
+            $: { type: "record" },
             Medication_Code: { $: { type: "string" }, _: item.srycd },
             Medication_Number: {
                 $: { type: "string" },
@@ -434,8 +437,9 @@ post.procedures = async function (data, result) {
         orcaXml.Medication_info.Medication_info_child.push(itemXml);
     } else {
       let itemXml = {
+          $: { type: "record" },
           Medication_Code: { $: { type: "string" }, _: item.srycd },
-          Medication_Name: { $: { type: "string" }, _: "" }
+          Medication_Name: { $: { type: "string" }, _: "" },
       };
       orcaXml.Medication_info.Medication_info_child.push(itemXml);
 
@@ -453,7 +457,9 @@ post.procedures = async function (data, result) {
   // Need to build the main XML and add
   //WRONGWRONGWRONG
 
-  Object.entries(orcaProcedures).forEach(async ([key, value]) => {
+  for (let index = 0; index < Object.entries(orcaProcedures).length; index++) {
+      const key = Object.entries(orcaProcedures)[index][0];
+      const value = Object.entries(orcaProcedures)[index][1];
 
     let xml = {
         data: {
@@ -487,27 +493,16 @@ post.procedures = async function (data, result) {
 
     const responseData = await sendRequest(route, "POST", xml).catch(
         (responseData) => {
-            result(responseData, null);
-            return;
+            return({err: responseData});
         }
     );
-    console.log(responseData);
-    if (
-        !validate(
-            responseData,
-            ["00"],
-            "medicalres"
-        )
-    ) {
-        result(responseData.medicalres.Api_Result_Message, null);
-        return;
+    if ( !validate( responseData, ["00"], "medicalres" ) ) {
+        
+        return({err: responseData.medicalres.Api_Result_Message});
     }
+    return({err: false});
 
-
-
-
-
-  });
+  };
 
 
 

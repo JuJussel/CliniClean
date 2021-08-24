@@ -63,7 +63,7 @@ exports.create = (req,res) => {
     })
 }
 
-exports.edit = (req,res) => {
+exports.edit = async (req,res) => {
 
   let request = req.body;
 
@@ -74,36 +74,34 @@ exports.edit = (req,res) => {
     //   $wss.broadcast({event: 'updateEncounter', data: request.id});
     // })
 
-      Orca.post.procedures(request, (err, data) => {
-          if (err) {
-              res.status(500).send({
-                  message: err,
-              });
-          } else {
-              Encounter.findOneAndUpdate(
-                  { _id: request.id },
-                  request,
-                  { runValidators: true },
-                  (err) => {
-                      if (err) {
-                          $logger.error(err);
-                          res.status(500).send({
-                              message: "Error saving Encounter",
-                          });
-                      }
-                      $wss.broadcast({
-                          event: "updateEncounter",
-                          data: request.id,
-                      });
-                      res.send({ ok: true });
-                  }
-              );
-          }
-      });
+      let orcaResult = await Orca.post.procedures(request);
+      if (orcaResult.err) {
+          res.status(500).send({
+              message: orcaResult.err,
+          });
+          return;
+      }
 
-
-  }
-
+    }
+    
+    Encounter.findOneAndUpdate(
+        { _id: request.id },
+        request,
+        { runValidators: true },
+        (err) => {
+            if (err) {
+                $logger.error(err);
+                res.status(500).send({
+                    message: "Error saving Encounter",
+                });
+            }
+            $wss.broadcast({
+                event: "updateEncounter",
+                data: request.id,
+            });
+            res.send({ ok: true });
+        }
+    );
 
 
 }
