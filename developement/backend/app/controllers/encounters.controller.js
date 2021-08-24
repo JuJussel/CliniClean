@@ -70,22 +70,40 @@ exports.edit = (req,res) => {
   if(request.closeEncounter) {
 
     delete request.closeEncounter;
-    Orca.post.procedures(request, (err, data) => {
-      $wss.broadcast({event: 'updateEncounter', data: request.id});
-    })
+    // Orca.post.procedures(request, (err, data) => {
+    //   $wss.broadcast({event: 'updateEncounter', data: request.id});
+    // })
+
+      Orca.post.procedures(request, (err, data) => {
+          if (err) {
+              res.status(500).send({
+                  message: err,
+              });
+          } else {
+              Encounter.findOneAndUpdate(
+                  { _id: request.id },
+                  request,
+                  { runValidators: true },
+                  (err) => {
+                      if (err) {
+                          $logger.error(err);
+                          res.status(500).send({
+                              message: "Error saving Encounter",
+                          });
+                      }
+                      $wss.broadcast({
+                          event: "updateEncounter",
+                          data: request.id,
+                      });
+                      res.send({ ok: true });
+                  }
+              );
+          }
+      });
+
 
   }
 
-  Encounter.findOneAndUpdate(
-
-    { _id: request.id }, request, {runValidators: true,}, (err) => {
-        if (err) {
-            $logger.error(err);
-            res.status(500).send({ message: "Error saving Encounter" });
-        }
-        res.send({ ok: true });
-    }
-  );
 
 
 }

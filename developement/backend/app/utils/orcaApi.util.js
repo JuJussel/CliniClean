@@ -11,7 +11,7 @@ const sendRequest = function (route, method, data = null) {
     var builder = new xml2js.Builder();
     data = builder.buildObject(data);
   }
-
+  console.log(data);
   const config = {
     headers: {
       "Content-Type": "text/xml",
@@ -372,6 +372,8 @@ post.procedures = async function (data, result) {
   let procedures = data.karte.procedures;
   let patientId = data.patient.id;
   let orcaProcedures = {};
+  let route = "/api21/medicalmodv2?class=01";
+
 
   // Loop procedures
   procedures.forEach(item => {
@@ -451,37 +453,55 @@ post.procedures = async function (data, result) {
   // Need to build the main XML and add
   //WRONGWRONGWRONG
 
-  Object.entries(orcaProcedures).forEach(([key, value]) => {
+  Object.entries(orcaProcedures).forEach(async ([key, value]) => {
 
     let xml = {
         data: {
             medicalreq: {
                 $: { type: "record" },
-                InOut: { type: "string", _: "" },
-                Patient_ID: { type: "string", _: patientId },
-                Medical_Uid: { type: "string", _: "" },
+                InOut: { $: {type: "string"}, _: "" },
+                Patient_ID: { $: {type: "string"}, _: patientId },
+                Medical_Uid: { $: {type: "string"}, _: "" },
                 Diagnosis_Information: {
-                    type: "record",
-                    Department_Code: { type: "string", _: data.department },
+                    $: {type: "record"},
+                    Department_Code: { $: {type: "string"}, _: data.department },
                     Physician_Code: {
-                        type: "string",
+                        $: {type: "string"},
                         _: data.doctor,
                     },
                     HealthInsurance_Information: {
-                        type: "record",
+                        $: { type: "record" },
                         Insurance_Combination_Number: {
-                            type: "string",
+                            $: {type: "string"},
                             _: key,
                         },
                     },
                     Medical_Information: {
-                        type: "array",
+                        $: { type: "array" },
                         Medical_Information_child: value
                     }
                 }
             }
         }
     };
+
+    const responseData = await sendRequest(route, "POST", xml).catch(
+        (responseData) => {
+            result(responseData, null);
+            return;
+        }
+    );
+    console.log(responseData);
+    if (
+        !validate(
+            responseData,
+            ["00"],
+            "medicalres"
+        )
+    ) {
+        result(responseData.medicalres.Api_Result_Message, null);
+        return;
+    }
 
 
 
