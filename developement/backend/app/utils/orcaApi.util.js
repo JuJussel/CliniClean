@@ -453,9 +453,6 @@ post.procedures = async function (data) {
       orcaProcedures[itemIns] = [orcaXml];
     }
   })
-  // !!!!!!!! in theory we should now have an object with all the insurances and sub xml documents.
-  // Need to build the main XML and add
-  //WRONGWRONGWRONG
 
   for (let index = 0; index < Object.entries(orcaProcedures).length; index++) {
       const key = Object.entries(orcaProcedures)[index][0];

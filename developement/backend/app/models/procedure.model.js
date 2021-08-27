@@ -1,4 +1,4 @@
-const pg = require("./orca.db.js");
+const pg = require("./db.orca.js");
 const japUtils = require("japanese-string-utils");
 
 const procedure = {}

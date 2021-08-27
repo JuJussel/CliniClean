@@ -5,11 +5,7 @@ const pass = dbConfig.CLINICLEANMONGO.PASSWORD;
 const url = dbConfig.CLINICLEANMONGO.URL;
 const database = dbConfig.CLINICLEANMONGO.DB;
 const dbPath = `mongodb+srv://${user}:${pass}@${url}/${database}`;
-const dbOptions = {
-    useNewUrlParser: true,
-	useUnifiedTopology: true,
-    useFindAndModify: false
-}
+const dbOptions = {};
 
 mongoose.connect(
     dbPath,
