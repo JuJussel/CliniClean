@@ -164,7 +164,7 @@
                     <td>{{ row.providerNumber }}</td>
                     <td>{{ row.providerNumber }}</td>
                     <td>{{ row.insuredName }}</td>
-                    <td>{{ $moment(row.validDate[1]).format('YYYY年MM月DD日') }}</td>
+                    <td>{{ $dayjs(row.validDate[1]).format('YYYY年MM月DD日') }}</td>
                     <td>
                         <cui-button icon="far fa-trash-alt" danger @click="removeInsurance(row._index)" />
                     </td>

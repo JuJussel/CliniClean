@@ -109,8 +109,8 @@ export default {
             this.$emit('close');
         },
         selectDate (i) {
-            let date = this.$moment(i.start).format('YYYY-MM-DD')
-            let time = this.$moment(i.start).format('HH:mm:ss')
+            let date = this.$dayjs(i.start).format('YYYY-MM-DD')
+            let time = this.$dayjs(i.start).format('HH:mm:ss')
             if (!i.allDay) {
                 this.reservation.time = time                
             }

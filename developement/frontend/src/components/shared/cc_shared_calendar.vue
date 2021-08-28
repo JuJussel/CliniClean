@@ -109,8 +109,8 @@ export default {
             }
         },
         async getEvents(i, successCallback) {
-            let start =this.$moment(i.start.valueOf()).format("YYYY-MM-DD HH:mm:ss")
-            let end =this.$moment(i.end.valueOf()).format("YYYY-MM-DD HH:mm:ss")
+            let start =this.$dayjs(i.start.valueOf()).format("YYYY-MM-DD HH:mm:ss")
+            let end =this.$dayjs(i.end.valueOf()).format("YYYY-MM-DD HH:mm:ss")
             let range = {start: start, end: end}
             let events = await this.$dataService().get.encounters.range(range)
             events = events.filter(item => item.status === 0)

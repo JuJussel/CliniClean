@@ -1,5 +1,5 @@
 import Http from './http.service';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import Globals from '@/config/global';
 
 
@@ -136,10 +136,10 @@ export default {
                     encounters: {
                         today: function() {
                             const data = {
-                                start: moment()
+                                start: dayjs()
                                     .startOf("day")
                                     .format("YYYY-MM-DD HH:mm:ss"),
-                                end: moment()
+                                end: dayjs()
                                     .endOf("day")
                                     .format("YYYY-MM-DD HH:mm:ss"),
                             };
@@ -370,6 +370,30 @@ export default {
                                     });
                             });
                         },
+                    },
+                    clinicInfo: function() {
+                        if (instance.$store.getters.encounterTypes) {
+                            return instance.$store.getters.encounterTypes;
+                        } else {
+                            return new Promise(function(resolve, reject) {
+                                return http
+                                    .get("clinicinfo")
+                                    .then((result) => {
+                                        instance.$store.commit(
+                                            "SET_CLINIC_INFO",
+                                            result
+                                        );
+                                        resolve(result);
+                                    })
+                                    .catch((result) => {
+                                        instance.$cui.notification({
+                                            text: result,
+                                            color: "danger",
+                                        });
+                                        reject;
+                                    });
+                            });
+                        }
                     },
                 },
                 //-------------------------//

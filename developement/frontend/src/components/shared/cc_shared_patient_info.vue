@@ -32,7 +32,7 @@
                     <td>{{ buildPublicIns(1, row) }}</td>
                     <td>{{ buildPublicIns(2, row) }}</td>
                     <td>{{ buildPublicIns(3, row) }}</td>
-                    <td>{{ $moment(row.Certificate_ExpiredDate).format('YYYY年MM月DD日') }}</td>
+                    <td>{{ $dayjs(row.Certificate_ExpiredDate).format('YYYY年MM月DD日') }}</td>
                 </template>
             </cui-table>
 
@@ -82,7 +82,7 @@ export default {
             let tableData = [
                 {label: this.$lang.patientId, value: this.patientData?.id},
                 {label: this.$lang.name, value: this.patientData?.name},
-                {label: this.$lang.birthdate, value: this.$moment(this.patientData?.birthdate).format('YYYY年MM月DD日')},
+                {label: this.$lang.birthdate, value: this.$dayjs(this.patientData?.birthdate).format('YYYY年MM月DD日')},
                 {label: this.$lang.gender, value: this.patientData?.gender},
                 {label: this.$lang.address, value: this.patientData?.address?.zip + " " + this.patientData?.address?.addr},
                 {label: this.$lang.occupation, value: this.patientData?.occupation},

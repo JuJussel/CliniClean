@@ -33,7 +33,7 @@
                         {{ decodeEncounterStati([row.status]) }}
                     </td>
                     <td> 
-                        <span v-if="row.status !== 1">{{ parseWaitTime(row.lastChange).time }}</span> 
+                        <span v-if="row.status !== 1">{{ parseWaitTime(row.lastChange) }}</span> 
                     </td>
                 </template>
             </cui-table>
@@ -88,12 +88,8 @@ export default {
             return string
         },
         parseWaitTime(change) {
-            let time = this.$moment(change).fromNow(true);
-            let diff = this.$moment().diff(this.$moment(change), "minutes");
-            return {
-                time: time,
-                diff: diff,
-            };
+            return this.$dayjs(change).fromNow(true);
+
         },
         selectEncounter(enc) {
             this.$emit('showEncounter', enc)

@@ -4,20 +4,21 @@ import App from './App.vue'
 import router from './router'
 import Auth from '@/services/auth.service'
 import Globals from '@/config/global';
-import moment from 'moment'
-import 'moment/locale/ja';
 import Cui from 'clini-ui-lib'
 import 'clini-ui-lib/src/css/globals.css'
 import '@fortawesome/fontawesome-free/css/all.css'
 import Lang from './lang/jp'
 import DataService from '@/services/data.service'
 import VueNativeSock from "vue-native-websocket-vue3";
-
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import "dayjs/locale/ja";
 
 const app = createApp(App);
 
-moment.locale('ja');
-app.config.globalProperties.$moment = moment;
+dayjs.extend(relativeTime);
+dayjs.locale("ja");
+app.config.globalProperties.$dayjs = dayjs;
 app.config.globalProperties.$GLOBALS = Globals;
 app.config.globalProperties.$lang = Lang;
 app.config.globalProperties.$apiError = function(msg) {

@@ -49,8 +49,9 @@
 
 <script>
 
-import karte from "./cc_medical_karte.vue"
-import proceduresBrowser from "../shared/cc_shared_procedures_browser.vue"
+import karte from "./cc_medical_karte.vue";
+import proceduresBrowser from "../shared/cc_shared_procedures_browser.vue";
+import baseCost from "../../utils/encounterBaseCost";
 
 export default {
     components: {
@@ -73,12 +74,18 @@ export default {
             encounterState: null,
             loading: false,
             confirmExaminationClose: false,
-            postExaminationClose: false
+            postExaminationClose: false,
+            baseCost: null
         }
     },
     mounted() {
         this.encounterState = JSON.parse(JSON.stringify(this.encounter));
         this.encounterState.doctor = this.$store.getters.user.id;
+        this.baseCost = baseCost(
+            this.encounter, 
+            this.$store.getters.config.encounterBaseCost, 
+            this.$store.getters.clinicInfo
+        );
     },
     methods: {
         addProcedure(item) {

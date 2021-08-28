@@ -78,7 +78,7 @@
                     <td> 
                         <span v-if="row.status !== 1">{{ parseWaitTime(row.lastChange).time }}</span> 
                     </td>
-                    <td> {{ $moment(row.date).format('HH時mm分') }} </td>
+                    <td> {{ $dayjs(row.date).format('HH時mm分') }} </td>
                 </template>
             </cui-table>
         </cui-card>
@@ -181,8 +181,8 @@ export default {
 
         },
         parseWaitTime(change) {
-            let time = this.$moment(change).fromNow(true);
-            let diff = this.$moment().diff(this.$moment(change), "minutes");
+            let time = this.$dayjs(change).fromNow(true);
+            let diff = this.$dayjs().diff(this.$dayjs(change), "minutes");
             return {
                 time: time,
                 diff: diff,
