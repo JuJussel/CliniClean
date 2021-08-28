@@ -2,79 +2,80 @@ import createPersistedState from 'vuex-persistedstate'
 import { createStore } from 'vuex'
 
 export const store = createStore({
-    plugins: [createPersistedState()],
+           plugins: [createPersistedState()],
 
-    state() {
-        return {
-            user: null,
-            activeView: "home",
-            staticLists: [],
-            transferData: {
-                reception: null,
-                patientList: null,
-            },
-            clinicInfo: null,
-        };
-    },
+           state() {
+               return {
+                   user: null,
+                   activeView: "home",
+                   staticLists: [],
+                   transferData: {
+                       reception: null,
+                       patientList: null,
+                   },
+                   clinicInfo: null,
+                   config: null
+               };
+           },
 
-    getters: {
-        config: (state) => state.config,
-        user: (state) => state.user,
-        userFullName: (state) =>
-            state.user?.nameLast + state.user?.nameFirst,
-        activeView: (state) => state.activeView,
-        encounterTypes: (state) => state.staticLists.encounterTypes,
-        occupations: (state) => state.staticLists.occupations,
-        relations: (state) => state.staticLists.relations,
-        transferData: (state) => state.transferData,
-        procedureCategories: (state) =>
-            state.staticLists.procedureCategories,
-        shotLocations: (state) => state.staticLists.shotLocations,
-        perscriptionTypes: (state) =>
-            state.staticLists.perscriptionTypes,
-        perscriptionTimings: (state) =>
-            state.staticLists.perscriptionTimings,
-        clinicInfo: (state) => state.clinicInfo
-    },
+           getters: {
+               config: (state) => state.config,
+               user: (state) => state.user,
+               userFullName: (state) =>
+                   state.user?.nameLast + state.user?.nameFirst,
+               activeView: (state) => state.activeView,
+               encounterTypes: (state) => state.staticLists.encounterTypes,
+               occupations: (state) => state.staticLists.occupations,
+               relations: (state) => state.staticLists.relations,
+               transferData: (state) => state.transferData,
+               procedureCategories: (state) =>
+                   state.staticLists.procedureCategories,
+               shotLocations: (state) => state.staticLists.shotLocations,
+               perscriptionTypes: (state) =>
+                   state.staticLists.perscriptionTypes,
+               perscriptionTimings: (state) =>
+                   state.staticLists.perscriptionTimings,
+               clinicInfo: (state) => state.clinicInfo,
+           },
 
-    mutations: {
-        SET_CONFIG(state, config) {
-            state.config = config;
-        },
-        SET_CLINIC_INFO(state, config) {
-            state.clinicInfo = config;
-        },
+           mutations: {
+               SET_CONFIG(state, config) {
+                   state.config = config;
+               },
+               SET_CLINIC_INFO(state, clinicInfo) {
+                   state.clinicInfo = clinicInfo;
+               },
 
-        SET_USER(state, user) {
-            state.user = user;
-        },
-        SET_ACTIVE_VIEW(state, view) {
-            state.activeView = view;
-        },
-        SET_ENCOUNTER_TYPES(state, data) {
-            state.staticLists.encounterTypes = data;
-        },
-        SET_OCCUPATIONS(state, data) {
-            state.staticLists.occupations = data;
-        },
-        SET_RELATIONS(state, data) {
-            state.staticLists.relations = data;
-        },
-        SET_PROCEDURE_CATEGORIES(state, data) {
-            state.staticLists.procedureCategories = data;
-        },
-        SET_TRANSFER_DATA(state, data) {
-            state.transferData[data.target] = data.data;
-        },
-        SET_SHOT_LOCATIONS(state, data) {
-            state.staticLists.shotLocations = data;
-        },
-        SET_PERSCRIPTION_TYPES(state, data) {
-            state.staticLists.perscriptionTypes = data;
-        },
-        SET_PERSCRIPTION_TIMINGS(state, data) {
-            state.staticLists.perscriptionTimings = data;
-        },
-    },
-    actions: {},
-});
+               SET_USER(state, user) {
+                   state.user = user;
+               },
+               SET_ACTIVE_VIEW(state, view) {
+                   state.activeView = view;
+               },
+               SET_ENCOUNTER_TYPES(state, data) {
+                   state.staticLists.encounterTypes = data;
+               },
+               SET_OCCUPATIONS(state, data) {
+                   state.staticLists.occupations = data;
+               },
+               SET_RELATIONS(state, data) {
+                   state.staticLists.relations = data;
+               },
+               SET_PROCEDURE_CATEGORIES(state, data) {
+                   state.staticLists.procedureCategories = data;
+               },
+               SET_TRANSFER_DATA(state, data) {
+                   state.transferData[data.target] = data.data;
+               },
+               SET_SHOT_LOCATIONS(state, data) {
+                   state.staticLists.shotLocations = data;
+               },
+               SET_PERSCRIPTION_TYPES(state, data) {
+                   state.staticLists.perscriptionTypes = data;
+               },
+               SET_PERSCRIPTION_TIMINGS(state, data) {
+                   state.staticLists.perscriptionTimings = data;
+               },
+           },
+           actions: {},
+       });

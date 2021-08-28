@@ -55,10 +55,10 @@ export default {
         medical
     },
     async created() {
-        let config = null;
-        config = await this.$dataService().get.config();
-        config = await this.$dataService().get.clinicInfo();
+        let config = await this.$dataService().get.config();
         this.$store.commit('SET_CONFIG', config);
+        let cilicInfo = await this.$dataService().get.clinicInfo();
+        this.$store.commit('SET_CLINIC_INFO', cilicInfo);
         this.ready = true;
         this.$connect()
     },

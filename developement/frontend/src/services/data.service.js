@@ -372,29 +372,26 @@ export default {
                         },
                     },
                     clinicInfo: function() {
-                        if (instance.$store.getters.encounterTypes) {
-                            return instance.$store.getters.encounterTypes;
-                        } else {
-                            return new Promise(function(resolve, reject) {
-                                return http
-                                    .get("clinicinfo")
-                                    .then((result) => {
-                                        instance.$store.commit(
-                                            "SET_CLINIC_INFO",
-                                            result
-                                        );
-                                        resolve(result);
-                                    })
-                                    .catch((result) => {
-                                        instance.$cui.notification({
+                        return new Promise(function(
+                            resolve,
+                            reject
+                        ) {
+                            http.get("clinicinfo")
+                                .then((result) => {
+                                    resolve(result);
+                                })
+                                .catch((result) => {
+                                    instance.$cui.notification(
+                                        {
                                             text: result,
-                                            color: "danger",
-                                        });
-                                        reject;
-                                    });
-                            });
-                        }
-                    },
+                                            color:
+                                                "danger",
+                                        }
+                                    );
+                                    reject;
+                                });
+                        });
+                    }
                 },
                 //-------------------------//
                 //----------Post-----------//
