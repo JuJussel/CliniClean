@@ -12,11 +12,13 @@ import DataService from '@/services/data.service'
 import VueNativeSock from "vue-native-websocket-vue3";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import isBetween from "dayjs/plugin/isBetween";
 import "dayjs/locale/ja";
 
 const app = createApp(App);
 
 dayjs.extend(relativeTime);
+dayjs.extend(isBetween);
 dayjs.locale("ja");
 app.config.globalProperties.$dayjs = dayjs;
 app.config.globalProperties.$GLOBALS = Globals;
