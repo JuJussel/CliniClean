@@ -76,7 +76,7 @@ exports.findOne = (req, res) => {
   // );
 };
 
-exports.insuranceSets = (req, res) => {
+exports.findInsuranceSets = (req, res) => {
   Orca.get.insuranceSets(req.params.patientID, (err, data) => {
     if (err) {
       $logger.error(err);
@@ -115,17 +115,38 @@ exports.insuranceSets = (req, res) => {
   });
 };
 
-exports.insurances = (req, res) => {
-  Orca.get.insuranceSets(req.params.patientID, (err, data) => {
+// exports.insurances = (req, res) => {
+//   Orca.get.insuranceSets(req.params.patientID, (err, data) => {
+//     if (err) {
+//       res.status(500).send({
+//         message: err,
+//       });
+//     } else {
+//       res.send(data);
+//     }
+//   });
+// };
+
+exports.findMedicalInfo = (req, res) => {
+  Orca.get.diseases(req.params.patientId, (err, data) => {
     if (err) {
       res.status(500).send({
         message: err,
       });
     } else {
-      res.send(data);
+      if (data.Api_Result === '21') {
+        res.send([]);
+      } else {
+        data = data.Disease_Information.Disease_Information_child;
+        if (data.Department_Code) {
+          data = [data];
+        }
+        res.send(data);
+      }
     }
   });
 };
+
 
 exports.create = async (req, res) => {
   const fs = require('fs');

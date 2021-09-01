@@ -13,7 +13,7 @@ module.exports = app => {
     app.get(
       "/api/patients/:patientID/insuranceSets",
       [authJwt.verifyToken],
-      patients.insuranceSets
+      patients.findInsuranceSets
     )
 
     app.get(
@@ -25,6 +25,12 @@ module.exports = app => {
       "/api/patients/:patientId/details",
       [authJwt.verifyToken],
       patients.findOne
+    )
+
+    app.get(
+      "/api/patients/:patientId/medical",
+      [authJwt.verifyToken],
+      patients.findMedicalInfo
     )
 
     app.post(

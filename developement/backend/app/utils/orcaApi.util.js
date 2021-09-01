@@ -186,8 +186,41 @@ get.insuranceProvider = function (data, result) {
         result(responseData, null);
         return;
       });
+};
+
+////////////////////////////////////////////////////////////////////////////
+//////////////////////// Get Patient Byoumei ///////////////////////////////
+////////////////////////////////////////////////////////////////////////////
+get.diseases = function (data, result) {
+
+  const requestData = {
+    data: {
+        disease_inforeq: {
+            $: { type: "record" },
+            Patient_ID: { $: { type: "string" }, _: data },
+            Base_Date: { $: { type: "string" } },
+        }
+    }
   };
-  
+
+  const route = "/orca101/diseasegetv2?class=01";
+
+  sendRequest(route, "POST", requestData)
+    .then((responseData) => {
+      if (validate(responseData, ['00', '21'], "disease_infores")) {
+        responseData = responseData.disease_infores;
+        result(null, responseData);
+      } else {
+        result(responseData.disease_infores.Api_Result_Message, null);
+      }
+      return;
+    })
+    .catch((responseData) => {
+      result(responseData, null);
+      return;
+    });
+}
+
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////// Create/Edit Patient /////////////////////////
 ////////////////////////////////////////////////////////////////////////////
@@ -365,7 +398,6 @@ post.patient = async function (data, result) {
 //////////////////////// Register Koui//////////////////////////////////////
 //////////////// Includes Shohou, Kensa, Shot, Koui ////////////////////////
 ////////////////////////////////////////////////////////////////////////////
-
 post.procedures = async function (data) {
 
   let insurance = data.ins;
@@ -507,6 +539,7 @@ post.procedures = async function (data) {
 
 
 }
+
 
 
 

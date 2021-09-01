@@ -86,6 +86,7 @@ export default {
             this.$store.getters.config.encounterBaseCost, 
             this.$store.getters.clinicInfo
         );
+        this.getPatientMedicalData;
     },
     methods: {
         addProcedure(item) {
@@ -114,6 +115,9 @@ export default {
             })
             this.$emit('examinationClosed');
             this.$emit('cancel');
+        },
+        async getPatientMedicalData() {
+            
         }
     }
 }
