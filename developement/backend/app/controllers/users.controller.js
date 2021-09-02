@@ -38,7 +38,7 @@ exports.findFavourites = (req, res) => {
                 });
             }
         } else {
-            if (data.preferences?.procedures?.favourites) {
+            if (data?.preferences?.procedures?.favourites) {
                 res.send(data.preferences.procedures.favourites);
             } else {
                 res.send([]);

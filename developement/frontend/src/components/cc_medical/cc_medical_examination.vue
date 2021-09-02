@@ -6,7 +6,7 @@
         <div style="display: flex">
             <cui-button :label="$lang.reservation" icon="fas fa-calendar-plus"></cui-button>
             <cui-button warn :label="$lang.pause" icon="fas fa-pause"></cui-button>
-            <cui-button primary :label="$lang.finish" icon="fas fa-check-double" @click="confirmExaminationClose = true"></cui-button>
+            <cui-button primary :label="$lang.finish" icon="fas fa-check-double" @click="confirmExaminationClose = true" :disabled="!baseCost"></cui-button>
         </div>
     </div>
     <div class="cc-medical-examination-main">
@@ -78,15 +78,14 @@ export default {
             baseCost: null
         }
     },
-    mounted() {
+    async mounted() {
         this.encounterState = JSON.parse(JSON.stringify(this.encounter));
         this.encounterState.doctor = this.$store.getters.user.id;
-        this.baseCost = baseCost(
+        this.baseCost = await baseCost(
             this.encounter, 
             this.$store.getters.config.encounterBaseCost, 
             this.$store.getters.clinicInfo
         );
-        this.getPatientMedicalData;
     },
     methods: {
         addProcedure(item) {
@@ -107,17 +106,17 @@ export default {
             let encounter = this.encounterState;
             encounter.status = 10;
             encounter.closeEncounter = true;
-            await this.$dataService().put.encounter(encounter);
-            this.$cui.notification({
-                text: this.$lang.examinationClosed,
-                duration: 3000,
-                color: 'primary'
-            })
-            this.$emit('examinationClosed');
-            this.$emit('cancel');
-        },
-        async getPatientMedicalData() {
-            
+            encounter.baseCost = this.baseCost;
+            try {
+                await this.$dataService().put.encounter(encounter);
+                this.$cui.notification({
+                    text: this.$lang.examinationClosed,
+                    duration: 3000,
+                    color: 'primary'
+                })
+                this.$emit('examinationClosed');
+                this.$emit('cancel');
+            } catch (error) {this.loading = false}
         }
     }
 }

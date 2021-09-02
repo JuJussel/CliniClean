@@ -2,11 +2,11 @@ const mongoose = require('./db.mongo')
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-    _id:  {type:Number, required: true},
-    username: {type:String, required: true},
-    password: {type:String, required: true},
-    nameFirst: {type:String, required: true},
-    nameLast: {type:String, required: true},
+    _id:  {type: String, required: true},
+    username: {type: String, required: true},
+    password: {type: String, required: true},
+    nameFirst: {type: String, required: true},
+    nameLast: {type: String, required: true},
     active: {type: Boolean, default: true},
     userGroup: Number,
     status: {type: Number, required: true},

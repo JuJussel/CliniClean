@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import isBetween from "dayjs/plugin/isBetween";
 import weekday from "dayjs/plugin/weekday";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import http from "../services/http.service";
 
 dayjs.extend(isBetween);
 dayjs.extend(weekday);
@@ -26,7 +27,8 @@ export default async (encounter, baseItems, clinicInfo) => {
     const holidaysList = await (
         await fetch("https://holidays-jp.github.io/api/v1/date.json")
         ).json();
-        
+    const diseases = await http.get("patients/" + encounter.patient.id + "/medical");
+
     var openingHours = clinicInfo.openingHours[date.day];
     openingHours = [
         openingHours[0] ? dayjs(openingHours[0], 'HH:mm') : null,
@@ -39,14 +41,21 @@ export default async (encounter, baseItems, clinicInfo) => {
     var addItem = null;
     var baseVisitProcedure = {
         tag: 0,
-        code: "111000110",
-        type: '110'
+        srycd: "111000110",
+        cat: { orcaCode: '110' }
     };
     var ageType = 'n';
 
     // Check if repeated visit
-
-
+    if(diseases.length > 0) {
+        diseases.forEach(item => {
+            if(!item.Disease_EndDate) baseVisitProcedure = {
+                tag: 1,
+                srycd: "112007410",
+                cat: { orcaCode: '120' }        
+            }
+        })
+    }
 
     // Check if late night
     if (dayjs().isBetween(lateNight.start, lateNight.end)) {

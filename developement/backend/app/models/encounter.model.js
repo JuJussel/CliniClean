@@ -9,6 +9,7 @@ const EncounterSchema = new Schema({
     type: {type:Number, required: true},
     ins: String,
     note: String,
+    baseCost: [{}],
     date: {type: Date, default: Date.now()},
     status: {type:Number, required: true, default: 2},
     endDate: Date,
