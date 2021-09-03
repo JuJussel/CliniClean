@@ -401,7 +401,7 @@ post.patient = async function (data, result) {
 post.procedures = async function (data) {
 
   let insurance = data.ins;
-  let procedures = data.baseCost.concat(data.karte.procedures);
+  let procedures = data.baseCost ? data.baseCost.concat(data.karte.procedures) : data.karte.procedures;
   let patientId = data.patient.id;
   let orcaProcedures = {};
   let route = "/api21/medicalmodv2?class=01";

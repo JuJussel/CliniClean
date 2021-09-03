@@ -1,7 +1,12 @@
 <template>
     <div class="cc-medical-list-cont">
         <cui-card noPadding>
-            <cui-table :data="encounters" :loading="loading.encounters" single-select @select="selectEncounter">
+            <cui-table 
+                :data="encounters" 
+                :loading="loading.encounters" 
+                single-select @select="selectEncounter" 
+                :disabledFunct="(row) => {return(row.status == 10)}"
+                >
                     <template #emptyImage>
                     <img src="../../assets/img/empty2.jpg" style="width: 300px">
                 </template>
@@ -96,7 +101,11 @@ export default {
         },
         decodeEncounterStati(status) {
             let item = this.$store.getters.config.encounterStati.find(s => s[0].status === status[0])
-            return item[0].name;
+            if (item) {
+                return item[0].name;
+            } else {
+                return null
+            }
         }
     }
 

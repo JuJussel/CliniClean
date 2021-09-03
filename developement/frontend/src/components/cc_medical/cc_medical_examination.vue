@@ -6,7 +6,7 @@
         <div style="display: flex">
             <cui-button :label="$lang.reservation" icon="fas fa-calendar-plus"></cui-button>
             <cui-button warn :label="$lang.pause" icon="fas fa-pause"></cui-button>
-            <cui-button primary :label="$lang.finish" icon="fas fa-check-double" @click="confirmExaminationClose = true" :disabled="!baseCost"></cui-button>
+            <cui-button primary :label="$lang.finish" icon="fas fa-check-double" @click="confirmExaminationClose = true" :disabled="!encounterState"></cui-button>
         </div>
     </div>
     <div class="cc-medical-examination-main">
@@ -25,7 +25,7 @@
                     </div>
                 </div>
             </template>
-            <karte :encounter="encounter" ref="karte" @update="updateState"/>
+            <karte v-if="encounterState" :encounter="encounterState" ref="karte" @update="updateState"/>
         </cui-card>
         <cui-card>
             <procedures-browser @select="addProcedure"></procedures-browser>
@@ -51,7 +51,7 @@
 
 import karte from "./cc_medical_karte.vue";
 import proceduresBrowser from "../shared/cc_shared_procedures_browser.vue";
-import baseCost from "../../utils/encounterBaseCost";
+import baseCostUtil from "../../utils/encounterBaseCost";
 
 export default {
     components: {
@@ -79,15 +79,24 @@ export default {
         }
     },
     async mounted() {
-        this.encounterState = JSON.parse(JSON.stringify(this.encounter));
-        this.encounterState.doctor = this.$store.getters.user.id;
-        this.baseCost = await baseCost(
-            this.encounter, 
-            this.$store.getters.config.encounterBaseCost, 
-            this.$store.getters.clinicInfo
-        );
+        this.prepareEncounter();
     },
     methods: {
+        async prepareEncounter() {
+            let preparedEncounter = JSON.parse(JSON.stringify(this.encounter));
+            if (preparedEncounter.baseCost.length < 1) {
+                console.log('Yo');
+                let baseCost = await baseCostUtil(
+                    this.encounter, 
+                    this.$store.getters.config.encounterBaseCost, 
+                    this.$store.getters.clinicInfo
+                );
+                preparedEncounter.baseCost = baseCost;
+            }
+            preparedEncounter.doctor = this.$store.getters.user.id;
+            this.encounterState = preparedEncounter;
+
+        },
         addProcedure(item) {
             item = JSON.parse(JSON.stringify(item.row));
             this.$refs.karte.addProcedure(item);
@@ -106,7 +115,6 @@ export default {
             let encounter = this.encounterState;
             encounter.status = 10;
             encounter.closeEncounter = true;
-            encounter.baseCost = this.baseCost;
             try {
                 await this.$dataService().put.encounter(encounter);
                 this.$cui.notification({

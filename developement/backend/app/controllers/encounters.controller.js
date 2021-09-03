@@ -70,9 +70,6 @@ exports.edit = async (req,res) => {
   if(request.closeEncounter) {
 
     delete request.closeEncounter;
-    // Orca.post.procedures(request, (err, data) => {
-    //   $wss.broadcast({event: 'updateEncounter', data: request.id});
-    // })
 
       let orcaResult = await Orca.post.procedures(request);
       if (orcaResult.err) {

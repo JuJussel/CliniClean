@@ -23,6 +23,7 @@
         </div>
         <div>
             <div class="cc-headers"><b> {{ $lang.procedures }} </b></div>
+            {{ encounter.baseCost }}
             <proceduresList style="height: calc(100% - 40px)" :encounter="encounter" :procedures="procedures" @remove="removeProcedure" />
         </div>
         <cui-modal :visible="modal.schema" closable  @close="modal.schema = false">
