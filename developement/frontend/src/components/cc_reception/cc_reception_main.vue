@@ -73,7 +73,7 @@
                             v-else 
                             :label="examStatiOptions(row)[0].name"
                             primary
-                            @click="view.modal.payment = row"
+                            @click="modal.payment = row; view.modal.payment = true"
                          />
                     </td>
                     <td> 
@@ -105,9 +105,15 @@
             </cui-card>
         </cui-modal>
         <cui-modal :visible="view.modal.payment" closable  @close="view.modal.payment = false">
-            <cui-card style="width: 900px; height: 500px">
-                <template #header> {{ $lang.newReservation }} </template>
-                <Payment @close="view.modal.payment = false" :data="view.modal.payment"/>
+            <cui-card style="width: 600px; height: 500px">
+                <template #header> {{ $lang.payment }} </template>
+                <Payment @close="view.modal.payment = false" :encounter="modal.payment"/>
+                <template #footer>
+                    <div style="display: flex; justify-content: flex-end; flex-grow: 1">
+                        <cui-button plain :label="$lang.cancel" />
+                        <cui-button primary :label="$lang.confirm" />
+                    </div>
+                </template>
             </cui-card>
         </cui-modal>
 
@@ -122,7 +128,6 @@ import Walkin from './cc_reception_walkin'
 import Payment from './cc_reception_payment'
 import Reservation from '../shared/cc_shared_reservation'
 import ReservationAccept from './cc_reception_reservation_accept'
-
 
 export default {
     name: "ReceptionMainView",
@@ -157,6 +162,9 @@ export default {
                     reservationAccept: false,
                     payment: false
                 }
+            },
+            modal: {
+                payment: null
             },
             docStati: [
                 null, this.$lang.free, this.$lang.inEncounter 
