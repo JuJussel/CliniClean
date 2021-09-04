@@ -78,12 +78,15 @@ export default {
             baseCost: null
         }
     },
-    async mounted() {
+    mounted() {
         this.prepareEncounter();
     },
     methods: {
         async prepareEncounter() {
-            let preparedEncounter = JSON.parse(JSON.stringify(this.encounter));
+            let encounterId = this.encounter.id;
+
+            let preparedEncounter = await this.$dataService().get.encounters.findOne(encounterId)
+
             if (preparedEncounter.baseCost.length < 1) {
                 console.log('Yo');
                 let baseCost = await baseCostUtil(

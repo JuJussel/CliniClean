@@ -172,6 +172,21 @@ export default {
                                     });
                             });
                         },
+                        findOne: function(id) {
+                            return new Promise(function(resolve, reject) {
+                                http.get("encounters/" + id)
+                                    .then((result) => {
+                                        resolve(result);
+                                    })
+                                    .catch((result) => {
+                                        instance.$cui.notification({
+                                            text: result,
+                                            color: "danger",
+                                        });
+                                        reject;
+                                    });
+                            }); 
+                        }
                     },
                     //>----Lists-----//
                     lists: {

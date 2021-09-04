@@ -73,6 +73,7 @@
                             v-else 
                             :label="examStatiOptions(row)[0].name"
                             primary
+                            @click="view.modal.payment = row"
                          />
                     </td>
                     <td> 
@@ -103,6 +104,12 @@
                 <ReservationAccept @close="view.modal.reservationAccept = false" :data="view.modal.reservationAccept"/>
             </cui-card>
         </cui-modal>
+        <cui-modal :visible="view.modal.payment" closable  @close="view.modal.payment = false">
+            <cui-card style="width: 900px; height: 500px">
+                <template #header> {{ $lang.newReservation }} </template>
+                <Payment @close="view.modal.payment = false" :data="view.modal.payment"/>
+            </cui-card>
+        </cui-modal>
 
 
     </div>
@@ -112,6 +119,7 @@
 
 import Calendar from '../shared/cc_shared_calendar'
 import Walkin from './cc_reception_walkin'
+import Payment from './cc_reception_payment'
 import Reservation from '../shared/cc_shared_reservation'
 import ReservationAccept from './cc_reception_reservation_accept'
 
@@ -122,7 +130,8 @@ export default {
         Calendar,
         Reservation,
         Walkin,
-        ReservationAccept
+        ReservationAccept,
+        Payment
     },
     created() {
         this.getEncounters();
@@ -145,7 +154,8 @@ export default {
                 modal: {
                     reception: false,
                     reservation: false,
-                    reservationAccept: false
+                    reservationAccept: false,
+                    payment: false
                 }
             },
             docStati: [

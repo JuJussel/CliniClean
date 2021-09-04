@@ -13,6 +13,9 @@ module.exports = app => {
     // Retrieve all Encounters for today
     app.get("/api/encounters/range", [authJwt.verifyToken], encounter.findRange);
 
+    // Retrieve one Encounter
+    app.get("/api/encounters/:encounterId", [authJwt.verifyToken], encounter.findOne);
+
     // Create new Enconter
     app.post("/api/encounters", [authJwt.verifyToken], encounter.create);
 

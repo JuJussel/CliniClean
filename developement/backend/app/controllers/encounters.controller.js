@@ -1,11 +1,32 @@
 const Encounter = require("../models/encounter.model.js");
 const Orca = require("../utils/orcaApi.util");
+const Doctor = require("../models/user.model")
+
+exports.findOne = (req, res) => {
+
+  let encounterId = req.params.encounterId;
+
+  Encounter.findById(encounterId, (err, data) => {
+    if (err) {
+      $logger.error(err)
+      res.status(500).send({
+        message: "Error retrieving Encounter"
+      });
+    } else {
+      res.send(data);
+    }
+  })
+
+}
 
 exports.findRange = (req, res) => {
   let start = req.query.start;
   let end = req.query.end;
-  Encounter.find({date: {$gte: start, $lt: end}})
-  .populate('patient')
+  Encounter.find({date: {$gte: start, $lt: end}}, '-karte -editHistory -baseCost')
+  .populate({
+    path: 'patient',
+    select: 'name'
+    })
     .exec(
     
     function(err,encounter) {
@@ -20,17 +41,17 @@ exports.findRange = (req, res) => {
   })
 }
 
-exports.findAll = (req,res) => {
-  Encounter.findAll((err, data) => {
-    if (err) {
-        res.status(500).send({
-          message: "Error retrieving Encounters"
-        });
-    } else {
-      res.send(data);
-    }
-  })
-}
+// exports.findAll = (req,res) => {
+//   Encounter.findAll((err, data) => {
+//     if (err) {
+//         res.status(500).send({
+//           message: "Error retrieving Encounters"
+//         });
+//     } else {
+//       res.send(data);
+//     }
+//   })
+// }
 
 exports.create = (req,res) => {
 
@@ -71,34 +92,45 @@ exports.edit = async (req,res) => {
 
     delete request.closeEncounter;
 
-      let orcaResult = await Orca.post.procedures(request);
-      if (orcaResult.err) {
-          res.status(500).send({
-              message: orcaResult.err,
-          });
-          return;
-      }
-
+    let orcaResult = await Orca.post.procedures(request);
+    if (orcaResult.err) {
+        res.status(500).send({
+            message: orcaResult.err,
+        });
+        return;
     }
-    
-    Encounter.findOneAndUpdate(
-        { _id: request.id },
-        request,
-        { runValidators: true },
-        (err) => {
-            if (err) {
-                $logger.error(err);
-                res.status(500).send({
-                    message: "Error saving Encounter",
-                });
-            }
-            $wss.broadcast({
-                event: "updateEncounter",
-                data: request.id,
+    Doctor.findOneAndUpdate(
+      { _id: request.doctor},
+      { status: 1},
+      (err) => {
+        if (err) {
+            $logger.error(err);
+            res.status(500).send({
+                message: "Error updating Doctor Status",
             });
-            res.send({ ok: true });
         }
-    );
+      }
+    )
+  }
+  
+  Encounter.findOneAndUpdate(
+      { _id: request.id },
+      request,
+      { runValidators: true },
+      (err) => {
+          if (err) {
+              $logger.error(err);
+              res.status(500).send({
+                  message: "Error saving Encounter",
+              });
+          }
+          $wss.broadcast({
+              event: "updateEncounter",
+              data: request.id,
+          });
+          res.send({ ok: true });
+      }
+  );
 
 
 }

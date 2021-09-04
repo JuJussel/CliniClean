@@ -11,7 +11,7 @@ module.exports = server => {
         }
         let token = request.headers.cookie.split("token=")[1];
         if (!authJwt.verifyTokenWs(token)) {
-            console.log("NG");
+
             socket.write("HTTP/1.1 401 Unauthorized\r\n\r\n");
             socket.destroy();
             return;
@@ -39,8 +39,8 @@ module.exports = server => {
     // Send Messages to Clients
     global.$wss = {
         broadcast: (message) => {
-            console.log(message);
-            console.log(wss.clients);
+
+
             wss.clients.forEach(function each(client) {
                 if (client.readyState === WebSocket.OPEN) {
                     client.send(JSON.stringify(message));
