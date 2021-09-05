@@ -1,10 +1,10 @@
 <template>
     <div>
-        <cui-table>
+        <cui-table :loading="loading.table" :data="payments" singleSelect @select="selectPayment" style="height: 250px">
             <template #header>
                 <div style="display: flex; align-items: center">
                     <h2> {{$lang.openPayments}} </h2>
-                    <cui-button :label="$lang.recheck" style="margin-left: 10px" />
+                    <cui-button @click="checkStatus" :label="$lang.recheck" style="margin-left: 10px" />
                 </div>
                 <div> {{ $lang.patientId }}: {{ encounter.patient.id }} </div>
             </template>
@@ -14,30 +14,45 @@
                 <cui-th> {{ $lang.costInCurrency }} </cui-th>
             </template>
             <template v-slot:row="{ row }">
-                <td> {{ row.receiptNumber }} </td>
-                <td> {{ row.isnureanceCombNumber }} </td>
-                <td> {{ row.cost }} </td>
+                <td> {{ row.Invoice_Number }} </td>
+                <td> {{ row.Insurance_Combination_Number }} </td>
+                <td> {{ row.Cd_Information.Ac_Money }} </td>
         </template>
         </cui-table>
-        <div class="cc_reception_payment_calc">
+        <div class="cc_reception_payment_calc" v-if="selectedPayment">
             <div class="cc_reception_payment_calc_left">
                 <cui-select
                     :label="$lang.paymentMethod"
                     style="width: 200px"
+                    :data="paymentMethods"
+                    displayValueProp="label"
+                    returnValueProp="code"
+                    v-model="selectedPaymentMethod"
                 />
+                <div v-if="selectedPaymentMethod === 'cash'" style="display: flex">
+                    <cui-button label="1000円" @click="addMoneyIn(1000)" />
+                    <cui-button label="5000円" @click="addMoneyIn(5000)" />
+                    <cui-button label="1万円" @click="addMoneyIn(10000)" />
+                </div>
             </div>
             <div class="cc_reception_payment_calc_right">
                 <div>
-                    <div>Cost</div>
-                    <div>2000</div>
+                    <h2> {{ $lang.paymentSum }} </h2>
+                    <h2> {{ selectedPayment.Cd_Information.Ac_Money }} </h2>
                 </div>
                 <div>
-                    <div>Cost</div>
-                    <cui-input noNote />
+                    <div> {{ $lang.paymentMoneyReceived }} </div>
+                    <cui-input 
+                        noNote 
+                        :append="$lang.currencySymbol"
+                        :disabled="selectedPaymentMethod !== 'cash'"
+                        v-model="moneyIn"
+                        type="number"
+                    />
                 </div>
                 <div style="border-top: solid 1px var(--cui-gray-2)">
-                    <div>Cost</div>
-                    <div>2000</div>
+                    <div> {{ $lang.paymentChange }} </div>
+                    <div> {{ change }} </div>
                 </div>
             </div>
         </div>
@@ -51,6 +66,48 @@ export default {
     props: {
         encounter: {
             default: null
+        }
+    },
+    mounted() {
+        this.checkStatus();
+    },
+    data() {
+        return {
+            loading: {
+                table: false
+            },
+            paymentMethods: this.$store.getters.settings.paymentMethods.public,
+            selectedPaymentMethod: 'cash',
+            amountDue: 5000,
+            moneyIn: null,
+            payments: [],
+            selectedPayment: null
+        }
+    },
+    computed: {
+        change() {
+            if (!this.moneyIn) return null
+            let change = this.moneyIn - this.selectedPayment.Cd_Information.Ac_Money;
+            return change > 0 ? change : 0
+        }
+    },
+    methods: {
+        async checkStatus() {
+            this.loading.table = true;
+            let date = this.$dayjs().format('YYYY-MM-DD');
+            let patient = this.encounter.patient.id;
+            this.payments = await this.$dataService().get.patient.payments(patient, date);
+            this.loading.table = false;
+        },
+        selectPayment(row) {
+            this.selectedPayment = row.row;
+        },
+        addMoneyIn(amount) {
+            if (!this.moneyIn) {
+                this.moneyIn = amount;
+            } else {
+                this.moneyIn = this.moneyIn + amount;
+            }
         }
     }
     
@@ -73,6 +130,7 @@ export default {
         display: flex;
         justify-content: space-between;
         margin-bottom: 10px;
+        align-items: center;
     }
     .cc_reception_payment_calc_footer {
         display: flex;

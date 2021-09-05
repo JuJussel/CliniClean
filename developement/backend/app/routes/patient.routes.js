@@ -32,6 +32,11 @@ module.exports = app => {
       [authJwt.verifyToken],
       patients.findMedicalInfo
     )
+    app.get(
+      "/api/patients/:patientId/payments/:date",
+      [authJwt.verifyToken],
+      patients.findPayments
+    )
 
     app.post(
       "/api/patients",

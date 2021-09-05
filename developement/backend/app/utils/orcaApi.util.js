@@ -222,6 +222,42 @@ get.diseases = function (data, result) {
 }
 
 ////////////////////////////////////////////////////////////////////////////
+//////////////////////// Get Patient Payments //////////////////////////////
+////////////////////////////////////////////////////////////////////////////
+get.payments = function (data, result) {
+
+  const requestData = {
+    data: {
+      private_objects: {
+            $: { type: "record" },
+            Patient_ID: { $: { type: "string" }, _: data.patientId },
+            Perform_Date: { $: { type: "string" }, _: data.date },
+        }
+    }
+  };
+
+  const route = "/api01rv2/incomeinfv2";
+
+  sendRequest(route, "POST", requestData)
+    .then((responseData) => {
+
+      if (validate(responseData, ['0000'], "private_objects")) {
+        responseData = responseData.private_objects.Income_Information;
+        responseData = responseData ? responseData.Income_Information_child : [];
+        result(null, responseData);
+      } else {
+        result(responseData.private_objects.Api_Result_Message, null);
+      }
+      return;
+    })
+    .catch((responseData) => {
+      result(responseData, null);
+      return;
+    });
+}
+
+
+////////////////////////////////////////////////////////////////////////////
 ////////////////////////////// Create/Edit Patient /////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 post.patient = async function (data, result) {

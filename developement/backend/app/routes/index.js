@@ -19,6 +19,6 @@ require("./procedure.routes")(routes);
 require("./medication.routes")(routes);
 require("./order.routes")(routes);
 require("./config.routes")(routes);
-require("./clinicinfo.routes")(routes);
+require("./setting.routes")(routes);
 
 module.exports = routes;

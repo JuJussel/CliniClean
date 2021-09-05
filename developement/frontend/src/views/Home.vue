@@ -57,8 +57,8 @@ export default {
     async created() {
         let config = await this.$dataService().get.config();
         this.$store.commit('SET_CONFIG', config);
-        let cilicInfo = await this.$dataService().get.clinicInfo();
-        this.$store.commit('SET_CLINIC_INFO', cilicInfo);
+        let settings = await this.$dataService().get.settings.public();
+        this.$store.commit('SET_SETTINGS', settings);
         this.ready = true;
         this.$connect()
     },

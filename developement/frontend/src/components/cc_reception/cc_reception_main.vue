@@ -105,13 +105,13 @@
             </cui-card>
         </cui-modal>
         <cui-modal :visible="view.modal.payment" closable  @close="view.modal.payment = false">
-            <cui-card style="width: 600px; height: 500px">
+            <cui-card style="width: 600px; height: 600px">
                 <template #header> {{ $lang.payment }} </template>
                 <Payment @close="view.modal.payment = false" :encounter="modal.payment"/>
                 <template #footer>
                     <div style="display: flex; justify-content: flex-end; flex-grow: 1">
-                        <cui-button plain :label="$lang.cancel" />
-                        <cui-button primary :label="$lang.confirm" />
+                        <cui-button @click="view.modal.payment = false" plain :label="$lang.cancel" />
+                        <cui-button @click="savePayment" primary :label="$lang.confirm" />
                     </div>
                 </template>
             </cui-card>
@@ -211,6 +211,9 @@ export default {
             if (status === 2) {
                 this.view.modal.reservationAccept = row
             }
+        },
+        async savePayment(encounter) {
+            console.log(encounter);
         }
     },
     computed: {

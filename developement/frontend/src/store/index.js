@@ -13,7 +13,7 @@ export const store = createStore({
                        reception: null,
                        patientList: null,
                    },
-                   clinicInfo: null,
+                   settings: null,
                    config: null
                };
            },
@@ -35,15 +35,15 @@ export const store = createStore({
                    state.staticLists.perscriptionTypes,
                perscriptionTimings: (state) =>
                    state.staticLists.perscriptionTimings,
-               clinicInfo: (state) => state.clinicInfo,
+               settings: (state) => state.settings,
            },
 
            mutations: {
                SET_CONFIG(state, config) {
                    state.config = config;
                },
-               SET_CLINIC_INFO(state, clinicInfo) {
-                   state.clinicInfo = clinicInfo;
+               SET_SETTINGS(state, settings) {
+                   state.settings = settings;
                },
 
                SET_USER(state, user) {

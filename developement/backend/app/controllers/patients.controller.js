@@ -21,6 +21,22 @@ exports.findMany = (req, res) => {
   );
 };
 
+exports.findPayments = (req,res) => {
+  Orca.get.payments(req.params, (err, payments) => {
+    if (err) {
+      $logger.error(err);
+      res.status(500).send({
+        message: err,
+      });
+    } else {
+      if (payments.Perform_Date) {
+        payments = [payments];
+      }
+      res.send(payments);
+    }
+  })
+}
+
 exports.findOne = (req, res) => {
   let id = req.params.patientId;
 
@@ -115,18 +131,6 @@ exports.findInsuranceSets = (req, res) => {
   });
 };
 
-// exports.insurances = (req, res) => {
-//   Orca.get.insuranceSets(req.params.patientID, (err, data) => {
-//     if (err) {
-//       res.status(500).send({
-//         message: err,
-//       });
-//     } else {
-//       res.send(data);
-//     }
-//   });
-// };
-
 exports.findMedicalInfo = (req, res) => {
   Orca.get.diseases(req.params.patientId, (err, data) => {
     if (err) {
@@ -146,7 +150,6 @@ exports.findMedicalInfo = (req, res) => {
     }
   });
 };
-
 
 exports.create = async (req, res) => {
   const fs = require('fs');

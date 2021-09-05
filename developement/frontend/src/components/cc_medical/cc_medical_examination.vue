@@ -88,11 +88,11 @@ export default {
             let preparedEncounter = await this.$dataService().get.encounters.findOne(encounterId)
 
             if (preparedEncounter.baseCost.length < 1) {
-                console.log('Yo');
-                let baseCost = await baseCostUtil(
+
+let baseCost = await baseCostUtil(
                     this.encounter, 
                     this.$store.getters.config.encounterBaseCost, 
-                    this.$store.getters.clinicInfo
+                    this.$store.getters.settings.clinicBaseInfo.public
                 );
                 preparedEncounter.baseCost = baseCost;
             }

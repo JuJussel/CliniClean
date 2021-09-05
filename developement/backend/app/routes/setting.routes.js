@@ -11,9 +11,9 @@ module.exports = app => {
     });
   
     app.get(
-      "/api/clinicinfo",
+      "/api/settings/public",
       [authJwt.verifyToken],
-      Settings.findClinicInfoPublic
+      Settings.findPublic
     );
   
   };

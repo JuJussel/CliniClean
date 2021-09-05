@@ -6,17 +6,22 @@ exports.findOne = (req, res) => {
 
   let encounterId = req.params.encounterId;
 
-  Encounter.findById(encounterId, (err, data) => {
-    if (err) {
-      $logger.error(err)
-      res.status(500).send({
-        message: "Error retrieving Encounter"
-      });
-    } else {
-      res.send(data);
-    }
-  })
-
+  Encounter.findById(encounterId)
+  .populate({
+    path: 'patient',
+    select: 'name'
+    })
+    .exec(
+      (err, data) => {
+        if (err) {
+          $logger.error(err)
+          res.status(500).send({
+            message: "Error retrieving Encounter"
+          });
+        } else {
+          res.send(data);
+        }
+    })
 }
 
 exports.findRange = (req, res) => {

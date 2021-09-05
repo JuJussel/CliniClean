@@ -131,6 +131,22 @@ export default {
                                     });
                             });
                         },
+                        //>>---Payments-----//
+                        payments: function(id, date) {
+                            return new Promise(function(resolve, reject) {
+                                http.get("patients/" + id + "/payments/" + date)
+                                    .then((result) => {
+                                        resolve(result);
+                                    })
+                                    .catch((result) => {
+                                        instance.$cui.notification({
+                                            text: result,
+                                            color: "danger",
+                                        });
+                                        reject;
+                                    });
+                            });
+                        }
                     },
                     //>----Encounters-----//
                     encounters: {
@@ -386,27 +402,29 @@ export default {
                             });
                         },
                     },
-                    clinicInfo: function() {
-                        return new Promise(function(
-                            resolve,
-                            reject
-                        ) {
-                            http.get("clinicinfo")
-                                .then((result) => {
-                                    resolve(result);
-                                })
-                                .catch((result) => {
-                                    instance.$cui.notification(
-                                        {
-                                            text: result,
-                                            color:
-                                                "danger",
-                                        }
-                                    );
-                                    reject;
-                                });
-                        });
-                    }
+                    settings: {
+                        public: function() {
+                            return new Promise(function(
+                                resolve,
+                                reject
+                            ) {
+                                http.get("settings/public")
+                                    .then((result) => {
+                                        resolve(result);
+                                    })
+                                    .catch((result) => {
+                                        instance.$cui.notification(
+                                            {
+                                                text: result,
+                                                color:
+                                                    "danger",
+                                            }
+                                        );
+                                        reject;
+                                    });
+                            });
+                        }
+                    }   
                 },
                 //-------------------------//
                 //----------Post-----------//
