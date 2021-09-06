@@ -1,0 +1,43 @@
+{
+    "preflight": false,
+    "auth": {
+        "secret": secrets.jwt,
+        "lifetime": 3600, //JWT lifetime in seconds      
+    },
+    "cors": {
+        "origin": "https://localhost:8080",
+        "credentials": true    
+    },
+    "db": {
+        "CLINICLEANMONGO": {
+            "URL": "dev01.2zd7t.mongodb.net",
+            "USER": "ccapi",
+            "PASSWORD": secrets.mongoDbPass,
+            "DB": "clinicleandev01"
+        },
+        "ORCA": {
+            "HOST": "192.168.1.200",
+            "USER": "ccapi",
+            "PASSWORD": secrets.orcaDbPass,
+            "DB": "orca"
+        }
+    },
+    "orca": {
+        "url": "http://192.168.1.200:8000",
+        "user": "ormaster",
+        "pass": secrets.orcaApiPass,
+    },
+    "logging": {
+        "graylog": {
+            "enabled": false,
+            "servers": [
+                {   
+                    "host": "localhost", 
+                    port: "12201"
+                }
+            ],
+            "facility": "CliniClean"
+        },
+        "logToConsole": true
+    }
+}
