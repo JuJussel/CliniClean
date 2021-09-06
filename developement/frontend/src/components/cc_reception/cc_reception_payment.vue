@@ -1,5 +1,6 @@
 <template>
     <div>
+        <div class="loader cc_reception_payment_loader" v-if="loading.modal"/>
         <cui-table :loading="loading.table" :data="payments" singleSelect @select="selectPayment" style="height: 250px">
             <template #header>
                 <div style="display: flex; align-items: center">
@@ -68,13 +69,15 @@ export default {
             default: null
         }
     },
+    emits: ['close'],
     mounted() {
         this.checkStatus();
     },
     data() {
         return {
             loading: {
-                table: false
+                table: false,
+                modal: false
             },
             paymentMethods: this.$store.getters.settings.paymentMethods.public,
             selectedPaymentMethod: 'cash',
@@ -108,6 +111,18 @@ export default {
             } else {
                 this.moneyIn = this.moneyIn + amount;
             }
+        },
+        async savePayment() {
+            this.loading.modal = true;
+            let paymentInfo = {
+                encounter: this.encounter,
+                orcaInvoice: this.selectedPayment
+            }
+            await this.$dataService().post.payments(paymentInfo);
+            let encounter = JSON.parse(JSON.stringify(this.encounter));
+            encounter.status = 0;
+            await this.$dataService().put.encouters(encounter);
+            this.$emit('close');
         }
     }
     
@@ -135,5 +150,11 @@ export default {
     .cc_reception_payment_calc_footer {
         display: flex;
         justify-content: flex-end;
+    }
+    .cc_reception_payment_loader {
+        margin: 10px;
+        border-radius: 20px;
+        width: calc(100% - 20px);
+        height: calc(100% - 20px)
     }
 </style>
