@@ -58,8 +58,17 @@
                     <td> {{ row.patient?.name }} </td>
                     <td> {{ parseExamType(row.type) }} </td>
                     <td>
+                        <cui-button 
+                            v-if="row.status === 10"
+                            :label="examStatiOptions(row)[0].name"
+                            primary
+                            @click="modal.payment = row; view.modal.payment = true"
+                         />
+                        <cui-tag v-else-if="row.status === 0">
+                            {{ $lang.paymentDone }}
+                        </cui-tag>
                         <cui-select
-                            v-if="row.status !== 10"
+                            v-else
                             :data="examStatiOptions(row)"
                             displayValueProp="name"
                             returnValueProp="status"
@@ -68,12 +77,6 @@
                             :color="examStatiOptions(row)[0].color"
                             noNote
                             @select="changeStatus(row)"
-                         />
-                         <cui-button 
-                            v-else 
-                            :label="examStatiOptions(row)[0].name"
-                            primary
-                            @click="modal.payment = row; view.modal.payment = true"
                          />
                     </td>
                     <td> 
@@ -108,12 +111,6 @@
             <cui-card style="width: 600px; height: 600px">
                 <template #header> {{ $lang.payment }} </template>
                 <Payment @close="view.modal.payment = false" :encounter="modal.payment" ref="payment"/>
-                <template #footer>
-                    <div style="display: flex; justify-content: flex-end; flex-grow: 1">
-                        <cui-button @click="view.modal.payment = false" plain :label="$lang.cancel" />
-                        <cui-button @click="savePayment" primary :label="$lang.confirm" />
-                    </div>
-                </template>
             </cui-card>
         </cui-modal>
 

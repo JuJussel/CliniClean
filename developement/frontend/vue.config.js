@@ -10,7 +10,15 @@ module.exports = {
     },
     proxy: {
       '^/api': {
-        target: 'http://localhost:3003',
+        target: 'https://localhost:3003',
+        changeOrigin: true
+      },
+      '^/assets': {
+        target: 'https://localhost:3003',
+        changeOrigin: true
+      },
+      '^/files': {
+        target: 'https://localhost:3003',
         changeOrigin: true
       }
     }

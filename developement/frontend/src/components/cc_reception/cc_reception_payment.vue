@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="cc-reception-payment-cont">
         <div class="loader cc_reception_payment_loader" v-if="loading.modal"/>
         <cui-table :loading="loading.table" :data="payments" singleSelect @select="selectPayment" style="height: 250px">
             <template #header>
@@ -58,6 +58,12 @@
             </div>
         </div>
         <div class="cc_reception_payment_calc_footer">
+            <cui-button @click="$emit('close')" plain :label="$lang.cancel" />
+            <cui-button 
+                @click="savePayment" 
+                primary 
+                :label="$lang.confirm"
+                :disabled="paymentDisabled" />
         </div>
     </div>
 </template>
@@ -81,7 +87,6 @@ export default {
             },
             paymentMethods: this.$store.getters.settings.paymentMethods.public,
             selectedPaymentMethod: 'cash',
-            amountDue: 5000,
             moneyIn: null,
             payments: [],
             selectedPayment: null
@@ -90,8 +95,10 @@ export default {
     computed: {
         change() {
             if (!this.moneyIn) return null
-            let change = this.moneyIn - this.selectedPayment.Cd_Information.Ac_Money;
-            return change > 0 ? change : 0
+            return this.moneyIn - this.selectedPayment.Cd_Information.Ac_Money;
+        },
+        paymentDisabled() {
+            return !this.moneyIn || this.change < 0
         }
     },
     methods: {
@@ -114,15 +121,17 @@ export default {
         },
         async savePayment() {
             this.loading.modal = true;
-            let paymentInfo = {
-                encounter: this.encounter,
-                orcaInvoice: this.selectedPayment
-            }
-            await this.$dataService().post.payments(paymentInfo);
             let encounter = JSON.parse(JSON.stringify(this.encounter));
             encounter.status = 0;
-            await this.$dataService().put.encouters(encounter);
+            encounter.payment = {
+                amountDue: parseInt(this.selectedPayment.Cd_Information.Ac_Money),
+                moneyIn: this.moneyIn,
+                change: this.change,
+                method: this.selectedPaymentMethod
+            }
+            await this.$dataService().put.encounter(encounter);
             this.$emit('close');
+
         }
     }
     
@@ -156,5 +165,11 @@ export default {
         border-radius: 20px;
         width: calc(100% - 20px);
         height: calc(100% - 20px)
+    }
+    .cc-reception-payment-cont {
+        height: 100%; 
+        display: flex; 
+        flex-direction: column;
+        justify-content: space-between;
     }
 </style>

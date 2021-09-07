@@ -24,7 +24,8 @@ const EncounterSchema = new Schema({
     examinationEnd: Date,
     editHistory: [String],
     lastChange: {type: Date, default: Date.now},
-    order: {type: mongoose.ObjectId}
+    order: {type: mongoose.ObjectId},
+    payment: {}
 },{ toJSON: { virtuals: true } });
 
 module.exports = mongoose.model("pub_encounters", EncounterSchema);

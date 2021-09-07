@@ -1,6 +1,3 @@
-import Globals from '@/config/global';
-
-var baseURL = Globals.apiURL;
 
 var request = function(route, data, type, abortSignal) {
     
@@ -9,7 +6,6 @@ var request = function(route, data, type, abortSignal) {
     let options = {
       method: type,
       signal: abortSignal,
-      credentials: Globals.httpCredPol,
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -26,7 +22,6 @@ var request = function(route, data, type, abortSignal) {
           method: type,
           body: fd,
           signal: abortSignal,
-          credentials: Globals.httpCredPol
         }
       } else {
 
@@ -34,7 +29,6 @@ var request = function(route, data, type, abortSignal) {
           method: type,
           body: JSON.stringify(data),
           signal: abortSignal,
-          credentials: Globals.httpCredPol,
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
@@ -45,17 +39,15 @@ var request = function(route, data, type, abortSignal) {
 
     }
 
-    var url = baseURL
-    url = new URL(route, url)
 
     if(type === 'GET') {
       
       if (data) {
-        url.search = new URLSearchParams(data).toString()
+        route = route + '?' + new URLSearchParams(data).toString()
       }
     }
 
-    fetch(url.toString(), options)
+    fetch('/api/' + route, options)
       .then((res) => {
         if (!res.ok) {
           res.json().then(result => reject(result.message));

@@ -100,11 +100,12 @@ export default {
     height: calc(100% - 45px);
     width: 100%;
     position: absolute;
+    overflow: hidden;
 }
 .juzoom-enter-active {
     transition: all 0.3s;
 }
-.juzoom-enter,
+.juzoom-enter-from,
 .juzoom-leave-to {
     opacity: 0;
     transform: scale3d(1.03, 1.03, 1.03);

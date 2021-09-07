@@ -464,25 +464,7 @@ export default {
                                     reject;
                                 });
                         });
-                    },
-                    //>----Payments-----//
-                    payments: function(data) {
-                        return new Promise(function(resolve, reject) {
-                            return http
-                                .post("payments", data)
-                                .then((result) => {
-                                    resolve(result);
-                                })
-                                .catch((result) => {
-                                    instance.$cui.notification({
-                                        text: result,
-                                        color: "danger",
-                                    });
-                                    reject;
-                                });
-                        });
-                    },
-                    
+                    },                    
                     //>----Patients-----//
                     patients: function(data) {
                         return new Promise(function(resolve, reject) {
