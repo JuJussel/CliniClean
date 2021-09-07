@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const dbConfig = require("../../config/db.config");
+const dbConfig = require("../../config").db;
 const user = dbConfig.CLINICLEANMONGO.USER;
 const pass = dbConfig.CLINICLEANMONGO.PASSWORD;
 const url = dbConfig.CLINICLEANMONGO.URL;
@@ -12,6 +12,7 @@ mongoose.connect(
     dbOptions, 
     (err, client) => {
         if (err) {
+            console.log(err);
             $logger.error(err)
         }
         $logger.info('Connected to MongoDB!')

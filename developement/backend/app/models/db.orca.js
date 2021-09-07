@@ -1,5 +1,5 @@
 const pgp = require('pg-promise')(/* options */)
-const dbConfig = require("../../config/db.config");
+const dbConfig = require("../../config").db;
 
 
 // Create a connection to the database

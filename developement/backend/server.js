@@ -5,10 +5,9 @@ const cors = require("cors");
 const routes = require('./app/routes');
 const app = express();
 const helmet = require('helmet');
-const corsOptions = require('./config/cors.config')
+const corsOptions = require('./config').cors
 const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
-
 const server = https.createServer({
   key: fs.readFileSync('/etc/pki/tls/certs/key.pem'),
   cert: fs.readFileSync('/etc/pki/tls/certs/cert.pem')

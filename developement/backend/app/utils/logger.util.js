@@ -1,5 +1,5 @@
 const winston = require('winston');
-const globalConfig = require('../../config/logging.config')
+const globalConfig = require('../../config').logging
 const path = require('path')
 const root = path.resolve('logs')
 

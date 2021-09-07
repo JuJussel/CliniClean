@@ -1,5 +1,5 @@
 const japUtils = require("japanese-string-utils");
-const orcaConfig = require("../../config/orca.config");
+const orcaConfig = require("../../config").orca;
 const xml2js = require("xml2js");
 const axios = require("axios");
 

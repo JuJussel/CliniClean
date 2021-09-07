@@ -1,6 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { firstCharLowerCase } = require("xml2js/lib/processors");
-const config = require("../../config/auth.config");
+const config = require("../../config").auth;
 
 verifyToken = (req, res, next) => {
 
