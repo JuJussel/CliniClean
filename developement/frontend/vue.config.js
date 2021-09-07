@@ -7,6 +7,12 @@ module.exports = {
     https: {
       key: fs.readFileSync('/etc/pki/tls/certs/key.pem'),
       cert: fs.readFileSync('/etc/pki/tls/certs/cert.pem')
+    },
+    proxy: {
+      '^/api': {
+        target: 'http://localhost:3003',
+        changeOrigin: true
+      }
     }
   },
   configureWebpack: {
