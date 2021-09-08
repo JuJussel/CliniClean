@@ -5,21 +5,20 @@
         "lifetime": 3600
     },
     "cors": {
-        "origin": "https://localhost:8080",
         "credentials": true    
     },
     "db": {
-        "CLINICLEANMONGO": {
-            "URL": "dev01.2zd7t.mongodb.net",
-            "USER": "ccapi",
-            "PASSWORD": "StrongSecret",
-            "DB": "clinicleandev01"
+        "cliniCleanMongo": {
+            "url": "dev01.2zd7t.mongodb.net",
+            "user": "ccapi",
+            "password": "StrongSecret",
+            "db": "clinicleandev01"
         },
-        "ORCA": {
-            "HOST": "192.168.1.200",
-            "USER": "ccapi",
-            "PASSWORD": "StrongSecret",
-            "DB": "orca"
+        "orca": {
+            "host": "192.168.1.200",
+            "user": "ccapi",
+            "password": "StrongSecret",
+            "db": "orca"
         }
     },
     "orca": {
