@@ -2,10 +2,10 @@
     <div class="cc-medical-list-cont">
         <cui-card noPadding>
             <cui-table 
-                :data="encounters" 
+                :data="visibleEncounters" 
                 :loading="loading.encounters" 
                 single-select @select="selectEncounter" 
-                :disabledFunct="(row) => {return(row.status == 10)}"
+                :disabledFunct="(row) => {return(row.status == 10 || row.status == 0)}"
                 >
                     <template #emptyImage>
                     <img src="../../assets/img/empty2.jpg" style="width: 300px">
@@ -18,7 +18,6 @@
                         <cui-checkbox v-model="viewEncounters.waiting" :label="$lang.waiting" />
                         <cui-checkbox v-model="viewEncounters.examination" style="margin-left: 20px" :label="$lang.inEncounter" />
                         <cui-checkbox v-model="viewEncounters.done" style="margin-left: 20px; margin-right: 40px" :label="$lang.paymentDone" />
-
                     </div>
                 </template>
                 <template #thead>
@@ -71,8 +70,8 @@ export default {
             },
             encounters: [],
             viewEncounters: {
-                waiting: true,
-                examination: false,
+                waiting: false,
+                examination: true,
                 done: false,
             }
         }
@@ -106,6 +105,32 @@ export default {
             } else {
                 return null
             }
+        }
+    },
+    computed: {
+        visibleEncounters() {
+            let enc = []
+            if (this.viewEncounters.waitung) {
+                let add = this.encounters.filter(e => e.status === 2)
+                enc.push(...add)
+            }
+            if (this.viewEncounters.examination) {
+                let add = this.encounters.filter((e) => {
+                    if (e.status > 2 && e.status < 11) {
+                        return true
+                    }
+                    if (e.status > 34) {
+                        return true
+                    }
+                    return false
+                })
+                enc.push(...add)
+            }
+            if (this.viewEncounters.done) {
+                let add = this.encounters.filter(e => e.status === 0)
+                enc.push(...add)
+            }
+            return enc
         }
     }
 

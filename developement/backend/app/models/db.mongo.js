@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 const dbConfig = require("../../config").db;
-const user = dbConfig.CLINICLEANMONGO.USER;
-const pass = dbConfig.CLINICLEANMONGO.PASSWORD;
-const url = dbConfig.CLINICLEANMONGO.URL;
-const database = dbConfig.CLINICLEANMONGO.DB;
+const user = dbConfig.cliniCleanMongo.user;
+const pass = dbConfig.cliniCleanMongo.password;
+const url = dbConfig.cliniCleanMongo.url;
+const database = dbConfig.cliniCleanMongo.db;
 const dbPath = `mongodb+srv://${user}:${pass}@${url}/${database}`;
 const dbOptions = {};
 

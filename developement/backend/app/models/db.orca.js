@@ -4,10 +4,10 @@ const dbConfig = require("../../config").db;
 
 // Create a connection to the database
 const connection_orca = pgp({
-  host: dbConfig.ORCA.HOST,
-  user: dbConfig.ORCA.USER,
-  password: dbConfig.ORCA.PASSWORD,
-  database: dbConfig.ORCA.DB
+  host: dbConfig.orca.host,
+  user: dbConfig.orca.user,
+  password: dbConfig.orca.password,
+  database: dbConfig.orca.db
 });
 
 module.exports = connection_orca;
