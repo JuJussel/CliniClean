@@ -3,7 +3,6 @@
     <div v-if="ready">
         <cui-menu-bar @change="changeMenu" :value="activeTab">
             <template v-slot:left>
-                <cui-button label="test">Test</cui-button>
                 <cui-menu-bar-item icon="fa fa-home menu-icon" value="home" />
                 <cui-menu-bar-item
                     icon="fas fa-user-clock"
