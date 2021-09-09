@@ -10,7 +10,9 @@
         </div>
     </div>
     <div class="cc-medical-examination-main">
-        <cui-card></cui-card>
+        <cui-card>
+            <patientMedicalInfo></patientMedicalInfo>
+        </cui-card>
         <cui-card no-padding>
             <template #header>
                 <div style="display: flex; justify-content: space-between; width: calc(100% - 20px)">
@@ -52,11 +54,13 @@
 import karte from "./cc_medical_karte.vue";
 import proceduresBrowser from "../shared/cc_shared_procedures_browser.vue";
 import baseCostUtil from "../../utils/encounterBaseCost";
+import patientMedicalInfo from "../shared/cc_patient_medical_info.vue"
 
 export default {
     components: {
         karte,
-        proceduresBrowser
+        proceduresBrowser,
+        patientMedicalInfo
     },
     emits: [
         'cancel',
