@@ -3,7 +3,11 @@
     <div v-if="ready">
         <cui-menu-bar @change="changeMenu" :value="activeTab">
             <template v-slot:left>
-                <cui-menu-bar-item icon="fa fa-home menu-icon" value="home" />
+                <cui-menu-bar-item 
+                    icon="fa fa-home menu-icon" 
+                    :label="$lang.home"
+                    value="home" 
+                />
                 <cui-menu-bar-item
                     icon="fas fa-user-clock"
                     :label="$lang.reception"
@@ -20,18 +24,18 @@
                     value="medical"
                 />
             </template>
-            <template v-slot:center>CliniClean</template>
+            <template v-slot:center>
+                受付一覧
+            </template>
             <template v-slot:right>
-                <div
-                    style="display: flex; align-items: center;margin-right: 20px"
-                >
+                <div style="display: flex; align-items: center; margin-right: 20px" >
                     <cui-avatar :image="avatarUrl" />
-                    <div style="margin-left: 10px">
+                    <div style="margin-left: 10px; color:var(--cui-gray-5)">
                         {{ $store.getters.userFullName }}
                     </div>
                 </div>
-                <cui-menu-bar-item icon="fas fa-cog" value="settings" />
-                <cui-menu-bar-item icon="fas fa-sign-out-alt" value="logout" />
+                <cui-menu-bar-item style="padding: 10px!important" plainIcon icon="fas fa-cog" value="settings" />
+                <cui-menu-bar-item style="padding: 10px!important" plainIcon icon="fas fa-sign-out-alt" value="logout" />
             </template>
         </cui-menu-bar>
         <div class="cc-home-main-cont">
@@ -110,6 +114,7 @@ export default {
     opacity: 0;
     transform: scale3d(1.03, 1.03, 1.03);
 }
+
 </style>
 <style >
 .h2-header {

@@ -24,7 +24,8 @@ export default {
                 {label: "行為歴", name: "koui", icon: "fas fa-list"},
                 {label: "病歴", name: "byoumei", icon: "fas fa-disease"},
                 {label: "カルテ歴", style: "padding: 0", name: "karte", icon: "fas fa-file-alt"}
-            ]
+            ],
+            activeCategory: "dashboard"
         }
     }
 }
