@@ -146,7 +146,6 @@ export default {
     margin-bottom: -20px;
     display: flex;
     justify-content: flex-end;
-    background-color: #f4f7f8;
     height: 55px;
     padding: 10px;
  }

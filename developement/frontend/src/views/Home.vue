@@ -101,7 +101,7 @@ export default {
 
 <style scoped>
 .cc-home-main-cont {
-    height: calc(100% - 45px);
+    height: calc(100% - 70px);
     width: 100%;
     position: absolute;
     overflow: hidden;

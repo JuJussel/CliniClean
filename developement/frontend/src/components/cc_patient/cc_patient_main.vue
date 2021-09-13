@@ -1,6 +1,6 @@
 <template>
     <div class="cc-patient-main-cont">
-        <cui-button-group v-model="activeTab">
+        <cui-button-group v-model="activeTab" style="margin-left: 10px">
             <cui-button-group-item icon="fas fa-list" :label="$lang.patientList" value="patientList"></cui-button-group-item>
             <cui-button-group-item 
                 v-for="(item, index) in dynamicTabs" :key="index" 
@@ -102,7 +102,7 @@ export default {
     .cc-patient-main-cont {
         display: grid;
         grid-template-columns: 100%;
-        grid-template-rows: 5% 95%;
+        grid-template-rows: 60px calc(100% - 60px);
         height: 100%
     }
     .cc-patient-main-tab-hidden {

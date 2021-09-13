@@ -1,6 +1,6 @@
 <template>
     <div class="cc-medical-main-cont">
-        <cui-button-group v-model="activeTab">
+        <cui-button-group v-model="activeTab" style="margin-left: 10px">
             <cui-button-group-item icon="fas fa-list" :label="$lang.receptionList" value="encounterList"></cui-button-group-item>
             <cui-button-group-item 
                 v-for="(item, index) in dynamicTabs" :key="index" 
@@ -87,7 +87,7 @@ export default {
     .cc-medical-main-cont {
         display: grid;
         grid-template-columns: 100%;
-        grid-template-rows: 50px calc(100% - 50px);
+        grid-template-rows: 60px calc(100% - 60px);
         height: 100%
     }
     .cc-medical-main-tab-hidden {

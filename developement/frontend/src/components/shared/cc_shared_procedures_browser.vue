@@ -85,7 +85,7 @@ export default {
 <style>
     .cc-shared-procedures-browser-cont {
         display: grid;
-        grid-template-rows: 100px calc(100% - 100px);
+        grid-template-rows: 120px calc(100% - 120px);
         height: 100%
     }
     .cc-shared-procedures-browser-buttons {
