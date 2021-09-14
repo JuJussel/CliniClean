@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <cui-button-group v-model="activeCategory" class="cc_patient_medical_info_bg">
+    <div class="cc-patient-medical-info-main-wrapper">
+        <cui-button-group v-model="activeTab" class="cc_patient_medical_info_bg">
             <cui-button-group-item
                 v-for="(tab, index) in tabs" :key="index"
                 :label="tab.label"
@@ -9,15 +9,24 @@
                 :index="index"
             />
         </cui-button-group>
+        <keep-alive>
+            <component class="cc-patient-medical-info-main-cont" v-bind:is="activeTab"></component>
+        </keep-alive>
     </div>
 </template>
 
 <script>
+
+import basic from "./cc_shared_patient_medical_info_basic.vue"
+
 export default {
+    components: { 
+        basic
+    },
     data() {
         return {
             tabs: [
-                {label: "基本", name: "dashboard", icon: "fas fa-info"},
+                {label: "基本", name: "basic", icon: "fas fa-info"},
                 {label: "バイタル", name: "vitals", icon: "fas fa-chart-line"},
                 {label: "検査", name: "kensa", icon: "fas fa-microscope"},
                 {label: "処方歴", name: "meds", icon: "fas fa-pills"},
@@ -25,7 +34,7 @@ export default {
                 {label: "病歴", name: "byoumei", icon: "fas fa-disease"},
                 {label: "カルテ歴", style: "padding: 0", name: "karte", icon: "fas fa-file-alt"}
             ],
-            activeCategory: "dashboard"
+            activeTab: "basic"
         }
     }
 }
@@ -39,4 +48,16 @@ export default {
         flex-grow: 1
     }
 
+</style>
+
+<style scoped>
+    .cc-patient-medical-info-main-wrapper {
+        display: flex;
+        flex-direction: column;
+        height: 100%
+    }
+    .cc-patient-medical-info-main-cont {
+        flex-grow: 1;
+        overflow: auto;
+    }
 </style>

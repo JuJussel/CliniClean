@@ -3,16 +3,7 @@
         <div class="cc-shared-procedures-browser-buttons">
             <cui-button-group v-model="activeCategory">
                 <cui-button-group-item
-                    v-for="(cat, index) in filteredProcedureCategories[0]" :key="index"
-                    :label="$lang.procedureCategoryLabels[cat.label]"
-                    :value="cat.code"
-                    :icon="cat.icon"
-                    :index="index"
-                />
-            </cui-button-group>
-            <cui-button-group v-model="activeCategory">
-                <cui-button-group-item
-                    v-for="(cat, index) in filteredProcedureCategories[1]" :key="index"
+                    v-for="(cat, index) in filteredProcedureCategories" :key="index"
                     :label="$lang.procedureCategoryLabels[cat.label]"
                     :value="cat.code"
                     :icon="cat.icon"
@@ -25,7 +16,7 @@
             :key="index" 
             v-show="activeCategory === cat.code" 
             :category="cat"
-            style="margin: -10px"
+            style="overflow: auto"
             @select="selectProcedure"
             :favourites="favourites"
         />
@@ -70,13 +61,7 @@ export default {
     },
     computed: {
         filteredProcedureCategories() {
-            const n = 4;
-            let arr = this.categories;
-            arr = arr.filter(item => item.code != 90);
-            arr = new Array(Math.ceil(arr.length / n))
-                .fill()
-                .map(() => arr.splice(0, n));
-            return arr;
+            return this.categories.filter(item => item.code != 90);
         }
     }
 }
@@ -84,9 +69,10 @@ export default {
 
 <style>
     .cc-shared-procedures-browser-cont {
-        display: grid;
-        grid-template-rows: 120px calc(100% - 120px);
-        height: 100%
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        overflow: hidden;
     }
     .cc-shared-procedures-browser-buttons {
         margin-bottom: 20px

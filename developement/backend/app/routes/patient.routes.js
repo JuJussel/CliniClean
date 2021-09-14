@@ -26,11 +26,15 @@ module.exports = app => {
       [authJwt.verifyToken],
       patients.findOne
     )
-
     app.get(
-      "/api/patients/:patientId/medical",
+      "/api/patients/:patientId/medicalHistory",
       [authJwt.verifyToken],
-      patients.findMedicalInfo
+      patients.findMedicalHistory
+    )
+    app.get(
+      "/api/patients/:patientId/diseases",
+      [authJwt.verifyToken],
+      patients.findDiseases
     )
     app.get(
       "/api/patients/:patientId/payments/:date",

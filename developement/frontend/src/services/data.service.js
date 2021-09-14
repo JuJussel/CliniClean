@@ -115,6 +115,27 @@ export default {
                                     });
                             });
                         },
+                        //>>---Medical History-----//
+                        medicalHistory: function(id) {
+                            return new Promise(function(resolve, reject) {
+                                return http
+                                    .get("patients/" + id + "/medicalHistory")
+                                    .then((result) => {
+                                        instance.$store.commit(
+                                            "SET_PATIENT_INFO",
+                                            result
+                                        );
+                                        resolve(result);
+                                    })
+                                    .catch((result) => {
+                                        instance.$cui.notification({
+                                            text: result,
+                                            color: "danger",
+                                        });
+                                        reject;
+                                    });
+                            });
+                        },
                         //>>---Insurance Sets-----//
                         insuranceSets: function(id) {
                             return new Promise(function(resolve, reject) {

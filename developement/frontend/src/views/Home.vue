@@ -25,7 +25,6 @@
                 />
             </template>
             <template v-slot:center>
-                受付一覧
             </template>
             <template v-slot:right>
                 <div style="display: flex; align-items: center; margin-right: 20px" >

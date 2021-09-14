@@ -27,7 +27,7 @@ export default async (encounter, baseItems, clinicInfo) => {
     const holidaysList = await (
         await fetch("https://holidays-jp.github.io/api/v1/date.json")
         ).json();
-    const diseases = await http.get("patients/" + encounter.patient.id + "/medical");
+    const diseases = await http.get("patients/" + encounter.patient.id + "/diseases");
 
     var openingHours = clinicInfo.openingHours[date.day];
     openingHours = [

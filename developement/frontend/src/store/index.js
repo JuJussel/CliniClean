@@ -13,6 +13,7 @@ export const store = createStore({
                        reception: null,
                        patientList: null,
                    },
+                   activePatient: null,
                    settings: null,
                    config: null
                };
@@ -76,6 +77,12 @@ export const store = createStore({
                SET_PERSCRIPTION_TIMINGS(state, data) {
                    state.staticLists.perscriptionTimings = data;
                },
+               SET_PATIENT_INFO(state, data) {
+                   state.activePatient = data;
+               },
+               RESET_PATIENT_INFO(state) {
+                   state.activePatient = null;
+               }
            },
            actions: {},
        });

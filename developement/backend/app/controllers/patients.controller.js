@@ -9,8 +9,9 @@ exports.findMany = (req, res) => {
   name = japUtils.toFullwidth(name);
   Patient.find(
     {
-      $or: [{ _id: id }, { name: new RegExp("^" + name, "i") }],
+      $or: [{ _id: id }, { name: new RegExp("^" + name, "i") }]
     },
+    ['name', 'doctor', 'birthdate'],
     (err, patient) => {
       if (err) {
         $logger.error(err);
@@ -130,8 +131,15 @@ exports.findInsuranceSets = (req, res) => {
     }
   });
 };
+exports.findMedicalHistory = (req,res) => {
 
-exports.findMedicalInfo = (req, res) => {
+  // Get Patient from Mongo
+  // Get other stuff from Orca
+  //// Diseases
+
+
+}
+exports.findDiseases = (req, res) => {
   Orca.get.diseases(req.params.patientId, (err, data) => {
     if (err) {
       res.status(500).send({

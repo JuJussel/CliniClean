@@ -54,7 +54,7 @@
 import karte from "./cc_medical_karte.vue";
 import proceduresBrowser from "../shared/cc_shared_procedures_browser.vue";
 import baseCostUtil from "../../utils/encounterBaseCost";
-import patientMedicalInfo from "../shared/cc_shared_medical_info/cc_patient_medical_info.vue"
+import patientMedicalInfo from "../shared/cc_shared_medical_info/cc_shared_patient_medical_info_main.vue"
 
 export default {
     components: {
@@ -84,6 +84,7 @@ export default {
     },
     mounted() {
         this.prepareEncounter();
+        this.$dataService().get.patient.medicalHistory(this.encounter.patient.id);
     },
     methods: {
         async prepareEncounter() {
@@ -93,7 +94,7 @@ export default {
 
             if (preparedEncounter.baseCost.length < 1) {
 
-let baseCost = await baseCostUtil(
+                    let baseCost = await baseCostUtil(
                     this.encounter, 
                     this.$store.getters.config.encounterBaseCost, 
                     this.$store.getters.settings.clinicBaseInfo.public
