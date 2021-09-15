@@ -10,7 +10,7 @@
             />
         </cui-button-group>
         <keep-alive>
-            <component class="cc-patient-medical-info-main-cont" v-bind:is="activeTab" :patientData="patientData"></component>
+            <component class="cc-patient-medical-info-main-cont" v-bind:is="activeTab" :patientData="patientData" v-if="patientData"></component>
         </keep-alive>
     </div>
 </template>
