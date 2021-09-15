@@ -37,6 +37,7 @@ export const store = createStore({
                perscriptionTimings: (state) =>
                    state.staticLists.perscriptionTimings,
                settings: (state) => state.settings,
+               activePatientHistory: (state) => state.activePatient
            },
 
            mutations: {

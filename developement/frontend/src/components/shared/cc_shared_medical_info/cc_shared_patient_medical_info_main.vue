@@ -10,7 +10,7 @@
             />
         </cui-button-group>
         <keep-alive>
-            <component class="cc-patient-medical-info-main-cont" v-bind:is="activeTab"></component>
+            <component class="cc-patient-medical-info-main-cont" v-bind:is="activeTab" :patientData="patientData"></component>
         </keep-alive>
     </div>
 </template>
@@ -34,7 +34,8 @@ export default {
                 {label: "病歴", name: "byoumei", icon: "fas fa-disease"},
                 {label: "カルテ歴", style: "padding: 0", name: "karte", icon: "fas fa-file-alt"}
             ],
-            activeTab: "basic"
+            activeTab: "basic",
+            patientData: this.$store.getters.activePatientHistory
         }
     }
 }

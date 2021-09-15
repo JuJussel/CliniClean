@@ -2,6 +2,48 @@ const Patient = require("../models/patient.model.js");
 const Orca = require("../utils/orcaApi.util");
 const japUtils = require("japanese-string-utils");
 const File = require("../models/file.model.js");
+const Encounter = require("../models/encounter.model.js");
+const { relativeTimeRounding } = require("moment");
+const { isNull } = require("util");
+
+//Shared Functions
+
+const getOrcaPatientData = (id, result) => {
+  Orca.get.patient(id, (err, data) => {
+    if (err) {
+      result(err, null);
+    } else {
+      let responseData = {
+        id: parseInt(data.Patient_ID),
+        name: data.WholeName,
+        nameKana: data.WholeName_inKana,
+        birthdate: data.BirthDate,
+        gender: parseInt(data.Sex),
+        householderName: data.HouseHolder_WholeName,
+        relation: data.Relationship,
+        occupation: data.Occupation,
+        phone: data.CellularNumber,
+        mail: data.EmailAddress,
+        address: {
+            zip: data.Home_Address_Information?.Address_ZipCode,
+            addr: data.Home_Address_Information?.WholeAddress1,
+        },
+        company: {
+            name: data.WorkPlace_Information?.WholeName,
+            zip: data.WorkPlace_Information?.Address_ZipCode,
+            addr: data.WorkPlace_Information?.WholeAddress1,
+            phone: data.WorkPlace_Information?.PhoneNumber,
+        },
+        insurance: [
+          data.HealthInsurance_Information?.HealthInsurance_Information_child
+        ]
+      }
+      result(null, responseData);
+    }
+  });
+}
+
+// Exports
 
 exports.findMany = (req, res) => {
   let name = req.query.id;
@@ -41,56 +83,17 @@ exports.findPayments = (req,res) => {
 exports.findOne = (req, res) => {
   let id = req.params.patientId;
 
-  Orca.get.patient(id, (err, data) => {
+  getOrcaPatientData(id, (err, data) => {
     if (err) {
       $logger.error(err);
       res.status(500).send({
         message: err,
       });
     } else {
-      let responseData = {
-        id: parseInt(data.Patient_ID),
-        name: data.WholeName,
-        nameKana: data.WholeName_inKana,
-        birthdate: data.BirthDate,
-        gender: parseInt(data.Sex),
-        householderName: data.HouseHolder_WholeName,
-        relation: data.Relationship,
-        occupation: data.Occupation,
-        phone: data.CellularNumber,
-        mail: data.EmailAddress,
-        address: {
-            zip: data.Home_Address_Information?.Address_ZipCode,
-            addr: data.Home_Address_Information?.WholeAddress1,
-        },
-        company: {
-            name: data.WorkPlace_Information?.WholeName,
-            zip: data.WorkPlace_Information?.Address_ZipCode,
-            addr: data.WorkPlace_Information?.WholeAddress1,
-            phone: data.WorkPlace_Information?.PhoneNumber,
-        },
-        insurance: [
-          data.HealthInsurance_Information?.HealthInsurance_Information_child
-        ]
-      }
-      res.send({patientData: responseData});
+      res.send({patientData: data});
     }
-  });
+  })
 
-  // let name = req.query.id;
-  // let id = isNaN(parseInt(name)) ? null : name;
-  // Patient.find(
-  //   {
-  //     $or: [{ _id: id }, { name: new RegExp("^" + name, "i") }],
-  //   },
-  //   (err, patient) => {
-  //     if (err) {
-  //       $logger.error(err);
-  //       res.status(500).send({message: "Error retrieving Doctors"})
-  //     }
-  //     res.send(patient);
-  //   }
-  // );
 };
 
 exports.findInsuranceSets = (req, res) => {
@@ -131,12 +134,56 @@ exports.findInsuranceSets = (req, res) => {
     }
   });
 };
-exports.findMedicalHistory = (req,res) => {
+exports.findMedicalHistory = async (req,res) => {
 
   // Get Patient from Mongo
   // Get other stuff from Orca
   //// Diseases
+  const id = req.params.patientId;
 
+  try {
+    let patientData = await Patient.findById(id).lean().exec() ;
+    if(!patientData) res.status(500).send({ message: "Patient not found" });
+
+    patientData.encounters = await Encounter.find({patient: id}) || [];
+
+    getOrcaPatientData(id, (err, data) => {
+      if (err) {
+        $logger.error(err);
+        res.status(500).send({
+          message: err,
+        });
+      } else {
+        patientData = Object.assign(data, patientData);
+
+        // Welcome to callback hell ... this should really be done with await...
+        Orca.get.diseases(req.params.patientId, (err, diseases) => {
+
+          if (err) {
+            res.status(500).send({
+              message: err,
+            });
+          } else {
+            if (diseases.Api_Result === '21') {
+              patientData.diseases = [];
+            } else {
+              diseases = diseases.Disease_Information.Disease_Information_child;
+              if (diseases.Department_Code) {
+                diseases = [diseases];
+              }
+              patientData.diseases = diseases;
+            }
+            res.send(patientData);
+          }
+        });
+      
+      }
+    })
+
+  } catch (err) {
+    $logger.error(err);
+    res.status(500).send({ message: "Error getting Patient" });
+  }
 
 }
 exports.findDiseases = (req, res) => {

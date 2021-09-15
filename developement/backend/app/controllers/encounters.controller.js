@@ -46,18 +46,6 @@ exports.findRange = (req, res) => {
   })
 }
 
-// exports.findAll = (req,res) => {
-//   Encounter.findAll((err, data) => {
-//     if (err) {
-//         res.status(500).send({
-//           message: "Error retrieving Encounters"
-//         });
-//     } else {
-//       res.send(data);
-//     }
-//   })
-// }
-
 exports.create = (req,res) => {
 
     let request = req.body
