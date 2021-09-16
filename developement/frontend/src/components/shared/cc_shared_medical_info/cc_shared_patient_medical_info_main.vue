@@ -34,8 +34,12 @@ export default {
                 {label: "病歴", name: "byoumei", icon: "fas fa-disease"},
                 {label: "カルテ歴", style: "padding: 0", name: "karte", icon: "fas fa-file-alt"}
             ],
-            activeTab: "basic",
-            patientData: this.$store.getters.activePatientHistory
+            activeTab: "basic"
+        }
+    },
+    computed: {
+        patientData() {
+            return this.$store.getters.activePatientHistory
         }
     }
 }

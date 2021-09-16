@@ -113,7 +113,7 @@ export default {
             this.saved = false;
             this.saving = true;
             this.encounterState.karte = state;
-            await this.$dataService().put.encounter(this.encounterState);
+            await this.$dataService().put.encounters(this.encounterState);
             this.saving = false;
             this.saved = true;
         },
@@ -124,7 +124,7 @@ export default {
             encounter.status = 10;
             encounter.closeEncounter = true;
             try {
-                await this.$dataService().put.encounter(encounter);
+                await this.$dataService().put.encounters(encounter);
                 this.$cui.notification({
                     text: this.$lang.examinationClosed,
                     duration: 3000,

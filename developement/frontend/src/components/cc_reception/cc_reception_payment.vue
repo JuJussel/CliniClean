@@ -129,7 +129,7 @@ export default {
                 change: this.change,
                 method: this.selectedPaymentMethod
             }
-            await this.$dataService().put.encounter(encounter);
+            await this.$dataService().put.encounters(encounter);
             this.$emit('close');
 
         }

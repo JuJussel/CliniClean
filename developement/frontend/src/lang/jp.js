@@ -34,6 +34,7 @@ export default {
     gender: "性別",
     home: "ホーム   ",
     householder: "世代主",
+    id: "番号",
     image: "画像",
     inEncounter: "診察中",
     input: "入力",

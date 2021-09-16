@@ -21,7 +21,7 @@ export default {
     computed: {
         basicTable() {
             return [
-                {label: this.$lang.patientId, value: this.patientData.id},
+                {label: this.$lang.id, value: this.patientData.id},
                 {label: this.$lang.name, value: this.patientData.name},
                 {label: this.$lang.age, value: this.$dayjs().diff(this.patientData.birthdate, 'year')},
                 {label: this.$lang.gender, value: this.patientData.gender == 1 ? this.$lang.male : this.$lang.female},

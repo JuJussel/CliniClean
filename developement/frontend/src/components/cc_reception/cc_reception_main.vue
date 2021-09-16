@@ -203,10 +203,15 @@ export default {
                 diff: diff,
             };
         },
-        changeStatus(row) {
+        async changeStatus(row) {
             const status = row.status
             if (status === 2) {
                 this.view.modal.reservationAccept = row
+            } else {
+                this.loading.recTable = true;
+                console.log(row);
+                await this.$dataService().put.encounters(row);
+                this.getEncounters();
             }
         },
         savePayment() {
