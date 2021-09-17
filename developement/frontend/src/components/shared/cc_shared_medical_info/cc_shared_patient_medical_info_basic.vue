@@ -21,18 +21,60 @@
             </template>
         </cui-table>
         <cui-table style="grid-column-end: span 2"></cui-table>
-    </div>
     <cui-modal :visible="modals.basic.visible" closable @close="modals.basic.visible = false">
-        <cui-card style="width: 600px; height: 600px">
+        <cui-card style="width: 250px; height: auto" >
             <template #header> {{ $lang.basic }} </template>
-            <div style="position: relative">
-                <cui-select :data="bloodTypes" :label="$lang.bloodType" v-model="modals.basic.data.bloodType"/>
-                <cui-input :label="$lang.alcohol" v-model="modals.basic.data.alcohol"/>
-                <cui-input :label="$lang.tabaco" v-model="modals.basic.data.tabaco"/>
+            <div class="cc-scoped-modal-cont">
+                {{ $lang.bloodType }}
+                <div style="display: flex; justify-content: space-between; width: 100%">
+                    <div>
+                        <cui-radio
+                            v-model="modals.basic.data.bloodType"
+                            :label="$lang.unknown"
+                            :value="$lang.unknown"
+                        />
+
+                    </div>
+                    <div>
+                        <cui-radio
+                            v-model="modals.basic.data.bloodType"
+                            v-for="(item, index) in bloodTypes.minus"
+                            :key="index"
+                            :label="item"
+                            :value="item"
+                        />
+                    </div>
+                    <div>
+                        <cui-radio
+                            v-model="modals.basic.data.bloodType"
+                            v-for="(item, index) in bloodTypes.plus"
+                            :key="index"
+                            :label="item"
+                            :value="item"
+                        />
+                    </div>
+                </div>
+                <cui-input :label="$lang.alcohol" v-model="modals.basic.data.alcohol" append="f" />
+                <cui-input :label="$lang.tabaco" v-model="modals.basic.data.tabaco" append="f" />
             </div>
+            <template #footer>
+                <cui-button
+                    :label="$lang.cancel"
+                    @click="$emit('close')"
+                    plain
+                />
+                <cui-button
+                    :label="$lang.register"
+                    primary
+                    :disabled="!inputOK"
+                    @click="registerWalkin"
+                />
+
+            </template>
         </cui-card>
 
     </cui-modal>
+    </div>
 </template>
 
 <script>
@@ -49,17 +91,22 @@ export default {
                     visible: false
                 }
             },
-            bloodTypes: [
-                '不明',
-                '0-',
-                '0+',
-                'A-',
-                'A+',
-                'B-',
-                'B+',
-                'AB-',
-                'AB+'
-            ]
+            bloodTypes: {
+                minus: [
+                    '0-',
+                    'A-',
+                    'B-',
+                    'AB-'
+                ],
+                plus: [
+                    '0+',
+                    'A+',
+                    'B+',
+                    'AB+'
+                ]
+            }
+            
+            
 
         }
     },
@@ -99,5 +146,7 @@ export default {
         grid-template-columns: calc(50% - 10px) auto;
         grid-template-rows: 200px auto;
         gap: 20px;
+    }
+    .cc-scoped-modal-cont {
     }
 </style>
