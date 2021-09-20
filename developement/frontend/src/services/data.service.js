@@ -560,6 +560,24 @@ export default {
                                 });
                         });
                     },
+                    medical: {
+                        basics: function(data) {
+                            return new Promise(function(resolve, reject) {
+                                return http
+                                    .put("patients/" + data.patientId + "/medical/basics", data.data)
+                                    .then((result) => {
+                                        resolve(result);
+                                    })
+                                    .catch((result) => {
+                                        instance.$cui.notification({
+                                            text: result,
+                                            color: "danger",
+                                        });
+                                        reject(result);
+                                    });
+                            });
+                        }
+                    },
                     encounters: function(encounter) {
                         return new Promise(function(resolve, reject) {
                             return http

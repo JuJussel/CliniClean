@@ -10,7 +10,10 @@
             />
         </cui-button-group>
         <keep-alive>
-            <component class="cc-patient-medical-info-main-cont" v-bind:is="activeTab" :patientData="patientData" v-if="patientData"></component>
+            <div style="position:relative">
+                <div class="loader" v-if="loading" />
+                <component class="cc-patient-medical-info-main-cont" v-bind:is="activeTab" :patientData="patientData" v-if="patientData" @update="updatePatientMedicalHistory"></component>
+            </div>
         </keep-alive>
     </div>
 </template>
@@ -34,12 +37,20 @@ export default {
                 {label: "病歴", name: "byoumei", icon: "fas fa-disease"},
                 {label: "カルテ歴", style: "padding: 0", name: "karte", icon: "fas fa-file-alt"}
             ],
-            activeTab: "basic"
+            activeTab: "basic",
+            loading: false
         }
     },
     computed: {
         patientData() {
             return this.$store.getters.activePatientHistory
+        }
+    },
+    methods: {
+        async updatePatientMedicalHistory() {
+            this.loading = true;
+            await this.$dataService().get.patient.medicalHistory(this.patientData.id);
+            this.loading = false
         }
     }
 }

@@ -342,3 +342,26 @@ exports.edit = async (req, res) => {
 
 
 };
+
+exports.editMedicalBasics = (req,res) => {
+  
+  let request = req.body;
+  let patientId = req.params.patientId;
+
+  Patient.findOneAndUpdate(
+    {_id: patientId},
+    {
+      $set: request
+    },
+    (err) => {
+      if (err) {
+        $logger.error(err);
+        res.status(500).send({ message: "Error updating Patient" });
+      }
+      res.send({ok: true});
+
+    }
+  )
+
+
+}

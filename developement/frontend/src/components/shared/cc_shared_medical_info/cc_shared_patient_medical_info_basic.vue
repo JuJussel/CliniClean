@@ -21,10 +21,11 @@
             </template>
         </cui-table>
         <cui-table style="grid-column-end: span 2"></cui-table>
-    <cui-modal :visible="modals.basic.visible" closable @close="modals.basic.visible = false">
-        <cui-card style="width: 250px; height: auto" >
+    <cui-modal :visible="modals.basic.visible" :closable="!modals.basic.loading" @close="modals.basic.visible = false">
+        <cui-card style="width: 250px; height: auto; position: relative">
             <template #header> {{ $lang.basic }} </template>
-            <div class="cc-scoped-modal-cont">
+            <div style="position: relative">
+                <div class="loader" v-if="modals.basic.loading"/>
                 {{ $lang.bloodType }}
                 <div style="display: flex; justify-content: space-between; width: 100%">
                     <div>
@@ -54,22 +55,22 @@
                         />
                     </div>
                 </div>
-                <cui-input :label="$lang.alcohol" v-model="modals.basic.data.alcohol" append="f" />
-                <cui-input :label="$lang.tabaco" v-model="modals.basic.data.tabaco" append="f" />
+                <cui-input :label="$lang.alcohol" v-model="modals.basic.data.alcohol" :append="$lang.countCup" />
+                <cui-input :label="$lang.tabaco" v-model="modals.basic.data.tabaco" :append="$lang.countStick" />
             </div>
             <template #footer>
-                <cui-button
-                    :label="$lang.cancel"
-                    @click="$emit('close')"
-                    plain
-                />
-                <cui-button
-                    :label="$lang.register"
-                    primary
-                    :disabled="!inputOK"
-                    @click="registerWalkin"
-                />
-
+                    <cui-button
+                        :label="$lang.cancel"
+                        @click="this.modals.basic.visible = false"
+                        plain
+                        :loading="modals.basic.loading"
+                    />
+                    <cui-button
+                        :label="$lang.register"
+                        primary
+                        @click="updateBasic"
+                        :loading="modals.basic.loading"
+                    />
             </template>
         </cui-card>
 
@@ -84,10 +85,14 @@ export default {
             default: null
         }
     },
+    emits: [
+        'update'
+    ],
     data() {
         return {
             modals: {
                 basic: {
+                    loading: false,
                     visible: false
                 }
             },
@@ -130,11 +135,22 @@ export default {
     methods: {
         showBasicModal() {
             this.modals.basic.data = {
-                bloodType: '',
-                alcohol: '',
-                tabaco: ''
+                bloodType: JSON.parse(JSON.stringify(this.patientData.bloodType || '不明')),
+                alcohol: JSON.parse(JSON.stringify(this.patientData.alcohol || '')),
+                tabaco: JSON.parse(JSON.stringify(this.patientData.tabaco || ''))
             };
             this.modals.basic.visible = true;
+        },
+        async updateBasic() {
+            this.modals.basic.loading = true;
+            const sendData = {
+                data: this.modals.basic.data,
+                patientId: this.patientData.id
+            }
+            await this.$dataService().put.medical.basics(sendData);
+            this.modals.basic.loading = false;
+            this.modals.basic.visible = false;
+            this.$emit('update');
         }
     }
 }
@@ -146,7 +162,5 @@ export default {
         grid-template-columns: calc(50% - 10px) auto;
         grid-template-rows: 200px auto;
         gap: 20px;
-    }
-    .cc-scoped-modal-cont {
     }
 </style>

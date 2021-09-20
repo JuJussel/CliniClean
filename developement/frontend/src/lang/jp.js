@@ -15,6 +15,8 @@ export default {
     confirmOrderDelete: "オーダを削除しますか？",
     costInCurrency: "金額（円）",
     currencySymbol: "円",
+    countCup: "杯",
+    countStick: "本",
     comment: "コメント",
     date: "日付",
     day: "日",
