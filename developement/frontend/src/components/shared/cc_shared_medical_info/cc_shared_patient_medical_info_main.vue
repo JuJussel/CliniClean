@@ -21,23 +21,25 @@
 <script>
 
 import basic from "./cc_shared_patient_medical_info_basic.vue"
+import vitals from "./cc_shared_patient_medical_info_vitals.vue"
 
 export default {
     components: { 
-        basic
+        basic,
+        vitals
     },
     data() {
         return {
             tabs: [
-                {label: "基本", name: "basic", icon: "fas fa-info"},
-                {label: "バイタル", name: "vitals", icon: "fas fa-chart-line"},
-                {label: "検査", name: "kensa", icon: "fas fa-microscope"},
-                {label: "処方歴", name: "meds", icon: "fas fa-pills"},
-                {label: "行為歴", name: "koui", icon: "fas fa-list"},
-                {label: "病歴", name: "byoumei", icon: "fas fa-disease"},
-                {label: "カルテ歴", style: "padding: 0", name: "karte", icon: "fas fa-file-alt"}
+                {label: this.$lang.basic, name: "basic", icon: "fas fa-info"},
+                {label: this.$lang.vitals, name: "vitals", icon: "fas fa-chart-line"},
+                {label: this.$lang.procedureCategoryLabels.exam, name: "exam", icon: "fas fa-microscope"},
+                {label: this.$lang.procedureCategoryLabels.perscription, name: "perscription", icon: "fas fa-pills"},
+                {label: this.$lang.procedureHistory, name: "koui", icon: "fas fa-list"},
+                {label: this.$lang.diseaseName, name: "byoumei", icon: "fas fa-disease"},
+                {label: this.$lang.karteHistory, style: "padding: 0", name: "karte", icon: "fas fa-file-alt"}
             ],
-            activeTab: "basic",
+            activeTab: "vitals",
             loading: false
         }
     },

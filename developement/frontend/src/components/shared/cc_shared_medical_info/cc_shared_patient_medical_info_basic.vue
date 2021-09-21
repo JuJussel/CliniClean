@@ -20,7 +20,11 @@
                 <td> {{ row.value }} </td>
             </template>
         </cui-table>
-        <cui-table style="grid-column-end: span 2"></cui-table>
+        <cui-table style="grid-column-end: span 2">
+            <template #header>
+                <h2> {{ $lang.note }} </h2>
+            </template>
+        </cui-table>
     <cui-modal :visible="modals.basic.visible" :closable="!modals.basic.loading" @close="modals.basic.visible = false">
         <cui-card style="width: 250px; height: auto; position: relative">
             <template #header> {{ $lang.basic }} </template>
