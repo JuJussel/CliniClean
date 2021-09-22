@@ -8,7 +8,8 @@ const PatientSchema = new Schema({
     visible: {type: Boolean, default: true},
     active: {type: Boolean, default: true},
     doctor: Number,
-    files: {type: Array}
+    files: {type: Array},
+    vitals: {type:Array}
 },{ 
     toJSON: { virtuals: true },
     strict: false

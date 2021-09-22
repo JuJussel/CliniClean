@@ -3,8 +3,8 @@ const Orca = require("../utils/orcaApi.util");
 const japUtils = require("japanese-string-utils");
 const File = require("../models/file.model.js");
 const Encounter = require("../models/encounter.model.js");
-const { relativeTimeRounding } = require("moment");
-const { isNull } = require("util");
+// const { relativeTimeRounding } = require("moment");
+// const { isNull } = require("util");
 
 //Shared Functions
 
@@ -337,31 +337,4 @@ exports.edit = async (req, res) => {
       );
     }
   });
-
-
-
-
 };
-
-exports.editMedicalBasics = (req,res) => {
-  
-  let request = req.body;
-  let patientId = req.params.patientId;
-
-  Patient.findOneAndUpdate(
-    {_id: patientId},
-    {
-      $set: request
-    },
-    (err) => {
-      if (err) {
-        $logger.error(err);
-        res.status(500).send({ message: "Error updating Patient" });
-      }
-      res.send({ok: true});
-
-    }
-  )
-
-
-}

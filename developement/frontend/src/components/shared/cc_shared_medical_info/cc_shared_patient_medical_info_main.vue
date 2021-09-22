@@ -10,9 +10,9 @@
             />
         </cui-button-group>
         <keep-alive>
-            <div style="position:relative">
+            <div style="position:relative; overflow: auto; flex: 1">
                 <div class="loader" v-if="loading" />
-                <component class="cc-patient-medical-info-main-cont" v-bind:is="activeTab" :patientData="patientData" v-if="patientData" @update="updatePatientMedicalHistory"></component>
+                <component v-bind:is="activeTab" :patientData="patientData" v-if="patientData" @update="updatePatientMedicalHistory"></component>
             </div>
         </keep-alive>
     </div>
@@ -73,9 +73,5 @@ export default {
         display: flex;
         flex-direction: column;
         height: 100%
-    }
-    .cc-patient-medical-info-main-cont {
-        flex-grow: 1;
-        overflow: auto;
     }
 </style>

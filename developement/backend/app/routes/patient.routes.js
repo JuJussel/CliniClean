@@ -1,6 +1,7 @@
 module.exports = app => {
     const { authJwt } = require("../middleware");
     const patients = require("../controllers/patients.controller.js");
+    const patientsMedical = require("../controllers/patients.medical.controller.js");
 
     app.use(function(req, res, next) {
         res.header(
@@ -48,6 +49,12 @@ module.exports = app => {
       patients.create
     )
 
+    app.post(
+      "/api/patients/:patientId/medical/vitals",
+      [authJwt.verifyToken],
+      patientsMedical.addMedicalVitals
+    )
+
     app.put(
       "/api/patients/:patientId",
       [authJwt.verifyToken],
@@ -57,8 +64,7 @@ module.exports = app => {
     app.put(
       "/api/patients/:patientId/medical/basics",
       [authJwt.verifyToken],
-      patients.editMedicalBasics
+      patientsMedical.editMedicalBasics
     )
-
 
   }
