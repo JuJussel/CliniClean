@@ -150,7 +150,6 @@ export default {
     workOrSchoolName: "会社・学校名",
     year: "年",
     zipCode: "郵便番号",
-
     validationMessages: {
         "string.empty": "ご入力してください",
         "number.base": "数字をご入力してください",
@@ -159,6 +158,20 @@ export default {
         "string.pattern.base": "入力に誤りがあります",
         "any.invalid": "入力に誤りがあります",
         "date.min": "過去の日付を選択してください",
-        "date.max": "未来の日付を選択してください",
+        "date.max": "未来の日付を選択してください"
     },
+    vitalCategories: {
+        bloodType: "血液型",
+        bloodPreasureHigh: "血圧S",
+        bloodPreasureLow: "血圧D",
+        pulse: "脈拍",
+        temperature: "体温",
+        spo2: "SPO2",
+        weight: "体重",
+        bmi: "BMI",
+        waist: "腹囲",
+        height: "身長",
+        head: "頭囲",
+        breast: "胸囲"
+    }
 };
