@@ -1,10 +1,29 @@
 <template>
     <div>
-        <cui-table>
+        <cui-table :data="this.$store.getters.config.vitalCategories">
             <template #header>
                 <h2> {{ $lang.vitals }} </h2>
                 <cui-button icon="fas fa-plus" :label="$lang.register" @click="openVitalRegister"/>    
-            </template>    
+            </template>
+            <template #thead>
+                <cui-th>Test1</cui-th>
+                <cui-th
+                    v-for="(item, index) in patientData.vitals" 
+                    :key="index"
+                    style="min-width: 150px"
+                >
+                {{ parseDate(item.date) }}
+                </cui-th>
+            </template>
+            <template v-slot:row="{ row }">
+                <td> {{ $lang.vitalCategories[row.name] }} </td>
+                <td
+                    v-for="(item, index) in patientData.vitals" 
+                    :key="index"
+                >
+                    {{ returnVitalValue(item.values, row) }}
+                </td>
+            </template>
         </cui-table>    
     </div>
     <cui-modal :visible="modals.vitalRegister.visible" :closable="!modals.vitalRegister.loading" @close="modals.vitalRegister.visible = false">
@@ -36,9 +55,7 @@
                     :loading="modals.vitalRegister.loading"
                 />
             </template>
-
         </cui-card>
-
     </cui-modal>
 </template>
 
@@ -74,13 +91,25 @@ export default {
         },
         async register() {
             this.modals.vitalRegister.loading = true;
+            let vitals = this.modals.vitalRegister.data.filter(item => item.value !== "");
             const sendData = {
                 patientId: this.patientData.id,
-                data: this.modals.vitalRegister.data
+                values: vitals
             }
             await this.$dataService().post.medical.vitals(sendData);
             this.modals.vitalRegister.loading = false;
             this.modals.vitalRegister.visible = false;
+            this.$emit('update');
+        },
+        returnVitalValue(vitals, row) {
+            return vitals.find(item => item.code === row.code)?.value || "";
+        },
+        parseDate(date) {
+            return this.$dayjs(date).format(
+                'YYYY' + this.$lang.dateLocals.yearSeparator +
+                'MM' + this.$lang.dateLocals.monthSeparator +
+                'DD' + this.$lang.dateLocals.daySeparator
+            )
         }
     },
     computed: {

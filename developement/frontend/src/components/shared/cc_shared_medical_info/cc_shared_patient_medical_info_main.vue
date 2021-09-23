@@ -28,6 +28,9 @@ export default {
         basic,
         vitals
     },
+    beforeUnmount() {
+        this.$store.commit('SET_PATIENT_INFO', null);
+    },
     data() {
         return {
             tabs: [
@@ -40,12 +43,17 @@ export default {
                 {label: this.$lang.karteHistory, style: "padding: 0", name: "karte", icon: "fas fa-file-alt"}
             ],
             activeTab: "vitals",
-            loading: false
+            loading: true
         }
     },
     computed: {
         patientData() {
-            return this.$store.getters.activePatientHistory
+            return this.$store.getters.activePatientHistory;
+        }
+    },
+    watch: {
+        patientData() {
+            if(this.patientData) this.loading = false; 
         }
     },
     methods: {

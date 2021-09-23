@@ -543,7 +543,7 @@ export default {
                         vitals: function(data) {
                             return new Promise(function(resolve, reject) {
                                 return http
-                                    .post("patients/" + data.patientId + "/medical/vitals", data.data)
+                                    .post("patients/" + data.patientId + "/medical/vitals", data)
                                     .then((result) => {
                                         resolve(result);
                                     })

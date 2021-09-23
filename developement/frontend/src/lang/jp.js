@@ -173,5 +173,10 @@ export default {
         height: "身長",
         head: "頭囲",
         breast: "胸囲"
+    },
+    dateLocals: {
+        yearSeparator: "年",
+        monthSeparator: "月",
+        daySeparator: "日"
     }
 };

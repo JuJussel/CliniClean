@@ -3,6 +3,7 @@ const Orca = require("../utils/orcaApi.util");
 const japUtils = require("japanese-string-utils");
 const File = require("../models/file.model.js");
 const Encounter = require("../models/encounter.model.js");
+const Vital = require("../models/vital.model.js");
 // const { relativeTimeRounding } = require("moment");
 // const { isNull } = require("util");
 
@@ -78,7 +79,7 @@ exports.findPayments = (req,res) => {
       res.send(payments);
     }
   })
-}
+};
 
 exports.findOne = (req, res) => {
   let id = req.params.patientId;
@@ -134,6 +135,7 @@ exports.findInsuranceSets = (req, res) => {
     }
   });
 };
+
 exports.findMedicalHistory = async (req,res) => {
 
   // Get Patient from Mongo
@@ -146,6 +148,7 @@ exports.findMedicalHistory = async (req,res) => {
     if(!patientData) res.status(500).send({ message: "Patient not found" });
 
     patientData.encounters = await Encounter.find({patient: id}) || [];
+    patientData.vitals = await Vital.find({patientId: id}).sort({date:-1}) || [];
 
     getOrcaPatientData(id, (err, data) => {
       if (err) {
@@ -185,7 +188,8 @@ exports.findMedicalHistory = async (req,res) => {
     res.status(500).send({ message: "Error getting Patient" });
   }
 
-}
+};
+
 exports.findDiseases = (req, res) => {
   Orca.get.diseases(req.params.patientId, (err, data) => {
     if (err) {
