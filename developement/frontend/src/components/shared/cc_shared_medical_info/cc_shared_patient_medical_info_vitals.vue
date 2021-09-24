@@ -1,6 +1,6 @@
 <template>
     <div>
-        <cui-table :data="this.$store.getters.config.vitalCategories" style="height:300px">
+        <cui-table :data="this.$store.getters.config.vitalCategories" style="height:610px">
             <template #header>
                 <h2> {{ $lang.vitals }} </h2>
                 <cui-button icon="fas fa-plus" :label="$lang.register" @click="openVitalRegister"/>    
@@ -16,7 +16,10 @@
                 </cui-th>
             </template>
             <template v-slot:row="{ row }">
-                <td class="vital-row-header-scoped"> {{ $lang.vitalCategories[row.name] }} </td>
+                <td class="vital-row-header-scoped"> 
+                    {{ $lang.vitalCategories[row.name] }} 
+                    {{ row.unit }}
+                </td>
                 <td
                     v-for="(item, index) in patientData.vitals" 
                     :key="index"
@@ -131,7 +134,7 @@ export default {
         flex-wrap: wrap;
     }
     .vital-row-header-scoped {
-        min-width: 50px;
+        min-width: 100px;
         position: sticky;
         left: 0;
         z-index: 3!important;

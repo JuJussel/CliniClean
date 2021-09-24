@@ -42,7 +42,7 @@ export default {
                 {label: this.$lang.diseaseName, name: "byoumei", icon: "fas fa-disease"},
                 {label: this.$lang.karteHistory, style: "padding: 0", name: "karte", icon: "fas fa-file-alt"}
             ],
-            activeTab: "vitals",
+            activeTab: "basic",
             loading: true
         }
     },
