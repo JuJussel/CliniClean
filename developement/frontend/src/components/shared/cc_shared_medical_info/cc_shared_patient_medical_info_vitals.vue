@@ -1,6 +1,6 @@
 <template>
     <div>
-        <cui-table :data="this.$store.getters.config.vitalCategories" style="height:610px">
+        <cui-table :data="$store.getters.config.vitalCategories" style="height:610px">
             <template #header>
                 <h2> {{ $lang.vitals }} </h2>
                 <cui-button icon="fas fa-plus" :label="$lang.register" @click="openVitalRegister"/>    
