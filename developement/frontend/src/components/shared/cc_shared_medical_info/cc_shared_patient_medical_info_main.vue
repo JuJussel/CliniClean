@@ -23,10 +23,11 @@
 import basic from "./cc_shared_patient_medical_info_basic.vue"
 import vitals from "./cc_shared_patient_medical_info_vitals.vue"
 import exams from "./cc_shared_patient_medical_info_exams.vue"
+import perscription from "./cc_shared_patient_medical_info_perscription.vue"
 
 export default {
     components: { 
-        basic, vitals, exams
+        basic, vitals, exams, perscription
     },
     beforeUnmount() {
         this.$store.commit('SET_PATIENT_INFO', null);

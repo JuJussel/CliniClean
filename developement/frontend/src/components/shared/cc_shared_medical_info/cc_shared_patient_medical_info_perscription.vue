@@ -1,13 +1,13 @@
 <template>
     <div>
-        <cui-table :data="examsList" style="max-height:610px">
+        <!-- <cui-table :data="examsList" style="max-height:610px">
             <template #header>
-                <h2> {{ $lang.exam }} </h2>
+                <h2> {{ $lang.procedureCategoryLabels.perscription }} </h2>
             </template>
             <template #thead>
                 <cui-th class="vital-row-header-scoped" style="z-index: 5!important"></cui-th>
                 <cui-th
-                    v-for="(item, index) in exams" 
+                    v-for="(item, index) in exams"
                     :key="index"
                     style="min-width: 150px"
                 >
@@ -25,7 +25,7 @@
                     {{ parseValue(item, row) }}
                 </td>
             </template>
-        </cui-table>    
+        </cui-table>     -->
     </div>
 </template>
 
