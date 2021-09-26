@@ -24,10 +24,11 @@ import basic from "./cc_shared_patient_medical_info_basic.vue"
 import vitals from "./cc_shared_patient_medical_info_vitals.vue"
 import exams from "./cc_shared_patient_medical_info_exams.vue"
 import perscription from "./cc_shared_patient_medical_info_perscription.vue"
+import procedures from "./cc_shared_patient_medical_info_procedures.vue"
 
 export default {
     components: { 
-        basic, vitals, exams, perscription
+        basic, vitals, exams, perscription, procedures
     },
     beforeUnmount() {
         this.$store.commit('SET_PATIENT_INFO', null);
@@ -39,7 +40,7 @@ export default {
                 {label: this.$lang.vitals, name: "vitals", icon: "fas fa-chart-line"},
                 {label: this.$lang.procedureCategoryLabels.exam, name: "exams", icon: "fas fa-microscope"},
                 {label: this.$lang.procedureCategoryLabels.perscription, name: "perscription", icon: "fas fa-pills"},
-                {label: this.$lang.procedureHistory, name: "koui", icon: "fas fa-list"},
+                {label: this.$lang.procedureHistory, name: "procedures", icon: "fas fa-list"},
                 {label: this.$lang.diseaseName, name: "byoumei", icon: "fas fa-disease"},
                 {label: this.$lang.karteHistory, style: "padding: 0", name: "karte", icon: "fas fa-file-alt"}
             ],

@@ -1,24 +1,21 @@
 <template>
     <div>
-        <cui-table :data="persc" style="max-height:610px">
+        <cui-table :data="procedures" style="max-height:610px">
             <template #header>
-                <h2> {{ $lang.procedureCategoryLabels.perscription }} </h2>
+                <h2> {{ $lang.procedursOnly }} </h2>
             </template>
             <template #thead>
                 <cui-th> {{ $lang.date }} </cui-th>
-                <cui-th> {{ $lang.perscriptionType }} </cui-th>
-                <cui-th> {{ $lang.perscriptionName }} </cui-th>
-                <cui-th> {{ $lang.perscriptionName }} </cui-th>
+                <cui-th></cui-th>
+                <cui-th> {{ $lang.procedureName }} </cui-th>
             </template>
             <template v-slot:row="{ row }">
                 <td> {{ parseDate(row.date) }} </td>
-                <td> {{ row.varData.type.name }} </td>
-                <td> {{ row.name }} </td>
                 <td> 
-                    {{ row.varData.timing.name }} 
-                    {{ row.varData.amount + row.taniname }} 
-                    {{ row.varData.duration + row.varData.timing.unit }} 
+                    <i :class="row.cat.icon" />
+                    {{ $lang.procedureCategoryLabels[row.cat.label] }} 
                 </td>
+                <td> {{ row.name }} </td>
             </template>
         </cui-table>    
     </div>
@@ -44,21 +41,21 @@ export default {
         }
     },
     computed: {
-        persc() {
-            let perscriptions = [];
+        procedures() {
+            let proceduresList = [];
             this.patientData.encounters.forEach(enc => {
                 let procedures =  enc.karte?.procedures || null;
                 if(!procedures) return;
-                procedures = procedures.filter(proc => proc.cat?.code === 25)
+                procedures = procedures.filter(proc => proc.cat?.code !== 25)
                 procedures = procedures.map(item => {
                     item.encounter = enc.id;
                     item.date = enc.date;
                     return item;
                 })
-                perscriptions = perscriptions.concat(procedures);
+                proceduresList = proceduresList.concat(procedures);
 
             })
-            return perscriptions
+            return proceduresList
         }
     }
 
