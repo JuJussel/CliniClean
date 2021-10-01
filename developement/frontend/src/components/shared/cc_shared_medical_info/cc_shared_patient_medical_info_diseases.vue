@@ -31,12 +31,23 @@
                 <td> {{ parseDate(row.Disease_EndDate) }} </td>
             </template>
         </cui-table>    
-
+        <cui-modal :visible="diseaseEditor.visible" :closable="diseaseEditor.loading" @close="diseaseEditor.visible = false">
+            <cui-card style="width: 600px; max-height: 500px" v-if="diseaseEditor.visible">
+                <template #header> {{ $lang.diseaseName }} {{ $lang.register }} </template>
+                <disease-editor :diseaseData="diseaseEditor.data" />
+            </cui-card>
+        </cui-modal>
     </div>
 </template>
 
 <script>
+
+import diseaseEditor from "../cc_shared_disease_editor.vue"
+
 export default {
+    components: {
+        diseaseEditor
+    },
     props: {
         patientData: {
             default: null
@@ -45,6 +56,15 @@ export default {
     emits: [
         'update'
     ],
+    data() {
+        return {
+            diseaseEditor: {
+                visible: false,
+                loading: false,
+                data: null
+            }
+        }
+    },
     methods: {
         parseDate(date) {
             if(!date) return;
@@ -56,6 +76,7 @@ export default {
         },
         openDiseaseEditor(data) {
             console.log(data);
+            this.diseaseEditor.visible = true;
         }
     },
     computed: {
