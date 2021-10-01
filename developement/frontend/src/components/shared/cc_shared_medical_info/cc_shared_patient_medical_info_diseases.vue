@@ -3,6 +3,7 @@
         <cui-table :data="diseases.active" style="max-height:610px">
             <template #header>
                 <h2> {{ $lang.diseaseName }} {{ $lang.valid }} </h2>
+                <cui-button icon="fas fa-plus" :label="$lang.register" @click="openDiseaseEditor(null)"/>    
             </template>
             <template #thead>
                 <cui-th> {{ $lang.diseaseName }} </cui-th>
@@ -52,6 +53,9 @@ export default {
                 'MM' + this.$lang.dateLocals.monthSeparator +
                 'DD' + this.$lang.dateLocals.daySeparator
             )
+        },
+        openDiseaseEditor(data) {
+            console.log(data);
         }
     },
     computed: {
