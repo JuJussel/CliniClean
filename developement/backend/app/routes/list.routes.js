@@ -14,5 +14,6 @@ module.exports = app => {
     app.get("/api/lists/insuranceProviders/:number",[authJwt.verifyToken], lists.insuranceProviders.findOne);
     app.get("/api/lists/addresses/:zip",[authJwt.verifyToken], lists.addresses.findOne);
     app.get("/api/lists/schemas",[authJwt.verifyToken], lists.schemas.findAll);
+    app.get("/api/lists/diseases/:query",[authJwt.verifyToken], lists.diseases.findMany);
 
   };

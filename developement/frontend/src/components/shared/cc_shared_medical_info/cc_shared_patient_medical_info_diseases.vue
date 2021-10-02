@@ -32,7 +32,7 @@
             </template>
         </cui-table>    
         <cui-modal :visible="diseaseEditor.visible" :closable="diseaseEditor.loading" @close="diseaseEditor.visible = false">
-            <cui-card style="width: 600px; max-height: 500px" v-if="diseaseEditor.visible">
+            <cui-card style="width: 600px; height: 600px" v-if="diseaseEditor.visible">
                 <template #header> {{ $lang.diseaseName }} {{ $lang.register }} </template>
                 <disease-editor :diseaseData="diseaseEditor.data" />
             </cui-card>

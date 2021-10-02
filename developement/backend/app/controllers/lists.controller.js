@@ -1,5 +1,6 @@
 const EncounterType = require("../models/encounterType.model.js");
 const Orca = require("../utils/orcaApi.util");
+const Disease = require("../models/disease.model.js");
 const Address = require("../models/address.model.js");
 
 exports.encounterTypes = {
@@ -67,4 +68,19 @@ exports.schemas = {
             res.send(schemas);
           })
     }
+}
+
+exports.diseases = {
+  findMany: (req,res) => {
+    let query = req.params.query;
+    Disease.findMany(query, (err, data) => {
+      if (err) {
+          res.status(500).send({
+            message: err
+          });
+      } else {
+        res.send(data);
+      }
+    })       
+}
 }

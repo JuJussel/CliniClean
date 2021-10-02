@@ -319,6 +319,24 @@ export default {
                                     });
                             });
                         },
+                        //>----Diseases-----//
+                        diseases: function(data) {
+                            return new Promise(function(resolve, reject) {
+                                return http
+                                    .get("lists/diseases/" + data)
+                                    .then((result) => {
+                                        resolve(result);
+                                    })
+                                    .catch((result) => {
+                                        instance.$cui.notification({
+                                            text: result,
+                                            color: "danger",
+                                        });
+                                        reject;
+                                    });
+                            });   
+                        },
+    
                     },
                     medications: {
                         search: function(cat, search) {

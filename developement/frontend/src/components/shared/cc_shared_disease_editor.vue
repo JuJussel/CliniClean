@@ -1,36 +1,42 @@
 <template>
     <div style="position: relative">
         <cui-select 
-            :label="$lang.selectPatient"
-            :placeholder="$lang.searchByNameodID"
+            :label="$lang.diseaseSearch"
+            :placeholder="$lang.input"
             search
             :loading="loading.search"
             @input="searchDisease"
             :data="searchResults"
-            displayValueProp='name'
+            displayValueProp='byomei'
             v-model="selectedDisease"
             class="d66574"
         />
-        <cui-input v-model="editData.Disease_Supplement_Name" label="補足コメント"/>
+        <cui-input v-model="editData.Disease_Supplement_Name" :label="$lang.supplementalComment"/>
+        <div style="display: flex">
+            <cui-select
+                :label="$lang.diseaseSuspectOrAcute"
+                v-model="editData.Disease_SuspectedFlag"
+                returnValueProp="value"
+                displayValueProp="label"
+                :data="suspectFlags"
+                class="d66574"
+                style="width: 150px; margin-right: 20px"
+            />
+            <cui-checkbox :label="$lang.diseaseMain" v-model="dummies.primary" />
+        </div>
         <cui-select 
-            label="疑い・急性" 
-            v-model="editData.Disease_SuspectedFlag" 
-            returnValueProp="value"
-            displayValueProp="label"
-            :data="suspectFlags"
-            class="d66574"
-        />
-        <cui-checkbox label="主病名" v-model="dummies.primary" />
-        <cui-select 
-            label="転帰" 
+            :label="$lang.diseaseOutcome" 
             v-model="editData.Disease_OutCome" 
             returnValueProp="value"
             displayValueProp="label"
             :data="outcomeFlags"
             class="d66574"
         />
-        <cui-datepicker label="Date" v-model="editData.Disease_EndDate" />
-        <cui-checkbox label="レセプト表示" v-model="dummies.showRezept" />
+        <cui-datepicker 
+            :label="$lang.diseaseEndDate" 
+            v-model="editData.Disease_EndDate" 
+            :disabled="!editData.Disease_OutCome" />
+        <cui-checkbox :label="$lang.showOnRezept" v-model="dummies.showRezept" />
 
         <div style="flex-grow: 1; display: flex; justify-content: flex-end">
             <cui-button
@@ -85,12 +91,13 @@ export default {
                     {value: 'SA', label: '疑いかつ急性'}
                 ],
             outcomeFlags: [
-                {value: '', label: 'なし'},
+                {value: null, label: 'なし'},
                 {value: 'F', label: '治癒'},
                 {value: 'D', label: '死亡'},
                 {value: 'C', label: '中止'},
                 {value: 'S', label: '移行'}
-            ]
+            ],
+            selectedDisease: null
         }
     },
     created() {
@@ -101,7 +108,20 @@ export default {
         if(!this.editData.Disease_EndDate) this.editData.Disease_EndDate = this.$dayjs().format("YYYY-MM-DD")
     },
     methods: {
-        searchDisease() {}
+        async searchDisease(query) {
+            if(query === "") return [];
+            this.loading.search = true;
+            this.searchResults = await this.$dataService().get.lists.diseases(query);
+            this.loading.search = false;
+        }
+    },
+    watch: {
+        selectedDisease() {
+            this.editData.Disease_Single.Disease_Single_child.Disease_Single_Code = 
+                this.selectedDisease.byomeicd;
+            this.editData.Disease_Single.Disease_Single_child.Disease_Single_Name = 
+                this.selectedDisease.byomei;
+        }
     }
 }
 </script>
