@@ -31,10 +31,15 @@
                 <td> {{ parseDate(row.Disease_EndDate) }} </td>
             </template>
         </cui-table>    
-        <cui-modal :visible="diseaseEditor.visible" :closable="diseaseEditor.loading" @close="diseaseEditor.visible = false">
-            <cui-card style="width: 600px; height: 600px" v-if="diseaseEditor.visible">
-                <template #header> {{ $lang.diseaseName }} {{ $lang.register }} </template>
-                <disease-editor :diseaseData="diseaseEditor.data" />
+        <cui-modal :visible="diseaseEditor.visible" :closable="!diseaseEditor.loading" @close="diseaseEditor.visible = false">
+            <cui-card style="width: 600px; height: 560px" v-if="diseaseEditor.visible">
+                <template #header> {{ $lang.diseaseName }} {{ diseaseEditor.data ? $lang.edit : $lang.register }} </template>
+                <disease-editor
+                    :diseaseData="diseaseEditor.data"
+                    :patientData="patientData"
+                    @close="diseaseEditor.visible = false"
+                    @submitting="diseaseEditor.loading = true"
+                />
             </cui-card>
         </cui-modal>
     </div>
@@ -75,7 +80,7 @@ export default {
             )
         },
         openDiseaseEditor(data) {
-            console.log(data);
+            this.diseaseEditor.data = data;
             this.diseaseEditor.visible = true;
         }
     },

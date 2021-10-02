@@ -32,6 +32,11 @@ export default {
     components: { 
         basic, vitals, exams, perscription, procedures, diseases, encounters
     },
+    props: {
+        encounter: {
+            default: null
+        }
+    },
     beforeUnmount() {
         this.$store.commit('SET_PATIENT_INFO', null);
     },
@@ -52,7 +57,9 @@ export default {
     },
     computed: {
         patientData() {
-            return this.$store.getters.activePatientHistory;
+            let data = this.$store.getters.activePatientHistory;
+            if(data) data.currentEncounter = this.encounter;
+            return data
         }
     },
     watch: {

@@ -67,4 +67,10 @@ module.exports = app => {
       patientsMedical.editMedicalBasics
     )
 
+    app.post(
+      "/api/patients/:patientId/medical/diseases",
+      [authJwt.verifyToken],
+      patientsMedical.editDiseases
+    )
+
   }

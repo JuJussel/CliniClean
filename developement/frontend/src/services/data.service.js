@@ -573,6 +573,22 @@ export default {
                                         reject(result);
                                     });
                             });
+                        },
+                        diseases: function(data) {
+                            return new Promise(function(resolve, reject) {
+                                return http
+                                    .post("patients/" + data.patientId + "/medical/diseases", data)
+                                    .then((result) => {
+                                        resolve(result);
+                                    })
+                                    .catch((result) => {
+                                        instance.$cui.notification({
+                                            text: result,
+                                            color: "danger",
+                                        });
+                                        reject(result);
+                                    });
+                            });
                         }
                     }
                 },

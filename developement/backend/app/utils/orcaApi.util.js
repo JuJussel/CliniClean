@@ -189,7 +189,7 @@ get.insuranceProvider = function (data, result) {
 };
 
 ////////////////////////////////////////////////////////////////////////////
-//////////////////////// Get Patient Byoumei ///////////////////////////////
+//////////////////////// Get Patient Diseases //////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 get.diseases = function (data, result) {
 
@@ -431,7 +431,7 @@ post.patient = async function (data, result) {
 };
 
 ////////////////////////////////////////////////////////////////////////////
-//////////////////////// Register Koui//////////////////////////////////////
+//////////////////////// Register Procedure/////////////////////////////////
 //////////////// Includes Shohou, Kensa, Shot, Koui ////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 post.procedures = async function (data) {
@@ -568,14 +568,67 @@ post.procedures = async function (data) {
     return({err: false});
 
   };
-
-
-
-
-
-
 }
 
+////////////////////////////////////////////////////////////////////////////
+//////////////////////// Register/Edit Disease//////////////////////////////
+////////////////////////////////////////////////////////////////////////////
+post.diseases = async function (data, result) {
+
+  data.Disease_AcuteFlag = "";
+  if(data.Disease_SuspectedFlag === "SA") {
+    data.Disease_AcuteFlag = "A";
+    data.Disease_SuspectedFlag = "S"
+  } else if(data.Disease_SuspectedFlag === "A") {
+    data.Disease_AcuteFlag = "A";
+    data.Disease_SuspectedFlag = ""
+  }
+
+  let route = "/orca22/diseasev3";
+
+  let xml = {
+    data: {
+      diseasereq: {
+        $: {type: "record"},
+        Patient_ID: { $: {type: "string"}, _: data.patientId },
+        Diagnosis_Information: {
+          $: {type: "record"},
+          Department_Code: { $: {type: "string"}, _: data.department },
+        },
+        Disease_Information: {
+          $: { type: "array" },
+          Disease_Information_child: {
+            $: { type: "record" },
+            Disease_Code: { $: {type: "string"}, _: data.Disease_Single.Disease_Single_child.Disease_Single_Code},
+            Disease_Supplement_Name: { $: {type: "string"}, _: data.Disease_Supplement_Name},
+            Disease_Category: { $: {type: "string"}, _: data.Disease_Category},
+            Disease_SuspectedFlag: { $: {type: "string"}, _: data.Disease_SuspectedFlag},
+            Disease_AcuteFlag: { $: {type: "string"}, _: data.Disease_SuspectedFlag},
+            Disease_Receipt_Print: { $: {type: "string"}, _: data.Disease_AcuteFlag},
+            Disease_StartDate: { $: {type: "string"}, _: data.Disease_StartDate},
+            Disease_EndDate: { $: {type: "string"}, _: data.Disease_EndDate},
+            Disease_OutCome: { $: {type: "string"}, _: data.Disease_OutCome},
+            Disease_Class: { $: {type: "string"}, _: "AUTO"},
+            Insurance_Combination_Number: { $: {type: "string"}, _: data.ins},
+          }
+        }
+      }
+    }
+  }
+
+  const responseData = await sendRequest(route, "POST", xml).catch(
+    (responseData) => {
+        return({err: responseData});
+    }
+  );
+  if ( !validate( responseData, ['000','W01','W02','W03','W04','W05','W06','W07','W08'], "diseaseres" ) ) {
+    result(responseData.diseaseres.Api_Result_Message, null);
+    return;
+  }
+  result(null, responseData);
+  return;
+
+}
 
 
 

@@ -11,7 +11,9 @@
     </div>
     <div class="cc-medical-examination-main">
         <cui-card>
-            <patientMedicalInfo></patientMedicalInfo>
+            <patientMedicalInfo
+                :encounter="encounterState"
+            ></patientMedicalInfo>
         </cui-card>
         <cui-card no-padding>
             <template #header>

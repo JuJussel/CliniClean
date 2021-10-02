@@ -1,5 +1,6 @@
 const Patient = require("../models/patient.model.js");
 const Vital = require("../models/vital.model.js");
+const Orca = require("../utils/orcaApi.util");
 
 exports.editMedicalBasics = (req,res) => {
   
@@ -32,4 +33,21 @@ exports.addMedicalVitals = (req,res) => {
       }
       res.send({ok: true});
     })
+};
+
+exports.editDiseases = (req,res) => {
+  let request = req.body;
+
+  Orca.post.diseases(request, (err, data) => {
+    console.log(err);
+    console.log("Yeah");
+    if (err) {
+      res.status(500).send({
+        message: err,
+      });
+    } else {
+      console.log('OK');
+      res.send({ok: true});
+    }
+  });
 };

@@ -25,6 +25,7 @@ export default {
     delete: '削除',
     diseaseOutcome: "転帰",
     diseaseEndDate: "転帰日",
+    diseaseStartDate: "開始日",
     diseaseName: "病名",
     diseaseMain: "主病名",
     diseaseSuspectOrAcute: "疑い・急性",
