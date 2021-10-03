@@ -18,8 +18,6 @@
                 :label="$lang.diseaseStartDate"
                 v-model="editData.Disease_StartDate"
             />
-            <cui-checkbox :label="$lang.showOnRezept" v-model="dummyShowRezept" />
-
             <div style="display: flex">
                 <cui-select
                     :label="$lang.diseaseSuspectOrAcute"
@@ -65,13 +63,14 @@
 </template>
 
 <script>
+
 export default {
     props: {
         diseaseData: {default: null},
         patientData: {default: null}
     },
     emits: [
-        'close', 'submitting'
+        'close', 'submitting','submitted'
     ],
     data() {
         return {
@@ -90,6 +89,7 @@ export default {
                     }
                 },
                 Disease_Category: "",
+                Disease_SuspectedFlag: "",
                 Disease_Supplement_Name: "",
                 Disease_OutCome: "",
                 Disease_EndDate: null,
@@ -132,7 +132,9 @@ export default {
             this.editData.patientId = this.patientData.id;
             this.editData.department = this.patientData.currentEncounter.department;
             this.editData.ins = this.patientData.currentEncounter.ins;
+            if(this.editData.Disease_OutCome === "") this.editData.Disease_EndDate = "";
             await this.$dataService().post.medical.diseases(this.editData);
+            this.$emit('submitted');
             this.$emit('close');
 
         }

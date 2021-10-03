@@ -32,13 +32,14 @@
             </template>
         </cui-table>    
         <cui-modal :visible="diseaseEditor.visible" :closable="!diseaseEditor.loading" @close="diseaseEditor.visible = false">
-            <cui-card style="width: 600px; height: 560px" v-if="diseaseEditor.visible">
+            <cui-card style="width: 600px; height: 640px" v-if="diseaseEditor.visible">
                 <template #header> {{ $lang.diseaseName }} {{ diseaseEditor.data ? $lang.edit : $lang.register }} </template>
                 <disease-editor
                     :diseaseData="diseaseEditor.data"
                     :patientData="patientData"
                     @close="diseaseEditor.visible = false"
                     @submitting="diseaseEditor.loading = true"
+                    @submitted="diseaseEditSubmitted"
                 />
             </cui-card>
         </cui-modal>
@@ -82,6 +83,15 @@ export default {
         openDiseaseEditor(data) {
             this.diseaseEditor.data = data;
             this.diseaseEditor.visible = true;
+        },
+        diseaseEditSubmitted() {
+            this.diseaseEditor.loading = false;
+            this.$cui.notification({
+                text: this.$lang.saved,
+                duration: 2000,
+                color: 'primary'
+            })
+            this.$emit('update');
         }
     },
     computed: {
