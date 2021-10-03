@@ -39,14 +39,11 @@ exports.editDiseases = (req,res) => {
   let request = req.body;
 
   Orca.post.diseases(request, (err, data) => {
-    console.log(err);
-    console.log("Yeah");
     if (err) {
       res.status(500).send({
         message: err,
       });
     } else {
-      console.log('OK');
       res.send({ok: true});
     }
   });
