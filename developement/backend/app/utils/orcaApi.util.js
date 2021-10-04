@@ -209,6 +209,27 @@ get.diseases = function (data, result) {
     .then((responseData) => {
       if (validate(responseData, ['00', '21'], "disease_infores")) {
         responseData = responseData.disease_infores;
+        if (responseData.Api_Result === '21') {
+          responseData = [];
+        } else {
+          responseData = responseData.Disease_Information.Disease_Information_child;
+          if (responseData.Department_Code) {
+            responseData = [responseData];
+          }
+        }
+
+        responseData.map(item => {
+
+          
+
+        })
+
+
+
+
+
+
+
         result(null, responseData);
       } else {
         result(responseData.disease_infores.Api_Result_Message, null);
@@ -600,16 +621,16 @@ post.diseases = async function (data, result) {
           Disease_Information_child: {
             $: { type: "record" },
             Disease_Code: { $: {type: "string"}, _: data.Disease_Single.Disease_Single_child.Disease_Single_Code},
-            Disease_Supplement_Name: { $: {type: "string"}, _: data.Disease_Supplement_Name},
-            Disease_Category: { $: {type: "string"}, _: data.Disease_Category},
-            Disease_SuspectedFlag: { $: {type: "string"}, _: data.Disease_SuspectedFlag},
-            Disease_AcuteFlag: { $: {type: "string"}, _: data.Disease_SuspectedFlag},
-            Disease_Receipt_Print: { $: {type: "string"}, _: data.Disease_AcuteFlag},
-            Disease_StartDate: { $: {type: "string"}, _: data.Disease_StartDate},
-            Disease_EndDate: { $: {type: "string"}, _: data.Disease_EndDate},
-            Disease_OutCome: { $: {type: "string"}, _: data.Disease_OutCome},
+            Disease_Supplement_Name: { $: {type: "string"}, _: data.Disease_Supplement_Name || ""},
+            Disease_Category: { $: {type: "string"}, _: data.Disease_Category || ""},
+            Disease_SuspectedFlag: { $: {type: "string"}, _: data.Disease_SuspectedFlag || ""},
+            Disease_AcuteFlag: { $: {type: "string"}, _: data.Disease_AcuteFlag || ""},
+            Disease_Receipt_Print: { $: {type: "string"}, _: data.Disease_Receipt_Print || ""},
+            Disease_StartDate: { $: {type: "string"}, _: data.Disease_StartDate || ""},
+            Disease_EndDate: { $: {type: "string"}, _: data.Disease_EndDate || ""},
+            Disease_OutCome: { $: {type: "string"}, _: data.Disease_OutCome || ""},
             Disease_Class: { $: {type: "string"}, _: "AUTO"},
-            Insurance_Combination_Number: { $: {type: "string"}, _: data.ins},
+            Insurance_Combination_Number: { $: {type: "string"}, _: data.Insurance_Combination_Number},
           }
         }
       }

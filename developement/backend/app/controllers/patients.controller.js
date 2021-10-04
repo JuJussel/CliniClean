@@ -167,15 +167,16 @@ exports.findMedicalHistory = async (req,res) => {
               message: err,
             });
           } else {
-            if (diseases.Api_Result === '21') {
-              patientData.diseases = [];
-            } else {
-              diseases = diseases.Disease_Information.Disease_Information_child;
-              if (diseases.Department_Code) {
-                diseases = [diseases];
-              }
-              patientData.diseases = diseases;
-            }
+            // if (diseases.Api_Result === '21') {
+            //   patientData.diseases = [];
+            // } else {
+            //   diseases = diseases.Disease_Information.Disease_Information_child;
+            //   if (diseases.Department_Code) {
+            //     diseases = [diseases];
+            //   }
+            //   patientData.diseases = diseases;
+            // }
+            patientData.diseases = diseases
             res.send(patientData);
           }
         });

@@ -3,16 +3,18 @@
         <div class="loader" v-if="loading.submit"/>
         <div>
             <cui-select
+                v-if="!diseaseData"
                 :label="$lang.diseaseSearch"
                 :placeholder="$lang.input"
                 search
                 :loading="loading.search"
                 @input="searchDisease"
                 :data="searchResults"
-                displayValueProp='byomei'
+                displayValueProp='Disease_Single_Name'
                 v-model="selectedDisease"
                 class="d66574"
             />
+            <cui-tag v-else> {{ editData.Disease_Single.Disease_Single_child.Disease_Single_Name }} </cui-tag>
             <cui-input v-model="editData.Disease_Supplement_Name" :label="$lang.supplementalComment"/>
             <cui-datepicker
                 :label="$lang.diseaseStartDate"
@@ -82,24 +84,38 @@ export default {
             dummyPrimary: false,
             dummyShowRezept: true,
             editData: {
-                Disease_Single:{
-                    Disease_Single_child: {
-                        Disease_Single_Code: "",
-                        Disease_Single_Name: ""
-                    }
-                },
-                Disease_Category: "",
-                Disease_SuspectedFlag: "",
-                Disease_Supplement_Name: "",
-                Disease_OutCome: "",
-                Disease_EndDate: null,
-                Disease_StartDate: null
+                code: "",
+                name: "",
+                showOnRezept: true,
+                primaryDisease: false,
+                suspectOrAcuteFlag: "",
+                supplementNote: "",
+                outcome: "",
+                endDate: null,
+                startDate:null,
+                insurance: null
             },
+            // editData: {
+            //     Disease_Single:{
+            //         Disease_Single_child: {
+            //             Disease_Single_Code: "",
+            //             Disease_Single_Name: ""
+            //         }
+            //     },
+            //     Disease_Receipt_Print: "",
+            //     Disease_Category: "",
+            //     Disease_SuspectedFlag: "",
+            //     Disease_Supplement_Name: "",
+            //     Disease_OutCome: "",
+            //     Disease_EndDate: null,
+            //     Disease_StartDate: null,
+            //     Insurance_Combination_Number: null
+            // },
             suspectFlags: [
-                {value: '', label: 'なし'},
-                {value: 'S', label: '疑い'},
-                {value: 'A', label: '急性'},
-                {value: 'SA', label: '疑いかつ急性'}
+                {value: {suspect: false, acute: false}, label: 'なし'},
+                {value: {suspect: true, acute: false}, label: '疑い'},
+                {value: {suspect: false, acute: true}, label: '急性'},
+                {value: {suspect: true, acute: true}, label: '疑いかつ急性'}
             ],
             outcomeFlags: [
                 {value: "", label: 'なし'},
@@ -113,7 +129,9 @@ export default {
     },
     created() {
         if(this.diseaseData) {
-            this.editData = JSON.parse(JSON.stringify(this.diseaseData));
+            let data = JSON.parse(JSON.stringify(this.diseaseData));
+            this.editData = data;
+            this.selectedDisease = data.Disease_Single.Disease_Single_child;
         }
         if(this.editData.Disease_Category === "PD") this.dummyPrimary = true;
         if(!this.editData.Disease_StartDate) this.editData.Disease_StartDate = this.$dayjs().format("YYYY-MM-DD")
@@ -131,29 +149,30 @@ export default {
             this.loading.submit = true;
             this.editData.patientId = this.patientData.id;
             this.editData.department = this.patientData.currentEncounter.department;
-            this.editData.ins = this.patientData.currentEncounter.ins;
-            if(this.editData.Disease_OutCome === "") this.editData.Disease_EndDate = "";
+            if(!this.editData.Insurance_Combination_Number) this.editData.Insurance_Combination_Number = this.patientData.currentEncounter.ins;
+            if(this.editData.Disease_OutCome === "" || !this.editData.Disease_OutCome) this.editData.Disease_EndDate = "";
             await this.$dataService().post.medical.diseases(this.editData);
             this.$emit('submitted');
             this.$emit('close');
-
         }
     },
     watch: {
         selectedDisease() {
-            this.editData.Disease_Single.Disease_Single_child.Disease_Single_Code = 
-                this.selectedDisease.byomeicd;
-            this.editData.Disease_Single.Disease_Single_child.Disease_Single_Name = 
-                this.selectedDisease.byomei;
+            this.editData.Disease_Single.Disease_Single_child = this.selectedDisease;
         },
         dummyPrimary() {
             if(this.dummyPrimary) {
-                this.editData.Disease_Category === "PD"
+                this.editData.Disease_Category = "PD"
             } else {
-                this.editData.Disease_Category === ""
+                this.editData.Disease_Category = ""
             }
         },
         dummyShowRezept() {
+            if(this.dummyShowRezept) {
+                this.editData.Disease_Receipt_Print = ""
+            } else {
+                this.editData.Disease_Receipt_Print = "1"
+            }
 
         }
     }

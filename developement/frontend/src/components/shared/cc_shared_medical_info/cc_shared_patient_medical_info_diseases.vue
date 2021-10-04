@@ -8,12 +8,18 @@
             <template #thead>
                 <cui-th> {{ $lang.diseaseName }} </cui-th>
                 <cui-th> {{ $lang.startDate  }} </cui-th>
-                <cui-th> {{ $lang.diseaseEndDate }} </cui-th>
+                <cui-th>Suspect</cui-th>
+                <cui-th>Main</cui-th>
+                <cui-th></cui-th>
             </template>
             <template v-slot:row="{ row }">
                 <td> {{ row.Disease_Name }} </td>
                 <td> {{ parseDate(row.Disease_StartDate) }} </td>
-                <td> {{ parseDate(row.Disease_EndDate) }} </td>
+                <td> {{ row.Disease_SuspectedFlag }} </td>
+                <td> {{ row.Disease_Category }} </td>
+                <td>
+                    <cui-button icon="fas fa-edit" plain @click="openDiseaseEditor(row)"></cui-button>
+                </td>
             </template>
         </cui-table>
         <cui-table :data="diseases.closed" style="max-height:610px">
@@ -24,11 +30,18 @@
                 <cui-th> {{ $lang.diseaseName }} </cui-th>
                 <cui-th> {{ $lang.startDate  }} </cui-th>
                 <cui-th> {{ $lang.diseaseEndDate }} </cui-th>
+                <cui-th> {{ $lang.diseaseEndDate }} </cui-th>
+                <cui-th> {{ $lang.startDate  }} </cui-th>
+                <cui-th> {{ $lang.diseaseEndDate }} </cui-th>
+
             </template>
             <template v-slot:row="{ row }">
                 <td> {{ row.Disease_Name }} </td>
                 <td> {{ parseDate(row.Disease_StartDate) }} </td>
+                <td> {{ row.Disease_Name }} </td>
+                <td> {{ row.Disease_Name }} </td>
                 <td> {{ parseDate(row.Disease_EndDate) }} </td>
+                <td> {{ row.Disease_Name }} </td>
             </template>
         </cui-table>    
         <cui-modal :visible="diseaseEditor.visible" :closable="!diseaseEditor.loading" @close="diseaseEditor.visible = false">

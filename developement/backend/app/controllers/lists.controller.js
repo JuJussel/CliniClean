@@ -81,6 +81,6 @@ exports.diseases = {
       } else {
         res.send(data);
       }
-    })       
+    })
 }
 }
