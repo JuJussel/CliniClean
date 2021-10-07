@@ -13,10 +13,10 @@
                 <cui-th></cui-th>
             </template>
             <template v-slot:row="{ row }">
-                <td> {{ row.Disease_Name }} </td>
-                <td> {{ parseDate(row.Disease_StartDate) }} </td>
-                <td> {{ row.Disease_SuspectedFlag }} </td>
-                <td> {{ row.Disease_Category }} </td>
+                <td> {{ row.disease.name }} </td>
+                <td> {{ parseDate(row.startDate) }} </td>
+                <td> {{ row.suspectOrAcuteFlag.label }} </td>
+                <td> {{ row.primaryDisease }} </td>
                 <td>
                     <cui-button icon="fas fa-edit" plain @click="openDiseaseEditor(row)"></cui-button>
                 </td>
@@ -36,8 +36,8 @@
 
             </template>
             <template v-slot:row="{ row }">
-                <td> {{ row.Disease_Name }} </td>
-                <td> {{ parseDate(row.Disease_StartDate) }} </td>
+                <td> {{ row.disease.name }} </td>
+                <td> {{ parseDate(row.startDate) }} </td>
                 <td> {{ row.Disease_Name }} </td>
                 <td> {{ row.Disease_Name }} </td>
                 <td> {{ parseDate(row.Disease_EndDate) }} </td>
@@ -110,8 +110,8 @@ export default {
     computed: {
         diseases() {
             return {
-                active: this.patientData.diseases?.filter(item => !item.Disease_EndDate) || [],
-                closed: this.patientData.diseases?.filter(item => item.Disease_EndDate) || []
+                active: this.patientData.diseases?.filter(item => !item.endDate) || [],
+                closed: this.patientData.diseases?.filter(item => item.endDate) || []
             }
         }
     }

@@ -14,28 +14,28 @@
                 v-model="selectedDisease"
                 class="d66574"
             />
-            <cui-tag v-else> {{ editData.Disease_Single.Disease_Single_child.Disease_Single_Name }} </cui-tag>
-            <cui-input v-model="editData.Disease_Supplement_Name" :label="$lang.supplementalComment"/>
+            <cui-tag v-else> {{ editData.disease.name }} </cui-tag>
+            <cui-input v-model="editData.supplementNote" :label="$lang.supplementalComment"/>
             <cui-datepicker
                 :label="$lang.diseaseStartDate"
-                v-model="editData.Disease_StartDate"
+                v-model="editData.startDate"
             />
             <div style="display: flex">
                 <cui-select
                     :label="$lang.diseaseSuspectOrAcute"
-                    v-model="editData.Disease_SuspectedFlag"
+                    v-model="editData.suspectOrAcuteFlag"
                     returnValueProp="value"
                     displayValueProp="label"
                     :data="suspectFlags"
                     class="d66574"
                     style="width: 150px; margin-right: 20px"
                 />
-                <cui-checkbox :label="$lang.diseaseMain" v-model="dummyPrimary" />
+                <cui-checkbox :label="$lang.diseaseMain" v-model="editData.primaryDisease" />
             </div>
             <cui-select
                 :label="$lang.diseaseOutcome"
                 :placeholder="$lang.select"
-                v-model="editData.Disease_OutCome"
+                v-model="editData.outcome"
                 returnValueProp="value"
                 displayValueProp="label"
                 :data="outcomeFlags"
@@ -43,9 +43,9 @@
             />
             <cui-datepicker
                 :label="$lang.diseaseEndDate"
-                v-model="editData.Disease_EndDate"
-                :disabled="!editData.Disease_OutCome" />
-            <cui-checkbox :label="$lang.showOnRezept" v-model="dummyShowRezept" />
+                v-model="editData.endDate"
+                :disabled="!editData.outcome" />
+            <cui-checkbox :label="$lang.showOnRezept" v-model="editData.showOnRezept" />
         </div>
 
         <div style="display: flex; justify-content: flex-end">
@@ -131,11 +131,11 @@ export default {
         if(this.diseaseData) {
             let data = JSON.parse(JSON.stringify(this.diseaseData));
             this.editData = data;
-            this.selectedDisease = data.Disease_Single.Disease_Single_child;
+            this.selectedDisease = data.disease;
         }
-        if(this.editData.Disease_Category === "PD") this.dummyPrimary = true;
-        if(!this.editData.Disease_StartDate) this.editData.Disease_StartDate = this.$dayjs().format("YYYY-MM-DD")
-        if(!this.editData.Disease_EndDate) this.editData.Disease_EndDate = this.$dayjs().format("YYYY-MM-DD")
+        // if(this.editData.Disease_Category === "PD") this.dummyPrimary = true;
+        if(!this.editData.startDate) this.editData.startDate = this.$dayjs().format("YYYY-MM-DD")
+        if(!this.editData.endDate) this.editData.endDate = this.$dayjs().format("YYYY-MM-DD")
     },
     methods: {
         async searchDisease(query) {
@@ -158,7 +158,7 @@ export default {
     },
     watch: {
         selectedDisease() {
-            this.editData.Disease_Single.Disease_Single_child = this.selectedDisease;
+            this.editData.disease = this.selectedDisease;
         },
         dummyPrimary() {
             if(this.dummyPrimary) {

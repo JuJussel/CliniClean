@@ -193,6 +193,21 @@ get.insuranceProvider = function (data, result) {
 ////////////////////////////////////////////////////////////////////////////
 get.diseases = function (data, result) {
 
+  let suspectFlags = [
+    {code: "", value: {suspect: false, acute: false}, label: 'なし'},
+    {code: "S", value: {suspect: true, acute: false}, label: '疑い'},
+    {code: "A", value: {suspect: false, acute: true}, label: '急性'},
+    {code: "SA", value: {suspect: true, acute: true}, label: '疑いかつ急性'}
+  ];
+
+  let outcomeFlags = [
+    {value: "", label: 'なし'},
+    {value: 'F', label: '治癒'},
+    {value: 'D', label: '死亡'},
+    {value: 'C', label: '中止'},
+    {value: 'S', label: '移行'}
+  ];
+
   const requestData = {
     data: {
         disease_inforeq: {
@@ -218,18 +233,25 @@ get.diseases = function (data, result) {
           }
         }
 
-        responseData.map(item => {
+        responseData = responseData.map(item => {
 
-          
+          item = {
+            disease: {
+              code: item.Disease_Single.Disease_Single_child.Disease_Single_Code,
+              name: item.Disease_Single.Disease_Single_child.Disease_Single_Name
+            },
+            showOnRezept: item.Disease_Receipt_Print === "1" ? false : true,
+            primaryDisease: item.Disease_Category === "PD" ? true : false,
+            suspectOrAcuteFlag: suspectFlags.find(s => s.code === item.Disease_SuspectedFlag) || outcomeFlags[0],
+            supplementNote: item.Disease_Supplement_Name,
+            outcome: outcomeFlags.find(s => s.value === item.Disease_OutCome) || null,
+            endDate: item.Disease_EndDate || null,
+            startDate:item.Disease_StartDate || null,
+            insurance: item.Insurance_Combination_Number || "0001"
+          }
 
+          return item;
         })
-
-
-
-
-
-
-
         result(null, responseData);
       } else {
         result(responseData.disease_infores.Api_Result_Message, null);
