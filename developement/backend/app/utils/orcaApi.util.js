@@ -193,21 +193,6 @@ get.insuranceProvider = function (data, result) {
 ////////////////////////////////////////////////////////////////////////////
 get.diseases = function (data, result) {
 
-  let suspectFlags = [
-    {code: "", value: {suspect: false, acute: false}, label: 'なし'},
-    {code: "S", value: {suspect: true, acute: false}, label: '疑い'},
-    {code: "A", value: {suspect: false, acute: true}, label: '急性'},
-    {code: "SA", value: {suspect: true, acute: true}, label: '疑いかつ急性'}
-  ];
-
-  let outcomeFlags = [
-    {value: "", label: 'なし'},
-    {value: 'F', label: '治癒'},
-    {value: 'D', label: '死亡'},
-    {value: 'C', label: '中止'},
-    {value: 'S', label: '移行'}
-  ];
-
   const requestData = {
     data: {
         disease_inforeq: {
@@ -242,9 +227,9 @@ get.diseases = function (data, result) {
             },
             showOnRezept: item.Disease_Receipt_Print === "1" ? false : true,
             primaryDisease: item.Disease_Category === "PD" ? true : false,
-            suspectOrAcuteFlag: suspectFlags.find(s => s.code === item.Disease_SuspectedFlag) || outcomeFlags[0],
+            suspectOrAcuteFlag: item.Disease_SuspectedFlag,
             supplementNote: item.Disease_Supplement_Name,
-            outcome: outcomeFlags.find(s => s.value === item.Disease_OutCome) || null,
+            outcome: item.Disease_OutCome,
             endDate: item.Disease_EndDate || null,
             startDate:item.Disease_StartDate || null,
             insurance: item.Insurance_Combination_Number || "0001"
@@ -619,12 +604,14 @@ post.procedures = async function (data) {
 post.diseases = async function (data, result) {
 
   data.Disease_AcuteFlag = "";
-  if(data.Disease_SuspectedFlag === "SA") {
+  data.Disease_SuspectedFlag = ""
+  if(data.suspectOrAcuteFlag === "SA") {
     data.Disease_AcuteFlag = "A";
     data.Disease_SuspectedFlag = "S"
-  } else if(data.Disease_SuspectedFlag === "A") {
+  } else if(data.suspectOrAcuteFlag === "A") {
     data.Disease_AcuteFlag = "A";
-    data.Disease_SuspectedFlag = ""
+  } else if (data.suspectOrAcuteFlag === "S") {
+    data.Disease_SuspectedFlag = "S"  
   }
 
   let route = "/orca22/diseasev3";
@@ -642,17 +629,17 @@ post.diseases = async function (data, result) {
           $: { type: "array" },
           Disease_Information_child: {
             $: { type: "record" },
-            Disease_Code: { $: {type: "string"}, _: data.Disease_Single.Disease_Single_child.Disease_Single_Code},
-            Disease_Supplement_Name: { $: {type: "string"}, _: data.Disease_Supplement_Name || ""},
-            Disease_Category: { $: {type: "string"}, _: data.Disease_Category || ""},
+            Disease_Code: { $: {type: "string"}, _: data.disease.code},
+            Disease_Supplement_Name: { $: {type: "string"}, _: data.supplementNote || ""},
+            Disease_Category: { $: {type: "string"}, _: data.primaryDisease ? "PD" : ""},
             Disease_SuspectedFlag: { $: {type: "string"}, _: data.Disease_SuspectedFlag || ""},
             Disease_AcuteFlag: { $: {type: "string"}, _: data.Disease_AcuteFlag || ""},
-            Disease_Receipt_Print: { $: {type: "string"}, _: data.Disease_Receipt_Print || ""},
-            Disease_StartDate: { $: {type: "string"}, _: data.Disease_StartDate || ""},
-            Disease_EndDate: { $: {type: "string"}, _: data.Disease_EndDate || ""},
-            Disease_OutCome: { $: {type: "string"}, _: data.Disease_OutCome || ""},
+            Disease_Receipt_Print: { $: {type: "string"}, _: data.showOnRezept ? "" : "1"},
+            Disease_StartDate: { $: {type: "string"}, _: data.startDate || ""},
+            Disease_EndDate: { $: {type: "string"}, _: data.endDate || ""},
+            Disease_OutCome: { $: {type: "string"}, _: data.outcome || ""},
             Disease_Class: { $: {type: "string"}, _: "AUTO"},
-            Insurance_Combination_Number: { $: {type: "string"}, _: data.Insurance_Combination_Number},
+            Insurance_Combination_Number: { $: {type: "string"}, _: data.insurance},
           }
         }
       }

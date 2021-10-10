@@ -13,8 +13,8 @@ disease.findMany = (query, result) => {
     const select = 
     `
         SELECT
-            byomeicd as "Disease_Single_Code",
-            byomei as "Disease_Single_Name"
+            byomeicd as "code",
+            byomei as "name"
         FROM master.tbl_byomei
         WHERE byomeicd LIKE $1 OR byomei LIKE $2 OR byomeikana LIKE $3 LIMIT 100
     `;

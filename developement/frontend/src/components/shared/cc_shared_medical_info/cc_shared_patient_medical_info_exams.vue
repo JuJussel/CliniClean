@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="height: 100%">
         <cui-table :data="examsList" style="max-height:610px">
             <template #header>
                 <h2> {{ $lang.exam }} </h2>

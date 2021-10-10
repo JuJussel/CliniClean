@@ -8,7 +8,23 @@ export const store = createStore({
                return {
                    user: null,
                    activeView: "home",
-                   staticLists: [],
+                   staticLists: {
+                       disease: {
+                           suspectFlags: [
+                               {value: "", label: 'なし'},
+                               {value: "S", label: '疑い'},
+                               {value: "A", label: '急性'},
+                               {value: "SA", label: '疑いかつ急性'}
+                           ],
+                           outcomeFlags: [
+                               {value: "", label: 'なし'},
+                               {value: 'F', label: '治癒'},
+                               {value: 'D', label: '死亡'},
+                               {value: 'C', label: '中止'},
+                               {value: 'S', label: '移行'}
+                           ]        
+                       }
+                   },
                    transferData: {
                        reception: null,
                        patientList: null,
@@ -37,7 +53,8 @@ export const store = createStore({
                perscriptionTimings: (state) =>
                    state.staticLists.perscriptionTimings,
                settings: (state) => state.settings,
-               activePatientHistory: (state) => state.activePatient
+               activePatientHistory: (state) => state.activePatient,
+               diseaseFlags: (state) => state.staticLists.disease
            },
 
            mutations: {
