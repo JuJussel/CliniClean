@@ -23,6 +23,12 @@
                     :label="$lang.medical"
                     value="medical"
                 />
+                <cui-menu-bar-item
+                    icon="fas fa-laptop-medical menu-icon"
+                    :label="$lang.order"
+                    value="order"
+                />
+
             </template>
             <template v-slot:center>
             </template>
