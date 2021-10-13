@@ -1,5 +1,17 @@
 const Order = require("../models/order.model.js");
 
+exports.findAll = (req,res) => {
+  Order.find({ status: 1}, function(err, orders) {
+    if(err) {
+      $logger.error(err)
+      res.status(500).send({
+        message: "Error creating Encounters"
+      });
+    }
+    res.send(orders);
+  })
+}
+
 exports.create = (req,res) => {
     Order.create( req.body, function(err,order) {
       if(err) {

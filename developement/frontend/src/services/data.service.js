@@ -463,7 +463,23 @@ export default {
                                     });
                             });
                         }
-                    }   
+                    },
+                    orders: function() {
+                        return new Promise(function(resolve, reject) {
+                            http.get("orders")
+                                .then((result) => {
+                                    resolve(result);
+                                })
+                                .catch((result) => {
+                                    instance.$cui.notification({
+                                        text: result,
+                                        color: "danger",
+                                    });
+                                    reject;
+                                });
+                        });
+
+                    }
                 },
                 //-------------------------//
                 //----------Post-----------//

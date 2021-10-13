@@ -10,6 +10,7 @@ module.exports = app => {
         next();
     });
   
+    app.get('/api/orders', [authJwt.verifyToken], orders.findAll)
     app.post("/api/orders", [authJwt.verifyToken], orders.create);
     app.delete("/api/orders/:orderId", [authJwt.verifyToken], orders.delete);
 
