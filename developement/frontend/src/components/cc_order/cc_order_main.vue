@@ -22,7 +22,7 @@
                 <h2> Entry </h2>
             </template>
 
-            <entry :order="selectedOrder" />
+            <entry v-if="selectedOrder" :order="selectedOrder.row" />
         </cui-card>
         <cui-card>
             <cui-table :data="ordersFull" singleSelect :loading="loading.orders">
@@ -74,7 +74,7 @@ export default {
             this.selectedOrder = order;
         }
     },
-    
+
 }
 </script>
 

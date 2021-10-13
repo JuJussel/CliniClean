@@ -1,8 +1,17 @@
 <template>
     <div>
-        <h2>
-            {{ order}}
+        <h2 style="display: flex; justify-content: space-between">
+            <div>
+                <i :class="procedureIcon" />
+                <span style="margin-left: 10px"> {{ order.procedure.name }} </span>
+            </div>
+            <cui-button :label="$lang.finish" primary />
         </h2>
+        <div>Requester: Name</div>
+        <h4 style="margin: 10px">Comment</h4>
+        <cui-tag style="max-width: 250px; height: auto">Hellolkcre vieropvrnvvnr oforjfrn rejrenre revjren relrjenferljfnr fournfroufrnfweorjfrjnf oerjf oer foejfn erofn erpojf nerpof</cui-tag>
+        <h4 style="margin: 10px">Comment add</h4>
+        <cui-input style="max-width: 250px" placeholder="Memo" label="Memo" />
     </div>
 </template>
 
@@ -11,6 +20,12 @@ export default {
     props: {
         order: {
             default: null
+        }
+    },
+    computed: {
+        procedureIcon() {
+            let code = this.order?.procedure.cat.code || null;
+            return this.$store.getters.config.procedureCategories.find(item => item.code === code)?.icon || null;
         }
     }
 }
