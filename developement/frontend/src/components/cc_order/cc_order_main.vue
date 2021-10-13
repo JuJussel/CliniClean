@@ -1,7 +1,7 @@
 <template>
     <div class="cc-order-main-cont">
         <cui-card>
-            <cui-table :data="ordersFull">
+            <cui-table :data="ordersFull" singleSelect @select="selectOrder" :loading="loading.orders">
                 <template #header>
                     <h2> {{ $lang.order }} {{ $lang.list }} </h2>
                 </template>
@@ -17,9 +17,15 @@
                 </template>
             </cui-table>
         </cui-card>
-        <cui-card class="right-card">Editor</cui-card>
+        <cui-card class="right-card">
+            <template #header>
+                <h2> Entry </h2>
+            </template>
+
+            <entry :order="selectedOrder" />
+        </cui-card>
         <cui-card>
-            <cui-table :data="ordersFull">
+            <cui-table :data="ordersFull" singleSelect :loading="loading.orders">
                 <template #header>
                     <h2> {{ $lang.procedureCategoryLabels.exam }} {{ $lang.list }} </h2>
                 </template>
@@ -39,10 +45,20 @@
 </template>
 
 <script>
+
+import entry from "./cc_order_entry.vue"
+
 export default {
+    components: {
+        entry
+    },
     data() {
         return {
-            ordersFull: []
+            ordersFull: [],
+            selectedOrder: null,
+            loading: {
+                orders: false
+            }
         }
     },
     created() {
@@ -50,7 +66,12 @@ export default {
     },
     methods: {
         async updateData() {
+            this.loading.orders = true;
             this.ordersFull = await this.$dataService().get.orders() || [];
+            this.loading.orders = false;
+        },
+        selectOrder(order) {
+            this.selectedOrder = order;
         }
     },
     
