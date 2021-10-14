@@ -11,7 +11,7 @@
         <h4 style="margin: 10px">Comment</h4>
         <cui-tag style="max-width: 250px; height: auto">Hellolkcre vieropvrnvvnr oforjfrn rejrenre revjren relrjenferljfnr fournfroufrnfweorjfrjnf oerjf oer foejfn erofn erpojf nerpof</cui-tag>
         <h4 style="margin: 10px">Comment add</h4>
-        <cui-input style="max-width: 250px" placeholder="Memo" label="Memo" />
+        <cui-textarea style="width: 250px" rows="3" cols="30"/>
     </div>
 </template>
 
