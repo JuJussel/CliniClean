@@ -1,9 +1,13 @@
 <template>
     <div>
-        <h2 style="display: flex; align-items: center">
-                <i :class="procedureIcon" />
-                <span style="margin-left: 10px"> {{ order.procedure.name }} </span>
+        <div style="padding: 10px; display: flex; align-items: center">
+            <h2> Entry </h2>
+            <cui-button plain icon="fas fa-lock-open" style="margin-left: 10px" />
             <cui-button :label="$lang.finish" primary />
+        </div>
+        <h2>
+            <i :class="procedureIcon" />
+            <span style="margin-left: 10px"> {{ order.procedure.name }} </span>
         </h2>
         <div>Requester: Name</div>
         <h4 style="margin: 10px">Comment</h4>

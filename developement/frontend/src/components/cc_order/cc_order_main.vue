@@ -18,10 +18,6 @@
             </cui-table>
         </cui-card>
         <cui-card class="right-card">
-            <template #header>
-                <h2> Entry </h2>
-            </template>
-
             <entry v-if="selectedOrder" :order="selectedOrder.row" />
         </cui-card>
         <cui-card>
