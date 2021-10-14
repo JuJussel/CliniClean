@@ -1,10 +1,8 @@
 <template>
     <div>
-        <h2 style="display: flex; justify-content: space-between">
-            <div>
+        <h2 style="display: flex; align-items: center">
                 <i :class="procedureIcon" />
                 <span style="margin-left: 10px"> {{ order.procedure.name }} </span>
-            </div>
             <cui-button :label="$lang.finish" primary />
         </h2>
         <div>Requester: Name</div>
