@@ -12,12 +12,14 @@
                 <td style="width: 60px">
                     <div class="cc-shared-procedures-list-row-buttons" @click.stop="">
                         <cui-button
-                            icon="fas fa-shopping-basket"
+                            :disabled="row.order?.locked"
+                            icon="fas fa-shopping-cart"
                             :dark="row.order"
                             :white="!row.order"
                             v-bind:class="{visibleOverride: row.order}"
                             @click="toggleOrder(row)"
                         />
+                        <i v-if="row.order?.done" class="fas fa-check super-hack-check"></i>
                         <cui-button
                             icon="fas fa-yen-sign"
                             white
@@ -106,11 +108,11 @@ export default {
                     requester: this.$store.getters.user.id
                 }
                 let order = await this.$dataService().post.orders(requestData);
-                item.order = order._id
+                item.order = {id: order._id, done: false, locked: false}
             }
         },
         async deleteOrder() {
-            await this.$dataService().delete.orders(this.orderBuffer.order);
+            await this.$dataService().delete.orders(this.orderBuffer.order.id);
             this.orderBuffer.order = null;
             this.orderBuffer = null;
             this.confirmOrderDelete = false;
@@ -136,5 +138,13 @@ export default {
     }
     .cc-shared-procedures-list-row-buttons .visibleOverride {
         opacity: 1!important;
+    }
+</style>
+<style scoped>
+    .super-hack-check {
+        position: absolute;
+        margin-left: 27px;
+        margin-top: 9px;
+        font-size: 13px
     }
 </style>

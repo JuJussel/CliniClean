@@ -27,7 +27,7 @@ exports.create = (req,res) => {
 exports.update = (req,res) => {
   Order.findOneAndUpdate(
     { _id: req.params.orderId }, 
-    req.body, 
+    req.body,
     { runValidators: true },
     function(err) {
       if(err) {
@@ -36,9 +36,25 @@ exports.update = (req,res) => {
           message: "Error updating Order"
         });
       }
-      res.send({ok: true});
+      const Encounter = require("../models/encounter.model.js");
+      Encounter.findOneAndUpdate(
+        {_id: req.body.encounterId, "karte.procedures.order.id": req.params.orderId},
+        {
+          "karte.procedures.$.order.locked": req.body.locked,
+          "karte.procedures.$.order.done": req.body.status === 0 ? true : false
+        },
+        function(err) {
+          if(err) {
+            $logger.error(err)
+            res.status(500).send({
+              message: "Error updating Order"
+            });
+          }
+          // Need to send via websocket!!!!!!!!!!!
+          res.send({ok: true});
+        }  
+      );        
     })
-
 }
 
 exports.delete = (req,res) => {
