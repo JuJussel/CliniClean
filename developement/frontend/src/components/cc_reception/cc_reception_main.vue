@@ -139,9 +139,9 @@ export default {
         this.getEncounters();
         this.getEncounterTypes();
         this.getDoctors();
-        this.$options.sockets.onmessage = () => this.getEncounters();
-
-
+        this.$options.sockets.onmessage = (data) => {
+            if(data.event === "updateEncounter") this.getEncounters()
+        };
     },
     data() {
         return {

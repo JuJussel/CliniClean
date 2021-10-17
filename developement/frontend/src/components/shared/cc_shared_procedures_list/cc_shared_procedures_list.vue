@@ -12,7 +12,7 @@
                 <td style="width: 60px">
                     <div class="cc-shared-procedures-list-row-buttons" @click.stop="">
                         <cui-button
-                            :disabled="row.order?.locked"
+                            :disabled="row.order?.locked || row.order?.done"
                             icon="fas fa-shopping-cart"
                             :dark="row.order"
                             :white="!row.order"
@@ -27,6 +27,7 @@
                         <cui-button
                             icon="far fa-trash-alt"
                             danger
+                            :disabled="row.order?.locked || row.order?.done"
                             @click="removeProcedure(row)"
                         />
                     </div>

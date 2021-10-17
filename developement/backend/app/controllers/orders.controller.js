@@ -50,7 +50,15 @@ exports.update = (req,res) => {
               message: "Error updating Order"
             });
           }
-          // Need to send via websocket!!!!!!!!!!!
+          $wss.broadcast({
+            event: "updateOrder",
+            data: {
+              encounterId: req.body.encounterId,
+              id: req.body.id,
+              locked: req.body.locked,
+              done: req.body.status === 0 ? true : false
+            },
+          });
           res.send({ok: true});
         }  
       );        

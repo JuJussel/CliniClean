@@ -87,6 +87,10 @@ export default {
     mounted() {
         this.prepareEncounter();
         this.$dataService().get.patient.medicalHistory(this.encounter.patient.id);
+        this.$options.sockets.onmessage = (data) => {
+            data = JSON.parse(data.data);
+            if(data.event === "updateOrder") this.handelUpdateOrder(data.data)
+        };
     },
     methods: {
         async prepareEncounter() {
@@ -106,6 +110,16 @@ export default {
             preparedEncounter.doctor = this.$store.getters.user.id;
             this.encounterState = preparedEncounter;
 
+        },
+        handelUpdateOrder(order) {
+            if (order.encounterId === this.encounterState._id) {
+                const index = this.encounterState.karte.procedures.findIndex((el) => el.order?.id === order.id)
+                this.encounterState.karte.procedures[index].order = {
+                    done: order.done,
+                    id: order.id,
+                    locked: order.locked
+                }
+            }
         },
         addProcedure(item) {
             item = JSON.parse(JSON.stringify(item.row));
