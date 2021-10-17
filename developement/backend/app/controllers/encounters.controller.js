@@ -10,17 +10,17 @@ exports.findOne = (req, res) => {
   .populate({
     path: 'patient',
     select: 'name'
-    })
-    .exec(
-      (err, data) => {
-        if (err) {
-          $logger.error(err)
-          res.status(500).send({
-            message: "Error retrieving Encounter"
-          });
-        } else {
-          res.send(data);
-        }
+  })
+  .exec(
+    (err, data) => {
+      if (err) {
+        $logger.error(err)
+        res.status(500).send({
+          message: "Error retrieving Encounter"
+        });
+      } else {
+        res.send(data);
+      }
     })
 }
 

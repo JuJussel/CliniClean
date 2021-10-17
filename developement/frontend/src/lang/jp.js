@@ -126,6 +126,7 @@ export default {
     register: "登録",
     reservation: "予約",
     results: "結果",
+    requester: "依頼者",
     save: "保存",
     saved: "保存しました",
     saving: "保存中",

@@ -56,7 +56,6 @@ export default {
     emits: ['update'],
     created() {
         if (this.item.varData) this.results = this.item.varData;
-
         this.getResults();
     },
     data() {

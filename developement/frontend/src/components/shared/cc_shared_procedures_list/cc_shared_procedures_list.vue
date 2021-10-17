@@ -129,7 +129,8 @@ export default {
     }
     .cc-shared-procedures-list-row-buttons {
         transition: all .2s ease;
-        display: flex
+        display: flex;
+        position: relative
     }
     .cc-shared-procedures-list-row-buttons .cui-button-wrapper {
         opacity: 0;

@@ -84,7 +84,7 @@ export default {
 <style scoped>
     .cc-order-main-cont {
         display: grid;
-        grid-template-columns: 50% 50%;
+        grid-template-columns: 70% 30%;
         grid-template-rows: 50% 50%;
     }
     .right-card {

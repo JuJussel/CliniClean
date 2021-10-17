@@ -1,15 +1,22 @@
 const Order = require("../models/order.model.js");
 
 exports.findAll = (req,res) => {
-  Order.find({ status: 1}, function(err, orders) {
-    if(err) {
-      $logger.error(err)
-      res.status(500).send({
-        message: "Error creating Encounters"
-      });
-    }
-    res.send(orders);
+  Order.find({ status: 1})
+  .populate({
+    path: 'requester',
+    select: ["nameFirst","nameLast"]
   })
+  .exec(
+    (err, orders) => {
+      if(err) {
+        $logger.error(err)
+        res.status(500).send({
+          message: "Error creating Encounters"
+        });
+      }
+      res.send(orders);
+    }
+  )
 }
 
 exports.create = (req,res) => {
