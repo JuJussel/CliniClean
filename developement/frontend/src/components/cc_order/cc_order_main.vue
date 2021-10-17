@@ -9,16 +9,20 @@
                     <cui-th>Date</cui-th>
                     <cui-th>Patient</cui-th>
                     <cui-th>Type</cui-th>
+                    <cui-th style="width: 50px"></cui-th>
                 </template>
                 <template v-slot:row=" { row } ">
                     <td> {{ row.date }} </td>
                     <td> {{ row.patientId }} </td>
                     <td> {{ row.procedure?.cat?.label }} </td>
+                    <td>
+                        <i v-if="row.locked" class="fas fa-lock" />
+                    </td>
                 </template>
             </cui-table>
         </cui-card>
         <cui-card class="right-card">
-            <entry v-if="selectedOrder" :order="selectedOrder.row" />
+            <entry v-if="selectedOrder" :order="selectedOrder.row" @update="updateData" />
         </cui-card>
         <cui-card>
             <cui-table :data="ordersFull" singleSelect :loading="loading.orders">
@@ -62,9 +66,12 @@ export default {
     },
     methods: {
         async updateData() {
-            this.loading.orders = true;
+            let loader = setTimeout(function() {
+                this.loading.orders = true;
+            }.bind(this), 500)
             this.ordersFull = await this.$dataService().get.orders() || [];
             this.loading.orders = false;
+            clearTimeout(loader);
         },
         selectOrder(order) {
             this.selectedOrder = order;

@@ -683,6 +683,22 @@ export default {
                             });
                         },
                     },
+                    orders: function(order) {
+                        return new Promise(function(resolve, reject) {
+                            return http
+                                .put("orders/" + order._id, order)
+                                .then((result) => {
+                                    resolve(result);
+                                })
+                                .catch((result) => {
+                                    instance.$cui.notification({
+                                        text: result,
+                                        color: "danger",
+                                    });
+                                    reject(result);
+                                });
+                        });
+                    }
                 },
                 //-------------------------//
                 //----------Delete---------//

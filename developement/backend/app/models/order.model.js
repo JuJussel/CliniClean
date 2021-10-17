@@ -8,7 +8,8 @@ const OrderSchema = new Schema({
     procedure: {type: {}},
     requester: { type: Number, ref: 'pub_patients' },
     date:  {type: Date, default: Date.now()},
-    status: {type: Number, default: 1}
+    status: {type: Number, default: 1},
+    locked: {type: String, default: null}
 },{ toJSON: { virtuals: true } });
 
 module.exports = mongoose.model("pub_orders", OrderSchema);

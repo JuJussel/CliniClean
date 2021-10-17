@@ -12,6 +12,7 @@ module.exports = app => {
   
     app.get('/api/orders', [authJwt.verifyToken], orders.findAll)
     app.post("/api/orders", [authJwt.verifyToken], orders.create);
+    app.put("/api/orders/:orderId", [authJwt.verifyToken], orders.update);
     app.delete("/api/orders/:orderId", [authJwt.verifyToken], orders.delete);
 
   };

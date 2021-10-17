@@ -17,11 +17,28 @@ exports.create = (req,res) => {
       if(err) {
         $logger.error(err)
         res.status(500).send({
-          message: "Error creating Encounters"
+          message: "Error creating Order"
         });
       }
       res.send(order);
     })
+}
+
+exports.update = (req,res) => {
+  Order.findOneAndUpdate(
+    { _id: req.params.orderId }, 
+    req.body, 
+    { runValidators: true },
+    function(err) {
+      if(err) {
+        $logger.error(err)
+        res.status(500).send({
+          message: "Error updating Order"
+        });
+      }
+      res.send({ok: true});
+    })
+
 }
 
 exports.delete = (req,res) => {
@@ -30,7 +47,7 @@ exports.delete = (req,res) => {
       if (err) {
           $logger.error(err);
           res.status(500).send({
-              message: "Error creating Encounters",
+              message: "Error deleting Order",
           });
       }
       res.send({ok: true});
