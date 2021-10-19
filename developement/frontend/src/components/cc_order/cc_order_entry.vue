@@ -12,11 +12,15 @@
         </h2>
         <div style="margin-bottom: 20px"> {{ $lang.requester }}: {{ order.requester.nameFull }} </div>
         <div v-if="order.procedure.cat.code === 60">
-            <cui-select 
-                :data="examProviders"
-                displayValueProp="name"
-                label="provider"
-            ></cui-select>
+            <div style="display: flex; align-items: baseline; padding: 10px">
+                <span style="width: 70px"> {{ $lang.examProvider }} </span>
+                <cui-select
+                    :data="examProviders"
+                    displayValueProp="label"
+                    v-model="orderLocal.provider"
+                    style="width: 200px; margin-left: 20px"
+                ></cui-select>
+            </div>
             <exam-Input :item="orderLocal.procedure" style="max-width: 600px" />
         </div>
         <div v-if="order.procedure.comment">
@@ -57,7 +61,7 @@ export default {
     },
     watch: {
         order() {
-            this.orderLocal = JSON.parse(JSON.stringify(this.order))
+            this.orderLocal = JSON.parse(JSON.stringify(this.order));
         }
     },
     computed: {
@@ -70,7 +74,7 @@ export default {
             return this.order.locked !== this.$store.getters.user.id;
         },
         examProviders() {
-            return [{name: "inhouse"}].concat(this.$store.getters.settings.examinationProviders.public)
+            return [{name: "inhouse", label: this.$lang.inhouse}].concat(this.$store.getters.settings.examinationProviders.public)
         }
     },
     methods: {

@@ -74,6 +74,7 @@ export default {
             clearTimeout(loader);
         },
         selectOrder(order) {
+            order.row.provider = {name: 'inhouse', label: this.$lang.inhouse};
             this.selectedOrder = order;
         }
     },
@@ -84,7 +85,7 @@ export default {
 <style scoped>
     .cc-order-main-cont {
         display: grid;
-        grid-template-columns: 70% 30%;
+        grid-template-columns: 60% 40%;
         grid-template-rows: 50% 50%;
     }
     .right-card {
