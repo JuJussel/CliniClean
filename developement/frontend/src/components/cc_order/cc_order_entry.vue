@@ -10,9 +10,14 @@
             <i :class="procedureIcon" />
             <span style="margin-left: 10px"> {{ orderLocal.procedure.name }} </span>
         </h2>
-        <div> {{ $lang.requester }}: {{ order.requester.nameFull }} </div>
+        <div style="margin-bottom: 20px"> {{ $lang.requester }}: {{ order.requester.nameFull }} </div>
         <div v-if="order.procedure.cat.code === 60">
-            <exam-Input :item="order.procedure" style="max-width: 600px" />
+            <cui-select 
+                :data="examProviders"
+                displayValueProp="name"
+                label="provider"
+            ></cui-select>
+            <exam-Input :item="orderLocal.procedure" style="max-width: 600px" />
         </div>
         <div v-if="order.procedure.comment">
             <h4 style="margin: 10px"> {{ $lang.comment }} </h4>
@@ -63,6 +68,9 @@ export default {
         isUser() {
             if (!this.order.locked) return false;
             return this.order.locked !== this.$store.getters.user.id;
+        },
+        examProviders() {
+            return [{name: "inhouse"}].concat(this.$store.getters.settings.examinationProviders.public)
         }
     },
     methods: {
