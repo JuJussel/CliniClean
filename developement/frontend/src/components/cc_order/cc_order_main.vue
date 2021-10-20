@@ -69,6 +69,7 @@ export default {
             let loader = setTimeout(function() {
                 this.loading.orders = true;
             }.bind(this), 500)
+            this.selectedOrder = null;
             this.ordersFull = await this.$dataService().get.orders() || [];
             this.loading.orders = false;
             clearTimeout(loader);

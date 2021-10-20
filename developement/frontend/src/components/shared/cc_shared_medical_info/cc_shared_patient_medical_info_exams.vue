@@ -53,7 +53,7 @@ export default {
                 let name = res.result.shared.name === '分析物固有結果コード'? res.result.single.name : res.result.shared.name;
                 return name === row.label
             })
-            return(match.value)
+            return(match?.value || null)
         }
     },
     computed: {
@@ -65,7 +65,7 @@ export default {
                 let exams = procedures.filter(proc => proc.cat?.code === 60);
                 if(exams.length < 1) return;
                 exams.forEach(exm => {
-                    let varData = exm.varData;
+                    let varData = exm.varData || [];
                     exm = varData.map(varD => {
                         varD.encounter = enc.id,
                         varD.date = enc.date

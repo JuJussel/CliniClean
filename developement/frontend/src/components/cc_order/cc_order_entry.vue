@@ -1,5 +1,6 @@
 <template>
     <div>
+        <div v-if="loading.all" class="loader"></div>
         <div style="padding: 10px; display: flex; align-items: center">
             <h2> {{ $lang.order }} </h2>
             <cui-button :disabled="isUser" v-if="orderLocal.locked" @click="toggleLock(false)" plain icon="fas fa-lock" :loading="loading.lock" style="margin-left: 10px" />
@@ -21,7 +22,7 @@
                     style="width: 200px; margin-left: 20px"
                 ></cui-select>
             </div>
-            <exam-Input :item="orderLocal.procedure" style="max-width: 600px" />
+            <exam-Input @update="updateLocalOrderVar" :item="orderLocal.procedure" style="max-width: 600px" />
         </div>
         <div v-if="order.procedure.comment">
             <h4 style="margin: 10px"> {{ $lang.comment }} </h4>
@@ -30,7 +31,7 @@
             </cui-tag>
         </div>
         <h4 style="margin: 10px"> {{ $lang.comment }} {{ $lang.add }}</h4>
-        <cui-textarea :disabled="isUser" style="width: 250px" rows="3" cols="30"/>
+        <cui-textarea v-model="comment" :disabled="isUser" style="width: 250px" rows="3" cols="30" />
     </div>
 </template>
 
@@ -56,7 +57,8 @@ export default {
                 lock: false,
                 all: false
             },
-            orderLocal: JSON.parse(JSON.stringify(this.order))
+            orderLocal: JSON.parse(JSON.stringify(this.order)),
+            comment: ""
         }
     },
     watch: {
@@ -78,6 +80,9 @@ export default {
         }
     },
     methods: {
+        updateLocalOrderVar(data) {
+            this.orderLocal.procedure.var = data;
+        },
         async toggleLock(locked) {
             if(this.isUser) return;
             this.loading.lock = true;
@@ -90,6 +95,11 @@ export default {
             if(this.isUser) return;
             this.loading.all = true;
             this.orderLocal.status = 0;
+            if (this.comment !== "") {
+                let addComment = this.$store.getters.userFullName + '：' + this.comment;
+                let existingComment = this.orderLocal.procedure.comment + ' ' || '';
+                this.orderLocal.procedure.comment = existingComment + addComment;
+            }
             await this.$dataService().put.orders(this.orderLocal);
             this.loading.all = false;
             this.$emit('update');
