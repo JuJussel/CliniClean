@@ -53,6 +53,12 @@
                 style="max-width: 600px"
             />
         </div>
+        <div v-if="order.procedure.cat.code === 30">
+            <shot-input
+                @update="updateLocalOrderVar"
+                :item="orderLocal.procedure"
+            />
+        </div>
         <div v-if="order.procedure.comment">
             <h4 style="margin: 10px">{{ $lang.comment }}</h4>
             <cui-tag style="max-width: 250px; height: auto">
@@ -72,10 +78,12 @@
 
 <script>
 import examInput from "../shared/cc_shared_procedures_list/cc_shared_procedure_exam.vue";
+import shotInput from "../shared/cc_shared_procedures_list/cc_shared_procedure_shot.vue";
 
 export default {
     components: {
         examInput,
+        shotInput,
     },
     props: {
         order: {
@@ -137,9 +145,11 @@ export default {
             this.orderLocal.status = 0;
             if (this.comment !== "") {
                 let addComment =
-                    this.$store.getters.userFullName + "：" + this.comment;
-                let existingComment =
-                    this.orderLocal.procedure.comment + " " || "";
+                    " " +
+                    this.$store.getters.userFullName +
+                    "：" +
+                    this.comment;
+                let existingComment = this.orderLocal.procedure.comment || "";
                 this.orderLocal.procedure.comment =
                     existingComment + addComment;
             }

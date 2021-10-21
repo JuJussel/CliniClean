@@ -22,7 +22,7 @@ export default {
     day: "日",
     dependent: "配偶者",
     details: "詳細",
-    delete: '削除',
+    delete: "削除",
     diseaseOutcome: "転帰",
     diseaseEndDate: "転帰日",
     diseaseStartDate: "開始日",
@@ -155,6 +155,7 @@ export default {
     time: "時間",
     today: "今日",
     unknown: "不明",
+    vial: "管",
     valid: "有効",
     validUntil: "有効期限",
     value: "値",
@@ -175,7 +176,7 @@ export default {
         "string.pattern.base": "入力に誤りがあります",
         "any.invalid": "入力に誤りがあります",
         "date.min": "過去の日付を選択してください",
-        "date.max": "未来の日付を選択してください"
+        "date.max": "未来の日付を選択してください",
     },
     vitalCategories: {
         bloodType: "血液型",
@@ -189,11 +190,11 @@ export default {
         waist: "腹囲",
         height: "身長",
         head: "頭囲",
-        breast: "胸囲"
+        breast: "胸囲",
     },
     dateLocals: {
         yearSeparator: "年",
         monthSeparator: "月",
-        daySeparator: "日"
-    }
+        daySeparator: "日",
+    },
 };
