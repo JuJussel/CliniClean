@@ -28,7 +28,7 @@
     <template v-slot:row="{ row }">
       <td>{{ row.id }}</td>
       <td>{{ row.name }}</td>
-      <td>{{ $dayjs(row.birthdate).format("YYYY年MM月DD日") }}</td>
+      <td>{{ $parseDate(row.birthdate) }}</td>
       <td></td>
     </template>
   </cui-table>

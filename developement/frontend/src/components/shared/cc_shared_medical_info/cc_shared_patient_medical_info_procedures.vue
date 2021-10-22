@@ -10,7 +10,7 @@
                 <cui-th> {{ $lang.procedureName }} </cui-th>
             </template>
             <template v-slot:row="{ row }">
-                <td> {{ parseDate(row.date) }} </td>
+                <td> {{ $parseDate(row.date) }} </td>
                 <td> 
                     <i :class="row.cat.icon" />
                     {{ $lang.procedureCategoryLabels[row.cat.label] }} 
@@ -31,15 +31,6 @@ export default {
     emits: [
         'update'
     ],
-    methods: {
-        parseDate(date) {
-            return this.$dayjs(date).format(
-                'YYYY' + this.$lang.dateLocals.yearSeparator +
-                'MM' + this.$lang.dateLocals.monthSeparator +
-                'DD' + this.$lang.dateLocals.daySeparator
-            )
-        }
-    },
     computed: {
         procedures() {
             let proceduresList = [];

@@ -17,7 +17,7 @@
                     <cui-th style="width: 50px"></cui-th>
                 </template>
                 <template v-slot:row="{ row }">
-                    <td>{{ row.date }}</td>
+                    <td>{{ $parseDate(row.date) }}</td>
                     <td>{{ row.patientId }}</td>
                     <td>{{ row.procedure?.cat?.label }}</td>
                     <td>
@@ -32,6 +32,7 @@
                 :order="selectedOrder.row"
                 @update="updateData"
             />
+            <div v-else>Choose ORder</div>
         </cui-card>
         <cui-card>
             <cui-table

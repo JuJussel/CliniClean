@@ -15,7 +15,7 @@
                 </template>
                 <template v-slot:row="{ row }">
                     <td> {{ row.disease.name }} </td>
-                    <td> {{ parseDate(row.startDate) }} </td>
+                    <td> {{ $parseDate(row.startDate) }} </td>
                     <td> {{ parseSuspectLabel(row) }} </td>
                     <td>
                         <span v-if="row.primaryDisease"> {{ $lang.diseaseMain }} </span>
@@ -37,8 +37,8 @@
                 </template>
                 <template v-slot:row="{ row }">
                     <td> {{ row.disease.name }} </td>
-                    <td> {{ parseDate(row.startDate) }} </td>
-                    <td> {{ parseDate(row.endDate) }} </td>
+                    <td> {{ $parseDate(row.startDate) }} </td>
+                    <td> {{ $parseDate(row.endDate) }} </td>
                     <td> {{ parseOutcomeLabel(row) }} </td>
                 </template>
             </cui-table>
@@ -84,14 +84,6 @@ export default {
         }
     },
     methods: {
-        parseDate(date) {
-            if(!date) return;
-            return this.$dayjs(date, "YYYY-MM-DD").format(
-                'YYYY' + this.$lang.dateLocals.yearSeparator +
-                'MM' + this.$lang.dateLocals.monthSeparator +
-                'DD' + this.$lang.dateLocals.daySeparator
-            )
-        },
         parseSuspectLabel(row) {
             if(!row.suspectOrAcuteFlag) return "";
             return this.$store.getters.diseaseFlags.suspectFlags.find(item => item.value === row.suspectOrAcuteFlag).label

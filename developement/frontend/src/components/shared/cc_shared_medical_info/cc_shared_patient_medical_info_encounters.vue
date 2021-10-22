@@ -16,7 +16,7 @@
                 </cui-th>
             </template>
             <template v-slot:row="{ row }">
-                <td> {{ parseDate(row.date) }} </td>
+                <td> {{ $parseDate(row.date) }} </td>
                 <td> {{ parseType(row.type) }} </td>
                 <td 
                     v-for="(item,index) in procedureCategories"
@@ -42,14 +42,6 @@ export default {
         'update'
     ],
     methods: {
-        parseDate(date) {
-            if(!date) return;
-            return this.$dayjs(date).format(
-                'YYYY' + this.$lang.dateLocals.yearSeparator +
-                'MM' + this.$lang.dateLocals.monthSeparator +
-                'DD' + this.$lang.dateLocals.daySeparator
-            )
-        },
         parseType(type) {
             return this.$store.getters.encounterTypes.find(item => item.id === type).name;
         },

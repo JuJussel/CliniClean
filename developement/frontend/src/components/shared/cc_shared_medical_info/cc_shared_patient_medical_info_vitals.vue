@@ -12,7 +12,7 @@
                     :key="index"
                     style="min-width: 150px"
                 >
-                {{ parseDate(item.date) }}
+                {{ $parseDate(item.date) }}
                 </cui-th>
             </template>
             <template v-slot:row="{ row }">
@@ -106,13 +106,6 @@ export default {
         },
         returnVitalValue(vitals, row) {
             return vitals.find(item => item.code === row.code)?.value || "";
-        },
-        parseDate(date) {
-            return this.$dayjs(date).format(
-                'YYYY' + this.$lang.dateLocals.yearSeparator +
-                'MM' + this.$lang.dateLocals.monthSeparator +
-                'DD' + this.$lang.dateLocals.daySeparator
-            )
         }
     },
     computed: {

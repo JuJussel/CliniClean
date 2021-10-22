@@ -14,7 +14,7 @@
                     :key="index"
                     style="min-width: 150px"
                 >
-                    {{ parseDate(item.date) }}
+                    {{ $parseDate(item.date) }}
                 </cui-th>
             </template>
             <template v-slot:row="{ row }">
@@ -38,16 +38,6 @@ export default {
     },
     emits: ["update"],
     methods: {
-        parseDate(date) {
-            return this.$dayjs(date).format(
-                "YYYY" +
-                    this.$lang.dateLocals.yearSeparator +
-                    "MM" +
-                    this.$lang.dateLocals.monthSeparator +
-                    "DD" +
-                    this.$lang.dateLocals.daySeparator
-            );
-        },
         parseValue(results, row) {
             let match = results.data.find((res) => {
                 let name =

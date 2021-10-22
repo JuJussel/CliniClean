@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 import weekday from "dayjs/plugin/weekday";
 import customParseFormat from "dayjs/plugin/customParseFormat";
@@ -9,32 +9,38 @@ dayjs.extend(weekday);
 dayjs.extend(customParseFormat);
 
 export default async (encounter, baseItems, clinicInfo) => {
-
     const date = {
         time: Date.now(),
         day: dayjs().day(),
-        dateString: dayjs().format('YYYY-MM-DD'),
-        timeString: dayjs().format('HH:mm'),
-        yearString: dayjs().format('YYYY'),
-        monthString: dayjs().format('MM'),
-    }
+        dateString: dayjs().format("YYYY-MM-DD"),
+        timeString: dayjs().format("HH:mm"),
+        yearString: dayjs().format("YYYY"),
+        monthString: dayjs().format("MM"),
+    };
     const patientBirthdate = encounter.patient.birthdate;
-    const patientAge = dayjs(date.time).diff(patientBirthdate, 'month');
+    const patientAge = dayjs(date.time).diff(patientBirthdate, "month");
     const lateNight = {
-        start: dayjs().hour("22").minute("00"),
-        end: dayjs().hour("06").minute("00").add(1, "day")
+        start: dayjs()
+            .hour("22")
+            .minute("00"),
+        end: dayjs()
+            .hour("06")
+            .minute("00")
+            .add(1, "day"),
     };
     const holidaysList = await (
         await fetch("https://holidays-jp.github.io/api/v1/date.json")
-        ).json();
-    const diseases = await http.get("patients/" + encounter.patient.id + "/diseases");
+    ).json();
+    const diseases = await http.get(
+        "patients/" + encounter.patient.id + "/diseases"
+    );
 
     var openingHours = clinicInfo.openingHours[date.day];
     openingHours = [
-        openingHours[0] ? dayjs(openingHours[0], 'HH:mm') : null,
-        openingHours[1] ? dayjs(openingHours[1], 'HH:mm') : null,
-        openingHours[2] ? dayjs(openingHours[2], 'HH:mm') : null,
-        openingHours[3] ? dayjs(openingHours[3], 'HH:mm') : null
+        openingHours[0] ? dayjs(openingHours[0], "HH:mm") : null,
+        openingHours[1] ? dayjs(openingHours[1], "HH:mm") : null,
+        openingHours[2] ? dayjs(openingHours[2], "HH:mm") : null,
+        openingHours[3] ? dayjs(openingHours[3], "HH:mm") : null,
     ];
 
     // var sameDayCounter = 0;
@@ -42,29 +48,30 @@ export default async (encounter, baseItems, clinicInfo) => {
     var baseVisitProcedure = {
         tag: 0,
         srycd: "111000110",
-        cat: { orcaCode: '110' }
+        cat: { orcaCode: "110" },
     };
-    var ageType = 'n';
+    var ageType = "n";
 
     // Check if repeated visit
-    if(diseases.length > 0) {
-        diseases.forEach(item => {
-            if(!item.Disease_EndDate) baseVisitProcedure = {
-                tag: 1,
-                srycd: "112007410",
-                cat: { orcaCode: '120' }        
-            }
-        })
+    if (diseases.length > 0) {
+        diseases.forEach((item) => {
+            if (!item.Disease_EndDate)
+                baseVisitProcedure = {
+                    tag: 1,
+                    srycd: "112007410",
+                    cat: { orcaCode: "120" },
+                };
+        });
     }
 
     // Check if late night
     if (dayjs().isBetween(lateNight.start, lateNight.end)) {
-        addItem = 'n';
+        addItem = "n";
     }
 
     // Check if holiday
-    else if(date.day === 0 || holidaysList[date.dateString]) {
-        addItem = 'k'
+    else if (date.day === 0 || holidaysList[date.dateString]) {
+        addItem = "k";
     }
 
     // Check if outside of hours
@@ -82,24 +89,25 @@ export default async (encounter, baseItems, clinicInfo) => {
     // Check if early or late hours
     else if (date.day === 7) {
         if (
-            dayjs().isBetween( dayjs("06:00", "HH:mm"), dayjs("08:00", "HH:mm")) 
-            ||
+            dayjs().isBetween(
+                dayjs("06:00", "HH:mm"),
+                dayjs("08:00", "HH:mm")
+            ) ||
             dayjs().isBetween(dayjs("12:00", "HH:mm"), dayjs("22:00", "HH:mm"))
         ) {
-            addItem = 'ml';
+            addItem = "ml";
         }
     } else if (
-        dayjs().isBetween( dayjs("06:00", "HH:mm"), dayjs("08:00", "HH:mm")) 
-        ||
+        dayjs().isBetween(dayjs("06:00", "HH:mm"), dayjs("08:00", "HH:mm")) ||
         dayjs().isBetween(dayjs("18:00", "HH:mm"), dayjs("22:00", "HH:mm"))
     ) {
-        addItem = 'ml';
+        addItem = "ml";
     }
 
     // Check if under 6 years
-    if (patientAge < 6) ageType = 's';
+    if (patientAge < 6) ageType = "s";
 
-    if (!addItem || patientAge < 5) addItem = 'z';
+    if (!addItem || patientAge < 5) addItem = "z";
 
     // Select additional item
     let returnItems = [baseVisitProcedure];
@@ -107,9 +115,5 @@ export default async (encounter, baseItems, clinicInfo) => {
         let itemToAdd = baseItems[baseVisitProcedure.tag][addItem][ageType];
         returnItems.push(itemToAdd);
     }
-
-    console.log(returnItems);
     return returnItems;
-
-}
-
+};

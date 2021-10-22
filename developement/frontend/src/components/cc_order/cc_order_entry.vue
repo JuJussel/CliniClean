@@ -153,9 +153,18 @@ export default {
                 this.orderLocal.procedure.comment =
                     existingComment + addComment;
             }
-            await this.$dataService().put.orders(this.orderLocal);
-            this.loading.all = false;
-            this.$emit("update", true);
+            try {
+                await this.$dataService().put.orders(this.orderLocal);
+                this.$cui.notification({
+                    text: this.$lang.saved,
+                    duration: 3000,
+                    color: "primary",
+                });
+                this.loading.all = false;
+                this.$emit("update", true);
+            } catch {
+                this.loading.all = false;
+            }
         },
     },
 };

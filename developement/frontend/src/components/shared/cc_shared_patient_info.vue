@@ -32,7 +32,7 @@
                     <td>{{ buildPublicIns(1, row) }}</td>
                     <td>{{ buildPublicIns(2, row) }}</td>
                     <td>{{ buildPublicIns(3, row) }}</td>
-                    <td>{{ $dayjs(row.Certificate_ExpiredDate).format('YYYY年MM月DD日') }}</td>
+                    <td>{{ $parseDate(row.Certificate_ExpiredDate) }}</td>
                 </template>
             </cui-table>
 
