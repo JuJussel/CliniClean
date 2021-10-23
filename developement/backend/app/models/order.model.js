@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 
 const OrderSchema = new Schema({
-    patientId: { type: Number, ref: 'pub_patients' },
+    patient: { type: Number, ref: 'pub_patients' },
     encounterId: { type: Schema.Types.ObjectId, ref: 'pub_encounters' },
     procedure: {type: {}},
     requester: { type: Number, ref: 'pub_users' },

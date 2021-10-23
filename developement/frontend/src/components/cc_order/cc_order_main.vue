@@ -6,20 +6,23 @@
                 singleSelect
                 @select="selectOrder"
                 :loading="loading.orders"
+                ref="orderTable"
             >
                 <template #header>
                     <h2>{{ $lang.order }} {{ $lang.list }}</h2>
                 </template>
                 <template #thead>
-                    <cui-th>Date</cui-th>
-                    <cui-th>Patient</cui-th>
-                    <cui-th>Type</cui-th>
+                    <cui-th> {{ $lang.date }} </cui-th>
+                    <cui-th> {{ $lang.patient }} </cui-th>
+                    <cui-th> {{ $lang.patientId }} </cui-th>
+                    <cui-th> {{ $lang.procedureType }} </cui-th>
                     <cui-th style="width: 50px"></cui-th>
                 </template>
                 <template v-slot:row="{ row }">
-                    <td>{{ $parseDate(row.date) }}</td>
-                    <td>{{ row.patientId }}</td>
-                    <td>{{ row.procedure?.cat?.label }}</td>
+                    <td>{{ $parseDate(row.date) }} </td>
+                    <td>{{ row.patient.name }} </td>
+                    <td>{{ row.patient.id }} </td>
+                    <td>{{ row.procedure?.cat?.label }} </td>
                     <td>
                         <i v-if="row.locked" class="fas fa-lock" />
                     </td>
@@ -32,13 +35,15 @@
                 :order="selectedOrder.row"
                 @update="updateData"
             />
-            <div v-else>Choose ORder</div>
+            <div v-else> {{ $lang.orderChoose }} </div>
         </cui-card>
         <cui-card>
             <cui-table
                 :data="ordersFull"
                 singleSelect
+                @select="selectExam"
                 :loading="loading.orders"
+                ref="examTable"
             >
                 <template #header>
                     <h2>
@@ -47,14 +52,16 @@
                     </h2>
                 </template>
                 <template #thead>
-                    <cui-th>Date</cui-th>
-                    <cui-th>Patient</cui-th>
-                    <cui-th>Type</cui-th>
+                    <cui-th> {{ $lang.date }} </cui-th>
+                    <cui-th> {{ $lang.patient }} </cui-th>
+                    <cui-th> {{ $lang.patientId }} </cui-th>
+                    <cui-th> {{ $lang.procedureType }} </cui-th>
                 </template>
                 <template v-slot:row="{ row }">
-                    <td>{{ row.date }}</td>
-                    <td>{{ row.patientId }}</td>
-                    <td>{{ row.procedure?.cat?.label }}</td>
+                    <td>{{ $parseDate(row.date) }} </td>
+                    <td>{{ row.patient.name }} </td>
+                    <td>{{ row.patient.id }} </td>
+                    <td>{{ row.procedure?.cat?.label }} </td>
                 </template>
             </cui-table>
         </cui-card>
@@ -94,9 +101,15 @@ export default {
             clearTimeout(loader);
         },
         selectOrder(order) {
+            this.$refs.examTable.clearSelection();
             order.row.provider = { name: "inhouse", label: this.$lang.inhouse };
             this.selectedOrder = order;
         },
+        selectExam(order) {
+            this.$refs.orderTable.clearSelection();
+            order.row.provider = { name: "inhouse", label: this.$lang.inhouse };
+            this.selectedOrder = order;
+        }
     },
 };
 </script>

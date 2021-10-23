@@ -6,6 +6,10 @@ exports.findAll = (req,res) => {
     path: 'requester',
     select: ["nameFirst","nameLast"]
   })
+  .populate({
+    path: 'patient',
+    select: 'name'
+  })
   .exec(
     (err, orders) => {
       if(err) {

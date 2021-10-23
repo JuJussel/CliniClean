@@ -80,6 +80,7 @@ export default {
     number: "番号",
     occupation: "職業",
     order: "オーダー",
+    orderChoose: "オーダーを選択してください",
     openPayments: "未収金の会計一覧",
     painter: "ペインター",
     patient: "患者",
@@ -105,6 +106,7 @@ export default {
     procedures: "行為・処方",
     procedureName: "行為名",
     procedureHistory: "行為歴",
+    procedureType: "行為類",
     procedureCategoryLabels: {
         set: "セット",
         perscription: "処方",

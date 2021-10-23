@@ -104,7 +104,7 @@ export default {
             } else {
                 let requestData = {
                     encounterId: this.encounter._id,
-                    patientId: this.encounter.patient._id,
+                    patient: this.encounter.patient._id,
                     procedure: item,
                     requester: this.$store.getters.user.id
                 }
