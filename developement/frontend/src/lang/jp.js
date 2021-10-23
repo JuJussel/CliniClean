@@ -181,7 +181,8 @@ export default {
         "date.max": "未来の日付を選択してください",
         "examResultsMissing": "examResultsMissing",
         "examValueNotNumber": "examValueNotNumber",
-        "perscriptionDataMissing": "perscriptionDataMissing"
+        "perscriptionDataMissing": "perscriptionDataMissing",
+        "shotDataMissing": "shotDataMissing"
     },
     vitalCategories: {
         bloodType: "血液型",
