@@ -57,6 +57,7 @@ import karte from "./cc_medical_karte.vue";
 import proceduresBrowser from "../shared/cc_shared_procedures_browser.vue";
 import baseCostUtil from "../../utils/encounterBaseCost";
 import patientMedicalInfo from "../shared/cc_shared_medical_info/cc_shared_patient_medical_info_main.vue"
+import procedureCheck from "../../utils/procedureCheck"
 
 export default {
     components: {
@@ -134,21 +135,27 @@ export default {
             this.saved = true;
         },
         async closeExamination() {
-            this.loading = true;
-            this.confirmExaminationClose = false;
-            let encounter = this.encounterState;
-            encounter.status = 10;
-            encounter.closeEncounter = true;
-            try {
-                await this.$dataService().put.encounters(encounter);
-                this.$cui.notification({
-                    text: this.$lang.examinationClosed,
-                    duration: 3000,
-                    color: 'primary'
-                })
-                this.$emit('examinationClosed');
-                this.$emit('cancel');
-            } catch (error) {this.loading = false}
+
+            this.encounterState.karte.procedures.forEach(proc => {
+                console.log(procedureCheck(0, proc));              
+            });
+            return;
+
+            // this.loading = true;
+            // this.confirmExaminationClose = false;
+            // let encounter = this.encounterState;
+            // encounter.status = 10;
+            // encounter.closeEncounter = true;
+            // try {
+            //     await this.$dataService().put.encounters(encounter);
+            //     this.$cui.notification({
+            //         text: this.$lang.examinationClosed,
+            //         duration: 3000,
+            //         color: 'primary'
+            //     })
+            //     this.$emit('examinationClosed');
+            //     this.$emit('cancel');
+            // } catch (error) {this.loading = false}
         }
     }
 }

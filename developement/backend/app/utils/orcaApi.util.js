@@ -507,14 +507,14 @@ post.procedures = async function (data) {
           Medication_Name: { $: { type: "string" }, _: "" },
           Medication_Number: {
               $: { type: "string" },
-              _: item.varData.amount,
+              _: item.varData?.amount,
           },
       };
       orcaXml.Medication_info.Medication_info_child.push(itemXml);
 
     } else if (item.cat.code === 25) {
 
-        orcaXml.Medical_Class_Number = item.varData.duration;
+        orcaXml.Medical_Class_Number = item.varData?.duration;
 
         // Medications as outside medication by default. If medication is in stor inhouse and given
         // inhouse, should use code 211,221,231 - need to add an option to choose inhouse or out

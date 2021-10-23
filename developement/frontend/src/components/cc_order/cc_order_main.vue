@@ -39,7 +39,7 @@
         </cui-card>
         <cui-card>
             <cui-table
-                :data="ordersFull"
+                :data="examinationOrders"
                 singleSelect
                 @select="selectExam"
                 :loading="loading.orders"
@@ -86,6 +86,11 @@ export default {
     },
     created() {
         this.updateData();
+    },
+    computed: {
+        examinationOrders() {
+            return this.ordersFull.filter(i => i.procedure.cat.code === 60)
+        }
     },
     methods: {
         async updateData(reset) {
