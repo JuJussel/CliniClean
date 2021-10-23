@@ -82,7 +82,8 @@ export default {
             loading: false,
             confirmExaminationClose: false,
             postExaminationClose: false,
-            baseCost: null
+            baseCost: null,
+            submitErrors:  []
         }
     },
     mounted() {
@@ -136,26 +137,33 @@ export default {
         },
         async closeExamination() {
 
-            this.encounterState.karte.procedures.forEach(proc => {
-                console.log(procedureCheck(0, proc));              
-            });
-            return;
+            let errors = [];
+            this.loading = true;
 
-            // this.loading = true;
-            // this.confirmExaminationClose = false;
-            // let encounter = this.encounterState;
-            // encounter.status = 10;
-            // encounter.closeEncounter = true;
-            // try {
-            //     await this.$dataService().put.encounters(encounter);
-            //     this.$cui.notification({
-            //         text: this.$lang.examinationClosed,
-            //         duration: 3000,
-            //         color: 'primary'
-            //     })
-            //     this.$emit('examinationClosed');
-            //     this.$emit('cancel');
-            // } catch (error) {this.loading = false}
+            this.encounterState.karte.procedures.forEach((proc, index) => {
+                let error = procedureCheck(index, proc);
+                if(error) errors.push(error);
+            });
+            if (errors.length > 0) {
+                this.loading = false;
+                this.submitErrors = errors;
+                return;
+            }
+
+            this.confirmExaminationClose = false;
+            let encounter = this.encounterState;
+            encounter.status = 10;
+            encounter.closeEncounter = true;
+            try {
+                await this.$dataService().put.encounters(encounter);
+                this.$cui.notification({
+                    text: this.$lang.examinationClosed,
+                    duration: 3000,
+                    color: 'primary'
+                })
+                this.$emit('examinationClosed');
+                this.$emit('cancel');
+            } catch (error) {this.loading = false}
         }
     }
 }
