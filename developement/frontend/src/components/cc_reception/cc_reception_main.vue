@@ -110,7 +110,7 @@
         <cui-modal :visible="view.modal.payment" closable  @close="view.modal.payment = false">
             <cui-card style="width: 600px; height: 600px">
                 <template #header> {{ $lang.payment }} </template>
-                <Payment @close="view.modal.payment = false" :encounter="modal.payment" ref="payment"/>
+                <Payment @submitted="getEncounters" @close="view.modal.payment = false" :encounter="modal.payment" ref="payment"/>
             </cui-card>
         </cui-modal>
 

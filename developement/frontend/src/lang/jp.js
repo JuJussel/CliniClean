@@ -12,6 +12,7 @@ export default {
     contactInfo: "連絡情報",
     confirm: "確認",
     confirmExaminationClose: "診察を終了しますか？",
+    confirmInput: "入力をご確認ください",
     confirmOrderDelete: "オーダを削除しますか？",
     costInCurrency: "金額（円）",
     currencySymbol: "円",
@@ -104,6 +105,7 @@ export default {
     points: "点数",
     procedursOnly: "行為",
     procedures: "行為・処方",
+    procedureErrors: "行為入力エラ",
     procedureName: "行為名",
     procedureHistory: "行為歴",
     procedureType: "行為類",
@@ -182,7 +184,10 @@ export default {
         "examResultsMissing": "examResultsMissing",
         "examValueNotNumber": "examValueNotNumber",
         "perscriptionDataMissing": "perscriptionDataMissing",
-        "shotDataMissing": "shotDataMissing"
+        "shotDataMissing": "shotDataMissing",
+        "amount": "量",
+        "lot": "LotNo",
+        "duration": "回・日数"
     },
     vitalCategories: {
         bloodType: "血液型",

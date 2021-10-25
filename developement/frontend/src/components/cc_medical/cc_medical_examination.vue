@@ -48,6 +48,34 @@
             </div>
         </cui-card>
     </cui-modal>
+    <cui-modal :visible="submitErrors.length > 0" @close="submitErrors = []">
+        <cui-card style="width: 1000px; height: 400px;" noPadding>
+            <div style="height: 100%; display: flex; flex-direction: column; justify-content: space-between">
+                <cui-table square :data="submitErrors" style="height: auto; max-height: 400px">
+                    <template #header>
+                        <div>
+                            <h2>{{ $lang.procedureErrors }} {{ $lang.confirmInput }}</h2>
+                        </div>
+                    </template>
+                    <template v-slot:row="row">
+                        <td>
+                            {{ encounterState.karte.procedures[row.index].name }}
+                        </td>
+                        <td>
+                            <div v-for="(item, i) in row.errors" :key="i">
+                                {{ $lang.validationMessages[item.context.label] }}:
+                                {{ item.message }}
+                            </div>
+                        </td>
+                    </template>
+                </cui-table>
+                <div style="display: flex; justify-content: flex-end; padding: 10px">
+                    <cui-button plain :label="$lang.cancel" @click="submitErrors = []"/>
+                    <cui-button primary :label="$lang.finish" @click="closeExamination"/>
+                </div>
+            </div>
+        </cui-card>
+    </cui-modal>
 
 </template>
 
@@ -136,7 +164,7 @@ export default {
             this.saved = true;
         },
         async closeExamination() {
-
+            this.confirmExaminationClose = false;
             let errors = [];
             this.loading = true;
 
@@ -150,7 +178,6 @@ export default {
                 return;
             }
 
-            this.confirmExaminationClose = false;
             let encounter = this.encounterState;
             encounter.status = 10;
             encounter.closeEncounter = true;

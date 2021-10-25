@@ -75,7 +75,7 @@ export default {
             default: null
         }
     },
-    emits: ['close'],
+    emits: ['close', 'submitted'],
     mounted() {
         this.checkStatus();
     },
@@ -130,6 +130,7 @@ export default {
                 method: this.selectedPaymentMethod
             }
             await this.$dataService().put.encounters(encounter);
+            this.$emit('submitted');
             this.$emit('close');
 
         }
