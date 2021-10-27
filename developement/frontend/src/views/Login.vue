@@ -49,7 +49,7 @@ export default {
       const res = await this.$dataService().post.auth(this.user);
       this.loading = false;
       this.$store.commit('SET_USER', res);
-      this.$router.push('/');
+      this.$router.push('/home');
 
 
       // this.$api.auth.login(this.user)

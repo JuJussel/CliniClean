@@ -37,6 +37,9 @@
                     <cui-avatar :image="avatarUrl" />
                     <div style="margin-left: 10px; color:var(--cui-gray-5)">
                         {{ $store.getters.userFullName }}
+                        <cui-badge visible>
+                            <i class="fas fa-bell"></i>
+                        </cui-badge>
                     </div>
                 </div>
                 <cui-menu-bar-item style="padding: 10px!important" plainIcon icon="fas fa-cog" value="settings" />
@@ -83,7 +86,7 @@ export default {
         changeMenu(val) {
             if (val === "logout") {
                 this.$auth.remove();
-                this.$router.push("/login");
+                this.$router.push("/");
             } else {
                 this.activeTab = val;
                 this.$store.commit("SET_ACTIVE_VIEW", val);

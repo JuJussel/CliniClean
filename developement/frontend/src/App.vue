@@ -15,10 +15,10 @@ export default {
     isAuthenticated() {
       this.$auth.check()
       .then(() => {
-          this.$router.push('/')
+          this.$router.push('/home')
       })
       .catch(() => {
-        this.$router.push('/login')
+        this.$router.push('/')
       })
     }
   }
