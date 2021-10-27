@@ -38,7 +38,7 @@ exports.create = (req,res) => {
 exports.update = (req,res) => {
 
   const Encounter = require("../models/encounter.model.js");
-
+  const Notification = require("../models/notification.model.js");
   Order.findOneAndUpdate(
     { _id: req.params.orderId }, 
     req.body,
@@ -55,16 +55,35 @@ exports.update = (req,res) => {
         }
       )
       .then(() => {
-        $wss.broadcast({
-          event: "updateOrder",
-          data: {
-            encounterId: req.body.encounterId,
-            id: req.body.id,
-            locked: req.body.locked,
-            done: req.body.status === 0 ? true : false
-          },
-        });
-        res.send({ok: true});
+        let text = 
+        Notification.create(
+          {
+            sender: req.userId,
+            recepients: [req.body.requester.id],
+            content: {
+              meta: req.body.id,
+              text: ""
+            }
+          }
+        )
+        .then(() => {
+          $wss.broadcast({
+            event: "updateOrder",
+            data: {
+              encounterId: req.body.encounterId,
+              id: req.body.id,
+              locked: req.body.locked,
+              done: req.body.status === 0 ? true : false
+            },
+          });
+          res.send({ok: true});
+        })
+        .catch(err => {
+          $logger.error(err)
+          res.status(500).send({
+            message: "Error creating Notifications"
+          });
+        })      
       })
       .catch(err => {
         $logger.error(err)

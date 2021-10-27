@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const NotificationSchema = new Schema({
     _id:  {type: mongoose.ObjectId},
     sender: { type: Number, ref: "pub_users"},
-    recepients: [],
+    recepients: [{ type: Number, ref: "pub_users"}],
     content: {meta: {}, text: String},
     created: {type: Date, default: Date.now}
 },{ toJSON: { virtuals: true } });
