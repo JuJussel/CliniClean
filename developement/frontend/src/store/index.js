@@ -31,7 +31,8 @@ export const store = createStore({
                    },
                    activePatient: null,
                    settings: null,
-                   config: null
+                   config: null,
+                   notifications: []
                };
            },
 
@@ -42,19 +43,20 @@ export const store = createStore({
                    state.user?.nameLast + state.user?.nameFirst,
                activeView: (state) => state.activeView,
                encounterTypes: (state) => state.staticLists.encounterTypes,
-               occupations: (state) => state.staticLists.occupations,
-               relations: (state) => state.staticLists.relations,
+               occupations: (state) => state.staticLists.occupations || null,
+               relations: (state) => state.staticLists.relations || null,
                transferData: (state) => state.transferData,
                procedureCategories: (state) =>
-                   state.staticLists.procedureCategories,
-               shotLocations: (state) => state.staticLists.shotLocations,
+                   state.staticLists.procedureCategories || null,
+               shotLocations: (state) => state.staticLists.shotLocations || null,
                perscriptionTypes: (state) =>
-                   state.staticLists.perscriptionTypes,
+                   state.staticLists.perscriptionTypes || null,
                perscriptionTimings: (state) =>
-                   state.staticLists.perscriptionTimings,
+                   state.staticLists.perscriptionTimings || null,
                settings: (state) => state.settings,
-               activePatientHistory: (state) => state.activePatient,
-               diseaseFlags: (state) => state.staticLists.disease
+               activePatientHistory: (state) => state.activePatient || null,
+               diseaseFlags: (state) => state.staticLists.disease || null,
+               notifications: (state) => state.notifications
            },
 
            mutations: {

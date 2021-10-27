@@ -28,7 +28,6 @@
                     :label="$lang.order"
                     value="order"
                 />
-
             </template>
             <template v-slot:center>
             </template>
@@ -37,7 +36,7 @@
                     <cui-avatar :image="avatarUrl" />
                     <div style="margin-left: 10px; color:var(--cui-gray-5)">
                         {{ $store.getters.userFullName }}
-                        <cui-badge visible>
+                        <cui-badge :visible="$store.getters.notifications.length > 0">
                             <i class="fas fa-bell"></i>
                         </cui-badge>
                     </div>
