@@ -35,7 +35,7 @@ exports.create = (req,res) => {
     })
 }
 
-exports.update = (req,res) => {
+exports.update = async (req,res) => {
 
   const Encounter = require("../models/encounter.model.js");
   const Notification = require("../models/notification.model.js");
@@ -78,7 +78,10 @@ exports.update = (req,res) => {
         sender: req.userId,
         recepients: [req.body.requester.id],
         content: {
-          meta: req.body.id,
+          meta: {
+            type: "examResultsAvailable",
+            orderId: req.body.id
+          },
           text: ""
         }
       }

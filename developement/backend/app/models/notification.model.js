@@ -2,7 +2,6 @@ const mongoose = require('./db.mongo')
 const Schema = mongoose.Schema;
 
 const NotificationSchema = new Schema({
-    _id:  {type: mongoose.ObjectId},
     sender: { type: Number, ref: "pub_users"},
     recepients: [{ type: Number, ref: "pub_users"}],
     content: {meta: {}, text: String},
