@@ -34,11 +34,17 @@
             <template v-slot:right>
                 <div style="display: flex; align-items: center; margin-right: 20px" >
                     <cui-avatar :image="avatarUrl" />
-                    <div style="margin-left: 10px; color:var(--cui-gray-5)">
+                    <div style="margin-left: 10px; color:var(--cui-gray-5); display: flex">
                         {{ $store.getters.userFullName }}
-                        <cui-badge :visible="$store.getters.notifications.length > 0">
-                            <i class="fas fa-bell"></i>
-                        </cui-badge>
+                        <cui-tooltip style="margin-left: 5px">
+                            <cui-badge :visible="$store.getters.notifications.length > 0">
+                                <i class="fas fa-bell" style="cursor: pointer"></i>
+                            </cui-badge>
+                            <template #tooltip>
+                                <notification />
+                            </template>
+                        </cui-tooltip>
+
                     </div>
                 </div>
                 <cui-menu-bar-item style="padding: 10px!important" plainIcon icon="fas fa-cog" value="settings" />
@@ -58,6 +64,7 @@ import reception from "../components/cc_reception/cc_reception_main";
 import patient from "../components/cc_patient/cc_patient_main";
 import medical from "../components/cc_medical/cc_medical_main.vue";
 import order from "../components/cc_order/cc_order_main.vue";
+import notification from "../components/shared/cc_shared_notifications.vue"
 
 export default {
     name: "HomeView",
@@ -65,7 +72,8 @@ export default {
         reception,
         patient,
         medical,
-        order
+        order,
+        notification
     },
     async created() {
         let config = await this.$dataService().get.config();

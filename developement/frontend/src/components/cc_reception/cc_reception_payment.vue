@@ -18,7 +18,7 @@
                 <td> {{ row.Invoice_Number }} </td>
                 <td> {{ row.Insurance_Combination_Number }} </td>
                 <td> {{ row.Cd_Information.Ac_Money }} </td>
-        </template>
+            </template>
         </cui-table>
         <div class="cc_reception_payment_calc" v-if="selectedPayment">
             <div class="cc_reception_payment_calc_left">
