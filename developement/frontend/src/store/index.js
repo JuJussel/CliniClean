@@ -102,6 +102,9 @@ export const store = createStore({
                },
                RESET_PATIENT_INFO(state) {
                    state.activePatient = null;
+               },
+               SET_NOTIFICATIONS(state, data) {
+                   state.notifications = data;
                }
            },
            actions: {},

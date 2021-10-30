@@ -80,8 +80,13 @@ export default {
         this.$store.commit('SET_CONFIG', config);
         let settings = await this.$dataService().get.settings.public();
         this.$store.commit('SET_SETTINGS', settings);
+        await this.getNotifications();
         this.ready = true;
         this.$connect()
+        this.$options.sockets.onmessage = (data) => {
+            if(data.event === "updateNotifications") this.getNotifications()
+        };
+
     },
     data() {
         return {
@@ -98,6 +103,10 @@ export default {
                 this.activeTab = val;
                 this.$store.commit("SET_ACTIVE_VIEW", val);
             }
+        },
+        async getNotifications() {
+            let notifications = await this.$dataService().get.notifications();
+            this.$store.commit('SET_NOTIFICATIONS', notifications);
         }
     },
     computed: {

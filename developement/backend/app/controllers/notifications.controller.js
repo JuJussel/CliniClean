@@ -1,4 +1,5 @@
-const Notification = require("../models/user.model.js");
+const Notification = require("../models/notification.model.js");
+const Order = require("../models/order.model");
 
 exports.create = (req,res) => {
 
@@ -16,15 +17,27 @@ exports.create = (req,res) => {
 
 
 
-exports.find = (req, res) => {
+exports.find = async (req, res) => {
+  let user = req.userId;
+  try {
+    let notifications = await Notification.find({ "recepients.user": user }, ['sender', 'content', 'created']);
 
-  Notification.find({userGroup: 2}, ['status', 'nameFirst', 'nameLast'], (err, doctor) => {
-    if (err) {
-      $logger.error(err);
-      res.status(500).send({message: "Error retrieving Doctors"})
-    }
-    res.send(doctor);
-  });
+    notifications = await Promise.all(notifications.map(async item => {
+      if (item.content?.meta?.type === "examResultsAvailable") {
+        let order = await Order.findById(item.content.meta.orderId, ['patient', 'procedure.name'] )
+        .populate({
+          path: 'patient',
+          select: 'name'
+        })
+        .exec();
+        if (order) item.content.meta.order = order;
+      }
+      return item
+    }))
+    res.send(notifications);
+  } catch (err) {
+    $logger.error(err);
+    res.status(500).send({message: "Error retrieving Notifications"})
+  }
 }
-
 

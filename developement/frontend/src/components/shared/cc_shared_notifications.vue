@@ -1,8 +1,18 @@
 <template>
     <div>
-        <cui-table :data="notifications?.length >0 ? notifications : emptyState" square style="margin: 5px -10px">
+        <div v-if="notifications?.length < 1" class="wrapper">
+            <img src="/img/empty2.8ccd6968.jpg" style="width: 200px;">
+            <b> {{ $lang.noNotifications }} </b>
+        </div>
+
+        <cui-table v-else :data="notifications" square style="margin: 5px -10px">
             <template v-slot:row="{ row }">
-                <td style="min-width: 100px"> {{ row.text }} </td>
+                <td class="not-cell">
+                    <div v-if="row.content.meta.type === 'examResultsAvailable'">
+                        <i class="fas fa-microscope" style="margin-right: 10px; font-size: 20px" />
+                        <span> {{ $lang.examResultsAvailable }} </span>
+                    </div>
+                </td>
             </template>
 
         </cui-table>
@@ -11,24 +21,22 @@
 
 <script>
 export default {
-    props: {
-        notifications: {
-            default: null,
-            type: Array
-        }
-    },
     data() {
         return {
-            emptyState: [
-                {text: "Empty"}
-            ]
+            notifications: this.$store.getters.notifications
         }
     }
 }
 </script>
 
 <style scoped>
-    .notification-item {
-        padding: 10px;
+    .wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .not-cell {
+        min-width: 100px;
+        padding: 30px;
     }
      </style>

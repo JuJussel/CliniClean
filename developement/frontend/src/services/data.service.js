@@ -479,7 +479,24 @@ export default {
                                 });
                         });
 
+                    },
+                    //>----Notifications-----//
+                    notifications: function() {
+                        return new Promise(function(resolve, reject) {
+                            http.get("notifications")
+                                .then((result) => {
+                                    resolve(result);
+                                })
+                                .catch((result) => {
+                                    instance.$cui.notification({
+                                        text: result,
+                                        color: "danger",
+                                    });
+                                    reject;
+                                });
+                        });
                     }
+                    
                 },
                 //-------------------------//
                 //----------Post-----------//

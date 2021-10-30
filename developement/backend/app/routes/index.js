@@ -20,5 +20,6 @@ require("./medication.routes")(routes);
 require("./order.routes")(routes);
 require("./config.routes")(routes);
 require("./setting.routes")(routes);
+require("./notification.routes")(routes);
 
 module.exports = routes;
