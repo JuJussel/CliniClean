@@ -14,5 +14,11 @@ module.exports = app => {
       "/api/notifications",
       [authJwt.verifyToken],
       notifications.find
+    );
+    app.put(
+      "/api/notifications/:id",
+      [authJwt.verifyToken],
+      notifications.update
     );  
+
   };

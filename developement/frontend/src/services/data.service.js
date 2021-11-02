@@ -715,7 +715,23 @@ export default {
                                     reject(result);
                                 });
                         });
-                    }
+                    },
+                    notifications: function(data) {
+                        return new Promise(function(resolve, reject) {
+                            return http
+                                .put("notifications/" + data, {read: true})
+                                .then((result) => {
+                                    resolve(result);
+                                })
+                                .catch((result) => {
+                                    instance.$cui.notification({
+                                        text: result,
+                                        color: "danger",
+                                    });
+                                    reject(result);
+                                });
+                        });
+                    },
                 },
                 //-------------------------//
                 //----------Delete---------//

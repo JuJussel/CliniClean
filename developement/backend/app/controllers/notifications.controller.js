@@ -23,9 +23,7 @@ exports.find = async (req, res) => {
     let notifications = await Notification.find({ "recepients.user": user });
 
     notifications = await Promise.all(notifications.map(async item => {
-      console.log(user);
-      console.log(item.recepients);
-      item.recepients = item.recepients.filter((rec) => rec.user === user);
+      item.recepients = item.recepients.filter(rec => rec.user == user);
       if (item.content?.meta?.type === "examResultsAvailable") {
         let order = await Order.findById(item.content.meta.orderId, ['patient', 'procedure.name'] )
         .populate({
@@ -44,3 +42,23 @@ exports.find = async (req, res) => {
   }
 }
 
+exports.update = (req, res) => {
+  let read = req.body.read;
+  let user = req.userId;
+  let id = req.params.id
+
+  Notification.findOneAndUpdate(
+
+    { _id: id, "recepients.user": user},
+    { 'recepients.$.read': read},
+    (err) => {
+      if (err) {
+          $logger.error(err);
+          res.status(500).send({
+              message: "Error updating Notification",
+          });
+      }
+      res.send({pk: true});
+    }
+  )
+}

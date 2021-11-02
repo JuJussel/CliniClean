@@ -37,7 +37,7 @@
                     <div style="margin-left: 10px; color:var(--cui-gray-5); display: flex">
                         {{ $store.getters.userFullName }}
                         <cui-tooltip >
-                            <cui-badge :visible="$store.getters.notifications.length > 0">
+                            <cui-badge :visible="hasNewNotification">
                                 <i class="fas fa-bell" style="cursor: pointer; margin-left: 5px"></i>
                             </cui-badge>
                             <template #tooltip>
@@ -80,7 +80,6 @@ export default {
         this.$store.commit('SET_CONFIG', config);
         let settings = await this.$dataService().get.settings.public();
         this.$store.commit('SET_SETTINGS', settings);
-        await this.getNotifications();
         this.ready = true;
         this.$connect()
         this.$options.sockets.onmessage = (data) => {
@@ -103,10 +102,6 @@ export default {
                 this.activeTab = val;
                 this.$store.commit("SET_ACTIVE_VIEW", val);
             }
-        },
-        async getNotifications() {
-            let notifications = await this.$dataService().get.notifications();
-            this.$store.commit('SET_NOTIFICATIONS', notifications);
         }
     },
     computed: {
@@ -120,7 +115,13 @@ export default {
         },
         activeView() {
             return this.$store.getters.activeView;
+        },
+        hasNewNotification() {
+            let not = this.$store.getters.notifications;
+            let hasNot = not.filter(item => !item.recepients[0].read);
+            return hasNot.length > 0 ? true : false;
         }
+
     }
 };
 </script>
