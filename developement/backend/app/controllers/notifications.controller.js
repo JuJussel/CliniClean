@@ -20,9 +20,12 @@ exports.create = (req,res) => {
 exports.find = async (req, res) => {
   let user = req.userId;
   try {
-    let notifications = await Notification.find({ "recepients.user": user }, ['sender', 'content', 'created']);
+    let notifications = await Notification.find({ "recepients.user": user });
 
     notifications = await Promise.all(notifications.map(async item => {
+      console.log(user);
+      console.log(item.recepients);
+      item.recepients = item.recepients.filter((rec) => rec.user === user);
       if (item.content?.meta?.type === "examResultsAvailable") {
         let order = await Order.findById(item.content.meta.orderId, ['patient', 'procedure.name'] )
         .populate({

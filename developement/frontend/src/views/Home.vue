@@ -36,9 +36,9 @@
                     <cui-avatar :image="avatarUrl" />
                     <div style="margin-left: 10px; color:var(--cui-gray-5); display: flex">
                         {{ $store.getters.userFullName }}
-                        <cui-tooltip style="margin-left: 5px">
+                        <cui-tooltip >
                             <cui-badge :visible="$store.getters.notifications.length > 0">
-                                <i class="fas fa-bell" style="cursor: pointer"></i>
+                                <i class="fas fa-bell" style="cursor: pointer; margin-left: 5px"></i>
                             </cui-badge>
                             <template #tooltip>
                                 <notification />
