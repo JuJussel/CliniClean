@@ -6,7 +6,7 @@
                 <cui-menu-bar-item 
                     icon="fa fa-home menu-icon" 
                     :label="$lang.home"
-                    value="home" 
+                    value="dashboard" 
                 />
                 <cui-menu-bar-item
                     icon="fas fa-user-clock"
@@ -65,6 +65,7 @@ import patient from "../components/cc_patient/cc_patient_main";
 import medical from "../components/cc_medical/cc_medical_main.vue";
 import order from "../components/cc_order/cc_order_main.vue";
 import notification from "../components/shared/cc_shared_notifications.vue"
+import dashboard from "../components/cc_dashboard/cc_dashboard.vue"
 
 export default {
     name: "HomeView",
@@ -73,7 +74,8 @@ export default {
         patient,
         medical,
         order,
-        notification
+        notification,
+        dashboard
     },
     async created() {
         let config = await this.$dataService().get.config();
@@ -89,7 +91,7 @@ export default {
     },
     data() {
         return {
-            activeTab: "home",
+            activeTab: "dashboard",
             ready: false
         };
     },
