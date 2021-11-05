@@ -11,9 +11,11 @@
                     <h2> {{ $lang.news }} </h2>
                 </template>
                 <template v-slot:row="{ row }">
-                    <td>{{ $parseDate(row.created) }} </td>
-                    <td>{{ row.content.meta.type }} </td>
-                    <td>Delete</td>
+                    <td> {{ $parseDate(row.created) }} </td>
+                    <td> {{ $lang[row.content.meta.type] }} </td>
+                    <td> {{ row.content.meta.order.patient.name }} </td>
+                    <td> {{ row.content.meta.order.procedure.name }} </td>
+                    <td><cui-button icon="fas fa-times"  class="cui-table-hover-button"/></td>
                 </template>
             </cui-table>
         </cui-card>
