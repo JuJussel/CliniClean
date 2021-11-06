@@ -193,6 +193,7 @@ exports.findMedicalHistory = async (req,res) => {
 
 exports.findDiseases = (req, res) => {
   Orca.get.diseases(req.params.patientId, (err, data) => {
+    console.log(data);
     if (err) {
       res.status(500).send({
         message: err,
@@ -201,10 +202,10 @@ exports.findDiseases = (req, res) => {
       if (data.Api_Result === '21') {
         res.send([]);
       } else {
-        data = data.Disease_Information.Disease_Information_child;
-        if (data.Department_Code) {
-          data = [data];
-        }
+        // data = data.Disease_Information.Disease_Information_child;
+        // if (data.Department_Code) {
+        //   data = [data];
+        // }
         res.send(data);
       }
     }

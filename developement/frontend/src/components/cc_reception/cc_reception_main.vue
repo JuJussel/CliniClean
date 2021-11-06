@@ -204,12 +204,11 @@ export default {
             };
         },
         async changeStatus(row) {
-            const status = row.status
-            if (status === 2) {
+            if(row.status === 3 && row.type === 6) row.status = 4;
+            if (row.status === 2) {
                 this.view.modal.reservationAccept = row
             } else {
                 this.loading.recTable = true;
-                console.log(row);
                 await this.$dataService().put.encounters(row);
                 this.getEncounters();
             }

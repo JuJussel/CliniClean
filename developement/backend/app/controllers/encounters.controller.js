@@ -1,6 +1,8 @@
 const Encounter = require("../models/encounter.model.js");
 const Orca = require("../utils/orcaApi.util");
-const Doctor = require("../models/user.model")
+const Doctor = require("../models/user.model");
+const Settings = require("../models/setting.model");
+const Order = require("../models/order.model");
 
 exports.findOne = (req, res) => {
 
@@ -105,7 +107,53 @@ exports.edit = async (req,res) => {
       }
     )
   }
-  
+
+  // If Kenshoushindan
+  if (request.type === 6 && request.status === 4) {
+    try {
+      let customProceduresDb = await Settings.find({}, 'customProcedures');
+      let customProceduresJson = JSON.parse(JSON.stringify(customProceduresDb[0]));
+      var healthCheck = customProceduresJson?.customProcedures?.public?.find(item => item.cat.label === 'healthCheck')
+      if (!healthCheck) {
+        res.status(500).send({
+          message: "No Custom Health Check Code found",
+        });
+        return;
+      }
+      request.karte = {
+        procedures: [healthCheck]
+      };
+
+    } catch (err) {
+      $logger.error(err);
+      res.status(500).send({
+        message: "Cannot get HealthCheck Code",
+      });
+      return;
+    }
+    try {
+      let order = {
+        encounterId: request._id,
+        patient: request.patient._id,
+        procedure: healthCheck,
+        requester: req.userId
+      }
+      let orderDb = await Order.create(order);
+      request.karte.procedures[0].order = {
+        id: JSON.parse(JSON.stringify(orderDb)).id,
+        done: false,
+        locked: true
+    };
+    }
+    catch (err) {
+      $logger.error(err);
+      res.status(500).send({
+        message: "Cannot create Healt Check Order",
+      });
+      return;
+    }
+  }
+
   Encounter.findOneAndUpdate(
       { _id: request.id },
       request,
