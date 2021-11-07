@@ -136,6 +136,13 @@ export default {
                 ? this.$store.getters.user.id
                 : null;
             await this.$dataService().put.orders(this.orderLocal);
+            if (this.orderLocal.procedure.cat.code === 90) {
+                let encounter = {
+                    id: this.orderLocal.encounterId,
+                    status: 3
+                }
+                await this.$dataService().put.encounters(encounter)
+            }
             this.loading.lock = false;
             this.$emit("update", false);
         },

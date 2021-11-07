@@ -40,6 +40,7 @@ exports.update = async (req,res) => {
   const Encounter = require("../models/encounter.model.js");
   const Notification = require("../models/notification.model.js");
 
+  // Update Order
   try {
     await Order.findOneAndUpdate(
       { _id: req.params.orderId }, 
@@ -53,7 +54,7 @@ exports.update = async (req,res) => {
     });
   }
 
-
+  // Update Karte
   try {
     await Encounter.findOneAndUpdate(
       {_id: req.body.encounterId, "karte.procedures.order.id": req.params.orderId},
@@ -71,29 +72,31 @@ exports.update = async (req,res) => {
     });
   } 
 
-
-  try {
-    await Notification.create(
-      {
-        sender: req.userId,
-        recepients: [req.body.requester.id],
-        content: {
-          meta: {
-            type: "examResultsAvailable",
-            orderId: req.body.id
-          },
-          text: ""
+  // Create Notification
+  if (req.body.procedure.cat.code === 90 && req.body.status < 1) {
+    try {
+      await Notification.create(
+        {
+          sender: req.userId,
+          recepients: [{user: req.body.requester.id, read: false}],
+          content: {
+            meta: {
+              type: "examResultsAvailable",
+              orderId: req.body.id
+            },
+            text: ""
+          }
         }
-      }
-    )
-  } catch (err) {
-    $logger.error(err)
-    res.status(500).send({
-      message: "Error creating Notifications"
-    });
-  } 
+      )
+    } catch (err) {
+      $logger.error(err)
+      res.status(500).send({
+        message: "Error creating Notifications"
+      });
+    } 
+  }
 
-
+  // Send Web Socket
   $wss.broadcast({
     event: "updateOrder",
     data: {
@@ -101,10 +104,10 @@ exports.update = async (req,res) => {
       id: req.body.id,
       locked: req.body.locked,
       done: req.body.status === 0 ? true : false
-    },
+    }
   });
+  $wss.broadcast({ event: "updateEncounter", encounterId: req.body.encounterId });
 
-  
   res.send({ok: true});
 }
 

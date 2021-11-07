@@ -516,7 +516,7 @@ export default {
                                             "ユーザー名又はパスワードが違います。ご確認してください。",
                                         color: "danger",
                                     });
-                                    reject;
+                                    reject();
                                 });
                         });
                     },
@@ -533,7 +533,7 @@ export default {
                                         text: result,
                                         color: "danger",
                                     });
-                                    reject;
+                                    reject();
                                 });
                         });
                     },                    

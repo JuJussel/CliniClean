@@ -55,7 +55,10 @@
                     <cui-th sort="recTime">{{ $lang.receptionTime }}</cui-th>
                 </template>
                 <template v-slot:row="{ row }">
-                    <td> {{ row.patient?.name }} </td>
+                    <td> 
+                        <i class="fas fa-exclamation-circle" style="color: var(--cui-danger"></i>
+                        <span>{{ row.patient?.name }}</span> 
+                    </td>
                     <td> {{ parseExamType(row.type) }} </td>
                     <td>
                         <cui-button 
@@ -140,6 +143,7 @@ export default {
         this.getEncounterTypes();
         this.getDoctors();
         this.$options.sockets.onmessage = (data) => {
+            data = JSON.parse(data.data);
             if(data.event === "updateEncounter") this.getEncounters()
         };
     },

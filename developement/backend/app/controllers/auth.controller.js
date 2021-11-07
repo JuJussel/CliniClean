@@ -23,7 +23,7 @@ exports.login = (req, res) => {
         }
 
         if (!user) {
-            return res.status(404).send({ message: "User Not found." });
+            return res.status(403).send({ message: "User Not found." });
         }
 
         var passwordIsValid = bcrypt.compareSync(
@@ -73,6 +73,6 @@ exports.logout = (req, res) => {
         secure: true,
         httpOnly: true
     })
-    .end();
+    .send({status: 'Ok'});
 
 }

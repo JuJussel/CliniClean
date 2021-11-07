@@ -85,6 +85,7 @@ export default {
         this.ready = true;
         this.$connect()
         this.$options.sockets.onmessage = (data) => {
+            data = JSON.parse(data.data)
             if(data.event === "updateNotifications") this.getNotifications()
         };
 
