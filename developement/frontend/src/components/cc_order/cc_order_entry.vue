@@ -4,7 +4,7 @@
         <div style="padding: 10px; display: flex; align-items: center">
             <h2>{{ $lang.order }}</h2>
             <cui-button
-                :disabled="isUser"
+                :disabled="isUser || order.procedure.cat.code === 90"
                 v-if="orderLocal.locked"
                 @click="toggleLock(false)"
                 plain
