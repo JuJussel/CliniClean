@@ -78,10 +78,8 @@ export default {
         dashboard
     },
     async created() {
-        let config = await this.$dataService().get.config();
-        this.$store.commit('SET_CONFIG', config);
-        let settings = await this.$dataService().get.settings.public();
-        this.$store.commit('SET_SETTINGS', settings);
+        await this.$dataService().get.lists.static();
+        await this.$dataService().get.settings.public();
         this.ready = true;
         this.$connect()
         this.$options.sockets.onmessage = (data) => {

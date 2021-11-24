@@ -18,7 +18,6 @@ require("./upload.routes")(routes);
 require("./procedure.routes")(routes);
 require("./medication.routes")(routes);
 require("./order.routes")(routes);
-require("./config.routes")(routes);
 require("./setting.routes")(routes);
 require("./notification.routes")(routes);
 

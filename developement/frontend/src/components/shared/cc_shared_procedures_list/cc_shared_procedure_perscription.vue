@@ -49,8 +49,8 @@ export default {
     data() {
         return {
             ready: false,
-            types: this.$store.getters.config.perscriptionTypes,
-            timings: this.$store.getters.config.perscriptionTimings,
+            types: this.$store.getters.staticLists.perscriptionTypes,
+            timings: this.$store.getters.staticLists.perscriptionTimings,
             varData: {
                 type: this.item?.varData?.type ? this.item.varData.type : null,
                 timing: this.item?.varData?.timing ? this.item.varData.timing : null,

@@ -40,7 +40,7 @@ export default {
     },
     data() {
         return {
-            categories: this.$store.getters.config.procedureCategories,
+            categories: this.$store.getters.staticLists.procedureCategories,
             activeCategory: null,
             favourites: []
         }

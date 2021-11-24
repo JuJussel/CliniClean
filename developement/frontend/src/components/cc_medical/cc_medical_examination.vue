@@ -132,7 +132,7 @@ export default {
 
                     let baseCost = await baseCostUtil(
                     this.encounter, 
-                    this.$store.getters.config.encounterBaseCost, 
+                    this.$store.getters.staticLists.encounterBaseCost, 
                     this.$store.getters.settings.clinicBaseInfo.public
                 );
                 preparedEncounter.baseCost = baseCost;

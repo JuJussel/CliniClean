@@ -193,7 +193,7 @@ export default {
         },
         examStatiOptions(row) {
             const currentStatus = row.status;
-            const encounterStati = this.$store.getters.config.encounterStati;
+            const encounterStati = this.$store.getters.staticLists.encounterStati;
             let status = encounterStati.find(item => item[0].status === currentStatus);
             return status;
 

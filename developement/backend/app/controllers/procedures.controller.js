@@ -1,4 +1,3 @@
-const Config = require("../models/config.model.js");
 const Procedure = require("../models/procedure.model.js");
 const ExaminationProcedure = require("../models/examinationProcedure.model.js")
 

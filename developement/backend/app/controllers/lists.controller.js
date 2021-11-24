@@ -2,6 +2,8 @@ const EncounterType = require("../models/encounterType.model.js");
 const Orca = require("../utils/orcaApi.util");
 const Disease = require("../models/disease.model.js");
 const Address = require("../models/address.model.js");
+const Static = require("../models/staticList.model.js");
+
 
 exports.encounterTypes = {
     findAll: (req,res) => {
@@ -84,3 +86,19 @@ exports.diseases = {
     })
 }
 }
+
+exports.static = {
+
+  findAll: (req, res) => {
+  
+    Static.find({}, '-_id', (err, staticLists) => {
+      if (err) {
+        $logger.error(err);
+        res.status(500).send({message: "Error retrieving Static Lists"})
+      }
+      
+      res.send(staticLists[0]);
+    });
+  }
+}
+

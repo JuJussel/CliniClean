@@ -115,7 +115,7 @@ export default {
         procedureIcon() {
             let code = this.order?.procedure.cat.code || null;
             return (
-                this.$store.getters.config.procedureCategories.find(
+                this.$store.getters.staticLists.procedureCategories.find(
                     (item) => item.code === code
                 )?.icon || null
             );

@@ -49,7 +49,7 @@ export default {
     },
     data() {
         return {
-            shotLocations: this.$store.getters.config.shotLocations,
+            shotLocations: this.$store.getters.staticLists.shotLocations,
             varData: {
                 location: null,
                 amount: "",

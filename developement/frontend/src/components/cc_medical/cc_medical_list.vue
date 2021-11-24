@@ -99,7 +99,7 @@ export default {
             this.$emit('showEncounter', enc)
         },
         decodeEncounterStati(status) {
-            let item = this.$store.getters.config.encounterStati.find(s => s[0].status === status[0])
+            let item = this.$store.getters.staticLists.encounterStati.find(s => s[0].status === status[0])
             if (item) {
                 return item[0].name;
             } else {

@@ -1,6 +1,6 @@
 <template>
     <div style="height: 100%">
-        <cui-table :data="$store.getters.config.vitalCategories">
+        <cui-table :data="$store.getters.staticLists.vitalCategories">
             <template #header>
                 <h2> {{ $lang.vitals }} </h2>
                 <cui-button icon="fas fa-plus" :label="$lang.register" @click="openVitalRegister"/>    
@@ -85,7 +85,7 @@ export default {
     },
     methods: {
         openVitalRegister() {
-            let vitalCatsEdit = this.$store.getters.config.vitalCategories;
+            let vitalCatsEdit = this.$store.getters.staticLists.vitalCategories;
             vitalCatsEdit.forEach(item => {
                 item.value = "";
             })

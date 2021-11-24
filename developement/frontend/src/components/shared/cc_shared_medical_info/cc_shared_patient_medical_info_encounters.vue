@@ -53,7 +53,7 @@ export default {
     },
     computed: {
         procedureCategories() {
-            return this.$store.getters.config.procedureCategories.filter(item => item.orcaCode);
+            return this.$store.getters.staticLists.procedureCategories.filter(item => item.orcaCode);
         }
     }
 

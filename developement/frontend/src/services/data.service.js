@@ -29,22 +29,6 @@ export default {
                                 });
                         });
                     },
-                    //>----Config-----//
-                    config: function() {
-                        return new Promise(function(resolve, reject) {
-                            http.get("configs")
-                                .then((result) => {
-                                    resolve(result);
-                                })
-                                .catch((result) => {
-                                    instance.$cui.notification({
-                                        text: result,
-                                        color: "danger",
-                                    });
-                                    reject;
-                                });
-                        });
-                    },
                     //>----User-----//
                     users: {
                         favourites: function(userId) {
@@ -227,6 +211,32 @@ export default {
                     },
                     //>----Lists-----//
                     lists: {
+                        //>----Static Lists-----//
+                        static: function() {
+                            if (instance.$store.getters.staticLists) {
+                                return instance.$store.getters.staticLists;
+                            } else {
+                                return new Promise(function(resolve, reject) {
+                                    return http
+                                        .get("lists/static")
+                                        .then((result) => {
+                                            instance.$store.commit(
+                                                "SET_STATIC_LISTS",
+                                                result
+                                            );
+                                            resolve(result);
+                                        })
+                                        .catch((result) => {
+                                            instance.$cui.notification({
+                                                text: result,
+                                                color: "danger",
+                                            });
+                                            reject;
+                                        });
+                                });
+                            }
+                        },
+                        
                         //>----Encounter Types-----//
                         encounterTypes: function() {
                             if (instance.$store.getters.encounterTypes) {
@@ -443,25 +453,34 @@ export default {
                     },
                     settings: {
                         public: function() {
-                            return new Promise(function(
-                                resolve,
-                                reject
-                            ) {
-                                http.get("settings/public")
-                                    .then((result) => {
-                                        resolve(result);
-                                    })
-                                    .catch((result) => {
-                                        instance.$cui.notification(
-                                            {
-                                                text: result,
-                                                color:
-                                                    "danger",
-                                            }
-                                        );
-                                        reject;
-                                    });
-                            });
+                            if (instance.$store.getters.settings) {
+                                return instance.$store.getters.settings;
+                            } else {
+
+                                return new Promise(function(
+                                    resolve,
+                                    reject
+                                ) {
+                                    http.get("settings/public")
+                                        .then((result) => {
+                                            instance.$store.commit(
+                                                "SET_SETTINGS",
+                                                result
+                                            );
+                                            resolve(result);
+                                        })
+                                        .catch((result) => {
+                                            instance.$cui.notification(
+                                                {
+                                                    text: result,
+                                                    color:
+                                                        "danger",
+                                                }
+                                            );
+                                            reject;
+                                        });
+                                });
+                            }
                         }
                     },
                     orders: function() {

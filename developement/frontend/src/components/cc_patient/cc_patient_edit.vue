@@ -59,7 +59,7 @@
                     :note="errors.occupation"
                     v-model="patient.occupation"
                     :label="$lang.occupation"
-                    :data="$store.getters.config.occupations"
+                    :data="$store.getters.staticLists.occupations"
                 ></cui-select>
             </div>
         </cui-card>
@@ -100,7 +100,7 @@
                     displayValueProp="name"
                     returnValueProp="name"
                     v-model="patient.relation"
-                    :data="$store.getters.config.relations"
+                    :data="$store.getters.staticLists.relations"
                 />
             </div>
         </cui-card>
