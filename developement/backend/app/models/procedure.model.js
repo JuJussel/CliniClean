@@ -6,13 +6,13 @@ const procedure = {}
 procedure.findMany = (cat, search, result) => {
 
     let searchCode = search;
-    let searchName = search + '%';
+    let searchName = '%' + search + '%';
     let searchNameKana = japUtils.toKatakana(search) + '%';
 
     // Build where clauses
     let where = `
         srykbn IN ($1) 
-        AND (name LIKE $2 OR kananame LIKE $3 OR srycd IN ($4))
+        AND (name LIKE $2 OR kananame LIKE $3 OR formalname LIKE $2 OR formalname LIKE $3 OR srycd IN ($4))
         AND yukoedymd = '99999999'
     `;
 
@@ -42,6 +42,7 @@ procedure.findMany = (cat, search, result) => {
         SELECT
             srycd,
             name,
+            formalname,
             taniname,
             ten AS cost,
             CONCAT (cdkbn_kbn, LPAD(cdkbn_kbnnum::text, 3, '0'), LPAD(cdkbn_kouban::text, 2, '0')) AS procedureClass

@@ -6,6 +6,6 @@ const HealthCheckExam = new Schema({
     results: [
         { type: Schema.Types.ObjectId, ref: "sys_examination_procedures"}
     ],
-},{ toJSON: { virtuals: true } });
+});
 
 module.exports = mongoose.model("sys_healthcheck_exams", HealthCheckExam);

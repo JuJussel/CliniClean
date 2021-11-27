@@ -80,6 +80,9 @@
 
 <script>
 export default {
+    async created() {
+        this.examinations = await this.$dataService().get.lists.healthCheckExams();
+    },
     data() {
         return {
             input: {
@@ -102,27 +105,8 @@ export default {
                 ecgId: {value: ""},
                 xRayId: {value: ""},
             },
-            input2: [
-                {label: "medicationHistory", value: true, type: "boolean", error: false, note: ""},
-                {label: "medicalHistory", value: false, type: "boolean", error: false, note: ""},
-                {label: "subjectiveSymtoms", value: false, type: "boolean", error: false, note: ""},
-                {label: "objectiveSymtoms", value: false, type: "boolean", error: false, note: ""},
-                {label: "height", value: null, type: "number", error: false},
-                {label: "weight", value: null, type: "number", error: false},
-                {label: "bmi", value: null, type: "number", error: false},
-                {label: "stomacheWidth", value: null, type: "number", error: false},
-                {label: "bloodPreasureMax", value: null, type: "number", error: false},
-                {label: "bloodPreasureMin", value: null, type: "number", error: false},
-                {label: "sightLeft", value: null, type: "number", error: false},
-                {label: "sightRight", value: null, type: "number", error: false},
-                {label: "hearingLeftLow", value: false, type: "boolean", error: false},
-                {label: "hearingLeftHight", value: false, type: "boolean", error: false},
-                {label: "hearingRightLow", value: false, type: "boolean", error: false},
-                {label: "hearingRightHigh", value: false, type: "boolean", error: false},
-                {label: "ecgId", value: null, type: "text", error: false},
-                {label: "xRayId", value: null, type: "text", error: false},
-            ],
-            xRaySchemaId: null
+            xRaySchemaId: null,
+            examinations: null
         }
     }
 }

@@ -211,6 +211,23 @@ export default {
                     },
                     //>----Lists-----//
                     lists: {
+                        //>----Health Check Examinations-----//
+                        healthCheckExams: function() {
+                            return new Promise(function(resolve, reject) {
+                                return http
+                                    .get("lists/healthCheckExams/")
+                                    .then((result) => {
+                                        resolve(result);
+                                    })
+                                    .catch((result) => {
+                                        instance.$cui.notification({
+                                            text: result,
+                                            color: "danger",
+                                        });
+                                        reject;
+                                    });
+                            });
+                        },
                         //>----Static Lists-----//
                         static: function() {
                             if (instance.$store.getters.staticLists) {

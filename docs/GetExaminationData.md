@@ -1,7 +1,6 @@
 ---
 title: Update Examination Data in Mongo DB
 has_children: false
-nav_order: 3
 ---
 
 # Update Examination Data in Mongo DB
