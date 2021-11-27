@@ -16,6 +16,10 @@ exports.findMany = (req, res) => {
   })
 }
 
+
+
+
+
 exports.results = {
   findMany: (req, res) => {
     
@@ -30,5 +34,30 @@ exports.results = {
     })
 
   }
+}
+
+exports.fetchAndImport = (req, res) => {
+  Procedure.findAll((err, data) => {
+    if (err) {
+      res.status(500).send({
+        message: err
+      });
+    } else {
+      Procedure.mongo.deleteMany({}, (err) => {
+        if (err) {
+          $logger.error(err);
+          res.status(500).send({ message: "Error creating Patient" });
+        }
+        Procedure.mongo.insertMany(data, (err) => {
+          if (err) {
+            $logger.error(err);
+            res.status(500).send({ message: "Error creating Patient" });
+          }
+          res.send({Ok: true});
+        })
+      })
+    }
+  })
+
 }
 
