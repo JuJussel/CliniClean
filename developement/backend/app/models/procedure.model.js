@@ -43,7 +43,8 @@ procedure.findMany = (cat, search, result) => {
             srycd,
             name,
             taniname,
-            ten AS cost
+            ten AS cost,
+            CONCAT (cdkbn_kbn, LPAD(cdkbn_kbnnum::text, 3, '0'), LPAD(cdkbn_kouban::text, 2, '0')) AS procedureClass
         FROM public.tbl_tensu
         WHERE ` + where + ` LIMIT 200
     `;

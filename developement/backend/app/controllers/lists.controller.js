@@ -3,6 +3,8 @@ const Orca = require("../utils/orcaApi.util");
 const Disease = require("../models/disease.model.js");
 const Address = require("../models/address.model.js");
 const Static = require("../models/staticList.model.js");
+const healthCheckExam = require("../models/healthCheckExams.model.js");
+const { results } = require("./procedures.controller.js");
 
 
 exports.encounterTypes = {
@@ -102,3 +104,20 @@ exports.static = {
   }
 }
 
+exports.healthCheckExams = {
+  findAll: function(req, res) {
+    healthCheckExam.find()
+    .populate('results')
+    .exec(
+      (err, data) => {
+        if (err) {
+          $logger.error(err)
+          res.status(500).send({
+            message: "Error retrieving Health Check Exams"
+          });
+        } else {
+          res.send(data);
+        }
+      })
+    }
+}
