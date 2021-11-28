@@ -2,21 +2,6 @@ const Procedure = require("../models/procedure.model.js");
 const ExaminationProcedure = require("../models/examinationProcedure.model.js")
 const japUtils = require("japanese-string-utils");
 
-
-// exports.findMany = (req, res) => {
-//   let cat = req.params.cat;
-//   let search = req.params.search;
-//   Procedure.findMany(cat, search, (err, data) => {
-//     if (err) {
-//       res.status(500).send({
-//         message: err
-//       });
-//     } else {
-//       res.send(data);
-//     }
-//   })
-// }
-
 exports.findMany = (req, res) => {
   let cat = req.params.cat;
   let search = String(req.params.search);
@@ -52,8 +37,11 @@ exports.findMany = (req, res) => {
 
 
   Procedure.mongo.find(query,
-    ('srycd name formalname taniname ten procedureClass procedureClassName'))
-    .populate('procedureClassName')
+    ('srycd name formalname taniname ten procedureClass'))
+    .populate({
+      path: 'procedureClass',
+      select: 'name'
+    })
     .exec((err, data) => {
     if (err) {
       console.log(err);
@@ -62,15 +50,15 @@ exports.findMany = (req, res) => {
       });
     } else {
       // Using this instead of virtuals and what now to ease stress on DB and because it is just easier...
-      // data = JSON.parse(JSON.stringify(data));
-      // data = data.map( doc => ({
-      //   srycd: doc.srycd,
-      //   name: doc.name,
-      //   formalname: doc.formalname,
-      //   taniname: doc.taniname,
-      //   cost: doc.ten,
-      //   procedureClass: doc.cdkbn_kbn + String(doc.cdkbn_kbnnum).padStart(3,'0') + String(doc.cdkbn_kbnnum_eda).padStart(2,'0')
-      // }))
+      data = JSON.parse(JSON.stringify(data));
+      data = data.map( doc => ({
+        srycd: doc.srycd,
+        name: doc.name,
+        formalname: doc.formalname,
+        taniname: doc.taniname,
+        cost: doc.ten,
+        procedureClass: doc.procedureClass
+      }))
       res.send(data);
     }
   })
