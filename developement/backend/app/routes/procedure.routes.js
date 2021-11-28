@@ -12,4 +12,6 @@ module.exports = app => {
 
     app.get("/api/procedures/:cat/search/:search", [authJwt.verifyToken], procedures.findMany);
     app.get("/api/procedures/:code/examresults", [authJwt.verifyToken], procedures.results.findMany);
+    app.post("/api/procedures/fetchAndImport", [authJwt.verifyToken], procedures.fetchAndImport);
+
   };
