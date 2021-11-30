@@ -73,18 +73,51 @@
             </div> -->
         </div>
         <div>
-            Test
+            <h3>Exams</h3>
+            <div style="display: flex">
+                <cui-radio label="Order" value="order" v-model="mode" style="margin-right: 10px" />
+                <cui-radio label="Input" value="input" v-model="mode" />
+            </div>
+            <div v-if="mode === 'order'">
+                <div style="display: flex; align-items: baseline; padding: 10px">
+                    <span style="width: 70px"> {{ $lang.examProvider }} </span>
+                    <cui-select
+                        :data="examProviders"
+                        displayValueProp="label"
+                        v-model="provider"
+                        style="width: 200px; margin-left: 20px"
+                    ></cui-select>
+                </div>
+                <cui-textarea label="deit" placeholder="Ordernumber or so" />
+            </div>
+            <div v-else>
+                <exam-Input
+                    v-for="(item,index) in examinations"
+                    :key="index"
+                    @update="updateLocalOrderVar"
+                    :item="orderLocal.procedure"
+                    style="max-width: 600px"
+                />
+
+            </div>
         </div>
     </div>
 </template>
 
 <script>
+import examInput from "./cc_shared_procedures_list/cc_shared_procedure_exam.vue";
+
 export default {
+    components: {
+        examInput
+    },
     async created() {
         this.examinations = await this.$dataService().get.lists.healthCheckExams();
     },
     data() {
         return {
+            mode: 'order',
+            provider: null,
             input: {
                 medicationHistory: {value: false, note: ""},
                 medicalHistory: {value: false, note: ""},
@@ -107,6 +140,13 @@ export default {
             },
             xRaySchemaId: null,
             examinations: null
+        }
+    },
+    computed: {
+        examProviders() {
+            return [{ name: "inhouse", label: this.$lang.inhouse }].concat(
+                this.$store.getters.settings.examinationProviders.public
+            );
         }
     }
 }

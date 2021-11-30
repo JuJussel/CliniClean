@@ -46,7 +46,7 @@ const examinationProcedureSchema = new Schema({
     procedure: {
         code: { type: String},
         name: { type: String},
-        name2: { type: String}
+        name2: { type: String},
     },
     points: { type: String},
     section: { type: String},
@@ -56,9 +56,5 @@ const examinationProcedureSchema = new Schema({
 },{
     toJSON: { virtuals: true } 
 });
-
-examinationProcedureSchema.virtual('procedureClass').get(function() {
-    return this.section + this.classCode.padStart(3,'0') + this.itemCode.padStart(2,'0')
-})
 
 module.exports = mongoose.model("sys_examination_procedures", examinationProcedureSchema);
