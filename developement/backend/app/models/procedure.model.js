@@ -8,7 +8,7 @@ const procedure = {}
 procedure.findAll = (result) => {
 
     const select = 
-    "SELECT * FROM public.tbl_tensu WHERE yukoedymd = '99999999' AND NOT srysyukbn = ''";
+    "SELECT *, srycd AS _id FROM public.tbl_tensu WHERE yukoedymd = '99999999' AND NOT srysyukbn = ''";
     
     // Query
     pg.many(select)
@@ -29,6 +29,9 @@ procedure.findAll = (result) => {
 
 // Mongo Part
 const procedureMongo = new Schema({
+    _id: { type: String, default: function() {
+        return this.srycd
+    }},
     cdkbn_kbn: String,
     cdkbn_kbnnum: String,
     cdkbn_kbnnum_eda: String,

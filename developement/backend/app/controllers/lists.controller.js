@@ -105,19 +105,24 @@ exports.static = {
 }
 
 exports.healthCheckExams = {
-  findAll: function(req, res) {
-    healthCheckExam.find()
-    .populate('results')
-    .exec(
-      (err, data) => {
-        if (err) {
-          $logger.error(err)
-          res.status(500).send({
-            message: "Error retrieving Health Check Exams"
-          });
-        } else {
-          res.send(data);
-        }
-      })
+  findAll: async function(req, res) {
+    let results = null;
+    try {
+      results = await healthCheckExam.find()
+      .populate('results')
+      .populate('procedure')
+      .exec()
+    } catch (err) {
+      $logger.error(err)
+      res.status(500).send({
+        message: "Error retrieving Health Check Exams"
+      });
     }
+
+    res.send(results);
+
+
+
+
+  }
 }
