@@ -95,7 +95,7 @@
                     v-for="(item,index) in examinations"
                     :key="index"
                     @update="updateLocalOrderVar"
-                    :item="orderLocal.procedure"
+                    :item="item"
                     style="max-width: 600px"
                 />
 
@@ -111,8 +111,8 @@ export default {
     components: {
         examInput
     },
-    async created() {
-        this.examinations = await this.$dataService().get.lists.healthCheckExams();
+    created() {
+        this.getExams();
     },
     data() {
         return {
@@ -147,6 +147,21 @@ export default {
             return [{ name: "inhouse", label: this.$lang.inhouse }].concat(
                 this.$store.getters.settings.examinationProviders.public
             );
+        }
+    },
+    methods: {
+        async getExams() {
+            let examinations = await this.$dataService().get.lists.healthCheckExams();
+            examinations = examinations.map(item => {
+                let procedure = {
+                    class: item.procedure.procedureClass,
+                    name: item.results[0].procedure.name,
+                    srycd: item.results[0].procedure.code,
+                    varData: item.results
+                }
+                return procedure;
+            })
+            this.examinations = examinations;
         }
     }
 }

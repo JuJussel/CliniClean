@@ -110,7 +110,7 @@ exports.healthCheckExams = {
     try {
       results = await healthCheckExam.find()
       .populate('results')
-      .populate('procedure')
+      .populate('procedure', 'procedureClass')
       .exec()
     } catch (err) {
       $logger.error(err)

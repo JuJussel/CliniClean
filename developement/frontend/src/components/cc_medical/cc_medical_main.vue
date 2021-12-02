@@ -31,7 +31,7 @@
 
 <script>
 import encounterList from "./cc_medical_list.vue";
-import examination from "./cc_medical_examination.vue"
+import examination from "./cc_medical_encounter.vue"
 
 export default {
     components: {
