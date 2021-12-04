@@ -4,7 +4,7 @@ const Disease = require("../models/disease.model.js");
 const Address = require("../models/address.model.js");
 const Static = require("../models/staticList.model.js");
 const healthCheckExam = require("../models/healthCheckExams.model.js");
-const { results } = require("./procedures.controller.js");
+// const { results } = require("./procedures.controller.js");
 
 
 exports.encounterTypes = {
@@ -110,7 +110,13 @@ exports.healthCheckExams = {
     try {
       results = await healthCheckExam.find()
       .populate('results')
-      .populate('procedure', 'procedureClass')
+      .populate({
+        path: 'procedure',
+        populate : {
+          path : 'procedureClass'
+        },
+        select: 'procedureClass name'
+      })
       .exec()
     } catch (err) {
       $logger.error(err)
@@ -118,7 +124,6 @@ exports.healthCheckExams = {
         message: "Error retrieving Health Check Exams"
       });
     }
-
     res.send(results);
 
 

@@ -84,7 +84,7 @@ exports.results = {
     
     let code = req.params.code;
 
-    ExaminationProcedure.find({'procedure.code': code}, (err, data) => {
+  ExaminationProcedure.find({_id: {$regex: code + ".*"}}, (err, data) => {
       if (err) {
         $logger.error(err);
         res.status(500).send({message: "Error retrieving Occupations"})

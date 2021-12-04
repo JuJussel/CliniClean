@@ -82,7 +82,7 @@
 <script>
 import examInput from "../shared/cc_shared_procedures_list/cc_shared_procedure_exam.vue";
 import shotInput from "../shared/cc_shared_procedures_list/cc_shared_procedure_shot.vue";
-import healthCheck from "../shared/cc_shared_health_check.vue" 
+import healthCheck from "../shared/cc_shared_health_check/cc_shared_health_check.vue" 
 
 export default {
     components: {

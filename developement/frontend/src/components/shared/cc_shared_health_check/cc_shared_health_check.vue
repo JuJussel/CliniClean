@@ -1,7 +1,6 @@
 <template>
     <div class="grid">
         <div>
-            <h3> {{ $lang.historyFull }} </h3>
             <div class="switch-cont">
                 <cui-switch :label="$lang.medicationHistory" v-model="input.medicationHistory.value"/>
                 <cui-textarea
@@ -9,6 +8,8 @@
                     v-model="input.medicationHistory.note"
                     noNote
                     :placeholder="$lang.input"
+                    rows="4"
+                    cols="30"
                     style="margin-left: 10px"/>
             </div>
             <div class="switch-cont">
@@ -18,6 +19,8 @@
                     v-model="input.medicalHistory.note"
                     noNote
                     :placeholder="$lang.input"
+                    rows="4"
+                    cols="30"
                     style="margin-left: 10px"/>
             </div>
             <div class="switch-cont">
@@ -27,6 +30,8 @@
                     v-model="input.subjectiveSymtoms.note"
                     noNote
                     :placeholder="$lang.input"
+                    rows="4"
+                    cols="30"
                     style="margin-left: 10px"/>
             </div>
             <div class="switch-cont">
@@ -36,9 +41,10 @@
                     v-model="input.objectiveSymtoms.note"
                     noNote
                     :placeholder="$lang.input"
+                    rows="4"
+                    cols="30"
                     style="margin-left: 10px"/>
             </div>
-            <h3> {{ $lang.basic }} </h3>
             <div style="display: flex">
                 <cui-input :label="$lang.height" v-model="input.height.value" type="number" style="max-width: 150px" />
                 <cui-input :label="$lang.weight" v-model="input.weight.value" type="number" style="max-width: 150px; margin-left: 20px" />
@@ -47,17 +53,14 @@
                 <cui-input :label="$lang.bmi" v-model="input.bmi.value" type="number" style="max-width: 150px" />
                 <cui-input :label="$lang.stomacheWidth" v-model="input.stomacheWidth.value" type="number" style="max-width: 150px; margin-left: 20px" />
             </div>
-            <h3> {{ $lang.bloodPreasure }} </h3>
             <div style="display: flex">
                 <cui-input :label="$lang.bloodPreasureMin" v-model="input.bloodPreasureMin.value" type="number" style="max-width: 150px" />
                 <cui-input :label="$lang.bloodPreasureMax" v-model="input.bloodPreasureMax.value" type="number" style="max-width: 150px; margin-left: 20px" />
             </div>
-            <h3> {{ $lang.eyeSight }} </h3>
             <div style="display: flex">
                 <cui-input :label="$lang.sightLeft" v-model="input.sightLeft.value" type="number" style="max-width: 150px" />
                 <cui-input :label="$lang.sightRight" v-model="input.sightRight.value" type="number" style="max-width: 150px; margin-left: 20px" />
             </div>
-            <h3> {{ $lang.hearingEvaluation }} </h3>
             <div style="display: flex">
                 <cui-input :label="$lang.hearingLeftLow" v-model="input.hearingLeftLow.value" type="number" style="max-width: 150px" />
                 <cui-input :label="$lang.hearingLeftHight" v-model="input.hearingLeftHight.value" type="number" style="max-width: 150px; margin-left: 20px" />
@@ -66,14 +69,12 @@
                 <cui-input :label="$lang.hearingRightLow" v-model="input.hearingRightLow.value" type="number" style="max-width: 150px" />
                 <cui-input :label="$lang.hearingRightHigh" v-model="input.hearingRightHigh.value" type="number" style="max-width: 150px; margin-left: 20px" />
             </div>
-            <h3> {{ $lang.other }} </h3>
             <!-- <div v-for="(item, index) in input" :key="index">
                 <cui-input :label="$lang[item.label]" v-if="item.type === 'text'" style="max-width: 150px"></cui-input>
                 <cui-input :label="$lang[item.label]" v-if="item.type === 'number'" type="number" style="max-width: 150px"></cui-input>
             </div> -->
         </div>
         <div>
-            <h3>Exams</h3>
             <div style="display: flex">
                 <cui-radio label="Order" value="order" v-model="mode" style="margin-right: 10px" />
                 <cui-radio label="Input" value="input" v-model="mode" />
@@ -91,21 +92,43 @@
                 <cui-textarea label="deit" placeholder="Ordernumber or so" />
             </div>
             <div v-else>
-                <exam-Input
+                <!-- <exam-Input
                     v-for="(item,index) in examinations"
                     :key="index"
                     @update="updateLocalOrderVar"
                     :item="item"
                     style="max-width: 600px"
-                />
+                    compact
+                /> -->
+            <div v-for="(examGroup, examGroupIndex) in examinationsGrouped" :key="examGroupIndex">
+                <div> <cui-tag>{{ examGroup.items[0].class.name }}</cui-tag> </div>
+                <div>
+                    <exam-Input
+                        v-for="(exam, examIndex) in examGroup.items" 
+                        :key="examIndex"
+                        :item="exam"
+                        style="max-width: 600px"
 
+                    
+                    />
+                    <!-- <div v-for="(exam, examIndex) in examGroup.items" :key="examIndex">
+                        <div v-for="(result, resultIndex) in exam.varData" :key="resultIndex">
+                            <span> {{ exam.name }} - </span>
+                            <span v-if="result.result.shared.name === '分析物固有結果コード'" >
+                                {{ result.result.single.name }}
+                            </span>
+                            <span v-else> {{ result.result.shared.name }} </span>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import examInput from "./cc_shared_procedures_list/cc_shared_procedure_exam.vue";
+import examInput from "./cc_shared_health_check_exams.vue";
 
 export default {
     components: {
@@ -139,7 +162,8 @@ export default {
                 xRayId: {value: ""},
             },
             xRaySchemaId: null,
-            examinations: null
+            examinations: null,
+            examinationsGrouped: null
         }
     },
     computed: {
@@ -161,7 +185,17 @@ export default {
                 }
                 return procedure;
             })
+
+            let grouped = [];
+            examinations.forEach(item => {
+                const group = item.class._id;
+                let index = grouped.findIndex(item => item._id === group);
+                index > -1 ? grouped[index].items.push(item) : grouped.push({_id: item.class._id, items: [item]});
+            });
+
+
             this.examinations = examinations;
+            this.examinationsGrouped = grouped;
         }
     }
 }

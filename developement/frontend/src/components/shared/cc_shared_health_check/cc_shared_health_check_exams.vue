@@ -1,11 +1,10 @@
 <template>
     <div>
-        <cui-table :data="results">
-            <template #header>
-                <div style="display: flex; align-items: center">
-                    {{ $lang.exam }} {{ $lang.results }}
+        <cui-table :data="results" square compact>
+            <template #header v-if="filteredResults.length > 0">
+                <div style="display: flex; align-items: center; justify-content: space-between; width: 100%">
+                    <b> {{ item.name }} </b>
                     <cui-select
-                        v-if="filteredResults.length > 0"
                         :data="filteredResults"
                         :placeholder="$lang.exam + $lang.add"
                         noNote
@@ -13,14 +12,14 @@
                         search
                         v-model="selectDummy"
                         @input="(value) => (filter = value)"
-                        style="margin-left: 20px; width: 200px"
-                        color="#37474f"
-                    >
+                        style="width: 200px"
+                        >
                     </cui-select>
                 </div>
             </template>
             <template v-slot:row="{ row }">
-                <td>
+                <td style="padding-left: 30px"> 
+                    {{item.name}} -
                     <span
                         v-if="row.result.shared.name === '分析物固有結果コード'"
                     >
@@ -87,7 +86,7 @@ export default {
         async getResults() {
             this.resultsFull =
                 await this.$dataService().get.procedures.examresults(
-                    this.item.srycd
+                    this.item.varData[0]._id.substring(0,15 )
                 );
         },
         selectResult(result) {
@@ -106,18 +105,6 @@ export default {
         },
     },
     computed: {
-        items() {
-            return [...new Set(this.resultsFull.map((v) => v.item.name))];
-        },
-        itemDetails() {
-            return [...new Set(this.resultsFull.map((v) => v.itemDetail.name))];
-        },
-        samples() {
-            return [...new Set(this.resultsFull.map((v) => v.sample.name))];
-        },
-        methods() {
-            return [...new Set(this.resultsFull.map((v) => v.method.name))];
-        },
         resultsSingle() {
             return [
                 ...new Set(this.resultsFull.map((v) => v.result.single.name)),
