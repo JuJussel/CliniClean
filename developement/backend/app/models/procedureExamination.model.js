@@ -2,7 +2,7 @@ const mongoose = require('./db.mongo')
 const Schema = mongoose.Schema;
 
 const examinationProcedureSchema = new Schema({
-    _id:  {type: mongoose.ObjectId},
+    _id:  {type: String},
     JLACCodeShort: { type: String},	
     JLACCodeLong: { type: String}, 	
     item: {
@@ -57,4 +57,4 @@ const examinationProcedureSchema = new Schema({
     toJSON: { virtuals: true } 
 });
 
-module.exports = mongoose.model("sys_examination_procedures", examinationProcedureSchema);
+module.exports = mongoose.model("sys_procedure_examinations", examinationProcedureSchema);

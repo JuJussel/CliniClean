@@ -1,5 +1,5 @@
 const Procedure = require("../models/procedure.model.js");
-const ExaminationProcedure = require("../models/examinationProcedure.model.js")
+const ExaminationProcedure = require("../models/procedureExamination.model.js")
 const japUtils = require("japanese-string-utils");
 
 exports.findMany = (req, res) => {
