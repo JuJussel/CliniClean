@@ -102,7 +102,7 @@ export default {
         },
         removeResult(result) {
             this.results.splice(result._index, 1);
-        },
+        }
     },
     computed: {
         resultsSingle() {

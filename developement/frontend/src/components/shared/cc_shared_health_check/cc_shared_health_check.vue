@@ -46,8 +46,8 @@
                     style="margin-left: 10px"/>
             </div>
             <div style="display: flex">
-                <cui-input :label="$lang.height" v-model="input.height.value" type="number" style="max-width: 150px" />
-                <cui-input :label="$lang.weight" v-model="input.weight.value" type="number" style="max-width: 150px; margin-left: 20px" />
+                <cui-input @update:modelValue="calcBMI" :label="$lang.height" v-model="input.height.value" type="number" style="max-width: 150px" />
+                <cui-input @update:modelValue="calcBMI" :label="$lang.weight" v-model="input.weight.value" type="number" style="max-width: 150px; margin-left: 20px" />
             </div>
             <div style="display: flex">
                 <cui-input :label="$lang.bmi" v-model="input.bmi.value" type="number" style="max-width: 150px" />
@@ -69,37 +69,44 @@
                 <cui-input :label="$lang.hearingRightLow" v-model="input.hearingRightLow.value" type="number" style="max-width: 150px" />
                 <cui-input :label="$lang.hearingRightHigh" v-model="input.hearingRightHigh.value" type="number" style="max-width: 150px; margin-left: 20px" />
             </div>
+            <div style="display: flex; align-items: center">
+                <cui-input :label="$lang.xRayId" v-model="input.xRay.value" style="max-width: 120px" />
+                <cui-button :label="$lang.display" @click="showXRay"></cui-button>
+                <cui-input :label="$lang.ecgId" v-model="input.ecg.value" style="max-width: 120px; margin-left: 20px" />
+                <cui-button :label="$lang.display" @click="showEcg"></cui-button>
+            </div>
+
+            <painter
+                :width="400"
+                :height="400"
+                ref="xrayDraw"
+                style="margin-top: 10px; width: 400px"
+                :schema="input.xRay.schema + '.png'"
+                :x-ray="true"
+                id="K675g"
+            >
+            ></painter>
             <!-- <div v-for="(item, index) in input" :key="index">
                 <cui-input :label="$lang[item.label]" v-if="item.type === 'text'" style="max-width: 150px"></cui-input>
                 <cui-input :label="$lang[item.label]" v-if="item.type === 'number'" type="number" style="max-width: 150px"></cui-input>
             </div> -->
         </div>
         <div>
-            <div style="display: flex">
+            <div style="display: flex; align-items: baseline">
                 <cui-radio label="Order" value="order" v-model="mode" style="margin-right: 10px" />
                 <cui-radio label="Input" value="input" v-model="mode" />
+                <span style="width: 70px; margin-left: 40px"> {{ $lang.examProvider }} </span>
+                <cui-select
+                    :data="examProviders"
+                    displayValueProp="label"
+                    v-model="provider"
+                    style="width: 200px; margin-left: 20px"
+                ></cui-select>
             </div>
             <div v-if="mode === 'order'">
-                <div style="display: flex; align-items: baseline; padding: 10px">
-                    <span style="width: 70px"> {{ $lang.examProvider }} </span>
-                    <cui-select
-                        :data="examProviders"
-                        displayValueProp="label"
-                        v-model="provider"
-                        style="width: 200px; margin-left: 20px"
-                    ></cui-select>
-                </div>
                 <cui-textarea label="deit" placeholder="Ordernumber or so" />
             </div>
             <div v-else>
-                <!-- <exam-Input
-                    v-for="(item,index) in examinations"
-                    :key="index"
-                    @update="updateLocalOrderVar"
-                    :item="item"
-                    style="max-width: 600px"
-                    compact
-                /> -->
             <div v-for="(examGroup, examGroupIndex) in examinationsGrouped" :key="examGroupIndex">
                 <div> <cui-tag>{{ examGroup.items[0].class.name }}</cui-tag> </div>
                 <div>
@@ -108,18 +115,7 @@
                         :key="examIndex"
                         :item="exam"
                         style="max-width: 600px"
-
-                    
                     />
-                    <!-- <div v-for="(exam, examIndex) in examGroup.items" :key="examIndex">
-                        <div v-for="(result, resultIndex) in exam.varData" :key="resultIndex">
-                            <span> {{ exam.name }} - </span>
-                            <span v-if="result.result.shared.name === '分析物固有結果コード'" >
-                                {{ result.result.single.name }}
-                            </span>
-                            <span v-else> {{ result.result.shared.name }} </span>
-                        </div>
-                    </div> -->
                 </div>
             </div>
             </div>
@@ -129,10 +125,12 @@
 
 <script>
 import examInput from "./cc_shared_health_check_exams.vue";
+import painter from "../cc_shared_painter.vue"
 
 export default {
     components: {
-        examInput
+        examInput,
+        painter
     },
     created() {
         this.getExams();
@@ -158,10 +156,9 @@ export default {
                 hearingLeftHight: {value: ""},
                 hearingRightLow: {value: ""},
                 hearingRightHigh: {value: ""},
-                ecgId: {value: ""},
-                xRayId: {value: ""},
+                ecg: {value: ""},
+                xRay: {value: "", schema: "lung_schema"},
             },
-            xRaySchemaId: null,
             examinations: null,
             examinationsGrouped: null
         }
@@ -174,9 +171,12 @@ export default {
         }
     },
     methods: {
+        showXRay() {},
+        showEcg() {},
         async getExams() {
             let examinations = await this.$dataService().get.lists.healthCheckExams();
             examinations = examinations.map(item => {
+                item.results.forEach(res => res.value = "");
                 let procedure = {
                     class: item.procedure.procedureClass,
                     name: item.results[0].procedure.name,
@@ -196,7 +196,18 @@ export default {
 
             this.examinations = examinations;
             this.examinationsGrouped = grouped;
-        }
+        },
+        calcBMI() {
+            setTimeout(() => {
+                if (this.input.height.value > 0 && this.input.weight.value > 0) {
+                    let weight = this.input.weight.value;
+                    let height = this.input.height.value;
+                    let bmi = (weight/Math.pow(height/100,2))
+                    bmi = Math.round(bmi * 10) /10
+                    this.input.bmi.value = bmi
+                }                
+            }, 200);
+        },
     }
 }
 </script>
