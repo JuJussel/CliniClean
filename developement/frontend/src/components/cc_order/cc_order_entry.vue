@@ -60,7 +60,7 @@
             />
         </div>
         <div v-if="order.procedure.cat.code === 90">
-            <health-check />
+            <health-check ref="healthCheck" />
         </div>
         <div v-if="order.procedure.comment">
             <h4 style="margin: 10px">{{ $lang.comment }}</h4>
@@ -132,7 +132,7 @@ export default {
     },
     methods: {
         updateLocalOrderVar(data) {
-            this.orderLocal.procedure.var = data;
+            this.orderLocal.procedure.varData = data;
         },
         async toggleLock(locked) {
             if (this.isUser) return;
@@ -154,6 +154,8 @@ export default {
         async submit() {
             if (this.isUser) return;
             this.loading.all = true;
+            if (this.order.procedure.cat.code == 90) this.orderLocal.procedure.varData = this.$refs.healthCheck.getData();
+
             this.orderLocal.status = 0;
             if (this.comment !== "") {
                 let addComment =

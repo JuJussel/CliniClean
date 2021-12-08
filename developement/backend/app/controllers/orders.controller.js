@@ -61,7 +61,7 @@ exports.update = async (req,res) => {
       {
         "karte.procedures.$.order.locked": req.body.locked,
         "karte.procedures.$.order.done": req.body.status === 0 ? true : false,
-        "karte.procedures.$.varData": req.body.procedure.var || null,
+        "karte.procedures.$.varData": req.body.procedure.varData || null,
         "karte.procedures.$.comment": req.body.procedure.comment || ''
       }
     )
