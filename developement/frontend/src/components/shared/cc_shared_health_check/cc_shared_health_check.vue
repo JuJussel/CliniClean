@@ -46,7 +46,7 @@
                     style="margin-left: 10px"/>
             </div>
             <div style="display: flex">
-                <cui-input @update:modelValue="calcBMI" :label="$lang.height" v-model="input.height.value" type="number" style="max-width: 150px" />
+                <cui-input @update:modelValue="calcBMI" :label="$lang.height" v-model="input.height.value" type="number" style="max-width: 150px" :append="input.height.unit"/>
                 <cui-input @update:modelValue="calcBMI" :label="$lang.weight" v-model="input.weight.value" type="number" style="max-width: 150px; margin-left: 20px" />
             </div>
             <div style="display: flex">
@@ -144,12 +144,12 @@ export default {
                 medicalHistory: {value: false, note: ""},
                 subjectiveSymtoms: {value: false, note: ""},
                 objectiveSymtoms: {value: false, note: ""},
-                height: {value: ""},
-                weight: {value: ""},
+                height: {value: "", unit: "cm"},
+                weight: {value: "", unit: "kg"},
                 bmi: {value: ""},
-                stomacheWidth: {value: ""},
-                bloodPreasureMax: {value: ""},
-                bloodPreasureMin: {value: ""},
+                stomacheWidth: {value: "", unit: "cm"},
+                bloodPreasureMax: {value: "", unit: "mmHg"},
+                bloodPreasureMin: {value: "", unit: "mmHg"},
                 sightLeft: {value: ""},
                 sightRight: {value: ""},
                 hearingLeftLow: {value: ""},

@@ -2,12 +2,13 @@
     <div>
         <cui-table :data="healthCheckItems" compact square>
             <template v-slot:row="{ row }">
-                <td style="width: 150px">
+                <td style="width: 200px">
                     {{ $lang[row[0]] }}
                 </td>
                 <td>
                     <div>
-                        <span v-if="row[1].value"> {{ row[1].value }} </span>
+                        <span v-if="row[1].value && typeof(row[1].value) === 'boolean'"> {{ $lang.has }} </span>
+                        <span v-else-if="row[1].value"> {{ row[1].value }} </span>
                         <span v-else> {{ $lang.hasNot }} </span>
                     </div>
                     <div v-if="row[1].value && row[1].note">
