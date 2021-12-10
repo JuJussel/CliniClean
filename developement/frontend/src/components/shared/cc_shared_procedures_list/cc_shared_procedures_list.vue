@@ -12,7 +12,7 @@
                 <td style="width: 60px">
                     <div class="cc-shared-procedures-list-row-buttons" @click.stop="">
                         <cui-button
-                            :disabled="row.order?.locked || row.order?.done"
+                            :disabled="Boolean(row.order?.locked || row.order?.done)"
                             icon="fas fa-shopping-cart"
                             :dark="row.order"
                             :white="!row.order"
@@ -27,7 +27,7 @@
                         <cui-button
                             icon="far fa-trash-alt"
                             danger
-                            :disabled="row.order?.locked || row.order?.done"
+                            :disabled="Boolean(row.order?.locked || row.order?.done)"
                             @click="removeProcedure(row)"
                         />
                     </div>
@@ -69,13 +69,15 @@
 import exam from "./cc_shared_procedure_exam.vue"
 import shot from "./cc_shared_procedure_shot.vue"
 import perscription from "./cc_shared_procedure_perscription.vue"
+import healthCheck from "./cc_shared_procedure_health_check.vue" 
 
 export default {
     components: {
-        'exam': exam,
-        'shot': shot,
+        exam,
+        shot,
         'perVac': shot,
-        'perscription': perscription
+        perscription,
+        healthCheck
     },
     emits: ['remove'],
     props: {

@@ -1,28 +1,21 @@
 <template>
-    <div style="display: flex">
-        <cui-select
-            :data="shotLocations"
-            v-model="varData.location"
-            style="width: 100px"
-            :label="$lang.shotLocation"
-            @update:modelValue="updateValue"
-            :disabled="item.order?.done || item.order?.locked"
-        />
-        <cui-input
-            style="width: 100px; margin-left: 30px"
-            v-model="varData.amount"
-            :append="$lang.vial"
-            :label="$lang.shotAmount"
-            @update:modelValue="updateValue"
-            :disabled="item.order?.done || item.order?.locked"
-        />
-        <cui-input
-            style="width: 100px; margin-left: 30px"
-            v-model="varData.lot"
-            :label="$lang.shotLot"
-            @update:modelValue="updateValue"
-            :disabled="item.order?.done || item.order?.locked"
-        />
+    <div>
+        <cui-table :data="healthCheckItems" compact square>
+            <template v-slot:row="{ row }">
+                <td style="width: 150px">
+                    {{ $lang[row[0]] }}
+                </td>
+                <td>
+                    <div>
+                        <span v-if="row[1].value"> {{ row[1].value }} </span>
+                        <span v-else> {{ $lang.hasNot }} </span>
+                    </div>
+                    <div v-if="row[1].value && row[1].note">
+                        {{ row[1].note }}
+                    </div>
+                </td>
+            </template>
+        </cui-table>
     </div>
 </template>
 
@@ -33,29 +26,19 @@ export default {
             default: null,
         },
     },
-    created() {
-        this.setData();
-    },
     emits: ["update"],
     methods: {
         updateValue() {
             this.$emit("update", this.varData);
-        },
-        setData() {
-            if (this.item.varData) {
-                this.varData = this.item.varData;
-            }
-        },
-    },
+        },    },
     data() {
         return {
-            shotLocations: this.$store.getters.staticLists.shotLocations,
-            varData: {
-                location: null,
-                amount: "",
-                lot: "",
-            },
         };
     },
+    computed: {
+        healthCheckItems() {
+            return Object.entries(this.item.varData)
+        }
+    }
 };
 </script>
