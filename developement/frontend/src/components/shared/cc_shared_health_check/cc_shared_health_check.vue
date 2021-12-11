@@ -47,15 +47,15 @@
             </div>
             <div style="display: flex">
                 <cui-input @update:modelValue="calcBMI" :label="$lang.height" v-model="input.height.value" type="number" style="max-width: 150px" :append="input.height.unit"/>
-                <cui-input @update:modelValue="calcBMI" :label="$lang.weight" v-model="input.weight.value" type="number" style="max-width: 150px; margin-left: 20px" />
+                <cui-input @update:modelValue="calcBMI" :label="$lang.weight" v-model="input.weight.value" type="number" style="max-width: 150px; margin-left: 20px"  :append="input.weight.unit"/>
             </div>
             <div style="display: flex">
                 <cui-input :label="$lang.bmi" v-model="input.bmi.value" type="number" style="max-width: 150px" />
-                <cui-input :label="$lang.stomacheWidth" v-model="input.stomacheWidth.value" type="number" style="max-width: 150px; margin-left: 20px" />
+                <cui-input :label="$lang.stomacheWidth" v-model="input.stomacheWidth.value" type="number" style="max-width: 150px; margin-left: 20px"  :append="input.stomacheWidth.unit"/>
             </div>
             <div style="display: flex">
-                <cui-input :label="$lang.bloodPreasureMin" v-model="input.bloodPreasureMin.value" type="number" style="max-width: 150px" />
-                <cui-input :label="$lang.bloodPreasureMax" v-model="input.bloodPreasureMax.value" type="number" style="max-width: 150px; margin-left: 20px" />
+                <cui-input :label="$lang.bloodPreasureMin" v-model="input.bloodPreasureMin.value" type="number" style="max-width: 150px" :append="input.bloodPreasureMin.unit"/>
+                <cui-input :label="$lang.bloodPreasureMax" v-model="input.bloodPreasureMax.value" type="number" style="max-width: 150px; margin-left: 20px" :append="input.bloodPreasureMax.unit"/>
             </div>
             <div style="display: flex">
                 <cui-input :label="$lang.sightLeft" v-model="input.sightLeft.value" type="number" style="max-width: 150px" />
@@ -144,12 +144,12 @@ export default {
                 medicalHistory: {value: false, note: ""},
                 subjectiveSymtoms: {value: false, note: ""},
                 objectiveSymtoms: {value: false, note: ""},
-                height: {value: "", unit: "cm"},
-                weight: {value: "", unit: "kg"},
-                bmi: {value: ""},
-                stomacheWidth: {value: "", unit: "cm"},
-                bloodPreasureMax: {value: "", unit: "mmHg"},
-                bloodPreasureMin: {value: "", unit: "mmHg"},
+                height: {value: "", unit: "cm", vitalCode: this.$store.getters.staticLists.vitalCategories.find(i => i.code === 909)},
+                weight: {value: "", unit: "kg", vitalCode: 906},
+                bmi: {value: "", vitalCode: 907},
+                stomacheWidth: {value: "", unit: "cm", vitalCode: 908},
+                bloodPreasureMax: {value: "", unit: "mmHg", vitalCode: 901},
+                bloodPreasureMin: {value: "", unit: "mmHg", vitalCode: 902},
                 sightLeft: {value: ""},
                 sightRight: {value: ""},
                 hearingLeftLow: {value: ""},
@@ -210,6 +210,11 @@ export default {
         },
         getData() {
             let data = this.input;
+            data = data.map(item => {
+                if(!item.vitalCode) return item;
+                item.vital = this.$store.getters.staticLists.vitalCategories.find(i => i.code === item.vitalCode);
+                return item;
+            })
             data.exams = this.examinations;
             return data;
         }

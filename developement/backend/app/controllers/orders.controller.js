@@ -1,4 +1,7 @@
 const Order = require("../models/order.model.js");
+const Encounter = require("../models/encounter.model.js");
+const Notification = require("../models/notification.model.js");
+const Vital = require("../models/vital.model.js");
 
 exports.findAll = (req,res) => {
   Order.find({ status: 1})
@@ -37,8 +40,6 @@ exports.create = (req,res) => {
 
 exports.update = async (req,res) => {
 
-  const Encounter = require("../models/encounter.model.js");
-  const Notification = require("../models/notification.model.js");
 
   // Update Order
   try {
@@ -70,10 +71,15 @@ exports.update = async (req,res) => {
     res.status(500).send({
       message: "Error updating Encounter"
     });
-  } 
+  }
+
+  //Create Vitals if Health Check
+  if (req.body.procedure.cat.code === 90) {
+  }
+
 
   // Create Notification
-  if (req.body.procedure.cat.code === 90 && req.body.status < 1) {
+  if ((req.body.procedure.cat.code === 90 || req.body.procedure.cat.code === 60) && req.body.status < 1) {
     try {
       await Notification.create(
         {
@@ -93,7 +99,7 @@ exports.update = async (req,res) => {
       res.status(500).send({
         message: "Error creating Notifications"
       });
-    } 
+    }
   }
 
   // Send Web Socket
