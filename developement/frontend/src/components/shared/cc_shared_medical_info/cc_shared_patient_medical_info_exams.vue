@@ -7,12 +7,12 @@
             <template #thead>
                 <cui-th
                     class="vital-row-header-scoped"
-                    style="z-index: 5 !important"
+                    style="z-index: 5 !important; min-width: 250px"
                 ></cui-th>
                 <cui-th
                     v-for="(item, index) in exams"
                     :key="index"
-                    style="min-width: 150px"
+                    style="min-width: 100px; font-size: 12px"
                 >
                     {{ $parseDate(item.date) }}
                 </cui-th>
@@ -21,7 +21,7 @@
                 <td class="vital-row-header-scoped">
                     {{ row.label }}
                 </td>
-                <td v-for="(item, index) in exams" :key="index">
+                <td v-for="(item, index) in exams" :key="index" style="border-right: solid 1px var(--cui-gray-2)">
                     {{ parseValue(item, row) }}
                 </td>
             </template>

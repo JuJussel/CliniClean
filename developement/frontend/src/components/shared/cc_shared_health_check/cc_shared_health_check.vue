@@ -208,13 +208,11 @@ export default {
                 }                
             }, 200);
         },
-        getData() {
+        async getData() {
+            let schema = this.$refs.xrayDraw.getPainting();
+            const blob = await new Promise(resolve => schema.toBlob(resolve));
+            this.input.xRay.schema = new File([blob], "fileName.jpg", { type: "image/png" });
             let data = this.input;
-            data = data.map(item => {
-                if(!item.vitalCode) return item;
-                item.vital = this.$store.getters.staticLists.vitalCategories.find(i => i.code === item.vitalCode);
-                return item;
-            })
             data.exams = this.examinations;
             return data;
         }

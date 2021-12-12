@@ -67,7 +67,11 @@ export default {
             let img = this.$refs.painter.getPainting();
             this.$emit('addSchema', img);
             this.$emit('cancel');
+        },
+        getSchema() {
+            return(this.$refs.painter.getPainting());
         }
+
     }
     
 }

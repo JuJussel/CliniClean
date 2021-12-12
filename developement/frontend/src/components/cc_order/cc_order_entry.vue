@@ -154,11 +154,23 @@ export default {
         async submit() {
             if (this.isUser) return;
             this.loading.all = true;
-            if (this.order.procedure.cat.code == 90) this.orderLocal.procedure.varData = this.$refs.healthCheck.getData();
-
+            // If Healtcheck
+            if (this.order.procedure.cat.code == 90) {
+                this.orderLocal.procedure.varData = await this.$refs.healthCheck.getData();
+                let schemaData  = {
+                    file: this.orderLocal.procedure.varData.xRay.schema,
+                    meta: {
+                        source: 'schema',
+                        patient: this.order.patient.id,
+                        encounter: this.order.encounterId
+                    }
+                };
+                this.orderLocal.procedure.varData.xRay.schema = 
+                    await this.$dataService().post.uploads.single(schemaData);
+            }
+            
             console.log(this.orderLocal.procedure.varData);
             return;
-
             // this.orderLocal.status = 0;
             // if (this.comment !== "") {
             //     let addComment =

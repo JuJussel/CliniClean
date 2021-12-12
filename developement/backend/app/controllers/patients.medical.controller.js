@@ -29,7 +29,7 @@ exports.addMedicalVitals = (req,res) => {
     Vital.create(request, (err) => {
       if (err) {
         $logger.error(err);
-        res.status(500).send({ message: "Error creating Patient" });
+        res.status(500).send({ message: "Error creating Vital" });
       }
       res.send({ok: true});
     })

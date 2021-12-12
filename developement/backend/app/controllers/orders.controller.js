@@ -55,6 +55,34 @@ exports.update = async (req,res) => {
     });
   }
 
+  //Create Vitals if Health Check
+  if (req.body.procedure.cat.code === 90) {
+    let vitals = Object.values(req.body.procedure.varData).filter(item => item.code);
+    vitals = {
+      patientId: req.body.patient.id,
+      values: vitals
+    }
+    try {
+      await Vital.create(vitals);
+    } catch (err) {
+      $logger.error(err);
+      res.status(500).send({ message: "Error creating Vital" });
+    }
+    // Update karte with Schema info
+    try {
+      await Encounter.findOneAndUpdate(
+        {_id: req.body.encounterId, "karte.procedures.order.id": req.params.orderId},
+        {
+          $push: {"karte.images": req.body.procedure.varData.xRay.schema}
+        }
+      )
+    } catch (err) {
+      $logger.error(err)
+      res.status(500).send({ message: "Error updating Encounter" });
+    }
+
+  }
+
   // Update Karte
   try {
     await Encounter.findOneAndUpdate(
@@ -68,15 +96,8 @@ exports.update = async (req,res) => {
     )
   } catch (err) {
     $logger.error(err)
-    res.status(500).send({
-      message: "Error updating Encounter"
-    });
+    res.status(500).send({ message: "Error updating Encounter" });
   }
-
-  //Create Vitals if Health Check
-  if (req.body.procedure.cat.code === 90) {
-  }
-
 
   // Create Notification
   if ((req.body.procedure.cat.code === 90 || req.body.procedure.cat.code === 60) && req.body.status < 1) {

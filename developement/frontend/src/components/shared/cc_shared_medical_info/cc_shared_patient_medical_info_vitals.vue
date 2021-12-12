@@ -1,6 +1,6 @@
 <template>
     <div style="height: 100%">
-        <cui-table :data="$store.getters.staticLists.vitalCategories">
+        <cui-table :data="$store.getters.staticLists.vitalCategories" compact>
             <template #header>
                 <h2> {{ $lang.vitals }} </h2>
                 <cui-button icon="fas fa-plus" :label="$lang.register" @click="openVitalRegister"/>    
@@ -10,7 +10,7 @@
                 <cui-th
                     v-for="(item, index) in patientData.vitals" 
                     :key="index"
-                    style="min-width: 150px"
+                    style="min-width: 100px; font-size: 12px"
                 >
                 {{ $parseDate(item.date) }}
                 </cui-th>
@@ -23,6 +23,7 @@
                 <td
                     v-for="(item, index) in patientData.vitals" 
                     :key="index"
+                     style="border-right: solid 1px var(--cui-gray-2)"
                 >
                     {{ returnVitalValue(item.values, row) }}
                 </td>
