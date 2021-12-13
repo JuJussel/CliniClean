@@ -16,7 +16,13 @@ const EncounterSchema = new Schema({
     locked: Boolean,
     doctor: Number,
     orcaId: Number,
-    karte: {type: {}},
+    karte: {
+        soap: {type: {}},
+        procedures: {type: {}},
+        images: [
+            {type: mongoose.ObjectId, ref: "pub_files"}
+        ]
+    },
     department: {type: String, default: '01'},
     contentSoap: String,
     contentProcedures: String,

@@ -13,6 +13,9 @@ exports.findOne = (req, res) => {
     path: 'patient',
     select: 'name'
   })
+  .populate({
+    path: 'karte.images'
+  })
   .exec(
     (err, data) => {
       if (err) {

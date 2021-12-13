@@ -14,8 +14,11 @@
             <div class="cc-image-cont" style="height: calc(40% - 40px)">
                 <cui-card v-for="(img, index) in images" :key="index" no-padding @click="showImage(img)" class="cc-image-card">
                     <div class="cc-image-card-schema-cont">
-                        <img class="cc-image-card-img" :src="img" :alt=" $lang.image + index ">
-                        <div class="cc-image-card-text"> {{ $lang.image + index }} </div>
+                        <img class="cc-image-card-img" :src="'/files/' + img.id +'.' + img.extension" :alt=" $lang.image + index ">
+                        <div class="cc-image-card-text">
+                            <span>{{ $lang.image + index }} </span>
+                            <i v-if="img.meta.source === 'schema'" class="fas fa-edit hover-icon" style="margin-left: 10px" @click.stop="editSchema(img)"></i>     
+                        </div>
                     </div>
                 </cui-card>
             </div>
@@ -106,6 +109,9 @@ export default {
                 this.uploadImage('schema', img)
             }.bind(this))
         },
+        editSchema(img) {
+            console.log(img);
+        },
         addImage() {
             let img = this.$refs.file.files[0];
             this.uploadImage('soapImage', img);
@@ -164,6 +170,13 @@ export default {
     .cc-medical-karte-soap {
         border-right: solid 1px var(--cui-gray-5);
         overflow: hidden;
+    }
+    .cc-image-card-text {
+        display: flex;
+        align-items: center;
+    }
+    .hover-icon:hover {
+        color: var(--cui-primary)
     }
 </style>
 <style>
