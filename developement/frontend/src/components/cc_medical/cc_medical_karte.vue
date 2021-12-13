@@ -142,7 +142,9 @@ export default {
                         encounter: this.encounter.id
                     }
                 }
-                const url = await this.$dataService().post.uploads.single(sendData);
+                let url = await this.$dataService().post.uploads.single(sendData);
+                url = url.replace('/files/','');
+                url = url.split('.')[0];
                 this.images.push(url);
                 const index = this.images.length - 1;
                 this.$refs.textEditor.editor.commands.insertContent(

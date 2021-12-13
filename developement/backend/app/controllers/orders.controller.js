@@ -69,11 +69,13 @@ exports.update = async (req,res) => {
       res.status(500).send({ message: "Error creating Vital" });
     }
     // Update karte with Schema info
+    let schemaId = req.body.procedure.varData.xRay.schema.replace('/files/','');
+    schemaId = schemaId.split('.')[0];
     try {
       await Encounter.findOneAndUpdate(
         {_id: req.body.encounterId, "karte.procedures.order.id": req.params.orderId},
         {
-          $push: {"karte.images": req.body.procedure.varData.xRay.schema}
+          $push: {"karte.images": schemaId}
         }
       )
     } catch (err) {
