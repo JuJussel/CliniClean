@@ -375,7 +375,7 @@ export default {
         that.imageCanvas.ctx.drawImage(img, 0, 0);
       };
       img.src =this.$GLOBALS.schemaUrl + data + "?random=" + this.random
-      if(this.xRay && this.schema !== 'lung_schema.png') {
+      if((this.xRay && this.schema !== 'lung_schema.png')) {
         img.src =this.$GLOBALS.filesUrl + data + "?random=" + this.random
       }
     },

@@ -596,8 +596,7 @@ export default {
                             return new Promise(function(resolve, reject) {
                                 http.post("uploads/single", data)
                                     .then((result) => {
-                                        let url = Globals.filesUrl + result.url;
-                                        resolve(url);
+                                        resolve(result);
                                     })
                                     .catch((result) => {
                                         instance.$cui.notification({
