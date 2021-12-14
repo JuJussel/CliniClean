@@ -1,7 +1,7 @@
 <template>
     <div style="height: 100%">
         <div class="cc_shared_schema_editor_cont">
-            <div style="border-right: solid 1px var(--cui-gray-5); overflow: hidden">
+            <div style="border-right: solid 1px var(--cui-gray-5); overflow: hidden" v-if="!editOnly">
                 <div class="cc-headers">
                     {{ $lang.schema}}
                     {{ $lang.select}}
@@ -15,7 +15,7 @@
                     </cui-card>
                 </div>
             </div>
-            <div>
+            <div v-bind:class="{spanTwoCols: editOnly}">
                 <div class="cc-headers">
                     {{ $lang.painter}}
                 </div>
@@ -35,7 +35,12 @@
     import painter from './cc_shared_painter.vue'
 
 export default {
-
+    props: {
+        editOnly: {
+            type: Boolean,
+            default: false
+        }
+    },
     components: {
         painter
     },
@@ -91,5 +96,8 @@ export default {
         justify-content: flex-end;
         align-items: center;
         padding: 10px;
+    }
+    .spanTwoCols {
+        grid-column-end: span 2;    
     }
 </style>
