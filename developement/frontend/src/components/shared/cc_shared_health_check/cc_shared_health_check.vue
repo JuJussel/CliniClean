@@ -157,7 +157,7 @@ export default {
                 hearingRightLow: {value: ""},
                 hearingRightHigh: {value: ""},
                 ecg: {value: ""},
-                xRay: {value: "", schema: "lung_schema"},
+                xRay: {value: "", schema: "/assets/schemas/lung_schema"},
             },
             examinations: null,
             examinationsGrouped: null

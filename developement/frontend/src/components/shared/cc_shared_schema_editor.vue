@@ -61,6 +61,9 @@ export default {
     },
     methods: {
         setSchemaImage(img) {
+            console.log(img);
+            // this.$refs.painter.addImage(img.url);
+            // let url = this.$GLOBALS.schemaUrl + img.url;
             this.$refs.painter.addImage(img.url);
         },
         async getSchemas() {

@@ -37,7 +37,7 @@
         <cui-modal :visible="modal.schemaEdit" closable  @close="modal.schemaEdit = false">
             <cui-card style="width: 600px; height: 700px" noPadding>
                 <template #header> <h2>{{ $lang.schema }}</h2> </template>
-                <schema-editor @addSchema="addSchema" @cancel="modal.schemaEdit = false" editOnly></schema-editor>
+                <schema-editor @cancel="modal.schemaEdit = false" editOnly :schema="modal.schemaEdit" ref="schemaEdit"></schema-editor>
             </cui-card>
         </cui-modal>
 
@@ -120,6 +120,9 @@ export default {
         editSchema(img) {
             console.log(img);
             this.modal.schemaEdit = true;
+            setTimeout(function() {
+                this.$refs.schemaEdit.addImage("/files/" + img.id + '.' + img.extension);
+            }.bind(this), 1000)
         },
         addImage() {
             let img = this.$refs.file.files[0];

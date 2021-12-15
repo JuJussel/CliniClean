@@ -354,7 +354,7 @@ export default {
       // img.setAttribute("crossOrigin", "anonymous");
       img.src = url;
       img.onload = function() {
-        var ratio = this.canvasSize.ha / 1400;
+        var ratio = this.canvasSize.ha / img.height;
         var w = img.width * ratio;
         var h = this.canvasSize.ha;
         var posX = this.canvasSize.wa / 2 - w / 2;
@@ -374,10 +374,8 @@ export default {
       img.onload = function() {
         that.imageCanvas.ctx.drawImage(img, 0, 0);
       };
-      img.src =this.$GLOBALS.schemaUrl + data + "?random=" + this.random
-      if(this.xRay && this.schema !== 'lung_schema.png') {
-        img.src =this.$GLOBALS.filesUrl + data + "?random=" + this.random
-      }
+
+      img.src = data + "?random=" + this.random;
     },
     getFullCanvas() {
       this.imageCanvas.ctx.drawImage(this.outputCanvas.c, 0, 0);
