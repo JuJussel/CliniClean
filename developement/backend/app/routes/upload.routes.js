@@ -3,7 +3,7 @@ module.exports = app => {
     const uploads = require("../controllers/uploads.controller.js");
     const multer  = require('multer');
     const envConfig = require("../../env");
-    const File = require("../models/file.model.js");  
+    const File = require("../models/file.model.js");
 
     var storage = multer.diskStorage(
       {
@@ -17,8 +17,9 @@ module.exports = app => {
                 type: file.mimetype,
                 meta: meta
               }
-              let dbfilename = await File.create(fileMeta);
-              cb( null, dbfilename._id + '.' + extension);
+              let dbData = await File.create(fileMeta);
+              req.dbData = dbData;
+              cb( null, dbData._id + '.' + extension);
           }
       }
   );

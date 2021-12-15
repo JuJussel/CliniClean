@@ -2,30 +2,31 @@ const Patient = require("../models/patient.model.js");
 
 exports.createSingle = async (req, res) => {
   
-  let uploadedFileId = req.file.filename.split('.')[0];
-  uploadedFiles = [uploadedFileId];
+  // let uploadedFileId = req.file.filename.split('.')[0];
+  // uploadedFiles = [uploadedFileId];
+  res.send(req.dbData);
 
-  let patient = parseInt(JSON.parse(req.body.data).patient);
+  // let patient = parseInt(JSON.parse(req.body.data).patient);
 
-  Patient.findOneAndUpdate(
-    { _id: patient },
-    {
-      $push: {
-        files: { $each: uploadedFiles}
-      }
-    },
-    {
-      runValidators: true
-    },
-    (err) => {
-      if (err) {
-        $logger.error(err);
-        res.status(500).send({ message: "Error creating Patient" });
-      }
-      res.send({url: req.file.filename, id: uploadedFileId});
+  // Patient.findOneAndUpdate(
+  //   { _id: patient },
+  //   {
+  //     $push: {
+  //       files: { $each: uploadedFiles}
+  //     }
+  //   },
+  //   {
+  //     runValidators: true
+  //   },
+  //   (err) => {
+  //     if (err) {
+  //       $logger.error(err);
+  //       res.status(500).send({ message: "Error creating Patient" });
+  //     }
+  //     res.send({url: req.file.filename, id: uploadedFileId});
 
-    }
-  );
+  //   }
+  // );
 
 
   // let files = [];

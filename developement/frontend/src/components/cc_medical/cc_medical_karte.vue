@@ -37,7 +37,11 @@
         <cui-modal :visible="modal.schemaEdit" closable  @close="modal.schemaEdit = false">
             <cui-card style="width: 600px; height: 700px" noPadding>
                 <template #header> <h2>{{ $lang.schema }}</h2> </template>
+<<<<<<< HEAD
                 <schema-editor @cancel="modal.schemaEdit = false" editOnly :schema="modal.schemaEdit" ref="schemaEdit"></schema-editor>
+=======
+                <schema-editor @addSchema="addSchema" @cancel="modal.schemaEdit = false" :edit="schemaEditHolder"></schema-editor>
+>>>>>>> bac954b6cfc505836c02ce3394a14292bb9ad59c
             </cui-card>
         </cui-modal>
 
@@ -65,6 +69,7 @@ export default {
     },
     data() {
         return {
+            schemaEditHolder: null,
             customMenuItems: [
                 {
                     icon: 'fas fa-image',
@@ -109,7 +114,8 @@ export default {
     },
     methods: {
         showImage(img) {
-            window.open(img, '_blank', "resizable=yes, scrollbars=yes, titlebar=yes, width=800, height=900, top=100, left=10")
+            let url = '/files/' + img.id +'.' + img.extension;
+            window.open(url, '_blank', "resizable=yes, scrollbars=yes, titlebar=yes, width=800, height=900, top=100, left=10")
         },
         addSchema(schema) {
             schema.toBlob(function(blob) {
@@ -118,7 +124,7 @@ export default {
             }.bind(this))
         },
         editSchema(img) {
-            console.log(img);
+            this.schemaEditHolder = img.id +'.' + img.extension;
             this.modal.schemaEdit = true;
             setTimeout(function() {
                 this.$refs.schemaEdit.addImage("/files/" + img.id + '.' + img.extension);
@@ -154,11 +160,10 @@ export default {
                         encounter: this.encounter.id
                     }
                 }
-                let url = await this.$dataService().post.uploads.single(sendData);
-                url = url.replace('/files/','');
-                url = url.split('.')[0];
-                this.images.push(url);
+                let imgData = await this.$dataService().post.uploads.single(sendData);
+                this.images.push(imgData);
                 const index = this.images.length - 1;
+                let url = '/files/' + imgData.id +'.' + imgData.extension;
                 this.$refs.textEditor.editor.commands.insertContent(
                     "<imageTag index='" + index + "' url='" + url + "'></imageTag>"
                 )

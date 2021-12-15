@@ -1,7 +1,7 @@
 <template>
     <div style="height: 100%">
         <div class="cc_shared_schema_editor_cont">
-            <div style="border-right: solid 1px var(--cui-gray-5); overflow: hidden" v-if="!editOnly">
+            <div style="border-right: solid 1px var(--cui-gray-5); overflow: hidden" v-if="!edit">
                 <div class="cc-headers">
                     {{ $lang.schema}}
                     {{ $lang.select}}
@@ -15,7 +15,7 @@
                     </cui-card>
                 </div>
             </div>
-            <div v-bind:class="{spanTwoCols: editOnly}">
+            <div v-bind:class="{spanTwoCols: edit}">
                 <div class="cc-headers">
                     {{ $lang.painter}}
                 </div>
@@ -36,9 +36,8 @@
 
 export default {
     props: {
-        editOnly: {
-            type: Boolean,
-            default: false
+        edit: {
+            default: null
         }
     },
     components: {
@@ -56,8 +55,9 @@ export default {
             }
         }
     },
-    created() {
+    mounted() {
         this.getSchemas();
+        if(this.edit) this.$refs.painter.setFullCanvas(this.edit);
     },
     methods: {
         setSchemaImage(img) {
