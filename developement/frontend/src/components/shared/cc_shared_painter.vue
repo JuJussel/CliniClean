@@ -193,8 +193,8 @@ export default {
     this.outputCanvas.ctx = this.outputCanvas.c.getContext("2d");
     this.mainCanvas.w = this.outputCanvas.c.style.width;
     this.mainCanvas.h = this.outputCanvas.c.style.height;
-    if (this.xRay) {
-      this.setFullCanvas(this.schema)
+    if (this.schema) {
+      this.addImage(this.schema)
     }
     this.mounted = true;
   },
@@ -374,15 +374,8 @@ export default {
       img.onload = function() {
         that.imageCanvas.ctx.drawImage(img, 0, 0);
       };
-<<<<<<< HEAD
 
       img.src = data + "?random=" + this.random;
-=======
-      img.src =this.$GLOBALS.schemaUrl + data + "?random=" + this.random
-      if((this.xRay && this.schema !== 'lung_schema.png')) {
-        img.src =this.$GLOBALS.filesUrl + data + "?random=" + this.random
-      }
->>>>>>> bac954b6cfc505836c02ce3394a14292bb9ad59c
     },
     getFullCanvas() {
       this.imageCanvas.ctx.drawImage(this.outputCanvas.c, 0, 0);

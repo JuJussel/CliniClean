@@ -34,14 +34,14 @@
                 <schema-editor @addSchema="addSchema" @cancel="modal.schema = false"></schema-editor>
             </cui-card>
         </cui-modal>
-        <cui-modal :visible="modal.schemaEdit" closable  @close="modal.schemaEdit = false">
+        <cui-modal :visible="modal.schemaEdit" closable @close="modal.schemaEdit = null">
             <cui-card style="width: 600px; height: 700px" noPadding>
                 <template #header> <h2>{{ $lang.schema }}</h2> </template>
-<<<<<<< HEAD
-                <schema-editor @cancel="modal.schemaEdit = false" editOnly :schema="modal.schemaEdit" ref="schemaEdit"></schema-editor>
-=======
-                <schema-editor @addSchema="addSchema" @cancel="modal.schemaEdit = false" :edit="schemaEditHolder"></schema-editor>
->>>>>>> bac954b6cfc505836c02ce3394a14292bb9ad59c
+                <painter :schema="modal.schemaEdit"></painter>
+                <template #footer>
+                    <cui-button :label="$lang.cancel" plain @click="modal.schemaEdit = null"></cui-button>
+                    <cui-button :label="$lang.save" primary></cui-button>
+                </template>
             </cui-card>
         </cui-modal>
 
@@ -53,11 +53,13 @@
 import imageTag  from "../shared/cc_shared_tiptap_extensions/cc_tiptap_imageTag/cc_tiptap_imageTag";
 import schemaEditor from "../shared/cc_shared_schema_editor.vue"
 import proceduresList from "../shared/cc_shared_procedures_list/cc_shared_procedures_list.vue"
+import painter from "../shared/cc_shared_painter.vue"
 
 export default {
     components: {
         schemaEditor,
-        proceduresList
+        proceduresList,
+        painter
     },
     emits: [
         'update'
@@ -91,7 +93,7 @@ export default {
             editorContent: null,
             modal: {
                 schema: false,
-                schemaEdit: false
+                schemaEdit: null
             },
             timer: null
         }
@@ -124,11 +126,7 @@ export default {
             }.bind(this))
         },
         editSchema(img) {
-            this.schemaEditHolder = img.id +'.' + img.extension;
-            this.modal.schemaEdit = true;
-            setTimeout(function() {
-                this.$refs.schemaEdit.addImage("/files/" + img.id + '.' + img.extension);
-            }.bind(this), 1000)
+            this.modal.schemaEdit = "/files/" + img.id +'.' + img.extension;
         },
         addImage() {
             let img = this.$refs.file.files[0];
