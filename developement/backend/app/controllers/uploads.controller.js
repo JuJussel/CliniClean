@@ -57,3 +57,7 @@ exports.createSingle = async (req, res) => {
   // }
 
 };
+
+exports.updateSingle = (req, res) => {
+  res.send(JSON.parse(req.body.data));
+};

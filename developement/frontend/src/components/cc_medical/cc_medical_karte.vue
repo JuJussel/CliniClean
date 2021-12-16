@@ -37,14 +37,13 @@
         <cui-modal :visible="modal.schemaEdit" closable @close="modal.schemaEdit = null">
             <cui-card style="width: 600px; height: 700px" noPadding>
                 <template #header> <h2>{{ $lang.schema }}</h2> </template>
-                <painter :schema="modal.schemaEdit"></painter>
+                <painter :schema="modal.schemaEdit.file" ref="schemaEditor"></painter>
                 <template #footer>
                     <cui-button :label="$lang.cancel" plain @click="modal.schemaEdit = null"></cui-button>
-                    <cui-button :label="$lang.save" primary></cui-button>
+                    <cui-button :label="$lang.save" primary @click="updateSchema"></cui-button>
                 </template>
             </cui-card>
         </cui-modal>
-
     </div>
 </template>
 
@@ -126,7 +125,10 @@ export default {
             }.bind(this))
         },
         editSchema(img) {
-            this.modal.schemaEdit = "/files/" + img.id +'.' + img.extension;
+            this.modal.schemaEdit = {
+                file: "/files/" + img.id +'.' + img.extension,
+                meta: img
+            }
         },
         addImage() {
             let img = this.$refs.file.files[0];
@@ -142,6 +144,18 @@ export default {
                     images: this.images
                 })
             }.bind(this), 1000)
+        },
+        updateSchema() {
+            let img = this.$refs.schemaEditor.getPainting();
+            img.toBlob(function(blob) {
+                let file = new File([blob], "fileName.jpg", { type: "image/png" });
+                let sendData = {
+                    file: file,
+                    meta: this.modal.schemaEdit.meta
+                }
+                this.$dataService().put.uploads.single(sendData);
+                this.modal.schemaEdit = null;
+            }.bind(this))
         },
         async uploadImage(target, img) {
             let accept = ['.png','.jpeg','.jpg'];

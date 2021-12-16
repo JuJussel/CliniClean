@@ -5,7 +5,7 @@ module.exports = app => {
     const envConfig = require("../../env");
     const File = require("../models/file.model.js");
 
-    var storage = multer.diskStorage(
+    var storagePost = multer.diskStorage(
       {
           destination: envConfig.PROJECT_DIR + '/storage/',
           filename: async function ( req, file, cb ) {
@@ -24,7 +24,20 @@ module.exports = app => {
       }
   );
 
-  const uploadSingle = multer( { storage: storage } );
+  var storagePut = multer.diskStorage(
+    {
+        destination: envConfig.PROJECT_DIR + '/storage/',
+        filename: function ( req, file, cb ) {
+            let meta = JSON.parse(req.body.data);
+            let filename = meta.id + "." + meta.extension;
+            cb( null, filename);
+        }
+    }
+);
+
+
+  const uploadSingle = multer( { storage: storagePost } );
+  const updateSingle = multer( { storage: storagePut } );
 
   app.use(function(req, res, next) {
       res.header(
@@ -39,5 +52,12 @@ module.exports = app => {
     [authJwt.verifyToken, uploadSingle.single('file')],
     uploads.createSingle
   )
+
+  app.put(
+    "/api/uploads/single",
+    [authJwt.verifyToken, updateSingle.single('file')],
+    uploads.updateSingle
+  )
+
 
 }

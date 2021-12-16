@@ -767,6 +767,24 @@ export default {
                                 });
                         });
                     },
+                    //>----Uploads-----//
+                    uploads: {
+                        single: function(data) {
+                            return new Promise(function(resolve, reject) {
+                                http.put("uploads/single", data)
+                                    .then((result) => {
+                                        resolve(result);
+                                    })
+                                    .catch((result) => {
+                                        instance.$cui.notification({
+                                            text: result,
+                                            color: "danger",
+                                        });
+                                        reject;
+                                    });
+                            });
+                        },
+                    }
                 },
                 //-------------------------//
                 //----------Delete---------//
