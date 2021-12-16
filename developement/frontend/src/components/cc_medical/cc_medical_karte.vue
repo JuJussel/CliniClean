@@ -14,10 +14,10 @@
             <div class="cc-image-cont" style="height: calc(40% - 40px)">
                 <cui-card v-for="(img, index) in images" :key="index" no-padding @click="showImage(img)" class="cc-image-card">
                     <div class="cc-image-card-schema-cont">
-                        <img class="cc-image-card-img" :src="'/files/' + img.id +'.' + img.extension" :alt=" $lang.image + index ">
+                        <img class="cc-image-card-img" :src="$GLOBALS.filesUrl + img.id +'.' + img.extension + '?' + random" :alt=" $lang.image + index ">
                         <div class="cc-image-card-text">
                             <span>{{ $lang.image + index }} </span>
-                            <i v-if="img.meta.source === 'schema'" class="fas fa-edit hover-icon" style="margin-left: 10px" @click.stop="editSchema(img)"></i>     
+                            <i v-if="img.meta.source === 'schema'" class="fas fa-edit hover-icon" style="margin-left: 10px" @click.stop="editSchema(img, index)"></i>     
                         </div>
                     </div>
                 </cui-card>
@@ -26,7 +26,13 @@
         </div>
         <div>
             <div class="cc-headers"><b> {{ $lang.procedures }} </b></div>
-            <proceduresList style="height: calc(100% - 40px)" :encounter="encounter" :procedures="procedures" @remove="removeProcedure" />
+            <proceduresList 
+                style="height: calc(100% - 40px)" 
+                :encounter="encounter" 
+                :procedures="procedures" 
+                :random="random" 
+                @remove="removeProcedure" 
+            />
         </div>
         <cui-modal :visible="modal.schema" closable  @close="modal.schema = false">
             <cui-card style="width: 1160px; height: 700px" noPadding>
@@ -94,7 +100,8 @@ export default {
                 schema: false,
                 schemaEdit: null
             },
-            timer: null
+            timer: null,
+            random: 1
         }
     },
     watch: {
@@ -115,7 +122,7 @@ export default {
     },
     methods: {
         showImage(img) {
-            let url = '/files/' + img.id +'.' + img.extension;
+            let url = this.$GLOBALS.filesUrl + img.id +'.' + img.extension;
             window.open(url, '_blank', "resizable=yes, scrollbars=yes, titlebar=yes, width=800, height=900, top=100, left=10")
         },
         addSchema(schema) {
@@ -124,10 +131,11 @@ export default {
                 this.uploadImage('schema', img)
             }.bind(this))
         },
-        editSchema(img) {
+        editSchema(img, index) {
             this.modal.schemaEdit = {
-                file: "/files/" + img.id +'.' + img.extension,
-                meta: img
+                file: this.$GLOBALS.filesUrl + img.id +'.' + img.extension,
+                meta: img,
+                index: index
             }
         },
         addImage() {
@@ -147,13 +155,14 @@ export default {
         },
         updateSchema() {
             let img = this.$refs.schemaEditor.getPainting();
-            img.toBlob(function(blob) {
+            img.toBlob( async function(blob) {
                 let file = new File([blob], "fileName.jpg", { type: "image/png" });
                 let sendData = {
                     file: file,
                     meta: this.modal.schemaEdit.meta
-                }
-                this.$dataService().put.uploads.single(sendData);
+                } 
+                await this.$dataService().put.uploads.single(sendData);
+                this.random++;
                 this.modal.schemaEdit = null;
             }.bind(this))
         },
@@ -175,7 +184,7 @@ export default {
                 let imgData = await this.$dataService().post.uploads.single(sendData);
                 this.images.push(imgData);
                 const index = this.images.length - 1;
-                let url = '/files/' + imgData.id +'.' + imgData.extension;
+                let url = this.$GLOBALS.filesUrl + imgData.id +'.' + imgData.extension;
                 this.$refs.textEditor.editor.commands.insertContent(
                     "<imageTag index='" + index + "' url='" + url + "'></imageTag>"
                 )

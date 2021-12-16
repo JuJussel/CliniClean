@@ -38,7 +38,8 @@
                 <div>
                     <component 
                         :is="expand.cat.label" 
-                        :item="expand" 
+                        :item="expand"
+                        :random="random"
                         @update="item => expand.varData = item"
                         v-if="expand.cat.code !== '40' || expand.cat.code !== '50'"
                     />
@@ -87,6 +88,9 @@ export default {
         },
         encounter: {
             default: null
+        },
+        random: {
+            default: 1
         }
     },
     data() {
