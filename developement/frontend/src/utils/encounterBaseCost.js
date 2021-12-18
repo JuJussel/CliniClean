@@ -9,6 +9,11 @@ dayjs.extend(weekday);
 dayjs.extend(customParseFormat);
 
 export default async (encounter, baseItems, clinicInfo) => {
+
+    if (encounter.type === 6) return[];
+
+    console.log(encounter);
+
     const date = {
         time: Date.now(),
         day: dayjs().day(),
