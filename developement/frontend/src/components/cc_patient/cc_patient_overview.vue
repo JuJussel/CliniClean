@@ -22,7 +22,7 @@
 
 <script>
 import patientList from "../shared/cc_shared_patient_list.vue";
-import patientInfo from "../shared/cc_shared_patient_info.vue"
+import patientInfo from "../shared/cc_shared_patient_info_basic/cc_shared_patient_info.vue"
 
 export default {
   emits: ['newPatient', 'editPatient'],
