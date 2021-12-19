@@ -14,6 +14,7 @@
             <encounterList 
                 :key="listResetter"
                 @showEncounter="showEncounter"
+                @showPatientMedical="showPatientMedical"
                 ref="list"
             />
         </div>
@@ -21,6 +22,7 @@
             <component
              :is="tabContent(tab.value)"
              :encounter="tab.meta"
+             :patient="tab.meta"
              @cancel="closeTab"
              @examinationClosed="examinationClosed()"
             ></component>
@@ -31,12 +33,14 @@
 
 <script>
 import encounterList from "./cc_medical_list.vue";
-import examination from "./cc_medical_encounter.vue"
+import examination from "./cc_medical_encounter.vue";
+import patientMedical from "../cc_patient_medical/cc_patient_medical_main.vue"
 
 export default {
     components: {
         encounterList,
-        examination
+        examination,
+        patientMedical
     },
     data() {
         return {
@@ -52,11 +56,25 @@ export default {
         showEncounter(enc) {
             let key = this.dynamicTabs.length;
             let item = {
-                label: this.$lang.examination + enc.row.patient.name,
+                label: this.$lang.examination + this.$lang.spacer + enc.row.patient.name,
                 value: 'examination_' + key,
                 icon: 'fas fa-clipboard',
                 index: key,
                 meta: enc.row
+            };
+            this.dynamicTabs.push(item);
+            this.$nextTick(() => {
+                this.activeTab = item.value;
+            })
+        },
+        showPatientMedical(pat) {
+            let key = this.dynamicTabs.length;
+            let item = {
+                label: this.$lang.patientMedicalRecord + this.$lang.spacer + pat.name,
+                value: 'patientMedical_' + key,
+                icon: 'fas fa-clipboard',
+                index: key,
+                meta: pat
             };
             this.dynamicTabs.push(item);
             this.$nextTick(() => {

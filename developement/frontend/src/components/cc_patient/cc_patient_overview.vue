@@ -51,8 +51,8 @@ export default {
     };
   },
   methods: {
-    showPatientQuick(id) {
-      this.selectedPatientId = parseInt(id);
+    showPatientQuick(pat) {
+      this.selectedPatientId = parseInt(pat.id);
     },
     newPatient() {
       this.$emit('newPatient')

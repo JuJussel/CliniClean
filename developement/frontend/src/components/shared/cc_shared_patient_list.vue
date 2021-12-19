@@ -56,7 +56,7 @@ export default {
       this.patientList = await this.$dataService().get.patient.search({ name: input, id: input })
     },
     selectPatient(pat) {
-      this.$emit('selected', pat.row.id)
+      this.$emit('selected', pat.row)
     },
   },
 };

@@ -43,7 +43,7 @@
             </cui-table>
         </cui-card>
         <cui-card>
-            <patientList></patientList>
+            <patientList @selected="showPatientMedical"></patientList>
         </cui-card>
     </div>
 </template>
@@ -61,7 +61,8 @@ export default {
         this.getEncounterTypes();
     },
     emits: [
-        'showEncounter'
+        'showEncounter',
+        'showPatientMedical'
     ],
     data() {
         return {
@@ -105,6 +106,9 @@ export default {
             } else {
                 return null
             }
+        },
+        showPatientMedical(patient) {
+            this.$emit('showPatientMedical', patient);
         }
     },
     computed: {
