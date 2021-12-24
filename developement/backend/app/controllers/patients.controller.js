@@ -81,6 +81,25 @@ exports.findPayments = (req,res) => {
   })
 };
 
+exports.findEncounters = (req,res) => {
+  
+  let patientId = req.params.patientId;
+
+  Encounter.find({patient: patientId},'date type doctor payment')
+  .exec(
+    (err, data) => {
+      if (err) {
+        $logger.error(err)
+        res.status(500).send({
+          message: "Error retrieving Encounter"
+        });
+      } else {
+        res.send(data);
+      }
+    })
+
+}
+
 exports.findOne = (req, res) => {
   let id = req.params.patientId;
 

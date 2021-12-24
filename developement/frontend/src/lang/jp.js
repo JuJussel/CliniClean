@@ -105,6 +105,7 @@ export default {
     order: "オーダー",
     orderChoose: "オーダーを選択してください",
     openPayments: "未収金の会計一覧",
+    outPatient: "外来",
     painter: "ペインター",
     patient: "患者",
     patientId: "患者番号",

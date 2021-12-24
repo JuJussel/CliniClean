@@ -151,6 +151,21 @@ export default {
                                         reject;
                                     });
                             });
+                        },
+                        encounters: function(id) {
+                            return new Promise(function(resolve, reject) {
+                                http.get("patients/" + id + "/encounters")
+                                    .then((result) => {
+                                        resolve(result);
+                                    })
+                                    .catch((result) => {
+                                        instance.$cui.notification({
+                                            text: result,
+                                            color: "danger",
+                                        });
+                                        reject;
+                                    });
+                            });   
                         }
                     },
                     //>----Encounters-----//

@@ -2,7 +2,7 @@
     <div style="height: 100%">
         <cui-table :data="patientData.encounters" >
             <template #header>
-                <h2> {{ $lang.karte }} {{ $lang.valid }} </h2>
+                <h2> {{ $lang.karte }} {{ $lang.history }} </h2>
             </template>
             <template #thead>
                 <cui-th> {{ $lang.date }} </cui-th>
@@ -41,6 +41,11 @@ export default {
     emits: [
         'update'
     ],
+    data() {
+        return {
+            encounters: []
+        }
+    },
     methods: {
         parseType(type) {
             return this.$store.getters.encounterTypes.find(item => item.id === type).name;

@@ -4,6 +4,20 @@
             <basic :patientId="patientId" />
         </div>
         <div class="cc-local-main-grid">
+            <cui-table :data="encounterHistory">
+                <template #header>
+                    <h2> {{ $lang.outPatient }} {{ $lang.history }} </h2>
+                </template>
+                <template #thead>
+                    <cui-th> {{ $lang.date }} </cui-th>
+                    <cui-th> {{ $lang.encounterType  }} </cui-th>
+                </template>
+                <template v-slot:row="{ row }">
+                    <td> {{ $parseDate(row.date) }} </td>
+                    <td> {{ parseType(row.type) }} </td>
+                </template>
+
+            </cui-table>
             <div style="padding: 10px">
                 <h2>地図</h2>
                 <GMapMap
@@ -12,6 +26,22 @@
                     map-type-id="terrain"
                 />
             </div>
+
+            <cui-table :data="encounterReservations">
+                <template #header>
+                    <h2> {{ $lang.reservation }} </h2>
+                </template>
+                <template #thead>
+                    <cui-th> {{ $lang.date }} </cui-th>
+                    <cui-th> {{ $lang.encounterType  }} </cui-th>
+                </template>
+                <template v-slot:row="{ row }">
+                    <td> {{ $parseDate(row.date) }} </td>
+                    <td> {{ parseType(row.type) }} </td>
+                </template>
+
+            </cui-table>
+
         </div>
     </div>
 </template>
@@ -29,6 +59,30 @@ export default {
     },
     components: {
         basic
+    },
+    async created() {
+        this.encounters = await this.$dataService().get.patient.encounters(this.patientId)
+    },
+    data() {
+        return {
+            encounters: []
+        }
+    },
+    computed: {
+        encounterReservations() {
+            let today = new Date().toISOString();
+            return this.encounters.filter(item => item.date > today)
+        },
+        encounterHistory() {
+            let today = new Date().toISOString();
+            return this.encounters.filter(item => item.date < today)
+        }
+
+    },
+    methods: {
+        parseType(type) {
+            return this.$store.getters.encounterTypes.find(item => item.id === type).name;
+        }
     }
 }
 </script>
@@ -36,9 +90,16 @@ export default {
 <style scoped>
     .cc-local-main-grid {
         display: grid;
-        grid-template-columns: 30% 30% 40%;
+        grid-template-columns: 40% 60%;
         grid-template-rows: 50% 50%;
         flex-grow: 1;
         height: 100%;
+        margin-left: 20px
+    }
+    .vue-map-container {
+        height: 100%;
+        border-radius: 15px;
+        overflow: hidden;
+        margin: 10px;
     }
 </style>
