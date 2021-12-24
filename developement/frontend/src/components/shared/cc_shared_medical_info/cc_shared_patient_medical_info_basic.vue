@@ -164,7 +164,7 @@ export default {
     .cc-scoped-wrapper {
         display: grid;
         grid-template-columns: calc(50% - 10px) auto;
-        grid-template-rows: 200px auto;
+        grid-template-rows: 210px auto;
         gap: 20px;
     }
 </style>

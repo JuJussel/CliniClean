@@ -10,15 +10,14 @@
                     :index="index"
                 />
             </cui-button-group>
-            <keep-alive>
-                <div style="position:relative; overflow: auto; flex: 1; margin-top: 10px; height: calc(100% - 60px)">
-                    <div class="loader" v-if="loading" />
+            <div style="position:relative; overflow: auto; flex: 1; margin-top: 10px; height: calc(100% - 60px)">
+                <keep-alive>
                     <component 
                         v-bind:is="activeTab" 
                         :patientId="patient._id" 
                     />
-                </div>
-            </keep-alive>
+                </keep-alive>
+            </div>
         </cui-card>
     </div>
 </template>
@@ -26,6 +25,7 @@
 <script>
 
 import patientBasic from "../cc_shared_patient_info_basic/cc_shared_patient_info_basic_dashboard.vue"
+import patientMedical from "./cc_shared_patient_medical_dashboard.vue"
 
 export default {
     props: {
@@ -34,7 +34,8 @@ export default {
         }
     },
     components: {
-        patientBasic
+        patientBasic,
+        patientMedical
     },
     data() {
         return {
