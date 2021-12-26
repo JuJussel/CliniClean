@@ -1,22 +1,33 @@
 <template>
     <div style="height: 100%">
         <cui-card>
-            <cui-button-group v-model="activeTab" class="cc_patient_medical_info_bg">
-                <cui-button-group-item
-                    v-for="(tab, index) in tabs" :key="index"
-                    :label="tab.label"
-                    :value="tab.name"
-                    :icon="tab.icon"
-                    :index="index"
-                />
-            </cui-button-group>
-            <div style="position:relative; overflow: auto; flex: 1; margin-top: 10px; height: calc(100% - 60px)">
-                <keep-alive>
-                    <component 
-                        v-bind:is="activeTab" 
-                        :patientId="patient._id" 
-                    />
-                </keep-alive>
+            <div class="loader" v-if="loading" />
+            <div v-else style="height: 100%">
+                <div style="display: flex; align-items: center">
+                    <cui-tag> {{ patient.id }} </cui-tag>
+                    <h2> {{ patient.name }} </h2>
+                    <h3 style="margin-left: 40px"> {{ $dayjs().diff(this.patient.birthdate, 'year') }} </h3>
+                    {{ $lang.yearsAge + $lang.jpOnly.no }}
+                    <h3> {{ patientData.gender == 1 ? $lang.male : $lang.female }} </h3>
+                    <cui-button-group v-model="activeTab" style="margin-left: 40px">
+                        <cui-button-group-item
+                            v-for="(tab, index) in tabs" :key="index"
+                            :label="tab.label"
+                            :value="tab.name"
+                            :icon="tab.icon"
+                            :index="index"
+                        />
+                    </cui-button-group>
+                </div>
+                <div style="position:relative; overflow: auto; flex: 1; margin-top: 10px; height: calc(100% - 125px)">
+                    <keep-alive>
+                        <component
+                            v-bind:is="activeTab"
+                            :patientId="patient._id"
+                            :patientData="patientData"
+                        />
+                    </keep-alive>
+                </div>
             </div>
         </cui-card>
     </div>
@@ -37,13 +48,25 @@ export default {
         patientBasic,
         patientMedical
     },
+    created() {
+        this.getPatientMedicalData();
+    },
     data() {
         return {
             activeTab: "patientBasic",
             tabs: [
                 {label: this.$lang.basic, name: 'patientBasic', icon: 'fas fa-info'},
                 {label: 'medical', name: 'patientMedical', icon: 'fas fa-info'}
-            ]
+            ],
+            patientData: null,
+            loading: true
+        }
+    },
+    methods: {
+        async getPatientMedicalData() {
+            this.loading = true;
+            this.patientData = await this.$dataService().get.patient.medicalHistory(this.patient._id);
+            this.loading = false;
         }
     }
 }

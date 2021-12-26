@@ -1,6 +1,6 @@
 <template>
         <div>
-            <cui-table :data="patientDetails" square :loading="!patientData">
+            <cui-table :data="patientDetails" :loading="!patientData" :outline="outline" :square="square">
                 <template #header>
                     <div style="display: flex; align-items: center">
                         <h2> {{ $lang.basic }} </h2>
@@ -12,7 +12,7 @@
                     <td>{{ row.value }}</td>
                 </template>
             </cui-table>
-            <cui-table :data="patientData?.insurance[0][0] ? patientData?.insurance[0] : patientData?.insurance" square :loading="!patientData">
+            <cui-table :data="patientData?.insurance[0][0] ? patientData?.insurance[0] : patientData?.insurance" :outline="outline" :square="square" :loading="!patientData" style="margin-top: 40px">
                 <template #header>
                     <h2> {{ $lang.insurance }} </h2>
                 </template>
@@ -45,6 +45,14 @@ export default {
         patientId: {
             default: null,
             type: Number
+        },
+        outline: {
+            default: false,
+            type: Boolean
+        },
+        square: {
+            default: true,
+            type: Boolean
         }
     },
     data() {
@@ -83,7 +91,7 @@ export default {
                 {label: this.$lang.patientId, value: this.patientData?.id},
                 {label: this.$lang.name, value: this.patientData?.name},
                 {label: this.$lang.birthdate, value: this.$dayjs(this.patientData?.birthdate).format('YYYY年MM月DD日')},
-                {label: this.$lang.gender, value: this.patientData?.gender},
+                {label: this.$lang.gender, value: this.patientData?.gender == 1 ? this.$lang.male : this.$lang.female},
                 {label: this.$lang.address, value: this.patientData?.address?.zip + " " + this.patientData?.address?.addr},
                 {label: this.$lang.occupation, value: this.patientData?.occupation},
                 {label: this.$lang.workOrSchoolName, value: this.patientData?.company?.name},

@@ -36,7 +36,16 @@ export default {
     props: {
         patientData: {
             default: null
+        },
+        outline: {
+            default: false,
+            type: Boolean
+        },
+        square: {
+            default: true,
+            type: Boolean
         }
+
     },
     emits: [
         'update'

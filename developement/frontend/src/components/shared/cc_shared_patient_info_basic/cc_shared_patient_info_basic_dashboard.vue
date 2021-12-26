@@ -1,10 +1,10 @@
 <template>
     <div style="display: flex; height: 100%">
         <div>
-            <basic :patientId="patientId" />
+            <basic :patientId="patientId" outline :square="false"/>
         </div>
         <div class="cc-local-main-grid">
-            <cui-table :data="encounterHistory">
+            <cui-table :data="encounterHistory" outline>
                 <template #header>
                     <h2> {{ $lang.outPatient }} {{ $lang.history }} </h2>
                 </template>
@@ -18,6 +18,7 @@
                 </template>
 
             </cui-table>
+            
             <div style="padding: 10px">
                 <h2>地図</h2>
                 <GMapMap
@@ -27,7 +28,7 @@
                 />
             </div>
 
-            <cui-table :data="encounterReservations">
+            <cui-table :data="encounterReservations" outline>
                 <template #header>
                     <h2> {{ $lang.reservation }} </h2>
                 </template>
@@ -90,11 +91,13 @@ export default {
 <style scoped>
     .cc-local-main-grid {
         display: grid;
-        grid-template-columns: 40% 60%;
-        grid-template-rows: 50% 50%;
+        grid-template-columns: 40% calc(60% - 80px);
+        grid-template-rows: calc(50% - 21px) calc(50% - 21px);
+        column-gap: 40px;
+        row-gap: 40px;
         flex-grow: 1;
         height: 100%;
-        margin-left: 20px
+        margin-left: 40px
     }
     .vue-map-container {
         height: 100%;

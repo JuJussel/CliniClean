@@ -84,7 +84,7 @@
 import karte from "./cc_medical_karte.vue";
 import proceduresBrowser from "../shared/cc_shared_procedures_browser.vue";
 import baseCostUtil from "../../utils/encounterBaseCost";
-import patientMedicalInfo from "../shared/cc_shared_medical_info/cc_shared_patient_medical_info_main.vue"
+import patientMedicalInfo from "../shared/cc_shared_medical_info_compact/cc_shared_patient_medical_info_main.vue"
 import procedureCheck from "../../utils/procedureCheck"
 
 export default {

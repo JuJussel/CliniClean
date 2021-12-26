@@ -202,6 +202,7 @@ export default {
     workOrSchool: "会社・学校",
     workOrSchoolName: "会社・学校名",
     year: "年",
+    yearsAge: "歳",
     zipCode: "郵便番号",
     xRay: "X線番号",
     xRayId: "X線番号",
@@ -241,4 +242,7 @@ export default {
         monthSeparator: "月",
         daySeparator: "日",
     },
+    jpOnly: {
+        no: "の"
+    }
 };

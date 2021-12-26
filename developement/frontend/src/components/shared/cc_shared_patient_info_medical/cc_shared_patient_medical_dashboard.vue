@@ -1,25 +1,23 @@
 <template>
     <div style="height: 100%">
-        <div class="loader" v-if="loading" />
-        <div v-else class="cc-local-main-grid">
-            <overview :patientData="patientData"/>
-            <encounters :patientData="patientData" />
-            <diseases :patientData="patientData" />
+        <div class="cc-local-main-grid">
+            <overview :patientData="patientData" outline :square="false"/>
+            <encounters :patientData="patientData" outline :square="false"/>
+            <diseases :patientData="patientData" outline :square="false"/>
         </div>
     </div>
 </template>
 
 <script>
 
-import overview from "../cc_shared_medical_info/cc_shared_patient_medical_info_basic.vue"
-import diseases from "../cc_shared_medical_info/cc_shared_patient_medical_info_diseases.vue"
-import encounters from "../cc_shared_medical_info/cc_shared_patient_medical_info_encounters.vue"
+import overview from "../cc_shared_medical_info_compact/cc_shared_patient_medical_info_basic.vue"
+import diseases from "../cc_shared_medical_info_compact/cc_shared_patient_medical_info_diseases.vue"
+import encounters from "../cc_shared_medical_info_compact/cc_shared_patient_medical_info_encounters.vue"
 
 export default {
     props: {
-        patientId: {
-            default: null,
-            type: Number
+        patientData: {
+            default: null
         }
     },
     components: {
@@ -27,22 +25,12 @@ export default {
         diseases,
         encounters
     },
-    created() {
-        this.getPatientData();
-    },
     data() {
         return {
-            patientData: null,
-            loading: true
         }
     },
     methods: {
-        async getPatientData() {
-            this.loading = true;
-            this.patientData = await this.$dataService().get.patient.medicalHistory(this.patientId);
-            this.loading = false;
-        }
-    },
+    }
 }
 </script>
 
