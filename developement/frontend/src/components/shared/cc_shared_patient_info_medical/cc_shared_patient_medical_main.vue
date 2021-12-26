@@ -1,35 +1,34 @@
 <template>
     <div style="height: 100%">
-        <cui-card>
+        <cui-card style="height: 75px; overflow: hidden">
             <div class="loader" v-if="loading" />
-            <div v-else style="height: 100%">
-                <div style="display: flex; align-items: center">
-                    <cui-tag> {{ patient.id }} </cui-tag>
-                    <h2> {{ patient.name }} </h2>
-                    <h3 style="margin-left: 40px"> {{ $dayjs().diff(this.patient.birthdate, 'year') }} </h3>
-                    {{ $lang.yearsAge + $lang.jpOnly.no }}
-                    <h3> {{ patientData.gender == 1 ? $lang.male : $lang.female }} </h3>
-                    <cui-button-group v-model="activeTab" style="margin-left: 40px">
-                        <cui-button-group-item
-                            v-for="(tab, index) in tabs" :key="index"
-                            :label="tab.label"
-                            :value="tab.name"
-                            :icon="tab.icon"
-                            :index="index"
-                        />
-                    </cui-button-group>
-                </div>
-                <div style="position:relative; overflow: auto; flex: 1; margin-top: 10px; height: calc(100% - 125px)">
-                    <keep-alive>
-                        <component
-                            v-bind:is="activeTab"
-                            :patientId="patient._id"
-                            :patientData="patientData"
-                        />
-                    </keep-alive>
-                </div>
+            <div v-else style="display: flex; align-items: center">
+                <cui-tag> {{ patient.id }} </cui-tag>
+                <h2> {{ patient.name }} </h2>
+                <h2 style="margin-left: 40px"> {{ $dayjs().diff(this.patient.birthdate, 'year') }} </h2>
+                {{ $lang.yearsAge + $lang.jpOnly.no }}
+                <h2> {{ patientData.gender == 1 ? $lang.male : $lang.female }} </h2>
+                <cui-button-group v-model="activeTab" style="margin-left: 40px">
+                    <cui-button-group-item
+                        v-for="(tab, index) in tabs" :key="index"
+                        :label="tab.label"
+                        :value="tab.name"
+                        :icon="tab.icon"
+                        :index="index"
+                    />
+                </cui-button-group>
             </div>
         </cui-card>
+        <div class="loader" v-if="loading" />
+        <div v-else style="position:relative; overflow: auto; flex: 1; height: calc(100% - 95px)">
+            <keep-alive>
+                <component
+                    v-bind:is="activeTab"
+                    :patientId="patient._id"
+                    :patientData="patientData"
+                />
+            </keep-alive>
+        </div>
     </div>
 </template>
 

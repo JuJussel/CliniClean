@@ -1,10 +1,10 @@
 <template>
-    <div style="display: flex; height: 100%">
-        <div>
-            <basic :patientId="patientId" outline :square="false"/>
-        </div>
-        <div class="cc-local-main-grid">
-            <cui-table :data="encounterHistory" outline>
+    <div class="cc-local-main-grid">
+        <cui-card style="grid-row: 1/3" noPadding>
+            <basic :patientId="patientId"/>
+        </cui-card>
+        <cui-card noPadding>
+            <cui-table :data="encounterHistory">
                 <template #header>
                     <h2> {{ $lang.outPatient }} {{ $lang.history }} </h2>
                 </template>
@@ -16,19 +16,20 @@
                     <td> {{ $parseDate(row.date) }} </td>
                     <td> {{ parseType(row.type) }} </td>
                 </template>
-
             </cui-table>
-            
-            <div style="padding: 10px">
-                <h2>地図</h2>
-                <GMapMap
-                    :center="{lat: 51.093048, lng: 6.842120}"
-                    :zoom="7"
-                    map-type-id="terrain"
-                />
-            </div>
+        </cui-card>
+        
+        <cui-card>
+            <h2>地図</h2>
+            <GMapMap
+                :center="{lat: 51.093048, lng: 6.842120}"
+                :zoom="7"
+                map-type-id="terrain"
+            />
+        </cui-card>
 
-            <cui-table :data="encounterReservations" outline>
+        <cui-card noPadding>
+            <cui-table :data="encounterReservations">
                 <template #header>
                     <h2> {{ $lang.reservation }} </h2>
                 </template>
@@ -40,10 +41,8 @@
                     <td> {{ $parseDate(row.date) }} </td>
                     <td> {{ parseType(row.type) }} </td>
                 </template>
-
             </cui-table>
-
-        </div>
+        </cui-card>
     </div>
 </template>
 
@@ -91,16 +90,12 @@ export default {
 <style scoped>
     .cc-local-main-grid {
         display: grid;
-        grid-template-columns: 40% calc(60% - 80px);
-        grid-template-rows: calc(50% - 21px) calc(50% - 21px);
-        column-gap: 40px;
-        row-gap: 40px;
-        flex-grow: 1;
+        grid-template-columns: 700px auto auto;
+        grid-template-rows: 50% 50%;
         height: 100%;
-        margin-left: 40px
     }
     .vue-map-container {
-        height: 100%;
+        height: calc(100% - 60px);
         border-radius: 15px;
         overflow: hidden;
         margin: 10px;
