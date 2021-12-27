@@ -88,6 +88,7 @@ export default {
     medical: "医療",
     medicationHistory: "薬剤歴",
     medicalHistory: "既往歴",
+    medicalInfo: "医療情報",
     memo: "メモ",
     month: "月",
     name: "名前",

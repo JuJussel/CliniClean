@@ -1,6 +1,6 @@
 <template>
     <div style="height: 100%">
-        <cui-card style="height: 75px; overflow: hidden">
+        <cui-card style="height: 80px; overflow: hidden">
             <div class="loader" v-if="loading" />
             <div v-else style="display: flex; align-items: center">
                 <cui-tag> {{ patient.id }} </cui-tag>
@@ -55,7 +55,7 @@ export default {
             activeTab: "patientBasic",
             tabs: [
                 {label: this.$lang.basic, name: 'patientBasic', icon: 'fas fa-info'},
-                {label: 'medical', name: 'patientMedical', icon: 'fas fa-info'}
+                {label: this.$lang.medicalInfo, name: 'patientMedical', icon: 'fas fa-info'}
             ],
             patientData: null,
             loading: true

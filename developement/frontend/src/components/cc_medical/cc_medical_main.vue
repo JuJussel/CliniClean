@@ -25,6 +25,7 @@
              :patient="tab.meta"
              @cancel="closeTab"
              @examinationClosed="examinationClosed()"
+             @showPatient="showPatientMedical"
             ></component>
         </div>
     </div>

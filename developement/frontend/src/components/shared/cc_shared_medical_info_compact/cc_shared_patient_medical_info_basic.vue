@@ -1,25 +1,24 @@
 <template>
     <div class="cc-scoped-wrapper">
-        <cui-table :data="basicTable">
-            <template #header>
-                <h2> {{ this.patientData.name }} </h2>
-                <cui-button icon="fas fa-external-link-alt" plain />
-            </template>
-            <template v-slot:row="{ row }">
-                <td> {{ row.label }} </td>
-                <td> {{ row.value }} </td>
-            </template>
-        </cui-table>
-        <cui-table :data="medicalTable">
-            <template #header>
+        <div style="display: flex; align-items: center; margin-bottom:">
+            <span style="width: 150px; display: flex; align-items: center">
                 <h2> {{ $lang.basic }} </h2>
                 <cui-button icon="fas fa-edit" plain @click="showBasicModal" />
-            </template>
-            <template v-slot:row="{ row }">
-                <td> {{ row.label }} </td>
-                <td> {{ row.value }} </td>
-            </template>
-        </cui-table>
+            </span>
+            <span style="display: flex; align-items: center; margin-right: 20px">
+                <span> {{ $lang.bloodType }} </span>
+                <cui-tag> {{ patientData.bloodType || this.$lang.unknown }} </cui-tag>
+            </span>
+            <span style="display: flex; align-items: center; margin-right: 20px">
+                <span> {{ $lang.alcohol }} </span>
+                <cui-tag> {{ patientData.alcohol || this.$lang.unknown }} </cui-tag>
+            </span>
+            <span style="display: flex; align-items: center; margin-right: 20px">
+                <span> {{ $lang.tabaco }} </span>
+                <cui-tag> {{ patientData.tabaco || this.$lang.unknown }} </cui-tag>
+            </span>
+
+        </div>
         <cui-table style="grid-column-end: span 2">
             <template #header>
                 <h2> {{ $lang.note }} </h2>
@@ -168,12 +167,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-    .cc-scoped-wrapper {
-        display: grid;
-        grid-template-columns: calc(50% - 10px) auto;
-        grid-template-rows: 210px auto;
-        gap: 20px;
-    }
-</style>

@@ -1,14 +1,23 @@
 <template>
-    <div class="control-floater">
-        <div>
-            <cui-button plain :label="$lang.view" icon="fas fa-columns"></cui-button>
+    <cui-card style="height: 80px">
+
+        <div style="display: flex; align-items: center; justify-content: space-between; height: 100%">
+            <div style="display: flex; align-items: center; height: 100%">
+                <cui-tag> {{ $store.getters.activePatientHistory?.id }} </cui-tag>
+                <h2> {{ $store.getters.activePatientHistory?.name }} </h2>
+                <cui-button icon="fas fa-external-link-alt" plain @click="showPatient"/>
+                <h2 style="margin-left: 40px"> {{ $dayjs().diff(this.$store.getters.activePatientHistory?.birthdate, 'year') }} </h2>
+                {{ $lang.yearsAge + $lang.jpOnly.no }}
+                <h2 style="margin-right: 40px"> {{ $store.getters.activePatientHistory?.gender == 1 ? $lang.male : $lang.female }} </h2>
+            </div>
+            <div style="display: flex; align-items: center; height: 100%">
+                <cui-button plain :label="$lang.view" icon="fas fa-columns"></cui-button>
+                <cui-button :label="$lang.reservation" icon="fas fa-calendar-plus"></cui-button>
+                <cui-button warn :label="$lang.pause" icon="fas fa-pause"></cui-button>
+                <cui-button primary :label="$lang.finish" icon="fas fa-check-double" @click="confirmExaminationClose = true" :disabled="!encounterState"></cui-button>
+            </div>
         </div>
-        <div style="display: flex">
-            <cui-button :label="$lang.reservation" icon="fas fa-calendar-plus"></cui-button>
-            <cui-button warn :label="$lang.pause" icon="fas fa-pause"></cui-button>
-            <cui-button primary :label="$lang.finish" icon="fas fa-check-double" @click="confirmExaminationClose = true" :disabled="!encounterState"></cui-button>
-        </div>
-    </div>
+    </cui-card>
     <div class="cc-medical-examination-main">
         <cui-card>
             <patientMedicalInfo
@@ -95,7 +104,8 @@ export default {
     },
     emits: [
         'cancel',
-        'examinationClosed'
+        'examinationClosed',
+        'showPatient'
     ],
     props: {
         encounter: {
@@ -123,6 +133,9 @@ export default {
         };
     },
     methods: {
+        showPatient() {
+            this.$emit("showPatient", this.encounter.patient);
+        },
         async prepareEncounter() {
             let encounterId = this.encounter.id;
 
@@ -198,7 +211,7 @@ export default {
 
 <style scoped>
     .cc-medical-examination-main {
-        height: 100%;
+        height: calc(100% - 100px);
         display: grid;
         grid-template-rows: 100%;
         grid-template-columns: 30% auto 400px;
@@ -207,7 +220,7 @@ export default {
         position: absolute;
         right: 0;
         top: 0;
-        width: 430px;
+        width: 850px;
         height: 45px;
         margin: 5px 10px;
         border-radius: 10px;
@@ -215,6 +228,7 @@ export default {
         box-shadow: 0 2px 12px 0 rgb(0 0 0 / 30%);
         display: flex;
         justify-content: space-between;
+        align-items: center;
     }
     .cc-medical-exam-loader-cont {
         position: relative;

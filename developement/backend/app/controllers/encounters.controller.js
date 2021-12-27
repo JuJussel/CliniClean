@@ -35,7 +35,7 @@ exports.findRange = (req, res) => {
   Encounter.find({date: {$gte: start, $lt: end}}, '-karte -editHistory -baseCost')
   .populate({
     path: 'patient',
-    select: 'name'
+    select: 'name birthdate'
     })
     .exec(
     
