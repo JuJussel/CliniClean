@@ -3,6 +3,7 @@ let config = {
     schemaUrl: "/assets/schemas/",
     assetsUrl: "/assets/", //Images
     filesUrl: "/files/", //User created assets
+    googleMapsApiKey: 'Store in local file to avoid upload to version management'
 }
 
 import local from "./local";

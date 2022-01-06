@@ -22,6 +22,20 @@
                 @mousedown.stop="resizeHandler"
             />
             <cui-card>
+                    <cui-button-group v-model="activeViewTab" class="cc_patient_medical_info_bg">
+                    <cui-button-group-item
+                        v-for="(tab, index) in viewerTabs" :key="index"
+                        :label="tab.label"
+                        :value="tab.name"
+                        :icon="tab.icon"
+                        :index="index"
+                    />
+                </cui-button-group>
+                <keep-alive>
+                    <div style="position:relative; overflow: auto; flex: 1; margin-top: 10px">
+                        <component v-bind:is="activeViewTab" :data="patientData" :config="dataExplorer.config" v-if="patientData"></component>
+                    </div>
+                </keep-alive>
             </cui-card>
         </div>
     </div>
@@ -36,6 +50,7 @@ import perscription from "../cc_shared_medical_info_compact/cc_shared_patient_me
 import procedures from "../cc_shared_medical_info_compact/cc_shared_patient_medical_info_procedures.vue"
 import diseases from "../cc_shared_medical_info_compact/cc_shared_patient_medical_info_diseases.vue"
 import encounters from "../cc_shared_medical_info_compact/cc_shared_patient_medical_info_encounters.vue"
+import dataExplorer from "./cc_shared_patient_medical_data_explorer.vue"
 
 export default {
     props: {
@@ -44,10 +59,13 @@ export default {
         }
     },
     components: {
-        basic, vitals, exams, perscription, procedures, diseases, encounters
+        basic, vitals, exams, perscription, procedures, diseases, encounters, dataExplorer
     },
     data() {
         return {
+            dataExplorer: {
+                config: null
+            },
             infoTabs: [
                 {label: this.$lang.basic, name: "basic", icon: "fas fa-info"},
                 {label: this.$lang.vitals, name: "vitals", icon: "fas fa-chart-line"},
@@ -57,7 +75,12 @@ export default {
                 {label: this.$lang.diseaseName, name: "diseases", icon: "fas fa-disease"},
                 {label: this.$lang.karteHistory, style: "padding: 0", name: "encounters", icon: "fas fa-file-alt"}
             ],
+            viewerTabs: [
+                {label: this.$lang.basic, name: "dataExplorer", icon: "fas fa-info"},
+                {label: this.$lang.basic, name: "karte", icon: "fas fa-info"}
+            ],
             activeInfoTab: "vitals",
+            activeViewTab: "dataExplorer",
             resizeData: {
                 start: null,
                 startWidth: 900,
