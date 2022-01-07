@@ -33,7 +33,7 @@
                 </cui-button-group>
                 <keep-alive>
                     <div style="position:relative; overflow: auto; flex: 1; margin-top: 10px">
-                        <component v-bind:is="activeViewTab" :data="patientData" :config="dataExplorer.config" v-if="patientData"></component>
+                        <component v-bind:is="activeViewTab" :patientData="patientData" :options="dataExplorer.options" v-if="patientData"></component>
                     </div>
                 </keep-alive>
             </cui-card>
@@ -64,7 +64,7 @@ export default {
     data() {
         return {
             dataExplorer: {
-                config: null
+                options: null
             },
             infoTabs: [
                 {label: this.$lang.basic, name: "basic", icon: "fas fa-info"},
