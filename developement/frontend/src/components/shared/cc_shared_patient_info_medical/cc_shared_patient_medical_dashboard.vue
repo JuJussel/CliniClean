@@ -80,7 +80,7 @@ export default {
                 {label: this.$lang.basic, name: "karte", icon: "fas fa-info"}
             ],
             activeInfoTab: "vitals",
-            activeViewTab: "dataExplorer",
+            activeViewTab: "karte",
             resizeData: {
                 start: null,
                 startWidth: 900,

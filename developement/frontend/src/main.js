@@ -10,6 +10,7 @@ import '@fortawesome/fontawesome-free/css/all.css'
 import Lang from './lang/jp'
 import parseDate from './utils/dateParse'
 import DataService from '@/services/data.service'
+import AclService from '@/services/acl.service'
 import VueNativeSock from "vue-native-websocket-vue3";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -34,6 +35,7 @@ app.use(Cui);
 app.provide('$notification', Cui.notification);
 app.use(router);
 app.use(DataService);
+app.use(AclService);
 app.use(Auth);
 app.use(VueNativeSock, Globals.websocketUrl, {
     connectManually: true,

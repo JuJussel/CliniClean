@@ -58,7 +58,8 @@ exports.login = (req, res) => {
             id: user.id,
             username: user.username,
             nameFirst: user.nameFirst,
-            nameLast: user.nameLast
+            nameLast: user.nameLast,
+            userGroup: user.userGroup
         });
 
     })

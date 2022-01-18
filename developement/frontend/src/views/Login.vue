@@ -37,7 +37,7 @@ export default {
     return {
       user: {
         username: 'ekurosu2',
-        password: 'Passw0rd!'
+        password: 'Passw0rd'
       },
       loading: false,
       test: null

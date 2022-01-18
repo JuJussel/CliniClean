@@ -6,27 +6,32 @@
                 <cui-menu-bar-item 
                     icon="fa fa-home menu-icon" 
                     :label="$lang.home"
-                    value="dashboard" 
+                    value="dashboard"
+                    v-if="$aclService(0, 'dashboard')"
                 />
                 <cui-menu-bar-item
                     icon="fas fa-user-clock"
                     :label="$lang.reception"
                     value="reception"
+                    v-if="$aclService(1, 'reception')"
                 />
                 <cui-menu-bar-item
                     icon="fas fa-users menu-icon"
                     :label="$lang.patient"
                     value="patient"
+                    v-if="$aclService(1, 'patient')"
                 />
                 <cui-menu-bar-item
                     icon="fas fa-laptop-medical menu-icon"
                     :label="$lang.medical"
                     value="medical"
+                    v-if="$aclService(1, 'medical')"
                 />
                 <cui-menu-bar-item
                     icon="fas fa-laptop-medical menu-icon"
                     :label="$lang.order"
                     value="order"
+                    v-if="$aclService(1, 'order')"
                 />
             </template>
             <template v-slot:center>
