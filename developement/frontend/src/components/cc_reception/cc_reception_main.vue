@@ -11,12 +11,14 @@
                         <cui-button 
                             @click="view.modal.reception = true"
                             :label="$lang.register"
-                             icon="fas fa-walking" 
+                             icon="fas fa-walking"
+                             v-if="$aclService(2)"
                         />
                         <cui-button 
                             @click="view.modal.reservation = true"
                             :label="$lang.reservation"
                              icon="fas fa-calendar-plus"
+                             v-if="$aclService(2)"
                         />
                     </div>
                     <div style="display: flex; align-items: center">
@@ -62,7 +64,7 @@
                     <td> {{ parseExamType(row.type) }} </td>
                     <td>
                         <cui-button 
-                            v-if="row.status === 10"
+                            v-if="$aclService(2) && row.status === 10"
                             :label="examStatiOptions(row)[0].name"
                             primary
                             @click="modal.payment = row; view.modal.payment = true"
@@ -76,7 +78,7 @@
                             displayValueProp="name"
                             returnValueProp="status"
                             v-model="row.status"
-                            :disabled="examStatiOptions(row)[0].disabled"
+                            :disabled="examStatiOptions(row)[0].disabled || !$aclService(2)"
                             :color="examStatiOptions(row)[0].color"
                             noNote
                             @select="changeStatus(row)"

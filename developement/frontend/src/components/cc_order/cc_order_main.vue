@@ -106,6 +106,7 @@ export default {
             clearTimeout(loader);
         },
         selectOrder(order) {
+            console.log(this.$refs.examTable);
             this.$refs.examTable.clearSelection();
             order.row.provider = { name: "inhouse", label: this.$lang.inhouse };
             this.selectedOrder = order;

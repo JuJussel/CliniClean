@@ -6,10 +6,8 @@ import {store} from "../store"
 
 */
 
-const aclCheck = function (requiredLevel, view = null) {
+const aclCheck = function (requiredLevel, view = store.getters.activeView) {
     
-    console.log(store);
-    const view = store.getters.activeView;
     const permissions = config.permissions[view] || null;
     const userGroup = store.getters.user.userGroup || null;
     const availableLevel = permissions[userGroup - 1] || null;

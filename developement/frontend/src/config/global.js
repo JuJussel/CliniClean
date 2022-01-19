@@ -1,3 +1,11 @@
+/*
+    Permissions
+    UI filter - routes are protectded on backend
+    Array corresponds to 3 groups in this order: [Receptionist,Nurse,Doctor]
+    Permission levels are: 0: no access, 1: read, 2; edit
+    so [0,1,2] means: receptionist: no access, nurse: view access, doctor: edit access
+*/
+
 let config = {
     websocketUrl: "wss://" + window.location.hostname + ':3003', // Notification Server
     schemaUrl: "/assets/schemas/",
@@ -9,7 +17,7 @@ let config = {
         reception: [2,1,2],
         patient: [2,1,2],
         medical: [0,1,2],
-        order: [0,2,2]
+        order: [0,2,1]
     }
 }
 

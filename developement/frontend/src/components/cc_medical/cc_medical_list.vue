@@ -5,7 +5,7 @@
                 :data="visibleEncounters" 
                 :loading="loading.encounters" 
                 single-select @select="selectEncounter" 
-                :disabledFunct="(row) => {return(row.status == 10 || row.status == 0)}"
+                :disabledFunct="(row) => {return(row.status == 10 || row.status == 0 || !$aclService(2))}"
                 >
                     <template #emptyImage>
                     <img src="../../assets/img/empty2.jpg" style="width: 300px">

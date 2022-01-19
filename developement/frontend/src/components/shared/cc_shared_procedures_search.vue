@@ -70,6 +70,7 @@ export default {
             this.loading = false;
         },
         selectItem(item) {
+            if (!item) return;
             item.row.cat = this.category;
             this.$emit('select', item);
         }
