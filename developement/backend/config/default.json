@@ -38,5 +38,20 @@
             "facility": "CliniClean"
         },
         "logToConsole": true
+    },
+    "frontend": {
+        "websocketPort": "3003",
+        "schemaUrl": "/assets/schemas/",
+        "assetsUrl": "/assets/",
+        "filesUrl": "/files/",
+        "googleMapsApiKey": "Store in local file to avoid upload to version management",
+        "permissions": {
+            "dashboard": [2,2,2],
+            "reception": [2,1,2],
+            "patient": [2,1,2],
+            "medical": [0,1,2],
+            "order": [0,2,1]
+        }
+    
     }
 }

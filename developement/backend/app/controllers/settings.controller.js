@@ -18,6 +18,11 @@ exports.findPublic = (req, res) => {
     });
 };
 
+exports.findFrontEnd = (req, res) => {
+    const config = require("../../config/default.json");
+    res.send(config.frontend);
+};
+
 
 
 /.*(public).*/

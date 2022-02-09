@@ -46,6 +46,7 @@
                     displayValueProp="label"
                     v-model="orderLocal.provider"
                     style="width: 200px; margin-left: 20px"
+                    :disabled="!$aclService(2)"
                 ></cui-select>
             </div>
             <exam-Input
@@ -72,7 +73,7 @@
         <h4 style="margin: 10px">{{ $lang.comment }} {{ $lang.add }}</h4>
         <cui-textarea
             v-model="comment"
-            :disabled="isUser"
+            :disabled="isUser || !$aclService(2)"
             style="width: 250px"
             rows="3"
             cols="30"

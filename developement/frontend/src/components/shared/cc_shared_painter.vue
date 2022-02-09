@@ -117,6 +117,10 @@ export default {
     id: {
       type: String,
       default: '123'
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -257,6 +261,7 @@ export default {
       }
     },
     handleMouseDown(event) {
+      if (!this.$aclService(2)) return;
       this.mouse.down = true;
       this.mouse.current = {
         x: event.offsetX,

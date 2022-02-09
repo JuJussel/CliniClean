@@ -15,5 +15,11 @@ module.exports = app => {
       [authJwt.verifyToken],
       Settings.findPublic
     );
+
+    app.get(
+      "/api/settings/frontend",
+      Settings.findFrontEnd
+    );
+
   
   };

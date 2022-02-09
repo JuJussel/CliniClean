@@ -3,7 +3,7 @@ import { store } from './store'
 import App from './App.vue'
 import router from './router'
 import Auth from '@/services/auth.service'
-import Globals from '@/config/global';
+// import Globals from '@/config/global';
 import Cui from 'clini-ui-lib'
 import 'clini-ui-lib/src/css/globals.css'
 import '@fortawesome/fontawesome-free/css/all.css'
@@ -18,7 +18,9 @@ import isBetween from "dayjs/plugin/isBetween";
 import "dayjs/locale/ja";
 import VueGoogleMaps from '@fawmi/vue-google-maps'
 
+(async () => {
 const app = createApp(App);
+let Globals = await (await fetch('/api/settings/frontend')).json();
 
 dayjs.extend(relativeTime);
 dayjs.extend(isBetween);
@@ -37,7 +39,7 @@ app.use(router);
 app.use(DataService);
 app.use(AclService);
 app.use(Auth);
-app.use(VueNativeSock, Globals.websocketUrl, {
+app.use(VueNativeSock, "wss://" +window.location.hostname + ":" + Globals.websocketPort, {
     connectManually: true,
     format: "json",
     reconnection: true,
@@ -49,5 +51,6 @@ app.use(VueGoogleMaps, {
         key: Globals.googleMapsApiKey
     }
 })
-
 app.mount('#app')
+})();
+

@@ -2,7 +2,7 @@
     <div class="grid">
         <div>
             <div class="switch-cont">
-                <cui-switch :label="$lang.medicationHistory" v-model="input.medicationHistory.value"/>
+                <cui-switch :label="$lang.medicationHistory" v-model="input.medicationHistory.value" :disabled="!$aclService(2)"/>
                 <cui-textarea
                     v-if="input.medicationHistory.value"
                     v-model="input.medicationHistory.note"
@@ -10,10 +10,11 @@
                     :placeholder="$lang.input"
                     rows="4"
                     cols="30"
-                    style="margin-left: 10px"/>
+                    style="margin-left: 10px"
+                    :disabled="!$aclService(2)"/>
             </div>
             <div class="switch-cont">
-                <cui-switch :label="$lang.medicalHistory" v-model="input.medicalHistory.value"/>
+                <cui-switch :label="$lang.medicalHistory" v-model="input.medicalHistory.value" :disabled="!$aclService(2)"/>
                 <cui-textarea
                     v-if="input.medicalHistory.value"
                     v-model="input.medicalHistory.note"
@@ -21,10 +22,11 @@
                     :placeholder="$lang.input"
                     rows="4"
                     cols="30"
-                    style="margin-left: 10px"/>
+                    style="margin-left: 10px"
+                     :disabled="!$aclService(2)"/>
             </div>
             <div class="switch-cont">
-                <cui-switch :label="$lang.subjectiveSymtoms" v-model="input.subjectiveSymtoms.value"/>
+                <cui-switch :label="$lang.subjectiveSymtoms" v-model="input.subjectiveSymtoms.value" :disabled="!$aclService(2)"/>
                 <cui-textarea
                     v-if="input.subjectiveSymtoms.value"
                     v-model="input.subjectiveSymtoms.note"
@@ -32,10 +34,11 @@
                     :placeholder="$lang.input"
                     rows="4"
                     cols="30"
-                    style="margin-left: 10px"/>
+                    style="margin-left: 10px"
+                     :disabled="!$aclService(2)"/>
             </div>
             <div class="switch-cont">
-                <cui-switch :label="$lang.objectiveSymtoms" v-model="input.objectiveSymtoms.value"/>
+                <cui-switch :label="$lang.objectiveSymtoms" v-model="input.objectiveSymtoms.value" :disabled="!$aclService(2)"/>
                 <cui-textarea
                     v-if="input.objectiveSymtoms.value"
                     v-model="input.objectiveSymtoms.note"
@@ -43,36 +46,37 @@
                     :placeholder="$lang.input"
                     rows="4"
                     cols="30"
-                    style="margin-left: 10px"/>
+                    style="margin-left: 10px"
+                     :disabled="!$aclService(2)"/>
             </div>
             <div style="display: flex">
-                <cui-input @update:modelValue="calcBMI" :label="$lang.height" v-model="input.height.value" type="number" style="max-width: 150px" :append="input.height.unit"/>
-                <cui-input @update:modelValue="calcBMI" :label="$lang.weight" v-model="input.weight.value" type="number" style="max-width: 150px; margin-left: 20px" :append="input.weight.unit"/>
+                <cui-input @update:modelValue="calcBMI" :label="$lang.height" v-model="input.height.value" type="number" style="max-width: 150px" :append="input.height.unit" :disabled="!$aclService(2)"/>
+                <cui-input @update:modelValue="calcBMI" :label="$lang.weight" v-model="input.weight.value" type="number" style="max-width: 150px; margin-left: 20px" :append="input.weight.unit" :disabled="!$aclService(2)"/>
             </div>
             <div style="display: flex">
-                <cui-input :label="$lang.bmi" v-model="input.bmi.value" type="number" style="max-width: 150px" />
-                <cui-input :label="$lang.stomacheWidth" v-model="input.stomacheWidth.value" type="number" style="max-width: 150px; margin-left: 20px" :append="input.stomacheWidth.unit"/>
+                <cui-input :label="$lang.bmi" v-model="input.bmi.value" type="number" style="max-width: 150px" :disabled="!$aclService(2)" />
+                <cui-input :label="$lang.stomacheWidth" v-model="input.stomacheWidth.value" type="number" style="max-width: 150px; margin-left: 20px" :append="input.stomacheWidth.unit" :disabled="!$aclService(2)"/>
             </div>
             <div style="display: flex">
-                <cui-input :label="$lang.bloodPreasureMin" v-model="input.bloodPreasureMin.value" type="number" style="max-width: 150px" :append="input.bloodPreasureMin.unit"/>
-                <cui-input :label="$lang.bloodPreasureMax" v-model="input.bloodPreasureMax.value" type="number" style="max-width: 150px; margin-left: 20px" :append="input.bloodPreasureMax.unit"/>
+                <cui-input :label="$lang.bloodPreasureMin" v-model="input.bloodPreasureMin.value" type="number" style="max-width: 150px" :append="input.bloodPreasureMin.unit" :disabled="!$aclService(2)"/>
+                <cui-input :label="$lang.bloodPreasureMax" v-model="input.bloodPreasureMax.value" type="number" style="max-width: 150px; margin-left: 20px" :append="input.bloodPreasureMax.unit" :disabled="!$aclService(2)"/>
             </div>
             <div style="display: flex">
-                <cui-input :label="$lang.sightLeft" v-model="input.sightLeft.value" type="number" style="max-width: 150px" />
-                <cui-input :label="$lang.sightRight" v-model="input.sightRight.value" type="number" style="max-width: 150px; margin-left: 20px" />
+                <cui-input :label="$lang.sightLeft" v-model="input.sightLeft.value" type="number" style="max-width: 150px"  :disabled="!$aclService(2)"/>
+                <cui-input :label="$lang.sightRight" v-model="input.sightRight.value" type="number" style="max-width: 150px; margin-left: 20px"  :disabled="!$aclService(2)"/>
             </div>
             <div style="display: flex">
-                <cui-input :label="$lang.hearingLeftLow" v-model="input.hearingLeftLow.value" type="number" style="max-width: 150px" />
-                <cui-input :label="$lang.hearingLeftHight" v-model="input.hearingLeftHight.value" type="number" style="max-width: 150px; margin-left: 20px" />
+                <cui-input :label="$lang.hearingLeftLow" v-model="input.hearingLeftLow.value" type="number" style="max-width: 150px" :disabled="!$aclService(2)" />
+                <cui-input :label="$lang.hearingLeftHight" v-model="input.hearingLeftHight.value" type="number" style="max-width: 150px; margin-left: 20px"  :disabled="!$aclService(2)"/>
             </div>
             <div style="display: flex">
-                <cui-input :label="$lang.hearingRightLow" v-model="input.hearingRightLow.value" type="number" style="max-width: 150px" />
-                <cui-input :label="$lang.hearingRightHigh" v-model="input.hearingRightHigh.value" type="number" style="max-width: 150px; margin-left: 20px" />
+                <cui-input :label="$lang.hearingRightLow" v-model="input.hearingRightLow.value" type="number" style="max-width: 150px"  :disabled="!$aclService(2)"/>
+                <cui-input :label="$lang.hearingRightHigh" v-model="input.hearingRightHigh.value" type="number" style="max-width: 150px; margin-left: 20px"  :disabled="!$aclService(2)"/>
             </div>
             <div style="display: flex; align-items: center">
-                <cui-input :label="$lang.xRayId" v-model="input.xRay.value" style="max-width: 120px" />
+                <cui-input :label="$lang.xRayId" v-model="input.xRay.value" style="max-width: 120px"  :disabled="!$aclService(2)"/>
                 <cui-button :label="$lang.display" @click="showXRay"></cui-button>
-                <cui-input :label="$lang.ecgId" v-model="input.ecg.value" style="max-width: 120px; margin-left: 20px" />
+                <cui-input :label="$lang.ecgId" v-model="input.ecg.value" style="max-width: 120px; margin-left: 20px"  :disabled="!$aclService(2)"/>
                 <cui-button :label="$lang.display" @click="showEcg"></cui-button>
             </div>
 
@@ -84,6 +88,7 @@
                 :schema="input.xRay.schema + '.png'"
                 :x-ray="true"
                 id="K675g"
+                 :disabled="!$aclService(2)"
             >
             ></painter>
             <!-- <div v-for="(item, index) in input" :key="index">
@@ -93,18 +98,19 @@
         </div>
         <div>
             <div style="display: flex; align-items: baseline">
-                <cui-radio :label="$lang.order" value="order" v-model="mode" style="margin-right: 10px" />
-                <cui-radio :label="$lang.input" value="input" v-model="mode" />
+                <cui-radio :label="$lang.order" value="order" v-model="mode" style="margin-right: 10px" :disabled="!$aclService(2)" />
+                <cui-radio :label="$lang.input" value="input" v-model="mode"  :disabled="!$aclService(2)"/>
                 <span style="width: 70px; margin-left: 40px"> {{ $lang.examProvider }} </span>
                 <cui-select
                     :data="examProviders"
                     displayValueProp="label"
                     v-model="provider"
                     style="width: 200px; margin-left: 20px"
+                     :disabled="!$aclService(2)"
                 ></cui-select>
             </div>
             <div v-if="mode === 'order'">
-                <cui-textarea label="deit" :placeholder="$lang.input" />
+                <cui-textarea label="deit" :placeholder="$lang.input"  :disabled="!$aclService(2)"/>
             </div>
             <div v-else>
             <div v-for="(examGroup, examGroupIndex) in examinationsGrouped" :key="examGroupIndex">
