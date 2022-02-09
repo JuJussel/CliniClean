@@ -1,10 +1,8 @@
 import Http from './http.service';
 import dayjs from 'dayjs';
-import Globals from '@/config/global';
-
 
 export default {
-    install: (app) => {
+    install: (app, options) => {
         const http = Http
         app.config.globalProperties.$dataService = function() {
             const instance = this
@@ -345,7 +343,7 @@ export default {
                                                         "."
                                                     )[0],
                                                     url:
-                                                        Globals.schemaUrl +
+                                                        options.schemaUrl +
                                                         filename,
                                                 });
                                             }

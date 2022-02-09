@@ -19,38 +19,38 @@ import "dayjs/locale/ja";
 import VueGoogleMaps from '@fawmi/vue-google-maps'
 
 (async () => {
-const app = createApp(App);
-let Globals = await (await fetch('/api/settings/frontend')).json();
+    const app = createApp(App);
+    let Globals = await (await fetch('/api/settings/frontend')).json();
 
-dayjs.extend(relativeTime);
-dayjs.extend(isBetween);
-dayjs.locale("ja");
-app.config.globalProperties.$dayjs = dayjs;
-app.config.globalProperties.$parseDate = parseDate;
-app.config.globalProperties.$GLOBALS = Globals;
-app.config.globalProperties.$lang = Lang;
-app.config.globalProperties.$apiError = function(msg) {
-    this.$cui.notification({ text: msg, color: 'danger' })
-};
-app.use(store);
-app.use(Cui);
-app.provide('$notification', Cui.notification);
-app.use(router);
-app.use(DataService);
-app.use(AclService);
-app.use(Auth);
-app.use(VueNativeSock, "wss://" +window.location.hostname + ":" + Globals.websocketPort, {
-    connectManually: true,
-    format: "json",
-    reconnection: true,
-    reconnectionAttempts: 5,
-    reconnectionDelay: 3000,
-});
-app.use(VueGoogleMaps, {
-    load: {
-        key: Globals.googleMapsApiKey
-    }
-})
-app.mount('#app')
+    dayjs.extend(relativeTime);
+    dayjs.extend(isBetween);
+    dayjs.locale("ja");
+    app.config.globalProperties.$dayjs = dayjs;
+    app.config.globalProperties.$parseDate = parseDate;
+    app.config.globalProperties.$GLOBALS = Globals;
+    app.config.globalProperties.$lang = Lang;
+    app.config.globalProperties.$apiError = function(msg) {
+        this.$cui.notification({ text: msg, color: 'danger' })
+    };
+    app.use(store);
+    app.use(Cui);
+    app.provide('$notification', Cui.notification);
+    app.use(router);
+    app.use(DataService, Globals);
+    app.use(AclService, Globals);
+    app.use(Auth);
+    app.use(VueNativeSock, "wss://" +window.location.hostname + ":" + Globals.websocketPort, {
+        connectManually: true,
+        format: "json",
+        reconnection: true,
+        reconnectionAttempts: 5,
+        reconnectionDelay: 3000,
+    });
+    app.use(VueGoogleMaps, {
+        load: {
+            key: Globals.googleMapsApiKey
+        }
+    })
+    app.mount('#app')
 })();
 
