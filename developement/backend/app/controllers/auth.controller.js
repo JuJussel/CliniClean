@@ -40,7 +40,7 @@ exports.login = (req, res) => {
             });
         }
     
-        var token = jwt.sign({ id: user.id }, config.secret, {
+        var token = jwt.sign({ id: user.id, role: user.userGroup }, config.secret, {
             expiresIn: config.lifetime
         });
     

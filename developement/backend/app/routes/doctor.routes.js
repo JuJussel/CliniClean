@@ -1,27 +1,15 @@
-module.exports = app => {
-    const { authJwt } = require("../middleware");
+
+module.exports = (app) => {
+    const { authJwt, routeAccess } = require("../middleware");
     const doctors = require("../controllers/doctors.controller.js");
 
-    app.use(function(req, res, next) {
+    app.use(function (req, res, next) {
         res.header(
-          "Access-Control-Allow-Headers",
-          "Origin, Content-Type, Accept"
+            "Access-Control-Allow-Headers",
+            "Origin, Content-Type, Accept"
         );
         next();
     });
-  
-    app.get(
-      "/api/doctors",
-      [authJwt.verifyToken],
-      doctors.findAll
-    );
-  
-    // // Update a Customer with customerId
-    // app.put("/customers/:customerId", customers.update);
-  
-    // // Delete a Customer with customerId
-    // app.delete("/customers/:customerId", customers.delete);
-  
-    // // Create a new Customer
-    // app.delete("/customers", customers.deleteAll);
-  };
+
+    app.get("/api/doctors", [authJwt.verifyToken, routeAccess([2,2,2])], doctors.findAll);
+};

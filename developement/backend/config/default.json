@@ -50,8 +50,7 @@
             "reception": [2,1,2],
             "patient": [2,1,2],
             "medical": [0,1,2],
-            "order": [0,2,1]
+            "order": [0,2,2]
         }
-    
     }
 }
