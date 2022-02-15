@@ -11,5 +11,5 @@ module.exports = (app) => {
         next();
     });
 
-    app.get("/api/doctors", [authJwt.verifyToken, routeAccess([2,2,2])], doctors.findAll);
+    app.get("/api/doctors", [authJwt.verifyToken, routeAccess([1,1,1])], doctors.findAll);
 };
