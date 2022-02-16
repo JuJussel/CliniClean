@@ -5,6 +5,7 @@ get access from 2nd element in array (starting with 0)
 Receptionis role: 1
 Nurse role: 2
 Doctor role: 3
+Admin role: 99
 This must match what is in the database..
 Values are 0,1 - 0: no access, 1: access
 */
@@ -12,7 +13,8 @@ Values are 0,1 - 0: no access, 1: access
 module.exports = function (access) {
     return function (req,res,next) {
         const role = req.user.role - 1;
-        console.log(role);
+        if(role == 99) next();
+
         access = access[role];
         if (access) {
             next();            

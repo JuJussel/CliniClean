@@ -1,5 +1,5 @@
 module.exports = app => {
-    const { authJwt } = require("../middleware");
+    const { authJwt, routeAccess } = require("../middleware");
     const patients = require("../controllers/patients.controller.js");
     const patientsMedical = require("../controllers/patients.medical.controller.js");
 
@@ -29,12 +29,12 @@ module.exports = app => {
     )
     app.get(
       "/api/patients/:patientId/medicalHistory",
-      [authJwt.verifyToken],
+      [authJwt.verifyToken, routeAccess(0,1,1)],
       patients.findMedicalHistory
     )
     app.get(
       "/api/patients/:patientId/diseases",
-      [authJwt.verifyToken],
+      [authJwt.verifyToken, routeAccess(0,1,1)],
       patients.findDiseases
     )
     app.get(
@@ -50,31 +50,31 @@ module.exports = app => {
 
     app.post(
       "/api/patients",
-      [authJwt.verifyToken],
+      [authJwt.verifyToken, routeAccess(1,0,1)],
       patients.create
     )
 
     app.post(
       "/api/patients/:patientId/medical/vitals",
-      [authJwt.verifyToken],
+      [authJwt.verifyToken, routeAccess(0,1,1)],
       patientsMedical.addMedicalVitals
     )
 
     app.put(
       "/api/patients/:patientId",
-      [authJwt.verifyToken],
+      [authJwt.verifyToken, routeAccess(1,0,1)],
       patients.edit
     )
 
     app.put(
       "/api/patients/:patientId/medical/basics",
-      [authJwt.verifyToken],
+      [authJwt.verifyToken, routeAccess(0,1,1)],
       patientsMedical.editMedicalBasics
     )
 
     app.post(
       "/api/patients/:patientId/medical/diseases",
-      [authJwt.verifyToken],
+      [authJwt.verifyToken, routeAccess(0,1,1)],
       patientsMedical.editDiseases
     )
 
