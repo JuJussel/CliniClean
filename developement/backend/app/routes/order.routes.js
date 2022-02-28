@@ -10,9 +10,9 @@ module.exports = app => {
         next();
     });
   
-    app.get('/api/orders', [authJwt.verifyToken, routeAccess(0,1,1)], orders.findAll)
-    app.post("/api/orders", [authJwt.verifyToken, routeAccess(0,1,1)], orders.create);
-    app.put("/api/orders/:orderId", [authJwt.verifyToken, routeAccess(0,1,1)], orders.update);
-    app.delete("/api/orders/:orderId", [authJwt.verifyToken, routeAccess(0,0,1)], orders.delete);
+    app.get('/api/orders', [authJwt.verifyToken, routeAccess([0,1,1])], orders.findAll)
+    app.post("/api/orders", [authJwt.verifyToken, routeAccess([0,1,1])], orders.create);
+    app.put("/api/orders/:orderId", [authJwt.verifyToken, routeAccess([0,1,1])], orders.update);
+    app.delete("/api/orders/:orderId", [authJwt.verifyToken, routeAccess([0,0,1])], orders.delete);
 
   };

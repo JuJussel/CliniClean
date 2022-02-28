@@ -29,12 +29,12 @@ module.exports = app => {
     )
     app.get(
       "/api/patients/:patientId/medicalHistory",
-      [authJwt.verifyToken, routeAccess(0,1,1)],
+      [authJwt.verifyToken, routeAccess([0,1,1])],
       patients.findMedicalHistory
     )
     app.get(
       "/api/patients/:patientId/diseases",
-      [authJwt.verifyToken, routeAccess(0,1,1)],
+      [authJwt.verifyToken, routeAccess([0,1,1])],
       patients.findDiseases
     )
     app.get(
@@ -50,31 +50,31 @@ module.exports = app => {
 
     app.post(
       "/api/patients",
-      [authJwt.verifyToken, routeAccess(1,0,1)],
+      [authJwt.verifyToken, routeAccess([1,0,1])],
       patients.create
     )
 
     app.post(
       "/api/patients/:patientId/medical/vitals",
-      [authJwt.verifyToken, routeAccess(0,1,1)],
+      [authJwt.verifyToken, routeAccess([0,1,1])],
       patientsMedical.addMedicalVitals
     )
 
     app.put(
       "/api/patients/:patientId",
-      [authJwt.verifyToken, routeAccess(1,0,1)],
+      [authJwt.verifyToken, routeAccess([1,0,1])],
       patients.edit
     )
 
     app.put(
       "/api/patients/:patientId/medical/basics",
-      [authJwt.verifyToken, routeAccess(0,1,1)],
+      [authJwt.verifyToken, routeAccess([0,1,1])],
       patientsMedical.editMedicalBasics
     )
 
     app.post(
       "/api/patients/:patientId/medical/diseases",
-      [authJwt.verifyToken, routeAccess(0,1,1)],
+      [authJwt.verifyToken, routeAccess([0,1,1])],
       patientsMedical.editDiseases
     )
 

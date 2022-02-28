@@ -14,9 +14,8 @@ module.exports = function (access) {
     return function (req,res,next) {
         const role = req.user.role - 1;
         if(role == 99) next();
-
-        access = access[role];
-        if (access) {
+        const accessValue = access[role];
+        if (accessValue) {
             next();            
         } else {
             return res.status(403).send({

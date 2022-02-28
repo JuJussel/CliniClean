@@ -11,15 +11,15 @@ module.exports = app => {
     });
   
     // Retrieve all Encounters for today
-    app.get("/api/encounters/range", [authJwt.verifyToken, routeAccess(1,1,1)], encounter.findRange);
+    app.get("/api/encounters/range", [authJwt.verifyToken, routeAccess([1,1,1])], encounter.findRange);
 
     // Retrieve one Encounter
-    app.get("/api/encounters/:encounterId", [authJwt.verifyToken, routeAccess(1,1,1)], encounter.findOne);
+    app.get("/api/encounters/:encounterId", [authJwt.verifyToken, routeAccess([1,1,1])], encounter.findOne);
 
     // Create new Enconter
-    app.post("/api/encounters", [authJwt.verifyToken, routeAccess(1,0,1)], encounter.create);
+    app.post("/api/encounters", [authJwt.verifyToken, routeAccess([1,0,1])], encounter.create);
 
     // Edit Encounter
-    app.put("/api/encounters/:encounterId", [authJwt.verifyToken, routeAccess(1,0,1)], encounter.edit)
+    app.put("/api/encounters/:encounterId", [authJwt.verifyToken, routeAccess([1,0,1])], encounter.edit)
 
   };

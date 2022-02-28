@@ -15,8 +15,18 @@ verifyToken = (req, res, next) => {
                 message: "Unauthorized!",
             });
         }
+        
         req.user = decoded;
         req.userId = decoded.id;
+
+        var expiry = new Date();
+        expiry.setTime(expiry.getTime() + (config.lifetime * 1000));
+        res.cookie('token', token, {
+            expires: expiry,
+            secure: true,
+            httpOnly: true
+        })
+
         next();
     });
 };
