@@ -52,7 +52,13 @@
 
                     </div>
                 </div>
-                <cui-menu-bar-item style="padding: 10px!important" plainIcon icon="fas fa-cog" value="settings" />
+                <cui-menu-bar-item 
+                    style="padding: 10px!important" 
+                    plainIcon icon="fas fa-cog" 
+                    value="settings" 
+                    v-if="true"
+                />
+                <!-- $aclService(1, 'settings') -->
                 <cui-menu-bar-item style="padding: 10px!important" plainIcon icon="fas fa-sign-out-alt" value="logout" />
             </template>
         </cui-menu-bar>
@@ -71,6 +77,7 @@ import medical from "../components/cc_medical/cc_medical_main.vue";
 import order from "../components/cc_order/cc_order_main.vue";
 import notification from "../components/shared/cc_shared_notifications.vue"
 import dashboard from "../components/cc_dashboard/cc_dashboard.vue"
+import settings from "../components/cc_settings/cc_settings_main.vue"
 
 export default {
     name: "HomeView",
@@ -80,7 +87,8 @@ export default {
         medical,
         order,
         notification,
-        dashboard
+        dashboard,
+        settings
     },
     async created() {
         await this.$dataService().get.lists.static();
