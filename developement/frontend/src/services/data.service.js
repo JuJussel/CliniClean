@@ -29,6 +29,21 @@ export default {
                     },
                     //>----User-----//
                     users: {
+                        all: function() {
+                            return new Promise(function(resolve, reject) {
+                                http.get("users")
+                                    .then((result) => {
+                                        resolve(result);
+                                    })
+                                    .catch((result) => {
+                                        instance.$cui.notification({
+                                            text: result,
+                                            color: "danger",
+                                        });
+                                        reject;
+                                    });
+                            }); 
+                        },
                         favourites: function(userId) {
                             return new Promise(function(resolve, reject) {
                                 http.get("users/" + userId + "/favourites")

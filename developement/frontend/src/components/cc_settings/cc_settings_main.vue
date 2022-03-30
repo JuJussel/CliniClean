@@ -6,7 +6,7 @@
         </cui-button-group>
         
         <cui-card class="cc-settings-main-tab-hidden" v-bind:class="{ 'cc-settings-main-tab-visible': 'users' === activeTab }">
-            Users
+            <component :is="activeTab"></component>
         </cui-card>
 
 
@@ -14,7 +14,12 @@
 </template>
 
 <script>
+import users from "./users/cc_settings_users.vue"
+
 export default {
+    components: {
+        users
+    },
     data() {
         return {
             activeTab: 'users'

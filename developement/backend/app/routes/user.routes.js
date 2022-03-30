@@ -11,6 +11,7 @@ module.exports = app => {
     });
     app.get("/api/users/:userId", [authJwt.verifyToken], users.findOne);
     app.get("/api/users/:userId/favourites", [authJwt.verifyToken], users.findFavourites);
+    app.get("/api/users", [authJwt.verifyToken], users.findAll);
 
     app.put("/api/users/:userId/favourites", [authJwt.verifyToken], users.updateFavourites);
   

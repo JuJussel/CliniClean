@@ -22,6 +22,20 @@ exports.findOne = (req, res) => {
     });
 };
 
+exports.findAll = (req, res) => {
+  User.find({}, {"password": 0}, (err, data) => {
+      if (err) {
+        $logger.error(err);
+          res.status(500).send({
+              message:
+                  "Error retrieving Users"
+          });
+      } else {
+          res.send(data);
+      }
+  });
+};
+
 exports.findFavourites = (req, res) => {
     User.findById(req.params.userId, (err, data) => {
         if (err) {
