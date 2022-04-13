@@ -74,6 +74,7 @@ exports.updateUser = (req, res) => {
     var bcrypt = require("bcryptjs");
     user.password = bcrypt.hashSync(req.password, 10);
   }
+  //Orca Sync..........
   User.findOneAndUpdate({id: req.id}, user, (err) => {
     if (err) {
       $logger.error(err);
