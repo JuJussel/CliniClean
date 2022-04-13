@@ -13,7 +13,10 @@ Values are 0,1 - 0: no access, 1: access
 module.exports = function (access) {
     return function (req,res,next) {
         const role = req.user.role - 1;
-        if(role == 99) next();
+        if(role == 98) {
+            next();
+            return;
+        }
         const accessValue = access[role];
         if (accessValue) {
             next();            

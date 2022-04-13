@@ -62,7 +62,30 @@ exports.findFavourites = (req, res) => {
 };
 
 exports.updateUser = (req, res) => {
-
+  req = req.body;
+  let user = {
+    username: req.username,
+    nameFirst: req.nameFirst,
+    nameLast: req.nameLast,
+    active: req.active,
+    userGroup: req.userGroup
+  }
+  if (req.password) {
+    var bcrypt = require("bcryptjs");
+    user.password = bcrypt.hashSync(req.password, 10);
+  }
+  User.findOneAndUpdate({id: req.id}, user, (err) => {
+    if (err) {
+      $logger.error(err);
+          res.status(500).send({
+              message:
+                  "Error updating User with id " +
+                  req.id
+          });
+    } else {
+        res.send({ok: true});
+    }
+  })
 };
 
 exports.updateFavourites = async (req, res) => {

@@ -34,6 +34,8 @@
                 </h2>
                 <cui-button label="Delete" danger></cui-button>
                 <cui-button v-if="!selectedUser.isDirectory" label="Save" primary @click="validate()"></cui-button>
+                <cui-button v-if="selectedUser.hasOrca" label="Remove Orca Access" primary @click="editOrca()"></cui-button>
+                <cui-button v-else label="Add Orca Access" primary @click="editOrca()"></cui-button>
             </template>
             <div v-if="!selectedUser.isDirectory">
                 <div v-for="(error, index) in errorMessages" :key="index" class="errorText">
@@ -50,7 +52,7 @@
                     displayValueProp="name"
                     returnValueProp="id"
                 />
-                <cui-checkbox label="Orca Access" v-model="selectedUser.hasOrca"></cui-checkbox>
+                <cui-checkbox disabled label="Orca Access" v-model="selectedUser.hasOrca"></cui-checkbox>
             </div>
             <div v-else>
                 This user is synced from backend.
@@ -109,7 +111,7 @@ export default {
         },
         async submit() {
             this.$emit('loading');
-            
+            if(this.resetPassword) this.selectedUser.password = this.password.pass;
             try {
                 await this.$dataService().put.user.updateUser(this.selectedUser);
             } catch (error) {
