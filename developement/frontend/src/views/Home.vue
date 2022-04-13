@@ -56,9 +56,8 @@
                     style="padding: 10px!important" 
                     plainIcon icon="fas fa-cog" 
                     value="settings" 
-                    v-if="true"
+                    v-if="$aclService(1, 'settings')"
                 />
-                <!-- $aclService(1, 'settings') -->
                 <cui-menu-bar-item style="padding: 10px!important" plainIcon icon="fas fa-sign-out-alt" value="logout" />
             </template>
         </cui-menu-bar>
