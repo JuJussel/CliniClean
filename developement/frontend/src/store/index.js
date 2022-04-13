@@ -7,6 +7,12 @@ export const store = createStore({
     state() {
         return {
             user: null,
+            userGroups: [
+                {id: 1, name: "Reception"},
+                {id: 2, name: "Nurse"},
+                {id: 3, name: "Doctor"},
+                {id: 99, name: "Admin"},
+            ],            
             activeView: "home",
             staticLists: {
                 db: null,
@@ -57,6 +63,7 @@ export const store = createStore({
         activePatientHistory: (state) => state.activePatient || null,
         diseaseFlags: (state) => state.staticLists.disease || null,
         notifications: (state) => state.notifications,
+        userGroups: (state) => state.userGroups
     },
 
     mutations: {

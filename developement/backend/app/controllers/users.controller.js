@@ -61,6 +61,10 @@ exports.findFavourites = (req, res) => {
     });
 };
 
+exports.updateUser = (req, res) => {
+
+};
+
 exports.updateFavourites = async (req, res) => {
 
     let user = await User.findById(req.params.userId);

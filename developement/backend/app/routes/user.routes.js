@@ -1,5 +1,5 @@
 module.exports = app => {
-    const { authJwt } = require("../middleware");
+    const { authJwt, routeAccess } = require("../middleware");
     const users = require("../controllers/users.controller.js");
 
     app.use(function(req, res, next) {
@@ -14,5 +14,6 @@ module.exports = app => {
     app.get("/api/users", [authJwt.verifyToken], users.findAll);
 
     app.put("/api/users/:userId/favourites", [authJwt.verifyToken], users.updateFavourites);
+    app.put("/api/users/:userId", [authJwt.verifyToken, routeAccess([0,0,0])], users.updateUser);
   
   };

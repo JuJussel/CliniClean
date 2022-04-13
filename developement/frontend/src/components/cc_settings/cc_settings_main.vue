@@ -5,11 +5,10 @@
             <cui-button-group-item label="System" value="system"></cui-button-group-item>
         </cui-button-group>
         
-        <cui-card class="cc-settings-main-tab-hidden" v-bind:class="{ 'cc-settings-main-tab-visible': 'users' === activeTab }">
-            <component :is="activeTab"></component>
-        </cui-card>
-
-
+        <div class="cc-settings-main-tab-hidden" v-bind:class="{ 'cc-settings-main-tab-visible': 'users' === activeTab }">
+            <div v-if="loading" class="loader"></div>
+            <component :is="activeTab" @loading="loading = true" @done="loading=false"></component>
+        </div>
     </div>
 </template>
 
@@ -22,7 +21,8 @@ export default {
     },
     data() {
         return {
-            activeTab: 'users'
+            activeTab: 'users',
+            loading: false
         }
     }
 }

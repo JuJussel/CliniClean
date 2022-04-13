@@ -743,11 +743,11 @@ export default {
                         });
                     },
                     user: {
-                        favourites: function(patientId, item) {
+                        favourites: function(userId, item) {
                             return new Promise(function(resolve, reject) {
                                 return http
                                     .put(
-                                        "users/" + patientId + "/favourites",
+                                        "users/" + userId + "/favourites",
                                         item
                                     )
                                     .then((result) => {
@@ -762,6 +762,25 @@ export default {
                                     });
                             });
                         },
+                        updateUser: function(data) {
+                            return new Promise(function(resolve, reject) {
+                                return http
+                                    .put(
+                                        "users/" + data.id,
+                                        data
+                                    )
+                                    .then((result) => {
+                                        resolve(result);
+                                    })
+                                    .catch((result) => {
+                                        instance.$cui.notification({
+                                            text: result,
+                                            color: "danger",
+                                        });
+                                        reject(result);
+                                    });
+                            });
+                        }
                     },
                     orders: function(order) {
                         return new Promise(function(resolve, reject) {
