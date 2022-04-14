@@ -51,6 +51,7 @@ import procedures from "../cc_shared_medical_info_compact/cc_shared_patient_medi
 import diseases from "../cc_shared_medical_info_compact/cc_shared_patient_medical_info_diseases.vue"
 import encounters from "../cc_shared_medical_info_compact/cc_shared_patient_medical_info_encounters.vue"
 import dataExplorer from "./cc_shared_patient_medical_data_explorer.vue"
+import chart from "./cc_shared_patient_medical_chart.vue"
 
 export default {
     props: {
@@ -59,7 +60,7 @@ export default {
         }
     },
     components: {
-        basic, vitals, exams, perscription, procedures, diseases, encounters, dataExplorer
+        basic, vitals, exams, perscription, procedures, diseases, encounters, dataExplorer, chart
     },
     data() {
         return {
@@ -76,11 +77,12 @@ export default {
                 {label: this.$lang.karteHistory, style: "padding: 0", name: "encounters", icon: "fas fa-file-alt"}
             ],
             viewerTabs: [
-                {label: this.$lang.basic, name: "dataExplorer", icon: "fas fa-info"},
-                {label: this.$lang.basic, name: "karte", icon: "fas fa-info"}
+                {label: this.$lang.dataExplorer, name: "dataExplorer", icon: "fas fa-info"},
+                {label: this.$lang.chart, name: "chart", icon: "fas fa-info"},
+                {label: this.$lang.karte, name: "karte", icon: "fas fa-info"}
             ],
             activeInfoTab: "vitals",
-            activeViewTab: "karte",
+            activeViewTab: "chart",
             resizeData: {
                 start: null,
                 startWidth: 900,
