@@ -177,6 +177,7 @@ export default {
     shotLocation: "位置",
     shotAmount: "接種量",
     shotLot: "LotNo",
+    showChart: "チャート表示",
     showOnRezept: "レセプト表示",
     stomacheWidth: "腹囲",
     soapObservation: "主訴・所見",

@@ -13,7 +13,7 @@
                 </cui-button-group>
                 <keep-alive>
                     <div style="position:relative; overflow: auto; flex: 1; margin-top: 10px">
-                        <component v-bind:is="activeInfoTab" :patientData="patientData" v-if="patientData"></component>
+                        <component isViewer v-bind:is="activeInfoTab" :patientData="patientData" v-if="patientData"></component>
                     </div>
                 </keep-alive>
             </cui-card>
