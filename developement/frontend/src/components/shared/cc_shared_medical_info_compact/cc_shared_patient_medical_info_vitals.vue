@@ -7,7 +7,7 @@
             </template>
             <template #thead>
                 <cui-th class="vital-row-header-scoped" style="z-index: 5!important">
-                    <cui-checkbox v-if="isViewer" :label="$lang.showChart" v-model="showChartAll" />
+                    <cui-checkbox v-if="isViewer" :label="$lang.showChart" v-model="showChartAll"/>
                 </cui-th>
                 <cui-th
                     v-for="(item, index) in patientData.vitals" 
@@ -20,9 +20,11 @@
             <template v-slot:row="{ row }">
                 <td class="vital-row-header-scoped"> 
                     <span style="display: flex">
-                        <cui-checkbox v-if="isViewer" v-model="showChartAll" />
-                        {{ $lang.vitalCategories[row.name] }}
-                        {{ row.unit }}
+                        <cui-checkbox v-if="isViewer" v-model="row.selectedDisp" :label="$lang.vitalCategories[row.name] + (row.unit || '') " />
+                        <span v-else>
+                            {{ $lang.vitalCategories[row.name] }}
+                            {{ row.unit }}
+                        </span>
                     </span>
                 </td>
                 <td
@@ -80,7 +82,8 @@ export default {
         }
     },
     emits: [
-        'update'
+        'update',
+        'selectChange'
     ],
     data() {
         return {
@@ -91,13 +94,33 @@ export default {
                     loading: false,
                     data: null
                 }
-            }            
+            },
+            vitalCats: []
         }
     },
-    methods: {
-        toggleSelected(selection) {
-            console.log(selection);
+    created() {
+        this.vitalCats = this.$store.getters.staticLists.vitalCategories.map(
+                v => ({...v, selectedDisp: false})
+            );
+    },
+    watch: {
+        showChartAll() {
+            this.vitalCats.forEach((item, index) => {
+                this.vitalCats[index].selectedDisp = this.showChartAll
+            })
+            this.$emit('selectChange', this.vitalCats)
         },
+        vitalCats: {
+            deep: true,
+            handler() {
+                if (this.vitalCats) {
+                    this.$emit('selectChange', this.vitalCats)                    
+                }
+            }
+        }
+
+    },
+    methods: {
         openVitalRegister() {
             let vitalCatsEdit = this.vitalCats;
             vitalCatsEdit.forEach(item => {
@@ -128,12 +151,6 @@ export default {
             let hasValue = this.modals.vitalRegister.data.filter(item => item.value !== "");
             if (hasValue.length > 0) return true;
             return false;
-        },
-        vitalCats() {
-            let vitalCats = this.$store.getters.staticLists.vitalCategories.map(
-                v => ({...v, selected: false})
-            );
-            return vitalCats;
         }
     }
 }

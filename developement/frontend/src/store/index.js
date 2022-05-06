@@ -39,7 +39,7 @@ export const store = createStore({
             activePatient: null,
             settings: null,
             config: null,
-            notifications: [],
+            notifications: []
         };
     },
 
@@ -63,7 +63,7 @@ export const store = createStore({
         activePatientHistory: (state) => state.activePatient || null,
         diseaseFlags: (state) => state.staticLists.disease || null,
         notifications: (state) => state.notifications,
-        userGroups: (state) => state.userGroups
+        userGroups: (state) => state.userGroups,
     },
 
     mutations: {
@@ -112,7 +112,7 @@ export const store = createStore({
         },
         SET_NOTIFICATIONS(state, data) {
             state.notifications = data;
-        },
+        }
     },
     actions: {},
 });
