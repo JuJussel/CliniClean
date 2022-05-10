@@ -3,7 +3,11 @@
         <cui-table :data="vitalCats" compact>
             <template #header>
                 <h2> {{ $lang.vitals }} </h2>
-                <cui-button icon="fas fa-plus" :label="$lang.register" @click="openVitalRegister"/>    
+                <cui-button
+                    icon="fas fa-plus" 
+                    :label="$lang.register"
+                    v-if="!isViewer"
+                    @click="openVitalRegister"/>    
             </template>
             <template #thead>
                 <cui-th class="vital-row-header-scoped" style="z-index: 5!important">
@@ -114,7 +118,7 @@ export default {
             deep: true,
             handler() {
                 if (this.vitalCats) {
-                    this.$emit('selectChange', this.vitalCats)                    
+                    this.$store.commit('SET_VIEW_DATA', {selectedVitalCats: this.vitalCats})                   
                 }
             }
         }

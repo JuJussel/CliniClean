@@ -39,7 +39,8 @@ export const store = createStore({
             activePatient: null,
             settings: null,
             config: null,
-            notifications: []
+            notifications: [],
+            viewData: {}
         };
     },
 
@@ -64,6 +65,7 @@ export const store = createStore({
         diseaseFlags: (state) => state.staticLists.disease || null,
         notifications: (state) => state.notifications,
         userGroups: (state) => state.userGroups,
+        viewData: (state) => state.viewData
     },
 
     mutations: {
@@ -112,6 +114,9 @@ export const store = createStore({
         },
         SET_NOTIFICATIONS(state, data) {
             state.notifications = data;
+        },
+        SET_VIEW_DATA(state, data) {
+            Object.assign(state.viewData, data);
         }
     },
     actions: {},
