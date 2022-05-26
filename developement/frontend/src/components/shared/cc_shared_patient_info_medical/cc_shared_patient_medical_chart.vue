@@ -62,7 +62,7 @@ export default {
                             name: "vitals",
                             type: "line"
                         },
-                        dataSet: []
+                        dataSet: {}
                     }
                 ]
             },
@@ -83,6 +83,38 @@ export default {
             let patientData = JSON.parse(
                 JSON.stringify(this.$store.getters.activePatientHistory)
             );
+            //Vitals
+            let vitals = { series: [], axis: [] };
+            patientData.vitals.forEach(item => {
+                let date = this.$dayjs(item.date).format("YYYY-MM-DD");
+                let index = vitals.axis.indexOf(date);
+                if (index === -1) {
+                    vitals.axis.push(date);
+                }
+            });
+            let seriesDataTemplate = Array.from(
+                { length: vitals.axis.length },
+                () => null
+            );
+
+            patientData.vitals.forEach(item => {
+                let date = this.$dayjs(item.date).format("YYYY-MM-DD");
+                item.values.forEach(vital => {});
+            });
+
+            // index = vitals.axis.length - 1;
+            // item.values.forEach(vital => {
+            //     if (!vitals.series[vital.name]) {
+            //         vital.series[vital.name] = {
+            //             name: vital.name,
+            //             type: "line",
+            //             data: []
+            //         };
+            //     }
+            //     vitals.series[vital.name].data[index] = item.value;
+            // });
+
+            this.localData.charts[1].dataSet = vitals;
             // Encounters
             patientData.encounters.forEach(enc => {
                 if (this.localData.charts[0].options.selected.encounters) {
