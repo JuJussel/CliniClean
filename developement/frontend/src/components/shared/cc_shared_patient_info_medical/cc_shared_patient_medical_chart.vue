@@ -83,6 +83,7 @@ export default {
             let patientData = JSON.parse(
                 JSON.stringify(this.$store.getters.activePatientHistory)
             );
+
             //Vitals
             let vitals = { series: [], axis: [] };
             patientData.vitals.forEach(item => {
@@ -99,8 +100,26 @@ export default {
 
             patientData.vitals.forEach(item => {
                 let date = this.$dayjs(item.date).format("YYYY-MM-DD");
-                item.values.forEach(vital => {});
+                item.values.forEach(vital => {
+                    let dateIndex = vitals.axis.indexOf(date);
+                    let nameIndex = vitals.series.findIndex(
+                        i => i.name === vital.name
+                    );
+                    if (nameIndex < 0) {
+                        vitals.series.push({
+                            name: vital.name,
+                            type: "line",
+                            data: JSON.parse(
+                                JSON.stringify(seriesDataTemplate)
+                            ),
+                            unit: vital.unit
+                        });
+                        nameIndex = vitals.series.length - 1;
+                    }
+                    vitals.series[nameIndex].data[dateIndex] = vital.value;
+                });
             });
+            this.localData.charts[1].dataSet = vitals;
 
             // index = vitals.axis.length - 1;
             // item.values.forEach(vital => {
