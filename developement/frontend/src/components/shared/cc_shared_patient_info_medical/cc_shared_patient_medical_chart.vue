@@ -3,6 +3,7 @@
         <chart
             :type="localData.charts[1].options.type"
             :dataSet="localData.charts[1].dataSet"
+            :options="localData.charts[1].options"
         />
     </div>
 </template>
@@ -60,7 +61,8 @@ export default {
                     {
                         options: {
                             name: "vitals",
-                            type: "line"
+                            type: "line",
+                            title: { text: this.$lang.vitals }
                         },
                         dataSet: {}
                     }
@@ -119,7 +121,6 @@ export default {
                     vitals.series[nameIndex].data[dateIndex] = vital.value;
                 });
             });
-            this.localData.charts[1].dataSet = vitals;
 
             // index = vitals.axis.length - 1;
             // item.values.forEach(vital => {

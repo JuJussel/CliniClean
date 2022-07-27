@@ -69,14 +69,13 @@ export default {
     },
     computed: {
         computedOptions() {
+            let options = this.defaultOptions[this.type];
             if (this.options) {
-                return this.options;
-            } else {
-                let options = this.defaultOptions[this.type];
-                options.xAxis.data = this.dataSet.axis;
-                options.series = this.dataSet.series;
-                return options;
+                Object.assign(options, this.options);
             }
+            options.xAxis.data = this.dataSet.axis;
+            options.series = this.dataSet.series;
+            return options;
         }
     }
 };
