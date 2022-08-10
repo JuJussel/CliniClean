@@ -75,6 +75,7 @@ export default {
             }
             options.xAxis.data = this.dataSet.axis;
             options.series = this.dataSet.series;
+            this.$refs.chart.setOptions(options);
             return options;
         }
     }

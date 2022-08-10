@@ -1,9 +1,9 @@
 <template>
     <div>
         <chart
-            :type="localData.charts[1].options.type"
-            :dataSet="localData.charts[1].dataSet"
-            :options="localData.charts[1].options"
+            :type="chartData[1].options.type"
+            :dataSet="chartData[1].dataSet"
+            :options="chartData[1].options"
         />
     </div>
 </template>
@@ -62,7 +62,25 @@ export default {
                         options: {
                             name: "vitals",
                             type: "line",
-                            title: { text: this.$lang.vitals }
+                            title: { text: this.$lang.vitals },
+                            dataZoom: [
+                                {
+                                    type: "inside",
+                                    start: 0,
+                                    end: 100
+                                },
+                                {
+                                    start: 0,
+                                    end: 100
+                                }
+                            ],
+                            toolbox: {
+                                show: true,
+                                feature: {
+                                    magicType: { type: ["line", "bar"] },
+                                    saveAsImage: {}
+                                }
+                            }
                         },
                         dataSet: {}
                     }
@@ -105,11 +123,11 @@ export default {
                 item.values.forEach(vital => {
                     let dateIndex = vitals.axis.indexOf(date);
                     let nameIndex = vitals.series.findIndex(
-                        i => i.name === vital.name
+                        i => i.name === this.$lang.vitalCategories[vital.name]
                     );
                     if (nameIndex < 0) {
                         vitals.series.push({
-                            name: vital.name,
+                            name: this.$lang.vitalCategories[vital.name],
                             type: "line",
                             data: JSON.parse(
                                 JSON.stringify(seriesDataTemplate)
@@ -144,6 +162,139 @@ export default {
             });
         }
     },
-    computed: {}
+    computed: {
+        chartData() {
+            let retrunObj = [
+                {
+                    options: {
+                        name: "timeline",
+                        type: "gantt",
+                        selected: {
+                            encounters: true,
+                            vitals: true,
+                            diseases: true,
+                            exams: true,
+                            medications: true,
+                            operations: true,
+                            shots: true,
+                            prevVacs: true,
+                            treatments: true
+                        }
+                    },
+                    dataSet: {
+                        id: "events",
+                        type: "custom",
+                        dimensions: ["type", "startDate", "endDate", "id"],
+                        encode: {
+                            x: [1, 2],
+                            y: 0,
+                            tooltip: [0, 1, 3]
+                        },
+                        data: []
+                    }
+                },
+                {
+                    options: {
+                        name: "vitals",
+                        type: "line",
+                        title: { text: this.$lang.vitals },
+                        dataZoom: [
+                            {
+                                type: "inside",
+                                start: 0,
+                                end: 100
+                            },
+                            {
+                                start: 0,
+                                end: 100
+                            }
+                        ],
+                        toolbox: {
+                            show: true,
+                            feature: {
+                                magicType: { type: ["line", "bar"] },
+                                saveAsImage: {}
+                            }
+                        }
+                    },
+                    dataSet: {}
+                }
+            ];
+
+            let patientData = JSON.parse(
+                JSON.stringify(this.$store.getters.activePatientHistory)
+            );
+
+            //Vitals
+            let selectedCats = this.$store.getters.viewData.selectedVitalCats.filter(
+                c => c.selectedDisp
+            );
+            console.log(selectedCats);
+
+            let vitals = { series: [], axis: [] };
+            patientData.vitals.forEach(item => {
+                let date = this.$dayjs(item.date).format("YYYY-MM-DD");
+                let index = vitals.axis.indexOf(date);
+                if (index === -1) {
+                    vitals.axis.push(date);
+                }
+            });
+            let seriesDataTemplate = Array.from(
+                { length: vitals.axis.length },
+                () => null
+            );
+
+            patientData.vitals.forEach(item => {
+                let date = this.$dayjs(item.date).format("YYYY-MM-DD");
+                item.values.forEach(vital => {
+                    let catDisp = selectedCats.find(c => c.name === vital.name);
+                    console.log(catDisp);
+
+                    if (!catDisp?.selectedDisp) return;
+
+                    let dateIndex = vitals.axis.indexOf(date);
+                    let nameIndex = vitals.series.findIndex(
+                        i => i.name === this.$lang.vitalCategories[vital.name]
+                    );
+                    if (nameIndex < 0) {
+                        vitals.series.push({
+                            name: this.$lang.vitalCategories[vital.name],
+                            type: "line",
+                            data: JSON.parse(
+                                JSON.stringify(seriesDataTemplate)
+                            ),
+                            unit: vital.unit
+                        });
+                        nameIndex = vitals.series.length - 1;
+                    }
+                    vitals.series[nameIndex].data[dateIndex] = vital.value;
+                });
+            });
+
+            // index = vitals.axis.length - 1;
+            // item.values.forEach(vital => {
+            //     if (!vitals.series[vital.name]) {
+            //         vital.series[vital.name] = {
+            //             name: vital.name,
+            //             type: "line",
+            //             data: []
+            //         };
+            //     }
+            //     vitals.series[vital.name].data[index] = item.value;
+            // });
+
+            retrunObj[1].dataSet = vitals;
+
+            // // Encounters
+            // patientData.encounters.forEach(enc => {
+            //     if (this.localData.charts[0].options.selected.encounters) {
+            //         let arr = [enc.type, enc.date, enc.lastChange, enc.id];
+            //         this.localData.charts[0].dataSet.data.push(arr);
+            //     }
+            // });
+
+            return retrunObj;
+        }
+    }
 };
 </script>
