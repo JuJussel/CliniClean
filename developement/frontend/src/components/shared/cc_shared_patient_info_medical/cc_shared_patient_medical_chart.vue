@@ -198,6 +198,13 @@ export default {
                         name: "vitals",
                         type: "line",
                         title: { text: this.$lang.vitals },
+                        emphasis: {
+                            focus: "series",
+                            label: {
+                                show: true,
+                                formatter: "{a}"
+                            }
+                        },
                         dataZoom: [
                             {
                                 type: "inside",
@@ -229,7 +236,6 @@ export default {
             let selectedCats = this.$store.getters.viewData.selectedVitalCats.filter(
                 c => c.selectedDisp
             );
-            console.log(selectedCats);
 
             let vitals = { series: [], axis: [] };
             patientData.vitals.forEach(item => {
@@ -248,7 +254,6 @@ export default {
                 let date = this.$dayjs(item.date).format("YYYY-MM-DD");
                 item.values.forEach(vital => {
                     let catDisp = selectedCats.find(c => c.name === vital.name);
-                    console.log(catDisp);
 
                     if (!catDisp?.selectedDisp) return;
 
