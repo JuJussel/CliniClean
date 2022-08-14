@@ -3,8 +3,8 @@
     <div v-if="ready">
         <cui-menu-bar @change="changeMenu" :value="activeTab">
             <template v-slot:left>
-                <cui-menu-bar-item 
-                    icon="fa fa-home menu-icon" 
+                <cui-menu-bar-item
+                    icon="fa fa-home menu-icon"
                     :label="$lang.home"
                     value="dashboard"
                     v-if="$aclService(0, 'dashboard')"
@@ -16,49 +16,48 @@
                     v-if="$aclService(1, 'reception')"
                 />
                 <cui-menu-bar-item
-                    icon="fas fa-users menu-icon"
-                    :label="$lang.patient"
-                    value="patient"
-                    v-if="$aclService(1, 'patient')"
-                />
-                <cui-menu-bar-item
-                    icon="fas fa-laptop-medical menu-icon"
-                    :label="$lang.medical"
-                    value="medical"
-                    v-if="$aclService(1, 'medical')"
-                />
-                <cui-menu-bar-item
                     icon="fas fa-laptop-medical menu-icon"
                     :label="$lang.order"
                     value="order"
                     v-if="$aclService(1, 'order')"
                 />
             </template>
-            <template v-slot:center>
-            </template>
+            <template v-slot:center> </template>
             <template v-slot:right>
-                <div style="display: flex; align-items: center; margin-right: 20px" >
+                <div
+                    style="display: flex; align-items: center; margin-right: 20px"
+                >
                     <cui-avatar :image="avatarUrl" />
-                    <div style="margin-left: 10px; color:var(--cui-gray-5); display: flex">
+                    <div
+                        style="margin-left: 10px; color:var(--cui-gray-5); display: flex"
+                    >
                         {{ $store.getters.userFullName }}
-                        <cui-tooltip >
+                        <cui-tooltip>
                             <cui-badge :visible="hasNewNotification">
-                                <i class="fas fa-bell" style="cursor: pointer; margin-left: 5px"></i>
+                                <i
+                                    class="fas fa-bell"
+                                    style="cursor: pointer; margin-left: 5px"
+                                ></i>
                             </cui-badge>
                             <template #tooltip>
                                 <notification />
                             </template>
                         </cui-tooltip>
-
                     </div>
                 </div>
-                <cui-menu-bar-item 
-                    style="padding: 10px!important" 
-                    plainIcon icon="fas fa-cog" 
-                    value="settings" 
+                <cui-menu-bar-item
+                    style="padding: 10px!important"
+                    plainIcon
+                    icon="fas fa-cog"
+                    value="settings"
                     v-if="$aclService(1, 'settings')"
                 />
-                <cui-menu-bar-item style="padding: 10px!important" plainIcon icon="fas fa-sign-out-alt" value="logout" />
+                <cui-menu-bar-item
+                    style="padding: 10px!important"
+                    plainIcon
+                    icon="fas fa-sign-out-alt"
+                    value="logout"
+                />
             </template>
         </cui-menu-bar>
         <div class="cc-home-main-cont">
@@ -70,35 +69,32 @@
 </template>
 
 <script>
-import reception from "../components/cc_reception/cc_reception_main";
-import patient from "../components/cc_patient/cc_patient_main";
-import medical from "../components/cc_medical/cc_medical_main.vue";
-import order from "../components/cc_order/cc_order_main.vue";
-import notification from "../components/shared/cc_shared_notifications.vue"
-import dashboard from "../components/cc_dashboard/cc_dashboard.vue"
-import settings from "../components/cc_settings/cc_settings_main.vue"
+import reception from "../components/layouts/cc_reception";
+// import patient from "../components/cc_patient/cc_patient_main";
+// import medical from "../components/cc_medical/cc_medical_main.vue";
+// import order from "../components/cc_order/cc_order_main.vue";
+// import notification from "../components/shared/cc_shared_notifications.vue"
+import dashboard from "../components/layouts/cc_dashboard.vue";
+// import settings from "../components/cc_settings/cc_settings_main.vue"
 
 export default {
     name: "HomeView",
     components: {
         reception,
-        patient,
-        medical,
-        order,
-        notification,
-        dashboard,
-        settings
+        // order,
+        // notification,
+        dashboard
+        // settings
     },
     async created() {
         await this.$dataService().get.lists.static();
         await this.$dataService().get.settings.public();
         this.ready = true;
-        this.$connect()
-        this.$options.sockets.onmessage = (data) => {
-            data = JSON.parse(data.data)
-            if(data.event === "updateNotifications") this.getNotifications()
+        this.$connect();
+        this.$options.sockets.onmessage = data => {
+            data = JSON.parse(data.data);
+            if (data.event === "updateNotifications") this.getNotifications();
         };
-
     },
     data() {
         return {
@@ -134,7 +130,6 @@ export default {
             let hasNot = not.filter(item => !item.recepients[0].read);
             return hasNot.length > 0 ? true : false;
         }
-
     }
 };
 </script>
@@ -154,7 +149,6 @@ export default {
     opacity: 0;
     transform: scale3d(1.03, 1.03, 1.03);
 }
-
 </style>
 <style >
 .h2-header {
@@ -174,8 +168,8 @@ export default {
     height: 25px;
 }
 .cc-image-card {
-    width: 170px!important;
-    height: 170px!important;
+    width: 170px !important;
+    height: 170px !important;
     overflow: hidden;
 }
 .cc-image-card-img {
@@ -197,9 +191,8 @@ export default {
     cursor: pointer;
 }
 .cc-image-cont {
-  display: flex;
-  flex-wrap: wrap;
-  overflow: auto
+    display: flex;
+    flex-wrap: wrap;
+    overflow: auto;
 }
-
 </style>
