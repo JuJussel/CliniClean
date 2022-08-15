@@ -7,14 +7,14 @@ export const store = createStore({
     state() {
         return {
             user: null,
-            userGroups: [
-                {id: 1, name: "Reception"},
-                {id: 2, name: "Nurse"},
-                {id: 3, name: "Doctor"},
-                {id: 99, name: "Admin"},
-            ],            
             activeView: "home",
             staticLists: {
+                userGroups: [
+                    { id: 1, name: "Reception" },
+                    { id: 2, name: "Nurse" },
+                    { id: 3, name: "Doctor" },
+                    { id: 99, name: "Admin" },
+                ],
                 db: null,
                 disease: {
                     suspectFlags: [
@@ -31,6 +31,10 @@ export const store = createStore({
                         { value: "S", label: "移行" },
                     ],
                 },
+            },
+            layoutData: {
+                reception: {
+                }
             },
             transferData: {
                 reception: null,
@@ -64,8 +68,9 @@ export const store = createStore({
         activePatientHistory: (state) => state.activePatient || null,
         diseaseFlags: (state) => state.staticLists.disease || null,
         notifications: (state) => state.notifications,
-        userGroups: (state) => state.userGroups,
-        viewData: (state) => state.viewData
+        userGroups: (state) => state.staticLists.userGroups,
+        viewData: (state) => state.viewData,
+        layoutData: (state) => state.layoutData,
     },
 
     mutations: {

@@ -1,123 +1,7 @@
 <template>
     <div class="cc-reception-main-cont">
         <cui-card class="cc-reception-patient-list" noPadding>
-            <cui-table :data="visibleEncounters" :loading="loading.recTable">
-                <template #emptyImage>
-                    <img
-                        src="../../assets/img/empty2.jpg"
-                        style="width: 300px"
-                    />
-                </template>
-                <template #header>
-                    <div style="display: flex; align-items: center">
-                        <h2>{{ $lang.reception }}</h2>
-                        <cui-button
-                            @click="view.modal.reception = true"
-                            :label="$lang.register"
-                            icon="fas fa-walking"
-                            v-if="$aclService(2)"
-                        />
-                        <cui-button
-                            @click="view.modal.reservation = true"
-                            :label="$lang.reservation"
-                            icon="fas fa-calendar-plus"
-                            v-if="$aclService(2)"
-                        />
-                    </div>
-                    <div style="display: flex; align-items: center">
-                        <cui-checkbox
-                            v-model="view.reservation"
-                            :label="$lang.reservation"
-                        />
-                        <cui-checkbox
-                            v-model="view.active"
-                            style="margin-left: 20px"
-                            :label="$lang.activeReception"
-                        />
-                        <cui-checkbox
-                            v-model="view.done"
-                            style="margin-left: 20px; margin-right: 40px"
-                            :label="$lang.paymentDone"
-                        />
-                        <cui-tooltip>
-                            <a>{{ $lang.doctor }} {{ doctorsFree }} </a>
-                            <template #tooltip>
-                                <cui-table
-                                    :data="doctors"
-                                    style="margin: -10px"
-                                >
-                                    <template #thead>
-                                        <cui-th> {{ $lang.name }} </cui-th>
-                                        <cui-th> {{ $lang.status }} </cui-th>
-                                    </template>
-                                    <template v-slot:row="{ row }">
-                                        <td>{{ row.nameFull }}</td>
-                                        <td>
-                                            <cui-tag
-                                                :danger="row.status === 2"
-                                                :primary="row.status === 1"
-                                            >
-                                                {{ docStati[row.status] }}
-                                            </cui-tag>
-                                        </td>
-                                    </template>
-                                </cui-table>
-                            </template>
-                        </cui-tooltip>
-                    </div>
-                </template>
-                <template #thead>
-                    <cui-th sort="name">{{ $lang.name }}</cui-th>
-                    <cui-th sort="examType">{{ $lang.encounterType }}</cui-th>
-                    <cui-th sort="status">{{ $lang.status }}</cui-th>
-                    <cui-th sort="waitTime">{{ $lang.waitTime }}</cui-th>
-                    <cui-th sort="recTime">{{ $lang.receptionTime }}</cui-th>
-                </template>
-                <template v-slot:row="{ row }">
-                    <td>
-                        <i
-                            class="fas fa-exclamation-circle"
-                            style="color: var(--cui-danger"
-                        ></i>
-                        <span>{{ row.patient?.name }}</span>
-                    </td>
-                    <td>{{ parseExamType(row.type) }}</td>
-                    <td>
-                        <cui-button
-                            v-if="$aclService(2) && row.status === 10"
-                            :label="examStatiOptions(row)[0].name"
-                            primary
-                            @click="
-                                modal.payment = row;
-                                view.modal.payment = true;
-                            "
-                        />
-                        <cui-tag v-else-if="row.status === 0">
-                            {{ $lang.paymentDone }}
-                        </cui-tag>
-                        <cui-select
-                            v-else
-                            :data="examStatiOptions(row)"
-                            displayValueProp="name"
-                            returnValueProp="status"
-                            v-model="row.status"
-                            :disabled="
-                                examStatiOptions(row)[0].disabled ||
-                                !$aclService(2)
-                            "
-                            :color="examStatiOptions(row)[0].color"
-                            noNote
-                            @select="changeStatus(row)"
-                        />
-                    </td>
-                    <td>
-                        <span v-if="row.status !== 1">{{
-                            parseWaitTime(row.lastChange).time
-                        }}</span>
-                    </td>
-                    <td>{{ $dayjs(row.date).format("HH時mm分") }}</td>
-                </template>
-            </cui-table>
+            <cc_p_reception_list></cc_p_reception_list>
         </cui-card>
         <cui-card noPadding>Patient Search </cui-card>
         <cui-card noPadding>
@@ -197,7 +81,7 @@
 
 <script>
 import { cc_p_calendar } from "../parts";
-// import Walkin from "./cc_reception_walkin";
+import { cc_p_reception_list } from "../parts";
 // import Payment from "./cc_reception_payment";
 // import Reservation from "../shared/cc_shared_reservation";
 // import ReservationAccept from "./cc_reception_reservation_accept";
@@ -206,26 +90,14 @@ export default {
     name: "ReceptionMainView",
     components: {
         cc_p_calendar,
+        cc_p_reception_list
         // Reservation,
         // Walkin,
         // ReservationAccept,
         // Payment,
     },
-    created() {
-        this.getEncounters();
-        this.getEncounterTypes();
-        this.getDoctors();
-        this.$options.sockets.onmessage = (data) => {
-            data = JSON.parse(data.data);
-            if (data.event === "updateEncounter") this.getEncounters();
-        };
-    },
     data() {
         return {
-            encounters: [],
-            loading: {
-                recTable: false,
-            },
             view: {
                 reservation: true,
                 active: true,
@@ -234,95 +106,21 @@ export default {
                     reception: false,
                     reservation: false,
                     reservationAccept: false,
-                    payment: false,
-                },
+                    payment: false
+                }
             },
             modal: {
-                payment: null,
+                payment: null
             },
             docStati: [null, this.$lang.free, this.$lang.inEncounter],
-            doctors: [],
+            doctors: []
         };
     },
     methods: {
-        async getDoctors() {
-            this.doctors = await this.$dataService().get.doctors.all();
-        },
-        async getEncounterTypes() {
-            return await this.$dataService().get.lists.encounterTypes();
-        },
-        async getEncounters() {
-            this.loading.recTable = true;
-            this.encounters = await this.$dataService().get.encounters.today();
-            this.loading.recTable = false;
-        },
-        parseExamType(type) {
-            const types = this.$store.getters.encounterTypes;
-            let string = "";
-            string = types?.find((item) => item.id == type).name;
-            return string;
-        },
-        examStatiOptions(row) {
-            const currentStatus = row.status;
-            const encounterStati =
-                this.$store.getters.staticLists.encounterStati;
-            let status = encounterStati.find(
-                (item) => item[0].status === currentStatus
-            );
-            return status;
-        },
-        parseWaitTime(change) {
-            let time = this.$dayjs(change).fromNow(true);
-            let diff = this.$dayjs().diff(this.$dayjs(change), "minutes");
-            return {
-                time: time,
-                diff: diff,
-            };
-        },
-        async changeStatus(row) {
-            if (row.status === 3 && row.type === 6) row.status = 4;
-            if (row.status === 2) {
-                this.view.modal.reservationAccept = row;
-            } else {
-                this.loading.recTable = true;
-                await this.$dataService().put.encounters(row);
-                this.getEncounters();
-            }
-        },
         savePayment() {
             this.$refs.payment.savePayment();
-        },
-    },
-    computed: {
-        doctorsFree() {
-            let free = this.doctors.filter((doc) => doc.status === 1).length;
-            return free + "/" + this.doctors.length;
-        },
-        visibleEncounters() {
-            let enc = [];
-            if (this.view.reservation) {
-                let add = this.encounters.filter((e) => e.status === 1);
-                enc.push(...add);
-            }
-            if (this.view.active) {
-                let add = this.encounters.filter((e) => {
-                    if (e.status > 1 && e.status < 11) {
-                        return true;
-                    }
-                    if (e.status > 34) {
-                        return true;
-                    }
-                    return false;
-                });
-                enc.push(...add);
-            }
-            if (this.view.done) {
-                let add = this.encounters.filter((e) => e.status === 0);
-                enc.push(...add);
-            }
-            return enc;
-        },
-    },
+        }
+    }
 };
 </script>
 

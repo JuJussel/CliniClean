@@ -27,7 +27,8 @@ module.exports = {
     resolve: {
       symlinks: false,
       alias: {
-        vue: path.resolve('./node_modules/vue')
+        vue: path.resolve('./node_modules/vue'),
+        src: path.resolve(__dirname, 'src')
       }
     }
   }
