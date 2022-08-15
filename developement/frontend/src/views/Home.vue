@@ -25,11 +25,19 @@
             <template v-slot:center> </template>
             <template v-slot:right>
                 <div
-                    style="display: flex; align-items: center; margin-right: 20px"
+                    style="
+                        display: flex;
+                        align-items: center;
+                        margin-right: 20px;
+                    "
                 >
                     <cui-avatar :image="avatarUrl" />
                     <div
-                        style="margin-left: 10px; color:var(--cui-gray-5); display: flex"
+                        style="
+                            margin-left: 10px;
+                            color: var(--cui-gray-5);
+                            display: flex;
+                        "
                     >
                         {{ $store.getters.userFullName }}
                         <cui-tooltip>
@@ -46,14 +54,14 @@
                     </div>
                 </div>
                 <cui-menu-bar-item
-                    style="padding: 10px!important"
+                    style="padding: 10px !important"
                     plainIcon
                     icon="fas fa-cog"
                     value="settings"
                     v-if="$aclService(1, 'settings')"
                 />
                 <cui-menu-bar-item
-                    style="padding: 10px!important"
+                    style="padding: 10px !important"
                     plainIcon
                     icon="fas fa-sign-out-alt"
                     value="logout"
@@ -69,12 +77,12 @@
 </template>
 
 <script>
-import reception from "../components/layouts/cc_reception";
+import reception from "../components/layouts/cc_l_reception";
 // import patient from "../components/cc_patient/cc_patient_main";
 // import medical from "../components/cc_medical/cc_medical_main.vue";
 // import order from "../components/cc_order/cc_order_main.vue";
 // import notification from "../components/shared/cc_shared_notifications.vue"
-import dashboard from "../components/layouts/cc_dashboard.vue";
+import dashboard from "../components/layouts/cc_l_dashboard.vue";
 // import settings from "../components/cc_settings/cc_settings_main.vue"
 
 export default {
@@ -83,7 +91,7 @@ export default {
         reception,
         // order,
         // notification,
-        dashboard
+        dashboard,
         // settings
     },
     async created() {
@@ -91,7 +99,7 @@ export default {
         await this.$dataService().get.settings.public();
         this.ready = true;
         this.$connect();
-        this.$options.sockets.onmessage = data => {
+        this.$options.sockets.onmessage = (data) => {
             data = JSON.parse(data.data);
             if (data.event === "updateNotifications") this.getNotifications();
         };
@@ -99,7 +107,7 @@ export default {
     data() {
         return {
             activeTab: "dashboard",
-            ready: false
+            ready: false,
         };
     },
     methods: {
@@ -111,7 +119,7 @@ export default {
                 this.activeTab = val;
                 this.$store.commit("SET_ACTIVE_VIEW", val);
             }
-        }
+        },
     },
     computed: {
         avatarUrl() {
@@ -127,10 +135,10 @@ export default {
         },
         hasNewNotification() {
             let not = this.$store.getters.notifications;
-            let hasNot = not.filter(item => !item.recepients[0].read);
+            let hasNot = not.filter((item) => !item.recepients[0].read);
             return hasNot.length > 0 ? true : false;
-        }
-    }
+        },
+    },
 };
 </script>
 
