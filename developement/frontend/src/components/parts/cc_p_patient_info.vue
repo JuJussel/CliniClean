@@ -13,9 +13,16 @@
                         :patient="patientData?.id"
                         v-bind="patient"
                     >
-                        <cui-button label="受付・予約"></cui-button>
-                        <cui-button label="表示・編集"></cui-button>
-                        <cui-button label="カルテ"></cui-button>
+                        <cui-button
+                            :label="$lang.showedit"
+                            @click="
+                                $store.commit('SET_LAYOUT_DATA', {
+                                    receptionModalRegister: true
+                                })
+                            "
+                        ></cui-button>
+                        <cui-button :label="$lang.edit"></cui-button>
+                        <cui-button :label="$lang.karte"></cui-button>
                     </slot>
                 </div>
             </template>
@@ -85,7 +92,7 @@
             </template>
             <template v-slot:row="{ row }">
                 <td>{{ $parseDate(row.date) }}</td>
-                <td>{{ parseType(row.type) }}</td>
+                <td>{{ parseEncounterType(row.type) }}</td>
             </template>
         </cui-table>
     </div>
@@ -196,6 +203,8 @@ export default {
             let encounters = await this.$dataService().get.patient.encounters(
                 patientData.id
             );
+            console.log(today);
+            console.log(encounters);
             this.encounters = encounters.filter(item => item.date < today);
             this.encounterReservations = encounters.filter(
                 item => item.date > today

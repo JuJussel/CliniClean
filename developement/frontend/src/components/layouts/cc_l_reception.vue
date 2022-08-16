@@ -19,6 +19,29 @@
             ></cc_p_patient_info>
             <!-- Patient View Reception Reservation Edit Medical -->
         </cui-card>
+
+        <!---------------- Modals ---------------->
+
+        <cui-modal
+            :visible="$store.getters.layoutData.receptionModalRegister"
+            closable
+            @close="
+                $store.commit('SET_LAYOUT_DATA', {
+                    receptionModalRegister: false
+                })
+            "
+        >
+            <cui-card style="width: 900px; height: 400px">
+                <template #header>
+                    <h2>
+                        {{ $store.getters.activePatient.name
+                        }}{{ $lang.newReception }}
+                    </h2>
+                </template>
+                <cc_p_reception_register></cc_p_reception_register>
+            </cui-card>
+        </cui-modal>
+
         <cui-modal
             :visible="view.modal.reception"
             closable
@@ -86,10 +109,13 @@
 </template>
 
 <script>
-import { cc_p_calendar } from "../parts";
-import { cc_p_reception_list } from "../parts";
-import { cc_p_patient_list } from "../parts";
-import { cc_p_patient_info } from "../parts";
+import {
+    cc_p_calendar,
+    cc_p_reception_list,
+    cc_p_patient_list,
+    cc_p_patient_info,
+    cc_p_reception_register
+} from "../parts";
 // import Payment from "./cc_reception_payment";
 // import Reservation from "../shared/cc_shared_reservation";
 // import ReservationAccept from "./cc_reception_reservation_accept";
@@ -100,7 +126,8 @@ export default {
         cc_p_calendar,
         cc_p_reception_list,
         cc_p_patient_list,
-        cc_p_patient_info
+        cc_p_patient_info,
+        cc_p_reception_register
         // Reservation,
         // Walkin,
         // ReservationAccept,

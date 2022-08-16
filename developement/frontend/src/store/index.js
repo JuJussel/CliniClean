@@ -1,8 +1,8 @@
-import createPersistedState from "vuex-persistedstate";
+// import createPersistedState from "vuex-persistedstate";
 import { createStore } from "vuex";
 
 export const store = createStore({
-    plugins: [createPersistedState()],
+    // plugins: [createPersistedState()],
 
     state() {
         return {
@@ -41,7 +41,8 @@ export const store = createStore({
             settings: null,
             config: null,
             notifications: [],
-            viewData: {}
+            viewData: {},
+            layoutData: {}
         };
     },
 
@@ -67,7 +68,8 @@ export const store = createStore({
         diseaseFlags: (state) => state.staticLists.disease || null,
         notifications: (state) => state.notifications,
         userGroups: (state) => state.staticLists.userGroups,
-        viewData: (state) => state.viewData
+        viewData: (state) => state.viewData,
+        layoutData: (state) => state.layoutData
     },
 
     mutations: {
@@ -119,6 +121,9 @@ export const store = createStore({
         },
         SET_VIEW_DATA(state, data) {
             Object.assign(state.viewData, data);
+        },
+        SET_LAYOUT_DATA(state, data) {
+            Object.assign(state.layoutData, data);
         }
     },
     actions: {},

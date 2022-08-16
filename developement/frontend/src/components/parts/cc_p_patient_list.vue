@@ -17,7 +17,9 @@
                     :placeholder="$lang.searchByNameodID"
                     :loading="loading.patientSearch"
                 ></cui-input>
-                <slot name="buttons"></slot>
+                <slot name="buttons">
+                    <cui-button :label="$lang.register"></cui-button>
+                </slot>
             </div>
         </template>
         <template #thead>
@@ -42,7 +44,7 @@ export default {
         return {
             patientList: [],
             patientSearchInput: "",
-            loading: false,
+            loading: false
         };
     },
     methods: {
@@ -55,7 +57,7 @@ export default {
             this.loading = true;
             this.patientList = await this.$dataService().get.patient.search({
                 name: input,
-                id: input,
+                id: input
             });
             this.loading = false;
         },
@@ -66,8 +68,8 @@ export default {
                 pat.row.id
             );
             this.$store.commit("SET_ACTIVE_PATIENT", patientData.patientData);
-        },
-    },
+        }
+    }
 };
 </script>
 

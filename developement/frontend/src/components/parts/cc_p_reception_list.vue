@@ -1,6 +1,10 @@
 <template>
     <div>
-        <cui-table :data="visibleEncounters" :loading="loading" square>
+        <cui-table
+            :data="visibleEncounters"
+            :loading="layoutData.loading"
+            square
+        >
             <template #emptyImage>
                 <img src="../../assets/img/empty2.jpg" style="width: 300px" />
             </template>
