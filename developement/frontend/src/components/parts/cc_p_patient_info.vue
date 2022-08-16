@@ -1,19 +1,22 @@
 <template>
-    <div>
+    <div class="main-cont">
         <cui-table
-            :data="patientDetails"
+            :data="patientData"
             :loading="$store.getters.activePatient === 'loading'"
-            :outline="outline"
-            :square="square"
+            outline
         >
             <template #header>
                 <div style="display: flex; align-items: center">
-                    <h2>{{ $lang.basic }}</h2>
+                    <h2>{{ $store.getters.activePatient.name }}</h2>
                     <slot
                         name="buttons"
                         :patient="patientData?.id"
                         v-bind="patient"
-                    ></slot>
+                    >
+                        <cui-button label="受付・予約"></cui-button>
+                        <cui-button label="表示・編集"></cui-button>
+                        <cui-button label="カルテ"></cui-button>
+                    </slot>
                 </div>
             </template>
             <template v-slot:row="row">
@@ -21,16 +24,29 @@
                 <td>{{ row.value }}</td>
             </template>
         </cui-table>
-        <!-- <cui-table
-            :data="
-                patientData?.insurance[0][0]
-                    ? patientData?.insurance[0]
-                    : patientData?.insurance
-            "
-            :outline="outline"
-            :square="square"
-            :loading="!patientData"
-            style="margin-top: 40px"
+
+        <cui-table
+            :data="encounters"
+            :loading="$store.getters.activePatient === 'loading'"
+            outline
+        >
+            <template #header>
+                <h2>{{ $lang.outPatient }} {{ $lang.history }}</h2>
+            </template>
+            <template #thead>
+                <cui-th> {{ $lang.date }} </cui-th>
+                <cui-th> {{ $lang.encounterType }} </cui-th>
+            </template>
+            <template v-slot:row="{ row }">
+                <td>{{ $parseDate(row.date) }}</td>
+                <td>{{ parseEncounterType(row.type) }}</td>
+            </template>
+        </cui-table>
+
+        <cui-table
+            :data="insuranceData"
+            outline
+            :loading="$store.getters.activePatient === 'loading'"
         >
             <template #header>
                 <h2>{{ $lang.insurance }}</h2>
@@ -53,7 +69,25 @@
                 <td>{{ buildPublicIns(3, row) }}</td>
                 <td>{{ $parseDate(row.Certificate_ExpiredDate) }}</td>
             </template>
-        </cui-table> -->
+        </cui-table>
+
+        <cui-table
+            :data="encounterReservations"
+            :loading="$store.getters.activePatient === 'loading'"
+            outline
+        >
+            <template #header>
+                <h2>{{ $lang.reservation }}</h2>
+            </template>
+            <template #thead>
+                <cui-th> {{ $lang.date }} </cui-th>
+                <cui-th> {{ $lang.encounterType }} </cui-th>
+            </template>
+            <template v-slot:row="{ row }">
+                <td>{{ $parseDate(row.date) }}</td>
+                <td>{{ parseType(row.type) }}</td>
+            </template>
+        </cui-table>
     </div>
 </template>
 
@@ -62,20 +96,25 @@ export default {
     props: {
         outline: {
             default: false,
-            type: Boolean,
+            type: Boolean
         },
         square: {
             default: true,
-            type: Boolean,
-        },
+            type: Boolean
+        }
     },
     data() {
         return {
-            patientData2: this.$store.getters.activePatient,
-            patient: [],
+            encounters: [],
+            encounterReservations: []
         };
     },
     methods: {
+        parseEncounterType(type) {
+            return this.$store.getters.encounterTypes.find(
+                item => item.id === type
+            ).name;
+        },
         buildPublicIns(index, row) {
             if (index > 0) {
                 if (
@@ -97,57 +136,80 @@ export default {
                 }
             }
             return "";
-        },
+        }
     },
     computed: {
         patientData() {
-            // if (!this.patientData) return [];
             let patientData = this.$store.getters.activePatient;
-            console.log(patientData);
+            if (patientData === "loading" || !patientData) return [];
             let tableData = [
                 { label: this.$lang.patientId, value: patientData?.id },
-                { label: this.$lang.name, value: patientData?.name },
                 {
                     label: this.$lang.birthdate,
                     value: this.$dayjs(patientData?.birthdate).format(
                         "YYYY年MM月DD日"
-                    ),
+                    )
                 },
                 {
                     label: this.$lang.gender,
                     value:
                         patientData?.gender == 1
                             ? this.$lang.male
-                            : this.$lang.female,
+                            : this.$lang.female
                 },
                 {
                     label: this.$lang.address,
                     value:
                         patientData?.address?.zip +
                         " " +
-                        patientData?.address?.addr,
+                        patientData?.address?.addr
                 },
                 {
                     label: this.$lang.occupation,
-                    value: patientData?.occupation,
+                    value: patientData?.occupation
                 },
                 {
                     label: this.$lang.workOrSchoolName,
-                    value: patientData?.company?.name,
+                    value: patientData?.company?.name
                 },
                 { label: this.$lang.telephone, value: patientData?.phone },
                 {
                     label: this.$lang.mailAddress,
-                    value: patientData?.mail,
-                },
+                    value: patientData?.mail
+                }
             ];
             return tableData;
         },
+        insuranceData() {
+            let insData = this.$store.getters.activePatient;
+            if (insData === "loading" || !insData) return [];
+            return insData.insurance[0][0]
+                ? insData?.insurance[0]
+                : insData?.insurance;
+        }
     },
     watch: {
-        patientId() {
-            this.getPatientData();
-        },
-    },
+        async patientData() {
+            let patientData = this.$store.getters.activePatient;
+            if (patientData === "loading" || !patientData) return [];
+            let today = new Date().toISOString();
+            let encounters = await this.$dataService().get.patient.encounters(
+                patientData.id
+            );
+            this.encounters = encounters.filter(item => item.date < today);
+            this.encounterReservations = encounters.filter(
+                item => item.date > today
+            );
+        }
+    }
 };
 </script>
+
+<style scoped>
+.main-cont {
+    display: grid;
+    grid-template-rows: 60% auto;
+    grid-template-columns: calc(50% - 20px) auto;
+    grid-gap: 20px;
+}
+</style>

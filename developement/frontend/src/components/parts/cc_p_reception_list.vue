@@ -1,6 +1,6 @@
 <template>
     <div>
-        <cui-table :data="visibleEncounters" :loading="loading">
+        <cui-table :data="visibleEncounters" :loading="loading" square>
             <template #emptyImage>
                 <img src="../../assets/img/empty2.jpg" style="width: 300px" />
             </template>
@@ -112,7 +112,7 @@ export default {
         this.getEncounters();
         this.getEncounterTypes();
         this.getDoctors();
-        this.$options.sockets.onmessage = (data) => {
+        this.$options.sockets.onmessage = data => {
             data = JSON.parse(data.data);
             if (data.event === "updateEncounter") this.getEncounters();
         };
@@ -125,40 +125,38 @@ export default {
                 view: {
                     reservation: true,
                     active: true,
-                    done: false,
+                    done: false
                 },
                 selectedEncounter: null,
                 docStati: [null, this.$lang.free, this.$lang.inEncounter],
-                doctors: [],
-            },
+                doctors: []
+            }
         };
     },
     methods: {
         async getDoctors() {
-            this.layoutData.doctors =
-                await this.$dataService().get.doctors.all();
+            this.layoutData.doctors = await this.$dataService().get.doctors.all();
         },
         async getEncounterTypes() {
             return await this.$dataService().get.lists.encounterTypes();
         },
         async getEncounters() {
             this.layoutData.loading = true;
-            this.layoutData.encounters =
-                await this.$dataService().get.encounters.today();
+            this.layoutData.encounters = await this.$dataService().get.encounters.today();
             this.layoutData.loading = false;
         },
         parseExamType(type) {
             const types = this.$store.getters.encounterTypes;
             let string = "";
-            string = types?.find((item) => item.id == type).name;
+            string = types?.find(item => item.id == type).name;
             return string;
         },
         examStatiOptions(row) {
             const currentStatus = row.status;
-            const encounterStati =
-                this.$store.getters.staticLists.encounterStati;
+            const encounterStati = this.$store.getters.staticLists
+                .encounterStati;
             let status = encounterStati.find(
-                (item) => item[0].status === currentStatus
+                item => item[0].status === currentStatus
             );
             return status;
         },
@@ -167,7 +165,7 @@ export default {
             let diff = this.$dayjs().diff(this.$dayjs(change), "minutes");
             return {
                 time: time,
-                diff: diff,
+                diff: diff
             };
         },
         async changeStatus(row) {
@@ -179,25 +177,24 @@ export default {
                 await this.$dataService().put.encounters(row);
                 this.getEncounters();
             }
-        },
+        }
     },
     computed: {
         doctorsFree() {
-            let free = this.layoutData.doctors.filter(
-                (doc) => doc.status === 1
-            ).length;
+            let free = this.layoutData.doctors.filter(doc => doc.status === 1)
+                .length;
             return free + "/" + this.layoutData.doctors.length;
         },
         visibleEncounters() {
             let enc = [];
             if (this.layoutData.view.reservation) {
                 let add = this.layoutData.encounters.filter(
-                    (e) => e.status === 1
+                    e => e.status === 1
                 );
                 enc.push(...add);
             }
             if (this.layoutData.view.active) {
-                let add = this.layoutData.encounters.filter((e) => {
+                let add = this.layoutData.encounters.filter(e => {
                     if (e.status > 1 && e.status < 11) {
                         return true;
                     }
@@ -210,12 +207,12 @@ export default {
             }
             if (this.layoutData.view.done) {
                 let add = this.layoutData.encounters.filter(
-                    (e) => e.status === 0
+                    e => e.status === 0
                 );
                 enc.push(...add);
             }
             return enc;
-        },
-    },
+        }
+    }
 };
 </script>

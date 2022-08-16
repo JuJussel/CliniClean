@@ -12,11 +12,12 @@
                 ref="calendar"
             ></cc_p_calendar>
         </cui-card>
-        <cui-card noPadding>
+        <cui-card>
             <cc_p_patient_info
                 v-if="$store.getters.activePatient"
+                style="height: 100%"
             ></cc_p_patient_info>
-            Patient View Reception Reservation Edit Medical
+            <!-- Patient View Reception Reservation Edit Medical -->
         </cui-card>
         <cui-modal
             :visible="view.modal.reception"
@@ -99,7 +100,7 @@ export default {
         cc_p_calendar,
         cc_p_reception_list,
         cc_p_patient_list,
-        cc_p_patient_info,
+        cc_p_patient_info
         // Reservation,
         // Walkin,
         // ReservationAccept,
@@ -118,26 +119,26 @@ export default {
                     reception: false,
                     reservation: false,
                     reservationAccept: false,
-                    payment: false,
-                },
+                    payment: false
+                }
             },
             modal: {
-                payment: null,
+                payment: null
             },
             docStati: [null, this.$lang.free, this.$lang.inEncounter],
-            doctors: [],
+            doctors: []
         };
     },
     computed: {
         hasActivePatient() {
             return this.$store.getters.activePatient;
-        },
+        }
     },
     methods: {
         savePayment() {
             this.$refs.payment.savePayment();
-        },
-    },
+        }
+    }
 };
 </script>
 
@@ -145,6 +146,6 @@ export default {
 .cc-reception-main-cont {
     display: grid;
     grid-template-columns: 50% 50%;
-    grid-template-rows: 50% 50%;
+    grid-template-rows: 40% 60%;
 }
 </style>
