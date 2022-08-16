@@ -32,15 +32,12 @@ export const store = createStore({
                     ],
                 },
             },
-            layoutData: {
-                reception: {
-                }
-            },
             transferData: {
                 reception: null,
                 patientList: null,
             },
             activePatient: null,
+            activeEncounter: null,
             settings: null,
             config: null,
             notifications: [],
@@ -65,12 +62,12 @@ export const store = createStore({
         perscriptionTimings: (state) =>
             state.staticLists.perscriptionTimings || null,
         settings: (state) => state.settings,
+        activePatient: (state) => state.activePatient || null,
         activePatientHistory: (state) => state.activePatient || null,
         diseaseFlags: (state) => state.staticLists.disease || null,
         notifications: (state) => state.notifications,
         userGroups: (state) => state.staticLists.userGroups,
-        viewData: (state) => state.viewData,
-        layoutData: (state) => state.layoutData,
+        viewData: (state) => state.viewData
     },
 
     mutations: {
@@ -111,7 +108,7 @@ export const store = createStore({
         SET_PERSCRIPTION_TIMINGS(state, data) {
             state.staticLists.perscriptionTimings = data;
         },
-        SET_PATIENT_INFO(state, data) {
+        SET_ACTIVE_PATIENT(state, data) {
             state.activePatient = data;
         },
         RESET_PATIENT_INFO(state) {

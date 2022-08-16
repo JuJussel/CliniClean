@@ -3,16 +3,21 @@
         <cui-card class="cc-reception-patient-list" noPadding>
             <cc_p_reception_list></cc_p_reception_list>
         </cui-card>
-        <cui-card noPadding>Patient Search </cui-card>
+        <cui-card>
+            <cc_p_patient_list></cc_p_patient_list>
+        </cui-card>
         <cui-card noPadding>
             <cc_p_calendar
                 style="height: calc(100% - 1px)"
                 ref="calendar"
             ></cc_p_calendar>
         </cui-card>
-        <cui-card noPadding
-            >Patient View Reception Reservation Edit Medical</cui-card
-        >
+        <cui-card noPadding>
+            <cc_p_patient_info
+                v-if="$store.getters.activePatient"
+            ></cc_p_patient_info>
+            Patient View Reception Reservation Edit Medical
+        </cui-card>
         <cui-modal
             :visible="view.modal.reception"
             closable
@@ -82,6 +87,8 @@
 <script>
 import { cc_p_calendar } from "../parts";
 import { cc_p_reception_list } from "../parts";
+import { cc_p_patient_list } from "../parts";
+import { cc_p_patient_info } from "../parts";
 // import Payment from "./cc_reception_payment";
 // import Reservation from "../shared/cc_shared_reservation";
 // import ReservationAccept from "./cc_reception_reservation_accept";
@@ -90,11 +97,16 @@ export default {
     name: "ReceptionMainView",
     components: {
         cc_p_calendar,
-        cc_p_reception_list
+        cc_p_reception_list,
+        cc_p_patient_list,
+        cc_p_patient_info,
         // Reservation,
         // Walkin,
         // ReservationAccept,
         // Payment,
+    },
+    created() {
+        this.$store.commit("SET_ACTIVE_PATIENT", null);
     },
     data() {
         return {
@@ -106,21 +118,26 @@ export default {
                     reception: false,
                     reservation: false,
                     reservationAccept: false,
-                    payment: false
-                }
+                    payment: false,
+                },
             },
             modal: {
-                payment: null
+                payment: null,
             },
             docStati: [null, this.$lang.free, this.$lang.inEncounter],
-            doctors: []
+            doctors: [],
         };
+    },
+    computed: {
+        hasActivePatient() {
+            return this.$store.getters.activePatient;
+        },
     },
     methods: {
         savePayment() {
             this.$refs.payment.savePayment();
-        }
-    }
+        },
+    },
 };
 </script>
 
