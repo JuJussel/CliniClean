@@ -41,70 +41,6 @@
                 <cc_p_reception_register></cc_p_reception_register>
             </cui-card>
         </cui-modal>
-
-        <cui-modal
-            :visible="view.modal.reception"
-            closable
-            @close="view.modal.reception = false"
-        >
-            <cui-card
-                style="
-                    width: 700px;
-                    height: auto;
-                    min-height: 200px;
-                    max-height: 800px;
-                "
-            >
-                <template #header>
-                    <h2>{{ $lang.newReception }}</h2>
-                </template>
-                <Walkin
-                    @close="view.modal.reception = false"
-                    @created="getEncounters()"
-                />
-            </cui-card>
-        </cui-modal>
-        <cui-modal
-            :visible="view.modal.reservation"
-            closable
-            @close="view.modal.reservation = false"
-        >
-            <cui-card style="width: 900px; height: 620px">
-                <template #header> {{ $lang.newReservation }} </template>
-                <Reservation
-                    @close="view.modal.reservation = false"
-                    @created="getEncounters()"
-                />
-            </cui-card>
-        </cui-modal>
-        <cui-modal
-            :visible="view.modal.reservationAccept"
-            closable
-            @close="view.modal.reservationAccept = false"
-        >
-            <cui-card style="width: 900px; height: 500px">
-                <template #header> {{ $lang.newReservation }} </template>
-                <ReservationAccept
-                    @close="view.modal.reservationAccept = false"
-                    :data="view.modal.reservationAccept"
-                />
-            </cui-card>
-        </cui-modal>
-        <cui-modal
-            :visible="view.modal.payment"
-            closable
-            @close="view.modal.payment = false"
-        >
-            <cui-card style="width: 600px; height: 600px">
-                <template #header> {{ $lang.payment }} </template>
-                <Payment
-                    @submitted="getEncounters"
-                    @close="view.modal.payment = false"
-                    :encounter="modal.payment"
-                    ref="payment"
-                />
-            </cui-card>
-        </cui-modal>
     </div>
 </template>
 
@@ -116,9 +52,6 @@ import {
     cc_p_patient_info,
     cc_p_reception_register
 } from "../parts";
-// import Payment from "./cc_reception_payment";
-// import Reservation from "../shared/cc_shared_reservation";
-// import ReservationAccept from "./cc_reception_reservation_accept";
 
 export default {
     name: "ReceptionMainView",
@@ -141,16 +74,13 @@ export default {
             view: {
                 reservation: true,
                 active: true,
-                done: false,
-                modal: {
-                    reception: false,
-                    reservation: false,
-                    reservationAccept: false,
-                    payment: false
-                }
+                done: false
             },
             modal: {
-                payment: null
+                payment: null,
+                reception: {
+                    mode: "rec"
+                }
             },
             docStati: [null, this.$lang.free, this.$lang.inEncounter],
             doctors: []

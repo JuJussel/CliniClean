@@ -8,21 +8,18 @@
             <template #header>
                 <div style="display: flex; align-items: center">
                     <h2>{{ $store.getters.activePatient.name }}</h2>
-                    <slot
-                        name="buttons"
-                        :patient="patientData?.id"
-                        v-bind="patient"
-                    >
+                    <slot name="buttons">
                         <cui-button
-                            :label="$lang.showedit"
+                            :label="$lang.reception"
                             @click="
                                 $store.commit('SET_LAYOUT_DATA', {
                                     receptionModalRegister: true
                                 })
                             "
                         ></cui-button>
+                        <cui-button :label="$lang.reservation"></cui-button>
+                        <cui-button :label="$lang.details"></cui-button>
                         <cui-button :label="$lang.edit"></cui-button>
-                        <cui-button :label="$lang.karte"></cui-button>
                     </slot>
                 </div>
             </template>
@@ -38,7 +35,10 @@
             outline
         >
             <template #header>
-                <h2>{{ $lang.outPatient }} {{ $lang.history }}</h2>
+                <div style="display: flex; align-items: center">
+                    <h2>{{ $lang.outPatient }} {{ $lang.history }}</h2>
+                    <cui-button :label="$lang.karte"></cui-button>
+                </div>
             </template>
             <template #thead>
                 <cui-th> {{ $lang.date }} </cui-th>
@@ -56,7 +56,10 @@
             :loading="$store.getters.activePatient === 'loading'"
         >
             <template #header>
-                <h2>{{ $lang.insurance }}</h2>
+                <div style="display: flex; align-items: center">
+                    <h2>{{ $lang.insurance }}</h2>
+                    <cui-button :label="$lang.karte"></cui-button>
+                </div>
             </template>
             <template #thead>
                 <cui-th> {{ $lang.insuranceCombinationNumber }} </cui-th>
@@ -203,8 +206,6 @@ export default {
             let encounters = await this.$dataService().get.patient.encounters(
                 patientData.id
             );
-            console.log(today);
-            console.log(encounters);
             this.encounters = encounters.filter(item => item.date < today);
             this.encounterReservations = encounters.filter(
                 item => item.date > today

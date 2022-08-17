@@ -10,7 +10,12 @@
                 returnValueProp="id"
                 v-model="walkin.encouterType"
             />
-            <cui-input :label="$lang.memo" v-model="walkin.note" />
+            <cui-textarea
+                cols="20"
+                rows="5"
+                :label="$lang.memo"
+                v-model="walkin.note"
+            />
         </div>
 
         <cui-table

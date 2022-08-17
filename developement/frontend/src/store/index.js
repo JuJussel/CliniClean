@@ -1,8 +1,8 @@
-// import createPersistedState from "vuex-persistedstate";
+import createPersistedState from "vuex-persistedstate";
 import { createStore } from "vuex";
 
 export const store = createStore({
-    // plugins: [createPersistedState()],
+    plugins: [createPersistedState()],
 
     state() {
         return {

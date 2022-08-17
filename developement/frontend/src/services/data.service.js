@@ -1,10 +1,14 @@
 import Http from './http.service';
 import dayjs from 'dayjs';
+var utc = require('dayjs/plugin/utc')
+var timezone = require('dayjs/plugin/timezone') // dependent on utc plugin
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 export default {
     install: (app, options) => {
         const http = Http
-        app.config.globalProperties.$dataService = function() {
+        app.config.globalProperties.$dataService = function () {
             const instance = this
             const helper = {
                 //-------------------------//
@@ -12,8 +16,8 @@ export default {
                 //-------------------------//
                 get: {
                     //>----Authentication-----//
-                    auth: function() {
-                        return new Promise(function(resolve, reject) {
+                    auth: function () {
+                        return new Promise(function (resolve, reject) {
                             http.get("auth/check")
                                 .then((result) => {
                                     resolve(result);
@@ -29,8 +33,8 @@ export default {
                     },
                     //>----User-----//
                     users: {
-                        all: function() {
-                            return new Promise(function(resolve, reject) {
+                        all: function () {
+                            return new Promise(function (resolve, reject) {
                                 http.get("users")
                                     .then((result) => {
                                         resolve(result);
@@ -42,10 +46,10 @@ export default {
                                         });
                                         reject;
                                     });
-                            }); 
+                            });
                         },
-                        favourites: function(userId) {
-                            return new Promise(function(resolve, reject) {
+                        favourites: function (userId) {
+                            return new Promise(function (resolve, reject) {
                                 http.get("users/" + userId + "/favourites")
                                     .then((result) => {
                                         resolve(result);
@@ -62,8 +66,8 @@ export default {
                     },
                     //>----Doctors-----//
                     doctors: {
-                        all: function() {
-                            return new Promise(function(resolve, reject) {
+                        all: function () {
+                            return new Promise(function (resolve, reject) {
                                 http.get("doctors")
                                     .then((result) => {
                                         resolve(result);
@@ -81,8 +85,8 @@ export default {
                     //>----Patients-----//
                     patient: {
                         //>>---Search-----//
-                        search: function(data) {
-                            return new Promise(function(resolve, reject) {
+                        search: function (data) {
+                            return new Promise(function (resolve, reject) {
                                 http.get("patients/search", data)
                                     .then((result) => {
                                         resolve(result);
@@ -97,8 +101,8 @@ export default {
                             });
                         },
                         //>>---Details-----//
-                        details: function(id) {
-                            return new Promise(function(resolve, reject) {
+                        details: function (id) {
+                            return new Promise(function (resolve, reject) {
                                 http.get("patients/" + id)
                                     .then((result) => {
                                         resolve(result);
@@ -113,8 +117,8 @@ export default {
                             });
                         },
                         //>>---Medical History-----//
-                        medicalHistory: function(id) {
-                            return new Promise(function(resolve, reject) {
+                        medicalHistory: function (id) {
+                            return new Promise(function (resolve, reject) {
                                 return http
                                     .get("patients/" + id + "/medicalHistory")
                                     .then((result) => {
@@ -134,8 +138,8 @@ export default {
                             });
                         },
                         //>>---Insurance Sets-----//
-                        insuranceSets: function(id) {
-                            return new Promise(function(resolve, reject) {
+                        insuranceSets: function (id) {
+                            return new Promise(function (resolve, reject) {
                                 http.get("patients/" + id + "/insuranceSets")
                                     .then((result) => {
                                         resolve(result);
@@ -150,8 +154,8 @@ export default {
                             });
                         },
                         //>>---Payments-----//
-                        payments: function(id, date) {
-                            return new Promise(function(resolve, reject) {
+                        payments: function (id, date) {
+                            return new Promise(function (resolve, reject) {
                                 http.get("patients/" + id + "/payments/" + date)
                                     .then((result) => {
                                         resolve(result);
@@ -165,8 +169,8 @@ export default {
                                     });
                             });
                         },
-                        encounters: function(id) {
-                            return new Promise(function(resolve, reject) {
+                        encounters: function (id) {
+                            return new Promise(function (resolve, reject) {
                                 http.get("patients/" + id + "/encounters")
                                     .then((result) => {
                                         resolve(result);
@@ -178,21 +182,18 @@ export default {
                                         });
                                         reject;
                                     });
-                            });   
+                            });
                         }
                     },
                     //>----Encounters-----//
                     encounters: {
-                        today: function() {
+                        today: function () {
                             const data = {
-                                start: dayjs()
-                                    .startOf("day")
-                                    .format("YYYY-MM-DD HH:mm:ss"),
-                                end: dayjs()
-                                    .endOf("day")
-                                    .format("YYYY-MM-DD HH:mm:ss"),
+                                start: dayjs.utc().format(),
+                                end: dayjs.utc().format()
                             };
-                            return new Promise(function(resolve, reject) {
+                            console.log(data.end);
+                            return new Promise(function (resolve, reject) {
                                 http.get("encounters/range", data)
                                     .then((result) => {
                                         resolve(result);
@@ -206,8 +207,8 @@ export default {
                                     });
                             });
                         },
-                        range: function(range) {
-                            return new Promise(function(resolve, reject) {
+                        range: function (range) {
+                            return new Promise(function (resolve, reject) {
                                 http.get("encounters/range", range)
                                     .then((result) => {
                                         resolve(result);
@@ -221,8 +222,8 @@ export default {
                                     });
                             });
                         },
-                        findOne: function(id) {
-                            return new Promise(function(resolve, reject) {
+                        findOne: function (id) {
+                            return new Promise(function (resolve, reject) {
                                 http.get("encounters/" + id)
                                     .then((result) => {
                                         resolve(result);
@@ -234,14 +235,14 @@ export default {
                                         });
                                         reject;
                                     });
-                            }); 
+                            });
                         }
                     },
                     //>----Lists-----//
                     lists: {
                         //>----Health Check Examinations-----//
-                        healthCheckExams: function() {
-                            return new Promise(function(resolve, reject) {
+                        healthCheckExams: function () {
+                            return new Promise(function (resolve, reject) {
                                 return http
                                     .get("lists/healthCheckExams/")
                                     .then((result) => {
@@ -257,11 +258,11 @@ export default {
                             });
                         },
                         //>----Static Lists-----//
-                        static: function() {
+                        static: function () {
                             if (instance.$store.getters.staticLists) {
                                 return instance.$store.getters.staticLists;
                             } else {
-                                return new Promise(function(resolve, reject) {
+                                return new Promise(function (resolve, reject) {
                                     return http
                                         .get("lists/static")
                                         .then((result) => {
@@ -281,13 +282,13 @@ export default {
                                 });
                             }
                         },
-                        
+
                         //>----Encounter Types-----//
-                        encounterTypes: function() {
+                        encounterTypes: function () {
                             if (instance.$store.getters.encounterTypes) {
                                 return instance.$store.getters.encounterTypes;
                             } else {
-                                return new Promise(function(resolve, reject) {
+                                return new Promise(function (resolve, reject) {
                                     return http
                                         .get("lists/encounterTypes")
                                         .then((result) => {
@@ -308,8 +309,8 @@ export default {
                             }
                         },
                         //>----Insurance Providers-----//
-                        insuranceProviders: function(number) {
-                            return new Promise(function(resolve, reject) {
+                        insuranceProviders: function (number) {
+                            return new Promise(function (resolve, reject) {
                                 return http
                                     .get("lists/insuranceProviders/" + number)
                                     .then((result) => {
@@ -329,8 +330,8 @@ export default {
                             });
                         },
                         //>----Addresses-----//
-                        addresses: function(zip) {
-                            return new Promise(function(resolve, reject) {
+                        addresses: function (zip) {
+                            return new Promise(function (resolve, reject) {
                                 return http
                                     .get("lists/addresses/" + zip)
                                     .then((result) => {
@@ -346,8 +347,8 @@ export default {
                             });
                         },
                         //>----Schemas-----//
-                        schemas: function() {
-                            return new Promise(function(resolve, reject) {
+                        schemas: function () {
+                            return new Promise(function (resolve, reject) {
                                 http.get("lists/schemas/")
                                     .then((result) => {
                                         let schemaList = result.map(
@@ -375,8 +376,8 @@ export default {
                             });
                         },
                         //>----Diseases-----//
-                        diseases: function(data) {
-                            return new Promise(function(resolve, reject) {
+                        diseases: function (data) {
+                            return new Promise(function (resolve, reject) {
                                 return http
                                     .get("lists/diseases/" + data)
                                     .then((result) => {
@@ -389,13 +390,13 @@ export default {
                                         });
                                         reject;
                                     });
-                            });   
+                            });
                         },
-    
+
                     },
                     medications: {
-                        search: function(cat, search) {
-                            return new Promise(function(resolve, reject) {
+                        search: function (cat, search) {
+                            return new Promise(function (resolve, reject) {
                                 return http
                                     .get("medications/" + cat + "/" + search)
                                     .then((result) => {
@@ -413,12 +414,12 @@ export default {
                     },
                     procedures: {
                         //>----Encounter Types-----//
-                        categories: function() {
+                        categories: function () {
                             if (instance.$store.getters.procedureCategories) {
                                 return instance.$store.getters
                                     .procedureCategories;
                             } else {
-                                return new Promise(function(resolve, reject) {
+                                return new Promise(function (resolve, reject) {
                                     return http
                                         .get("procedures/categories/")
                                         .then((result) => {
@@ -438,8 +439,8 @@ export default {
                                 });
                             }
                         },
-                        favourites: function(cat) {
-                            return new Promise(function(resolve, reject) {
+                        favourites: function (cat) {
+                            return new Promise(function (resolve, reject) {
                                 return http
                                     .get("procedures/" + cat + "/favourites")
                                     .then((result) => {
@@ -454,14 +455,14 @@ export default {
                                     });
                             });
                         },
-                        search: function(cat, search) {
-                            return new Promise(function(resolve, reject) {
+                        search: function (cat, search) {
+                            return new Promise(function (resolve, reject) {
                                 return http
                                     .get(
                                         "procedures/" +
-                                            cat +
-                                            "/search/" +
-                                            search
+                                        cat +
+                                        "/search/" +
+                                        search
                                     )
                                     .then((result) => {
                                         resolve(result);
@@ -475,13 +476,13 @@ export default {
                                     });
                             });
                         },
-                        examresults: function(procedure) {
-                            return new Promise(function(resolve, reject) {
+                        examresults: function (procedure) {
+                            return new Promise(function (resolve, reject) {
                                 return http
                                     .get(
                                         "procedures/" +
-                                            procedure +
-                                            "/examresults"
+                                        procedure +
+                                        "/examresults"
                                     )
                                     .then((result) => {
                                         resolve(result);
@@ -497,12 +498,12 @@ export default {
                         },
                     },
                     settings: {
-                        public: function() {
+                        public: function () {
                             if (instance.$store.getters.settings) {
                                 return instance.$store.getters.settings;
                             } else {
 
-                                return new Promise(function(
+                                return new Promise(function (
                                     resolve,
                                     reject
                                 ) {
@@ -528,8 +529,8 @@ export default {
                             }
                         }
                     },
-                    orders: function() {
-                        return new Promise(function(resolve, reject) {
+                    orders: function () {
+                        return new Promise(function (resolve, reject) {
                             http.get("orders")
                                 .then((result) => {
                                     resolve(result);
@@ -545,8 +546,8 @@ export default {
 
                     },
                     //>----Notifications-----//
-                    notifications: function() {
-                        return new Promise(function(resolve, reject) {
+                    notifications: function () {
+                        return new Promise(function (resolve, reject) {
                             http.get("notifications")
                                 .then((result) => {
                                     resolve(result);
@@ -560,15 +561,15 @@ export default {
                                 });
                         });
                     }
-                    
+
                 },
                 //-------------------------//
                 //----------Post-----------//
                 //-------------------------//
                 post: {
                     //>----Authentication-----//
-                    auth: function(data) {
-                        return new Promise(function(resolve, reject) {
+                    auth: function (data) {
+                        return new Promise(function (resolve, reject) {
                             return http
                                 .post("auth/login", data)
                                 .then((result) => {
@@ -585,8 +586,8 @@ export default {
                         });
                     },
                     //>----Encounters-----//
-                    encounters: function(data) {
-                        return new Promise(function(resolve, reject) {
+                    encounters: function (data) {
+                        return new Promise(function (resolve, reject) {
                             return http
                                 .post("encounters", data)
                                 .then((result) => {
@@ -600,10 +601,10 @@ export default {
                                     reject();
                                 });
                         });
-                    },                    
+                    },
                     //>----Patients-----//
-                    patients: function(data) {
-                        return new Promise(function(resolve, reject) {
+                    patients: function (data) {
+                        return new Promise(function (resolve, reject) {
                             return http
                                 .post("patients", data)
                                 .then((result) => {
@@ -620,8 +621,8 @@ export default {
                     },
                     //>----Uploads-----//
                     uploads: {
-                        single: function(data) {
-                            return new Promise(function(resolve, reject) {
+                        single: function (data) {
+                            return new Promise(function (resolve, reject) {
                                 http.post("uploads/single", data)
                                     .then((result) => {
                                         resolve(result);
@@ -637,8 +638,8 @@ export default {
                         },
                     },
                     //>----Orders-----//
-                    orders: function(data) {
-                        return new Promise(function(resolve, reject) {
+                    orders: function (data) {
+                        return new Promise(function (resolve, reject) {
                             return http
                                 .post("orders", data)
                                 .then((result) => {
@@ -654,8 +655,8 @@ export default {
                         });
                     },
                     medical: {
-                        vitals: function(data) {
-                            return new Promise(function(resolve, reject) {
+                        vitals: function (data) {
+                            return new Promise(function (resolve, reject) {
                                 return http
                                     .post("patients/" + data.patientId + "/medical/vitals", data)
                                     .then((result) => {
@@ -670,8 +671,8 @@ export default {
                                     });
                             });
                         },
-                        diseases: function(data) {
-                            return new Promise(function(resolve, reject) {
+                        diseases: function (data) {
+                            return new Promise(function (resolve, reject) {
                                 return http
                                     .post("patients/" + data.patientId + "/medical/diseases", data)
                                     .then((result) => {
@@ -692,8 +693,8 @@ export default {
                 //----------Put-----------//
                 //-------------------------//
                 put: {
-                    patients: function(data) {
-                        return new Promise(function(resolve, reject) {
+                    patients: function (data) {
+                        return new Promise(function (resolve, reject) {
                             return http
                                 .put("patients/" + data.id, data)
                                 .then((result) => {
@@ -709,8 +710,8 @@ export default {
                         });
                     },
                     medical: {
-                        basics: function(data) {
-                            return new Promise(function(resolve, reject) {
+                        basics: function (data) {
+                            return new Promise(function (resolve, reject) {
                                 return http
                                     .put("patients/" + data.patientId + "/medical/basics", data.data)
                                     .then((result) => {
@@ -726,8 +727,8 @@ export default {
                             });
                         }
                     },
-                    encounters: function(encounter) {
-                        return new Promise(function(resolve, reject) {
+                    encounters: function (encounter) {
+                        return new Promise(function (resolve, reject) {
                             return http
                                 .put("encounters/" + encounter.id, encounter)
                                 .then((result) => {
@@ -743,8 +744,8 @@ export default {
                         });
                     },
                     user: {
-                        favourites: function(userId, item) {
-                            return new Promise(function(resolve, reject) {
+                        favourites: function (userId, item) {
+                            return new Promise(function (resolve, reject) {
                                 return http
                                     .put(
                                         "users/" + userId + "/favourites",
@@ -762,8 +763,8 @@ export default {
                                     });
                             });
                         },
-                        updateUser: function(data) {
-                            return new Promise(function(resolve, reject) {
+                        updateUser: function (data) {
+                            return new Promise(function (resolve, reject) {
                                 return http
                                     .put(
                                         "users/" + data.id,
@@ -782,8 +783,8 @@ export default {
                             });
                         }
                     },
-                    orders: function(order) {
-                        return new Promise(function(resolve, reject) {
+                    orders: function (order) {
+                        return new Promise(function (resolve, reject) {
                             return http
                                 .put("orders/" + order._id, order)
                                 .then((result) => {
@@ -798,10 +799,10 @@ export default {
                                 });
                         });
                     },
-                    notifications: function(data) {
-                        return new Promise(function(resolve, reject) {
+                    notifications: function (data) {
+                        return new Promise(function (resolve, reject) {
                             return http
-                                .put("notifications/" + data, {read: true})
+                                .put("notifications/" + data, { read: true })
                                 .then((result) => {
                                     resolve(result);
                                 })
@@ -816,8 +817,8 @@ export default {
                     },
                     //>----Uploads-----//
                     uploads: {
-                        single: function(data) {
-                            return new Promise(function(resolve, reject) {
+                        single: function (data) {
+                            return new Promise(function (resolve, reject) {
                                 http.put("uploads/single", data)
                                     .then((result) => {
                                         resolve(result);
@@ -837,8 +838,8 @@ export default {
                 //----------Delete---------//
                 //-------------------------//
                 delete: {
-                    orders: function(orderId) {
-                        return new Promise(function(resolve, reject) {
+                    orders: function (orderId) {
+                        return new Promise(function (resolve, reject) {
                             return http
                                 .delete("orders/" + orderId)
                                 .then((result) => {
