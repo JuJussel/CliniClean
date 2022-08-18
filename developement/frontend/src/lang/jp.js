@@ -101,6 +101,7 @@ export default {
     next: "次",
     note: "メモ",
     noNotifications: "通知なし",
+    noPatientSelected: "患者を選択してません。",
     noSearchResults: "検索結果なし",
     number: "番号",
     objectiveSymtoms: "他覚症状",

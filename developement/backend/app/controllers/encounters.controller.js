@@ -30,10 +30,8 @@ exports.findOne = (req, res) => {
 }
 
 exports.findRange = (req, res) => {
-  console.log(req.query.end);
-  let start = new Date(new Date(req.query.start).setHours(00, 00, 00));
-  let end = new Date(new Date("2022-08-18").setHours(23, 59, 59));
-  console.log(end);
+  let start = new Date(req.query.start);
+  let end = new Date(req.query.end);
   Encounter.find({ date: { $gte: start, $lt: end } }, '-karte -editHistory -baseCost')
     .populate({
       path: 'patient',
@@ -57,10 +55,11 @@ exports.create = async (req, res) => {
 
   let request = req.body;
   let status = 2;
-  let date = Date.now();
+  let date = new Date;
 
   if (request.date && request.time) {
     date = request.date + ' ' + request.time
+    date = new Date(date)
     status = 1
   }
 
@@ -140,6 +139,7 @@ exports.create = async (req, res) => {
     }
   }
 
+  $wss.broadcast({ event: "updateEncounter", encounterId: encounter._id });
   res.send(encounter);
 
 }

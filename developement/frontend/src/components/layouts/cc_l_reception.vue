@@ -17,6 +17,7 @@
                 v-if="$store.getters.activePatient"
                 style="height: 100%"
             ></cc_p_patient_info>
+            <cui-tag v-else>{{ $lang.noPatientSelected }}</cui-tag>
             <!-- Patient View Reception Reservation Edit Medical -->
         </cui-card>
 
@@ -41,6 +42,26 @@
                 <cc_p_reception_register></cc_p_reception_register>
             </cui-card>
         </cui-modal>
+
+        <cui-modal
+            :visible="$store.getters.layoutData.receptionModalReservation"
+            closable
+            @close="
+                $store.commit('SET_LAYOUT_DATA', {
+                    receptionModalReservation: false
+                })
+            "
+        >
+            <cui-card style="width: 1000px; height: 640px">
+                <template #header>
+                    <h2>
+                        {{ $store.getters.activePatient.name
+                        }}{{ $lang.reservation }}
+                    </h2>
+                </template>
+                <cc_p_reception_reservation></cc_p_reception_reservation>
+            </cui-card>
+        </cui-modal>
     </div>
 </template>
 
@@ -50,7 +71,8 @@ import {
     cc_p_reception_list,
     cc_p_patient_list,
     cc_p_patient_info,
-    cc_p_reception_register
+    cc_p_reception_register,
+    cc_p_reception_reservation
 } from "../parts";
 
 export default {
@@ -60,7 +82,8 @@ export default {
         cc_p_reception_list,
         cc_p_patient_list,
         cc_p_patient_info,
-        cc_p_reception_register
+        cc_p_reception_register,
+        cc_p_reception_reservation
         // Reservation,
         // Walkin,
         // ReservationAccept,

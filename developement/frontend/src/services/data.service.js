@@ -1,9 +1,5 @@
 import Http from './http.service';
 import dayjs from 'dayjs';
-var utc = require('dayjs/plugin/utc')
-var timezone = require('dayjs/plugin/timezone') // dependent on utc plugin
-dayjs.extend(utc)
-dayjs.extend(timezone)
 
 export default {
     install: (app, options) => {
@@ -189,10 +185,11 @@ export default {
                     encounters: {
                         today: function () {
                             const data = {
-                                start: dayjs.utc().format(),
-                                end: dayjs.utc().format()
+                                start: dayjs()
+                                    .startOf("day"),
+                                end: dayjs()
+                                    .endOf("day")
                             };
-                            console.log(data.end);
                             return new Promise(function (resolve, reject) {
                                 http.get("encounters/range", data)
                                     .then((result) => {

@@ -10,6 +10,9 @@
                     <h2>{{ $store.getters.activePatient.name }}</h2>
                     <slot name="buttons">
                         <cui-button
+                            :disabled="
+                                $store.getters.activePatient === 'loading'
+                            "
                             :label="$lang.reception"
                             @click="
                                 $store.commit('SET_LAYOUT_DATA', {
@@ -17,7 +20,17 @@
                                 })
                             "
                         ></cui-button>
-                        <cui-button :label="$lang.reservation"></cui-button>
+                        <cui-button
+                            :disabled="
+                                $store.getters.activePatient === 'loading'
+                            "
+                            :label="$lang.reservation"
+                            @click="
+                                $store.commit('SET_LAYOUT_DATA', {
+                                    receptionModalReservation: true
+                                })
+                            "
+                        ></cui-button>
                         <cui-button :label="$lang.details"></cui-button>
                         <cui-button :label="$lang.edit"></cui-button>
                     </slot>
