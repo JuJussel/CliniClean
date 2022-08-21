@@ -1,49 +1,52 @@
 import createPersistedState from "vuex-persistedstate";
 import { createStore } from "vuex";
 
+var defaultState = function () {
+    return {
+        user: null,
+        activeView: "home",
+        staticLists: {
+            userGroups: [
+                { id: 1, name: "Reception" },
+                { id: 2, name: "Nurse" },
+                { id: 3, name: "Doctor" },
+                { id: 99, name: "Admin" },
+            ],
+            db: null,
+            disease: {
+                suspectFlags: [
+                    { value: "", label: "なし" },
+                    { value: "S", label: "疑い" },
+                    { value: "A", label: "急性" },
+                    { value: "SA", label: "疑いかつ急性" },
+                ],
+                outcomeFlags: [
+                    { value: "", label: "なし" },
+                    { value: "F", label: "治癒" },
+                    { value: "D", label: "死亡" },
+                    { value: "C", label: "中止" },
+                    { value: "S", label: "移行" },
+                ],
+            },
+        },
+        transferData: {
+            reception: null,
+            patientList: null,
+        },
+        activePatient: null,
+        activeEncounter: null,
+        settings: null,
+        config: null,
+        notifications: [],
+        viewData: {},
+        layoutData: {}
+    };
+}
+
 export const store = createStore({
     plugins: [createPersistedState()],
-
     state() {
-        return {
-            user: null,
-            activeView: "home",
-            staticLists: {
-                userGroups: [
-                    { id: 1, name: "Reception" },
-                    { id: 2, name: "Nurse" },
-                    { id: 3, name: "Doctor" },
-                    { id: 99, name: "Admin" },
-                ],
-                db: null,
-                disease: {
-                    suspectFlags: [
-                        { value: "", label: "なし" },
-                        { value: "S", label: "疑い" },
-                        { value: "A", label: "急性" },
-                        { value: "SA", label: "疑いかつ急性" },
-                    ],
-                    outcomeFlags: [
-                        { value: "", label: "なし" },
-                        { value: "F", label: "治癒" },
-                        { value: "D", label: "死亡" },
-                        { value: "C", label: "中止" },
-                        { value: "S", label: "移行" },
-                    ],
-                },
-            },
-            transferData: {
-                reception: null,
-                patientList: null,
-            },
-            activePatient: null,
-            activeEncounter: null,
-            settings: null,
-            config: null,
-            notifications: [],
-            viewData: {},
-            layoutData: {}
-        };
+        return defaultState();
     },
 
     getters: {
@@ -124,6 +127,9 @@ export const store = createStore({
         },
         SET_LAYOUT_DATA(state, data) {
             Object.assign(state.layoutData, data);
+        },
+        CLEAR_STORE(state) {
+            Object.assign(state, defaultState());
         }
     },
     actions: {},

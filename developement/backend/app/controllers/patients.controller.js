@@ -26,14 +26,14 @@ const getOrcaPatientData = (id, result) => {
         phone: data.CellularNumber,
         mail: data.EmailAddress,
         address: {
-            zip: data.Home_Address_Information?.Address_ZipCode,
-            addr: data.Home_Address_Information?.WholeAddress1,
+          zip: data.Home_Address_Information?.Address_ZipCode,
+          addr: data.Home_Address_Information?.WholeAddress1,
         },
         company: {
-            name: data.WorkPlace_Information?.WholeName,
-            zip: data.WorkPlace_Information?.Address_ZipCode,
-            addr: data.WorkPlace_Information?.WholeAddress1,
-            phone: data.WorkPlace_Information?.PhoneNumber,
+          name: data.WorkPlace_Information?.WholeName,
+          zip: data.WorkPlace_Information?.Address_ZipCode,
+          addr: data.WorkPlace_Information?.WholeAddress1,
+          phone: data.WorkPlace_Information?.PhoneNumber,
         },
         insurance: [
           data.HealthInsurance_Information?.HealthInsurance_Information_child
@@ -65,7 +65,7 @@ exports.findMany = (req, res) => {
   );
 };
 
-exports.findPayments = (req,res) => {
+exports.findPayments = (req, res) => {
   Orca.get.payments(req.params, (err, payments) => {
     if (err) {
       $logger.error(err);
@@ -81,22 +81,22 @@ exports.findPayments = (req,res) => {
   })
 };
 
-exports.findEncounters = (req,res) => {
-  
+exports.findEncounters = (req, res) => {
+
   let patientId = req.params.patientId;
 
-  Encounter.find({patient: patientId},'date type doctor payment')
-  .exec(
-    (err, data) => {
-      if (err) {
-        $logger.error(err)
-        res.status(500).send({
-          message: "Error retrieving Encounter"
-        });
-      } else {
-        res.send(data);
-      }
-    })
+  Encounter.find({ patient: patientId }, 'date type doctor payment')
+    .exec(
+      (err, data) => {
+        if (err) {
+          $logger.error(err)
+          res.status(500).send({
+            message: "Error retrieving Encounter"
+          });
+        } else {
+          res.send(data);
+        }
+      })
 
 }
 
@@ -110,7 +110,7 @@ exports.findOne = (req, res) => {
         message: err,
       });
     } else {
-      res.send({patientData: data});
+      res.send({ patientData: data });
     }
   })
 
@@ -155,7 +155,7 @@ exports.findInsuranceSets = (req, res) => {
   });
 };
 
-exports.findMedicalHistory = async (req,res) => {
+exports.findMedicalHistory = async (req, res) => {
 
   // Get Patient from Mongo
   // Get other stuff from Orca
@@ -163,11 +163,11 @@ exports.findMedicalHistory = async (req,res) => {
   const id = req.params.patientId;
 
   try {
-    let patientData = await Patient.findById(id).lean().exec() ;
-    if(!patientData) res.status(500).send({ message: "Patient not found" });
+    let patientData = await Patient.findById(id).lean().exec();
+    if (!patientData) res.status(500).send({ message: "Patient not found" });
 
-    patientData.encounters = await Encounter.find({patient: id}) || [];
-    patientData.vitals = await Vital.find({patientId: id}).sort({date:-1}) || [];
+    patientData.encounters = await Encounter.find({ patient: id }) || [];
+    patientData.vitals = await Vital.find({ patientId: id }).sort({ date: -1 }) || [];
 
     getOrcaPatientData(id, (err, data) => {
       if (err) {
@@ -199,7 +199,7 @@ exports.findMedicalHistory = async (req,res) => {
             res.send(patientData);
           }
         });
-      
+
       }
     })
 
@@ -251,13 +251,13 @@ exports.create = async (req, res) => {
     files[i].extension = extension;
 
     try {
-      
+
       let file = await File.create(files[i]);
       let base64Data = files[i].data.replace("data:", "").replace(/^.+,/, "");
       let filename = file._id + '.' + extension;
-      fs.writeFile(envConfig.PROJECT_DIR + '/storage/' + filename, base64Data, 'base64', function(err) {
+      fs.writeFile(envConfig.PROJECT_DIR + '/storage/' + filename, base64Data, 'base64', function (err) {
         if (err) {
-          $logger.error(err);          
+          $logger.error(err);
         }
       });
       fileIds.push(file._id);
@@ -283,7 +283,7 @@ exports.create = async (req, res) => {
           $logger.error(err);
           res.status(500).send({ message: "Error creating Patient" });
         }
-        res.send({patientId: data});
+        res.send({ patientId: data });
       })
     }
   });
@@ -291,6 +291,44 @@ exports.create = async (req, res) => {
 };
 
 exports.edit = async (req, res) => {
+  const envConfig = require("../../env");
+
+  let request = req.body;
+  request.edit = true;
+
+  Orca.post.patient(request, (err, data) => {
+    if (err) {
+      res.status(500).send({
+        message: err,
+      });
+    } else {
+
+      Patient.findOneAndUpdate(
+        { _id: request.id },
+        {
+          $set: {
+            name: request.name,
+            birthdate: request.birthdate
+          },
+        },
+        {
+          runValidators: true
+        },
+        (err) => {
+          if (err) {
+            $logger.error(err);
+            res.status(500).send({ message: "Error creating Patient" });
+          }
+          $wss.broadcast({ event: "updatePatient", patientId: data });
+          res.send({ patientId: data });
+
+        }
+      );
+    }
+  });
+};
+
+exports.addInsurance = async (req, res) => {
   const fs = require('fs');
   const envConfig = require("../../env");
 
@@ -310,13 +348,13 @@ exports.edit = async (req, res) => {
     files[i].extension = extension;
 
     try {
-      
+
       let file = await File.create(files[i]);
       let base64Data = files[i].data.replace("data:", "").replace(/^.+,/, "");
       let filename = file._id + '.' + extension;
-      fs.writeFile(envConfig.PROJECT_DIR + '/storage/' + filename, base64Data, 'base64', function(err) {
+      fs.writeFile(envConfig.PROJECT_DIR + '/storage/' + filename, base64Data, 'base64', function (err) {
         if (err) {
-          $logger.error(err);          
+          $logger.error(err);
         }
       });
       fileIds.push(file._id);
@@ -336,7 +374,7 @@ exports.edit = async (req, res) => {
         message: err,
       });
     } else {
-      
+
       Patient.findOneAndUpdate(
         { _id: request.id },
         {
@@ -345,7 +383,7 @@ exports.edit = async (req, res) => {
             birthdate: request.birthdate
           },
           $push: {
-            files: { $each: request.files}
+            files: { $each: request.files }
           }
         },
         {
@@ -356,7 +394,7 @@ exports.edit = async (req, res) => {
             $logger.error(err);
             res.status(500).send({ message: "Error creating Patient" });
           }
-          res.send({patientId: data});
+          res.send({ patientId: data });
 
         }
       );

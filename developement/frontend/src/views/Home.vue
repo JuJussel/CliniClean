@@ -91,7 +91,7 @@ export default {
         reception,
         // order,
         // notification,
-        dashboard,
+        dashboard
         // settings
     },
     async created() {
@@ -99,7 +99,7 @@ export default {
         await this.$dataService().get.settings.public();
         this.ready = true;
         this.$connect();
-        this.$options.sockets.onmessage = (data) => {
+        this.$options.sockets.onmessage = data => {
             data = JSON.parse(data.data);
             if (data.event === "updateNotifications") this.getNotifications();
         };
@@ -107,19 +107,19 @@ export default {
     data() {
         return {
             activeTab: "dashboard",
-            ready: false,
+            ready: false
         };
     },
     methods: {
         changeMenu(val) {
             if (val === "logout") {
-                this.$auth.remove();
+                this.$auth().remove();
                 this.$router.push("/");
             } else {
                 this.activeTab = val;
                 this.$store.commit("SET_ACTIVE_VIEW", val);
             }
-        },
+        }
     },
     computed: {
         avatarUrl() {
@@ -135,10 +135,10 @@ export default {
         },
         hasNewNotification() {
             let not = this.$store.getters.notifications;
-            let hasNot = not.filter((item) => !item.recepients[0].read);
+            let hasNot = not.filter(item => !item.recepients[0].read);
             return hasNot.length > 0 ? true : false;
-        },
-    },
+        }
+    }
 };
 </script>
 

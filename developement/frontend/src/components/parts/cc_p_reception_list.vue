@@ -119,6 +119,7 @@ export default {
         this.$options.sockets.onmessage = data => {
             data = JSON.parse(data.data);
             if (data.event === "updateEncounter") this.getEncounters();
+            if (data.event === "updatePatient") this.getEncounters();
         };
     },
     data() {

@@ -18,7 +18,6 @@
                 style="height: 100%"
             ></cc_p_patient_info>
             <cui-tag v-else>{{ $lang.noPatientSelected }}</cui-tag>
-            <!-- Patient View Reception Reservation Edit Medical -->
         </cui-card>
 
         <!---------------- Modals ---------------->
@@ -39,7 +38,7 @@
                         }}{{ $lang.newReception }}
                     </h2>
                 </template>
-                <cc_p_reception_register></cc_p_reception_register>
+                <cc_p_reception_register />
             </cui-card>
         </cui-modal>
 
@@ -59,7 +58,29 @@
                         }}{{ $lang.reservation }}
                     </h2>
                 </template>
-                <cc_p_reception_reservation></cc_p_reception_reservation>
+                <cc_p_reception_reservation />
+            </cui-card>
+        </cui-modal>
+
+        <cui-modal
+            :visible="$store.getters.layoutData.receptionModalPatientEdit"
+            closable
+            @close="
+                $store.commit('SET_LAYOUT_DATA', {
+                    receptionModalPatientEdit: false
+                })
+            "
+        >
+            <cui-card style="width: 1100px; height: 600px">
+                <template #header>
+                    <h2 v-if="$store.getters.activePatient">
+                        {{ $store.getters.activePatient.name }}{{ $lang.edit }}
+                    </h2>
+                    <h2 v-else>
+                        {{ $store.getters.activePatient.name }}{{ $lang.edit }}
+                    </h2>
+                </template>
+                <cc_p_patient_edit />
             </cui-card>
         </cui-modal>
     </div>
@@ -72,7 +93,8 @@ import {
     cc_p_patient_list,
     cc_p_patient_info,
     cc_p_reception_register,
-    cc_p_reception_reservation
+    cc_p_reception_reservation,
+    cc_p_patient_edit
 } from "../parts";
 
 export default {
@@ -83,7 +105,8 @@ export default {
         cc_p_patient_list,
         cc_p_patient_info,
         cc_p_reception_register,
-        cc_p_reception_reservation
+        cc_p_reception_reservation,
+        cc_p_patient_edit
         // Reservation,
         // Walkin,
         // ReservationAccept,

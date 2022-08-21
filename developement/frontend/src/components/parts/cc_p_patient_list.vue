@@ -40,6 +40,12 @@
 <script>
 export default {
     emits: ["selected"],
+    created() {
+        this.$options.sockets.onmessage = data => {
+            data = JSON.parse(data.data);
+            if (data.event === "updatePatient") this.resetSearch();
+        };
+    },
     data() {
         return {
             patientList: [],
@@ -48,6 +54,10 @@ export default {
         };
     },
     methods: {
+        resetSearch() {
+            this.patientSearchInput = "";
+            this.patientList = [];
+        },
         async searchPatient() {
             let input = this.patientSearchInput;
             if (input === "") {

@@ -31,8 +31,19 @@
                                 })
                             "
                         ></cui-button>
+                        <cui-button
+                            :disabled="
+                                $store.getters.activePatient === 'loading'
+                            "
+                            :label="$lang.edit"
+                            @click="
+                                $store.commit('SET_LAYOUT_DATA', {
+                                    receptionModalPatientEdit: true
+                                })
+                            "
+                        ></cui-button>
+
                         <cui-button :label="$lang.details"></cui-button>
-                        <cui-button :label="$lang.edit"></cui-button>
                     </slot>
                 </div>
             </template>
@@ -71,7 +82,7 @@
             <template #header>
                 <div style="display: flex; align-items: center">
                     <h2>{{ $lang.insurance }}</h2>
-                    <cui-button :label="$lang.karte"></cui-button>
+                    <cui-button :label="$lang.register"></cui-button>
                 </div>
             </template>
             <template #thead>
@@ -204,7 +215,7 @@ export default {
             return tableData;
         },
         insuranceData() {
-            let insData = this.$store.getters.activePatient;
+            let insData = this.$store.getters.activePatient || null;
             if (insData === "loading" || !insData) return [];
             return insData.insurance[0][0]
                 ? insData?.insurance[0]
