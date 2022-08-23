@@ -82,7 +82,14 @@
             <template #header>
                 <div style="display: flex; align-items: center">
                     <h2>{{ $lang.insurance }}</h2>
-                    <cui-button :label="$lang.register"></cui-button>
+                    <cui-button
+                        :label="$lang.register"
+                        @click="
+                            $store.commit('SET_LAYOUT_DATA', {
+                                receptionModalInsuranceEdit: true
+                            })
+                        "
+                    ></cui-button>
                 </div>
             </template>
             <template #thead>

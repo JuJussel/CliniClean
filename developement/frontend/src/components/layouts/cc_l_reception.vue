@@ -76,11 +76,29 @@
                     <h2 v-if="$store.getters.activePatient">
                         {{ $store.getters.activePatient.name }}{{ $lang.edit }}
                     </h2>
-                    <h2 v-else>
-                        {{ $store.getters.activePatient.name }}{{ $lang.edit }}
-                    </h2>
+                    <h2 v-else>{{ $lang.patient }}{{ $lang.register }}</h2>
                 </template>
                 <cc_p_patient_edit />
+            </cui-card>
+        </cui-modal>
+
+        <cui-modal
+            :visible="$store.getters.layoutData.receptionModalInsuranceEdit"
+            closable
+            @close="
+                $store.commit('SET_LAYOUT_DATA', {
+                    receptionModalInsuranceEdit: false
+                })
+            "
+        >
+            <cui-card style="width: 1100px; height: 600px">
+                <template #header>
+                    <h2>
+                        {{ $store.getters.activePatient.name
+                        }}{{ $lang.insurance }}{{ $lang.edit }}
+                    </h2>
+                </template>
+                <cc_p_insurance_edit />
             </cui-card>
         </cui-modal>
     </div>
@@ -94,7 +112,8 @@ import {
     cc_p_patient_info,
     cc_p_reception_register,
     cc_p_reception_reservation,
-    cc_p_patient_edit
+    cc_p_patient_edit,
+    cc_p_insurance_edit
 } from "../parts";
 
 export default {
@@ -106,7 +125,8 @@ export default {
         cc_p_patient_info,
         cc_p_reception_register,
         cc_p_reception_reservation,
-        cc_p_patient_edit
+        cc_p_patient_edit,
+        cc_p_insurance_edit
         // Reservation,
         // Walkin,
         // ReservationAccept,
