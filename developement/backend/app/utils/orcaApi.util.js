@@ -355,66 +355,10 @@ post.patient = async function (data, result) {
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////// Create Patient Insurance ////////////////////
 ////////////////////////////////////////////////////////////////////////////
-post.patient = async function (data, result) {
-  data.name = japUtils.toFullwidth(data.name);
-  data.nameKana = japUtils.toFullwidth(data.nameKana);
-  data.householderName = japUtils.toFullwidth(data.householderName);
+post.insurance = async function (data, result) {
 
-  const requestData = {
-    data: {
-      patientmodreq: {
-        $: { type: "record" },
-        Mod_Key: { $: { type: "string" }, _: data.editSexOrBirthdate ? "2" : "1" },
-        Patient_ID: { $: { type: "string" }, _: data.edit ? data.id : "*" },
-        WholeName: { $: { type: "string" }, _: data.name },
-        WholeName_inKana: { $: { type: "string" }, _: data.nameKana },
-        BirthDate: { $: { type: "string" }, _: data.birthdate },
-        Sex: { $: { type: "string" }, _: data.gender },
-        HouseHolder_WholeName: {
-          $: { type: "string" },
-          _: data.householderName,
-        },
-        Relationship: { $: { type: "string" }, _: data.relation },
-        Occupation: { $: { type: "string" }, _: data.occupation },
-        CellularNumber: { $: { type: "string" }, _: data.phone },
-        EmailAddress: { $: { type: "string" }, _: data.mail },
-        Home_Address_Information: {
-          $: { type: "record" },
-          Address_ZipCode: { $: { type: "string" }, _: data.address.zip },
-          WholeAddress1: { $: { type: "string" }, _: data.address.addr },
-          WholeAddress2: { $: { type: "string" }, _: "" },
-          PhoneNumber1: { $: { type: "string" }, _: "" },
-        },
-        WorkPlace_Information: {
-          $: { type: "record" },
-          WholeName: { $: { type: "string" }, _: data.company.name },
-          Address_ZipCode: { $: { type: "string" }, _: data.company.zip },
-          WholeAddress1: { $: { type: "string" }, _: data.company.addr },
-          WholeAddress2: { $: { type: "string" }, _: "" },
-          PhoneNumber: { $: { type: "string" }, _: data.company.phone },
-        },
-        HealthInsurance_Information: {
-          $: { type: "record" },
-          InsuranceProvider_Class: { $: { type: "string" }, _: "980" },
-        },
-      },
-    },
-  };
-
-  const route = data.edit ? "/orca12/patientmodv2?class=02" : "/orca12/patientmodv2?class=01";
-  const responseData = await sendRequest(route, "POST", requestData)
-    .catch((responseData) => {
-      result(responseData, null);
-      return;
-    });
-  if (!validate(responseData, ["00", "K1", "K2", "K3", "K4", "K5"], "patientmodres")) {
-    result(responseData.patientmodres.Api_Result_Message, null);
-    return;
-  }
-
-  let patientId = responseData.patientmodres.Patient_Information.Patient_ID;
-  let insurances = data.insurance.filter((item) => item.type === "ins");
-  let publicInsurance = data.insurance.filter(
+  let insurances = data.filter((item) => item.type === "ins");
+  let publicInsurance = data.filter(
     (item) => item.type === "pub"
   );
 
@@ -428,11 +372,11 @@ post.patient = async function (data, result) {
         patientmodreq: {
           $: { type: "record" },
           Mod_Key: { $: { type: "string" }, _: "2" },
-          Patient_ID: { $: { type: "string" }, _: patientId },
-          WholeName: { $: { type: "string" }, _: data.name },
-          WholeName_inKana: { $: { type: "string" }, _: data.nameKana },
-          BirthDate: { $: { type: "string" }, _: data.birthdate },
-          Sex: { $: { type: "string" }, _: data.gender },
+          Patient_ID: { $: { type: "string" }, _: ins.patient.id },
+          WholeName: { $: { type: "string" }, _: japUtils.toFullwidth(ins.patient.name) },
+          WholeName_inKana: { $: { type: "string" }, _: japUtils.toFullwidth(ins.patient.nameKana) },
+          BirthDate: { $: { type: "string" }, _: ins.patient.birthdate },
+          Sex: { $: { type: "string" }, _: ins.patient.gender },
           HealthInsurance_Information: {
             $: { type: "record" },
             InsuranceProvider_Class: { $: { type: "string" }, _: "" },
@@ -469,11 +413,11 @@ post.patient = async function (data, result) {
         patientmodreq: {
           $: { type: "record" },
           Mod_Key: { $: { type: "string" }, _: "2" },
-          Patient_ID: { $: { type: "string" }, _: patientId },
-          WholeName: { $: { type: "string" }, _: data.name },
-          WholeName_inKana: { $: { type: "string" }, _: data.nameKana },
-          BirthDate: { $: { type: "string" }, _: data.birthdate },
-          Sex: { $: { type: "string" }, _: data.gender },
+          Patient_ID: { $: { type: "string" }, _: publicInsurance[0].patient.id },
+          WholeName: { $: { type: "string" }, _: publicInsurance[0].patient.name },
+          WholeName_inKana: { $: { type: "string" }, _: publicInsurance[0].patient.nameKana },
+          BirthDate: { $: { type: "string" }, _: publicInsurance[0].patient.birthdate },
+          Sex: { $: { type: "string" }, _: publicInsurance[0].patient.gender },
           HealthInsurance_Information: {
             $: { type: "record" },
             PublicInsurance_Information: {
@@ -520,7 +464,7 @@ post.patient = async function (data, result) {
     }
   }
 
-  result(null, patientId);
+  result(null, null);
   return;
 
 };

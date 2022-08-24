@@ -337,7 +337,7 @@ exports.addInsurance = async (req, res) => {
   let files = [];
   let fileIds = [];
 
-  request.insurance.forEach(item => {
+  request.forEach(item => {
     files.push(...item.files);
   })
 
@@ -368,7 +368,7 @@ exports.addInsurance = async (req, res) => {
   request.files = fileIds;
   request.edit = true;
 
-  Orca.post.patient(request, (err, data) => {
+  Orca.post.insurance(request, (err, data) => {
     if (err) {
       res.status(500).send({
         message: err,

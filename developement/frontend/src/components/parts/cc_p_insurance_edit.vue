@@ -1,5 +1,7 @@
 <template>
-    <div>
+    <div style="position: relative">
+        <div class="loader cc_reception_payment_loader" v-if="loading.all" />
+
         <cui-switch
             :label="$lang.publicInsurance"
             v-model="isPublic"
@@ -23,14 +25,17 @@
                         :note="errors.insuredName"
                         v-model="insurance.insuredName"
                         :label="$lang.insuranceInsuredName"
-                        :disabled="insurance.relation === $lang.thisPerson"
+                        :disabled="insurance.relation === 1"
                     ></cui-input>
                     <cui-radio
                         style="margin-left: 10px"
                         :label="$lang.thisPerson"
                         :value="1"
                         v-model="insurance.relation"
-                        @select="insurance.insuredName = patientName"
+                        @select="
+                            insurance.insuredName =
+                                $store.getters.activePatient.name
+                        "
                     />
                     <cui-radio
                         style="margin-left: 10px"
@@ -46,12 +51,14 @@
                     :label="$lang.insuranceProviderNumber"
                     @input="getInsuranceName"
                 ></cui-input>
-                <cui-input
-                    :note="errors.providerName"
-                    v-model="insurance.providerName"
-                    :label="$lang.insuranceProviderName"
-                    :loading="loading.provider"
-                ></cui-input>
+                <div>
+                    <cui-input
+                        :note="errors.providerName"
+                        v-model="insurance.providerName"
+                        :label="$lang.insuranceProviderName"
+                        :disabled="loading.provider"
+                    ></cui-input>
+                </div>
             </div>
             <div style="margin-left: 20px">
                 <cui-datepicker
@@ -75,7 +82,11 @@
             </div>
             <div class="cc-insurance-new-footer">
                 <cui-button
-                    @click="$emit('close')"
+                    @click="
+                        $store.commit('SET_LAYOUT_DATA', {
+                            receptionModalInsuranceEdit: false
+                        })
+                    "
                     plain
                     :label="$lang.cancel"
                 ></cui-button>
@@ -89,20 +100,18 @@
 import Joi from "joi";
 
 export default {
-    props: {
-        patientName: { default: "", type: String }
-    },
     emits: ["close", "confirm"],
     data() {
         return {
             isPublic: false,
             loading: {
+                all: false,
                 provider: false
             },
             insurance: {
                 type: "ins",
                 relation: 1,
-                insuredName: this.patientName,
+                insuredName: this.$store.getters.activePatient.name,
                 symbol: "",
                 number: "",
                 providerNumber: "",
@@ -111,6 +120,8 @@ export default {
                 validDate: [],
                 files: []
             },
+            filesRaw: [],
+            patient: this.$store.getters.activePatient,
             errors: {
                 insuredName: "",
                 symbol: "",
@@ -125,7 +136,7 @@ export default {
     },
     methods: {
         updateFiles(files) {
-            this.insurance.files = files;
+            this.filesRaw = files;
         },
         async getInsuranceName() {
             this.loading.provider = true;
@@ -222,10 +233,11 @@ export default {
             }
         },
         async validate() {
+            this.loading.all = true;
             Object.keys(this.errors).forEach(key => {
                 this.errors[key] = "";
             });
-
+            this.insurance.files = this.filesRaw;
             const schema = Joi.object({
                 insuredName: Joi.string().required(),
                 symbol: Joi.string()
@@ -257,13 +269,28 @@ export default {
                     messages: this.$lang.validationMessages
                 });
 
-                this.insurance.files = await this.convertFiles(
-                    this.insurance.files
-                );
+                this.insurance.files = await this.convertFiles(this.filesRaw);
+                this.insurance.patient = this.patient;
 
-                this.$emit("confirm", this.insurance);
-                this.$emit("close");
+                try {
+                    await this.$dataService().post.insurance([this.insurance]);
+                    this.$store.commit("SET_ACTIVE_PATIENT", "loading");
+                    const patientData = await this.$dataService().get.patient.details(
+                        this.patient.id
+                    );
+                    this.$store.commit(
+                        "SET_ACTIVE_PATIENT",
+                        patientData.patientData
+                    );
+                    this.$store.commit("SET_LAYOUT_DATA", {
+                        receptionModalInsuranceEdit: false
+                    });
+                } catch (err) {
+                    this.loading.all = false;
+                    return;
+                }
             } catch (err) {
+                this.loading.all = false;
                 err.details.forEach(e => {
                     this.errors[e.context.label] = null;
                     setTimeout(

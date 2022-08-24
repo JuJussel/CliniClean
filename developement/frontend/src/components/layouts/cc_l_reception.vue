@@ -86,9 +86,11 @@
             :visible="$store.getters.layoutData.receptionModalInsuranceEdit"
             closable
             @close="
-                $store.commit('SET_LAYOUT_DATA', {
-                    receptionModalInsuranceEdit: false
-                })
+                if (!$refs.insuranceModal.loading.all) {
+                    $store.commit('SET_LAYOUT_DATA', {
+                        receptionModalInsuranceEdit: false
+                    });
+                }
             "
         >
             <cui-card style="width: 1100px; height: 600px">
@@ -98,7 +100,7 @@
                         }}{{ $lang.insurance }}{{ $lang.edit }}
                     </h2>
                 </template>
-                <cc_p_insurance_edit />
+                <cc_p_insurance_edit ref="insuranceModal" />
             </cui-card>
         </cui-modal>
     </div>
