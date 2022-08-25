@@ -625,11 +625,12 @@ export default {
                                     resolve(result);
                                 })
                                 .catch((result) => {
+                                    console.log(result);
                                     instance.$cui.notification({
                                         text: result,
                                         color: "danger",
                                     });
-                                    reject;
+                                    reject(result);
                                 });
                         });
                     },
