@@ -273,11 +273,15 @@ export default {
                 this.insurance.patient = this.patient;
 
                 try {
+                    console.log("pre lauch");
                     await this.$dataService().post.insurance([this.insurance]);
+                    console.log("start");
                     this.$store.commit("SET_ACTIVE_PATIENT", "loading");
                     const patientData = await this.$dataService().get.patient.details(
                         this.patient.id
                     );
+                    console.log(1);
+                    this.loading.all = false;
                     this.$store.commit(
                         "SET_ACTIVE_PATIENT",
                         patientData.patientData
@@ -286,10 +290,12 @@ export default {
                         receptionModalInsuranceEdit: false
                     });
                 } catch (err) {
+                    console.log(2);
                     this.loading.all = false;
                     return;
                 }
             } catch (err) {
+                console.log(3);
                 this.loading.all = false;
                 err.details.forEach(e => {
                     this.errors[e.context.label] = null;
