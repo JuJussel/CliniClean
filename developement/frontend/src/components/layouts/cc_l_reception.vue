@@ -93,7 +93,7 @@
                 }
             "
         >
-            <cui-card style="width: 1100px; height: 600px">
+            <cui-card style="width: 1100px; height: 550px">
                 <template #header>
                     <h2>
                         {{ $store.getters.activePatient.name

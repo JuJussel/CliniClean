@@ -414,8 +414,8 @@ post.insurance = async function (data, result) {
           $: { type: "record" },
           Mod_Key: { $: { type: "string" }, _: "2" },
           Patient_ID: { $: { type: "string" }, _: publicInsurance[0].patient.id },
-          WholeName: { $: { type: "string" }, _: publicInsurance[0].patient.name },
-          WholeName_inKana: { $: { type: "string" }, _: publicInsurance[0].patient.nameKana },
+          WholeName: { $: { type: "string" }, _: japUtils.toFullwidth(publicInsurance[0].patient.name) },
+          WholeName_inKana: { $: { type: "string" }, _: japUtils.toFullwidth(publicInsurance[0].patient.nameKana) },
           BirthDate: { $: { type: "string" }, _: publicInsurance[0].patient.birthdate },
           Sex: { $: { type: "string" }, _: publicInsurance[0].patient.gender },
           HealthInsurance_Information: {

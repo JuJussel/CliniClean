@@ -83,6 +83,9 @@
                 <div style="display: flex; align-items: center">
                     <h2>{{ $lang.insurance }}</h2>
                     <cui-button
+                        :disabled="
+                            $store.getters.activePatient === 'loading'
+                        "
                         :label="$lang.register"
                         @click="
                             $store.commit('SET_LAYOUT_DATA', {

@@ -16,7 +16,7 @@
     "@fullcalendar/timegrid": "^5.7.0",
     "@tiptap/starter-kit": "^2.0.0-beta.82",
     "@tiptap/vue-3": "^2.0.0-beta.45",
-    "clini-ui-lib": "^0.0.60",
+    "clini-ui-lib": "^0.0.61",
     "core-js": "^3.6.5",
     "dayjs": "^1.10.6",
     "echarts": "^5.1.1",
