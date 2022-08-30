@@ -97,7 +97,7 @@
                 <template #header>
                     <h2>
                         {{ $store.getters.activePatient.name
-                        }}{{ $lang.insurance }}{{ $lang.edit }}
+                        }}{{ $lang.insurance }}{{ $lang.register }}
                     </h2>
                 </template>
                 <cc_p_insurance_edit ref="insuranceModal" />

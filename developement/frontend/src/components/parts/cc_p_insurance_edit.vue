@@ -396,7 +396,7 @@ export default {
                     messages: this.$lang.validationMessages
                 });
 
-                sendData = await this.convertFiles(this.filesRaw);
+                sendData.files = await this.convertFiles(this.filesRaw);
                 sendData.patient = this.patient;
 
                 try {

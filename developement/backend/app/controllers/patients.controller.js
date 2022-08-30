@@ -394,7 +394,7 @@ exports.addInsurance = async (req, res) => {
             $logger.error(err);
             res.status(500).send({ message: "Error creating Patient" });
           }
-          res.send({ patientId: data });
+          res.send("Success");
 
         }
       );
