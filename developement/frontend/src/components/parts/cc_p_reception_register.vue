@@ -147,5 +147,6 @@ export default {
     display: grid;
     grid-template-columns: 200px auto;
     grid-gap: 20px;
+    position: relative
 }
 </style>

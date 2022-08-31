@@ -4,7 +4,7 @@ import { createStore } from "vuex";
 var defaultState = function () {
     return {
         user: null,
-        activeView: "home",
+        activeTab: "dashboard",
         staticLists: {
             userGroups: [
                 { id: 1, name: "Reception" },
@@ -53,7 +53,7 @@ export const store = createStore({
         staticLists: (state) => state.staticLists.db,
         user: (state) => state.user,
         userFullName: (state) => state.user?.nameLast + state.user?.nameFirst,
-        activeView: (state) => state.activeView,
+        activeTab: (state) => state.activeTab,
         encounterTypes: (state) => state.staticLists.encounterTypes,
         occupations: (state) => state.staticLists.occupations || null,
         relations: (state) => state.staticLists.relations || null,
@@ -86,8 +86,8 @@ export const store = createStore({
         SET_USER(state, user) {
             state.user = user;
         },
-        SET_ACTIVE_VIEW(state, view) {
-            state.activeView = view;
+        SET_ACTIVE_TAB(state, view) {
+            state.activeTab = view;
         },
         SET_ENCOUNTER_TYPES(state, data) {
             state.staticLists.encounterTypes = data;

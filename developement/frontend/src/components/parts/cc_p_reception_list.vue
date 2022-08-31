@@ -62,6 +62,7 @@
                 <cui-th sort="status">{{ $lang.status }}</cui-th>
                 <cui-th sort="waitTime">{{ $lang.waitTime }}</cui-th>
                 <cui-th sort="recTime">{{ $lang.receptionTime }}</cui-th>
+                <cui-th></cui-th>
             </template>
             <template v-slot:row="{ row }">
                 <td>
@@ -105,6 +106,14 @@
                     }}</span>
                 </td>
                 <td>{{ $dayjs(row.date).format("HH時mm分") }}</td>
+                <td>
+                    <cui-button
+                        v-if="$aclService(2) && row.status === 3"
+                        icon="fas fa-clipboard-user"
+                        @click="showKarte(row.patient._id)"
+                        :loading="$store.getters.activePatient === 'loading'"
+                    />
+                </td>
             </template>
         </cui-table>
     </div>
@@ -139,6 +148,14 @@ export default {
         };
     },
     methods: {
+        async showKarte(pagtientId) {
+            this.$store.commit("SET_ACTIVE_PATIENT", "loading");
+            const patientData = await this.$dataService().get.patient.details(
+                pagtientId
+            );
+            this.$store.commit("SET_ACTIVE_PATIENT", patientData.patientData);
+            this.$store.commit("SET_ACTIVE_TAB", "karte");
+        },
         async getDoctors() {
             this.layoutData.doctors = await this.$dataService().get.doctors.all();
         },
@@ -178,7 +195,7 @@ export default {
             if (row.status === 2) {
                 this.layoutData.view.modal.reservationAccept = row;
             } else {
-                this.layoutData.loading.recTable = true;
+                this.layoutData.loading = true;
                 await this.$dataService().put.encounters(row);
                 this.getEncounters();
             }

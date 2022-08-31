@@ -1,7 +1,7 @@
 <template>
     <div class="loader" v-if="!ready"></div>
     <div v-if="ready">
-        <cui-menu-bar @change="changeMenu" :value="activeTab">
+        <cui-menu-bar @change="changeMenu" :value="$store.getters.activeTab">
             <template v-slot:left>
                 <cui-menu-bar-item
                     icon="fa fa-home menu-icon"
@@ -22,7 +22,14 @@
                     v-if="$aclService(1, 'order')"
                 />
             </template>
-            <template v-slot:center> </template>
+            <template v-slot:center>
+                <cui-menu-bar-item
+                    icon="fas fa-clipboard-user menu-icon"
+                    :label="$lang.karte + ' - ' + $store.getters.activePatient.name"
+                    value="karte"
+                    v-if="$aclService(1, 'medical') && $store.getters.activePatient"
+                />
+            </template>
             <template v-slot:right>
                 <div
                     style="
@@ -70,7 +77,7 @@
         </cui-menu-bar>
         <div class="cc-home-main-cont">
             <transition name="juzoom">
-                <component :is="activeTab" style="height: 100%"></component>
+                <component :is="$store.getters.activeTab" style="height: 100%"></component>
             </transition>
         </div>
     </div>
@@ -116,8 +123,7 @@ export default {
                 this.$auth().remove();
                 this.$router.push("/");
             } else {
-                this.activeTab = val;
-                this.$store.commit("SET_ACTIVE_VIEW", val);
+                this.$store.commit("SET_ACTIVE_TAB", val);
             }
         }
     },
@@ -129,9 +135,6 @@ export default {
                 this.$store.getters.user?.id +
                 ".png"
             );
-        },
-        activeView() {
-            return this.$store.getters.activeView;
         },
         hasNewNotification() {
             let not = this.$store.getters.notifications;

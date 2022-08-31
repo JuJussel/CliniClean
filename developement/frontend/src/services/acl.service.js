@@ -8,7 +8,7 @@ import { store } from "../store"
 
 export default {
     install: (app, options) => {
-        app.config.globalProperties.$aclService = function (requiredLevel, view = store.getters.activeView) {
+        app.config.globalProperties.$aclService = function (requiredLevel, view = store.getters.activeTab) {
             const permissions = options.permissions[view] || null;
             const userGroup = store.getters.user?.userGroup || null;
             const availableLevel = permissions?.[userGroup - 1] || null;
