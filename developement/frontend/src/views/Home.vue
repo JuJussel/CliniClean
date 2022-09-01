@@ -25,9 +25,9 @@
             <template v-slot:center>
                 <cui-menu-bar-item
                     icon="fas fa-clipboard-user menu-icon"
-                    :label="$lang.karte + ' - ' + $store.getters.activePatient.name"
+                    :label="$lang.karte + ' - ' + $store.getters.activeEncounter.patient.name"
                     value="karte"
-                    v-if="$aclService(1, 'medical') && $store.getters.activePatient"
+                    v-if="$aclService(1, 'medical') && $store.getters.activeEncounter"
                 />
             </template>
             <template v-slot:right>
@@ -85,7 +85,7 @@
 
 <script>
 import reception from "../components/layouts/cc_l_reception";
-// import patient from "../components/cc_patient/cc_patient_main";
+import karte from "../components/layouts/cc_l_karte";
 // import medical from "../components/cc_medical/cc_medical_main.vue";
 // import order from "../components/cc_order/cc_order_main.vue";
 // import notification from "../components/shared/cc_shared_notifications.vue"
@@ -96,6 +96,7 @@ export default {
     name: "HomeView",
     components: {
         reception,
+        karte,
         // order,
         // notification,
         dashboard

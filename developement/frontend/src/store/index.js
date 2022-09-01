@@ -29,10 +29,6 @@ var defaultState = function () {
                 ],
             },
         },
-        transferData: {
-            reception: null,
-            patientList: null,
-        },
         activePatient: null,
         activeEncounter: null,
         settings: null,
@@ -41,6 +37,14 @@ var defaultState = function () {
         viewData: {},
         layoutData: {}
     };
+}
+
+var defaultEncounter = {
+    karte: {
+        soap: null,
+        procedures: [],
+        images: []
+    }
 }
 
 export const store = createStore({
@@ -57,7 +61,6 @@ export const store = createStore({
         encounterTypes: (state) => state.staticLists.encounterTypes,
         occupations: (state) => state.staticLists.occupations || null,
         relations: (state) => state.staticLists.relations || null,
-        transferData: (state) => state.transferData,
         procedureCategories: (state) =>
             state.staticLists.procedureCategories || null,
         shotLocations: (state) => state.staticLists.shotLocations || null,
@@ -66,6 +69,7 @@ export const store = createStore({
         perscriptionTimings: (state) =>
             state.staticLists.perscriptionTimings || null,
         settings: (state) => state.settings,
+        activeEncounter: (state) => state.activeEncounter || null,
         activePatient: (state) => state.activePatient || null,
         activePatientHistory: (state) => state.activePatient || null,
         diseaseFlags: (state) => state.staticLists.disease || null,
@@ -82,7 +86,6 @@ export const store = createStore({
         SET_SETTINGS(state, settings) {
             state.settings = settings;
         },
-
         SET_USER(state, user) {
             state.user = user;
         },
@@ -101,9 +104,6 @@ export const store = createStore({
         SET_PROCEDURE_CATEGORIES(state, data) {
             state.staticLists.procedureCategories = data;
         },
-        SET_TRANSFER_DATA(state, data) {
-            state.transferData[data.target] = data.data;
-        },
         SET_SHOT_LOCATIONS(state, data) {
             state.staticLists.shotLocations = data;
         },
@@ -112,6 +112,10 @@ export const store = createStore({
         },
         SET_PERSCRIPTION_TIMINGS(state, data) {
             state.staticLists.perscriptionTimings = data;
+        },
+        SET_ACTIVE_ENCOUNTER(state, data) {
+            let encounter = Object.assign(defaultEncounter, data)
+            state.activeEncounter = encounter;
         },
         SET_ACTIVE_PATIENT(state, data) {
             state.activePatient = data;

@@ -148,12 +148,12 @@ export default {
         };
     },
     methods: {
-        async showKarte(pagtientId) {
+        async showKarte(patientId) {
             this.$store.commit("SET_ACTIVE_PATIENT", "loading");
             const patientData = await this.$dataService().get.patient.details(
-                pagtientId
+                patientId
             );
-            this.$store.commit("SET_ACTIVE_PATIENT", patientData.patientData);
+            this.$store.commit("SET_ACTIVE_ENCOUNTER", {patient: patientData.patientData});
             this.$store.commit("SET_ACTIVE_TAB", "karte");
         },
         async getDoctors() {
