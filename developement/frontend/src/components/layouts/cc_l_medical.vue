@@ -1,14 +1,14 @@
 <template>
     <div class="cc-reception-main-cont">
-        <cui-card>
-            <cc_p_patient_info_medical />
+        <cui-card :loading="loading">
+            <cc_p_patient_info_medical v-if="!loading"/>
         </cui-card>
         <div 
                 class="resizer"
                 @mousedown.stop="resizeHandler"
             />
 
-        <cui-card></cui-card>
+        <cui-card :loading="loading"></cui-card>
     </div>
 </template>
 
@@ -20,8 +20,15 @@ export default {
     components: {
         cc_p_patient_info_medical
     },
+    async mounted() {
+        let patientId = this.$store.getters.activeEncounter.patient.id;
+        let patientHistory = await this.$dataService().get.patient.medicalHistory(patientId);
+        this.$store.commit('SET_ACTIVE_ENCOUNTER', {patient: patientHistory})
+        this.loading = false;
+    },
     data()  {
         return {
+            loading: true,
             resizeData: {
                 start: null,
                 startWidth: 900,

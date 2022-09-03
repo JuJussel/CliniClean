@@ -44,7 +44,8 @@ var defaultEncounter = {
         soap: null,
         procedures: [],
         images: []
-    }
+    },
+    patientHistory: null
 }
 
 export const store = createStore({

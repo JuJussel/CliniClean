@@ -118,10 +118,6 @@ export default {
                                 return http
                                     .get("patients/" + id + "/medicalHistory")
                                     .then((result) => {
-                                        instance.$store.commit(
-                                            "SET_PATIENT_INFO",
-                                            result
-                                        );
                                         resolve(result);
                                     })
                                     .catch((result) => {

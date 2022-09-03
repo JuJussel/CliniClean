@@ -70,7 +70,7 @@ exports.check = (req,res) => {
 exports.logout = (req, res) => {
     res
     .status(200)
-    .clearCookie("token", {
+    .cookie('token', null, {
         secure: true,
         httpOnly: true
     })
