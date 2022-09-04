@@ -152,7 +152,7 @@ export default {
             const patientData = await this.$dataService().get.patient.details(
                 patientId
             );
-            this.$store.commit("SET_ACTIVE_ENCOUNTER", {patient: patientData.patientData});
+            this.$store.commit("SET_ACTIVE_ENCOUNTER", {patient: patientData.patientData, active: true});
             this.$store.commit("SET_ACTIVE_TAB", "medical");
         },
         async getDoctors() {

@@ -27,7 +27,7 @@
                     icon="fas fa-clipboard-user menu-icon"
                     :label="$lang.karte + ' - ' + $store.getters.activeEncounter.patient.name"
                     value="medical"
-                    v-if="$aclService(1, 'medical') && $store.getters.activeEncounter"
+                    v-if="$aclService(1, 'medical') && $store.getters.activeEncounter.active"
                 />
             </template>
             <template v-slot:right>

@@ -95,7 +95,6 @@
         },
         data() {
             return {
-                patientData: this.$store.getters.activeEncounter.patient,
                 modals: {
                     basic: {
                         loading: false,
@@ -119,6 +118,9 @@
             }
         },
         computed: {
+            patientData() {
+                return this.$store.getters.activeEncounter.patient
+            },
             basicTable() {
                 return [
                     {label: this.$lang.id, value: this.patientData.id},

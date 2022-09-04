@@ -30,22 +30,20 @@ var defaultState = function () {
             },
         },
         activePatient: null,
-        activeEncounter: null,
+        activeEncounter: {
+            active: false,
+            karte: {
+                soap: null,
+                procedures: [],
+                images: []
+            }
+        },
         settings: null,
         config: null,
         notifications: [],
         viewData: {},
         layoutData: {}
     };
-}
-
-var defaultEncounter = {
-    karte: {
-        soap: null,
-        procedures: [],
-        images: []
-    },
-    patientHistory: null
 }
 
 export const store = createStore({
@@ -115,7 +113,7 @@ export const store = createStore({
             state.staticLists.perscriptionTimings = data;
         },
         SET_ACTIVE_ENCOUNTER(state, data) {
-            let encounter = Object.assign(defaultEncounter, data)
+            let encounter = Object.assign(state.activeEncounter, data)
             state.activeEncounter = encounter;
         },
         SET_ACTIVE_PATIENT(state, data) {

@@ -160,7 +160,8 @@ export default {
                 this.$store.getters.activePatient.id
             );
             this.$store.commit("SET_ACTIVE_ENCOUNTER", {
-                patient: patientData.patientData
+                patient: patientData.patientData,
+                active: true
             });
             this.$store.commit("SET_ACTIVE_TAB", "medical");
         },

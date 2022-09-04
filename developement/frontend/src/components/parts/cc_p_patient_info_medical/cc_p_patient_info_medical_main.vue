@@ -20,10 +20,20 @@
 
 <script>
     import basic from "./cc_p_patient_info_medical_basic.vue"
+    import vitals from "./cc_p_patient_info_medical_vitals.vue"
+    import exams from "./cc_p_patient_info_medical_exams.vue"
+    import perscription from "./cc_p_patient_info_medical_perscription.vue"
+    import procedures from "./cc_p_patient_info_medical_procedures.vue"
+    import diseases from "./cc_p_patient_info_medical_diseases.vue"
 
 export default {
     components: {
-        basic
+        basic,
+        vitals,
+        exams,
+        perscription,
+        procedures,
+        diseases
     },
     data() {
         return {

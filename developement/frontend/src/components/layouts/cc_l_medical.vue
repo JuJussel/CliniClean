@@ -68,7 +68,7 @@ export default {
 <style scoped>
     .cc-reception-main-cont {
         display: grid;
-        grid-template-columns: v-bind(finalWidth) 5px auto;;
+        grid-template-columns: v-bind(finalWidth) 5px auto;
     }
     .resizer {
         cursor: ew-resize;
