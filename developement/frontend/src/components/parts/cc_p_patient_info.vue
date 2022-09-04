@@ -61,7 +61,10 @@
             <template #header>
                 <div style="display: flex; align-items: center">
                     <h2>{{ $lang.outPatient }} {{ $lang.history }}</h2>
-                    <cui-button :label="$lang.karte"></cui-button>
+                    <cui-button
+                        @click="showKarte"
+                        :label="$lang.karte"
+                    ></cui-button>
                 </div>
             </template>
             <template #thead>
@@ -83,9 +86,7 @@
                 <div style="display: flex; align-items: center">
                     <h2>{{ $lang.insurance }}</h2>
                     <cui-button
-                        :disabled="
-                            $store.getters.activePatient === 'loading'
-                        "
+                        :disabled="$store.getters.activePatient === 'loading'"
                         :label="$lang.register"
                         @click="
                             $store.commit('SET_LAYOUT_DATA', {
@@ -154,6 +155,15 @@ export default {
         };
     },
     methods: {
+        async showKarte() {
+            const patientData = await this.$dataService().get.patient.details(
+                this.$store.getters.activePatient.id
+            );
+            this.$store.commit("SET_ACTIVE_ENCOUNTER", {
+                patient: patientData.patientData
+            });
+            this.$store.commit("SET_ACTIVE_TAB", "medical");
+        },
         parseEncounterType(type) {
             return this.$store.getters.encounterTypes.find(
                 item => item.id === type
