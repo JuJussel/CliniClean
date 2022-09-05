@@ -25,6 +25,7 @@
     import perscription from "./cc_p_patient_info_medical_perscription.vue"
     import procedures from "./cc_p_patient_info_medical_procedures.vue"
     import diseases from "./cc_p_patient_info_medical_diseases.vue"
+    import encounters from "./cc_p_patient_info_medical_encounters.vue"
 
 export default {
     components: {
@@ -33,7 +34,8 @@ export default {
         exams,
         perscription,
         procedures,
-        diseases
+        diseases,
+        encounters
     },
     data() {
         return {

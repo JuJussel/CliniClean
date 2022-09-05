@@ -110,7 +110,7 @@
                     <cui-button
                         v-if="$aclService(2) && row.status === 3"
                         icon="fas fa-clipboard-user"
-                        @click="showKarte(row.patient._id)"
+                        @click="showKarte(row)"
                         :loading="$store.getters.activePatient === 'loading'"
                     />
                 </td>
@@ -148,11 +148,12 @@ export default {
         };
     },
     methods: {
-        async showKarte(patientId) {
+        async showKarte(encounter) {
             const patientData = await this.$dataService().get.patient.details(
-                patientId
+                encounter.patient._id
             );
-            this.$store.commit("SET_ACTIVE_ENCOUNTER", {patient: patientData.patientData, active: true});
+            this.$store.commit("RESET_ACTIVE_ENCOUNTER");
+            this.$store.commit("SET_ACTIVE_ENCOUNTER", {meta: encounter, patient: patientData.patientData, active: true});
             this.$store.commit("SET_ACTIVE_TAB", "medical");
         },
         async getDoctors() {

@@ -48,7 +48,6 @@
                 <template #header> {{ $lang.diseaseName }} {{ diseaseEditor.data ? $lang.edit : $lang.register }} </template>
                 <disease-editor
                     :diseaseData="diseaseEditor.data"
-                    :patientData="patientData"
                     @close="diseaseEditor.visible = false"
                     @submitting="diseaseEditor.loading = true"
                     @submitted="diseaseEditSubmitted"
@@ -60,7 +59,7 @@
 
 <script>
 
-import diseaseEditor from "../cc_shared_disease_editor.vue"
+import diseaseEditor from "../cc_p_disease_edit.vue"
 
 export default {
     components: {
@@ -100,14 +99,15 @@ export default {
             this.diseaseEditor.data = data;
             this.diseaseEditor.visible = true;
         },
-        diseaseEditSubmitted() {
+        async diseaseEditSubmitted() {
             this.diseaseEditor.loading = false;
             this.$cui.notification({
                 text: this.$lang.saved,
                 duration: 2000,
                 color: 'primary'
             })
-            this.$emit('update');
+            let patientHistory = await this.$dataService().get.patient.medicalHistory(this.patientData.id);
+            this.$store.commit('SET_ACTIVE_ENCOUNTER', {patient: patientHistory})
         }
     },
     computed: {

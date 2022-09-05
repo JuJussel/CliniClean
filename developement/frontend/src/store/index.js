@@ -31,6 +31,7 @@ var defaultState = function () {
         },
         activePatient: null,
         activeEncounter: {
+            meta: null,
             active: false,
             karte: {
                 soap: null,
@@ -115,6 +116,9 @@ export const store = createStore({
         SET_ACTIVE_ENCOUNTER(state, data) {
             let encounter = Object.assign(state.activeEncounter, data)
             state.activeEncounter = encounter;
+        },
+        RESET_ACTIVE_ENCOUNTER(state) {
+            state.activeEncounter = defaultState().activeEncounter;
         },
         SET_ACTIVE_PATIENT(state, data) {
             state.activePatient = data;
