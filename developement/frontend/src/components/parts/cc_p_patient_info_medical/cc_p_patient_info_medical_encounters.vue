@@ -64,7 +64,7 @@ export default {
     },
     computed: {
         patientData() {
-            return this.$store.getters.activeEncounter.patient
+            return this.$store.getters.layoutData.medical.patient
         },
         procedureCategories() {
             return this.$store.getters.staticLists.procedureCategories.filter(item => item.orcaCode);

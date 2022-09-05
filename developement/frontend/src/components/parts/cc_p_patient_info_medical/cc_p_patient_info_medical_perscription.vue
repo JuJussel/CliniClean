@@ -28,7 +28,7 @@
 export default {
     computed: {
         patientData() {
-            return this.$store.getters.activeEncounter.patient
+            return this.$store.getters.layoutData.medical.patient
         },
         persc() {
             let perscriptions = [];

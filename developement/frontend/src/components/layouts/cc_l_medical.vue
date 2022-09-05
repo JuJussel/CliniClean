@@ -21,9 +21,9 @@ export default {
         cc_p_patient_info_medical
     },
     async mounted() {
-        let patientId = this.$store.getters.activeEncounter.patient.id;
+        let patientId = this.$store.getters.layoutData.medical.patient.id;
         let patientHistory = await this.$dataService().get.patient.medicalHistory(patientId);
-        this.$store.commit('SET_ACTIVE_ENCOUNTER', {patient: patientHistory})
+        this.$store.commit('SET_LAYOUT_DATA', {medical: {patient: patientHistory}})
         this.loading = false;
     },
     data()  {

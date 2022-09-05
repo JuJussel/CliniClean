@@ -172,7 +172,7 @@
                 )
             },
             patientData() {
-                return this.$store.getters.activeEncounter.patient
+                return this.$store.getters.layoutData.medical.patient
             },
             inputPresent() {
                 if (!this.modals.vitalRegister.data) return false;

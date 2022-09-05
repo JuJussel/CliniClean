@@ -149,11 +149,10 @@ export default {
     },
     methods: {
         async showKarte(encounter) {
-            const patientData = await this.$dataService().get.patient.details(
-                encounter.patient._id
-            );
-            this.$store.commit("RESET_ACTIVE_ENCOUNTER");
-            this.$store.commit("SET_ACTIVE_ENCOUNTER", {meta: encounter, patient: patientData.patientData, active: true});
+            this.$store.commit("SET_LAYOUT_DATA", {medical: {
+                patient: encounter.patient,
+                show: true
+            }});
             this.$store.commit("SET_ACTIVE_TAB", "medical");
         },
         async getDoctors() {

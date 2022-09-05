@@ -30,20 +30,12 @@ var defaultState = function () {
             },
         },
         activePatient: null,
-        activeEncounter: {
-            meta: null,
-            active: false,
-            karte: {
-                soap: null,
-                procedures: [],
-                images: []
-            }
-        },
         settings: null,
         config: null,
         notifications: [],
-        viewData: {},
-        layoutData: {}
+        layoutData: {
+            medical: null
+        }
     };
 }
 
@@ -69,13 +61,10 @@ export const store = createStore({
         perscriptionTimings: (state) =>
             state.staticLists.perscriptionTimings || null,
         settings: (state) => state.settings,
-        activeEncounter: (state) => state.activeEncounter || null,
         activePatient: (state) => state.activePatient || null,
-        activePatientHistory: (state) => state.activePatient || null,
         diseaseFlags: (state) => state.staticLists.disease || null,
         notifications: (state) => state.notifications,
         userGroups: (state) => state.staticLists.userGroups,
-        viewData: (state) => state.viewData,
         layoutData: (state) => state.layoutData
     },
 
@@ -113,13 +102,6 @@ export const store = createStore({
         SET_PERSCRIPTION_TIMINGS(state, data) {
             state.staticLists.perscriptionTimings = data;
         },
-        SET_ACTIVE_ENCOUNTER(state, data) {
-            let encounter = Object.assign(state.activeEncounter, data)
-            state.activeEncounter = encounter;
-        },
-        RESET_ACTIVE_ENCOUNTER(state) {
-            state.activeEncounter = defaultState().activeEncounter;
-        },
         SET_ACTIVE_PATIENT(state, data) {
             state.activePatient = data;
         },
@@ -128,9 +110,6 @@ export const store = createStore({
         },
         SET_NOTIFICATIONS(state, data) {
             state.notifications = data;
-        },
-        SET_VIEW_DATA(state, data) {
-            Object.assign(state.viewData, data);
         },
         SET_LAYOUT_DATA(state, data) {
             Object.assign(state.layoutData, data);

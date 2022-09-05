@@ -25,9 +25,9 @@
             <template v-slot:center>
                 <cui-menu-bar-item
                     icon="fas fa-clipboard-user menu-icon"
-                    :label="$lang.karte + ' - ' + $store.getters.activeEncounter.patient.name"
+                    :label="$lang.karte + ' - ' + $store.getters.layoutData.medical?.patient?.name"
                     value="medical"
-                    v-if="$aclService(1, 'medical') && $store.getters.activeEncounter.active"
+                    v-if="$aclService(1, 'medical') && $store.getters.layoutData.medical?.show"
                 />
             </template>
             <template v-slot:right>
