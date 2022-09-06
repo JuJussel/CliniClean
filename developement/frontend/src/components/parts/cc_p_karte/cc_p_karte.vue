@@ -80,7 +80,7 @@
                 @remove="removeProcedure"
             /> -->
         </div>
-        <!-- <cui-modal
+        <cui-modal
             :visible="modal.schema"
             closable
             @close="modal.schema = false"
@@ -121,24 +121,24 @@
                     ></cui-button>
                 </template>
             </cui-card>
-        </cui-modal> -->
+        </cui-modal>
     </div>
 </template>
 
 <script>
 import imageTag  from "./cc_tiptap_imageTag/cc_tiptap_imageTag";
-// import schemaEditor from "../shared/cc_shared_schema_editor.vue"
+import schemaEditor from "./cc_p_schema_editor.vue"
 // import proceduresList from "../shared/cc_shared_procedures_list/cc_shared_procedures_list.vue"
-// import painter from "../shared/cc_shared_painter.vue"
+import painter from "../cc_p_painter.vue"
 // import baseCostUtil from "../../utils/encounterBaseCost";
 // import procedureCheck from "../../utils/procedureCheck"
 
 export default {
-    // components: {
-    //     schemaEditor,
-    //     proceduresList,
-    //     painter
-    // },
+    components: {
+        schemaEditor,
+        // proceduresList,
+        painter
+    },
     emits: ["update"],
     data() {
         return {
@@ -271,7 +271,7 @@ export default {
             );
         },
         async uploadImage(target, img) {
-            let accept = [".png", ".jpeg", ".jpg"];
+            let accept = [".PNG", ".png", ".JPEG", ".jpeg", "JPG", ".jpg"];
             let file = img;
             let ext = file.name.split(".");
             let last = ext.length - 1;
@@ -283,7 +283,7 @@ export default {
                         source: target,
                         patient: this.encounter.patient.id,
                         encounter: this.encounter.id,
-                    },
+                    }
                 };
                 let imgData = await this.$dataService().post.uploads.single(
                     sendData
