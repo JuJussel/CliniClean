@@ -1,5 +1,14 @@
 <template>
     <div class="cc-medical-karte-main">
+        <!-- <div class="cc-medical-exam-loader-cont" v-if="saving">
+            <div>{{ $lang.saving }}</div>
+            <div class="loader" style="background-color: transparent" />
+        </div>
+        <div v-else-if="saved">
+            <i class="fas fa-check"></i>
+            {{ $lang.save }}{{ $lang.done }}
+        </div> -->
+
         <div class="cc-medical-karte-soap">
             <div class="cc-headers">
                 <b>{{ $lang.soapObservation }}</b>
@@ -129,6 +138,8 @@ export default {
     data() {
         return {
             schemaEditHolder: null,
+            saving: false,
+            saved: false,
             customMenuItems: [
                 {
                     icon: "fas fa-image",
@@ -207,11 +218,21 @@ export default {
             let img = this.$refs.file.files[0];
             this.uploadImage("soapImage", img);
         },
-        updateState(text) {
+        async updateState(text) {
             if (this.timer) clearTimeout(this.timer);
             this.timer = setTimeout(
-                function () {
+                async function () {
                     if (text) this.soap = text;
+                    this.saved = false;
+                    this.saving = true;
+
+                    // this.encounterState.karte = state;
+                    await this.$dataService().put.encounters(
+                        this.encounterState
+                    );
+                    this.saving = false;
+                    this.saved = true;
+
                     let encounter = JSON.parse(JSON.stringify(this.encounter));
                     encounter.karte = {
                         soap: this.soap,
