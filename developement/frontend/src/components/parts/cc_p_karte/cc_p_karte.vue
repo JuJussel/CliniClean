@@ -127,6 +127,8 @@
 // import schemaEditor from "../shared/cc_shared_schema_editor.vue"
 // import proceduresList from "../shared/cc_shared_procedures_list/cc_shared_procedures_list.vue"
 // import painter from "../shared/cc_shared_painter.vue"
+// import baseCostUtil from "../../utils/encounterBaseCost";
+// import procedureCheck from "../../utils/procedureCheck"
 
 export default {
     // components: {
