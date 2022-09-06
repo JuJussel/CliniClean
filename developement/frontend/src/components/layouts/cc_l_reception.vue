@@ -23,12 +23,15 @@
         <!---------------- Modals ---------------->
 
         <cui-modal
-            :visible="$store.getters.layoutData.receptionModalRegister"
+            :visible="
+                $store.getters.layoutData.reception?.receptionModalRegister
+            "
             closable
             @close="
-                $store.commit('SET_LAYOUT_DATA', {
-                    receptionModalRegister: false
-                })
+                $store.commit('SET_LAYOUT_DATA', [
+                    'reception',
+                    { receptionModalRegister: false },
+                ])
             "
         >
             <cui-card style="width: 900px; height: 400px">
@@ -43,12 +46,15 @@
         </cui-modal>
 
         <cui-modal
-            :visible="$store.getters.layoutData.receptionModalReservation"
+            :visible="
+                $store.getters.layoutData.reception?.receptionModalReservation
+            "
             closable
             @close="
-                $store.commit('SET_LAYOUT_DATA', {
-                    receptionModalReservation: false
-                })
+                $store.commit('SET_LAYOUT_DATA', [
+                    'reception',
+                    { receptionModalReservation: false },
+                ])
             "
         >
             <cui-card style="width: 1000px; height: 640px">
@@ -63,12 +69,15 @@
         </cui-modal>
 
         <cui-modal
-            :visible="$store.getters.layoutData.receptionModalPatientEdit"
+            :visible="
+                $store.getters.layoutData.reception?.receptionModalPatientEdit
+            "
             closable
             @close="
-                $store.commit('SET_LAYOUT_DATA', {
-                    receptionModalPatientEdit: false
-                })
+                $store.commit('SET_LAYOUT_DATA', [
+                    'reception',
+                    { receptionModalPatientEdit: false },
+                ])
             "
         >
             <cui-card style="width: 1100px; height: 600px">
@@ -83,14 +92,16 @@
         </cui-modal>
 
         <cui-modal
-            :visible="$store.getters.layoutData.receptionModalInsuranceEdit"
+            :visible="
+                $store.getters.layoutData.reception?.receptionModalInsuranceEdit
+            "
             closable
             @close="
-                if (!$refs.insuranceModal.loading.all) {
-                    $store.commit('SET_LAYOUT_DATA', {
-                        receptionModalInsuranceEdit: false
-                    });
-                }
+                if (!$refs.insuranceModal.loading.all)
+                    $store.commit('SET_LAYOUT_DATA', [
+                        'reception',
+                        { receptionModalInsuranceEdit: false },
+                    ]);
             "
         >
             <cui-card style="width: 1100px; height: 550px">
@@ -115,7 +126,7 @@ import {
     cc_p_reception_register,
     cc_p_reception_reservation,
     cc_p_patient_edit,
-    cc_p_insurance_edit
+    cc_p_insurance_edit,
 } from "../parts";
 
 export default {
@@ -128,7 +139,7 @@ export default {
         cc_p_reception_register,
         cc_p_reception_reservation,
         cc_p_patient_edit,
-        cc_p_insurance_edit
+        cc_p_insurance_edit,
         // Reservation,
         // Walkin,
         // ReservationAccept,
@@ -142,28 +153,28 @@ export default {
             view: {
                 reservation: true,
                 active: true,
-                done: false
+                done: false,
             },
             modal: {
                 payment: null,
                 reception: {
-                    mode: "rec"
-                }
+                    mode: "rec",
+                },
             },
             docStati: [null, this.$lang.free, this.$lang.inEncounter],
-            doctors: []
+            doctors: [],
         };
     },
     computed: {
         hasActivePatient() {
             return this.$store.getters.activePatient;
-        }
+        },
     },
     methods: {
         savePayment() {
             this.$refs.payment.savePayment();
-        }
-    }
+        },
+    },
 };
 </script>
 

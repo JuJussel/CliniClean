@@ -15,9 +15,10 @@
                             "
                             :label="$lang.reception"
                             @click="
-                                $store.commit('SET_LAYOUT_DATA', {
-                                    receptionModalRegister: true
-                                })
+                                $store.commit('SET_LAYOUT_DATA', [
+                                    'reception',
+                                    { receptionModalRegister: true },
+                                ])
                             "
                         ></cui-button>
                         <cui-button
@@ -26,9 +27,10 @@
                             "
                             :label="$lang.reservation"
                             @click="
-                                $store.commit('SET_LAYOUT_DATA', {
-                                    receptionModalReservation: true
-                                })
+                                $store.commit('SET_LAYOUT_DATA', [
+                                    'reception',
+                                    { receptionModalReservation: true },
+                                ])
                             "
                         ></cui-button>
                         <cui-button
@@ -37,9 +39,10 @@
                             "
                             :label="$lang.edit"
                             @click="
-                                $store.commit('SET_LAYOUT_DATA', {
-                                    receptionModalPatientEdit: true
-                                })
+                                $store.commit('SET_LAYOUT_DATA', [
+                                    'reception',
+                                    { receptionModalPatientEdit: true },
+                                ])
                             "
                         ></cui-button>
 
@@ -89,9 +92,10 @@
                         :disabled="$store.getters.activePatient === 'loading'"
                         :label="$lang.register"
                         @click="
-                            $store.commit('SET_LAYOUT_DATA', {
-                                receptionModalInsuranceEdit: true
-                            })
+                            $store.commit('SET_LAYOUT_DATA', [
+                                'reception',
+                                { receptionModalInsuranceEdit: true },
+                            ])
                         "
                     ></cui-button>
                 </div>
@@ -141,17 +145,17 @@ export default {
     props: {
         outline: {
             default: false,
-            type: Boolean
+            type: Boolean,
         },
         square: {
             default: true,
-            type: Boolean
-        }
+            type: Boolean,
+        },
     },
     data() {
         return {
             encounters: [],
-            encounterReservations: []
+            encounterReservations: [],
         };
     },
     methods: {
@@ -159,15 +163,15 @@ export default {
             const patientData = await this.$dataService().get.patient.details(
                 this.$store.getters.activePatient.id
             );
-            this.$store.commit("SET_ACTIVE_ENCOUNTER", {
-                patient: patientData.patientData,
-                active: true
-            });
+            this.$store.commit("SET_LAYOUT_DATA", [
+                "medical",
+                { patient: patientData.patientData },
+            ]);
             this.$store.commit("SET_ACTIVE_TAB", "medical");
         },
         parseEncounterType(type) {
-            return this.$store.getters.encounterTypes.find(
-                item => item.id === type
+            return this.$store.getters.staticLists.encounterTypes.find(
+                (item) => item.id === type
             ).name;
         },
         buildPublicIns(index, row) {
@@ -191,7 +195,7 @@ export default {
                 }
             }
             return "";
-        }
+        },
     },
     computed: {
         patientData() {
@@ -203,35 +207,35 @@ export default {
                     label: this.$lang.birthdate,
                     value: this.$dayjs(patientData?.birthdate).format(
                         "YYYY年MM月DD日"
-                    )
+                    ),
                 },
                 {
                     label: this.$lang.gender,
                     value:
                         patientData?.gender == 1
                             ? this.$lang.male
-                            : this.$lang.female
+                            : this.$lang.female,
                 },
                 {
                     label: this.$lang.address,
                     value:
                         patientData?.address?.zip +
                         " " +
-                        patientData?.address?.addr
+                        patientData?.address?.addr,
                 },
                 {
                     label: this.$lang.occupation,
-                    value: patientData?.occupation
+                    value: patientData?.occupation,
                 },
                 {
                     label: this.$lang.workOrSchoolName,
-                    value: patientData?.company?.name
+                    value: patientData?.company?.name,
                 },
                 { label: this.$lang.telephone, value: patientData?.phone },
                 {
                     label: this.$lang.mailAddress,
-                    value: patientData?.mail
-                }
+                    value: patientData?.mail,
+                },
             ];
             return tableData;
         },
@@ -241,7 +245,7 @@ export default {
             return insData.insurance[0][0]
                 ? insData?.insurance[0]
                 : insData?.insurance;
-        }
+        },
     },
     watch: {
         async patientData() {
@@ -251,12 +255,12 @@ export default {
             let encounters = await this.$dataService().get.patient.encounters(
                 patientData.id
             );
-            this.encounters = encounters.filter(item => item.date < today);
+            this.encounters = encounters.filter((item) => item.date < today);
             this.encounterReservations = encounters.filter(
-                item => item.date > today
+                (item) => item.date > today
             );
-        }
-    }
+        },
+    },
 };
 </script>
 

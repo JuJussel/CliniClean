@@ -43,7 +43,9 @@
                             :label="$lang.dependent"
                             :value="2"
                             v-model="insurance.relation"
-                            @select="insurance.insuredName = insurance.insuredName"
+                            @select="
+                                insurance.insuredName = insurance.insuredName
+                            "
                         />
                     </div>
                     <cui-input
@@ -84,14 +86,27 @@
             </div>
             <div class="cc-public-new-body" v-else>
                 <div>
-                    <cui-input :label="$lang.publicInsuranceProvider" :note="errors.provider" v-model="pub.provider"></cui-input>
-                    <cui-input :label="$lang.publicInsuranceRecepient" :note="errors.recepient" v-model="pub.recepient"></cui-input>
-                    <cui-datepicker :label="$lang.validUntil" range :note="errors.validDate" v-model="pub.validDate"></cui-datepicker>
+                    <cui-input
+                        :label="$lang.publicInsuranceProvider"
+                        :note="errors.provider"
+                        v-model="pub.provider"
+                    ></cui-input>
+                    <cui-input
+                        :label="$lang.publicInsuranceRecepient"
+                        :note="errors.recepient"
+                        v-model="pub.recepient"
+                    ></cui-input>
+                    <cui-datepicker
+                        :label="$lang.validUntil"
+                        range
+                        :note="errors.validDate"
+                        v-model="pub.validDate"
+                    ></cui-datepicker>
                 </div>
                 <div style="margin-left: 20px; height: 210px">
                     <cui-file-upload
                         :title="$lang.insurancePicture"
-                        :accept="['.png','.jpeg','.jpg']"
+                        :accept="['.png', '.jpeg', '.jpg']"
                         :note="errors.files"
                         @change="updateFiles"
                     />
@@ -101,16 +116,16 @@
         <div class="cc-insurance-new-footer">
             <cui-button
                 @click="
-                    $store.commit('SET_LAYOUT_DATA', {
-                        receptionModalInsuranceEdit: false
-                    })
+                    $store.commit('SET_LAYOUT_DATA', [
+                        'reception',
+                        { receptionModalInsuranceEdit: false },
+                    ])
                 "
                 plain
                 :label="$lang.cancel"
             ></cui-button>
             <cui-button @click="validate()" :label="$lang.add"></cui-button>
         </div>
-
     </div>
 </template>
 
@@ -124,14 +139,14 @@ export default {
             isPublic: false,
             loading: {
                 all: false,
-                provider: false
+                provider: false,
             },
             pub: {
-                type: 'pub',
-                provider: '',
-                recepient: '',
+                type: "pub",
+                provider: "",
+                recepient: "",
                 validDate: [],
-                files: []
+                files: [],
             },
             insurance: {
                 type: "ins",
@@ -143,7 +158,7 @@ export default {
                 providerName: "",
                 getDate: "",
                 validDate: [],
-                files: []
+                files: [],
             },
             filesRaw: [],
             patient: this.$store.getters.activePatient,
@@ -156,9 +171,9 @@ export default {
                 getDate: "",
                 validDate: "",
                 files: "",
-                provider: '',
-                recepient: ''
-            }
+                provider: "",
+                recepient: "",
+            },
         };
     },
     methods: {
@@ -169,9 +184,10 @@ export default {
             this.loading.provider = true;
             const number = this.insurance.providerNumber;
             if (number.length === 6 || number.length === 8) {
-                const data = await this.$dataService().get.lists.insuranceProviders(
-                    number
-                );
+                const data =
+                    await this.$dataService().get.lists.insuranceProviders(
+                        number
+                    );
                 this.insurance.providerName =
                     data.Insurance_Number_Name +
                     " - " +
@@ -260,18 +276,24 @@ export default {
             var x8 = ns[7];
             if (x8 !== "") {
                 var check =
-                x1 * 1 + x2 * 1 + x3 * 1 + x4 * 1 + x5 * 1 + x6 * 1 + x7 * 1;
+                    x1 * 1 +
+                    x2 * 1 +
+                    x3 * 1 +
+                    x4 * 1 +
+                    x5 * 1 +
+                    x6 * 1 +
+                    x7 * 1;
                 var check_str = check.toString();
                 var check_pos = check_str.length - 1;
                 check_number = 10 - check_str[check_pos];
                 if (check_str[check_pos] == 0) {
-                check_number = 0;
+                    check_number = 0;
                 }
             }
             if (check_number != x8) {
                 return helpers.error("any.invalid");
             } else {
-                return data
+                return data;
             }
         },
         checkRecepient(data, helpers) {
@@ -303,27 +325,27 @@ export default {
                 var check_pos = check_str.length - 1;
                 check_number = 10 - check_str[check_pos];
                 if (check_str[check_pos] == 0) {
-                check_number = 0;
+                    check_number = 0;
                 }
             }
             if (check_number != x7) {
                 return helpers.error("any.invalid");
             } else {
-                return data
+                return data;
             }
         },
 
         async convertFiles(files) {
             let that = this;
             return Promise.all(
-                files.map(file => {
+                files.map((file) => {
                     return readAsDataURL(file);
                 })
             );
             function readAsDataURL(file) {
-                return new Promise(resolve => {
+                return new Promise((resolve) => {
                     let fileReader = new FileReader();
-                    fileReader.onload = function() {
+                    fileReader.onload = function () {
                         return resolve({
                             data: fileReader.result,
                             name: file.name,
@@ -333,8 +355,8 @@ export default {
                                 source: "insurance",
                                 symbol: that.insurance.symbol,
                                 number: that.insurance.number,
-                                provider: that.insurance.providerNumber
-                            }
+                                provider: that.insurance.providerNumber,
+                            },
                         });
                     };
                     fileReader.readAsDataURL(file);
@@ -343,7 +365,7 @@ export default {
         },
         async validate() {
             this.loading.all = true;
-            Object.keys(this.errors).forEach(key => {
+            Object.keys(this.errors).forEach((key) => {
                 this.errors[key] = "";
             });
 
@@ -366,34 +388,38 @@ export default {
                     .pattern(/^[0-9]*$/)
                     .custom(this.checkInsuranceNumber),
                 providerName: Joi.string().required(),
-                getDate: Joi.date()
-                    .max("now")
-                    .iso()
-                    .required()
-                    .messages({
-                        "date.max": "本日以下の日付を選択してください"
-                    }),
+                getDate: Joi.date().max("now").iso().required().messages({
+                    "date.max": "本日以下の日付を選択してください",
+                }),
                 validDate: Joi.array().items(Joi.date().required()),
                 files: Joi.array()
                     .min(1)
-                    .messages({ "array.min": "保険証写真を選択してください" })
+                    .messages({ "array.min": "保険証写真を選択してください" }),
             });
 
-            if(this.isPublic) {
+            if (this.isPublic) {
                 schema = Joi.object({
-                    provider: Joi.string().required().pattern(/^[0-9]*$/).custom(this.checkProvider),
-                    recepient: Joi.string().required().pattern(/^[0-9]*$/).custom(this.checkRecepient),
+                    provider: Joi.string()
+                        .required()
+                        .pattern(/^[0-9]*$/)
+                        .custom(this.checkProvider),
+                    recepient: Joi.string()
+                        .required()
+                        .pattern(/^[0-9]*$/)
+                        .custom(this.checkRecepient),
                     validDate: Joi.array().items(Joi.date().required()),
-                    files: Joi.array().min(1).messages({'array.min': '保険証写真を選択してください'})
-                })
+                    files: Joi.array().min(1).messages({
+                        "array.min": "保険証写真を選択してください",
+                    }),
+                });
             }
 
             try {
-                let sendData = this.isPublic ? this.pub : this.insurance
+                let sendData = this.isPublic ? this.pub : this.insurance;
                 Joi.assert(sendData, schema, {
                     abortEarly: false,
                     allowUnknown: true,
-                    messages: this.$lang.validationMessages
+                    messages: this.$lang.validationMessages,
                 });
 
                 sendData.files = await this.convertFiles(this.filesRaw);
@@ -402,59 +428,61 @@ export default {
                 try {
                     await this.$dataService().post.insurance([sendData]);
                     this.$store.commit("SET_ACTIVE_PATIENT", "loading");
-                    const patientData = await this.$dataService().get.patient.details(
-                        this.patient.id
-                    );
+                    const patientData =
+                        await this.$dataService().get.patient.details(
+                            this.patient.id
+                        );
                     this.loading.all = false;
                     this.$store.commit(
                         "SET_ACTIVE_PATIENT",
                         patientData.patientData
                     );
-                    this.$store.commit("SET_LAYOUT_DATA", {
-                        receptionModalInsuranceEdit: false
-                    });
+                    this.$store.commit("SET_LAYOUT_DATA", [
+                        "reception",
+                        { receptionModalInsuranceEdit: false },
+                    ]);
                 } catch (err) {
                     this.loading.all = false;
                     return;
                 }
             } catch (err) {
                 this.loading.all = false;
-                err.details.forEach(e => {
+                err.details.forEach((e) => {
                     this.errors[e.context.label] = null;
                     setTimeout(
-                        function() {
+                        function () {
                             this.errors[e.context.label] = e.message;
                         }.bind(this),
                         50
                     );
                 });
             }
-        }
-    }
+        },
+    },
 };
 </script>
 
 <style scoped>
-    .cc-insurance-main {
-        position: relative;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-    .cc-insurance-new-body {
-        display: grid;
-        grid-template-columns: 50% 50%;
-        overflow: hidden;
-    }
-    .cc-public-new-body {
-        display: grid;
-        grid-template-columns: 50% 50%;
-        overflow: hidden;
-    }
-    .cc-insurance-new-footer {
-        grid-area: footer;
-        display: flex;
-        justify-content: flex-end;
-    }
+.cc-insurance-main {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.cc-insurance-new-body {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    overflow: hidden;
+}
+.cc-public-new-body {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    overflow: hidden;
+}
+.cc-insurance-new-footer {
+    grid-area: footer;
+    display: flex;
+    justify-content: flex-end;
+}
 </style>

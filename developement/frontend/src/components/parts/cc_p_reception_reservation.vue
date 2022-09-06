@@ -6,7 +6,7 @@
                 <cui-select
                     :label="$lang.encounterType"
                     :placeholder="$lang.searchByNameodID"
-                    :data="$store.getters.encounterTypes"
+                    :data="$store.getters.staticLists.encounterTypes"
                     displayValueProp="name"
                     returnValueProp="id"
                     v-model="reservation.encouterType"
@@ -25,7 +25,7 @@
                     :timePickerOptions="{
                         start: '08:30',
                         step: '00:30',
-                        end: '18:30'
+                        end: '18:30',
                     }"
                 />
                 <cui-input :label="$lang.memo" v-model="reservation.note" />
@@ -38,14 +38,20 @@
         </div>
 
         <div
-            style="flex-grow: 1; display: flex; justify-content: flex-end; margin-top: 20px"
+            style="
+                flex-grow: 1;
+                display: flex;
+                justify-content: flex-end;
+                margin-top: 20px;
+            "
         >
             <cui-button
                 :label="$lang.cancel"
                 @click="
-                    $store.commit('SET_LAYOUT_DATA', {
-                        receptionModalReservation: false
-                    })
+                    $store.commit('SET_LAYOUT_DATA', [
+                        'reception',
+                        { receptionModalReservation: false },
+                    ])
                 "
                 plain
             />
@@ -73,8 +79,8 @@ export default {
                 date: null,
                 time: null,
                 encouterType: 1,
-                note: ""
-            }
+                note: "",
+            },
         };
     },
     methods: {
@@ -82,9 +88,10 @@ export default {
             this.loading = true;
             await this.$dataService().post.encounters(this.reservation);
             this.$emit("created");
-            this.$store.commit("SET_LAYOUT_DATA", {
-                receptionModalReservation: false
-            });
+            this.$store.commit("SET_LAYOUT_DATA", [
+                "reception",
+                { receptionModalReservation: false },
+            ]);
         },
         selectDate(i) {
             let date = this.$dayjs(i.start).format("YYYY-MM-DD");
@@ -93,7 +100,7 @@ export default {
                 this.reservation.time = time;
             }
             this.reservation.date = date;
-        }
+        },
     },
     computed: {
         inputOK() {
@@ -105,8 +112,8 @@ export default {
                 return true;
             }
             return false;
-        }
-    }
+        },
+    },
 };
 </script>
 

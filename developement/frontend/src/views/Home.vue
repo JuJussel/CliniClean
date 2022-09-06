@@ -25,9 +25,16 @@
             <template v-slot:center>
                 <cui-menu-bar-item
                     icon="fas fa-clipboard-user menu-icon"
-                    :label="$lang.karte + ' - ' + $store.getters.layoutData.medical?.patient?.name"
+                    :label="
+                        $lang.karte +
+                        ' - ' +
+                        $store.getters.layoutData.medical?.patient?.name
+                    "
                     value="medical"
-                    v-if="$aclService(1, 'medical') && $store.getters.layoutData.medical?.show"
+                    v-if="
+                        $aclService(1, 'medical') &&
+                        $store.getters.layoutData.medical?.show
+                    "
                 />
             </template>
             <template v-slot:right>
@@ -77,7 +84,10 @@
         </cui-menu-bar>
         <div class="cc-home-main-cont">
             <transition name="juzoom">
-                <component :is="$store.getters.activeTab" style="height: 100%"></component>
+                <component
+                    :is="$store.getters.activeTab"
+                    style="height: 100%"
+                ></component>
             </transition>
         </div>
     </div>
@@ -99,15 +109,16 @@ export default {
         medical,
         // order,
         // notification,
-        dashboard
+        dashboard,
         // settings
     },
     async created() {
         await this.$dataService().get.lists.static();
         await this.$dataService().get.settings.public();
+        await this.$dataService().get.lists.encounterTypes();
         this.ready = true;
         this.$connect();
-        this.$options.sockets.onmessage = data => {
+        this.$options.sockets.onmessage = (data) => {
             data = JSON.parse(data.data);
             if (data.event === "updateNotifications") this.getNotifications();
         };
@@ -115,7 +126,7 @@ export default {
     data() {
         return {
             activeTab: "dashboard",
-            ready: false
+            ready: false,
         };
     },
     methods: {
@@ -126,7 +137,7 @@ export default {
             } else {
                 this.$store.commit("SET_ACTIVE_TAB", val);
             }
-        }
+        },
     },
     computed: {
         avatarUrl() {
@@ -139,10 +150,10 @@ export default {
         },
         hasNewNotification() {
             let not = this.$store.getters.notifications;
-            let hasNot = not.filter(item => !item.recepients[0].read);
+            let hasNot = not.filter((item) => !item.recepients[0].read);
             return hasNot.length > 0 ? true : false;
-        }
-    }
+        },
+    },
 };
 </script>
 

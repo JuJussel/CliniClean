@@ -6,14 +6,14 @@
                 <cui-button
                     icon="fas fa-plus"
                     :label="$lang.register"
-                    v-if="!isViewer"
+                    v-if="$store.getters.layoutData.medical.encounter"
                     @click="openVitalRegister"
                 />
             </template>
             <template #thead>
                 <cui-th
                     class="vital-row-header-scoped"
-                    style="z-index: 5!important"
+                    style="z-index: 5 !important"
                 >
                     <cui-checkbox
                         v-if="isViewer"
@@ -37,7 +37,7 @@
                             v-model="row.selectedDisp"
                             :label="
                                 $lang.vitalCategories[row.name] +
-                                    (row.unit || '')
+                                (row.unit || '')
                             "
                         />
                         <span v-else>
@@ -99,91 +99,98 @@
 </template>
 
 <script>
-    export default {
-        props: {
-            isViewer: {
-                default: false,
-                type: Boolean
-            }
+export default {
+    props: {
+        isViewer: {
+            default: false,
+            type: Boolean,
         },
-        emits: ["update", "selectChange"],
-        data() {
-            return {
-                showChartAll: true,
-                modals: {
-                    vitalRegister: {
-                        visible: false,
-                        loading: false,
-                        data: null
-                    }
+    },
+    emits: ["update", "selectChange"],
+    data() {
+        return {
+            showChartAll: true,
+            modals: {
+                vitalRegister: {
+                    visible: false,
+                    loading: false,
+                    data: null,
+                },
+            },
+        };
+    },
+    watch: {
+        showChartAll() {
+            this.vitalCats.forEach((item, index) => {
+                this.vitalCats[index].selectedDisp = this.showChartAll;
+            });
+            this.$emit("selectChange", this.vitalCats);
+        },
+        vitalCats: {
+            deep: true,
+            handler() {
+                if (this.vitalCats) {
+                    this.$store.commit("SET_VIEW_DATA", {
+                        selectedVitalCats: this.vitalCats,
+                    });
                 }
+            },
+        },
+    },
+    methods: {
+        openVitalRegister() {
+            let vitalCatsEdit = this.vitalCats;
+            vitalCatsEdit.forEach((item) => {
+                item.value = "";
+            });
+            this.modals.vitalRegister.data = vitalCatsEdit;
+            this.modals.vitalRegister.visible = true;
+        },
+        async register() {
+            this.modals.vitalRegister.loading = true;
+            let vitals = this.modals.vitalRegister.data.filter(
+                (item) => item.value !== ""
+            );
+            const sendData = {
+                patientId: this.patientData.id,
+                values: vitals,
             };
-        },
-        watch: {
-            showChartAll() {
-                this.vitalCats.forEach((item, index) => {
-                    this.vitalCats[index].selectedDisp = this.showChartAll;
-                });
-                this.$emit("selectChange", this.vitalCats);
-            },
-            vitalCats: {
-                deep: true,
-                handler() {
-                    if (this.vitalCats) {
-                        this.$store.commit("SET_VIEW_DATA", {
-                            selectedVitalCats: this.vitalCats
-                        });
-                    }
-                }
-            }
-        },
-        methods: {
-            openVitalRegister() {
-                let vitalCatsEdit = this.vitalCats;
-                vitalCatsEdit.forEach(item => {
-                    item.value = "";
-                });
-                this.modals.vitalRegister.data = vitalCatsEdit;
-                this.modals.vitalRegister.visible = true;
-            },
-            async register() {
-                this.modals.vitalRegister.loading = true;
-                let vitals = this.modals.vitalRegister.data.filter(
-                    item => item.value !== ""
+            await this.$dataService().post.medical.vitals(sendData);
+            let patientHistory =
+                await this.$dataService().get.patient.medicalHistory(
+                    this.patientData.id
                 );
-                const sendData = {
-                    patientId: this.patientData.id,
-                    values: vitals
-                };
-                await this.$dataService().post.medical.vitals(sendData);
-                let patientHistory = await this.$dataService().get.patient.medicalHistory(this.patientData.id);
-                this.$store.commit('SET_ACTIVE_ENCOUNTER', {patient: patientHistory})
-                this.modals.vitalRegister.loading = false;
-                this.modals.vitalRegister.visible = false;
-            },
-            returnVitalValue(vitals, row) {
-                return vitals.find(item => item.code === row.code)?.value || "";
-            }
+            this.$store.commit("SET_LAYOUT_DATA", [
+                "medical",
+                { patient: patientHistory },
+            ]);
+            this.modals.vitalRegister.loading = false;
+            this.modals.vitalRegister.visible = false;
         },
-        computed: {
-            vitalCats() {
-                return this.$store.getters.staticLists.vitalCategories.map(
-                    v => ({ ...v, selectedDisp: true })
-                )
-            },
-            patientData() {
-                return this.$store.getters.layoutData.medical.patient
-            },
-            inputPresent() {
-                if (!this.modals.vitalRegister.data) return false;
-                let hasValue = this.modals.vitalRegister.data.filter(
-                    item => item.value !== ""
-                )
-                if (hasValue.length > 0) return true;
-                return false;
-            }
-        }
-    };
+        returnVitalValue(vitals, row) {
+            return vitals.find((item) => item.code === row.code)?.value || "";
+        },
+    },
+    computed: {
+        vitalCats() {
+            return this.$store.getters.staticLists.vitalCategories.map((v) => ({
+                ...v,
+                selectedDisp: true,
+            }));
+        },
+        patientData() {
+            return this.$store.getters.layoutData.medical.patient;
+        },
+        inputPresent() {
+            if (!this.modals.vitalRegister.data) return false;
+            let hasValue = this.modals.vitalRegister.data.filter(
+                (item) => item.value !== ""
+            );
+            if (hasValue.length > 0) return true;
+            return false;
+        },
+    },
+};
 </script>
     
 <style>

@@ -5,7 +5,7 @@
             <cui-select
                 :label="$lang.encounterType"
                 :placeholder="$lang.searchByNameodID"
-                :data="$store.getters.encounterTypes"
+                :data="$store.getters.staticLists.encounterTypes"
                 displayValueProp="name"
                 returnValueProp="id"
                 v-model="walkin.encouterType"
@@ -71,9 +71,10 @@
             <cui-button
                 :label="$lang.cancel"
                 @click="
-                    $store.commit('SET_LAYOUT_DATA', {
-                        receptionModalRegister: false
-                    })
+                    $store.commit('SET_LAYOUT_DATA', [
+                        'reception',
+                        { receptionModalRegister: false },
+                    ])
                 "
                 plain
             />
@@ -98,14 +99,14 @@ export default {
             insuranceResults: [],
             loading: {
                 insurances: false,
-                all: false
+                all: false,
             },
             walkin: {
                 patient: this.$store.getters.activePatient,
                 insurance: null,
                 encouterType: 1,
-                note: ""
-            }
+                note: "",
+            },
         };
     },
     methods: {
@@ -126,10 +127,11 @@ export default {
             this.loading.all = true;
             await this.$dataService().post.encounters(this.walkin);
             this.loading.all = false;
-            this.$store.commit("SET_LAYOUT_DATA", {
-                receptionModalRegister: false
-            });
-        }
+            this.$store.commit("SET_LAYOUT_DATA", [
+                "reception",
+                { receptionModalRegister: false },
+            ]);
+        },
     },
     computed: {
         inputOK() {
@@ -137,8 +139,8 @@ export default {
                 return true;
             }
             return false;
-        }
-    }
+        },
+    },
 };
 </script>
 
@@ -147,6 +149,6 @@ export default {
     display: grid;
     grid-template-columns: 200px auto;
     grid-gap: 20px;
-    position: relative
+    position: relative;
 }
 </style>

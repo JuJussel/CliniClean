@@ -252,54 +252,46 @@ export default {
                         },
                         //>----Static Lists-----//
                         static: function () {
-                            if (instance.$store.getters.staticLists) {
-                                return instance.$store.getters.staticLists;
-                            } else {
-                                return new Promise(function (resolve, reject) {
-                                    return http
-                                        .get("lists/static")
-                                        .then((result) => {
-                                            instance.$store.commit(
-                                                "SET_STATIC_LISTS",
-                                                result
-                                            );
-                                            resolve(result);
-                                        })
-                                        .catch((result) => {
-                                            instance.$cui.notification({
-                                                text: result,
-                                                color: "danger",
-                                            });
-                                            reject;
+                            return new Promise(function (resolve, reject) {
+                                return http
+                                    .get("lists/static")
+                                    .then((result) => {
+                                        instance.$store.commit(
+                                            "SET_STATIC_LISTS",
+                                            result
+                                        );
+                                        resolve(result);
+                                    })
+                                    .catch((result) => {
+                                        instance.$cui.notification({
+                                            text: result,
+                                            color: "danger",
                                         });
-                                });
-                            }
+                                        reject;
+                                    });
+                            });
                         },
 
                         //>----Encounter Types-----//
                         encounterTypes: function () {
-                            if (instance.$store.getters.encounterTypes) {
-                                return instance.$store.getters.encounterTypes;
-                            } else {
-                                return new Promise(function (resolve, reject) {
-                                    return http
-                                        .get("lists/encounterTypes")
-                                        .then((result) => {
-                                            instance.$store.commit(
-                                                "SET_ENCOUNTER_TYPES",
-                                                result
-                                            );
-                                            resolve(result);
-                                        })
-                                        .catch((result) => {
-                                            instance.$cui.notification({
-                                                text: result,
-                                                color: "danger",
-                                            });
-                                            reject;
+                            return new Promise(function (resolve, reject) {
+                                return http
+                                    .get("lists/encounterTypes")
+                                    .then((result) => {
+                                        instance.$store.commit(
+                                            "SET_STATIC_LISTS",
+                                            { encounterTypes: result }
+                                        );
+                                        resolve(result);
+                                    })
+                                    .catch((result) => {
+                                        instance.$cui.notification({
+                                            text: result,
+                                            color: "danger",
                                         });
-                                });
-                            }
+                                        reject;
+                                    });
+                            });
                         },
                         //>----Insurance Providers-----//
                         insuranceProviders: function (number) {
@@ -308,8 +300,8 @@ export default {
                                     .get("lists/insuranceProviders/" + number)
                                     .then((result) => {
                                         instance.$store.commit(
-                                            "SET_OCCUPATIONS",
-                                            result
+                                            "SET_STATIC_LISTS",
+                                            { occupations: result }
                                         );
                                         resolve(result);
                                     })
@@ -406,10 +398,10 @@ export default {
                         },
                     },
                     procedures: {
-                        //>----Encounter Types-----//
+                        //>----Procedure Categories Types-----//
                         categories: function () {
-                            if (instance.$store.getters.procedureCategories) {
-                                return instance.$store.getters
+                            if (instance.$store.getters.staticLists.procedureCategories) {
+                                return instance.$store.getters.staticLists
                                     .procedureCategories;
                             } else {
                                 return new Promise(function (resolve, reject) {
@@ -417,8 +409,8 @@ export default {
                                         .get("procedures/categories/")
                                         .then((result) => {
                                             instance.$store.commit(
-                                                "SET_PROCEDURE_CATEGORIES",
-                                                result
+                                                "SET_STATIC_LISTS",
+                                                { procedureCategories: result }
                                             );
                                             resolve(result);
                                         })

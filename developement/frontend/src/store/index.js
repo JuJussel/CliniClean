@@ -12,7 +12,6 @@ var defaultState = function () {
                 { id: 3, name: "Doctor" },
                 { id: 99, name: "Admin" },
             ],
-            db: null,
             disease: {
                 suspectFlags: [
                     { value: "", label: "なし" },
@@ -34,7 +33,8 @@ var defaultState = function () {
         config: null,
         notifications: [],
         layoutData: {
-            medical: null
+            medical: null,
+            reception: null
         }
     };
 }
@@ -46,31 +46,19 @@ export const store = createStore({
     },
 
     getters: {
-        staticLists: (state) => state.staticLists.db,
+        staticLists: (state) => state.staticLists,
         user: (state) => state.user,
         userFullName: (state) => state.user?.nameLast + state.user?.nameFirst,
         activeTab: (state) => state.activeTab,
-        encounterTypes: (state) => state.staticLists.encounterTypes,
-        occupations: (state) => state.staticLists.occupations || null,
-        relations: (state) => state.staticLists.relations || null,
-        procedureCategories: (state) =>
-            state.staticLists.procedureCategories || null,
-        shotLocations: (state) => state.staticLists.shotLocations || null,
-        perscriptionTypes: (state) =>
-            state.staticLists.perscriptionTypes || null,
-        perscriptionTimings: (state) =>
-            state.staticLists.perscriptionTimings || null,
         settings: (state) => state.settings,
         activePatient: (state) => state.activePatient || null,
-        diseaseFlags: (state) => state.staticLists.disease || null,
         notifications: (state) => state.notifications,
-        userGroups: (state) => state.staticLists.userGroups,
         layoutData: (state) => state.layoutData
     },
 
     mutations: {
-        SET_STATIC_LISTS(state, lists) {
-            state.staticLists.db = lists;
+        SET_STATIC_LISTS(state, data) {
+            Object.assign(state.staticLists, data)
         },
         SET_SETTINGS(state, settings) {
             state.settings = settings;
@@ -80,27 +68,6 @@ export const store = createStore({
         },
         SET_ACTIVE_TAB(state, view) {
             state.activeTab = view;
-        },
-        SET_ENCOUNTER_TYPES(state, data) {
-            state.staticLists.encounterTypes = data;
-        },
-        SET_OCCUPATIONS(state, data) {
-            state.staticLists.occupations = data;
-        },
-        SET_RELATIONS(state, data) {
-            state.staticLists.relations = data;
-        },
-        SET_PROCEDURE_CATEGORIES(state, data) {
-            state.staticLists.procedureCategories = data;
-        },
-        SET_SHOT_LOCATIONS(state, data) {
-            state.staticLists.shotLocations = data;
-        },
-        SET_PERSCRIPTION_TYPES(state, data) {
-            state.staticLists.perscriptionTypes = data;
-        },
-        SET_PERSCRIPTION_TIMINGS(state, data) {
-            state.staticLists.perscriptionTimings = data;
         },
         SET_ACTIVE_PATIENT(state, data) {
             state.activePatient = data;
@@ -112,7 +79,10 @@ export const store = createStore({
             state.notifications = data;
         },
         SET_LAYOUT_DATA(state, data) {
-            Object.assign(state.layoutData, data);
+            let target = data[0]
+            let content = data[1]
+            if (!state.layoutData[target]) state.layoutData[target] = {}
+            Object.assign(state.layoutData[target], content);
         },
         CLEAR_STORE(state) {
             Object.assign(state, defaultState());

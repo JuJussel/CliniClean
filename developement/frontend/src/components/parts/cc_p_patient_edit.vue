@@ -135,9 +135,10 @@
             <cui-button
                 :label="$lang.cancel"
                 @click="
-                    $store.commit('SET_LAYOUT_DATA', {
-                        receptionModalPatientEdit: false
-                    })
+                    $store.commit('SET_LAYOUT_DATA', [
+                        'reception',
+                        { receptionModalPatientEdit: false },
+                    ])
                 "
                 plain
             />
@@ -165,7 +166,7 @@ export default {
             loading: false,
             modals: {
                 insuranceNew: false,
-                newInsuranceType: "insuranceNew"
+                newInsuranceType: "insuranceNew",
             },
             editData: null,
             patient: {
@@ -182,15 +183,15 @@ export default {
                 mail: "",
                 address: {
                     zip: "",
-                    addr: ""
+                    addr: "",
                 },
                 company: {
                     name: "",
                     zip: "",
                     addr: "",
-                    phone: ""
+                    phone: "",
                 },
-                insurance: []
+                insurance: [],
             },
             errors: {
                 id: "",
@@ -209,8 +210,8 @@ export default {
                 companyzip: "",
                 companyaddr: "",
                 companyphone: "",
-                insurance: ""
-            }
+                insurance: "",
+            },
         };
     },
     methods: {
@@ -244,16 +245,14 @@ export default {
             }
         },
         validateForm() {
-            Object.keys(this.errors).forEach(key => {
+            Object.keys(this.errors).forEach((key) => {
                 this.errors[key] = "";
             });
 
             const schema = Joi.object({
                 name: Joi.string().required(),
                 nameKana: Joi.string().required(),
-                birthdate: Joi.date()
-                    .max("now")
-                    .required(),
+                birthdate: Joi.date().max("now").required(),
                 gender: Joi.number().required(),
                 householderName: Joi.string().allow(""),
                 relation: Joi.string().allow(""),
@@ -261,14 +260,12 @@ export default {
                 phone: Joi.string()
                     .pattern(/^[0-9]*$/)
                     .allow(""),
-                mail: Joi.string()
-                    .email({ tlds: false })
-                    .allow(""),
+                mail: Joi.string().email({ tlds: false }).allow(""),
                 address: Joi.object({
                     zip: Joi.string()
                         .pattern(/^[0-9]*$/)
                         .allow(""),
-                    addr: Joi.string()
+                    addr: Joi.string(),
                 }),
                 company: Joi.object({
                     name: Joi.string().allow(""),
@@ -278,26 +275,26 @@ export default {
                     addr: Joi.string().allow(""),
                     phone: Joi.string()
                         .pattern(/^[0-9]*$/)
-                        .allow("")
+                        .allow(""),
                 }),
-                insurance: Joi.array()
+                insurance: Joi.array(),
             });
             try {
                 Joi.assert(this.patient, schema, {
                     abortEarly: false,
                     allowUnknown: true,
-                    messages: this.$lang.validationMessages
+                    messages: this.$lang.validationMessages,
                 });
                 this.save();
             } catch (err) {
-                err.details.forEach(e => {
+                err.details.forEach((e) => {
                     let key = e.path[0];
                     if (e.path.length > 1) {
                         key = key + e.path[1];
                     }
                     this.errors[key] = null;
                     setTimeout(
-                        function() {
+                        function () {
                             this.errors[key] = e.message;
                         }.bind(this),
                         50
@@ -330,17 +327,18 @@ export default {
             this.$cui.notification({
                 text: this.$lang.saved,
                 duration: 2000,
-                color: "primary"
+                color: "primary",
             });
             this.$emit("showPatient", newPatientId);
 
             this.$store.commit("SET_ACTIVE_PATIENT", this.patient);
 
-            this.$store.commit("SET_LAYOUT_DATA", {
-                receptionModalPatientEdit: false
-            });
-        }
-    }
+            this.$store.commit("SET_LAYOUT_DATA", [
+                "reception",
+                { receptionModalPatientEdit: false },
+            ]);
+        },
+    },
 };
 </script>
 

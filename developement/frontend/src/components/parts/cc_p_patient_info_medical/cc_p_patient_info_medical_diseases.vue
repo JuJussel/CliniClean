@@ -1,51 +1,85 @@
 <template>
     <div style="height: 100%">
         <div class="table-container">
-            <cui-table :data="diseases.active" style="max-height:610px">
+            <cui-table :data="diseases.active" style="max-height: 610px">
                 <template #header>
-                    <h2> {{ $lang.diseaseName }} {{ $lang.valid }} </h2>
-                    <cui-button icon="fas fa-plus" :label="$lang.register" @click="openDiseaseEditor(null)"/>
+                    <h2>{{ $lang.diseaseName }} {{ $lang.valid }}</h2>
+                    <cui-button
+                        icon="fas fa-plus"
+                        :label="$lang.register"
+                        @click="openDiseaseEditor(null)"
+                        v-if="$store.getters.layoutData.medical?.encounter"
+                    />
                 </template>
                 <template #thead>
                     <cui-th> {{ $lang.diseaseName }} </cui-th>
-                    <cui-th style="width: 130px"> {{ $lang.startDate  }} </cui-th>
-                    <cui-th style="width: 100px"> {{ $lang.diseaseSuspectOrAcute }} </cui-th>
-                    <cui-th style="width: 50px"> {{ $lang.diseaseMain }} </cui-th>
+                    <cui-th style="width: 130px">
+                        {{ $lang.startDate }}
+                    </cui-th>
+                    <cui-th style="width: 100px">
+                        {{ $lang.diseaseSuspectOrAcute }}
+                    </cui-th>
+                    <cui-th style="width: 50px">
+                        {{ $lang.diseaseMain }}
+                    </cui-th>
                     <cui-th></cui-th>
                 </template>
                 <template v-slot:row="{ row }">
-                    <td> {{ row.disease.name }} </td>
-                    <td> {{ $parseDate(row.startDate) }} </td>
-                    <td> {{ parseSuspectLabel(row) }} </td>
+                    <td>{{ row.disease.name }}</td>
+                    <td>{{ $parseDate(row.startDate) }}</td>
+                    <td>{{ parseSuspectLabel(row) }}</td>
                     <td>
-                        <span v-if="row.primaryDisease"> {{ $lang.diseaseMain }} </span>
+                        <span v-if="row.primaryDisease">
+                            {{ $lang.diseaseMain }}
+                        </span>
                     </td>
                     <td>
-                        <cui-button icon="fas fa-edit" plain @click="openDiseaseEditor(row)"></cui-button>
+                        <cui-button
+                            icon="fas fa-edit"
+                            plain
+                            @click="openDiseaseEditor(row)"
+                            v-if="$store.getters.layoutData.medical?.encounter"
+                        ></cui-button>
                     </td>
                 </template>
             </cui-table>
-            <cui-table :data="diseases.closed" style="max-height:610px">
+            <cui-table :data="diseases.closed" style="max-height: 610px">
                 <template #header>
-                    <h2> {{ $lang.diseaseName }} {{ $lang.history }} </h2>
+                    <h2>{{ $lang.diseaseName }} {{ $lang.history }}</h2>
                 </template>
                 <template #thead>
                     <cui-th> {{ $lang.diseaseName }} </cui-th>
-                    <cui-th style="width: 130px"> {{ $lang.startDate  }} </cui-th>
-                    <cui-th style="width: 130px"> {{ $lang.diseaseEndDate }} </cui-th>
-                    <cui-th style="width: 60px"> {{ $lang.diseaseOutcome }} </cui-th>
+                    <cui-th style="width: 130px">
+                        {{ $lang.startDate }}
+                    </cui-th>
+                    <cui-th style="width: 130px">
+                        {{ $lang.diseaseEndDate }}
+                    </cui-th>
+                    <cui-th style="width: 60px">
+                        {{ $lang.diseaseOutcome }}
+                    </cui-th>
                 </template>
                 <template v-slot:row="{ row }">
-                    <td> {{ row.disease.name }} </td>
-                    <td> {{ $parseDate(row.startDate) }} </td>
-                    <td> {{ $parseDate(row.endDate) }} </td>
-                    <td> {{ parseOutcomeLabel(row) }} </td>
+                    <td>{{ row.disease.name }}</td>
+                    <td>{{ $parseDate(row.startDate) }}</td>
+                    <td>{{ $parseDate(row.endDate) }}</td>
+                    <td>{{ parseOutcomeLabel(row) }}</td>
                 </template>
             </cui-table>
         </div>
-        <cui-modal :visible="diseaseEditor.visible" :closable="!diseaseEditor.loading" @close="diseaseEditor.visible = false">
-            <cui-card style="width: 600px; height: 640px" v-if="diseaseEditor.visible">
-                <template #header> {{ $lang.diseaseName }} {{ diseaseEditor.data ? $lang.edit : $lang.register }} </template>
+        <cui-modal
+            :visible="diseaseEditor.visible"
+            :closable="!diseaseEditor.loading"
+            @close="diseaseEditor.visible = false"
+        >
+            <cui-card
+                style="width: 600px; height: 640px"
+                v-if="diseaseEditor.visible"
+            >
+                <template #header>
+                    {{ $lang.diseaseName }}
+                    {{ diseaseEditor.data ? $lang.edit : $lang.register }}
+                </template>
                 <disease-editor
                     :diseaseData="diseaseEditor.data"
                     @close="diseaseEditor.visible = false"
@@ -58,41 +92,43 @@
 </template>
 
 <script>
-
-import diseaseEditor from "../cc_p_disease_edit.vue"
+import diseaseEditor from "../cc_p_disease_edit.vue";
 
 export default {
     components: {
-        diseaseEditor
+        diseaseEditor,
     },
     props: {
         outline: {
             default: false,
-            type: Boolean
+            type: Boolean,
         },
         square: {
             default: true,
-            type: Boolean
-        }
-
+            type: Boolean,
+        },
     },
     data() {
         return {
             diseaseEditor: {
                 visible: false,
                 loading: false,
-                data: null
-            }
-        }
+                data: null,
+            },
+        };
     },
     methods: {
         parseSuspectLabel(row) {
-            if(!row.suspectOrAcuteFlag) return "";
-            return this.$store.getters.diseaseFlags.suspectFlags.find(item => item.value === row.suspectOrAcuteFlag).label
+            if (!row.suspectOrAcuteFlag) return "";
+            return this.$store.getters.staticLists.disease.suspectFlags.find(
+                (item) => item.value === row.suspectOrAcuteFlag
+            ).label;
         },
         parseOutcomeLabel(row) {
-            if(!row.outcome) return "";
-            return this.$store.getters.diseaseFlags.outcomeFlags.find(item => item.value === row.outcome).label
+            if (!row.outcome) return "";
+            return this.$store.getters.staticLists.disease.outcomeFlags.find(
+                (item) => item.value === row.outcome
+            ).label;
         },
 
         openDiseaseEditor(data) {
@@ -104,31 +140,41 @@ export default {
             this.$cui.notification({
                 text: this.$lang.saved,
                 duration: 2000,
-                color: 'primary'
-            })
-            let patientHistory = await this.$dataService().get.patient.medicalHistory(this.patientData.id);
-            this.$store.commit('SET_ACTIVE_ENCOUNTER', {patient: patientHistory})
-        }
+                color: "primary",
+            });
+            let patientHistory =
+                await this.$dataService().get.patient.medicalHistory(
+                    this.patientData.id
+                );
+            this.$store.commit("SET_LAYOUT_DATA", [
+                "medical",
+                { patient: patientHistory },
+            ]);
+        },
     },
     computed: {
         patientData() {
-            return this.$store.getters.layoutData.medical.patient
+            return this.$store.getters.layoutData.medical.patient;
         },
         diseases() {
             return {
-                active: this.patientData.diseases?.filter(item => !item.endDate) || [],
-                closed: this.patientData.diseases?.filter(item => item.endDate) || []
-            }
-        }
-    }
-
-}
+                active:
+                    this.patientData.diseases?.filter(
+                        (item) => !item.endDate
+                    ) || [],
+                closed:
+                    this.patientData.diseases?.filter((item) => item.endDate) ||
+                    [],
+            };
+        },
+    },
+};
 </script>
 
 <style scoped>
-    .table-container {
-        height: 100%;
-        display: grid;
-        grid-template-rows: 50% 50%;
-    }
+.table-container {
+    height: 100%;
+    display: grid;
+    grid-template-rows: 50% 50%;
+}
 </style>
