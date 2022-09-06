@@ -1,13 +1,16 @@
 <template>
     <div class="cc-medical-karte-main">
-        <!-- <div class="cc-medical-exam-loader-cont" v-if="saving">
-            <div>{{ $lang.saving }}</div>
-            <div class="loader" style="background-color: transparent" />
+        <div></div>
+        <div>
+            <div v-if="saving" class="cc-medical-exam-loader-cont">
+                <div class="loader" style="background-color: transparent; scale: 0.6" />
+                <div style="margin-left: -10px">{{ $lang.saving }}</div>
+            </div>
+            <div v-else-if="saved" class="cc-medical-exam-loader-cont">
+                <i class="fas fa-check" style="margin-right: 3px"></i>
+                <div>{{ $lang.save }}{{ $lang.done }}</div>
+            </div>
         </div>
-        <div v-else-if="saved">
-            <i class="fas fa-check"></i>
-            {{ $lang.save }}{{ $lang.done }}
-        </div> -->
 
         <div class="cc-medical-karte-soap">
             <div class="cc-headers">
@@ -123,7 +126,7 @@
 </template>
 
 <script>
-// import imageTag  from "../shared/cc_shared_tiptap_extensions/cc_tiptap_imageTag/cc_tiptap_imageTag";
+import imageTag  from "./cc_tiptap_imageTag/cc_tiptap_imageTag";
 // import schemaEditor from "../shared/cc_shared_schema_editor.vue"
 // import proceduresList from "../shared/cc_shared_procedures_list/cc_shared_procedures_list.vue"
 // import painter from "../shared/cc_shared_painter.vue"
@@ -154,7 +157,7 @@ export default {
                     action: () => (this.modal.schema = true),
                 },
             ],
-            // customTextExtensions: [imageTag],
+            customTextExtensions: [imageTag],
             images: [],
             procedures: [],
             soap: null,
@@ -165,12 +168,8 @@ export default {
             },
             timer: null,
             random: 1,
+            encounter: null
         };
-    },
-    computed: {
-        encounter() {
-            return this.$store.getters.layoutData.medical.encounter;
-        },
     },
     watch: {
         procedures: {
@@ -180,7 +179,11 @@ export default {
             deep: true,
         },
     },
-    mounted() {
+    async mounted() {
+        if (this.$store.getters.layoutData.medical.encounter?.id) {
+            let encounterId = this.$store.getters.layoutData.medical.encounter?.id
+            this.encounter = await this.$dataService().get.encounters.findOne(encounterId)
+        }
         if (this.encounter?.karte?.soap?.html) {
             this.$refs.textEditor.setContent(this.encounter.karte.soap.html);
             this.soap = this.encounter.karte.soap;
@@ -227,24 +230,25 @@ export default {
                     if (text) this.soap = text;
                     this.saved = false;
                     this.saving = true;
-
-                    // this.encounterState.karte = state;
-                    await this.$dataService().put.encounters(
-                        this.encounterState
-                    );
-                    this.saving = false;
-                    this.saved = true;
-
                     let encounter = JSON.parse(JSON.stringify(this.encounter));
                     encounter.karte = {
                         soap: this.soap,
                         procedures: this.procedures,
                         images: this.images,
                     };
+
+                    await this.$dataService().put.encounters(
+                        encounter
+                    );
+
                     this.$store.commit("SET_LAYOUT_DATA", [
                         "medical",
                         { encounter: encounter },
                     ]);
+
+                    this.saving = false;
+                    this.saved = true;
+
                 }.bind(this),
                 1000
             );
@@ -314,8 +318,22 @@ export default {
 .cc-medical-karte-main {
     display: grid;
     grid-template-columns: 50% 50%;
-    grid-template-rows: 100%;
+    grid-template-rows: 30px auto;
     height: 100%;
+}
+.cc-medical-exam-loader-cont {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    opacity: 0.7
+}
+.cc-medical-exam-loader-cont .loader {
+    position: relative;
+    width: 50px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
 }
 .cc-medical-karte-soap {
     border-right: solid 1px var(--cui-gray-5);
