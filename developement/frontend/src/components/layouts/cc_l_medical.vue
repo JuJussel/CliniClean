@@ -5,16 +5,19 @@
         </cui-card>
         <div class="resizer" @mousedown.stop="resizeHandler" />
 
-        <cui-card :loading="loading"></cui-card>
+        <cui-card :loading="loading">
+            <cc_p_karte />
+        </cui-card>
     </div>
 </template>
 
 <script>
-import { cc_p_patient_info_medical } from "../parts";
+import { cc_p_patient_info_medical, cc_p_karte } from "../parts";
 
 export default {
     components: {
         cc_p_patient_info_medical,
+        cc_p_karte,
     },
     async mounted() {
         let patientId = this.$store.getters.layoutData.medical.patient.id;
