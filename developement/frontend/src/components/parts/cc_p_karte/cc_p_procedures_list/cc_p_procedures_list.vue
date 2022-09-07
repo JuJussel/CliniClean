@@ -67,10 +67,10 @@
 
 <script>
 
-import exam from "./cc_shared_procedure_exam.vue"
-import shot from "./cc_shared_procedure_shot.vue"
-import perscription from "./cc_shared_procedure_perscription.vue"
-import healthCheck from "./cc_shared_procedure_health_check.vue" 
+import exam from "./cc_p_procedure_exam.vue"
+import shot from "./cc_p_procedure_shot.vue"
+import perscription from "./cc_p_procedure_perscription.vue"
+import healthCheck from "./cc_p_procedure_health_check.vue" 
 
 export default {
     components: {

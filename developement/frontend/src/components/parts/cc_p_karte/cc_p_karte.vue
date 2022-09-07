@@ -72,13 +72,13 @@
             <div class="cc-headers">
                 <b> {{ $lang.procedures }} </b>
             </div>
-            <!-- <proceduresList
+            <proceduresList
                 style="height: calc(100% - 40px)"
                 :encounter="encounter"
                 :procedures="procedures"
                 :random="random"
                 @remove="removeProcedure"
-            /> -->
+            />
         </div>
         <cui-modal
             :visible="modal.schema"
@@ -128,15 +128,15 @@
 <script>
 import imageTag  from "./cc_tiptap_imageTag/cc_tiptap_imageTag";
 import schemaEditor from "./cc_p_schema_editor.vue"
-// import proceduresList from "../shared/cc_shared_procedures_list/cc_shared_procedures_list.vue"
+import proceduresList from "./cc_p_procedures_list"
 import painter from "../cc_p_painter.vue"
-// import baseCostUtil from "../../utils/encounterBaseCost";
+import baseCostUtil from "../../../utils/encounterBaseCost";
 // import procedureCheck from "../../utils/procedureCheck"
 
 export default {
     components: {
         schemaEditor,
-        // proceduresList,
+        proceduresList,
         painter
     },
     emits: ["update"],
@@ -184,6 +184,18 @@ export default {
             let encounterId = this.$store.getters.layoutData.medical.encounter?.id
             this.encounter = await this.$dataService().get.encounters.findOne(encounterId)
         }
+
+        if (this.encounter.baseCost.length < 1) {
+            let baseCost = await baseCostUtil(
+                this.encounter, 
+                this.$store.getters.staticLists.encounterBaseCost, 
+                this.$store.getters.settings.clinicBaseInfo.public
+            );
+            this.encounter.baseCost = baseCost;
+        }
+
+        this.encounter.doctor = this.$store.getters.user.id;
+
         if (this.encounter?.karte?.soap?.html) {
             this.$refs.textEditor.setContent(this.encounter.karte.soap.html);
             this.soap = this.encounter.karte.soap;
