@@ -5,7 +5,7 @@
         </cui-card>
         <div class="resizer" @mousedown.stop="resizeHandler" />
 
-        <cui-card :loading="loading">
+        <cui-card :loading="loading" no-padding style="overflow: hidden">
             <cc_p_karte />
         </cui-card>
     </div>

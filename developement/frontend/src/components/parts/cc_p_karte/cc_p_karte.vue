@@ -1,9 +1,12 @@
 <template>
     <div class="cc-medical-karte-main">
         <div></div>
-        <div>
+        <div style="padding: 5px">
             <div v-if="saving" class="cc-medical-exam-loader-cont">
-                <div class="loader" style="background-color: transparent; scale: 0.6" />
+                <div
+                    class="loader"
+                    style="background-color: transparent; scale: 0.6"
+                />
                 <div style="margin-left: -10px">{{ $lang.saving }}</div>
             </div>
             <div v-else-if="saved" class="cc-medical-exam-loader-cont">
@@ -126,10 +129,10 @@
 </template>
 
 <script>
-import imageTag  from "./cc_tiptap_imageTag/cc_tiptap_imageTag";
-import schemaEditor from "./cc_p_schema_editor.vue"
-import proceduresList from "./cc_p_procedures_list"
-import painter from "../cc_p_painter.vue"
+import imageTag from "./cc_tiptap_imageTag/cc_tiptap_imageTag";
+import schemaEditor from "./cc_p_schema_editor.vue";
+import proceduresList from "./cc_p_procedures_list";
+import painter from "../cc_p_painter.vue";
 import baseCostUtil from "../../../utils/encounterBaseCost";
 // import procedureCheck from "../../utils/procedureCheck"
 
@@ -137,7 +140,7 @@ export default {
     components: {
         schemaEditor,
         proceduresList,
-        painter
+        painter,
     },
     emits: ["update"],
     data() {
@@ -168,7 +171,7 @@ export default {
             },
             timer: null,
             random: 1,
-            encounter: null
+            encounter: null,
         };
     },
     watch: {
@@ -181,14 +184,17 @@ export default {
     },
     async mounted() {
         if (this.$store.getters.layoutData.medical.encounter?.id) {
-            let encounterId = this.$store.getters.layoutData.medical.encounter?.id
-            this.encounter = await this.$dataService().get.encounters.findOne(encounterId)
+            let encounterId =
+                this.$store.getters.layoutData.medical.encounter?.id;
+            this.encounter = await this.$dataService().get.encounters.findOne(
+                encounterId
+            );
         }
 
         if (this.encounter.baseCost.length < 1) {
             let baseCost = await baseCostUtil(
-                this.encounter, 
-                this.$store.getters.staticLists.encounterBaseCost, 
+                this.encounter,
+                this.$store.getters.staticLists.encounterBaseCost,
                 this.$store.getters.settings.clinicBaseInfo.public
             );
             this.encounter.baseCost = baseCost;
@@ -249,9 +255,7 @@ export default {
                         images: this.images,
                     };
 
-                    await this.$dataService().put.encounters(
-                        encounter
-                    );
+                    await this.$dataService().put.encounters(encounter);
 
                     this.$store.commit("SET_LAYOUT_DATA", [
                         "medical",
@@ -260,7 +264,6 @@ export default {
 
                     this.saving = false;
                     this.saved = true;
-
                 }.bind(this),
                 1000
             );
@@ -295,7 +298,7 @@ export default {
                         source: target,
                         patient: this.encounter.patient.id,
                         encounter: this.encounter.id,
-                    }
+                    },
                 };
                 let imgData = await this.$dataService().post.uploads.single(
                     sendData
@@ -330,7 +333,7 @@ export default {
 .cc-medical-karte-main {
     display: grid;
     grid-template-columns: 50% 50%;
-    grid-template-rows: 30px auto;
+    grid-template-rows: 30px calc(100% - 30px);
     height: 100%;
 }
 .cc-medical-exam-loader-cont {
@@ -338,7 +341,7 @@ export default {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    opacity: 0.7
+    opacity: 0.7;
 }
 .cc-medical-exam-loader-cont .loader {
     position: relative;
