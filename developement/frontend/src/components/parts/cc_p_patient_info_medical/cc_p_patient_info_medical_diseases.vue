@@ -1,7 +1,11 @@
 <template>
     <div style="height: 100%">
         <div class="table-container">
-            <cui-table :data="diseases.active" style="max-height: 610px">
+            <cui-table
+                :data="diseases.active"
+                style="max-height: 610px"
+                outline
+            >
                 <template #header>
                     <h2>{{ $lang.diseaseName }} {{ $lang.valid }}</h2>
                     <cui-button
@@ -43,7 +47,11 @@
                     </td>
                 </template>
             </cui-table>
-            <cui-table :data="diseases.closed" style="max-height: 610px">
+            <cui-table
+                :data="diseases.closed"
+                style="max-height: 610px"
+                outline
+            >
                 <template #header>
                     <h2>{{ $lang.diseaseName }} {{ $lang.history }}</h2>
                 </template>

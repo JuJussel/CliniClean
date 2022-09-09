@@ -1,6 +1,6 @@
 <template>
     <div style="height: 100%">
-        <cui-table :data="examsList" style="max-height: 610px" compact>
+        <cui-table :data="examsList" style="max-height: 610px" compact outline>
             <template #header>
                 <h2>{{ $lang.exam }}</h2>
             </template>
@@ -21,7 +21,11 @@
                 <td class="vital-row-header-scoped">
                     {{ row.label }}
                 </td>
-                <td v-for="(item, index) in exams" :key="index" style="border-right: solid 1px var(--cui-gray-2)">
+                <td
+                    v-for="(item, index) in exams"
+                    :key="index"
+                    style="border-right: solid 1px var(--cui-gray-2)"
+                >
                     {{ parseValue(item, row) }}
                 </td>
             </template>
@@ -46,25 +50,27 @@ export default {
     },
     computed: {
         patientData() {
-            return this.$store.getters.layoutData.medical.patient
+            return this.$store.getters.layoutData.medical.patient;
         },
         exams() {
             let examResults = [];
             this.patientData.encounters.forEach((enc) => {
                 let procedures = enc.karte?.procedures || null;
                 if (!procedures) return;
-                let exams = procedures.filter((proc) => proc.cat?.code === 60 || proc.cat?.code === 90);
+                let exams = procedures.filter(
+                    (proc) => proc.cat?.code === 60 || proc.cat?.code === 90
+                );
                 if (exams.length < 1) return;
                 exams.forEach((exm) => {
                     let varData = exm.varData || [];
                     if (varData.exams) {
                         let examArr = [];
-                        varData.exams.forEach(ex => {
-                            examArr = examArr.concat(ex.varData)
-                        })
+                        varData.exams.forEach((ex) => {
+                            examArr = examArr.concat(ex.varData);
+                        });
                         varData = examArr;
                     }
-                    
+
                     if (varData.length < 1) return;
                     exm = varData.map((varD) => {
                         (varD.encounter = enc.id), (varD.date = enc.date);

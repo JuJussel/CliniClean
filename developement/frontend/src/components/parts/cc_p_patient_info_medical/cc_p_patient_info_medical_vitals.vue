@@ -1,6 +1,6 @@
 <template>
     <div style="height: 100%">
-        <cui-table :data="vitalCats" compact>
+        <cui-table :data="vitalCats" compact outline>
             <template #header>
                 <h2>{{ $lang.vitals }}</h2>
                 <cui-button

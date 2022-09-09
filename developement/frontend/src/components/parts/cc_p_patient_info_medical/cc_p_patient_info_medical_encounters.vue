@@ -1,6 +1,6 @@
 <template>
     <div style="height: 100%">
-        <cui-table :data="patientData.encounters">
+        <cui-table :data="patientData.encounters" outline>
             <template #header>
                 <h2>{{ $lang.karte }} {{ $lang.history }}</h2>
             </template>

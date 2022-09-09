@@ -33,7 +33,11 @@
                     <cui-input
                         v-model="row.value"
                         noNote
-                        :disabled="item.order?.done || item.order?.locked ||!$aclService(2)"
+                        :disabled="
+                            item.order?.done ||
+                            item.order?.locked ||
+                            !$aclService(2)
+                        "
                         :placeholder="$lang.value + $lang.input"
                         :append="
                             row.unit.name !== '＊未設定' ? row.unit.name : null
@@ -44,7 +48,11 @@
                     <cui-button
                         icon="far fa-trash-alt"
                         danger
-                        :disabled="item.order?.done || item.order?.locked || !$aclService(2)"
+                        :disabled="
+                            item.order?.done ||
+                            item.order?.locked ||
+                            !$aclService(2)
+                        "
                         @click="removeResult(row)"
                     />
                 </td>
