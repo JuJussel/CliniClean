@@ -16,7 +16,7 @@ export default {
     createNew: "新規",
     contactInfo: "連絡情報",
     confirm: "確認",
-    confirmExaminationClose: "診察を終了しますか？",
+    confirmEncounterClose: "診察を終了しますか？",
     confirmInput: "入力をご確認ください",
     confirmOrderDelete: "オーダを削除しますか？",
     costInCurrency: "金額（円）",

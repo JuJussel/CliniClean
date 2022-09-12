@@ -1,7 +1,6 @@
 <template>
     <div class="cc-medical-karte-main">
-        <div></div>
-        <div style="padding: 5px">
+        <div style="padding: 5px; display: flex; align-items: center">
             <div v-if="saving" class="cc-medical-exam-loader-cont">
                 <div
                     class="loader"
@@ -14,7 +13,33 @@
                 <div>{{ $lang.save }}{{ $lang.done }}</div>
             </div>
         </div>
-
+        <div>
+            <div
+                class="cc-medical-exam-controls"
+                v-if="encounter?.status === 3"
+            >
+                <cui-button
+                    plain
+                    :label="$lang.view"
+                    icon="fas fa-columns"
+                ></cui-button>
+                <cui-button
+                    :label="$lang.reservation"
+                    icon="fas fa-calendar-plus"
+                ></cui-button>
+                <cui-button
+                    warn
+                    :label="$lang.pause"
+                    icon="fas fa-pause"
+                ></cui-button>
+                <cui-button
+                    primary
+                    :label="$lang.finish"
+                    icon="fas fa-check-double"
+                    @click="modal.confirmEncounterClose = true"
+                ></cui-button>
+            </div>
+        </div>
         <div class="cc-medical-karte-soap">
             <div class="cc-headers">
                 <b>{{ $lang.soapObservation }}</b>
@@ -125,6 +150,99 @@
                 </template>
             </cui-card>
         </cui-modal>
+        <cui-modal
+            :visible="modal.confirmEncounterClose"
+            @close="modal.confirmEncounterClose = false"
+        >
+            <cui-card style="width: 250px; height: 150px">
+                <template #header> {{ $lang.confirm }} </template>
+                <div>{{ $lang.confirmExaminationClose }}</div>
+                <div
+                    style="
+                        display: flex;
+                        justify-content: flex-end;
+                        margin-top: 10px;
+                    "
+                >
+                    <cui-button
+                        plain
+                        :label="$lang.cancel"
+                        @click="modal.confirmEncounterClose = false"
+                    />
+                    <cui-button
+                        primary
+                        :label="$lang.finish"
+                        @click="closeEncounter"
+                    />
+                </div>
+            </cui-card>
+        </cui-modal>
+        <cui-modal
+            :visible="submitErrors.length > 0"
+            @close="submitErrors = []"
+        >
+            <cui-card style="width: 1000px; height: 400px" noPadding>
+                <div
+                    style="
+                        height: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                    "
+                >
+                    <cui-table
+                        square
+                        :data="submitErrors"
+                        style="height: auto; max-height: 400px"
+                    >
+                        <template #header>
+                            <div>
+                                <h2>
+                                    {{ $lang.procedureErrors }}
+                                    {{ $lang.confirmInput }}
+                                </h2>
+                            </div>
+                        </template>
+                        <template v-slot:row="row">
+                            <td>
+                                {{
+                                    encounterState.karte.procedures[row.index]
+                                        .name
+                                }}
+                            </td>
+                            <td>
+                                <div v-for="(item, i) in row.errors" :key="i">
+                                    {{
+                                        $lang.validationMessages[
+                                            item.context.label
+                                        ]
+                                    }}:
+                                    {{ item.message }}
+                                </div>
+                            </td>
+                        </template>
+                    </cui-table>
+                    <div
+                        style="
+                            display: flex;
+                            justify-content: flex-end;
+                            padding: 10px;
+                        "
+                    >
+                        <cui-button
+                            plain
+                            :label="$lang.cancel"
+                            @click="submitErrors = []"
+                        />
+                        <cui-button
+                            primary
+                            :label="$lang.finish"
+                            @click="closeExamination"
+                        />
+                    </div>
+                </div>
+            </cui-card>
+        </cui-modal>
     </div>
 </template>
 
@@ -168,10 +286,12 @@ export default {
             modal: {
                 schema: false,
                 schemaEdit: null,
+                confirmEncounterClose: false,
             },
             timer: null,
             random: 1,
             encounter: null,
+            submitErrors: [],
         };
     },
     watch: {
@@ -333,13 +453,13 @@ export default {
 .cc-medical-karte-main {
     display: grid;
     grid-template-columns: 50% 50%;
-    grid-template-rows: 30px calc(100% - 30px);
+    grid-template-rows: 50px calc(100% - 50px);
     height: 100%;
 }
 .cc-medical-exam-loader-cont {
     position: relative;
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     align-items: center;
     opacity: 0.7;
 }
@@ -360,6 +480,12 @@ export default {
 }
 .hover-icon:hover {
     color: var(--cui-primary);
+}
+.cc-medical-exam-controls {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100%;
 }
 </style>
 <style>
