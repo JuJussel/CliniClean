@@ -68,7 +68,7 @@
                 <td>
                     <i
                         class="fas fa-exclamation-circle"
-                        style="color: var(--cui-danger"
+                        style="color: var(--cui-danger)"
                     ></i>
                     <span>{{ row.patient?.name }}</span>
                 </td>
