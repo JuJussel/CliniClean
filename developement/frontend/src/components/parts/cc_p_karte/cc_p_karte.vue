@@ -39,6 +39,13 @@
                     @click="modal.confirmEncounterClose = true"
                 ></cui-button>
             </div>
+            <div v-else-if="encounter?.status === 10" >
+                <cui-button
+                    primary
+                    :label="$lang.next"
+                    icon="fas fa-check-double"
+                ></cui-button>
+            </div>
         </div>
         <div class="cc-medical-karte-soap">
             <div class="cc-headers">
@@ -154,9 +161,9 @@
             :visible="modal.confirmEncounterClose"
             @close="modal.confirmEncounterClose = false"
         >
-            <cui-card style="width: 250px; height: 150px">
+            <cui-card style="width: 250px; height: 150px" :loading="loading" :closabel="!loading">
                 <template #header> {{ $lang.confirm }} </template>
-                <div>{{ $lang.confirmExaminationClose }}</div>
+                <div>{{ $lang.confirmEncounterClose }}</div>
                 <div
                     style="
                         display: flex;
@@ -252,7 +259,7 @@ import schemaEditor from "./cc_p_schema_editor.vue";
 import proceduresList from "./cc_p_procedures_list";
 import painter from "../cc_p_painter.vue";
 import baseCostUtil from "../../../utils/encounterBaseCost";
-// import procedureCheck from "../../utils/procedureCheck"
+import procedureCheck from "../../../utils/procedureCheck"
 
 export default {
     components: {
@@ -292,6 +299,7 @@ export default {
             random: 1,
             encounter: null,
             submitErrors: [],
+            loading: false
         };
     },
     watch: {
@@ -332,6 +340,34 @@ export default {
             this.procedures = this.encounter.karte.procedures;
     },
     methods: {
+        async closeEncounter() {
+            this.loading = true;
+            this.modal.confirmEncounterClose = true
+            let errors = [];
+            this.encounter.karte.procedures.forEach((proc, index) => {
+                let error = procedureCheck(index, proc);
+                if(error) errors.push(error);
+            });
+            if (errors.length > 0) {
+                this.confirmEncounterClose = false;
+                this.loading = false;
+                this.submitErrors = errors;
+                return;
+            }
+
+            let encounter = this.encounter;
+            encounter.status = 10;
+            encounter.closeEncounter = true;
+            try {
+                // await this.$dataService().put.encounters(encounter);
+                this.$cui.notification({
+                    text: this.$lang.examinationClosed,
+                    duration: 3000,
+                    color: 'primary'
+                })
+                this.modal.confirmEncounterClose = false
+            } catch (error) {this.loading = false}
+        },
         showImage(img) {
             let url = this.$GLOBALS.filesUrl + img.id + "." + img.extension;
             window.open(

@@ -20,14 +20,7 @@ export default {
         cc_p_karte,
     },
     async mounted() {
-        let patientId = this.$store.getters.layoutData.medical.patient.id;
-        let patientHistory =
-            await this.$dataService().get.patient.medicalHistory(patientId);
-        this.$store.commit("SET_LAYOUT_DATA", [
-            "medical",
-            { patient: patientHistory },
-        ]);
-        this.loading = false;
+        this.getData()
     },
     data() {
         return {
@@ -40,6 +33,17 @@ export default {
         };
     },
     methods: {
+        async getData() {
+            this.loading = true;
+            let patientHistory =
+            await this.$dataService().get.patient.medicalHistory(this.patientId);
+        this.$store.commit("SET_LAYOUT_DATA", [
+            "medical",
+            { patient: patientHistory },
+        ]);
+        this.loading = false;
+
+        },
         resizeHandler(mousedown) {
             if (mousedown) {
                 this.resizeData.start = event.clientX;
@@ -61,6 +65,11 @@ export default {
             document.removeEventListener("mouseup", this.mouseUpHandler);
         },
     },
+    watch: {
+        async patientId() {
+            this.getData()
+        }
+    },
     computed: {
         finalWidth() {
             return (
@@ -68,6 +77,9 @@ export default {
                 "px"
             );
         },
+        patientId() {
+            return this.$store.getters.layoutData.medical.patient.id;
+        }
     },
 };
 </script>
