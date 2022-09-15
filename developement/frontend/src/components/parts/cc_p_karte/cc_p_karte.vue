@@ -160,8 +160,9 @@
         <cui-modal
             :visible="modal.confirmEncounterClose"
             @close="modal.confirmEncounterClose = false"
+            :closable="!loading"
         >
-            <cui-card style="width: 250px; height: 150px" :loading="loading" :closabel="!loading">
+            <cui-card style="width: 250px; height: 150px; border-radius: 20px;  padding: 0;" :loading="loading">
                 <template #header> {{ $lang.confirm }} </template>
                 <div>{{ $lang.confirmEncounterClose }}</div>
                 <div
@@ -359,7 +360,7 @@ export default {
             encounter.status = 10;
             encounter.closeEncounter = true;
             try {
-                // await this.$dataService().put.encounters(encounter);
+                await this.$dataService().put.encounters(encounter);
                 this.$cui.notification({
                     text: this.$lang.examinationClosed,
                     duration: 3000,
