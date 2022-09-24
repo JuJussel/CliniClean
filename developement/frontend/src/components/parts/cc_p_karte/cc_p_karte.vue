@@ -2,10 +2,16 @@
     <div class="cc-medical-karte-main">
         <cui-side-bar
             noButton
+            :sidebar="$lang.procedursOnly + $lang.register"
             ref="procedureSelector"
             icon="fa-solid fa-xmark"
             width="400px"
-        ></cui-side-bar>
+        >
+            <proceduresBrowser
+                style="width: calc(100% - 20px); height: calc(100% - 60px)"
+                @select="addProcedure"
+            />
+        </cui-side-bar>
         <div style="padding: 5px; display: flex; align-items: center">
             <div v-if="saving" class="cc-medical-exam-loader-cont">
                 <div
@@ -228,10 +234,7 @@
                         </template>
                         <template v-slot:row="row">
                             <td>
-                                {{
-                                    encounterState.karte.procedures[row.index]
-                                        .name
-                                }}
+                                {{ encounter.karte.procedures[row.index].name }}
                             </td>
                             <td>
                                 <div v-for="(item, i) in row.errors" :key="i">
@@ -239,7 +242,8 @@
                                         $lang.validationMessages[
                                             item.context.label
                                         ]
-                                    }}:
+                                    }}
+                                    <span v-if="item.context.label">:</span>
                                     {{ item.message }}
                                 </div>
                             </td>
@@ -276,12 +280,14 @@ import proceduresList from "./cc_p_procedures_list";
 import painter from "../cc_p_painter.vue";
 import baseCostUtil from "../../../utils/encounterBaseCost";
 import procedureCheck from "../../../utils/procedureCheck";
+import proceduresBrowser from "./cc_p_procedures_browser";
 
 export default {
     components: {
         schemaEditor,
         proceduresList,
-        painter
+        painter,
+        proceduresBrowser
     },
     emits: ["update"],
     data() {
@@ -365,7 +371,7 @@ export default {
                 if (error) errors.push(error);
             });
             if (errors.length > 0) {
-                this.confirmEncounterClose = false;
+                this.modal.confirmEncounterClose = false;
                 this.loading = false;
                 this.submitErrors = errors;
                 return;
@@ -494,7 +500,8 @@ export default {
             }
         },
         addProcedure(item) {
-            this.procedures.push(item);
+            let proc = JSON.parse(JSON.stringify(item));
+            this.procedures.push(proc.row);
         },
         removeProcedure(item) {
             this.procedures.splice(item, 1);
