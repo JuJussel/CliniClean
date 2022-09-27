@@ -17,10 +17,10 @@ import { cc_p_patient_info_medical, cc_p_karte } from "../parts";
 export default {
     components: {
         cc_p_patient_info_medical,
-        cc_p_karte,
+        cc_p_karte
     },
     async mounted() {
-        this.getData()
+        this.getData();
     },
     data() {
         return {
@@ -28,21 +28,21 @@ export default {
             resizeData: {
                 start: null,
                 startWidth: 900,
-                widthInteger: null,
-            },
+                widthInteger: null
+            }
         };
     },
     methods: {
         async getData() {
             this.loading = true;
-            let patientHistory =
-            await this.$dataService().get.patient.medicalHistory(this.patientId);
-        this.$store.commit("SET_LAYOUT_DATA", [
-            "medical",
-            { patient: patientHistory },
-        ]);
-        this.loading = false;
-
+            let patientHistory = await this.$dataService().get.patient.medicalHistory(
+                this.patientId
+            );
+            this.$store.commit("SET_LAYOUT_DATA", [
+                "medical",
+                { patient: patientHistory }
+            ]);
+            this.loading = false;
         },
         resizeHandler(mousedown) {
             if (mousedown) {
@@ -63,11 +63,11 @@ export default {
             this.resizeData.startWidth = this.resizeData.widthInteger;
             document.removeEventListener("mousemove", this.mouseMoveHandler);
             document.removeEventListener("mouseup", this.mouseUpHandler);
-        },
+        }
     },
     watch: {
         async patientId() {
-            this.getData()
+            this.getData();
         }
     },
     computed: {
@@ -80,7 +80,7 @@ export default {
         patientId() {
             return this.$store.getters.layoutData.medical.patient.id;
         }
-    },
+    }
 };
 </script>
 

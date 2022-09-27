@@ -1,5 +1,17 @@
 <template>
     <div class="cc-medical-karte-main">
+        <cui-side-bar
+            noButton
+            :sidebar="$lang.procedursOnly + $lang.register"
+            ref="procedureSelector"
+            icon="fa-solid fa-xmark"
+            width="400px"
+        >
+            <proceduresBrowser
+                style="width: calc(100% - 20px); height: calc(100% - 60px)"
+                @select="addProcedure"
+            />
+        </cui-side-bar>
         <div style="padding: 5px; display: flex; align-items: center">
             <div v-if="saving" class="cc-medical-exam-loader-cont">
                 <div
@@ -39,7 +51,7 @@
                     @click="modal.confirmEncounterClose = true"
                 ></cui-button>
             </div>
-            <div v-else-if="encounter?.status === 10" >
+            <div v-else-if="encounter?.status === 10">
                 <cui-button
                     primary
                     :label="$lang.next"
@@ -75,11 +87,11 @@
                             class="cc-image-card-img"
                             :src="
                                 $GLOBALS.filesUrl +
-                                img.id +
-                                '.' +
-                                img.extension +
-                                '?' +
-                                random
+                                    img.id +
+                                    '.' +
+                                    img.extension +
+                                    '?' +
+                                    random
                             "
                             :alt="$lang.image + index"
                         />
@@ -104,8 +116,14 @@
             />
         </div>
         <div>
-            <div class="cc-headers">
+            <div class="cc-headers proc-head">
                 <b> {{ $lang.procedures }} </b>
+                <cui-button
+                    icon="fa-solid fa-plus"
+                    label="行為登録"
+                    plain
+                    @click="$refs.procedureSelector.toggle()"
+                ></cui-button>
             </div>
             <proceduresList
                 style="height: calc(100% - 40px)"
@@ -162,7 +180,10 @@
             @close="modal.confirmEncounterClose = false"
             :closable="!loading"
         >
-            <cui-card style="width: 250px; height: 150px; border-radius: 20px;  padding: 0;" :loading="loading">
+            <cui-card
+                style="width: 250px; height: 150px; border-radius: 20px;  padding: 0;"
+                :loading="loading"
+            >
                 <template #header> {{ $lang.confirm }} </template>
                 <div>{{ $lang.confirmEncounterClose }}</div>
                 <div
@@ -213,10 +234,7 @@
                         </template>
                         <template v-slot:row="row">
                             <td>
-                                {{
-                                    encounterState.karte.procedures[row.index]
-                                        .name
-                                }}
+                                {{ encounter.karte.procedures[row.index].name }}
                             </td>
                             <td>
                                 <div v-for="(item, i) in row.errors" :key="i">
@@ -224,7 +242,8 @@
                                         $lang.validationMessages[
                                             item.context.label
                                         ]
-                                    }}:
+                                    }}
+                                    <span v-if="item.context.label">:</span>
                                     {{ item.message }}
                                 </div>
                             </td>
@@ -260,13 +279,15 @@ import schemaEditor from "./cc_p_schema_editor.vue";
 import proceduresList from "./cc_p_procedures_list";
 import painter from "../cc_p_painter.vue";
 import baseCostUtil from "../../../utils/encounterBaseCost";
-import procedureCheck from "../../../utils/procedureCheck"
+import procedureCheck from "../../../utils/procedureCheck";
+import proceduresBrowser from "./cc_p_procedures_browser";
 
 export default {
     components: {
         schemaEditor,
         proceduresList,
         painter,
+        proceduresBrowser
     },
     emits: ["update"],
     data() {
@@ -278,13 +299,13 @@ export default {
                 {
                     icon: "fas fa-image",
                     title: this.$lang.image,
-                    action: () => this.$refs.file.click(),
+                    action: () => this.$refs.file.click()
                 },
                 {
                     icon: "fas fa-pencil-alt",
                     title: "Redo",
-                    action: () => (this.modal.schema = true),
-                },
+                    action: () => (this.modal.schema = true)
+                }
             ],
             customTextExtensions: [imageTag],
             images: [],
@@ -294,7 +315,7 @@ export default {
             modal: {
                 schema: false,
                 schemaEdit: null,
-                confirmEncounterClose: false,
+                confirmEncounterClose: false
             },
             timer: null,
             random: 1,
@@ -308,13 +329,13 @@ export default {
             handler() {
                 this.updateState();
             },
-            deep: true,
-        },
+            deep: true
+        }
     },
     async mounted() {
         if (this.$store.getters.layoutData.medical.encounter?.id) {
-            let encounterId =
-                this.$store.getters.layoutData.medical.encounter?.id;
+            let encounterId = this.$store.getters.layoutData.medical.encounter
+                ?.id;
             this.encounter = await this.$dataService().get.encounters.findOne(
                 encounterId
             );
@@ -343,14 +364,14 @@ export default {
     methods: {
         async closeEncounter() {
             this.loading = true;
-            this.modal.confirmEncounterClose = true
+            this.modal.confirmEncounterClose = true;
             let errors = [];
             this.encounter.karte.procedures.forEach((proc, index) => {
                 let error = procedureCheck(index, proc);
-                if(error) errors.push(error);
+                if (error) errors.push(error);
             });
             if (errors.length > 0) {
-                this.confirmEncounterClose = false;
+                this.modal.confirmEncounterClose = false;
                 this.loading = false;
                 this.submitErrors = errors;
                 return;
@@ -383,9 +404,9 @@ export default {
         },
         addSchema(schema) {
             schema.toBlob(
-                function (blob) {
+                function(blob) {
                     let img = new File([blob], "fileName.jpg", {
-                        type: "image/png",
+                        type: "image/png"
                     });
                     this.uploadImage("schema", img);
                 }.bind(this)
@@ -395,7 +416,7 @@ export default {
             this.modal.schemaEdit = {
                 file: this.$GLOBALS.filesUrl + img.id + "." + img.extension,
                 meta: img,
-                index: index,
+                index: index
             };
         },
         addImage() {
@@ -405,7 +426,7 @@ export default {
         async updateState(text) {
             if (this.timer) clearTimeout(this.timer);
             this.timer = setTimeout(
-                async function () {
+                async function() {
                     if (text) this.soap = text;
                     this.saved = false;
                     this.saving = true;
@@ -413,14 +434,14 @@ export default {
                     encounter.karte = {
                         soap: this.soap,
                         procedures: this.procedures,
-                        images: this.images,
+                        images: this.images
                     };
 
                     await this.$dataService().put.encounters(encounter);
 
                     this.$store.commit("SET_LAYOUT_DATA", [
                         "medical",
-                        { encounter: encounter },
+                        { encounter: encounter }
                     ]);
 
                     this.saving = false;
@@ -432,13 +453,13 @@ export default {
         updateSchema() {
             let img = this.$refs.schemaEditor.getPainting();
             img.toBlob(
-                async function (blob) {
+                async function(blob) {
                     let file = new File([blob], "fileName.jpg", {
-                        type: "image/png",
+                        type: "image/png"
                     });
                     let sendData = {
                         file: file,
-                        meta: this.modal.schemaEdit.meta,
+                        meta: this.modal.schemaEdit.meta
                     };
                     await this.$dataService().put.uploads.single(sendData);
                     this.random++;
@@ -458,8 +479,8 @@ export default {
                     meta: {
                         source: target,
                         patient: this.encounter.patient.id,
-                        encounter: this.encounter.id,
-                    },
+                        encounter: this.encounter.id
+                    }
                 };
                 let imgData = await this.$dataService().post.uploads.single(
                     sendData
@@ -481,12 +502,13 @@ export default {
             }
         },
         addProcedure(item) {
-            this.procedures.push(item);
+            let proc = JSON.parse(JSON.stringify(item));
+            this.procedures.push(proc.row);
         },
         removeProcedure(item) {
             this.procedures.splice(item, 1);
-        },
-    },
+        }
+    }
 };
 </script>
 
@@ -527,6 +549,11 @@ export default {
     align-items: center;
     justify-content: flex-end;
     height: 100%;
+}
+.proc-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 </style>
 <style>
