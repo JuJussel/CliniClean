@@ -357,6 +357,7 @@ export default {
             }
 
             let encounter = this.encounter;
+            let encStatus = encounter.status;
             encounter.status = 10;
             encounter.closeEncounter = true;
             try {
@@ -367,7 +368,10 @@ export default {
                     color: 'primary'
                 })
                 this.modal.confirmEncounterClose = false
-            } catch (error) {this.loading = false}
+            } catch (error) {
+                encounter.status = encStatus;
+                this.loading = false;
+            }
         },
         showImage(img) {
             let url = this.$GLOBALS.filesUrl + img.id + "." + img.extension;
