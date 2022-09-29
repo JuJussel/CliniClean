@@ -1,6 +1,10 @@
 <template>
-    <div class="cc-medical-karte-main">
+    <div
+        class="cc-medical-karte-main"
+        v-bind:class="{ 'fixed-proc': fixedProcBrowser }"
+    >
         <cui-side-bar
+            v-if="!fixedProcBrowser"
             noButton
             :sidebar="$lang.procedursOnly + $lang.register"
             ref="procedureSelector"
@@ -12,7 +16,14 @@
                 @select="addProcedure"
             />
         </cui-side-bar>
-        <div style="padding: 5px; display: flex; align-items: center">
+        <div
+            style="
+                padding: 5px;
+                display: flex;
+                align-items: center;
+                grid-area: karte1;
+            "
+        >
             <div v-if="saving" class="cc-medical-exam-loader-cont">
                 <div
                     class="loader"
@@ -25,7 +36,7 @@
                 <div>{{ $lang.save }}{{ $lang.done }}</div>
             </div>
         </div>
-        <div>
+        <div style="grid-area: karte2">
             <div
                 class="cc-medical-exam-controls"
                 v-if="encounter?.status === 3"
@@ -34,6 +45,7 @@
                     plain
                     :label="$lang.view"
                     icon="fas fa-columns"
+                    @click="fixedProcBrowser = !fixedProcBrowser"
                 ></cui-button>
                 <cui-button
                     :label="$lang.reservation"
@@ -59,7 +71,7 @@
                 ></cui-button>
             </div>
         </div>
-        <div class="cc-medical-karte-soap">
+        <div class="cc-medical-karte-soap" style="grid-area: karte3">
             <div class="cc-headers">
                 <b>{{ $lang.soapObservation }}</b>
             </div>
@@ -115,10 +127,11 @@
                 accept="image/png, image/gif, image/jpeg"
             />
         </div>
-        <div>
+        <div style="grid-area: karte4">
             <div class="cc-headers proc-head">
                 <b> {{ $lang.procedures }} </b>
                 <cui-button
+                    v-if="!fixedProcBrowser"
                     icon="fa-solid fa-plus"
                     label="行為登録"
                     plain
@@ -133,6 +146,11 @@
                 @remove="removeProcedure"
             />
         </div>
+        <proceduresBrowser
+            v-if="fixedProcBrowser"
+            class="fixed-proc-browser"
+            @select="addProcedure"
+        />
         <cui-modal
             :visible="modal.schema"
             closable
@@ -327,6 +345,7 @@ export default {
             encounter: null,
             submitErrors: [],
             loading: false,
+            fixedProcBrowser: true,
         };
     },
     watch: {
@@ -521,9 +540,18 @@ export default {
 <style scoped>
 .cc-medical-karte-main {
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 50% auto;
     grid-template-rows: 50px calc(100% - 50px);
+    grid-template-areas:
+        "karte1 karte2"
+        "karte3 karte4";
     height: 100%;
+}
+.cc-medical-karte-main.fixed-proc {
+    grid-template-columns: 35% calc(65% - 400px) 400px;
+    grid-template-areas:
+        "karte1 karte2 karte2"
+        "karte3 karte4 proc";
 }
 .cc-medical-exam-loader-cont {
     position: relative;
@@ -565,5 +593,11 @@ export default {
 <style>
 .cc-medical-karte-image-card .cui-card {
     cursor: pointer;
+}
+.fixed-proc-browser {
+    grid-area: proc;
+    border-left: solid 1px var(--cui-gray-5);
+    border-top: solid 1px var(--cui-gray-5);
+    height: calc(100% - 1px);
 }
 </style>
