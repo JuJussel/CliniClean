@@ -18,7 +18,7 @@
                 <cui-menu-bar-item
                     icon="fas fa-laptop-medical menu-icon"
                     :label="$lang.order"
-                    value="order"
+                    value="orders"
                     v-if="$aclService(1, 'order')"
                 />
             </template>
@@ -97,7 +97,7 @@
 import reception from "../components/layouts/cc_l_reception";
 import medical from "../components/layouts/cc_l_medical";
 // import medical from "../components/cc_medical/cc_medical_main.vue";
-// import order from "../components/cc_order/cc_order_main.vue";
+import orders from "../components/layouts/cc_l_orders.vue";
 // import notification from "../components/shared/cc_shared_notifications.vue"
 import dashboard from "../components/layouts/cc_l_dashboard.vue";
 // import settings from "../components/cc_settings/cc_settings_main.vue"
@@ -107,7 +107,7 @@ export default {
     components: {
         reception,
         medical,
-        // order,
+        orders,
         // notification,
         dashboard,
         // settings

@@ -34,7 +34,8 @@ var defaultState = function () {
         notifications: [],
         layoutData: {
             medical: null,
-            reception: null
+            reception: null,
+            orders: null
         }
     };
 }
