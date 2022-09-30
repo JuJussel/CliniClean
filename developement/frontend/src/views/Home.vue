@@ -19,7 +19,7 @@
                     icon="fas fa-laptop-medical menu-icon"
                     :label="$lang.order"
                     value="orders"
-                    v-if="$aclService(1, 'order')"
+                    v-if="$aclService(1, 'orders')"
                 />
             </template>
             <template v-slot:center>

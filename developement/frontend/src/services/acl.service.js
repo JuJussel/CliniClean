@@ -19,7 +19,6 @@ export default {
             if (!availableLevel) return false;
 
             if (availableLevel >= requiredLevel) return true;
-
             return false;
 
         }

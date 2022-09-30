@@ -6,17 +6,17 @@ exports.findMany = (req, res) => {
   let cat = req.params.cat;
   let search = String(req.params.search);
   let searchKana = japUtils.toKatakana(search);
-  
+
   let query = {
     $and: [
-      {srykbn: String(cat)}, 
+      { srykbn: String(cat) },
       {
         $or: [
-          {name: {$regex: ".*" + search + ".*"}},
-          {kananame: {$regex: ".*" + searchKana + ".*"}},
-          {formalname: {$regex: ".*" + search + ".*"}},
-          {formalname: {$regex: ".*" + searchKana + ".*"}},
-          {srycd: search}
+          { name: { $regex: ".*" + search + ".*" } },
+          { kananame: { $regex: ".*" + searchKana + ".*" } },
+          { formalname: { $regex: ".*" + search + ".*" } },
+          { formalname: { $regex: ".*" + searchKana + ".*" } },
+          { srycd: search }
         ]
       }
     ]
@@ -25,14 +25,14 @@ exports.findMany = (req, res) => {
   if (cat === 25) {
     query.$and.push({
       $or: [
-        {ykzkbn: '1'},
-        {ykzkbn: '6'}
-      ] 
+        { ykzkbn: '1' },
+        { ykzkbn: '6' }
+      ]
     })
   }
 
   if (cat === 30) {
-    query.$and.push({ykzkbn: '4'})
+    query.$and.push({ ykzkbn: '4' })
   }
 
 
@@ -43,25 +43,25 @@ exports.findMany = (req, res) => {
       select: 'name'
     })
     .exec((err, data) => {
-    if (err) {
-      console.log(err);
-      res.status(500).send({
-        message: err
-      });
-    } else {
-      // Using this instead of virtuals and what now to ease stress on DB and because it is just easier...
-      data = JSON.parse(JSON.stringify(data));
-      data = data.map( doc => ({
-        srycd: doc.srycd,
-        name: doc.name,
-        formalname: doc.formalname,
-        taniname: doc.taniname,
-        cost: doc.ten,
-        procedureClass: doc.procedureClass
-      }))
-      res.send(data);
-    }
-  })
+      if (err) {
+        console.log(err);
+        res.status(500).send({
+          message: err
+        });
+      } else {
+        // Using this instead of virtuals and what now to ease stress on DB and because it is just easier...
+        data = JSON.parse(JSON.stringify(data));
+        data = data.map(doc => ({
+          srycd: doc.srycd,
+          name: doc.name,
+          formalname: doc.formalname,
+          taniname: doc.taniname,
+          cost: doc.ten,
+          procedureClass: doc.procedureClass
+        }))
+        res.send(data);
+      }
+    })
 }
 
 
@@ -81,13 +81,11 @@ exports.findMany = (req, res) => {
 
 exports.results = {
   findMany: (req, res) => {
-    
     let code = req.params.code;
-
-  ExaminationProcedure.find({_id: {$regex: code + ".*"}}, (err, data) => {
+    ExaminationProcedure.find({ _id: { $regex: code + ".*" } }, (err, data) => {
       if (err) {
         $logger.error(err);
-        res.status(500).send({message: "Error retrieving Occupations"})
+        res.status(500).send({ message: "Error retrieving Occupations" })
       }
       res.send(data);
     })
@@ -112,7 +110,7 @@ exports.fetchAndImport = (req, res) => {
             $logger.error(err);
             res.status(500).send({ message: "Error creating Patient" });
           }
-          res.send({Ok: true});
+          res.send({ Ok: true });
         })
       })
     }

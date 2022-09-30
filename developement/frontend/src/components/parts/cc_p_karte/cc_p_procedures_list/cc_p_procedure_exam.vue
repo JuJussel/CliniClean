@@ -97,6 +97,7 @@ export default {
             this.resultsFull =
                 await this.$dataService().get.procedures.examresults(
                     this.item.srycd
+                    //this.item.procedureClass._id
                 );
         },
         selectResult(result) {

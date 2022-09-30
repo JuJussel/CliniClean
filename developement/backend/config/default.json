@@ -5,7 +5,7 @@
         "lifetime": 3600
     },
     "cors": {
-        "credentials": true    
+        "credentials": true
     },
     "db": {
         "cliniCleanMongo": {
@@ -30,8 +30,8 @@
         "graylog": {
             "enabled": false,
             "servers": [
-                {   
-                    "host": "localhost", 
+                {
+                    "host": "localhost",
                     "port": "12201"
                 }
             ],
@@ -46,11 +46,31 @@
         "filesUrl": "/files/",
         "googleMapsApiKey": "Store in local file to avoid upload to version management",
         "permissions": {
-            "dashboard": [2,2,2],
-            "reception": [2,1,2],
-            "patient": [2,1,2],
-            "medical": [0,1,2],
-            "order": [0,2,2]
+            "dashboard": [
+                2,
+                2,
+                2
+            ],
+            "reception": [
+                2,
+                1,
+                2
+            ],
+            "patient": [
+                2,
+                1,
+                2
+            ],
+            "medical": [
+                0,
+                1,
+                2
+            ],
+            "orders": [
+                0,
+                2,
+                2
+            ]
         }
     }
 }

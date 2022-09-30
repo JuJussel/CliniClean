@@ -4,7 +4,7 @@
             <orderList style="height: 100%" />
         </div>
         <cui-card>
-            <entry v-if="$store.getters.layoutData.orders.selectedOrder" />
+            <entry v-if="$store.getters.layoutData.orders?.selectedOrder" />
             <div v-else>{{ $lang.orderChoose }}</div>
         </cui-card>
     </div>

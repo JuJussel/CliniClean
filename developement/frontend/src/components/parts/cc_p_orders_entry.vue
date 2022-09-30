@@ -1,11 +1,14 @@
 <template>
     <div>
+        {{ $aclService(2) }}
         <div v-if="loading.all" class="loader"></div>
         <div style="padding: 10px; display: flex; align-items: center">
             <h2>{{ $lang.order }}</h2>
             <cui-button
                 :disabled="
-                    isUser || order.procedure.cat.code === 90 || !$aclService(2)
+                    isUser ||
+                    orderLocal.procedure.cat.code === 90 ||
+                    !$aclService(2)
                 "
                 v-if="orderLocal.locked"
                 @click="toggleLock(false)"
@@ -38,9 +41,9 @@
             </span>
         </h2>
         <div style="margin-bottom: 20px">
-            {{ $lang.requester }}: {{ order.requester.nameFull }}
+            {{ $lang.requester }}: {{ orderLocal.requester.nameFull }}
         </div>
-        <div v-if="order.procedure.cat.code === 60">
+        <div v-if="orderLocal.procedure.cat.code === 60">
             <div style="display: flex; align-items: baseline; padding: 10px">
                 <span style="width: 70px"> {{ $lang.examProvider }} </span>
                 <cui-select
@@ -51,25 +54,25 @@
                     :disabled="!$aclService(2)"
                 ></cui-select>
             </div>
-            <exam-Input
+            <examInput
                 @update="updateLocalOrderVar"
                 :item="orderLocal.procedure"
                 style="max-width: 600px"
             />
         </div>
-        <div v-if="order.procedure.cat.code === 30">
+        <div v-if="orderLocal.procedure.cat.code === 30">
             <shot-input
                 @update="updateLocalOrderVar"
                 :item="orderLocal.procedure"
             />
         </div>
-        <div v-if="order.procedure.cat.code === 90">
+        <div v-if="orderLocal.procedure.cat.code === 90">
             <!-- <health-check ref="healthCheck" /> -->
         </div>
-        <div v-if="order.procedure.comment">
+        <div v-if="orderLocal.procedure.comment">
             <h4 style="margin: 10px">{{ $lang.comment }}</h4>
             <cui-tag style="max-width: 250px; height: auto">
-                {{ order.procedure.comment }}
+                {{ orderLocal.procedure.comment }}
             </cui-tag>
         </div>
         <h4 style="margin: 10px">{{ $lang.comment }} {{ $lang.add }}</h4>
@@ -95,6 +98,12 @@ export default {
         // healthCheck,
     },
     emits: ["update"],
+    beforeUnmount() {
+        this.$store.commit("SET_LAYOUT_DATA", [
+            "orders",
+            { selectedOrder: null },
+        ]);
+    },
     data() {
         return {
             loading: {
@@ -103,18 +112,12 @@ export default {
             },
             orderLocal: this.$store.getters.layoutData.orders.selectedOrder.row,
             comment: "",
-            order: this.$store.getters.layoutData.orders.selectedOrder.row,
         };
     },
-    watch: {
-        order() {
-            this.orderLocal =
-                this.$store.getters.layoutData.orders.selectedOrder.row;
-        },
-    },
+    watch: {},
     computed: {
         procedureIcon() {
-            let code = this.order?.procedure.cat.code || null;
+            let code = this.orderLocal?.procedure.cat.code || null;
             return (
                 this.$store.getters.staticLists.procedureCategories.find(
                     (item) => item.code === code
@@ -122,8 +125,8 @@ export default {
             );
         },
         isUser() {
-            if (!this.order.locked) return false;
-            return this.order.locked !== this.$store.getters.user.id;
+            if (!this.orderLocal.locked) return false;
+            return this.orderLocal.locked !== this.$store.getters.user.id;
         },
         examProviders() {
             return [{ name: "inhouse", label: this.$lang.inhouse }].concat(
@@ -156,15 +159,15 @@ export default {
             if (this.isUser) return;
             this.loading.all = true;
             // If Healtcheck
-            if (this.order.procedure.cat.code == 90) {
+            if (this.orderLocal.procedure.cat.code == 90) {
                 this.orderLocal.procedure.varData =
                     await this.$refs.healthCheck.getData();
                 let schemaData = {
                     file: this.orderLocal.procedure.varData.xRay.schema,
                     meta: {
                         source: "schema",
-                        patient: this.order.patient.id,
-                        encounter: this.order.encounterId,
+                        patient: this.orderLocal.patient.id,
+                        encounter: this.orderLocal.encounterId,
                     },
                 };
                 this.orderLocal.procedure.varData.xRay.schema =
