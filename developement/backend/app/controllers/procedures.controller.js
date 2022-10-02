@@ -82,7 +82,7 @@ exports.findMany = (req, res) => {
 exports.results = {
   findMany: (req, res) => {
     let code = req.params.code;
-    ExaminationProcedure.find({ _id: { $regex: code + ".*" } }, (err, data) => {
+    ExaminationProcedure.find({ "procedure.code": { $regex: code + ".*" } }, (err, data) => {
       if (err) {
         $logger.error(err);
         res.status(500).send({ message: "Error retrieving Occupations" })
