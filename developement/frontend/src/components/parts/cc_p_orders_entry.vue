@@ -173,8 +173,30 @@ export default {
                 this.orderLocal.procedure.varData.xRay.schema =
                     await this.$dataService().post.uploads.single(schemaData);
             }
-
-            console.log(this.orderLocal.procedure.varData);
+            
+            this.orderLocal.status = 0;
+            if (this.comment !== "") {
+                let addComment =
+                    " " +
+                    this.$store.getters.userFullName +
+                    "：" +
+                    this.comment;
+                let existingComment = this.orderLocal.procedure.comment || "";
+                this.orderLocal.procedure.comment =
+                    existingComment + addComment;
+            }
+            try {
+                await this.$dataService().put.orders(this.orderLocal);
+                this.$cui.notification({
+                    text: this.$lang.saved,
+                    duration: 3000,
+                    color: "primary",
+                });
+                this.loading.all = false;
+                this.$emit("update", true);
+            } catch {
+                this.loading.all = false;
+            }
             return;
         },
     },

@@ -5,7 +5,7 @@
                 :data="ordersFull"
                 singleSelect
                 @select="selectOrder"
-                :loading="loading.orders"
+                :loading="ordersFull === 'loading'"
                 ref="orderTable"
             >
                 <template #header>
@@ -34,7 +34,7 @@
                 :data="examinationOrders"
                 singleSelect
                 @select="selectExam"
-                :loading="loading.orders"
+                :loading="ordersFull === 'loading'"
                 ref="examTable"
             >
                 <template #header>
@@ -62,35 +62,15 @@
 
 <script>
 export default {
-    data() {
-        return {
-            ordersFull: [],
-            loading: {
-                orders: false,
-            },
-        };
-    },
-    created() {
-        this.updateData();
-    },
     computed: {
         examinationOrders() {
             return this.ordersFull.filter((i) => i.procedure.cat.code === 60);
         },
+        ordersFull() {
+            return this.$store.getters.layoutData.orders.ordersFull
+        }
     },
     methods: {
-        async updateData(reset) {
-            let loader = setTimeout(
-                function () {
-                    this.loading.orders = true;
-                }.bind(this),
-                500
-            );
-            if (reset) this.selectedOrder = null;
-            this.ordersFull = (await this.$dataService().get.orders()) || [];
-            this.loading.orders = false;
-            clearTimeout(loader);
-        },
         selectOrder(order) {
             order = JSON.parse(JSON.stringify(order));
             this.$refs.examTable.clearSelection();

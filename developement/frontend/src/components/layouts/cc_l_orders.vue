@@ -19,6 +19,16 @@ export default {
         orderList,
         entry,
     },
+    created() {
+        this.getOrders()
+    },
+    methods: {
+        async getOrders() {
+            this.$store.commit('SET_LAYOUT_DATA', ['orders', {ordersFull: 'loading'}])
+            let orders = (await this.$dataService().get.orders()) || [];
+            this.$store.commit('SET_LAYOUT_DATA', ['orders', {ordersFull: orders}])
+        }
+    }
 };
 </script>
 
