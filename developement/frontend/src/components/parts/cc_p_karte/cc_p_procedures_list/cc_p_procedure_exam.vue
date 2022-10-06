@@ -30,14 +30,17 @@
                     <span v-else> {{ row.result.shared.name }} </span>
                 </td>
                 <td style="width: 150px">
+                    <span v-if="item.order?.done">
+                        <span style="margin-right: 5px">{{ row.value }}</span>
+                        <span v-if="row.unit.name !== '＊未設定'">{{
+                            row.unit.name
+                        }}</span>
+                    </span>
                     <cui-input
+                        v-else
                         v-model="row.value"
                         noNote
-                        :disabled="
-                            item.order?.done ||
-                            item.order?.locked ||
-                            !$aclService(2)
-                        "
+                        :disabled="item.order?.locked || !$aclService(2)"
                         :placeholder="$lang.value + $lang.input"
                         :append="
                             row.unit.name !== '＊未設定' ? row.unit.name : null

@@ -64,11 +64,14 @@
 export default {
     computed: {
         examinationOrders() {
+            if (!this.ordersFull.isArray) {
+                return [];
+            }
             return this.ordersFull.filter((i) => i.procedure.cat.code === 60);
         },
         ordersFull() {
-            return this.$store.getters.layoutData.orders.ordersFull
-        }
+            return this.$store.getters.layoutData.orders.ordersFull;
+        },
     },
     methods: {
         selectOrder(order) {

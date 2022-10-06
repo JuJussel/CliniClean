@@ -3,7 +3,7 @@
         <div>
             <orderList style="height: 100%" />
         </div>
-        <cui-card>
+        <cui-card style="overflow: hidden">
             <entry v-if="$store.getters.layoutData.orders?.selectedOrder" />
             <div v-else>{{ $lang.orderChoose }}</div>
         </cui-card>
@@ -20,15 +20,21 @@ export default {
         entry,
     },
     created() {
-        this.getOrders()
+        this.getOrders();
     },
     methods: {
         async getOrders() {
-            this.$store.commit('SET_LAYOUT_DATA', ['orders', {ordersFull: 'loading'}])
+            this.$store.commit("SET_LAYOUT_DATA", [
+                "orders",
+                { ordersFull: "loading" },
+            ]);
             let orders = (await this.$dataService().get.orders()) || [];
-            this.$store.commit('SET_LAYOUT_DATA', ['orders', {ordersFull: orders}])
-        }
-    }
+            this.$store.commit("SET_LAYOUT_DATA", [
+                "orders",
+                { ordersFull: orders },
+            ]);
+        },
+    },
 };
 </script>
 

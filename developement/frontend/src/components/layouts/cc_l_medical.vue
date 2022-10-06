@@ -6,7 +6,8 @@
         <div class="resizer" @mousedown.stop="resizeHandler" />
 
         <cui-card :loading="loading" no-padding style="overflow: hidden">
-            <cc_p_karte />
+            <cc_p_karte v-if="$store.getters.layoutData.medical.encounter" />
+            <div v-else style="padding: 10px">{{ $lang.noKarteSelected }}</div>
         </cui-card>
     </div>
 </template>
@@ -17,7 +18,7 @@ import { cc_p_patient_info_medical, cc_p_karte } from "../parts";
 export default {
     components: {
         cc_p_patient_info_medical,
-        cc_p_karte
+        cc_p_karte,
     },
     async mounted() {
         this.getData();
@@ -28,19 +29,20 @@ export default {
             resizeData: {
                 start: null,
                 startWidth: 900,
-                widthInteger: null
-            }
+                widthInteger: null,
+            },
         };
     },
     methods: {
         async getData() {
             this.loading = true;
-            let patientHistory = await this.$dataService().get.patient.medicalHistory(
-                this.patientId
-            );
+            let patientHistory =
+                await this.$dataService().get.patient.medicalHistory(
+                    this.patientId
+                );
             this.$store.commit("SET_LAYOUT_DATA", [
                 "medical",
-                { patient: patientHistory }
+                { patient: patientHistory },
             ]);
             this.loading = false;
         },
@@ -63,12 +65,12 @@ export default {
             this.resizeData.startWidth = this.resizeData.widthInteger;
             document.removeEventListener("mousemove", this.mouseMoveHandler);
             document.removeEventListener("mouseup", this.mouseUpHandler);
-        }
+        },
     },
     watch: {
         async patientId() {
             this.getData();
-        }
+        },
     },
     computed: {
         finalWidth() {
@@ -79,8 +81,8 @@ export default {
         },
         patientId() {
             return this.$store.getters.layoutData.medical.patient.id;
-        }
-    }
+        },
+    },
 };
 </script>
 

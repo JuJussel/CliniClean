@@ -96,11 +96,10 @@
 <script>
 import reception from "../components/layouts/cc_l_reception";
 import medical from "../components/layouts/cc_l_medical";
-// import medical from "../components/cc_medical/cc_medical_main.vue";
 import orders from "../components/layouts/cc_l_orders.vue";
-// import notification from "../components/shared/cc_shared_notifications.vue"
+import notification from "../components/parts/cc_p_notifications.vue";
 import dashboard from "../components/layouts/cc_l_dashboard.vue";
-// import settings from "../components/cc_settings/cc_settings_main.vue"
+import settings from "../components/layouts/cc_l_settings.vue";
 
 export default {
     name: "HomeView",
@@ -108,9 +107,9 @@ export default {
         reception,
         medical,
         orders,
-        // notification,
+        notification,
         dashboard,
-        // settings
+        settings,
     },
     async created() {
         await this.$dataService().get.lists.static();

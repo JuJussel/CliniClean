@@ -1,101 +1,109 @@
 <template>
     <div>
-        {{ $aclService(2) }}
         <div v-if="loading.all" class="loader"></div>
-        <div style="padding: 10px; display: flex; align-items: center">
-            <h2>{{ $lang.order }}</h2>
-            <cui-button
-                :disabled="
-                    isUser ||
-                    orderLocal.procedure.cat.code === 90 ||
-                    !$aclService(2)
-                "
-                v-if="orderLocal.locked"
-                @click="toggleLock(false)"
-                plain
-                icon="fas fa-lock"
-                :loading="loading.lock"
-                style="margin-left: 10px"
-            />
-            <cui-button
-                :disabled="isUser || !$aclService(2)"
-                v-else
-                @click="toggleLock(true)"
-                plain
-                icon="fas fa-lock-open"
-                :loading="loading.lock"
-                style="margin-left: 10px"
-            />
-            <cui-button
-                v-if="$aclService(2)"
-                :disabled="isUser"
-                @click="submit"
-                :label="$lang.finish"
-                primary
-            />
-        </div>
-        <h2>
-            <i :class="procedureIcon" />
-            <span style="margin-left: 10px">
-                {{ orderLocal.procedure.name }}
-            </span>
-        </h2>
-        <div style="margin-bottom: 20px">
-            {{ $lang.requester }}: {{ orderLocal.requester.nameFull }}
-        </div>
-        <div v-if="orderLocal.procedure.cat.code === 60">
-            <div style="display: flex; align-items: baseline; padding: 10px">
-                <span style="width: 70px"> {{ $lang.examProvider }} </span>
-                <cui-select
-                    :data="examProviders"
-                    displayValueProp="label"
-                    v-model="orderLocal.provider"
-                    style="width: 200px; margin-left: 20px"
-                    :disabled="!$aclService(2)"
-                ></cui-select>
+        <div>
+            <div style="padding: 10px; display: flex; align-items: center">
+                <h2>{{ $lang.order }}</h2>
+                <cui-button
+                    :disabled="
+                        isUser ||
+                        orderLocal.procedure.cat.code === 90 ||
+                        !$aclService(2)
+                    "
+                    v-if="orderLocal?.locked"
+                    @click="toggleLock(false)"
+                    plain
+                    icon="fas fa-lock"
+                    :loading="loading.lock"
+                    style="margin-left: 10px"
+                />
+                <cui-button
+                    :disabled="isUser || !$aclService(2)"
+                    v-else
+                    @click="toggleLock(true)"
+                    plain
+                    icon="fas fa-lock-open"
+                    :loading="loading.lock"
+                    style="margin-left: 10px"
+                />
+                <cui-button
+                    v-if="$aclService(2)"
+                    :disabled="isUser"
+                    @click="submit"
+                    :label="$lang.finish"
+                    primary
+                />
             </div>
-            <examInput
-                @update="updateLocalOrderVar"
-                :item="orderLocal.procedure"
-                style="max-width: 600px"
+            <h2>
+                <i :class="procedureIcon" />
+                <span style="margin-left: 10px">
+                    {{ orderLocal.procedure.name }}
+                </span>
+            </h2>
+            <div style="margin-bottom: 20px">
+                {{ $lang.requester }}: {{ orderLocal.requester.nameFull }}
+            </div>
+        </div>
+        <div>
+            <div v-if="orderLocal.procedure.cat.code === 60">
+                <div
+                    style="display: flex; align-items: baseline; padding: 10px"
+                >
+                    <span style="width: 70px"> {{ $lang.examProvider }} </span>
+                    <cui-select
+                        :data="examProviders"
+                        displayValueProp="label"
+                        v-model="orderLocal.provider"
+                        style="width: 200px; margin-left: 20px"
+                        :disabled="!$aclService(2)"
+                    ></cui-select>
+                </div>
+                <examInput
+                    @update="updateLocalOrderVar"
+                    :item="orderLocal.procedure"
+                    style="max-width: 600px"
+                />
+            </div>
+            <div v-if="orderLocal.procedure.cat.code === 30">
+                <shot-input
+                    @update="updateLocalOrderVar"
+                    :item="orderLocal.procedure"
+                />
+            </div>
+            <div
+                v-if="orderLocal.procedure.cat.code === 90"
+                style="height: 50%"
+            >
+                <health-check ref="healthCheck" />
+            </div>
+            <div v-if="orderLocal.procedure.comment">
+                <h4 style="margin: 10px">{{ $lang.comment }}</h4>
+                <cui-tag style="max-width: 250px; height: auto">
+                    {{ orderLocal.procedure.comment }}
+                </cui-tag>
+            </div>
+            <h4 style="margin: 10px">{{ $lang.comment }} {{ $lang.add }}</h4>
+            <cui-textarea
+                v-model="comment"
+                :disabled="isUser || !$aclService(2)"
+                style="width: 250px"
+                rows="3"
+                cols="30"
             />
         </div>
-        <div v-if="orderLocal.procedure.cat.code === 30">
-            <shot-input
-                @update="updateLocalOrderVar"
-                :item="orderLocal.procedure"
-            />
-        </div>
-        <div v-if="orderLocal.procedure.cat.code === 90">
-            <!-- <health-check ref="healthCheck" /> -->
-        </div>
-        <div v-if="orderLocal.procedure.comment">
-            <h4 style="margin: 10px">{{ $lang.comment }}</h4>
-            <cui-tag style="max-width: 250px; height: auto">
-                {{ orderLocal.procedure.comment }}
-            </cui-tag>
-        </div>
-        <h4 style="margin: 10px">{{ $lang.comment }} {{ $lang.add }}</h4>
-        <cui-textarea
-            v-model="comment"
-            :disabled="isUser || !$aclService(2)"
-            style="width: 250px"
-            rows="3"
-            cols="30"
-        />
     </div>
 </template>
 
 <script>
 import examInput from "../parts/cc_p_karte/cc_p_procedures_list/cc_p_procedure_exam.vue";
 import shotInput from "../parts/cc_p_karte/cc_p_procedures_list/cc_p_procedure_shot.vue";
-// import healthCheck from "../shared/cc_shared_health_check/cc_shared_health_check.vue";
+import healthCheck from "../parts/cc_p_health_check";
 
 export default {
     components: {
         examInput,
         shotInput,
-        // healthCheck,
+        healthCheck,
     },
     emits: ["update"],
     beforeUnmount() {
@@ -110,12 +118,14 @@ export default {
                 lock: false,
                 all: false,
             },
-            orderLocal: this.$store.getters.layoutData.orders.selectedOrder.row,
             comment: "",
         };
     },
     watch: {},
     computed: {
+        orderLocal() {
+            return this.$store.getters.layoutData.orders.selectedOrder?.row;
+        },
         procedureIcon() {
             let code = this.orderLocal?.procedure.cat.code || null;
             return (
@@ -125,7 +135,7 @@ export default {
             );
         },
         isUser() {
-            if (!this.orderLocal.locked) return false;
+            if (!this.orderLocal?.locked) return false;
             return this.orderLocal.locked !== this.$store.getters.user.id;
         },
         examProviders() {
@@ -153,7 +163,7 @@ export default {
                 await this.$dataService().put.encounters(encounter);
             }
             this.loading.lock = false;
-            this.$emit("update", false);
+            this.updateStoreOrders();
         },
         async submit() {
             if (this.isUser) return;
@@ -173,7 +183,7 @@ export default {
                 this.orderLocal.procedure.varData.xRay.schema =
                     await this.$dataService().post.uploads.single(schemaData);
             }
-            
+
             this.orderLocal.status = 0;
             if (this.comment !== "") {
                 let addComment =
@@ -193,11 +203,22 @@ export default {
                     color: "primary",
                 });
                 this.loading.all = false;
-                this.$emit("update", true);
+                this.updateStoreOrders();
+                this.$store.commit("SET_LAYOUT_DATA", [
+                    "orders",
+                    { selectedOrder: null },
+                ]);
             } catch {
                 this.loading.all = false;
             }
             return;
+        },
+        async updateStoreOrders() {
+            let orders = (await this.$dataService().get.orders()) || [];
+            this.$store.commit("SET_LAYOUT_DATA", [
+                "orders",
+                { ordersFull: orders },
+            ]);
         },
     },
 };
