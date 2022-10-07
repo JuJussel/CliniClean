@@ -6,6 +6,7 @@ import Auth from '@/services/auth.service'
 // import Globals from '@/config/global';
 import Cui from 'clini-ui-lib'
 import 'clini-ui-lib/src/css/globals.css'
+import './css/custom.css'
 import '@fortawesome/fontawesome-free/css/all.css'
 import Lang from './lang/jp'
 import parseDate from './utils/dateParse'
@@ -29,7 +30,7 @@ import VueGoogleMaps from '@fawmi/vue-google-maps'
     app.config.globalProperties.$parseDate = parseDate;
     app.config.globalProperties.$GLOBALS = Globals;
     app.config.globalProperties.$lang = Lang;
-    app.config.globalProperties.$apiError = function(msg) {
+    app.config.globalProperties.$apiError = function (msg) {
         this.$cui.notification({ text: msg, color: 'danger' })
     };
     app.use(store);
@@ -39,7 +40,7 @@ import VueGoogleMaps from '@fawmi/vue-google-maps'
     app.use(DataService, Globals);
     app.use(AclService, Globals);
     app.use(Auth);
-    app.use(VueNativeSock, "wss://" +window.location.hostname + ":" + Globals.websocketPort, {
+    app.use(VueNativeSock, "wss://" + window.location.hostname + ":" + Globals.websocketPort, {
         connectManually: true,
         format: "json",
         reconnection: true,

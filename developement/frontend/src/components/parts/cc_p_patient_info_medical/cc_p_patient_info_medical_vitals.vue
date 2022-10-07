@@ -1,60 +1,69 @@
 <template>
-    <div style="height: 100%">
-        <cui-table :data="vitalCats" compact outline>
-            <template #header>
-                <h2>{{ $lang.vitals }}</h2>
-                <cui-button
-                    icon="fas fa-plus"
-                    :label="$lang.register"
-                    v-if="$store.getters.layoutData.medical.encounter"
-                    @click="openVitalRegister"
-                />
-            </template>
-            <template #thead>
-                <cui-th
-                    class="vital-row-header-scoped"
-                    style="z-index: 5 !important"
-                >
-                    <cui-checkbox
-                        v-if="isViewer"
-                        :label="$lang.showChart"
-                        v-model="showChartAll"
+    <div>
+        <cui-card noPadding>
+            <cui-table
+                :data="vitalCats"
+                compact
+                style="height: auto; margin: 10px"
+            >
+                <template #header>
+                    <h2>{{ $lang.vitals }}</h2>
+                    <cui-button
+                        icon="fas fa-plus"
+                        :label="$lang.register"
+                        v-if="$store.getters.layoutData.medical.encounter"
+                        @click="openVitalRegister"
                     />
-                </cui-th>
-                <cui-th
-                    v-for="(item, index) in patientData.vitals"
-                    :key="index"
-                    style="min-width: 100px; font-size: 12px"
-                >
-                    {{ $parseDate(item.date) }}
-                </cui-th>
-            </template>
-            <template v-slot:row="{ row }">
-                <td class="vital-row-header-scoped">
-                    <span style="display: flex">
+                </template>
+                <template #thead>
+                    <cui-th
+                        class="vital-row-header-scoped"
+                        style="z-index: 5 !important"
+                    >
                         <cui-checkbox
                             v-if="isViewer"
-                            v-model="row.selectedDisp"
-                            :label="
-                                $lang.vitalCategories[row.name] +
-                                (row.unit || '')
-                            "
+                            :label="$lang.showChart"
+                            v-model="showChartAll"
                         />
-                        <span v-else>
-                            {{ $lang.vitalCategories[row.name] }}
-                            {{ row.unit }}
+                    </cui-th>
+                    <cui-th
+                        v-for="(item, index) in patientData.vitals"
+                        :key="index"
+                        style="min-width: 100px; font-size: 12px"
+                    >
+                        {{ $parseDate(item.date) }}
+                    </cui-th>
+                </template>
+                <template v-slot:row="{ row }">
+                    <td class="vital-row-header-scoped">
+                        <span style="display: flex">
+                            <cui-checkbox
+                                v-if="isViewer"
+                                v-model="row.selectedDisp"
+                                :label="
+                                    $lang.vitalCategories[row.name] +
+                                    (row.unit || '')
+                                "
+                            />
+                            <span v-else>
+                                {{ $lang.vitalCategories[row.name] }}
+                                {{ row.unit }}
+                            </span>
                         </span>
-                    </span>
-                </td>
-                <td
-                    v-for="(item, index) in patientData.vitals"
-                    :key="index"
-                    style="border-right: solid 1px var(--cui-gray-2)"
-                >
-                    {{ returnVitalValue(item.values, row) }}
-                </td>
-            </template>
-        </cui-table>
+                    </td>
+                    <td
+                        v-for="(item, index) in patientData.vitals"
+                        :key="index"
+                        style="border-right: solid 1px var(--cui-gray-2)"
+                    >
+                        {{ returnVitalValue(item.values, row) }}
+                    </td>
+                </template>
+            </cui-table>
+        </cui-card>
+        <cui-card style="height: auto; margin: 0">
+            <chart :options="chartOptions" :dataSet="chartData" />
+        </cui-card>
     </div>
     <cui-modal
         :visible="modals.vitalRegister.visible"
@@ -99,7 +108,12 @@
 </template>
 
 <script>
+import chart from "../cc_p_chart.vue";
+
 export default {
+    components: {
+        chart,
+    },
     props: {
         isViewer: {
             default: false,
@@ -115,6 +129,36 @@ export default {
                     visible: false,
                     loading: false,
                     data: null,
+                },
+            },
+            chartOptions: {
+                name: "vitals",
+                type: "line",
+                title: { text: this.$lang.vitals },
+                emphasis: {
+                    focus: "series",
+                    label: {
+                        show: true,
+                        formatter: "{a}",
+                    },
+                },
+                dataZoom: [
+                    {
+                        type: "inside",
+                        start: 0,
+                        end: 100,
+                    },
+                    {
+                        start: 0,
+                        end: 100,
+                    },
+                ],
+                toolbox: {
+                    show: true,
+                    feature: {
+                        magicType: { type: ["line", "bar"] },
+                        saveAsImage: {},
+                    },
                 },
             },
         };
@@ -172,6 +216,53 @@ export default {
         },
     },
     computed: {
+        chartData() {
+            // let selectedCats = this.$store.getters.viewData.selectedVitalCats.filter(
+            //     c => c.selectedDisp
+            // );
+            let patientData = this.$store.getters.layoutData.medical.patient;
+            let vitals = { series: [], axis: [] };
+            patientData.vitals.forEach((item) => {
+                let date = this.$dayjs(item.date).format("YYYY-MM-DD");
+                let index = vitals.axis.indexOf(date);
+                if (index === -1) {
+                    vitals.axis.push(date);
+                }
+            });
+            let seriesDataTemplate = Array.from(
+                { length: vitals.axis.length },
+                () => null
+            );
+
+            patientData.vitals.forEach((item) => {
+                let date = this.$dayjs(item.date).format("YYYY-MM-DD");
+                item.values.forEach((vital) => {
+                    // let catDisp = selectedCats.find(
+                    //     (c) => c.name === vital.name
+                    // );
+
+                    // if (!catDisp?.selectedDisp) return;
+
+                    let dateIndex = vitals.axis.indexOf(date);
+                    let nameIndex = vitals.series.findIndex(
+                        (i) => i.name === this.$lang.vitalCategories[vital.name]
+                    );
+                    if (nameIndex < 0) {
+                        vitals.series.push({
+                            name: this.$lang.vitalCategories[vital.name],
+                            type: "line",
+                            data: JSON.parse(
+                                JSON.stringify(seriesDataTemplate)
+                            ),
+                            unit: vital.unit,
+                        });
+                        nameIndex = vitals.series.length - 1;
+                    }
+                    vitals.series[nameIndex].data[dateIndex] = vital.value;
+                });
+            });
+            return vitals;
+        },
         vitalCats() {
             return this.$store.getters.staticLists.vitalCategories.map((v) => ({
                 ...v,
