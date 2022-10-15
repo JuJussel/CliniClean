@@ -1,10 +1,9 @@
 <template>
     <div class="cc-reception-main-cont">
-        <cui-card :loading="loading">
+        <cui-card :loading="loading" style="overflow: hidden">
             <cc_p_patient_info_medical v-if="!loading" />
         </cui-card>
         <div class="resizer" @mousedown.stop="resizeHandler" />
-
         <cui-card :loading="loading" no-padding style="overflow: hidden">
             <cc_p_karte v-if="$store.getters.layoutData.medical.encounter" />
             <div v-else style="padding: 10px">{{ $lang.noKarteSelected }}</div>
