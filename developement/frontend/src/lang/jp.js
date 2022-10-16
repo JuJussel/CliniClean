@@ -53,6 +53,7 @@ export default {
     eyeSight: "視力",
     female: "女性",
     finish: "終了",
+    files: "ファイル",
     free: "空き",
     gender: "性別",
     has: "あり",

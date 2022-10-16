@@ -1,7 +1,12 @@
 <template>
     <div>
-        <cui-card noPadding> 
-            <cui-table :data="examsList" style="max-height: 450px" compact outline>
+        <cui-card noPadding>
+            <cui-table
+                :data="examsList"
+                style="max-height: 450px"
+                compact
+                outline
+            >
                 <template #header>
                     <h2>{{ $lang.exam }}</h2>
                 </template>
@@ -20,7 +25,10 @@
                 </template>
                 <template v-slot:row="{ row }">
                     <td class="vital-row-header-scoped">
-                        <cui-checkbox :label="row.name" v-model="row.showChart" />
+                        <cui-checkbox
+                            :label="row.name"
+                            v-model="row.showChart"
+                        />
                     </td>
                     <td
                         v-for="(item, index) in exams"
@@ -39,7 +47,6 @@
 </template>
 
 <script>
-
 import chart from "../cc_p_chart.vue";
 
 export default {
@@ -47,7 +54,7 @@ export default {
         chart,
     },
     created() {
-        this.createExamsList()
+        this.createExamsList();
     },
     methods: {
         parseValue(results, row) {
@@ -73,8 +80,8 @@ export default {
                         name: itemName + " - " + resultName,
                         exam: dat.item,
                         showChart: false,
-                        type: 'line',
-                        data: null
+                        type: "line",
+                        data: null,
                     };
                     if (
                         examList.findIndex(
@@ -85,7 +92,7 @@ export default {
                 });
             });
             this.examsList = examList;
-        }
+        },
     },
     data() {
         return {
@@ -102,6 +109,21 @@ export default {
                         formatter: "{a}",
                     },
                 },
+                xAxis: {
+                    axisLabel: {
+                        formatter: function (value) {
+                            return this.$dayjs(value).format(
+                                "YYYY" +
+                                    this.$lang.dateLocals.yearSeparator +
+                                    "MM" +
+                                    this.$lang.dateLocals.monthSeparator +
+                                    "DD" +
+                                    this.$lang.dateLocals.daySeparator
+                            );
+                        }.bind(this),
+                    },
+                },
+
                 dataZoom: [
                     {
                         type: "inside",
@@ -121,55 +143,54 @@ export default {
                     },
                 },
             },
-        }
+        };
     },
     computed: {
         chartData() {
+            let selectedExams = this.examsList.filter((item) => {
+                return item.showChart;
+            });
+            selectedExams = JSON.parse(JSON.stringify(selectedExams));
 
-            let selectedExams = this.examsList.filter( item => {
-                return item.showChart
-            })
-            selectedExams = JSON.parse(JSON.stringify(selectedExams))
+            let dates = [];
+            let visibleExams = [];
 
-            let dates = []
-            let visibleExams = []
-
-
-            this.exams.forEach( item => {
-                let selExams = item.data.filter( d => {
-                    d.date=item.date
+            this.exams.forEach((item) => {
+                let selExams = item.data.filter((d) => {
+                    d.date = item.date;
                     let name =
-                    d.result.shared.name === "分析物固有結果コード"
-                        ? d.item.name + " - " + d.result.single.name
-                        : d.item.name + " - " + d.result.shared.name
-                    d.fullName = name
-                    let index = selectedExams.findIndex( e => e.name === name)
+                        d.result.shared.name === "分析物固有結果コード"
+                            ? d.item.name + " - " + d.result.single.name
+                            : d.item.name + " - " + d.result.shared.name;
+                    d.fullName = name;
+                    let index = selectedExams.findIndex((e) => e.name === name);
                     return index > -1;
-                })
+                });
                 if (selExams.length > 0) {
-                    dates.push(item.date)
-                    visibleExams = visibleExams.concat(selExams)
+                    dates.push(item.date);
+                    visibleExams = visibleExams.concat(selExams);
                 }
-            })
-
+            });
+            dates.reverse();
             let seriesDataTemplate = Array.from(
                 { length: dates.length },
                 () => null
-            )
-            visibleExams.forEach( item => {
-                let index = selectedExams.findIndex( e => {
-                    return e.name === item.fullName
-                })
-                if(!selectedExams[index].data) selectedExams[index].data = seriesDataTemplate
+            );
+            visibleExams.forEach((item) => {
+                let index = selectedExams.findIndex((e) => {
+                    return e.name === item.fullName;
+                });
+                if (!selectedExams[index].data)
+                    selectedExams[index].data = seriesDataTemplate;
 
-                let dateIndex = dates.findIndex( d => d === item.date )
-                selectedExams[index].data[dateIndex] = item.value
-            })
+                let dateIndex = dates.findIndex((d) => d === item.date);
+                selectedExams[index].data[dateIndex] = item.value;
+            });
 
             let chartData = {
                 axis: dates,
-                series: selectedExams
-            }
+                series: selectedExams,
+            };
             return chartData;
         },
         patientData() {

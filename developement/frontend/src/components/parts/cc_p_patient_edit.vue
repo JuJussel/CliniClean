@@ -324,14 +324,27 @@ export default {
                     return;
                 }
             }
+            try {
+                var newPatientData =
+                    await this.$dataService().get.patient.details(
+                        newPatientId.patientId
+                    );
+            } catch (err) {
+                this.loading = false;
+                return;
+            }
+
             this.$cui.notification({
                 text: this.$lang.saved,
                 duration: 2000,
                 color: "primary",
             });
-            this.$emit("showPatient", newPatientId);
+            this.$emit("showPatient", newPatientId.patientId);
 
-            this.$store.commit("SET_ACTIVE_PATIENT", this.patient);
+            this.$store.commit(
+                "SET_ACTIVE_PATIENT",
+                newPatientData.patientData
+            );
 
             this.$store.commit("SET_LAYOUT_DATA", [
                 "reception",

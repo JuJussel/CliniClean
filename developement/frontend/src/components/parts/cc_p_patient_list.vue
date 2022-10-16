@@ -18,7 +18,17 @@
                     :loading="loading.patientSearch"
                 ></cui-input>
                 <slot name="buttons">
-                    <cui-button :label="$lang.register"></cui-button>
+                    <cui-button
+                        :label="$lang.register"
+                        @click="
+                            this.$store.commit('SET_ACTIVE_PATIENT', null);
+
+                            $store.commit('SET_LAYOUT_DATA', [
+                                'reception',
+                                { receptionModalPatientEdit: true },
+                            ]);
+                        "
+                    ></cui-button>
                 </slot>
             </div>
         </template>
@@ -41,7 +51,7 @@
 export default {
     emits: ["selected"],
     created() {
-        this.$options.sockets.onmessage = data => {
+        this.$options.sockets.onmessage = (data) => {
             data = JSON.parse(data.data);
             if (data.event === "updatePatient") this.resetSearch();
         };
@@ -50,7 +60,7 @@ export default {
         return {
             patientList: [],
             patientSearchInput: "",
-            loading: false
+            loading: false,
         };
     },
     methods: {
@@ -67,7 +77,7 @@ export default {
             this.loading = true;
             this.patientList = await this.$dataService().get.patient.search({
                 name: input,
-                id: input
+                id: input,
             });
             this.loading = false;
         },
@@ -78,8 +88,8 @@ export default {
                 pat.row.id
             );
             this.$store.commit("SET_ACTIVE_PATIENT", patientData.patientData);
-        }
-    }
+        },
+    },
 };
 </script>
 

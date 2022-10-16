@@ -142,6 +142,20 @@ export default {
                         formatter: "{a}",
                     },
                 },
+                xAxis: {
+                    axisLabel: {
+                        formatter: function (value) {
+                            return this.$dayjs(value).format(
+                                "YYYY" +
+                                    this.$lang.dateLocals.yearSeparator +
+                                    "MM" +
+                                    this.$lang.dateLocals.monthSeparator +
+                                    "DD" +
+                                    this.$lang.dateLocals.daySeparator
+                            );
+                        }.bind(this),
+                    },
+                },
                 dataZoom: [
                     {
                         type: "inside",
@@ -229,6 +243,7 @@ export default {
                     vitals.axis.push(date);
                 }
             });
+            vitals.axis.reverse();
             let seriesDataTemplate = Array.from(
                 { length: vitals.axis.length },
                 () => null

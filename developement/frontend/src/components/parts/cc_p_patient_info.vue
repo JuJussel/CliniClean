@@ -242,7 +242,7 @@ export default {
         insuranceData() {
             let insData = this.$store.getters.activePatient || null;
             if (insData === "loading" || !insData) return [];
-            return insData.insurance[0][0]
+            return insData.insurance?.[0]?.[0]
                 ? insData?.insurance[0]
                 : insData?.insurance;
         },
