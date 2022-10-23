@@ -79,7 +79,7 @@ export default {
             );
         },
         patientId() {
-            return this.$store.getters.layoutData.medical.patient.id;
+            return this.$store.getters.layoutData?.medical?.patient?.id;
         },
     },
 };

@@ -165,7 +165,7 @@ export default {
             );
             this.$store.commit("SET_LAYOUT_DATA", [
                 "medical",
-                { patient: patientData.patientData },
+                { patient: patientData.patientData, show: true },
             ]);
             this.$store.commit("SET_ACTIVE_TAB", "medical");
         },

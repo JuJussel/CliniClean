@@ -161,6 +161,7 @@ export default {
                                     });
                             });
                         },
+                        //>>---Encounters-----//
                         encounters: function (id) {
                             return new Promise(function (resolve, reject) {
                                 http.get("patients/" + id + "/encounters")
@@ -175,7 +176,7 @@ export default {
                                         reject;
                                     });
                             });
-                        }
+                        },
                     },
                     //>----Encounters-----//
                     encounters: {
@@ -534,6 +535,22 @@ export default {
                     notifications: function () {
                         return new Promise(function (resolve, reject) {
                             http.get("notifications")
+                                .then((result) => {
+                                    resolve(result);
+                                })
+                                .catch((result) => {
+                                    instance.$cui.notification({
+                                        text: result,
+                                        color: "danger",
+                                    });
+                                    reject;
+                                });
+                        });
+                    },
+                    //>----Files-----//
+                    files: function (data) {
+                        return new Promise(function (resolve, reject) {
+                            http.post("files", data)
                                 .then((result) => {
                                     resolve(result);
                                 })
