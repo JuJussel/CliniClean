@@ -36,7 +36,7 @@ export default {
                 }
                 if (type === "image") {
                     let source = item.meta.source
-                    let name = item.meta.symbol ? item.meta.symbol + "-" + item.meta.number : item.date || item.id
+                    let name = item.meta.symbol ? item.meta.symbol + "-" + item.meta.number : this.$parseDate(item.date) || item.id
                     if (tree[index].children) {
                         let index2 = tree[index].children.findIndex((i) => i.name === source);
                         console.log(index2);
