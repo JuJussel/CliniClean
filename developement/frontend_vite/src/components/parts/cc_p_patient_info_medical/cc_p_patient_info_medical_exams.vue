@@ -147,11 +147,16 @@ export default {
     },
     computed: {
         chartData() {
+            let chartData = {
+                axis: [],
+                series: []
+            };
+
             let selectedExams = this.examsList.filter((item) => {
                 return item.showChart;
             });
             selectedExams = JSON.parse(JSON.stringify(selectedExams));
-
+            if(selectedExams.length < 1) return chartData
             let dates = [];
             let visibleExams = [];
 
@@ -177,20 +182,27 @@ export default {
                 () => null
             );
             visibleExams.forEach((item) => {
+                console.log(item.fullName);
+                console.log(item.value);
                 let index = selectedExams.findIndex((e) => {
                     return e.name === item.fullName;
                 });
+                console.log(index);
+                console.log(selectedExams[index].data);
                 if (!selectedExams[index].data)
-                    selectedExams[index].data = seriesDataTemplate;
-
+                selectedExams[index].data = seriesDataTemplate;
+                
                 let dateIndex = dates.findIndex((d) => d === item.date);
                 selectedExams[index].data[dateIndex] = item.value;
+                console.log(selectedExams[index].data);
+                console.log(selectedExams[index].data);
+                console.log();
+                console.log('-------------');
             });
 
-            let chartData = {
-                axis: dates,
-                series: selectedExams,
-            };
+            chartData.axis = dates
+            chartData.series = selectedExams
+
             return chartData;
         },
         patientData() {
