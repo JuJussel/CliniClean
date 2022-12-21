@@ -184,6 +184,7 @@ export default {
     showedit: "表示・編集",
     showOnRezept: "レセプト表示",
     stomacheWidth: "腹囲",
+    soapImage: "シェーマ",
     soapObservation: "主訴・所見",
     status: "ステータス",
     spacer: "・",

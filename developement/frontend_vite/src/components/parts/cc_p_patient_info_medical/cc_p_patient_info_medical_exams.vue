@@ -80,6 +80,7 @@ export default {
                         name: itemName + " - " + resultName,
                         exam: dat.item,
                         showChart: false,
+                        connectNulls: true,
                         type: "line",
                         data: null,
                     };
@@ -177,26 +178,21 @@ export default {
                 }
             });
             dates.reverse();
-            let seriesDataTemplate = Array.from(
-                { length: dates.length },
-                () => null
-            );
             visibleExams.forEach((item) => {
-                console.log(item.fullName);
-                console.log(item.value);
                 let index = selectedExams.findIndex((e) => {
                     return e.name === item.fullName;
                 });
-                console.log(index);
-                console.log(selectedExams[index].data);
-                if (!selectedExams[index].data)
-                selectedExams[index].data = seriesDataTemplate;
+                if (!selectedExams[index].data) { 
+                    let seriesDataTemplate = Array.from(
+                        { length: dates.length },
+                        () => null
+                    );
+                    selectedExams[index].data = seriesDataTemplate;
+                }
                 
                 let dateIndex = dates.findIndex((d) => d === item.date);
                 selectedExams[index].data[dateIndex] = item.value;
-                console.log(selectedExams[index].data);
-                console.log(selectedExams[index].data);
-                console.log();
+                console.log(selectedExams);
                 console.log('-------------');
             });
 
