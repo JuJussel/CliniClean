@@ -80,6 +80,7 @@ export default {
                         name: itemName + " - " + resultName,
                         exam: dat.item,
                         showChart: false,
+                        connectNulls: true,
                         type: "line",
                         data: null,
                     };
@@ -147,11 +148,16 @@ export default {
     },
     computed: {
         chartData() {
+            let chartData = {
+                axis: [],
+                series: []
+            };
+
             let selectedExams = this.examsList.filter((item) => {
                 return item.showChart;
             });
             selectedExams = JSON.parse(JSON.stringify(selectedExams));
-
+            if(selectedExams.length < 1) return chartData
             let dates = [];
             let visibleExams = [];
 
@@ -172,25 +178,27 @@ export default {
                 }
             });
             dates.reverse();
-            let seriesDataTemplate = Array.from(
-                { length: dates.length },
-                () => null
-            );
             visibleExams.forEach((item) => {
                 let index = selectedExams.findIndex((e) => {
                     return e.name === item.fullName;
                 });
-                if (!selectedExams[index].data)
+                if (!selectedExams[index].data) { 
+                    let seriesDataTemplate = Array.from(
+                        { length: dates.length },
+                        () => null
+                    );
                     selectedExams[index].data = seriesDataTemplate;
-
+                }
+                
                 let dateIndex = dates.findIndex((d) => d === item.date);
                 selectedExams[index].data[dateIndex] = item.value;
+                console.log(selectedExams);
+                console.log('-------------');
             });
 
-            let chartData = {
-                axis: dates,
-                series: selectedExams,
-            };
+            chartData.axis = dates
+            chartData.series = selectedExams
+
             return chartData;
         },
         patientData() {

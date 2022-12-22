@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import lang from "../lang/jp";
-var customParseFormat = require('dayjs/plugin/customParseFormat')
+import customParseFormat from 'dayjs/plugin/customParseFormat'
 dayjs.extend(customParseFormat)
 
 export default (date = null, format = "YYYY-MM-DD") => {

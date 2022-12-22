@@ -18,7 +18,7 @@ export default {
                 .catch(() => {
                     this.$router.push("/");
                 });
-        },
-    },
+        }
+    }
 };
 </script>

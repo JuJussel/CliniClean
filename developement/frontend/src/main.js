@@ -17,7 +17,6 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import isBetween from "dayjs/plugin/isBetween";
 import "dayjs/locale/ja";
-import VueGoogleMaps from '@fawmi/vue-google-maps'
 
 (async () => {
     const app = createApp(App);
@@ -47,11 +46,6 @@ import VueGoogleMaps from '@fawmi/vue-google-maps'
         reconnectionAttempts: 5,
         reconnectionDelay: 3000,
     });
-    app.use(VueGoogleMaps, {
-        load: {
-            key: Globals.googleMapsApiKey
-        }
-    })
     app.mount('#app')
 })();
 
