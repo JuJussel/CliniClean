@@ -31,6 +31,7 @@
 
 <script>
 import basic from "./cc_p_patient_info_medical_basic.vue";
+import register from "./cc_p_patient_info_medical_register.vue";
 import vitals from "./cc_p_patient_info_medical_vitals.vue";
 import exams from "./cc_p_patient_info_medical_exams.vue";
 import perscription from "./cc_p_patient_info_medical_perscription.vue";
@@ -42,6 +43,7 @@ import files from "./cc_p_patient_info_medical_files.vue";
 export default {
     components: {
         basic,
+        register,
         vitals,
         exams,
         perscription,
@@ -54,6 +56,7 @@ export default {
         return {
             tabs: [
                 { label: this.$lang.basic, name: "basic", icon: "fas fa-info" },
+                { label: "reg", name: "register", icon: "fas fa-info" },
                 {
                     label: this.$lang.vitals,
                     name: "vitals",

@@ -30,9 +30,67 @@
                 </cui-tag>
             </span>
         </div>
+        <div class="grid-tables">
+            <cui-card noPadding>
+                <cui-table>
+                    <template #header>
+                        <h3> Allergy </h3>
+                    </template>
+                </cui-table>
+            </cui-card>
+
+            <cui-card noPadding>
+                <cui-table>
+                    <template #header>
+                        <h3> Problem </h3>
+                    </template>
+                </cui-table>
+            </cui-card>
+            <cui-card noPadding>
+                <cui-table>
+                    <template #header>
+                        <h3> Active Meds </h3>
+                    </template>
+                </cui-table>
+            </cui-card>
+            <cui-card>
+                <cui-table>
+                    <template #header>
+                        <h3> Imunization </h3>
+                    </template>
+                </cui-table>
+            </cui-card>
+            <cui-card>
+                <cui-table>
+                    <template #header>
+                        <h3> Pending Exams </h3>
+                    </template>
+                </cui-table>
+            </cui-card>
+            <cui-card>
+                <cui-table>
+                    <template #header>
+                        <h3> Disease </h3>
+                    </template>
+                </cui-table>
+            </cui-card>
+            <cui-card>
+                    <h3>Risk factors</h3>
+                    <div style="display: grid; grid-template-columns: 50% auto">
+                        <h5>Lifestyle - tabace alk,...</h5>
+                        <h5>Family history</h5>
+                        <h5>Asessment</h5>
+                        <h5>Relatives</h5>
+                    </div>
+            </cui-card>
+        </div>
+        
+        
+        <h3>Forms</h3>            
+
         <cui-table style="grid-column-end: span 2">
             <template #header>
-                <h2>{{ $lang.note }}</h2>
+                <h3>{{ $lang.note }}</h3>
             </template>
         </cui-table>
         <cui-modal
@@ -210,3 +268,15 @@ export default {
     },
 };
 </script>
+
+<style scoped>
+.grid-tables {
+    display: flex; 
+    flex-wrap: wrap;
+}
+.grid-tables > div{
+    min-width: 400px;
+    flex-grow: 1;
+    width: auto!important;
+}
+</style>
