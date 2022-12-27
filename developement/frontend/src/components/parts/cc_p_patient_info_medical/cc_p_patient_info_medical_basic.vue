@@ -68,11 +68,7 @@
                 </cui-table>
             </cui-card>
             <cui-card>
-                <cui-table>
-                    <template #header>
-                        <h3> Disease </h3>
-                    </template>
-                </cui-table>
+                <diseases activeOnly></diseases>
             </cui-card>
             <cui-card>
                     <h3>Risk factors</h3>
@@ -167,7 +163,13 @@
 </template>
 
 <script>
+
+import diseases from './cc_p_patient_info_medical_diseases.vue'
+
 export default {
+    components: {
+        diseases
+    },
     props: {
         outline: {
             default: false,
@@ -266,6 +268,7 @@ export default {
             this.modals.basic.visible = false;
         },
     },
+
 };
 </script>
 
