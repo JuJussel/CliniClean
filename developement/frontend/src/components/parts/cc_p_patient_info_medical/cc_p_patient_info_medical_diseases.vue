@@ -1,47 +1,48 @@
 <template>
     <div v-if="activeOnly">
-                <cui-table
-                    :data="diseases.active"
-                >
-                    <template #header>
-                        <h2>{{ $lang.diseaseName }} {{ $lang.valid }}</h2>
-                        <cui-button
-                            icon="fas fa-plus"
-                            :label="$lang.register"
-                            @click="openDiseaseEditor(null)"
-                            v-if="$store.getters.layoutData.medical?.encounter"
-                        />
-                    </template>
-                    <template #thead>
-                        <cui-th> {{ $lang.diseaseName }} </cui-th>
-                        <cui-th>
-                            {{ $lang.diseaseSuspectOrAcute }}
-                        </cui-th>
-                        <cui-th>
-                            {{ $lang.diseaseMain }}
-                        </cui-th>
-                        <cui-th></cui-th>
-                    </template>
-                    <template v-slot:row="{ row }">
-                        <td>{{ row.disease.name }}</td>
-                        <td>{{ parseSuspectLabel(row) }}</td>
-                        <td>
-                            <span v-if="row.primaryDisease">
-                                {{ $lang.diseaseMain }}
-                            </span>
-                        </td>
-                        <td>
-                            <cui-button
-                                icon="fas fa-edit"
-                                plain
-                                @click="openDiseaseEditor(row)"
-                                v-if="
-                                    $store.getters.layoutData.medical?.encounter
-                                "
-                            ></cui-button>
-                        </td>
-                    </template>
-                </cui-table>
+        <cui-table
+            :data="diseases.active"
+            compact
+        >
+            <template #header>
+                <h2>{{ $lang.diseaseName }} {{ $lang.valid }}</h2>
+                <cui-button
+                    icon="fas fa-plus"
+                    :label="$lang.register"
+                    @click="openDiseaseEditor(null)"
+                    v-if="$store.getters.layoutData.medical?.encounter"
+                />
+            </template>
+            <template #thead>
+                <cui-th> {{ $lang.diseaseName }} </cui-th>
+                <cui-th>
+                    {{ $lang.diseaseSuspectOrAcute }}
+                </cui-th>
+                <cui-th>
+                    {{ $lang.diseaseMain }}
+                </cui-th>
+                <cui-th></cui-th>
+            </template>
+            <template v-slot:row="{ row }">
+                <td>{{ row.disease.name }}</td>
+                <td>{{ parseSuspectLabel(row) }}</td>
+                <td>
+                    <span v-if="row.primaryDisease">
+                        {{ $lang.diseaseMain }}
+                    </span>
+                </td>
+                <td>
+                    <cui-button
+                        icon="fas fa-edit"
+                        plain
+                        @click="openDiseaseEditor(row)"
+                        v-if="
+                            $store.getters.layoutData.medical?.encounter
+                        "
+                    ></cui-button>
+                </td>
+            </template>
+        </cui-table>
     </div>
     <div style="height: 100%" v-else>
         <div class="table-container">
@@ -125,28 +126,28 @@
                 </cui-table>
             </cui-card>
         </div>
-        <cui-modal
-            :visible="diseaseEditor.visible"
-            :closable="!diseaseEditor.loading"
-            @close="diseaseEditor.visible = false"
-        >
-            <cui-card
-                style="width: 600px; height: 640px"
-                v-if="diseaseEditor.visible"
-            >
-                <template #header>
-                    {{ $lang.diseaseName }}
-                    {{ diseaseEditor.data ? $lang.edit : $lang.register }}
-                </template>
-                <disease-editor
-                    :diseaseData="diseaseEditor.data"
-                    @close="diseaseEditor.visible = false"
-                    @submitting="diseaseEditor.loading = true"
-                    @submitted="diseaseEditSubmitted"
-                />
-            </cui-card>
-        </cui-modal>
     </div>
+    <cui-modal
+        :visible="diseaseEditor.visible"
+        :closable="!diseaseEditor.loading"
+        @close="diseaseEditor.visible = false"
+    >
+        <cui-card
+            style="width: 600px; height: 640px"
+            v-if="diseaseEditor.visible"
+        >
+            <template #header>
+                {{ $lang.diseaseName }}
+                {{ diseaseEditor.data ? $lang.edit : $lang.register }}
+            </template>
+            <disease-editor
+                :diseaseData="diseaseEditor.data"
+                @close="diseaseEditor.visible = false"
+                @submitting="diseaseEditor.loading = true"
+                @submitted="diseaseEditSubmitted"
+            />
+        </cui-card>
+    </cui-modal>
 </template>
 
 <script>
@@ -158,7 +159,7 @@ export default {
     },
     props: {
         activeOnly: {
-            default: FontFaceSetLoadEvent,
+            default: false,
             type: Boolean
         },
         outline: {
@@ -194,6 +195,7 @@ export default {
         },
 
         openDiseaseEditor(data) {
+            console.log("click");
             this.diseaseEditor.data = data;
             this.diseaseEditor.visible = true;
         },

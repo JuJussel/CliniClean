@@ -1,3 +1,7 @@
 .cui-card {
     box-shadow: rgb(0 0 0 / 10%) 0px 0px 5.5px;
 }
+.cui-modal-overlay {
+    /* Low performance mode - for 4K monitors */
+    backdrop-filter: none;
+}

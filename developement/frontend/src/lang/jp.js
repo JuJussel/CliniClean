@@ -45,6 +45,7 @@ export default {
     edit: "編集",
     editSexOrBirthdate: "性別・生年月日を変更",
     encounterType: "診察内容",
+    endDate: "終了日",
     examination: "診察",
     exam: "検査",
     examResultsAvailable: "新しい検査結果が登録済み",
@@ -253,5 +254,9 @@ export default {
     },
     jpOnly: {
         no: "の"
+    },
+    codes: {
+        回: "perCodeTimingUnitTimes",
+        日: "perCodeTimingUnitDays",
     }
 };

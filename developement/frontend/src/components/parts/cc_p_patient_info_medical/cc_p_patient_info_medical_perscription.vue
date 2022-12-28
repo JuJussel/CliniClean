@@ -11,12 +11,17 @@
                 </template>
                 <template #thead>
                     <cui-th> {{ $lang.date }} </cui-th>
+                    <cui-th> {{ $lang.endDate }} </cui-th>
                     <cui-th> {{ $lang.perscriptionType }} </cui-th>
                     <cui-th> {{ $lang.perscriptionName }} </cui-th>
                     <cui-th> {{ $lang.perscriptionName }} </cui-th>
                 </template>
                 <template v-slot:row="{ row }">
                     <td>{{ $parseDate(row.date) }}</td>
+                    <td>
+                        <span v-if="getEndDate(row)">{{ $parseDate(getEndDate(row)) }}</span>
+                        <cui-switch v-else trueLabel="終了" falseLabel="継続">  </cui-switch>
+                    </td>
                     <td>{{ row.varData.type.name }}</td>
                     <td>{{ row.name }}</td>
                     <td>
@@ -32,7 +37,18 @@
 
 <script>
 export default {
+    methods: {
+        getEndDate(item) {
+            let typeCode = this.$lang.codes[item.varData.timing.unit]
+            if (typeCode === 'perCodeTimingUnitDays') return this.$dayjs(item.date).add(item.varData.duration, 'day')
+            return item.endDate || null           
+        }
+    },
     computed: {
+        // activeMeds() {
+        //     let endDate = null
+        //     return this.persc.filter((item) => this.$dayjs().isAfter(item.))
+        // }, 
         patientData() {
             return this.$store.getters.layoutData.medical.patient;
         },
