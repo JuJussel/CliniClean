@@ -1,5 +1,21 @@
 <template>
-    <div style="height: 100%">
+    <div v-if="activeOnly">
+        <cui-table
+                :data="activeMeds"
+                style="max-height: calc(100% - 2px)"
+            >
+                <template #header>
+                    <h2>{{ $lang.procedureCategoryLabels.perscription + $lang.active }}</h2>
+                </template>
+                <template #thead>
+                    <cui-th> {{ $lang.perscriptionName }} </cui-th>
+                </template>
+                <template v-slot:row="{ row }">
+                    <td>{{ row.name }}</td>
+                </template>
+        </cui-table>
+    </div>
+    <div v-else style="height: 100%">
         <cui-card noPadding style="max-height: 100%">
             <cui-table
                 :data="persc"
@@ -18,9 +34,9 @@
                 </template>
                 <template v-slot:row="{ row }">
                     <td>{{ $parseDate(row.date) }}</td>
-                    <td>
+                    <td style="padding: 0">
                         <span v-if="getEndDate(row)">{{ $parseDate(getEndDate(row)) }}</span>
-                        <cui-switch v-else trueLabel="終了" falseLabel="継続">  </cui-switch>
+                        <cui-button v-else label="終了" @click="updateEndDate(row)">  </cui-button>
                     </td>
                     <td>{{ row.varData.type.name }}</td>
                     <td>{{ row.name }}</td>
@@ -36,19 +52,35 @@
 </template>
 
 <script>
+
 export default {
+    props: {
+        activeOnly: {
+            default: false,
+            type: Boolean
+        }
+    },
     methods: {
         getEndDate(item) {
             let typeCode = this.$lang.codes[item.varData.timing.unit]
             if (typeCode === 'perCodeTimingUnitDays') return this.$dayjs(item.date).add(item.varData.duration, 'day')
-            return item.endDate || null           
+            return item.endDate || null
+        },
+        async updateEndDate(med) {
+            med.endDate = this.$dayjs().format('[YYYYescape] YYYY-MM-DDTHH:mm:ssZ[Z]')
+            let encounterData = this.patientData.encounters.find((enc) => enc._id === med.encounter)
+            //Update Encounter...
+            await this.$dataService().put.encounters(encounterData);
         }
     },
     computed: {
-        // activeMeds() {
-        //     let endDate = null
-        //     return this.persc.filter((item) => this.$dayjs().isAfter(item.))
-        // }, 
+        activeMeds() {
+            return this.persc.filter((item) => {
+                let endDate = this.getEndDate(item)
+                if(!endDate) return true
+                return this.$dayjs().isBefore(endDate)
+            })
+        }, 
         patientData() {
             return this.$store.getters.layoutData.medical.patient;
         },

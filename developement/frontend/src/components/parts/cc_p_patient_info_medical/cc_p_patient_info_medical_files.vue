@@ -24,6 +24,7 @@ export default {
             this.files = files;
         },
         openFile(file) {
+            console.log('click');
             if(!file.meta) return
             let filename = file.meta.id + '.' + file.meta.extension;
             console.log(filename);

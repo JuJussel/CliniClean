@@ -47,11 +47,7 @@
                 </cui-table>
             </cui-card>
             <cui-card noPadding>
-                <cui-table>
-                    <template #header>
-                        <h3> Active Meds </h3>
-                    </template>
-                </cui-table>
+                <perscriptions activeOnly></perscriptions>
             </cui-card>
             <cui-card>
                 <cui-table>
@@ -67,7 +63,7 @@
                     </template>
                 </cui-table>
             </cui-card>
-            <cui-card>
+            <cui-card noPadding>
                 <diseases activeOnly></diseases>
             </cui-card>
             <cui-card>
@@ -165,10 +161,12 @@
 <script>
 
 import diseases from './cc_p_patient_info_medical_diseases.vue'
+import perscriptions from './cc_p_patient_info_medical_perscription.vue'
 
 export default {
     components: {
-        diseases
+        diseases,
+        perscriptions
     },
     props: {
         outline: {

@@ -2,7 +2,6 @@
     <div v-if="activeOnly">
         <cui-table
             :data="diseases.active"
-            compact
         >
             <template #header>
                 <h2>{{ $lang.diseaseName }} {{ $lang.valid }}</h2>
@@ -195,7 +194,6 @@ export default {
         },
 
         openDiseaseEditor(data) {
-            console.log("click");
             this.diseaseEditor.data = data;
             this.diseaseEditor.visible = true;
         },

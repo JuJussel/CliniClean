@@ -1,4 +1,5 @@
 export default {
+    active: "有効",
     activeReception: "外来中",
     add: "追加",
     age: "年齢",
