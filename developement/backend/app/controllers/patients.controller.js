@@ -4,6 +4,7 @@ const japUtils = require("japanese-string-utils");
 const File = require("../models/file.model.js");
 const Encounter = require("../models/encounter.model.js");
 const Vital = require("../models/vital.model.js");
+const Order = require("../models/order.model.js");
 // const { relativeTimeRounding } = require("moment");
 // const { isNull } = require("util");
 
@@ -100,6 +101,25 @@ exports.findEncounters = (req, res) => {
 
 }
 
+exports.findOrders = (req, res) => {
+
+  let patientId = req.params.patientId;
+
+  Order.find({ patient: patientId })
+    .exec(
+      (err, data) => {
+        if (err) {
+          $logger.error(err)
+          res.status(500).send({
+            message: "Error retrieving Encounter"
+          });
+        } else {
+          res.send(data);
+        }
+      })
+
+}
+
 exports.findOne = (req, res) => {
   let id = req.params.patientId;
 
@@ -168,6 +188,7 @@ exports.findMedicalHistory = async (req, res) => {
 
     patientData.encounters = await Encounter.find({ patient: id }) || [];
     patientData.vitals = await Vital.find({ patientId: id }).sort({ date: -1 }) || [];
+    patientData.orders = await Order.find({ patientId: id }).sort({ date: -1 }) || [];
 
     getOrcaPatientData(id, (err, data) => {
       if (err) {

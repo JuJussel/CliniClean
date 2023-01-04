@@ -9,7 +9,7 @@ import 'clini-ui-lib/src/css/globals.css'
 import './css/custom.css'
 import '@fortawesome/fontawesome-free/css/all.css'
 import Lang from './lang/jp'
-import parseDate from './utils/dateParse'
+import { parseDate, copy } from './utils'
 import DataService from '@/services/data.service'
 import AclService from '@/services/acl.service'
 import VueNativeSock from "vue-native-websocket-vue3";
@@ -27,6 +27,7 @@ import "dayjs/locale/ja";
     dayjs.locale("ja");
     app.config.globalProperties.$dayjs = dayjs;
     app.config.globalProperties.$parseDate = parseDate;
+    app.config.globalProperties.$copy = copy;
     app.config.globalProperties.$GLOBALS = Globals;
     app.config.globalProperties.$lang = Lang;
     app.config.globalProperties.$apiError = function (msg) {

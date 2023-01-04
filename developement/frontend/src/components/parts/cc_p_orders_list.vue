@@ -22,7 +22,7 @@
                     <td>{{ $parseDate(row.date) }}</td>
                     <td>{{ row.patient.name }}</td>
                     <td>{{ row.patient.id }}</td>
-                    <td>{{ row.procedure?.cat?.label }}</td>
+                    <td>{{ parseType(row.procedure?.cat?.label) }}</td>
                     <td>
                         <i v-if="row.locked" class="fas fa-lock" />
                     </td>
@@ -53,7 +53,7 @@
                     <td>{{ $parseDate(row.date) }}</td>
                     <td>{{ row.patient.name }}</td>
                     <td>{{ row.patient.id }}</td>
-                    <td>{{ row.procedure?.cat?.label }}</td>
+                    <td>{{ parseType(row.procedure?.cat?.label) }}</td>
                 </template>
             </cui-table>
         </cui-card>
@@ -74,6 +74,9 @@ export default {
         },
     },
     methods: {
+        parseType(type) {
+            return this.$lang.procedureCategoryLabels[type]
+        },
         selectOrder(order) {
             order = JSON.parse(JSON.stringify(order));
             this.$refs.examTable.clearSelection();

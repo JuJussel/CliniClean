@@ -177,6 +177,22 @@ export default {
                                     });
                             });
                         },
+                        orders: function (id) {
+                            return new Promise(function (resolve, reject) {
+                                http.get("patients/" + id + "/orders")
+                                    .then((result) => {
+                                        resolve(result);
+                                    })
+                                    .catch((result) => {
+                                        instance.$cui.notification({
+                                            text: result,
+                                            color: "danger",
+                                        });
+                                        reject;
+                                    });
+                            });
+
+                        },
                     },
                     //>----Encounters-----//
                     encounters: {

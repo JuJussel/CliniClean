@@ -17,7 +17,7 @@ const port = 3003;
 require("./app/utils/logger.util");
 require('./app/utils/websocket.util')(server);
 
-app.use(express.json({limit: '50mb'}))
+app.use(express.json({ limit: '50mb' }))
 app.use(express.urlencoded({
   extended: true,
   limit: '50mb'
