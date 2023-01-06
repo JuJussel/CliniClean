@@ -14,7 +14,6 @@
     </div>
     <cui-modal
         :visible="allergyEditorOpen"
-        :closable="!$store.getters.layoutData.medical.allegryEditor?.loading"
         @close="this.$store.commit('SET_LAYOUT_DATA', ['medical', {allegryEditor: {open: false, data: null}}])"
     >
         <cui-card
@@ -50,12 +49,14 @@ export default {
             return this.$store.getters.layoutData.medical?.patient?.allergies || []
         },
         allergyEditorOpen() {
-            return this.$store.getters.layoutdata.medical.allegryEditor?.open || false
+            return this.$store.getters.layoutData.medical?.allegryEditor?.open || false
         }
     },
     methods: {
         openEditor(data = null) {
             this.$store.commit('SET_LAYOUT_DATA', ['medical', {allegryEditor: {open: true, data: data}}])
+        },
+        saveAllergy() {
         }
     },
 }
