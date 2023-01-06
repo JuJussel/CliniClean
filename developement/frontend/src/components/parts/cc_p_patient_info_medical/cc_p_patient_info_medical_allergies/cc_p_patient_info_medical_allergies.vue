@@ -13,18 +13,22 @@
         </cui-table>
     </div>
     <cui-modal
-        :visible="allergyEditorOpen"
-        @close="this.$store.commit('SET_LAYOUT_DATA', ['medical', {allegryEditor: {open: false, data: null}}])"
+        :visible="editModal.open"
+        @close="editModal.open = false"
     >
         <cui-card
             style="width: 600px; height: 640px"
-            v-if="$store.getters.layoutData.medical.allegryEditor?.open"
+            v-if="editModal.open"
         >
             <template #header>
                 {{ $lang.allergy }}
                 {{ editModal.data ? $lang.edit : $lang.register }}
             </template>
-            <allegryEditor></allegryEditor>
+            <allegryEditor 
+                :allergy="editModal.data" 
+                @loading="editModal.loading = true"
+                @update="saveAllergy">
+            </allegryEditor>
         </cui-card>
     </cui-modal>
 
@@ -39,24 +43,25 @@ export default {
     data() {
         return {
             editModal: {
-                visible: false,
-                data: null
+                open: false,
+                data: null,
+                loading: false
             }
         }
     },
     computed: {
         allergies() {
             return this.$store.getters.layoutData.medical?.patient?.allergies || []
-        },
-        allergyEditorOpen() {
-            return this.$store.getters.layoutData.medical?.allegryEditor?.open || false
         }
     },
     methods: {
         openEditor(data = null) {
-            this.$store.commit('SET_LAYOUT_DATA', ['medical', {allegryEditor: {open: true, data: data}}])
+            if (data) Object.assign(editModal.data, data)
+            this.editModal.open = true
         },
-        saveAllergy() {
+        saveAllergy(allergy) {
+            //save to DB
+            // this.editModal.open = false
         }
     },
 }
