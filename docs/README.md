@@ -14,3 +14,14 @@ Stay tuned for updates!
 
 Thank you!
 
+## ToDo
+- Refactor for Pinia
+- Medical/Encounter needs to be an array to view multiple patients.
+- Routes need to be cleaned up.
+- Medical store will fetch the whole patient object and have a function to assigned to the sub stores .
+Updates to the sub stores will be done by the components. 
+Eg. Allergy Store
+
+
+
+
