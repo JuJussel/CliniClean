@@ -88,4 +88,33 @@ module.exports = app => {
     patientsMedical.editDiseases
   )
 
+  // Allergies
+  app.get(
+    "/api/patients/:patientId/medical/allergies",
+    [authJwt.verifyToken, routeAccess([0, 1, 1])],
+    patientsMedical.editDiseases
+  )
+
+  app.post(
+    "/api/patients/:patientId/medical/allergies",
+    [authJwt.verifyToken, routeAccess([0, 1, 1])],
+    patientsMedical.addAllergy
+  )
+
+  app.put(
+    "/api/patients/:patientId/medical/allergies",
+    [authJwt.verifyToken, routeAccess([0, 1, 1])],
+    patientsMedical.editDiseases
+  )
+
+  app.delete(
+    "/api/patients/:patientId/medical/allergies",
+    [authJwt.verifyToken, routeAccess([0, 1, 1])],
+    patientsMedical.editDiseases
+  )
+
+
+
+
+
 }
