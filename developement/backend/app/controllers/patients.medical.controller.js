@@ -49,14 +49,3 @@ exports.editDiseases = (req, res) => {
   });
 };
 
-exports.addMedicalAllergies = (req, res) => {
-  let request = req.body;
-
-  Vital.create(request, (err) => {
-    if (err) {
-      $logger.error(err);
-      res.status(500).send({ message: "Error creating Vital" });
-    }
-    res.send({ ok: true });
-  })
-};

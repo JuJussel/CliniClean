@@ -11,110 +11,21 @@ module.exports = app => {
     next()
   })
 
-  app.get(
-    "/api/patients/:patientID/insuranceSets",
-    [authJwt.verifyToken],
-    patients.findInsuranceSets
-  )
+  app.get("/api/patients/search/", [authJwt.verifyToken], patients.findMany)
+  app.get("/api/patients/:patientId", [authJwt.verifyToken], patients.findOne)
+  app.get("/api/patients/:patientID/insuranceSets", [authJwt.verifyToken], patients.findInsuranceSets)
+  app.get("/api/patients/:patientId/payments/:date", [authJwt.verifyToken], patients.findPayments)
+  app.get("/api/patients/:patientId/encounters", [authJwt.verifyToken], patients.findEncounters)
+  app.get("/api/patients/:patientId/orders", [authJwt.verifyToken], patients.findOrders)
+  app.get("/api/patients/:patientId/medicalHistory", [authJwt.verifyToken, routeAccess([0, 1, 1])], patients.findMedicalHistory)
+  app.get("/api/patients/:patientId/diseases", [authJwt.verifyToken, routeAccess([0, 1, 1])], patients.findDiseases)
 
-  app.get(
-    "/api/patients/search/",
-    [authJwt.verifyToken],
-    patients.findMany
-  )
-  app.get(
-    "/api/patients/:patientId",
-    [authJwt.verifyToken],
-    patients.findOne
-  )
-  app.get(
-    "/api/patients/:patientId/medicalHistory",
-    [authJwt.verifyToken, routeAccess([0, 1, 1])],
-    patients.findMedicalHistory
-  )
-  app.get(
-    "/api/patients/:patientId/diseases",
-    [authJwt.verifyToken, routeAccess([0, 1, 1])],
-    patients.findDiseases
-  )
-  app.get(
-    "/api/patients/:patientId/payments/:date",
-    [authJwt.verifyToken],
-    patients.findPayments
-  )
-  app.get(
-    "/api/patients/:patientId/encounters",
-    [authJwt.verifyToken],
-    patients.findEncounters
-  )
-  app.get(
-    "/api/patients/:patientId/orders",
-    [authJwt.verifyToken],
-    patients.findOrders
-  )
-  app.post(
-    "/api/patients",
-    [authJwt.verifyToken, routeAccess([1, 0, 1])],
-    patients.create
-  )
+  app.post("/api/patients", [authJwt.verifyToken, routeAccess([1, 0, 1])], patients.create)
+  app.post("/api/patients/:patientId/insurance", [authJwt.verifyToken, routeAccess([0, 1, 1])], patients.addInsurance)
+  app.post("/api/patients/:patientId/medical/vitals", [authJwt.verifyToken, routeAccess([0, 1, 1])], patientsMedical.addMedicalVitals)
+  app.post("/api/patients/:patientId/medical/diseases", [authJwt.verifyToken, routeAccess([0, 1, 1])], patientsMedical.editDiseases)
 
-  app.post(
-    "/api/patients/:patientId/medical/vitals",
-    [authJwt.verifyToken, routeAccess([0, 1, 1])],
-    patientsMedical.addMedicalVitals
-  )
-
-  app.put(
-    "/api/patients/:patientId",
-    [authJwt.verifyToken, routeAccess([1, 0, 1])],
-    patients.edit
-  )
-
-  app.post(
-    "/api/patients/:patientId/insurance",
-    [authJwt.verifyToken, routeAccess([0, 1, 1])],
-    patients.addInsurance
-  )
-
-  app.put(
-    "/api/patients/:patientId/medical/basics",
-    [authJwt.verifyToken, routeAccess([0, 1, 1])],
-    patientsMedical.editMedicalBasics
-  )
-
-  app.post(
-    "/api/patients/:patientId/medical/diseases",
-    [authJwt.verifyToken, routeAccess([0, 1, 1])],
-    patientsMedical.editDiseases
-  )
-
-  // Allergies
-  app.get(
-    "/api/patients/:patientId/medical/allergies",
-    [authJwt.verifyToken, routeAccess([0, 1, 1])],
-    patientsMedical.editDiseases
-  )
-
-  app.post(
-    "/api/patients/:patientId/medical/allergies",
-    [authJwt.verifyToken, routeAccess([0, 1, 1])],
-    patientsMedical.addAllergy
-  )
-
-  app.put(
-    "/api/patients/:patientId/medical/allergies",
-    [authJwt.verifyToken, routeAccess([0, 1, 1])],
-    patientsMedical.editDiseases
-  )
-
-  app.delete(
-    "/api/patients/:patientId/medical/allergies",
-    [authJwt.verifyToken, routeAccess([0, 1, 1])],
-    patientsMedical.editDiseases
-  )
-
-
-
-
+  app.put("/api/patients/:patientId", [authJwt.verifyToken, routeAccess([1, 0, 1])], patients.edit)
+  app.put("/api/patients/:patientId/medical/basics", [authJwt.verifyToken, routeAccess([0, 1, 1])], patientsMedical.editMedicalBasics)
 
 }
