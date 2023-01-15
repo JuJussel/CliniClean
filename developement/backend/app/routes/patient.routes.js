@@ -22,8 +22,14 @@ module.exports = app => {
 
   app.post("/api/patients", [authJwt.verifyToken, routeAccess([1, 0, 1])], patients.create)
   app.post("/api/patients/:patientId/insurance", [authJwt.verifyToken, routeAccess([0, 1, 1])], patients.addInsurance)
-  app.post("/api/patients/:patientId/medical/vitals", [authJwt.verifyToken, routeAccess([0, 1, 1])], patientsMedical.addMedicalVitals)
   app.post("/api/patients/:patientId/medical/diseases", [authJwt.verifyToken, routeAccess([0, 1, 1])], patientsMedical.editDiseases)
+
+  // *********** NEW ***********
+  // route with no query should retunr error
+  // to update items nee to include query ?type=TYPE
+  app.post("/api/patients/:patientId/medical", [authJwt.verifyToken, routeAccess([0, 1, 1])], patientsMedical.add)
+
+  // ********* NEW END *********
 
   app.put("/api/patients/:patientId", [authJwt.verifyToken, routeAccess([1, 0, 1])], patients.edit)
   app.put("/api/patients/:patientId/medical/basics", [authJwt.verifyToken, routeAccess([0, 1, 1])], patientsMedical.editMedicalBasics)

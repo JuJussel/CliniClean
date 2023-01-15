@@ -1,6 +1,6 @@
 <template>
     <div>
-        <cui-table :data="allergyStore.list">
+        <cui-table>
             <template #header>
                 <h2>{{ $lang.allergy }} {{ $lang.valid }}</h2>
                 <cui-button
@@ -37,7 +37,7 @@
 <script>
 
 import allegryEditor from './cc_p_patient_info_medical_allergy_edit.vue'
-import { useAllergyStore } from '@/stores/medical/allergy'
+import { useMedicalStore } from '@/stores/medical'
 import { mapStores } from 'pinia'
 
 export default {
@@ -52,7 +52,7 @@ export default {
         }
     },
     computed: {
-        ...mapStores(useAllergyStore),
+        ...mapStores(useMedicalStore),
     },
     methods: {
         openEditor(data = null) {
@@ -60,10 +60,14 @@ export default {
             this.editModal.open = true
         },
         async saveAllergy(allergy) {
+            const patientId = this
             //save to DB
             try {
-                let result = await this.$api.get("doctors")
-                this.allergyStore.setData()
+                let result = await this.$api.post(
+                    "patients/" + patientId + "/medical?type=allergies",
+                    allergy
+                )
+                this.medicalStore.getData('allergies')
             } catch (err) {
                 this.$apiError(err)
             }
