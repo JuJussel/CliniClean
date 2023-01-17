@@ -39,14 +39,6 @@ var request = function (route, data, type, abortSignal) {
 
     }
 
-
-    if (type === 'GET') {
-
-      if (data) {
-        route = route + '?' + new URLSearchParams(data).toString()
-      }
-    }
-
     fetch('/api/' + route, options)
       .then((res) => {
         if (!res.ok) {

@@ -1,5 +1,6 @@
 <template>
-    <div>
+    <div style="position: relative">
+        <div v-if="loading" class="loader"></div>
         <div>
             <cui-input :label="$lang.allergyItem" v-model="allergyData.name"></cui-input>
                 <div style="display: flex; justify-content: space-between; width: 200px">
@@ -10,8 +11,8 @@
             <cui-textarea :label="$lang.note" v-model="allergyData.note" />
         </div>
         <div style="display: flex; justify-content: flex-end">
-            <cui-button plain :label="$lang.cancel" @click="$emit('close')"></cui-button>
-            <cui-button primary :label="$lang.save" @click="$emit('update', allergyData)"></cui-button>
+            <cui-button :disabled="loading" plain :label="$lang.cancel" @click="$emit('close')"></cui-button>
+            <cui-button :disabled="allergyData.name === ''" :loading="loading" primary :label="$lang.save" @click="save()"></cui-button>
         </div>
     </div>
 </template>
@@ -25,14 +26,21 @@ export default {
             type: Object
         }
     },
-    emits: ['loading', 'update', 'close'],
+    emits: ['update', 'close'],
     data() {
         return {
             allergyData: {
                 name: "",
                 level: 1,
                 note: ""
-            }
+            },
+            loading: false
+        }
+    },
+    methods: {
+        save() {
+            this.loading = true
+            this.$emit('update', this.allergyData)
         }
     },
     created() {

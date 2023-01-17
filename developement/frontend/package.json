@@ -22,6 +22,7 @@
     "echarts": "^5.1.1",
     "joi": "^17.4.0",
     "pinia": "^2.0.28",
+    "pinia-plugin-persist": "^1.0.0",
     "quill-image-resize": "^3.0.9",
     "vue": "^3.2.41",
     "vue-cropperjs": "^5.0.0",

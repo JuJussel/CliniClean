@@ -20,6 +20,10 @@ module.exports = app => {
   app.get("/api/patients/:patientId/medicalHistory", [authJwt.verifyToken, routeAccess([0, 1, 1])], patients.findMedicalHistory)
   app.get("/api/patients/:patientId/diseases", [authJwt.verifyToken, routeAccess([0, 1, 1])], patients.findDiseases)
 
+  // *********** NEW ***********
+  app.get("/api/patients/:patientId/medical", [authJwt.verifyToken, routeAccess([0, 1, 1])], patientsMedical.get)
+  // ********* NEW END *********
+
   app.post("/api/patients", [authJwt.verifyToken, routeAccess([1, 0, 1])], patients.create)
   app.post("/api/patients/:patientId/insurance", [authJwt.verifyToken, routeAccess([0, 1, 1])], patients.addInsurance)
   app.post("/api/patients/:patientId/medical/diseases", [authJwt.verifyToken, routeAccess([0, 1, 1])], patientsMedical.editDiseases)

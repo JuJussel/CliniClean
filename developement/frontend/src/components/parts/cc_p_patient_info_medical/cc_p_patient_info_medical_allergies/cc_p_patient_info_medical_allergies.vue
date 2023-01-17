@@ -1,6 +1,6 @@
 <template>
     <div>
-        <cui-table>
+        <cui-table :data="medicalStore.medicalData.allergies" style="max-height: 245px" >
             <template #header>
                 <h2>{{ $lang.allergy }} {{ $lang.valid }}</h2>
                 <cui-button
@@ -10,6 +10,11 @@
                     v-if="$store.getters.layoutData.medical?.encounter"
                 />
             </template>
+            <template v-slot:row="{ row }">
+                <td> {{ row.name }} </td>
+                <td> {{ row.level }} </td>
+            </template>
+
         </cui-table>
     </div>
     <cui-modal
@@ -47,7 +52,6 @@ export default {
             editModal: {
                 open: false,
                 data: null,
-                loading: false
             }
         }
     },
@@ -60,14 +64,15 @@ export default {
             this.editModal.open = true
         },
         async saveAllergy(allergy) {
-            const patientId = this
+            const patientId = 8
             //save to DB
             try {
                 let result = await this.$api.post(
                     "patients/" + patientId + "/medical?type=allergies",
                     allergy
                 )
-                this.medicalStore.getData('allergies')
+                this.editModal.open = false
+                this.medicalStore.getPartialData('allergies')
             } catch (err) {
                 this.$apiError(err)
             }
