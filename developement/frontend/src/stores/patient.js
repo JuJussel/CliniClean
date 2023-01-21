@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
 import apiService from '@/services/api.service.js'
 
-export const useMedicalStore = defineStore({
-    id: 'medical',
+export const usePatientStore = defineStore({
+    id: 'patient',
     persist: {
         enabled: true
     },
@@ -14,15 +14,16 @@ export const useMedicalStore = defineStore({
         }
     },
     actions: {
-        async getFullData() {
+        async getFullData(id) {
             this.loading = true;
-            if (!patientId) {
+            if (!id) {
                 console.log("Error");
                 return
             }
+            this.patientId = id
             try {
                 let dbData = await apiService.get('patients/' + this.patientId);
-                this.patientData = dbData.data
+                this.patientData = dbData.patientData
                 this.loading = false;
 
             } catch (err) {

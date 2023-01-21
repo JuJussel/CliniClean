@@ -66,6 +66,10 @@
 </template>
 
 <script>
+
+import { usePatientStore } from '@/stores/patient'
+import { mapStores } from 'pinia'
+
 import { cc_p_calendar } from "../parts";
 
 export default {
@@ -75,7 +79,7 @@ export default {
         return {
             loading: false,
             reservation: {
-                patient: this.$store.getters.activePatient,
+                patient: this.patientStore.patientData,
                 date: null,
                 time: null,
                 encouterType: 1,
@@ -103,6 +107,7 @@ export default {
         },
     },
     computed: {
+        ...mapStores(usePatientStore),
         inputOK() {
             if (
                 this.reservation.patient &&

@@ -21,8 +21,7 @@
                     <cui-button
                         :label="$lang.register"
                         @click="
-                            this.$store.commit('SET_ACTIVE_PATIENT', null);
-
+                            patientStore.patientData = null;
                             $store.commit('SET_LAYOUT_DATA', [
                                 'reception',
                                 { receptionModalPatientEdit: true },
@@ -48,6 +47,10 @@
 </template>
 
 <script>
+
+import { usePatientStore } from '@/stores/patient'
+import { mapStores } from 'pinia'
+
 export default {
     emits: ["selected"],
     created() {
@@ -55,6 +58,9 @@ export default {
             data = JSON.parse(data.data);
             if (data.event === "updatePatient") this.resetSearch();
         };
+    },
+    computed: {
+        ...mapStores(usePatientStore),
     },
     data() {
         return {
@@ -83,11 +89,12 @@ export default {
         },
         async selectPatient(pat) {
             this.$emit("selected", pat.row);
-            this.$store.commit("SET_ACTIVE_PATIENT", "loading");
+            this.patientStore.getFullData(pat.row.id)
+            this.patientStore.loading = true
             const patientData = await this.$dataService().get.patient.details(
                 pat.row.id
             );
-            this.$store.commit("SET_ACTIVE_PATIENT", patientData.patientData);
+            this.patientStore.patientData = patientData.patientData
         },
     },
 };

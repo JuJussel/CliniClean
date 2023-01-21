@@ -111,7 +111,7 @@
                         v-if="$aclService(2) && row.status === 3"
                         icon="fas fa-clipboard-user"
                         @click="showKarte(row)"
-                        :loading="$store.getters.activePatient === 'loading'"
+                        :loading="patientStore.loading"
                     />
                 </td>
             </template>
@@ -120,6 +120,10 @@
 </template>
 
 <script>
+
+import { usePatientStore } from '@/stores/patient'
+import { mapStores } from 'pinia'
+
 export default {
     created() {
         this.getEncounters();
@@ -203,6 +207,7 @@ export default {
         },
     },
     computed: {
+        ...mapStores(usePatientStore),
         doctorsFree() {
             let free = this.layoutData.doctors.filter(
                 (doc) => doc.status === 1

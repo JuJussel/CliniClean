@@ -1,5 +1,5 @@
 import { store } from "../store"
-
+import { useUserStore } from '@/stores/user'
 /*
 @requiredLevel: Minimum Level needed. 0: open, 1: read, 2:edit
 
@@ -7,10 +7,14 @@ import { store } from "../store"
 
 
 export default {
+
     install: (app, options) => {
+
+        const userStore = useUserStore()
+
         app.config.globalProperties.$aclService = function (requiredLevel, view = store.getters.activeTab) {
             const permissions = options.permissions[view] || null;
-            const userGroup = store.getters.user?.userGroup || null;
+            const userGroup = userStore.userData.userGroup || null;
             const availableLevel = permissions?.[userGroup - 1] || null;
 
             if (userGroup == 99) return true;

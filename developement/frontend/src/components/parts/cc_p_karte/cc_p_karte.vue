@@ -297,6 +297,10 @@
 </template>
 
 <script>
+
+import { useUserStore } from '@/stores/user'
+import { mapStores } from 'pinia'
+
 import imageTag from "./cc_tiptap_imageTag/cc_tiptap_imageTag";
 import schemaEditor from "./cc_p_schema_editor.vue";
 import proceduresList from "./cc_p_procedures_list";
@@ -374,7 +378,7 @@ export default {
             this.encounter.baseCost = baseCost;
         }
 
-        this.encounter.doctor = this.$store.getters.user.id;
+        this.encounter.doctor = this.userStore.userData.id;
 
         if (this.encounter?.karte?.soap?.html) {
             this.$refs.textEditor.setContent(this.encounter.karte.soap.html);
@@ -384,6 +388,9 @@ export default {
             this.images = this.encounter.karte.images;
         if (this.encounter?.karte?.procedures)
             this.procedures = this.encounter.karte.procedures;
+    },
+    computed: {
+        ...mapStores(useUserStore)
     },
     methods: {
         async closeEncounter() {

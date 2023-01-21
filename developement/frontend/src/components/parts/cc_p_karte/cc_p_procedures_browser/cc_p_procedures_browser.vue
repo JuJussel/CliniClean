@@ -25,6 +25,10 @@
 </template>
 
 <script>
+
+import { useUserStore } from '@/stores/user'
+import { mapStores } from 'pinia'
+
 import proceduresSearch from "./cc_p_procedures_search.vue";
 
 export default {
@@ -47,17 +51,18 @@ export default {
         async selectProcedure(item) {
             this.$emit("select", item);
             this.favourites = await this.$dataService().put.user.favourites(
-                this.$store.getters.user.id,
+                this.userStore.userData.id,
                 item.row
             );
         },
         async getFavourites() {
             this.favourites = await this.$dataService().get.users.favourites(
-                this.$store.getters.user.id
+                this.userStore.userData.id
             );
         }
     },
     computed: {
+        ...mapStores(useUserStore),
         filteredProcedureCategories() {
             return this.categories.filter(item => item.code != 90);
         }

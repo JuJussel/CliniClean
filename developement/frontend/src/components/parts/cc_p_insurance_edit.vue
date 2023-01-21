@@ -33,10 +33,7 @@
                             :label="$lang.thisPerson"
                             :value="1"
                             v-model="insurance.relation"
-                            @select="
-                                insurance.insuredName =
-                                    $store.getters.activePatient.name
-                            "
+                            @select="insurance.insuredName = patientStore.patientData.name"
                         />
                         <cui-radio
                             style="margin-left: 10px"
@@ -131,9 +128,14 @@
 
 <script>
 import Joi from "joi";
+import { usePatientStore } from '@/stores/patient'
+import { mapStores } from 'pinia'
 
 export default {
     emits: ["close", "confirm"],
+    computed: {
+        ...mapStores(usePatientStore)
+    },
     data() {
         return {
             isPublic: false,
@@ -151,7 +153,7 @@ export default {
             insurance: {
                 type: "ins",
                 relation: 1,
-                insuredName: this.$store.getters.activePatient.name,
+                insuredName: this.patientStore.patientData.name,
                 symbol: "",
                 number: "",
                 providerNumber: "",
@@ -161,7 +163,7 @@ export default {
                 files: [],
             },
             filesRaw: [],
-            patient: this.$store.getters.activePatient,
+            patient: this.patientStore.patientData,
             errors: {
                 insuredName: "",
                 symbol: "",
@@ -427,16 +429,13 @@ export default {
 
                 try {
                     await this.$dataService().post.insurance([sendData]);
-                    this.$store.commit("SET_ACTIVE_PATIENT", "loading");
+                    this.patientStore.loading = true;
                     const patientData =
                         await this.$dataService().get.patient.details(
                             this.patient.id
                         );
                     this.loading.all = false;
-                    this.$store.commit(
-                        "SET_ACTIVE_PATIENT",
-                        patientData.patientData
-                    );
+                    this.patientStore.patientData = patientData.patientData
                     this.$store.commit("SET_LAYOUT_DATA", [
                         "reception",
                         { receptionModalInsuranceEdit: false },

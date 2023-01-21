@@ -31,6 +31,10 @@
 </template>
 
 <script>
+
+import { useUserStore } from '@/stores/user'
+import { mapStores } from 'pinia'
+
 export default {
   name: 'LoginView',
   data() {
@@ -43,12 +47,15 @@ export default {
       test: null
     }
   },
+  computed: {
+    ...mapStores(useUserStore)
+  },
   methods: {
     async login() {
       this.loading = true;
       try {
         const res = await this.$dataService().post.auth(this.user);
-        this.$store.commit('SET_USER', res);
+        this.userStore.userData = res
         this.$router.push('/home');
       } catch {
         this.loading = false;

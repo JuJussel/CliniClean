@@ -89,6 +89,10 @@
 </template>
 
 <script>
+
+import { usePatientStore } from '@/stores/patient'
+import { mapStores } from 'pinia'
+
 export default {
     created() {
         this.getInsurances();
@@ -102,7 +106,7 @@ export default {
                 all: false,
             },
             walkin: {
-                patient: this.$store.getters.activePatient,
+                patient: this.patientStore.patientData,
                 insurance: null,
                 encouterType: 1,
                 note: "",
@@ -134,6 +138,7 @@ export default {
         },
     },
     computed: {
+        ...mapStores(usePatientStore),
         inputOK() {
             if (this.walkin.patient && this.walkin.insurance) {
                 return true;

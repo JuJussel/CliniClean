@@ -154,12 +154,17 @@
 
 <script>
 import Joi from "joi";
+import { usePatientStore } from '@/stores/patient'
+import { mapStores } from 'pinia'
 
 export default {
     emits: ["cancel", "save", "showPatient"],
     created() {
-        this.editData = this.$store.getters.activePatient;
+        this.editData = this.patientStore.patientData;
         this.populateData();
+    },
+    computed: {
+        ...mapStores(usePatientStore)
     },
     data() {
         return {
@@ -341,10 +346,7 @@ export default {
             });
             this.$emit("showPatient", newPatientId.patientId);
 
-            this.$store.commit(
-                "SET_ACTIVE_PATIENT",
-                newPatientData.patientData
-            );
+            this.patientStore.patientData = newPatientData.patientData
 
             this.$store.commit("SET_LAYOUT_DATA", [
                 "reception",

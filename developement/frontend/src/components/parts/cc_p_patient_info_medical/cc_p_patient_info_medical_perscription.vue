@@ -62,7 +62,7 @@ export default {
     },
     methods: {
         getEndDate(item) {
-            let typeCode = this.$lang.codes[item.varData.timing.unit]
+            let typeCode = this.$lang.codes[item.varData?.timing?.unit] || null
             if (typeCode === 'perCodeTimingUnitDays') return this.$dayjs(item.date).add(item.varData.duration, 'day')
             return item.endDate || null
         },

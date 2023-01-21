@@ -48,7 +48,6 @@ export const store = createStore({
 
     getters: {
         staticLists: (state) => state.staticLists,
-        user: (state) => state.user,
         userFullName: (state) => state.user?.nameLast + state.user?.nameFirst,
         activeTab: (state) => state.activeTab,
         settings: (state) => state.settings,
@@ -64,14 +63,8 @@ export const store = createStore({
         SET_SETTINGS(state, settings) {
             state.settings = settings;
         },
-        SET_USER(state, user) {
-            state.user = user;
-        },
         SET_ACTIVE_TAB(state, view) {
             state.activeTab = view;
-        },
-        SET_ACTIVE_PATIENT(state, data) {
-            state.activePatient = data;
         },
         RESET_PATIENT_INFO(state) {
             state.activePatient = null;

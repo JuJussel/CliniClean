@@ -14,7 +14,7 @@
         </cui-card>
         <cui-card>
             <cc_p_patient_info
-                v-if="$store.getters.activePatient"
+                v-if="hasActivePatient"
                 style="height: 100%"
             ></cc_p_patient_info>
             <cui-tag v-else>{{ $lang.noPatientSelected }}</cui-tag>
@@ -37,7 +37,7 @@
             <cui-card style="width: 900px; height: 400px">
                 <template #header>
                     <h2>
-                        {{ $store.getters.activePatient.name
+                        {{ patientStore.patientData.name
                         }}{{ $lang.newReception }}
                     </h2>
                 </template>
@@ -60,7 +60,7 @@
             <cui-card style="width: 1000px; height: 640px">
                 <template #header>
                     <h2>
-                        {{ $store.getters.activePatient.name
+                        {{ patientStore.patientData.name
                         }}{{ $lang.reservation }}
                     </h2>
                 </template>
@@ -82,8 +82,8 @@
         >
             <cui-card style="width: 1100px; height: 600px">
                 <template #header>
-                    <h2 v-if="$store.getters.activePatient">
-                        {{ $store.getters.activePatient.name }}{{ $lang.edit }}
+                    <h2 v-if="hasActivePatient">
+                        {{ patientStore.patientData.name }}{{ $lang.edit }}
                     </h2>
                     <h2 v-else>{{ $lang.patient }}{{ $lang.register }}</h2>
                 </template>
@@ -107,7 +107,7 @@
             <cui-card style="width: 1100px; height: 550px">
                 <template #header>
                     <h2>
-                        {{ $store.getters.activePatient.name
+                        {{ patientStore.patientData.name
                         }}{{ $lang.insurance }}{{ $lang.register }}
                     </h2>
                 </template>
@@ -118,6 +118,10 @@
 </template>
 
 <script>
+
+import { usePatientStore } from '@/stores/patient'
+import { mapStores } from 'pinia'
+
 import {
     cc_p_calendar,
     cc_p_reception_list,
@@ -146,7 +150,7 @@ export default {
         // Payment,
     },
     created() {
-        this.$store.commit("SET_ACTIVE_PATIENT", null);
+        this.patientStore.patientData = null
     },
     data() {
         return {
@@ -166,8 +170,9 @@ export default {
         };
     },
     computed: {
+        ...mapStores(usePatientStore),
         hasActivePatient() {
-            return this.$store.getters.activePatient;
+            return this.patientStore.patientData;
         },
     },
     methods: {

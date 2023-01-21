@@ -89,6 +89,10 @@
 </template>
 
 <script>
+
+import { useUserStore } from '@/stores/user'
+import { mapStores } from 'pinia'
+
 import exam from "./cc_p_procedure_exam.vue";
 import shot from "./cc_p_procedure_shot.vue";
 import perscription from "./cc_p_procedure_perscription.vue";
@@ -121,6 +125,9 @@ export default {
             orderBuffer: null,
         };
     },
+    computed: {
+        ...mapStores(useUserStore)
+    },
     methods: {
         removeProcedure(procedure) {
             this.$emit("remove", procedure._index);
@@ -134,7 +141,7 @@ export default {
                     encounterId: this.encounter._id,
                     patient: this.encounter.patient._id,
                     procedure: item,
-                    requester: this.$store.getters.user.id,
+                    requester: this.userStore.userData.id,
                 };
                 let order = await this.$dataService().post.orders(requestData);
                 item.order = { id: order._id, done: false, locked: false };

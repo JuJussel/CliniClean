@@ -53,7 +53,7 @@
                             display: flex;
                         "
                     >
-                        {{ $store.getters.userFullName }}
+                        {{ userStore.fullName }}
                         <cui-tooltip>
                             <cui-badge :visible="hasNewNotification">
                                 <i
@@ -94,6 +94,10 @@
 </template>
 
 <script>
+
+import { useUserStore } from '@/stores/user'
+import { mapStores } from 'pinia'
+
 import reception from "../components/layouts/cc_l_reception";
 import medical from "../components/layouts/cc_l_medical";
 import orders from "../components/layouts/cc_l_orders.vue";
@@ -139,11 +143,12 @@ export default {
         },
     },
     computed: {
+        ... mapStores(useUserStore),
         avatarUrl() {
             return (
                 this.$GLOBALS.filesUrl +
                 "user" +
-                this.$store.getters.user?.id +
+                this.userStore.userData?.id +
                 ".png"
             );
         },

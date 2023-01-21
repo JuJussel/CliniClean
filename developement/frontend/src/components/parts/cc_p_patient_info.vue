@@ -2,17 +2,15 @@
     <div class="main-cont">
         <cui-table
             :data="patientData"
-            :loading="$store.getters.activePatient === 'loading'"
+            :loading="patientStore.loading"
             outline
         >
             <template #header>
                 <div style="display: flex; align-items: center">
-                    <h2>{{ $store.getters.activePatient.name }}</h2>
+                    <h2>{{ patientStore.patientData.name }}</h2>
                     <slot name="buttons">
                         <cui-button
-                            :disabled="
-                                $store.getters.activePatient === 'loading'
-                            "
+                            :disabled="patientStore.loading"
                             :label="$lang.reception"
                             @click="
                                 $store.commit('SET_LAYOUT_DATA', [
@@ -22,9 +20,7 @@
                             "
                         ></cui-button>
                         <cui-button
-                            :disabled="
-                                $store.getters.activePatient === 'loading'
-                            "
+                            :disabled="patientStore.loading"
                             :label="$lang.reservation"
                             @click="
                                 $store.commit('SET_LAYOUT_DATA', [
@@ -34,9 +30,7 @@
                             "
                         ></cui-button>
                         <cui-button
-                            :disabled="
-                                $store.getters.activePatient === 'loading'
-                            "
+                            :disabled="patientStore.loading"
                             :label="$lang.edit"
                             @click="
                                 $store.commit('SET_LAYOUT_DATA', [
@@ -58,7 +52,7 @@
 
         <cui-table
             :data="encounters"
-            :loading="$store.getters.activePatient === 'loading'"
+            :loading="patientStore.loading"
             outline
         >
             <template #header>
@@ -83,13 +77,13 @@
         <cui-table
             :data="insuranceData"
             outline
-            :loading="$store.getters.activePatient === 'loading'"
+            :loading="patientStore.loading"
         >
             <template #header>
                 <div style="display: flex; align-items: center">
                     <h2>{{ $lang.insurance }}</h2>
                     <cui-button
-                        :disabled="$store.getters.activePatient === 'loading'"
+                        :disabled="patientStore.loading"
                         :label="$lang.register"
                         @click="
                             $store.commit('SET_LAYOUT_DATA', [
@@ -122,7 +116,7 @@
 
         <cui-table
             :data="encounterReservations"
-            :loading="$store.getters.activePatient === 'loading'"
+            :loading="patientStore.loading"
             outline
         >
             <template #header>
@@ -141,6 +135,10 @@
 </template>
 
 <script>
+
+import { usePatientStore } from '@/stores/patient'
+import { mapStores } from 'pinia'
+
 export default {
     props: {
         outline: {
@@ -161,7 +159,7 @@ export default {
     methods: {
         async showKarte() {
             const patientData = await this.$dataService().get.patient.details(
-                this.$store.getters.activePatient.id
+                this.patientStore.patientData.id
             );
             this.$store.commit("SET_LAYOUT_DATA", [
                 "medical",
@@ -198,8 +196,9 @@ export default {
         },
     },
     computed: {
+        ...mapStores(usePatientStore),
         patientData() {
-            let patientData = this.$store.getters.activePatient;
+            let patientData = this.patientStore.patientData;
             if (patientData === "loading" || !patientData) return [];
             let tableData = [
                 { label: this.$lang.patientId, value: patientData?.id },
@@ -240,7 +239,7 @@ export default {
             return tableData;
         },
         insuranceData() {
-            let insData = this.$store.getters.activePatient || null;
+            let insData = this.patientStore.patientData || null;
             if (insData === "loading" || !insData) return [];
             return insData.insurance?.[0]?.[0]
                 ? insData?.insurance[0]
@@ -249,7 +248,7 @@ export default {
     },
     watch: {
         async patientData() {
-            let patientData = this.$store.getters.activePatient;
+            let patientData = this.patientStore.patientData;
             if (patientData === "loading" || !patientData) return [];
             let today = new Date().toISOString();
             let encounters = await this.$dataService().get.patient.encounters(

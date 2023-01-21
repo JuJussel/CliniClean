@@ -95,6 +95,10 @@
 </template>
 
 <script>
+
+import { useUserStore } from '@/stores/user'
+import { mapStores } from 'pinia'
+
 import examInput from "../parts/cc_p_karte/cc_p_procedures_list/cc_p_procedure_exam.vue";
 import shotInput from "../parts/cc_p_karte/cc_p_procedures_list/cc_p_procedure_shot.vue";
 import healthCheck from "../parts/cc_p_health_check";
@@ -123,6 +127,7 @@ export default {
     },
     watch: {},
     computed: {
+        ...mapStores(useUserStore),
         orderLocal() {
             return this.$store.getters.layoutData.orders.selectedOrder?.row;
         },
@@ -136,7 +141,7 @@ export default {
         },
         isUser() {
             if (!this.orderLocal?.locked) return false;
-            return this.orderLocal.locked !== this.$store.getters.user.id;
+            return this.orderLocal.locked !== this.userStore.userData.id;
         },
         examProviders() {
             return [{ name: "inhouse", label: this.$lang.inhouse }].concat(
@@ -152,7 +157,7 @@ export default {
             if (this.isUser) return;
             this.loading.lock = true;
             this.orderLocal.locked = locked
-                ? this.$store.getters.user.id
+                ? this.userStore.userData.id
                 : null;
             await this.$dataService().put.orders(this.orderLocal);
             if (this.orderLocal.procedure.cat.code === 90) {
@@ -188,7 +193,7 @@ export default {
             if (this.comment !== "") {
                 let addComment =
                     " " +
-                    this.$store.getters.userFullName +
+                    this.userStore.fullName +
                     "：" +
                     this.comment;
                 let existingComment = this.orderLocal.procedure.comment || "";
