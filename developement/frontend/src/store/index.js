@@ -29,7 +29,6 @@ var defaultState = function () {
             },
         },
         activePatient: null,
-        settings: null,
         config: null,
         notifications: [],
         layoutData: {
@@ -50,7 +49,6 @@ export const store = createStore({
         staticLists: (state) => state.staticLists,
         userFullName: (state) => state.user?.nameLast + state.user?.nameFirst,
         activeTab: (state) => state.activeTab,
-        settings: (state) => state.settings,
         activePatient: (state) => state.activePatient || null,
         notifications: (state) => state.notifications,
         layoutData: (state) => state.layoutData
@@ -59,9 +57,6 @@ export const store = createStore({
     mutations: {
         SET_STATIC_LISTS(state, data) {
             Object.assign(state.staticLists, data)
-        },
-        SET_SETTINGS(state, settings) {
-            state.settings = settings;
         },
         SET_ACTIVE_TAB(state, view) {
             state.activeTab = view;

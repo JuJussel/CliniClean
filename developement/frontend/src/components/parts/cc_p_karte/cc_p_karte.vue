@@ -299,6 +299,7 @@
 <script>
 
 import { useUserStore } from '@/stores/user'
+import { useSettingStore } from '@/stores/setting'
 import { mapStores } from 'pinia'
 
 import imageTag from "./cc_tiptap_imageTag/cc_tiptap_imageTag";
@@ -373,7 +374,7 @@ export default {
             let baseCost = await baseCostUtil(
                 this.encounter,
                 this.$store.getters.staticLists.encounterBaseCost,
-                this.$store.getters.settings.clinicBaseInfo.public
+                this.settingStore.settingData.clinicBaseInfo.public
             );
             this.encounter.baseCost = baseCost;
         }
@@ -390,7 +391,7 @@ export default {
             this.procedures = this.encounter.karte.procedures;
     },
     computed: {
-        ...mapStores(useUserStore)
+        ...mapStores(useUserStore, useSettingStore)
     },
     methods: {
         async closeEncounter() {

@@ -97,6 +97,7 @@
 <script>
 
 import { useUserStore } from '@/stores/user'
+import { useSettingStore } from '@/stores/setting'
 import { mapStores } from 'pinia'
 
 import examInput from "../parts/cc_p_karte/cc_p_procedures_list/cc_p_procedure_exam.vue";
@@ -127,7 +128,7 @@ export default {
     },
     watch: {},
     computed: {
-        ...mapStores(useUserStore),
+        ...mapStores(useUserStore, useSettingStore),
         orderLocal() {
             return this.$store.getters.layoutData.orders.selectedOrder?.row;
         },
@@ -145,7 +146,7 @@ export default {
         },
         examProviders() {
             return [{ name: "inhouse", label: this.$lang.inhouse }].concat(
-                this.$store.getters.settings.examinationProviders.public
+                this.settingStore.settingData?.examinationProviders?.public || []
             );
         },
     },

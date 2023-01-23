@@ -10,9 +10,7 @@ dayjs.extend(customParseFormat);
 
 export default async (encounter, baseItems, clinicInfo) => {
 
-    if (encounter.type === 6) return[];
-
-    console.log(encounter);
+    if (encounter.type === 6) return [];
 
     const date = {
         time: Date.now(),

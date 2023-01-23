@@ -96,6 +96,7 @@
 <script>
 
 import { useUserStore } from '@/stores/user'
+import { useListStore } from '@/stores/list'
 import { mapStores } from 'pinia'
 
 import reception from "../components/layouts/cc_l_reception";
@@ -116,7 +117,7 @@ export default {
         settings,
     },
     async created() {
-        await this.$dataService().get.lists.static();
+        this.listStore.getData
         await this.$dataService().get.settings.public();
         await this.$dataService().get.lists.encounterTypes();
         this.ready = true;
@@ -143,7 +144,7 @@ export default {
         },
     },
     computed: {
-        ... mapStores(useUserStore),
+        ... mapStores(useUserStore, useListStore),
         avatarUrl() {
             return (
                 this.$GLOBALS.filesUrl +

@@ -106,7 +106,6 @@ exports.get = (req, res) => {
 
   // Build documents path
   let path = type ? [`medical.${type}`] : 'medical'
-  console.log(path);
   // If no query get full data
 
   // If query get partial data

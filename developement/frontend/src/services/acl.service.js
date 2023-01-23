@@ -14,7 +14,7 @@ export default {
 
         app.config.globalProperties.$aclService = function (requiredLevel, view = store.getters.activeTab) {
             const permissions = options.permissions[view] || null;
-            const userGroup = userStore.userData.userGroup || null;
+            const userGroup = userStore.userData?.userGroup || null;
             const availableLevel = permissions?.[userGroup - 1] || null;
 
             if (userGroup == 99) return true;

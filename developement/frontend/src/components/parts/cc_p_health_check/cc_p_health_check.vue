@@ -268,6 +268,10 @@
 </template>
 
 <script>
+
+import { useSettingStore } from '@/stores/setting'
+import { mapStores } from 'pinia'
+
 import examInput from "./cc_p_health_check_exams.vue";
 import painter from "../cc_p_painter.vue";
 
@@ -338,9 +342,10 @@ export default {
         };
     },
     computed: {
+        ...mapStores(useSettingStore),
         examProviders() {
             return [{ name: "inhouse", label: this.$lang.inhouse }].concat(
-                this.$store.getters.settings.examinationProviders.public
+                this.settingStore.settingData.examinationProviders.public
             );
         },
     },
