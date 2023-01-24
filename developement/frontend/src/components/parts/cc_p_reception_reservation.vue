@@ -6,7 +6,7 @@
                 <cui-select
                     :label="$lang.encounterType"
                     :placeholder="$lang.searchByNameodID"
-                    :data="$store.getters.staticLists.encounterTypes"
+                    :data="listStore.listData.encounterTypes"
                     displayValueProp="name"
                     returnValueProp="id"
                     v-model="reservation.encouterType"
@@ -47,12 +47,7 @@
         >
             <cui-button
                 :label="$lang.cancel"
-                @click="
-                    $store.commit('SET_LAYOUT_DATA', [
-                        'reception',
-                        { receptionModalReservation: false },
-                    ])
-                "
+                @click="uiStore.modals.receptionModalReservation = false"
                 plain
             />
             <cui-button
@@ -68,18 +63,23 @@
 <script>
 
 import { usePatientStore } from '@/stores/patient'
+import { useListStore } from '@/stores/list'
+import { useUiStore } from '@/stores/ui'
 import { mapStores } from 'pinia'
 
 import { cc_p_calendar } from "../parts";
 
 export default {
+    created() {
+        this.reservation.patient = this.patientStore.patientData
+    },
     components: { cc_p_calendar },
     emits: ["close", "created"],
     data() {
         return {
             loading: false,
             reservation: {
-                patient: this.patientStore.patientData,
+                patient: null,
                 date: null,
                 time: null,
                 encouterType: 1,
@@ -92,10 +92,7 @@ export default {
             this.loading = true;
             await this.$dataService().post.encounters(this.reservation);
             this.$emit("created");
-            this.$store.commit("SET_LAYOUT_DATA", [
-                "reception",
-                { receptionModalReservation: false },
-            ]);
+            this.uiStore.modals.receptionModalReservation = false
         },
         selectDate(i) {
             let date = this.$dayjs(i.start).format("YYYY-MM-DD");
@@ -107,7 +104,7 @@ export default {
         },
     },
     computed: {
-        ...mapStores(usePatientStore),
+        ...mapStores(usePatientStore, useListStore, useUiStore),
         inputOK() {
             if (
                 this.reservation.patient &&

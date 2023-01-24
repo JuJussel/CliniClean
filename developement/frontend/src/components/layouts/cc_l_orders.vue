@@ -4,13 +4,16 @@
             <orderList style="height: 100%" />
         </div>
         <cui-card style="overflow: hidden">
-            <entry v-if="$store.getters.layoutData.orders?.selectedOrder" />
+            <entry v-if="orderStore.activeOrder" />
             <div v-else>{{ $lang.orderChoose }}</div>
         </cui-card>
     </div>
 </template>
 
 <script>
+
+import { useOrderStore } from "@/stores/order";
+import { mapStores } from "pinia";
 import entry from "../parts/cc_p_orders_entry.vue";
 import orderList from "../parts/cc_p_orders_list.vue";
 
@@ -22,17 +25,14 @@ export default {
     created() {
         this.getOrders();
     },
+    computed: {
+        ...mapStores(useOrderStore)
+    },
     methods: {
         async getOrders() {
-            this.$store.commit("SET_LAYOUT_DATA", [
-                "orders",
-                { ordersFull: "loading" },
-            ]);
+            this.orderStore.loading = true
             let orders = (await this.$dataService().get.orders()) || [];
-            this.$store.commit("SET_LAYOUT_DATA", [
-                "orders",
-                { ordersFull: orders },
-            ]);
+            this.orderStore.getOrders()
         },
     },
 };

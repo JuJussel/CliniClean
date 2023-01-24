@@ -300,6 +300,8 @@
 
 import { useUserStore } from '@/stores/user'
 import { useSettingStore } from '@/stores/setting'
+import { useListStore } from '@/stores/list'
+import { useEncounterStore } from '@/stores/encounter'
 import { mapStores } from 'pinia'
 
 import imageTag from "./cc_tiptap_imageTag/cc_tiptap_imageTag";
@@ -373,7 +375,7 @@ export default {
         if (this.encounter.baseCost.length < 1) {
             let baseCost = await baseCostUtil(
                 this.encounter,
-                this.$store.getters.staticLists.encounterBaseCost,
+                this.listStore.listData.encounterBaseCost,
                 this.settingStore.settingData.clinicBaseInfo.public
             );
             this.encounter.baseCost = baseCost;
@@ -391,7 +393,7 @@ export default {
             this.procedures = this.encounter.karte.procedures;
     },
     computed: {
-        ...mapStores(useUserStore, useSettingStore)
+        ...mapStores(useUserStore, useSettingStore, useListStore, useEncounterStore)
     },
     methods: {
         async closeEncounter() {
@@ -471,6 +473,8 @@ export default {
                     };
 
                     await this.$dataService().put.encounters(encounter);
+
+                    this.encounterStore.encounterData = encounter
 
                     this.$store.commit("SET_LAYOUT_DATA", [
                         "medical",

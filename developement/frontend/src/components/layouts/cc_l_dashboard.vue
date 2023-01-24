@@ -2,7 +2,7 @@
     <div class="cc-dashboard-main">
         <cui-card no-padding>
             <cui-table
-                :data="$store.getters.notifications"
+                :data="notificationStore.notifications"
                 singleSelect
                 @select="showNews"
                 ref="orderTable"
@@ -23,11 +23,18 @@
 </template>
 
 <script>
+
+import { useNotificationStore } from '@/stores/notification';
+import { mapStores } from 'pinia';
+
 export default {
     methods: {
         showNews() {
 
         }
+    },
+    computed: {
+        ...mapStores(useNotificationStore)
     }
 }
 </script>

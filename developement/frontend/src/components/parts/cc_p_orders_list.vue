@@ -61,8 +61,13 @@
 </template>
 
 <script>
+
+import { useOrderStore } from '@/stores/order';
+import { mapStores } from 'pinia';
+
 export default {
     computed: {
+        ...mapStores(useOrderStore),
         examinationOrders() {
             if (!this.ordersFull.isArray) {
                 return [];
@@ -70,7 +75,7 @@ export default {
             return this.ordersFull.filter((i) => i.procedure.cat.code === 60);
         },
         ordersFull() {
-            return this.$store.getters.layoutData.orders.ordersFull;
+            return this.orderStore.orderData;
         },
     },
     methods: {
@@ -81,19 +86,13 @@ export default {
             order = JSON.parse(JSON.stringify(order));
             this.$refs.examTable.clearSelection();
             order.row.provider = { name: "inhouse", label: this.$lang.inhouse };
-            this.$store.commit("SET_LAYOUT_DATA", [
-                "orders",
-                { selectedOrder: order },
-            ]);
+            this.orderStore.activeOrder = order
         },
         selectExam(order) {
             order = JSON.parse(JSON.stringify(order));
             this.$refs.orderTable.clearSelection();
             order.row.provider = { name: "inhouse", label: this.$lang.inhouse };
-            this.$store.commit("SET_LAYOUT_DATA", [
-                "orders",
-                { selectedOrder: order },
-            ]);
+            this.orderStore.activeOrder = order
         },
     },
 };

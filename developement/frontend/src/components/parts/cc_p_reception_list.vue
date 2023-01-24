@@ -122,6 +122,9 @@
 <script>
 
 import { usePatientStore } from '@/stores/patient'
+import { useEncounterStore } from '@/stores/encounter'
+import { useListStore } from '@/stores/list'
+import { useUiStore } from '@/stores/ui'
 import { mapStores } from 'pinia'
 
 export default {
@@ -152,6 +155,10 @@ export default {
     },
     methods: {
         async showKarte(encounter) {
+            this.patientStore.patientData = encounter.patient
+            this.encounterStore.encounterData = encounter
+            this.uiStore.activeTab = "medical"
+            
             this.$store.commit("SET_LAYOUT_DATA", [
                 "medical",
                 {
@@ -160,7 +167,6 @@ export default {
                     show: true,
                 },
             ]);
-            this.$store.commit("SET_ACTIVE_TAB", "medical");
         },
         async getDoctors() {
             this.layoutData.doctors =
@@ -173,7 +179,7 @@ export default {
             this.layoutData.loading = false;
         },
         parseExamType(type) {
-            const types = this.$store.getters.staticLists.encounterTypes;
+            const types = this.listStore.listData.encounterTypes;
             let string = "";
             string = types?.find((item) => item.id == type).name;
             return string;
@@ -181,7 +187,7 @@ export default {
         examStatiOptions(row) {
             const currentStatus = row.status;
             const encounterStati =
-                this.$store.getters.staticLists.encounterStati;
+                this.listStore.listData.encounterStati;
             let status = encounterStati.find(
                 (item) => item[0].status === currentStatus
             );
@@ -207,7 +213,7 @@ export default {
         },
     },
     computed: {
-        ...mapStores(usePatientStore),
+        ...mapStores(usePatientStore, useListStore, useUiStore, useEncounterStore),
         doctorsFree() {
             let free = this.layoutData.doctors.filter(
                 (doc) => doc.status === 1

@@ -18,6 +18,7 @@ export const useListStore = defineStore({
                 return this.listsDataRaw
             }
             this.getData()
+            return this.listsDataRaw
         }
     },
     actions: {
@@ -29,6 +30,7 @@ export const useListStore = defineStore({
                 this.loading = false;
             } catch (err) {
                 console.log(err);
+                this.loading = false;
             }
         }
     }

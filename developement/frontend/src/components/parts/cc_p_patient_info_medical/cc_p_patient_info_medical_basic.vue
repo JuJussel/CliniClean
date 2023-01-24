@@ -152,6 +152,9 @@
 
 <script>
 
+import { usePatientStore } from '@/stores/patient'
+import { mapStores } from 'pinia'
+
 import diseases from './cc_p_patient_info_medical_diseases.vue'
 import perscriptions from './cc_p_patient_info_medical_perscription.vue'
 import orders from './cc_p_patient_info_medical_orders.vue'
@@ -189,6 +192,7 @@ export default {
         };
     },
     computed: {
+        ...mapStores(usePatientStore),
         patientData() {
             return this.$store.getters.layoutData.medical.patient;
         },
@@ -254,6 +258,8 @@ export default {
                 await this.$dataService().get.patient.medicalHistory(
                     this.patientData.id
                 );
+
+            this.usePatientStore.patientData = patientHistory
             this.$store.commit("SET_LAYOUT_DATA", [
                 "medical",
                 { patient: patientHistory },

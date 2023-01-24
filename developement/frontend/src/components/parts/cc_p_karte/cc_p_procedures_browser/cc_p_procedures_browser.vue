@@ -27,6 +27,7 @@
 <script>
 
 import { useUserStore } from '@/stores/user'
+import { useListStore } from '@/stores/list'
 import { mapStores } from 'pinia'
 
 import proceduresSearch from "./cc_p_procedures_search.vue";
@@ -42,7 +43,6 @@ export default {
     },
     data() {
         return {
-            categories: this.$store.getters.staticLists.procedureCategories,
             activeCategory: null,
             favourites: []
         };
@@ -62,9 +62,12 @@ export default {
         }
     },
     computed: {
-        ...mapStores(useUserStore),
+        ...mapStores(useUserStore, useListStore),
         filteredProcedureCategories() {
             return this.categories.filter(item => item.code != 90);
+        },
+        categories() {
+            return this.listStore.listData.procedureCategories
         }
     }
 };

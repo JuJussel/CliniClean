@@ -27,6 +27,10 @@
 </template>
 
 <script>
+
+import { useListStore } from '@/stores/list';
+import { mapStores } from 'pinia';
+
 export default {
     props: {
         item: {
@@ -49,7 +53,6 @@ export default {
     },
     data() {
         return {
-            shotLocations: this.$store.getters.staticLists.shotLocations,
             varData: {
                 location: null,
                 amount: "",
@@ -57,5 +60,11 @@ export default {
             },
         };
     },
+    computed: {
+        ...mapStores(useListStore),
+        shotLocations() {
+            return this.listStore.listData.shotLocations || []
+        }
+    }
 };
 </script>

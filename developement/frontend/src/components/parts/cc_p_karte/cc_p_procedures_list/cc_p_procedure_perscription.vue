@@ -36,6 +36,10 @@
 </template>
 
 <script>
+
+import { useListStore } from '@/stores/list';
+import { mapStores } from 'pinia';
+
 export default {
     props: {
         item: {
@@ -49,8 +53,6 @@ export default {
     data() {
         return {
             ready: false,
-            types: this.$store.getters.staticLists.perscriptionTypes,
-            timings: this.$store.getters.staticLists.perscriptionTimings,
             varData: {
                 type: this.item?.varData?.type ? this.item.varData.type : null,
                 timing: this.item?.varData?.timing ? this.item.varData.timing : null,
@@ -71,13 +73,22 @@ export default {
         }
     },
     computed: {
+        ...mapStores(useListStore),
         filteredTimings() {
             if(this.varData.type?.code) {
                 return this.timings.filter(item => item.typeCode === this.varData.type.code)
             } else {
                 return []
             }
-        }
+        },
+        types() {
+            return this.listStore.listData.perscriptionTypes || []
+        },
+        timings() {
+            return this.listStore.listData.perscriptionTimings || []
+        },
+
+
     }
 }
 </script>

@@ -22,10 +22,7 @@
                         :label="$lang.register"
                         @click="
                             patientStore.patientData = null;
-                            $store.commit('SET_LAYOUT_DATA', [
-                                'reception',
-                                { receptionModalPatientEdit: true },
-                            ]);
+                            useUiStore.modals.receptionModalPatientEdit = true
                         "
                     ></cui-button>
                 </slot>
@@ -49,6 +46,7 @@
 <script>
 
 import { usePatientStore } from '@/stores/patient'
+import { useUiStore } from '@/stores/ui'
 import { mapStores } from 'pinia'
 
 export default {
@@ -60,7 +58,7 @@ export default {
         };
     },
     computed: {
-        ...mapStores(usePatientStore),
+        ...mapStores(usePatientStore, useUiStore),
     },
     data() {
         return {

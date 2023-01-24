@@ -23,16 +23,9 @@
         <!---------------- Modals ---------------->
 
         <cui-modal
-            :visible="
-                $store.getters.layoutData.reception?.receptionModalRegister
-            "
+            :visible="uiStore.modals.receptionModalRegister"
             closable
-            @close="
-                $store.commit('SET_LAYOUT_DATA', [
-                    'reception',
-                    { receptionModalRegister: false },
-                ])
-            "
+            @close="uiStore.modals.receptionModalRegister = false"
         >
             <cui-card style="width: 900px; height: 400px">
                 <template #header>
@@ -47,15 +40,10 @@
 
         <cui-modal
             :visible="
-                $store.getters.layoutData.reception?.receptionModalReservation
+                uiStore.modals.receptionModalReservation
             "
             closable
-            @close="
-                $store.commit('SET_LAYOUT_DATA', [
-                    'reception',
-                    { receptionModalReservation: false },
-                ])
-            "
+            @close="uiStore.modals.receptionModalReservation = false"
         >
             <cui-card style="width: 1000px; height: 640px">
                 <template #header>
@@ -69,16 +57,9 @@
         </cui-modal>
 
         <cui-modal
-            :visible="
-                $store.getters.layoutData.reception?.receptionModalPatientEdit
-            "
+            :visible="uiStore.modals.receptionModalPatientEdit"
             closable
-            @close="
-                $store.commit('SET_LAYOUT_DATA', [
-                    'reception',
-                    { receptionModalPatientEdit: false },
-                ])
-            "
+            @close="uiStore.modals.receptionModalPatientEdit = false"
         >
             <cui-card style="width: 1100px; height: 600px">
                 <template #header>
@@ -92,17 +73,9 @@
         </cui-modal>
 
         <cui-modal
-            :visible="
-                $store.getters.layoutData.reception?.receptionModalInsuranceEdit
-            "
+            :visible="uiStore.modals.receptionModalInsuranceEdit"
             closable
-            @close="
-                if (!$refs.insuranceModal.loading.all)
-                    $store.commit('SET_LAYOUT_DATA', [
-                        'reception',
-                        { receptionModalInsuranceEdit: false },
-                    ]);
-            "
+            @close="uiStore.modals.receptionModalInsuranceEdit = false"
         >
             <cui-card style="width: 1100px; height: 550px">
                 <template #header>
@@ -120,6 +93,7 @@
 <script>
 
 import { usePatientStore } from '@/stores/patient'
+import { useUiStore } from '@/stores/ui'
 import { mapStores } from 'pinia'
 
 import {
@@ -170,7 +144,7 @@ export default {
         };
     },
     computed: {
-        ...mapStores(usePatientStore),
+        ...mapStores(usePatientStore, useUiStore),
         hasActivePatient() {
             return this.patientStore.patientData;
         },

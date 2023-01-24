@@ -1,6 +1,6 @@
 <template>
     <div class="grid">
-        <div>
+        <div v-if="input">
             <div class="switch-cont">
                 <cui-switch
                     :label="$lang.medicationHistory"
@@ -270,6 +270,7 @@
 <script>
 
 import { useSettingStore } from '@/stores/setting'
+import { useListStore } from '@/stores/list'
 import { mapStores } from 'pinia'
 
 import examInput from "./cc_p_health_check_exams.vue";
@@ -280,69 +281,21 @@ export default {
         examInput,
         painter,
     },
-    created() {
+    mounted() {
         this.getExams();
+        this.input = this.buildData()
     },
     data() {
         return {
             mode: "order",
             provider: null,
-            input: {
-                medicationHistory: { value: false, note: "" },
-                medicalHistory: { value: false, note: "" },
-                subjectiveSymtoms: { value: false, note: "" },
-                objectiveSymtoms: { value: false, note: "" },
-                height: Object.assign(
-                    this.$store.getters.staticLists.vitalCategories.find(
-                        (i) => i.code === 909
-                    ),
-                    { value: "" }
-                ),
-                weight: Object.assign(
-                    this.$store.getters.staticLists.vitalCategories.find(
-                        (i) => i.code === 906
-                    ),
-                    { value: "" }
-                ),
-                bmi: Object.assign(
-                    this.$store.getters.staticLists.vitalCategories.find(
-                        (i) => i.code === 907
-                    ),
-                    { value: "" }
-                ),
-                stomacheWidth: Object.assign(
-                    this.$store.getters.staticLists.vitalCategories.find(
-                        (i) => i.code === 908
-                    ),
-                    { value: "" }
-                ),
-                bloodPreasureMax: Object.assign(
-                    this.$store.getters.staticLists.vitalCategories.find(
-                        (i) => i.code === 901
-                    ),
-                    { value: "" }
-                ),
-                bloodPreasureMin: Object.assign(
-                    this.$store.getters.staticLists.vitalCategories.find(
-                        (i) => i.code === 902
-                    ),
-                    { value: "" }
-                ),
-                sightLeft: { value: "" },
-                sightRight: { value: "" },
-                hearingLeftLow: { value: "" },
-                hearingLeftHight: { value: "" },
-                hearingRightLow: { value: "" },
-                hearingRightHigh: { value: "" },
-                ecg: { value: "" },
-                xRay: { value: "", schema: "/assets/schemas/lung_schema" },
-            },
+            input: null,
             examinations: null,
             examinationsGrouped: null,
         };
     },
     computed: {
-        ...mapStores(useSettingStore),
+        ...mapStores(useSettingStore, useListStore),
         examProviders() {
             return [{ name: "inhouse", label: this.$lang.inhouse }].concat(
                 this.settingStore.settingData.examinationProviders.public
@@ -377,6 +330,59 @@ export default {
 
             this.examinations = examinations;
             this.examinationsGrouped = grouped;
+        },
+        buildData() {
+            console.log(this.listStore.listData);
+            return {
+                medicationHistory: { value: false, note: "" },
+                medicalHistory: { value: false, note: "" },
+                subjectiveSymtoms: { value: false, note: "" },
+                objectiveSymtoms: { value: false, note: "" },
+                height: Object.assign(
+                    this.listStore.listData.vitalCategories.find(
+                        (i) => i.code === 909
+                    ),
+                    { value: "" }
+                ),
+                weight: Object.assign(
+                    this.listStore.listData.vitalCategories.find(
+                        (i) => i.code === 906
+                    ),
+                    { value: "" }
+                ),
+                bmi: Object.assign(
+                    this.listStore.listData.vitalCategories.find(
+                        (i) => i.code === 907
+                    ),
+                    { value: "" }
+                ),
+                stomacheWidth: Object.assign(
+                    this.listStore.listData.vitalCategories.find(
+                        (i) => i.code === 908
+                    ),
+                    { value: "" }
+                ),
+                bloodPreasureMax: Object.assign(
+                    this.listStore.listData.vitalCategories.find(
+                        (i) => i.code === 901
+                    ),
+                    { value: "" }
+                ),
+                bloodPreasureMin: Object.assign(
+                    this.listStore.listData.vitalCategories.find(
+                        (i) => i.code === 902
+                    ),
+                    { value: "" }
+                ),
+                sightLeft: { value: "" },
+                sightRight: { value: "" },
+                hearingLeftLow: { value: "" },
+                hearingLeftHight: { value: "" },
+                hearingRightLow: { value: "" },
+                hearingRightHigh: { value: "" },
+                ecg: { value: "" },
+                xRay: { value: "", schema: "/assets/schemas/lung_schema" },
+            }
         },
         calcBMI() {
             setTimeout(() => {

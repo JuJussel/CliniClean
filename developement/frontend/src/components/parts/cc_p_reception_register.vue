@@ -5,7 +5,7 @@
             <cui-select
                 :label="$lang.encounterType"
                 :placeholder="$lang.searchByNameodID"
-                :data="$store.getters.staticLists.encounterTypes"
+                :data="listStore.listData.encounterTypes"
                 displayValueProp="name"
                 returnValueProp="id"
                 v-model="walkin.encouterType"
@@ -70,12 +70,7 @@
         <div style="flex-grow: 1; display: flex; justify-content: flex-end">
             <cui-button
                 :label="$lang.cancel"
-                @click="
-                    $store.commit('SET_LAYOUT_DATA', [
-                        'reception',
-                        { receptionModalRegister: false },
-                    ])
-                "
+                @click="uiStore.modals.receptionModalRegister = false"
                 plain
             />
             <cui-button
@@ -91,10 +86,13 @@
 <script>
 
 import { usePatientStore } from '@/stores/patient'
+import { useListStore } from '@/stores/list'
+import { useUiStore } from '@/stores/ui'
 import { mapStores } from 'pinia'
 
 export default {
     created() {
+        this.walkin.patient = this.patientStore.patientData
         this.getInsurances();
     },
     emits: ["close", "created"],
@@ -106,7 +104,7 @@ export default {
                 all: false,
             },
             walkin: {
-                patient: this.patientStore.patientData,
+                patient: null,
                 insurance: null,
                 encouterType: 1,
                 note: "",
@@ -131,14 +129,11 @@ export default {
             this.loading.all = true;
             await this.$dataService().post.encounters(this.walkin);
             this.loading.all = false;
-            this.$store.commit("SET_LAYOUT_DATA", [
-                "reception",
-                { receptionModalRegister: false },
-            ]);
+            this.uiStore.modals.receptionModalRegister = false
         },
     },
     computed: {
-        ...mapStores(usePatientStore),
+        ...mapStores(usePatientStore, useListStore, useUiStore),
         inputOK() {
             if (this.walkin.patient && this.walkin.insurance) {
                 return true;

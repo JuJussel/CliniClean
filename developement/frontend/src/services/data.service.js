@@ -499,36 +499,36 @@ export default {
                             });
                         },
                     },
-                    settings: {
-                        public: function () {
+                    // settings: {
+                    //     public: function () {
 
 
-                            return new Promise(function (
-                                resolve,
-                                reject
-                            ) {
-                                http.get("settings/public")
-                                    .then((result) => {
-                                        instance.$store.commit(
-                                            "SET_SETTINGS",
-                                            result
-                                        );
-                                        resolve(result);
-                                    })
-                                    .catch((result) => {
-                                        instance.$cui.notification(
-                                            {
-                                                text: result,
-                                                color:
-                                                    "danger",
-                                            }
-                                        );
-                                        reject;
-                                    });
-                            });
+                    //         return new Promise(function (
+                    //             resolve,
+                    //             reject
+                    //         ) {
+                    //             http.get("settings/public")
+                    //                 .then((result) => {
+                    //                     instance.$store.commit(
+                    //                         "SET_SETTINGS",
+                    //                         result
+                    //                     );
+                    //                     resolve(result);
+                    //                 })
+                    //                 .catch((result) => {
+                    //                     instance.$cui.notification(
+                    //                         {
+                    //                             text: result,
+                    //                             color:
+                    //                                 "danger",
+                    //                         }
+                    //                     );
+                    //                     reject;
+                    //                 });
+                    //         });
 
-                        }
-                    },
+                    //     }
+                    // },
                     orders: function () {
                         return new Promise(function (resolve, reject) {
                             http.get("orders")

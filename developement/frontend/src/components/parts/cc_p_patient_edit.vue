@@ -55,7 +55,7 @@
                         :note="errors.occupation"
                         v-model="patient.occupation"
                         :label="$lang.occupation"
-                        :data="$store.getters.staticLists.occupations"
+                        :data="listStore.listData.occupations"
                     ></cui-select>
                 </div>
             </cui-card>
@@ -99,7 +99,7 @@
                         displayValueProp="name"
                         returnValueProp="name"
                         v-model="patient.relation"
-                        :data="$store.getters.staticLists.relations"
+                        :data="listStore.listData.relations"
                     />
                 </div>
             </cui-card>
@@ -134,12 +134,7 @@
         <div style="flex-grow: 1; display: flex; justify-content: flex-end">
             <cui-button
                 :label="$lang.cancel"
-                @click="
-                    $store.commit('SET_LAYOUT_DATA', [
-                        'reception',
-                        { receptionModalPatientEdit: false },
-                    ])
-                "
+                @click="uiStore.modals.receptionModalPatientEdit = false"
                 plain
             />
             <cui-button
@@ -155,6 +150,8 @@
 <script>
 import Joi from "joi";
 import { usePatientStore } from '@/stores/patient'
+import { useListStore } from '@/stores/list'
+import { useUiStore } from '@/stores/ui'
 import { mapStores } from 'pinia'
 
 export default {
@@ -164,7 +161,7 @@ export default {
         this.populateData();
     },
     computed: {
-        ...mapStores(usePatientStore)
+        ...mapStores(usePatientStore, useListStore, useUiStore)
     },
     data() {
         return {
@@ -347,11 +344,7 @@ export default {
             this.$emit("showPatient", newPatientId.patientId);
 
             this.patientStore.patientData = newPatientData.patientData
-
-            this.$store.commit("SET_LAYOUT_DATA", [
-                "reception",
-                { receptionModalPatientEdit: false },
-            ]);
+            this.uiStore.modals.receptionModalPatientEdit = false
         },
     },
 };

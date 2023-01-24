@@ -12,6 +12,9 @@
 </template>
 
 <script>
+
+import { useMedicalStore } from "@/stores/medical";
+import { mapStores } from "pinia";
 import { cc_p_patient_info_medical, cc_p_karte } from "../parts";
 
 export default {
@@ -72,6 +75,7 @@ export default {
         },
     },
     computed: {
+        ...mapStores(useMedicalStore),
         finalWidth() {
             return (
                 (this.resizeData.widthInteger || this.resizeData.startWidth) +

@@ -39,7 +39,7 @@
                     v-model="editData.suspectOrAcuteFlag"
                     returnValueProp="value"
                     displayValueProp="label"
-                    :data="$store.getters.staticLists.disease.suspectFlags"
+                    :data="listStore.listData.disease.suspectFlags"
                     class="d66574"
                     style="width: 150px; margin-right: 20px"
                 />
@@ -54,7 +54,7 @@
                 v-model="editData.outcome"
                 returnValueProp="value"
                 displayValueProp="label"
-                :data="$store.getters.staticLists.disease.outcomeFlags"
+                :data="listStore.listData.disease.outcomeFlags"
                 class="d66574"
             />
             <cui-datepicker
@@ -80,7 +80,12 @@
 </template>
 
 <script>
+
+import { useListStore } from '@/stores/list'
+import { mapStores } from 'pinia';
+
 export default {
+
     props: {
         diseaseData: { default: null },
     },
@@ -153,6 +158,7 @@ export default {
         },
     },
     computed: {
+        ...mapStores(useListStore),
         patientData() {
             return this.$store.getters.layoutData.medical.patient;
         },

@@ -150,6 +150,10 @@
 </template>
 
 <script>
+
+import { useListStore } from "@/stores/list"
+import { usePatientStore } from "@/stores/patient"
+import { mapStores } from "pinia";
 import diseaseEditor from "../cc_p_disease_edit.vue";
 
 export default {
@@ -182,13 +186,13 @@ export default {
     methods: {
         parseSuspectLabel(row) {
             if (!row.suspectOrAcuteFlag) return "";
-            return this.$store.getters.staticLists.disease.suspectFlags.find(
+            return this.listStore.listData.disease.suspectFlags.find(
                 (item) => item.value === row.suspectOrAcuteFlag
             ).label;
         },
         parseOutcomeLabel(row) {
             if (!row.outcome) return "";
-            return this.$store.getters.staticLists.disease.outcomeFlags.find(
+            return this.listStore.listData.disease.outcomeFlags.find(
                 (item) => item.value === row.outcome
             ).label;
         },
@@ -208,6 +212,8 @@ export default {
                 await this.$dataService().get.patient.medicalHistory(
                     this.patientData.id
                 );
+
+            this.usePatientStore.patientData = patientHistory
             this.$store.commit("SET_LAYOUT_DATA", [
                 "medical",
                 { patient: patientHistory },
@@ -215,6 +221,7 @@ export default {
         },
     },
     computed: {
+        ...mapStores(useListStore, usePatientStore),
         patientData() {
             return this.$store.getters.layoutData.medical.patient;
         },

@@ -112,12 +112,7 @@
         </div>
         <div class="cc-insurance-new-footer">
             <cui-button
-                @click="
-                    $store.commit('SET_LAYOUT_DATA', [
-                        'reception',
-                        { receptionModalInsuranceEdit: false },
-                    ])
-                "
+                @click="uiStore.modals.receptionModalInsuranceEdit = false"
                 plain
                 :label="$lang.cancel"
             ></cui-button>
@@ -129,13 +124,20 @@
 <script>
 import Joi from "joi";
 import { usePatientStore } from '@/stores/patient'
+import { useUiStore } from '@/stores/ui'
 import { mapStores } from 'pinia'
 
 export default {
     emits: ["close", "confirm"],
     computed: {
-        ...mapStores(usePatientStore)
+        ...mapStores(usePatientStore, useUiStore),
+        patient() {
+            return this.patientStore.patientData || null
+        }
     },
+    created() {
+        this.insurance.insuredName = this.patientStore.patientData.name || ""
+    },  
     data() {
         return {
             isPublic: false,
@@ -153,7 +155,7 @@ export default {
             insurance: {
                 type: "ins",
                 relation: 1,
-                insuredName: this.patientStore.patientData.name,
+                insuredName: "",
                 symbol: "",
                 number: "",
                 providerNumber: "",
@@ -163,7 +165,6 @@ export default {
                 files: [],
             },
             filesRaw: [],
-            patient: this.patientStore.patientData,
             errors: {
                 insuredName: "",
                 symbol: "",
@@ -436,10 +437,7 @@ export default {
                         );
                     this.loading.all = false;
                     this.patientStore.patientData = patientData.patientData
-                    this.$store.commit("SET_LAYOUT_DATA", [
-                        "reception",
-                        { receptionModalInsuranceEdit: false },
-                    ]);
+                    this.uiStore.modals.receptionModalInsuranceEdit = false
                 } catch (err) {
                     this.loading.all = false;
                     return;

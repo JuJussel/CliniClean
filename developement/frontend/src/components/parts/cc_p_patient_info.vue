@@ -12,32 +12,17 @@
                         <cui-button
                             :disabled="patientStore.loading"
                             :label="$lang.reception"
-                            @click="
-                                $store.commit('SET_LAYOUT_DATA', [
-                                    'reception',
-                                    { receptionModalRegister: true },
-                                ])
-                            "
+                            @click="uiStore.modals.receptionModalRegister = true"
                         ></cui-button>
                         <cui-button
                             :disabled="patientStore.loading"
                             :label="$lang.reservation"
-                            @click="
-                                $store.commit('SET_LAYOUT_DATA', [
-                                    'reception',
-                                    { receptionModalReservation: true },
-                                ])
-                            "
+                            @click="uiStore.modals.receptionModalReservation = true"
                         ></cui-button>
                         <cui-button
                             :disabled="patientStore.loading"
                             :label="$lang.edit"
-                            @click="
-                                $store.commit('SET_LAYOUT_DATA', [
-                                    'reception',
-                                    { receptionModalPatientEdit: true },
-                                ])
-                            "
+                            @click="uiStore.modals.receptionModalPatientEdit = true"
                         ></cui-button>
 
                         <cui-button :label="$lang.details"></cui-button>
@@ -85,12 +70,7 @@
                     <cui-button
                         :disabled="patientStore.loading"
                         :label="$lang.register"
-                        @click="
-                            $store.commit('SET_LAYOUT_DATA', [
-                                'reception',
-                                { receptionModalInsuranceEdit: true },
-                            ])
-                        "
+                        @click="uiStore.modals.receptionModalInsuranceEdit = true"
                     ></cui-button>
                 </div>
             </template>
@@ -137,6 +117,8 @@
 <script>
 
 import { usePatientStore } from '@/stores/patient'
+import { useListStore } from '@/stores/list'
+import { useUiStore } from '@/stores/ui'
 import { mapStores } from 'pinia'
 
 export default {
@@ -161,14 +143,16 @@ export default {
             const patientData = await this.$dataService().get.patient.details(
                 this.patientStore.patientData.id
             );
+
             this.$store.commit("SET_LAYOUT_DATA", [
                 "medical",
                 { patient: patientData.patientData, show: true },
             ]);
-            this.$store.commit("SET_ACTIVE_TAB", "medical");
+
+            this.uiStore.activeTab = "medical"
         },
         parseEncounterType(type) {
-            return this.$store.getters.staticLists.encounterTypes.find(
+            return this.listStore.listData.encounterTypes.find(
                 (item) => item.id === type
             ).name;
         },
@@ -196,7 +180,7 @@ export default {
         },
     },
     computed: {
-        ...mapStores(usePatientStore),
+        ...mapStores(usePatientStore, useListStore, useUiStore),
         patientData() {
             let patientData = this.patientStore.patientData;
             if (patientData === "loading" || !patientData) return [];

@@ -1,7 +1,7 @@
 <template>
     <div class="loader" v-if="!ready"></div>
     <div v-if="ready">
-        <cui-menu-bar @change="changeMenu" :value="$store.getters.activeTab">
+        <cui-menu-bar @change="changeMenu" :value="uiStore.activeTab">
             <template v-slot:left>
                 <cui-menu-bar-item
                     icon="fa fa-home menu-icon"
@@ -85,7 +85,7 @@
         <div class="cc-home-main-cont">
             <transition name="juzoom">
                 <component
-                    :is="$store.getters.activeTab"
+                    :is="uiStore.activeTab"
                     style="height: 100%"
                 ></component>
             </transition>
@@ -97,6 +97,8 @@
 
 import { useUserStore } from '@/stores/user'
 import { useListStore } from '@/stores/list'
+import { useNotificationStore } from '@/stores/notification'
+import { useUiStore } from '@/stores/ui'
 import { mapStores } from 'pinia'
 
 import reception from "../components/layouts/cc_l_reception";
@@ -118,8 +120,6 @@ export default {
     },
     async created() {
         this.listStore.getData
-        await this.$dataService().get.settings.public();
-        await this.$dataService().get.lists.encounterTypes();
         this.ready = true;
         this.$connect();
         this.$options.sockets.onmessage = (data) => {
@@ -139,12 +139,12 @@ export default {
                 this.$auth().remove();
                 this.$router.push("/");
             } else {
-                this.$store.commit("SET_ACTIVE_TAB", val);
+                this.uiStore.activeTab = val
             }
         },
     },
     computed: {
-        ... mapStores(useUserStore, useListStore),
+        ... mapStores(useUserStore, useListStore, useNotificationStore, useUiStore),
         avatarUrl() {
             return (
                 this.$GLOBALS.filesUrl +
@@ -154,7 +154,7 @@ export default {
             );
         },
         hasNewNotification() {
-            let not = this.$store.getters.notifications;
+            let not = this.notificationStore.notifications;
             let hasNot = not.filter((item) => !item.recepients[0].read);
             return hasNot.length > 0 ? true : false;
         },

@@ -98,6 +98,8 @@
 
 import { useUserStore } from '@/stores/user'
 import { useSettingStore } from '@/stores/setting'
+import { useListStore } from '@/stores/list'
+import { useOrderStore } from '@/stores/order'
 import { mapStores } from 'pinia'
 
 import examInput from "../parts/cc_p_karte/cc_p_procedures_list/cc_p_procedure_exam.vue";
@@ -112,10 +114,7 @@ export default {
     },
     emits: ["update"],
     beforeUnmount() {
-        this.$store.commit("SET_LAYOUT_DATA", [
-            "orders",
-            { selectedOrder: null },
-        ]);
+        this.orderStore.activeOrder = null
     },
     data() {
         return {
@@ -128,14 +127,14 @@ export default {
     },
     watch: {},
     computed: {
-        ...mapStores(useUserStore, useSettingStore),
+        ...mapStores(useUserStore, useSettingStore, useListStore, useOrderStore),
         orderLocal() {
-            return this.$store.getters.layoutData.orders.selectedOrder?.row;
+            return this.orderStore.activeOrder?.row;
         },
         procedureIcon() {
             let code = this.orderLocal?.procedure.cat.code || null;
             return (
-                this.$store.getters.staticLists.procedureCategories.find(
+                this.listStore.listData.procedureCategories.find(
                     (item) => item.code === code
                 )?.icon || null
             );
@@ -210,21 +209,14 @@ export default {
                 });
                 this.loading.all = false;
                 this.updateStoreOrders();
-                this.$store.commit("SET_LAYOUT_DATA", [
-                    "orders",
-                    { selectedOrder: null },
-                ]);
+                this.orderStore.activeOrder = null
             } catch {
                 this.loading.all = false;
             }
             return;
         },
         async updateStoreOrders() {
-            let orders = (await this.$dataService().get.orders()) || [];
-            this.$store.commit("SET_LAYOUT_DATA", [
-                "orders",
-                { ordersFull: orders },
-            ]);
+            this.orderStore.getOrders()
         },
     },
 };

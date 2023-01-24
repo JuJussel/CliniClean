@@ -108,6 +108,9 @@
 </template>
 
 <script>
+
+import { useListStore } from "@/stores/list";
+import { mapStores } from 'pinia'
 import chart from "../cc_p_chart.vue";
 
 export default {
@@ -230,6 +233,7 @@ export default {
         },
     },
     computed: {
+        ...mapStores(useListStore),
         chartData() {
             // let selectedCats = this.$store.getters.viewData.selectedVitalCats.filter(
             //     c => c.selectedDisp
@@ -279,7 +283,7 @@ export default {
             return vitals;
         },
         vitalCats() {
-            return this.$store.getters.staticLists.vitalCategories.map((v) => ({
+            return this.listStore.listData.vitalCategories.map((v) => ({
                 ...v,
                 selectedDisp: true,
             }));

@@ -8,7 +8,7 @@ export const useMedicalStore = defineStore({
     },
     state: () => {
         return {
-            loading: true,
+            loading: false,
             patientId: 8,
             medicalData: {}
         }

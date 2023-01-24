@@ -109,6 +109,10 @@
 </template>
 
 <script>
+
+import { useListStore } from '@/stores/list';
+import { mapStores } from 'pinia'
+
 export default {
     emits: ["loading", "done"],
     created() {
@@ -117,7 +121,6 @@ export default {
     data() {
         return {
             users: [],
-            groups: this.$store.getters.staticLists.userGroups,
             selectedUser: null,
             resetPassword: false,
             password: {
@@ -128,7 +131,12 @@ export default {
             errorMessages: [],
         };
     },
-    methods: {
+    computed: {
+        groups() {
+            return this.listStore.listData.userGroups || []
+        }
+    },
+     methods: {
         async getUsers() {
             this.users = await this.$dataService().get.users.all();
         },

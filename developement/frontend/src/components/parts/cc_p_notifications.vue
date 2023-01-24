@@ -1,10 +1,10 @@
 <template>
     <div>
-        <div v-if="this.$store.getters.notifications?.length < 1" class="wrapper">
+        <div v-if="notificationStore.notifications?.length < 1" class="wrapper">
             <img src="/img/empty2.8ccd6968.jpg" style="width: 200px;">
             <b> {{ $lang.noNotifications }} </b>
         </div>
-        <div v-for="(item, index) in this.$store.getters.notifications" :key="index" class="notification-item" @click="handelClick(item)">
+        <div v-for="(item, index) in notificationStore.notifications" :key="index" class="notification-item" @click="handelClick(item)">
             <cui-badge :visible="!item.recepients[0].read">
                 <div v-if="item.content.meta.type === 'examResultsAvailable'" style="display:flex">
                     <div style="width:50px; height:50px; display:flex; align-items:center; justify-content:center">
@@ -29,6 +29,10 @@
 </template>
 
 <script>
+
+import { useNotificationStore } from '@/stores/notification';
+import { mapStores } from 'pinia';
+
 export default {
     created() {
         this.getNotifications();
@@ -41,8 +45,11 @@ export default {
         },
         async getNotifications() {
             let notifications = await this.$dataService().get.notifications();
-            this.$store.commit('SET_NOTIFICATIONS', notifications);
+            this.notificationStore.notifications = notifications
         }
+    },
+    computed: {
+        ...mapStores(useNotificationStore)
     }
 }
 </script>

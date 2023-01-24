@@ -40,6 +40,10 @@
 </template>
 
 <script>
+
+import { useListStore } from '@/stores/list';
+import { mapStores } from 'pinia';
+
 export default {
     props: {
         outline: {
@@ -59,7 +63,7 @@ export default {
     },
     methods: {
         parseType(type) {
-            return this.$store.getters.staticLists.encounterTypes.find(
+            return this.listStore.listData.encounterTypes.find(
                 (item) => item.id === type
             ).name;
         },
@@ -72,11 +76,12 @@ export default {
         },
     },
     computed: {
+        ...mapStores(useListStore),
         patientData() {
             return this.$store.getters.layoutData.medical.patient;
         },
         procedureCategories() {
-            return this.$store.getters.staticLists.procedureCategories.filter(
+            return this.listStore.listData.procedureCategories.filter(
                 (item) => item.orcaCode
             );
         },
