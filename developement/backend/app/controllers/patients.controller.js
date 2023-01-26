@@ -120,19 +120,50 @@ exports.findOrders = (req, res) => {
 
 }
 
-exports.findOne = (req, res) => {
+exports.findOne = async (req, res) => {
   let id = req.params.patientId;
 
-  getOrcaPatientData(id, (err, data) => {
-    if (err) {
-      $logger.error(err);
-      res.status(500).send({
-        message: err,
-      });
-    } else {
-      res.send({ patientData: data });
+  try {
+    let orcaData = await Orca.get.patientAsync(id)
+    orcaData = {
+      id: parseInt(orcaData.Patient_ID),
+      name: orcaData.WholeName,
+      nameKana: orcaData.WholeName_inKana,
+      birthdate: orcaData.BirthDate,
+      gender: parseInt(orcaData.Sex),
+      householderName: orcaData.HouseHolder_WholeName,
+      relation: orcaData.Relationship,
+      occupation: orcaData.Occupation,
+      phone: orcaData.CellularNumber,
+      mail: orcaData.EmailAddress,
+      address: {
+        zip: orcaData.Home_Address_Information?.Address_ZipCode,
+        addr: orcaData.Home_Address_Information?.WholeAddress1,
+      },
+      company: {
+        name: orcaData.WorkPlace_Information?.WholeName,
+        zip: orcaData.WorkPlace_Information?.Address_ZipCode,
+        addr: orcaData.WorkPlace_Information?.WholeAddress1,
+        phone: orcaData.WorkPlace_Information?.PhoneNumber,
+      },
+      insurance: [
+        orcaData.HealthInsurance_Information?.HealthInsurance_Information_child
+      ]
     }
-  })
+
+    let files = await Patient.findById(id, 'files')
+    files = JSON.parse(JSON.stringify(files))
+    orcaData.files = files.files || []
+
+    res.send(orcaData);
+
+  } catch (err) {
+    $logger.error(err);
+    res.status(500).send({ message: "Error getting Patient" });
+  }
+
+
+
 
 };
 

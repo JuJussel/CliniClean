@@ -73,6 +73,28 @@ const validate = function (data, acceptedCodes, key) {
 ////////////////////////////////////////////////////////////////////////////
 //////////////////////// Get Patient Info //////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
+
+get.patientAsync = function (patientId) {
+  return new Promise(function (resolve, reject) {
+
+    route = '/api01rv2/patientgetv2?id=' + patientId;
+    sendRequest(route, "GET")
+      .then((responseData) => {
+        if (validate(responseData, ["00"], "patientinfores")) {
+          responseData = responseData.patientinfores.Patient_Information;
+
+          resolve(responseData)
+        } else {
+          reject(responseData.patientinfores.Api_Result_Message)
+        }
+      })
+      .catch((responseData) => {
+        reject(responseData)
+      });
+
+  })
+}
+
 get.patient = function (data, result) {
   route = '/api01rv2/patientgetv2?id=' + data;
   sendRequest(route, "GET")

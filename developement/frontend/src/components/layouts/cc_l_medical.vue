@@ -23,7 +23,7 @@ import { cc_p_patient_info_medical, cc_p_karte } from "../parts";
 export default {
     async created() {
         const patientData = await this.$api.get('patients/' + this.uiStore.medicalTab.id)
-        this.patientStore.patientData = patientData.patientData
+        this.patientStore.patientData = patientData
     },
     components: {
         cc_p_patient_info_medical,

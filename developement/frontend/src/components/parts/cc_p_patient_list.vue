@@ -92,7 +92,7 @@ export default {
             const patientData = await this.$dataService().get.patient.details(
                 pat.row.id
             );
-            this.patientStore.patientData = patientData.patientData
+            this.patientStore.patientData = patientData
         },
     },
 };

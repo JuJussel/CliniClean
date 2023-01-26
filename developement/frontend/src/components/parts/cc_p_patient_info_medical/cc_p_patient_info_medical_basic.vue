@@ -10,25 +10,25 @@
             >
                 <span> {{ $lang.bloodType }} </span>
                 <cui-tag>
-                    {{ patientData.bloodType || this.$lang.unknown }}
+                    {{ medicalStore.medicalData.bloodType || this.$lang.unknown }}
                 </cui-tag>
             </span>
-            <span
+            <!-- <span
                 style="display: flex; align-items: center; margin-right: 20px"
             >
                 <span> {{ $lang.alcohol }} </span>
                 <cui-tag>
                     {{ patientData.alcohol || this.$lang.unknown }}
                 </cui-tag>
-            </span>
-            <span
+            </span> -->
+            <!-- <span
                 style="display: flex; align-items: center; margin-right: 20px"
             >
                 <span> {{ $lang.tabaco }} </span>
                 <cui-tag>
                     {{ patientData.tabaco || this.$lang.unknown }}
                 </cui-tag>
-            </span>
+            </span> -->
         </div>
         <div class="grid-tables">
             <cui-card noPadding>
@@ -120,7 +120,7 @@
                             />
                         </div>
                     </div>
-                    <cui-input
+                    <!-- <cui-input
                         :label="$lang.alcohol"
                         v-model="modals.basic.data.alcohol"
                         :append="$lang.countCup"
@@ -129,7 +129,7 @@
                         :label="$lang.tabaco"
                         v-model="modals.basic.data.tabaco"
                         :append="$lang.countStick"
-                    />
+                    /> -->
                 </div>
                 <template #footer>
                     <cui-button
@@ -153,6 +153,7 @@
 <script>
 
 import { usePatientStore } from '@/stores/patient'
+import { useMedicalStore } from '@/stores/medical'
 import { mapStores } from 'pinia'
 
 import diseases from './cc_p_patient_info_medical_diseases.vue'
@@ -192,57 +193,32 @@ export default {
         };
     },
     computed: {
-        ...mapStores(usePatientStore),
-        patientData() {
-            return this.$store.getters.layoutData.medical.patient;
-        },
+        ...mapStores(usePatientStore, useMedicalStore),
         basicTable() {
             return [
-                { label: this.$lang.id, value: this.patientData.id },
+                { label: this.$lang.id, value: this.patientStore.patientData.id },
                 {
                     label: this.$lang.age,
                     value: this.$dayjs().diff(
-                        this.patientData.birthdate,
+                        this.patientStore.patientData.birthdate,
                         "year"
                     ),
                 },
                 {
                     label: this.$lang.gender,
                     value:
-                        this.patientData.gender == 1
+                        this.patientStore.patientData.gender == 1
                             ? this.$lang.male
                             : this.$lang.female,
                 },
             ];
-        },
-        medicalTable() {
-            return [
-                {
-                    label: this.$lang.bloodType,
-                    value: this.patientData.bloodType || this.$lang.unknown,
-                },
-                {
-                    label: this.$lang.alcohol,
-                    value: this.patientData.alcohol || this.$lang.unknown,
-                },
-                {
-                    label: this.$lang.tabaco,
-                    value: this.patientData.tabaco || this.$lang.unknown,
-                },
-            ];
-        },
+        }
     },
     methods: {
         showBasicModal() {
             this.modals.basic.data = {
                 bloodType: JSON.parse(
-                    JSON.stringify(this.patientData.bloodType || "不明")
-                ),
-                alcohol: JSON.parse(
-                    JSON.stringify(this.patientData.alcohol || "")
-                ),
-                tabaco: JSON.parse(
-                    JSON.stringify(this.patientData.tabaco || "")
+                    JSON.stringify(this.patientStore.patientData.bloodType || "不明")
                 ),
             };
             this.modals.basic.visible = true;
