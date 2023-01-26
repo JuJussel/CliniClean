@@ -191,62 +191,65 @@ get.insuranceProvider = function (data, result) {
 ////////////////////////////////////////////////////////////////////////////
 //////////////////////// Get Patient Diseases //////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
-get.diseases = function (data, result) {
 
-  const requestData = {
-    data: {
-      disease_inforeq: {
-        $: { type: "record" },
-        Patient_ID: { $: { type: "string" }, _: data },
-        Base_Date: { $: { type: "string" } },
-      }
-    }
-  };
+get.diseases = function (data) {
+  return new Promise(function (resolve, reject) {
 
-  const route = "/orca101/diseasegetv2?class=01";
-
-  sendRequest(route, "POST", requestData)
-    .then((responseData) => {
-      if (validate(responseData, ['00', '21'], "disease_infores")) {
-        responseData = responseData.disease_infores;
-        if (responseData.Api_Result === '21') {
-          responseData = [];
-        } else {
-          responseData = responseData.Disease_Information.Disease_Information_child;
-          if (responseData.Department_Code) {
-            responseData = [responseData];
-          }
+    const requestData = {
+      data: {
+        disease_inforeq: {
+          $: { type: "record" },
+          Patient_ID: { $: { type: "string" }, _: data },
+          Base_Date: { $: { type: "string" } },
         }
+      }
+    };
 
-        responseData = responseData.map(item => {
+    const route = "/orca101/diseasegetv2?class=01";
 
-          item = {
-            disease: {
-              code: item.Disease_Single.Disease_Single_child.Disease_Single_Code,
-              name: item.Disease_Single.Disease_Single_child.Disease_Single_Name
-            },
-            showOnRezept: item.Disease_Receipt_Print === "1" ? false : true,
-            primaryDisease: item.Disease_Category === "PD" ? true : false,
-            suspectOrAcuteFlag: item.Disease_SuspectedFlag,
-            supplementNote: item.Disease_Supplement_Name,
-            outcome: item.Disease_OutCome,
-            endDate: item.Disease_EndDate || null,
-            startDate: item.Disease_StartDate || null,
-            insurance: item.Insurance_Combination_Number || "0001"
+    sendRequest(route, "POST", requestData)
+      .then((responseData) => {
+        if (validate(responseData, ['00', '21'], "disease_infores")) {
+          responseData = responseData.disease_infores;
+          if (responseData.Api_Result === '21') {
+            responseData = [];
+          } else {
+            responseData = responseData.Disease_Information.Disease_Information_child;
+            if (responseData.Department_Code) {
+              responseData = [responseData];
+            }
           }
 
-          return item;
-        })
-        result(null, responseData);
-      } else {
-        result(responseData.disease_infores.Api_Result_Message, null);
-      }
-      return;
-    })
-    .catch((responseData) => {
-      result(responseData, null);
-      return;
-    });
+          responseData = responseData.map(item => {
+
+            item = {
+              disease: {
+                code: item.Disease_Single.Disease_Single_child.Disease_Single_Code,
+                name: item.Disease_Single.Disease_Single_child.Disease_Single_Name
+              },
+              showOnRezept: item.Disease_Receipt_Print === "1" ? false : true,
+              primaryDisease: item.Disease_Category === "PD" ? true : false,
+              suspectOrAcuteFlag: item.Disease_SuspectedFlag,
+              supplementNote: item.Disease_Supplement_Name,
+              outcome: item.Disease_OutCome,
+              endDate: item.Disease_EndDate || null,
+              startDate: item.Disease_StartDate || null,
+              insurance: item.Insurance_Combination_Number || "0001"
+            }
+
+            return item;
+          })
+          resolve(responseData)
+        } else {
+          reject(responseData.disease_infores.Api_Result_Message)
+        }
+        resolve(responseData)
+      })
+      .catch((responseData) => {
+        reject(responseData);
+      });
+
+  });
 }
 
 ////////////////////////////////////////////////////////////////////////////

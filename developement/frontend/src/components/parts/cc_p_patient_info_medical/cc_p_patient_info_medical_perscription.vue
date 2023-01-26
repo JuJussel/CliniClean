@@ -38,12 +38,12 @@
                         <span v-if="getEndDate(row)">{{ $parseDate(getEndDate(row)) }}</span>
                         <cui-button v-else label="終了" @click="updateEndDate(row)">  </cui-button>
                     </td>
-                    <td>{{ row.varData.type.name }}</td>
-                    <td>{{ row.name }}</td>
+                    <td>{{ row.varData?.type.name || "" }}</td>
+                    <td>{{ row.name || "" }}</td>
                     <td>
-                        {{ row.varData.timing.name }}
-                        {{ row.varData.amount + row.taniname }}
-                        {{ row.varData.duration + row.varData.timing.unit }}
+                        {{ row.varData?.timing.name || "" }}
+                        {{ row.varData?.amount || "" + row.taniname || "" }}
+                        {{ row.varData?.duration || "" + row.varData?.timing.unit || "" }}
                     </td>
                 </template>
             </cui-table>
@@ -52,6 +52,9 @@
 </template>
 
 <script>
+
+import { useMedicalStore } from '@/stores/medical';
+import { mapStores } from 'pinia';
 
 export default {
     props: {
@@ -74,6 +77,7 @@ export default {
         }
     },
     computed: {
+        ...mapStores(useMedicalStore),
         activeMeds() {
             return this.persc.filter((item) => {
                 let endDate = this.getEndDate(item)
@@ -81,12 +85,9 @@ export default {
                 return this.$dayjs().isBefore(endDate)
             })
         }, 
-        patientData() {
-            return this.$store.getters.layoutData.medical.patient;
-        },
         persc() {
             let perscriptions = [];
-            this.patientData.encounters.forEach((enc) => {
+            this.medicalStore.medicalData.encounters.forEach((enc) => {
                 let procedures = enc.karte?.procedures || null;
                 if (!procedures) return;
                 procedures = procedures.filter((proc) => proc.cat?.code === 25);

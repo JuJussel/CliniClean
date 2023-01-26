@@ -2,7 +2,7 @@
     <div style="height: 100%">
         <cui-card noPadding style="max-height: 100%">
             <cui-table
-                :data="patientData.encounters"
+                :data="medicalStore.medicalData.encounters || []"
                 style="max-height: calc(100% - 2px)"
                 outline
             >
@@ -42,6 +42,7 @@
 <script>
 
 import { useListStore } from '@/stores/list';
+import { useMedicalStore } from '@/stores/medical';
 import { mapStores } from 'pinia';
 
 export default {
@@ -76,10 +77,7 @@ export default {
         },
     },
     computed: {
-        ...mapStores(useListStore),
-        patientData() {
-            return this.$store.getters.layoutData.medical.patient;
-        },
+        ...mapStores(useListStore, useMedicalStore),
         procedureCategories() {
             return this.listStore.listData.procedureCategories.filter(
                 (item) => item.orcaCode

@@ -48,8 +48,8 @@ export default {
 
             // NEW NEW NEW
 
-            const medicalData = await this.$api.get('/patients/' + this.patientId + '/medical')
-            this.medicalStore.medicalData = medicalData.data
+            const medicalData = await this.$api.get('patients/' + this.patientId + '/medical')
+            this.medicalStore.medicalData = medicalData.medicalData
 
             // NEW END END
             // REMOVE BELOW

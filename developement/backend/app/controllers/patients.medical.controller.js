@@ -1,5 +1,7 @@
 const Patient = require("../models/patient.model.js");
 const Vital = require("../models/vital.model.js");
+const Encounter = require("../models/encounter.model.js");
+const Order = require("../models/order.model.js");
 const Orca = require("../utils/orcaApi.util");
 
 // OLD OLD OLD OLD
@@ -96,7 +98,7 @@ exports.add = (req, res) => {
   res.send({ ok: true })
 }
 
-exports.get = (req, res) => {
+exports.get = async (req, res) => {
 
   // Get request data
   let patientId = req.params.patientId;
@@ -104,25 +106,50 @@ exports.get = (req, res) => {
   // Get query
   let type = req.query.type || null
 
+  //NEED TO CATCH SPECIAL CASES FOR ORCA DATA!!!!!!
+  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  // Diseases
+  if (type === "diseases") {
+
+
+
+
+    medicalData = "diseases"
+    res.send({ ok: true, medicalData, type })
+    return
+  }
+
   // Build documents path
   let path = type ? [`medical.${type}`] : 'medical'
+
   // If no query get full data
-
   // If query get partial data
-  Patient.findOne(
-    { _id: patientId },
-    [path],
-    (err, data) => {
-      if (err) {
-        $logger.error(err);
-        res.status(500).send({ message: "Error creating Item" });
-        return
-      }
-      data = type ? data.toObject().medical?.[type] : data.toObject().medical
-      res.send({ ok: true, data, type })
-    })
+  try {
 
-  // Send final response
+    let medicalData = await Patient.findOne({ _id: patientId }, [path])
+    medicalData = type ? medicalData.toObject().medical?.[type] : medicalData.toObject().medical
+
+
+    if (path === "medical") {
+      medicalData.encounters = await Encounter.find({ patient: patientId }) || [];
+      medicalData.orders = await Order.find({ patientId: patientId }).sort({ date: -1 }) || [];
+      medicalData.diseases = await Orca.get.diseases(patientId)
+    }
+
+
+
+    // Send final response
+    res.send({ ok: true, medicalData, type })
+
+
+
+  } catch (err) {
+    $logger.error(err);
+    res.status(500).send({ message: "Error getting Patient" });
+  }
+
+
+
 
 
 }

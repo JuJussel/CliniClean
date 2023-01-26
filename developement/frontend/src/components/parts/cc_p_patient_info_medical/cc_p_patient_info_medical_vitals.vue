@@ -27,7 +27,7 @@
                         />
                     </cui-th>
                     <cui-th
-                        v-for="(item, index) in patientData.vitals"
+                        v-for="(item, index) in vitalData"
                         :key="index"
                         style="min-width: 100px; font-size: 12px"
                     >
@@ -52,7 +52,7 @@
                         </span>
                     </td>
                     <td
-                        v-for="(item, index) in patientData.vitals"
+                        v-for="(item, index) in vitalData"
                         :key="index"
                         style="border-right: solid 1px var(--cui-gray-2)"
                     >
@@ -111,6 +111,7 @@
 
 import { useListStore } from "@/stores/list";
 import { useEncounterStore } from "@/stores/encounter";
+import { useMedicalStore } from "@/stores/medical";
 import { mapStores } from 'pinia'
 import chart from "../cc_p_chart.vue";
 
@@ -214,13 +215,13 @@ export default {
                 (item) => item.value !== ""
             );
             const sendData = {
-                patientId: this.patientData.id,
+                patientId: this.medicalStore.patientId,
                 values: vitals,
             };
             await this.$dataService().post.medical.vitals(sendData);
             let patientHistory =
                 await this.$dataService().get.patient.medicalHistory(
-                    this.patientData.id
+                    this.medicalStore.patientId
                 );
             this.$store.commit("SET_LAYOUT_DATA", [
                 "medical",
@@ -234,14 +235,16 @@ export default {
         },
     },
     computed: {
-        ...mapStores(useListStore, useEncounterStore),
+        ...mapStores(useListStore, useEncounterStore, useMedicalStore),
+        vitalData() {
+            return this.medicalStore.medicalData.vitals || []
+        },
         chartData() {
             // let selectedCats = this.$store.getters.viewData.selectedVitalCats.filter(
             //     c => c.selectedDisp
             // );
-            let patientData = this.$store.getters.layoutData.medical.patient;
             let vitals = { series: [], axis: [] };
-            patientData.vitals.forEach((item) => {
+            this.vitalData.forEach((item) => {
                 let date = this.$dayjs(item.date).format("YYYY-MM-DD");
                 let index = vitals.axis.indexOf(date);
                 if (index === -1) {
@@ -254,7 +257,7 @@ export default {
                 () => null
             );
 
-            patientData.vitals.forEach((item) => {
+            this.vitalData.forEach((item) => {
                 let date = this.$dayjs(item.date).format("YYYY-MM-DD");
                 item.values.forEach((vital) => {
                     // let catDisp = selectedCats.find(
@@ -288,9 +291,6 @@ export default {
                 ...v,
                 selectedDisp: true,
             }));
-        },
-        patientData() {
-            return this.$store.getters.layoutData.medical.patient;
         },
         inputPresent() {
             if (!this.modals.vitalRegister.data) return false;

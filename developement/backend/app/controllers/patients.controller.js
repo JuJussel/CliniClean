@@ -189,40 +189,41 @@ exports.findMedicalHistory = async (req, res) => {
     patientData.encounters = await Encounter.find({ patient: id }) || [];
     patientData.vitals = await Vital.find({ patientId: id }).sort({ date: -1 }) || [];
     patientData.orders = await Order.find({ patientId: id }).sort({ date: -1 }) || [];
+    res.send(patientData);
 
-    getOrcaPatientData(id, (err, data) => {
-      if (err) {
-        $logger.error(err);
-        res.status(500).send({
-          message: err,
-        });
-      } else {
-        patientData = Object.assign(data, patientData);
+    // getOrcaPatientData(id, (err, data) => {
+    //   if (err) {
+    //     $logger.error(err);
+    //     res.status(500).send({
+    //       message: err,
+    //     });
+    //   } else {
+    //     patientData = Object.assign(data, patientData);
 
-        // Welcome to callback hell ... this should really be done with await...
-        Orca.get.diseases(req.params.patientId, (err, diseases) => {
+    //     // Welcome to callback hell ... this should really be done with await...
+    //     Orca.get.diseases(req.params.patientId, (err, diseases) => {
 
-          if (err) {
-            res.status(500).send({
-              message: err,
-            });
-          } else {
-            // if (diseases.Api_Result === '21') {
-            //   patientData.diseases = [];
-            // } else {
-            //   diseases = diseases.Disease_Information.Disease_Information_child;
-            //   if (diseases.Department_Code) {
-            //     diseases = [diseases];
-            //   }
-            //   patientData.diseases = diseases;
-            // }
-            patientData.diseases = diseases
-            res.send(patientData);
-          }
-        });
+    //       if (err) {
+    //         res.status(500).send({
+    //           message: err,
+    //         });
+    //       } else {
+    //         // if (diseases.Api_Result === '21') {
+    //         //   patientData.diseases = [];
+    //         // } else {
+    //         //   diseases = diseases.Disease_Information.Disease_Information_child;
+    //         //   if (diseases.Department_Code) {
+    //         //     diseases = [diseases];
+    //         //   }
+    //         //   patientData.diseases = diseases;
+    //         // }
+    //         patientData.diseases = diseases
+    //         res.send(patientData);
+    //       }
+    //     });
 
-      }
-    })
+    //   }
+    // })
 
   } catch (err) {
     $logger.error(err);

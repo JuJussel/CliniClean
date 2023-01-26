@@ -47,6 +47,10 @@
 </template>
 
 <script>
+
+import { useMedicalStore } from "@/stores/medical";
+import { mapStores } from "pinia";
+
 import chart from "../cc_p_chart.vue";
 
 export default {
@@ -147,6 +151,7 @@ export default {
         };
     },
     computed: {
+        ...mapStores(useMedicalStore),
         chartData() {
             let chartData = {
                 axis: [],
@@ -201,12 +206,9 @@ export default {
 
             return chartData;
         },
-        patientData() {
-            return this.$store.getters.layoutData.medical.patient;
-        },
         exams() {
             let examResults = [];
-            this.patientData.encounters.forEach((enc) => {
+            this.medicalStore.medicalData.encounters.forEach((enc) => {
                 let procedures = enc.karte?.procedures || null;
                 if (!procedures) return;
                 let exams = procedures.filter(

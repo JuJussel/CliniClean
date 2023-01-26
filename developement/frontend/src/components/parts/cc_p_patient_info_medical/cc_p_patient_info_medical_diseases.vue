@@ -9,7 +9,7 @@
                     icon="fas fa-plus"
                     :label="$lang.register"
                     @click="openDiseaseEditor(null)"
-                    v-if="$store.getters.layoutData.medical?.encounter"
+                    v-if="encounterStore.encounterData"
                 />
             </template>
             <template #thead>
@@ -35,9 +35,7 @@
                         icon="fas fa-edit"
                         plain
                         @click="openDiseaseEditor(row)"
-                        v-if="
-                            $store.getters.layoutData.medical?.encounter
-                        "
+                        v-if="encounterStore.encounterData"
                     ></cui-button>
                 </td>
             </template>
@@ -57,7 +55,7 @@
                             icon="fas fa-plus"
                             :label="$lang.register"
                             @click="openDiseaseEditor(null)"
-                            v-if="$store.getters.layoutData.medical?.encounter"
+                            v-if="encounterStore.encounterData"
                         />
                     </template>
                     <template #thead>
@@ -87,9 +85,7 @@
                                 icon="fas fa-edit"
                                 plain
                                 @click="openDiseaseEditor(row)"
-                                v-if="
-                                    $store.getters.layoutData.medical?.encounter
-                                "
+                                v-if="encounterStore.encounterData"
                             ></cui-button>
                         </td>
                     </template>
@@ -152,7 +148,8 @@
 <script>
 
 import { useListStore } from "@/stores/list"
-import { usePatientStore } from "@/stores/patient"
+import { useEncounterStore } from "@/stores/encounter"
+import { useMedicalStore } from "@/stores/medical"
 import { mapStores } from "pinia";
 import diseaseEditor from "../cc_p_disease_edit.vue";
 
@@ -210,10 +207,9 @@ export default {
             });
             let patientHistory =
                 await this.$dataService().get.patient.medicalHistory(
-                    this.patientData.id
+                    this.encounterStore.encounter.patient.id
                 );
 
-            this.usePatientStore.patientData = patientHistory
             this.$store.commit("SET_LAYOUT_DATA", [
                 "medical",
                 { patient: patientHistory },
@@ -221,18 +217,15 @@ export default {
         },
     },
     computed: {
-        ...mapStores(useListStore, usePatientStore),
-        patientData() {
-            return this.$store.getters.layoutData.medical.patient;
-        },
+        ...mapStores(useListStore, useEncounterStore, useMedicalStore),
         diseases() {
             return {
                 active:
-                    this.patientData.diseases?.filter(
+                    this.medicalStore.medicalData?.diseases?.filter(
                         (item) => !item.endDate
                     ) || [],
                 closed:
-                    this.patientData.diseases?.filter((item) => item.endDate) ||
+                    this.medicalStore.medicalData?.diseases?.filter((item) => item.endDate) ||
                     [],
             };
         },

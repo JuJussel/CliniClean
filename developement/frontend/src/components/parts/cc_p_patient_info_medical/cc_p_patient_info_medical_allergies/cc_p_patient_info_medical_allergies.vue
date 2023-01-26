@@ -1,13 +1,13 @@
 <template>
     <div>
-        <cui-table :data="medicalStore.medicalData.allergies" style="max-height: 245px" >
+        <cui-table :data="medicalStore.medicalData?.allergies || []" style="max-height: 245px" >
             <template #header>
                 <h2>{{ $lang.allergy }} {{ $lang.valid }}</h2>
                 <cui-button
                     icon="fas fa-plus"
                     :label="$lang.register"
                     @click="openEditor"
-                    v-if="$store.getters.layoutData.medical?.encounter"
+                    v-if="encounterStore.encounterData"
                 />
             </template>
             <template v-slot:row="{ row }">
@@ -43,6 +43,7 @@
 
 import allegryEditor from './cc_p_patient_info_medical_allergy_edit.vue'
 import { useMedicalStore } from '@/stores/medical'
+import { useEncounterStore } from '@/stores/encounter'
 import { mapStores } from 'pinia'
 
 export default {
@@ -56,7 +57,7 @@ export default {
         }
     },
     computed: {
-        ...mapStores(useMedicalStore),
+        ...mapStores(useMedicalStore, useEncounterStore),
     },
     methods: {
         openEditor(data = null) {

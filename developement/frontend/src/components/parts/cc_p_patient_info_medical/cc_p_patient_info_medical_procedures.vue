@@ -28,14 +28,16 @@
 </template>
 
 <script>
+
+import { useMedicalStore } from '@/stores/medical';
+import { mapStores } from 'pinia';
+
 export default {
     computed: {
-        patientData() {
-            return this.$store.getters.layoutData.medical.patient;
-        },
+        ...mapStores(useMedicalStore),
         procedures() {
             let proceduresList = [];
-            this.patientData.encounters.forEach((enc) => {
+            this.medicalStore.medicalData.encounters.forEach((enc) => {
                 let procedures = enc.karte?.procedures || null;
                 if (!procedures) return;
                 procedures = procedures.filter((proc) => proc.cat?.code !== 25);

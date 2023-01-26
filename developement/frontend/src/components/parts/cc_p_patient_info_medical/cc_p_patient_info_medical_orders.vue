@@ -24,6 +24,10 @@
 </template>
 
 <script>
+
+import { useMedicalStore } from '@/stores/medical'
+import { mapStores } from 'pinia'
+
 export default {
     props: {
         pendingOnly: {
@@ -37,8 +41,9 @@ export default {
         }
     },
     computed: {
+        ...mapStores(useMedicalStore),
         pendingOrders() {
-            let orders = this.$store.getters.layoutData.medical.patient.orders || []
+            let orders = this.medicalStore.medicalData.orders || []
             return orders.filter(order => order.status !== 0)
         }
     }
