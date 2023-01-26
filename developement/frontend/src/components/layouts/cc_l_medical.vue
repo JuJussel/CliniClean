@@ -5,7 +5,7 @@
         </cui-card>
         <div class="resizer" @mousedown.stop="resizeHandler" />
         <cui-card :loading="loading" no-padding style="overflow: hidden">
-            <cc_p_karte v-if="$store.getters.layoutData.medical.encounter" />
+            <cc_p_karte v-if="encounterStore.encounterData" />
             <div v-else style="padding: 10px">{{ $lang.noKarteSelected }}</div>
         </cui-card>
     </div>
@@ -16,6 +16,7 @@
 import { useMedicalStore } from "@/stores/medical";
 import { usePatientStore } from "@/stores/patient";
 import { useUiStore } from "@/stores/ui";
+import { useEncounterStore } from "@/stores/encounter";
 import { mapStores } from "pinia";
 import { cc_p_patient_info_medical, cc_p_karte } from "../parts";
 
@@ -44,6 +45,15 @@ export default {
     methods: {
         async getData() {
             this.loading = true;
+
+            // NEW NEW NEW
+
+            const medicalData = await this.$api.get('/patients/' + this.patientId + '/medical')
+            this.medicalStore.medicalData = medicalData.data
+
+            // NEW END END
+            // REMOVE BELOW
+
             let patientHistory =
                 await this.$dataService().get.patient.medicalHistory(
                     this.patientId
@@ -81,7 +91,7 @@ export default {
         },
     },
     computed: {
-        ...mapStores(useMedicalStore, usePatientStore, useUiStore),
+        ...mapStores(useMedicalStore, usePatientStore, useUiStore, useEncounterStore),
         finalWidth() {
             return (
                 (this.resizeData.widthInteger || this.resizeData.startWidth) +

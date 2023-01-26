@@ -82,6 +82,7 @@
 <script>
 
 import { useListStore } from '@/stores/list'
+import { useEncounterStore } from '@/stores/encounter'
 import { mapStores } from 'pinia';
 
 export default {
@@ -137,10 +138,10 @@ export default {
         async submit() {
             this.$emit("submitting");
             this.loading.submit = true;
-            this.editData.patientId = this.patientData.id;
-            this.editData.department = this.encounterData.department;
+            this.editData.patientId = this.encounterStore.encounterData.patient.id;
+            this.editData.department = this.encounterStore.encounterData.department;
             if (!this.editData.insurance)
-                this.editData.insurance = this.encounterData.ins;
+                this.editData.insurance = this.encounterStore.encounterData.ins;
             if (this.editData.outcome === "" || !this.editData.outcome)
                 this.editData.endDate = "";
             try {
@@ -158,13 +159,7 @@ export default {
         },
     },
     computed: {
-        ...mapStores(useListStore),
-        patientData() {
-            return this.$store.getters.layoutData.medical.patient; //get from encounter store
-        },
-        encounterData() {
-            return this.$store.getters.layoutData.medical.encounter; //get from encounter store
-        },
+        ...mapStores(useListStore, useEncounterStore),
     },
 };
 </script>

@@ -160,14 +160,6 @@ export default {
             this.uiStore.activeTab = "medical"
             this.uiStore.medicalTab = encounter.patient
             
-            this.$store.commit("SET_LAYOUT_DATA", [
-                "medical",
-                {
-                    patient: encounter.patient,
-                    encounter: encounter,
-                    show: true,
-                },
-            ]);
         },
         async getDoctors() {
             this.layoutData.doctors =

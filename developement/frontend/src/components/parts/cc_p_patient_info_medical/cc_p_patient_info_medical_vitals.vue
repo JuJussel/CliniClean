@@ -11,7 +11,7 @@
                     <cui-button
                         icon="fas fa-plus"
                         :label="$lang.register"
-                        v-if="$store.getters.layoutData.medical.encounter"
+                        v-if="encounterStore.encounterData"
                         @click="openVitalRegister"
                     />
                 </template>
@@ -110,6 +110,7 @@
 <script>
 
 import { useListStore } from "@/stores/list";
+import { useEncounterStore } from "@/stores/encounter";
 import { mapStores } from 'pinia'
 import chart from "../cc_p_chart.vue";
 
@@ -233,7 +234,7 @@ export default {
         },
     },
     computed: {
-        ...mapStores(useListStore),
+        ...mapStores(useListStore, useEncounterStore),
         chartData() {
             // let selectedCats = this.$store.getters.viewData.selectedVitalCats.filter(
             //     c => c.selectedDisp

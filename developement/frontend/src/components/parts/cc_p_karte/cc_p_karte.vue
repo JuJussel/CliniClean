@@ -364,9 +364,9 @@ export default {
         },
     },
     async mounted() {
-        if (this.$store.getters.layoutData.medical.encounter?.id) {
+        if (this.encounterStore.encounterData?.id) {
             let encounterId =
-                this.$store.getters.layoutData.medical.encounter?.id;
+                this.encounterStore.encounterData?.id;
             this.encounter = await this.$dataService().get.encounters.findOne(
                 encounterId
             );
@@ -475,11 +475,6 @@ export default {
                     await this.$dataService().put.encounters(encounter);
 
                     this.encounterStore.encounterData = encounter
-
-                    this.$store.commit("SET_LAYOUT_DATA", [
-                        "medical",
-                        { encounter: encounter },
-                    ]);
 
                     this.saving = false;
                     this.saved = true;

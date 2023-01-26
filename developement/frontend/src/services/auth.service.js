@@ -13,6 +13,7 @@ const auth = function () {
 
       http.delete('auth/logout')
       localStorage.clear()
+      sessionStorage.clear()
       instance.$store.commit('CLEAR_STORE')
     }
   }
