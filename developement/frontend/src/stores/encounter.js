@@ -8,6 +8,7 @@ export const useEncounterStore = defineStore({
     state: () => {
         return {
             loading: false,
+            patientId: null,
             encounterData: "dashboard"
         }
     }

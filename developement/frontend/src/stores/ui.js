@@ -9,6 +9,7 @@ export const useUiStore = defineStore({
         return {
             loading: false,
             activeTab: "dashboard",
+            medicalTab: null,
             modals: {
                 receptionModalRegister: false,
                 receptionModalReservation: false,

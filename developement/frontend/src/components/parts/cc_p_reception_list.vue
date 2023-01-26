@@ -158,6 +158,7 @@ export default {
             this.patientStore.patientData = encounter.patient
             this.encounterStore.encounterData = encounter
             this.uiStore.activeTab = "medical"
+            this.uiStore.medicalTab = encounter.patient
             
             this.$store.commit("SET_LAYOUT_DATA", [
                 "medical",

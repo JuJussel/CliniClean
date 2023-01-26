@@ -9,16 +9,7 @@ export const useListStore = defineStore({
     state: () => {
         return {
             loading: false,
-            listsDataRaw: null
-        }
-    },
-    getters: {
-        listData() {
-            if (this.listDataRaW) {
-                return this.listsDataRaw
-            }
-            this.getData()
-            return this.listsDataRaw
+            listData: null
         }
     },
     actions: {
@@ -26,7 +17,7 @@ export const useListStore = defineStore({
             this.loading = true
             try {
                 let dbData = await apiService.get('lists/static');
-                this.listsDataRaw = dbData
+                this.listData = dbData
                 this.loading = false;
             } catch (err) {
                 console.log(err);

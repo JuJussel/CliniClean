@@ -14,10 +14,16 @@
 <script>
 
 import { useMedicalStore } from "@/stores/medical";
+import { usePatientStore } from "@/stores/patient";
+import { useUiStore } from "@/stores/ui";
 import { mapStores } from "pinia";
 import { cc_p_patient_info_medical, cc_p_karte } from "../parts";
 
 export default {
+    async created() {
+        const patientData = await this.$api.get('patients/' + this.uiStore.medicalTab.id)
+        this.patientStore.patientData = patientData.patientData
+    },
     components: {
         cc_p_patient_info_medical,
         cc_p_karte,
@@ -75,7 +81,7 @@ export default {
         },
     },
     computed: {
-        ...mapStores(useMedicalStore),
+        ...mapStores(useMedicalStore, usePatientStore, useUiStore),
         finalWidth() {
             return (
                 (this.resizeData.widthInteger || this.resizeData.startWidth) +
@@ -83,7 +89,7 @@ export default {
             );
         },
         patientId() {
-            return this.$store.getters.layoutData?.medical?.patient?.id;
+            return this.medicalStore.patientId;
         },
     },
 };

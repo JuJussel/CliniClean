@@ -28,12 +28,12 @@
                     :label="
                         $lang.karte +
                         ' - ' +
-                        $store.getters.layoutData.medical?.patient?.name
+                        uiStore.medicalTab?.name
                     "
                     value="medical"
                     v-if="
                         $aclService(1, 'medical') &&
-                        $store.getters.layoutData.medical?.show
+                        uiStore.medicalTab
                     "
                 />
             </template>
@@ -119,7 +119,7 @@ export default {
         settings,
     },
     async created() {
-        this.listStore.getData
+        await this.listStore.getData()
         this.ready = true;
         this.$connect();
         this.$options.sockets.onmessage = (data) => {

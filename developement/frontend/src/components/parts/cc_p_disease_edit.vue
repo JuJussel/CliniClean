@@ -160,10 +160,10 @@ export default {
     computed: {
         ...mapStores(useListStore),
         patientData() {
-            return this.$store.getters.layoutData.medical.patient;
+            return this.$store.getters.layoutData.medical.patient; //get from encounter store
         },
         encounterData() {
-            return this.$store.getters.layoutData.medical.encounter;
+            return this.$store.getters.layoutData.medical.encounter; //get from encounter store
         },
     },
 };
