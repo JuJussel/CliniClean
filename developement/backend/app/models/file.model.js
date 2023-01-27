@@ -9,7 +9,10 @@ const FileSchema = new Schema(
         meta: {},
         date: { type: Date, default: Date.now() },
     },
-    { toJSON: { virtuals: true } }
+    {
+        strict: false,
+        toJSON: { virtuals: true }
+    }
 );
 
 module.exports = mongoose.model("pub_files", FileSchema);

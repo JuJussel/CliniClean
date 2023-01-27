@@ -509,8 +509,8 @@ export default {
                 let sendData = {
                     file: file,
                     meta: {
+                        patientId: Number(this.encounter.patient.id),
                         source: target,
-                        patient: this.encounter.patient.id,
                         encounter: this.encounter.id,
                     },
                 };
