@@ -99,6 +99,7 @@ import { useUserStore } from '@/stores/user'
 import { useListStore } from '@/stores/list'
 import { useNotificationStore } from '@/stores/notification'
 import { useUiStore } from '@/stores/ui'
+import { useSettingStore } from '@/stores/setting'
 import { mapStores } from 'pinia'
 
 import reception from "../components/layouts/cc_l_reception";
@@ -120,6 +121,7 @@ export default {
     },
     async created() {
         await this.listStore.getData()
+        await this.settingStore.getData()
         this.ready = true;
         this.$connect();
         this.$options.sockets.onmessage = (data) => {
@@ -144,7 +146,7 @@ export default {
         },
     },
     computed: {
-        ... mapStores(useUserStore, useListStore, useNotificationStore, useUiStore),
+        ... mapStores(useUserStore, useListStore, useNotificationStore, useUiStore, useSettingStore),
         avatarUrl() {
             return (
                 this.$GLOBALS.filesUrl +

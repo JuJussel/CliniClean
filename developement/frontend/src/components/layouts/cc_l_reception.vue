@@ -124,7 +124,7 @@ export default {
         // Payment,
     },
     created() {
-        this.patientStore.patientData = null
+        this.patientStore.$reset()
     },
     data() {
         return {
@@ -146,7 +146,7 @@ export default {
     computed: {
         ...mapStores(usePatientStore, useUiStore),
         hasActivePatient() {
-            return this.patientStore.patientData;
+            return this.patientStore.patientId;
         },
     },
     methods: {

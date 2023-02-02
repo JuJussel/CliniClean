@@ -155,6 +155,7 @@ export default {
     },
     methods: {
         async showKarte(encounter) {
+            this.patientStore.patientId = encounter.patient.id
             this.patientStore.patientData = encounter.patient
             this.encounterStore.encounterData = encounter
             this.uiStore.activeTab = "medical"

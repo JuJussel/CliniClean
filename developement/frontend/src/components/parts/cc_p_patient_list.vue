@@ -87,12 +87,7 @@ export default {
         },
         async selectPatient(pat) {
             this.$emit("selected", pat.row);
-            this.patientStore.getFullData(pat.row.id)
-            this.patientStore.loading = true
-            const patientData = await this.$dataService().get.patient.details(
-                pat.row.id
-            );
-            this.patientStore.patientData = patientData
+            this.patientStore.patientId = pat.row.id
         },
     },
 };

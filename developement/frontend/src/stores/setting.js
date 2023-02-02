@@ -9,15 +9,7 @@ export const useSettingStore = defineStore({
     state: () => {
         return {
             loading: false,
-            settingDataRaW: null
-        }
-    },
-    getters: {
-        settingData() {
-            if (this.settingDataRaW) {
-                return this.settingDataRaW
-            }
-            this.getData()
+            settingData: null
         }
     },
     actions: {
@@ -25,7 +17,7 @@ export const useSettingStore = defineStore({
             this.loading = true
             try {
                 let dbData = await apiService.get('settings/public');
-                this.settingDataRaW = dbData
+                this.settingData = dbData
                 this.loading = false;
             } catch (err) {
                 console.log(err);

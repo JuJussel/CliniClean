@@ -52,16 +52,6 @@ export default {
             this.medicalStore.medicalData = medicalData.medicalData
 
             // NEW END END
-            // REMOVE BELOW
-
-            let patientHistory =
-                await this.$dataService().get.patient.medicalHistory(
-                    this.patientId
-                );
-            this.$store.commit("SET_LAYOUT_DATA", [
-                "medical",
-                { patient: patientHistory },
-            ]);
             this.loading = false;
         },
         resizeHandler(mousedown) {
@@ -99,7 +89,7 @@ export default {
             );
         },
         patientId() {
-            return this.medicalStore.patientId;
+            return this.patientStore.patientId;
         },
     },
 };

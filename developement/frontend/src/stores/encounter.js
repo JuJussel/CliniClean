@@ -8,7 +8,7 @@ export const useEncounterStore = defineStore({
     state: () => {
         return {
             loading: false,
-            encounterData: "dashboard"
+            encounterData: null
         }
     }
 })

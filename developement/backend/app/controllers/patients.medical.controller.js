@@ -111,9 +111,6 @@ exports.get = async (req, res) => {
   // Diseases
   if (type === "diseases") {
 
-
-
-
     medicalData = "diseases"
     res.send({ ok: true, medicalData, type })
     return
@@ -129,6 +126,7 @@ exports.get = async (req, res) => {
     let medicalData = await Patient.findOne({ _id: patientId }, [path])
     medicalData = type ? medicalData.toObject().medical?.[type] : medicalData.toObject().medical
 
+    if (!medicalData) medicalData = {}
 
     if (path === "medical") {
       medicalData.encounters = await Encounter.find({ patient: patientId }) || [];

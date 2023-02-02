@@ -9,17 +9,13 @@ export const useMedicalStore = defineStore({
     state: () => {
         return {
             loading: false,
-            patientId: 8,
+            patientId: null,
             medicalData: {}
         }
     },
     actions: {
         async getFullData() {
             this.loading = true;
-            if (!patientId) {
-                console.log("Error");
-                return
-            }
             try {
                 let dbData = await apiService.get('patients/' + this.patientId + '/medical');
                 this.loading = false;

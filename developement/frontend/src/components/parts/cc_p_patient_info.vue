@@ -7,7 +7,7 @@
         >
             <template #header>
                 <div style="display: flex; align-items: center">
-                    <h2>{{ patientStore.patientData.name }}</h2>
+                    <h2>{{ patientStore.patientData?.name }}</h2>
                     <slot name="buttons">
                         <cui-button
                             :disabled="patientStore.loading"
@@ -132,6 +132,9 @@ export default {
             type: Boolean,
         },
     },
+    created() {
+        this.patientStore.getFullData()
+    },
     data() {
         return {
             encounters: [],
@@ -140,15 +143,15 @@ export default {
     },
     methods: {
         async showKarte() {
-            const patientData = await this.$dataService().get.patient.details(
-                this.patientStore.patientData.id
-            );
+            // const patientData = await this.$dataService().get.patient.details(
+            //     this.patientStore.patientData.id
+            // );
 
-            this.$store.commit("SET_LAYOUT_DATA", [
-                "medical",
-                { patient: patientData.patientData, show: true },
-            ]);
-
+            // this.$store.commit("SET_LAYOUT_DATA", [
+            //     "medical",
+            //     { patient: patientData.patientData, show: true },
+            // ]);
+            this.uiStore.medicalTab = this.patientStore.patientData
             this.uiStore.activeTab = "medical"
         },
         parseEncounterType(type) {
