@@ -21,10 +21,6 @@ import { mapStores } from "pinia";
 import { cc_p_patient_info_medical, cc_p_karte } from "../parts";
 
 export default {
-    async created() {
-        const patientData = await this.$api.get('patients/' + this.uiStore.medicalTab.id)
-        this.patientStore.patientData = patientData
-    },
     components: {
         cc_p_patient_info_medical,
         cc_p_karte,
@@ -47,6 +43,8 @@ export default {
             this.loading = true;
 
             // NEW NEW NEW
+            const patientData = await this.$api.get('patients/' + this.uiStore.medicalTab.id)
+            this.patientStore.patientData = patientData
 
             const medicalData = await this.$api.get('patients/' + this.patientId + '/medical')
             this.medicalStore.medicalData = medicalData.medicalData
@@ -89,7 +87,7 @@ export default {
             );
         },
         patientId() {
-            return this.patientStore.patientId;
+            return this.patientStore.patientData?.id || null;
         },
     },
 };

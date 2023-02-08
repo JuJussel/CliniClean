@@ -18,8 +18,6 @@ export default {
     },
     methods: {
         async getFiles() {
-            let fileList =
-                this.$store.getters.layoutData.medical.patient.files || [];
             let files = await this.$dataService().get.files(fileList);
             this.files = files;
         },

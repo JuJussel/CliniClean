@@ -236,10 +236,6 @@ export default {
                 );
 
             this.usePatientStore.patientData = patientHistory
-            this.$store.commit("SET_LAYOUT_DATA", [
-                "medical",
-                { patient: patientHistory },
-            ]);
             this.modals.basic.loading = false;
             this.modals.basic.visible = false;
         },

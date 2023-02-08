@@ -209,11 +209,6 @@ export default {
                 await this.$dataService().get.patient.medicalHistory(
                     this.encounterStore.encounter.patient.id
                 );
-
-            this.$store.commit("SET_LAYOUT_DATA", [
-                "medical",
-                { patient: patientHistory },
-            ]);
         },
     },
     computed: {

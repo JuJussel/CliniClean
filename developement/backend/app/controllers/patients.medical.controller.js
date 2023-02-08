@@ -67,15 +67,15 @@ exports.add = (req, res) => {
     return
   }
 
-  // Catch special cases
-  if (type === "vitals") {
-    addVital(req, res)
-    return
-  }
 
   // Get request data
   let request = req.body;
   let patientId = req.params.patientId;
+
+  // Catch special cases
+  if (type === "vitals") {
+    request.date = new Date
+  }
 
   // Construct dynamic path
   let path = `medical.${type}`

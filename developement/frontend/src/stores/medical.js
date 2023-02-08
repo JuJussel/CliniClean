@@ -9,7 +9,6 @@ export const useMedicalStore = defineStore({
     state: () => {
         return {
             loading: false,
-            patientId: null,
             medicalData: {}
         }
     },

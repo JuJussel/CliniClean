@@ -143,14 +143,6 @@ export default {
     },
     methods: {
         async showKarte() {
-            // const patientData = await this.$dataService().get.patient.details(
-            //     this.patientStore.patientData.id
-            // );
-
-            // this.$store.commit("SET_LAYOUT_DATA", [
-            //     "medical",
-            //     { patient: patientData.patientData, show: true },
-            // ]);
             this.uiStore.medicalTab = this.patientStore.patientData
             this.uiStore.activeTab = "medical"
         },

@@ -9,7 +9,6 @@ export const usePatientStore = defineStore({
     state: () => {
         return {
             loading: false,
-            patientId: null,
             patientData: null
         }
     },

@@ -111,6 +111,7 @@
 
 import { useListStore } from "@/stores/list";
 import { useEncounterStore } from "@/stores/encounter";
+import { usePatientStore } from "../../../stores/patient";
 import { useMedicalStore } from "@/stores/medical";
 import { mapStores } from 'pinia'
 import chart from "../cc_p_chart.vue";
@@ -189,16 +190,16 @@ export default {
             });
             this.$emit("selectChange", this.vitalCats);
         },
-        vitalCats: {
-            deep: true,
-            handler() {
-                if (this.vitalCats) {
-                    this.$store.commit("SET_VIEW_DATA", {
-                        selectedVitalCats: this.vitalCats,
-                    });
-                }
-            },
-        },
+        // vitalCats: {
+        //     deep: true,
+        //     handler() {
+        //         if (this.vitalCats) {
+        //             this.$store.commit("SET_VIEW_DATA", {
+        //                 selectedVitalCats: this.vitalCats,
+        //             });
+        //         }
+        //     },
+        // },
     },
     methods: {
         openVitalRegister() {
@@ -215,18 +216,16 @@ export default {
                 (item) => item.value !== ""
             );
             const sendData = {
-                patientId: this.medicalStore.patientId,
                 values: vitals,
             };
-            await this.$dataService().post.medical.vitals(sendData);
+            const id = this.patientStore.patientData.id
+            /////////// Need to fix controller for this
+            await this.$api.post('patients/' + id + '/medical?type=vitals', sendData);
+
             let patientHistory =
                 await this.$dataService().get.patient.medicalHistory(
                     this.medicalStore.patientId
                 );
-            this.$store.commit("SET_LAYOUT_DATA", [
-                "medical",
-                { patient: patientHistory },
-            ]);
             this.modals.vitalRegister.loading = false;
             this.modals.vitalRegister.visible = false;
         },
@@ -235,14 +234,11 @@ export default {
         },
     },
     computed: {
-        ...mapStores(useListStore, useEncounterStore, useMedicalStore),
+        ...mapStores(useListStore, useEncounterStore, useMedicalStore, usePatientStore),
         vitalData() {
             return this.medicalStore.medicalData.vitals || []
         },
         chartData() {
-            // let selectedCats = this.$store.getters.viewData.selectedVitalCats.filter(
-            //     c => c.selectedDisp
-            // );
             let vitals = { series: [], axis: [] };
             this.vitalData.forEach((item) => {
                 let date = this.$dayjs(item.date).format("YYYY-MM-DD");
