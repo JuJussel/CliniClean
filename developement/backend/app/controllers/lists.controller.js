@@ -27,7 +27,7 @@ exports.encounterTypes = {
 
 exports.insuranceProviders = {
   findOne: (req, res) => {
-    Orca.get.insuranceProvider(req.params.number, (err, data) => {
+    Orca.get.insuranceProvider(req.query.number, (err, data) => {
       if (err) {
         res.status(500).send({
           message: err,
@@ -41,14 +41,14 @@ exports.insuranceProviders = {
 
 exports.addresses = {
   findOne: (req, res) => {
-    let zip = req.params.zip;
-    Address.findOne(zip, (err, data) => {
+    let zipCode = req.query.zip;
+    Address.findOne(zipCode, (err, data) => {
       if (err) {
         res.status(500).send({
           message: err
         });
       } else {
-        res.send({ addr: data.editadrs_name });
+        res.send({ addr: data?.editadrs_name || '' });
       }
     })
   }
@@ -76,7 +76,7 @@ exports.schemas = {
 
 exports.diseases = {
   findMany: (req, res) => {
-    let query = req.params.query;
+    let query = req.query.name;
     Disease.findMany(query, (err, data) => {
       if (err) {
         res.status(500).send({

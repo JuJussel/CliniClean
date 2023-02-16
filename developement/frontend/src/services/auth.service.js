@@ -1,9 +1,9 @@
 import Http from './http.service'
+import { getActivePinia } from "pinia"
 
 const http = Http
 
 const auth = function () {
-  const instance = this
   const helper = {
     check: function () {
       let r = http.get('auth/check')
@@ -14,7 +14,7 @@ const auth = function () {
       http.delete('auth/logout')
       localStorage.clear()
       sessionStorage.clear()
-      instance.$store.commit('CLEAR_STORE')
+      getActivePinia()._s.forEach(store => store.$reset());
     }
   }
   return helper

@@ -140,14 +140,16 @@ export default {
             }
         },
         async getEvents(i, successCallback) {
+            console.log(i);
             let start = this.$dayjs(i.start.valueOf()).format(
                 "YYYY-MM-DD HH:mm:ss"
             );
             let end = this.$dayjs(i.end.valueOf()).format(
                 "YYYY-MM-DD HH:mm:ss"
             );
-            let range = { start: start, end: end };
-            let events = await this.$dataService().get.encounters.range(range);
+            let range = "start=" + start + "&end=" + end;
+            let events = await this.$api.get("encounters/range?" + range);
+            console.log(events);
             events = events
                 .filter((item) => item.status === 0)
                 .map(function (event) {

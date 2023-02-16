@@ -105,6 +105,7 @@ import { mapStores } from 'pinia'
 import examInput from "../parts/cc_p_karte/cc_p_procedures_list/cc_p_procedure_exam.vue";
 import shotInput from "../parts/cc_p_karte/cc_p_procedures_list/cc_p_procedure_shot.vue";
 import healthCheck from "../parts/cc_p_health_check";
+import { ContentMatch } from 'prosemirror-model'
 
 export default {
     components: {
@@ -159,13 +160,13 @@ export default {
             this.orderLocal.locked = locked
                 ? this.userStore.userData.id
                 : null;
-            await this.$dataService().put.orders(this.orderLocal);
+            await this.$api.put('orders/' + this.orderLocal.id, this.orderLocal)
             if (this.orderLocal.procedure.cat.code === 90) {
                 let encounter = {
                     id: this.orderLocal.encounterId,
                     status: 3,
                 };
-                await this.$dataService().put.encounters(encounter);
+                await this.$api.put('encounters/' + encounter.id, encounter)
             }
             this.loading.lock = false;
             this.updateStoreOrders();
@@ -185,8 +186,17 @@ export default {
                         encounter: this.orderLocal.encounterId,
                     },
                 };
-                this.orderLocal.procedure.varData.xRay.schema =
-                    await this.$dataService().post.uploads.single(schemaData);
+                try {
+                    this.orderLocal.procedure.varData.xRay.schema =
+                        await this.$api.post('uploads/single', schemaData);
+                } catch (err) {
+                    this.$cui.notification({
+                        text: err,
+                        duration: 3000,
+                        color: "danger",
+                    });
+                    return
+                }
             }
 
             this.orderLocal.status = 0;
@@ -201,7 +211,7 @@ export default {
                     existingComment + addComment;
             }
             try {
-                await this.$dataService().put.orders(this.orderLocal);
+                await this.$api.put('orders/' + this.orderLocal._id, this.orderLocal);
                 this.$cui.notification({
                     text: this.$lang.saved,
                     duration: 3000,

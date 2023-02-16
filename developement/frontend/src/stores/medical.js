@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import apiService from '@/services/api.service.js'
+import { usePatientStore } from './patient'
 
 export const useMedicalStore = defineStore({
     id: 'medical',
@@ -13,25 +14,17 @@ export const useMedicalStore = defineStore({
         }
     },
     actions: {
-        async getFullData() {
+        async getData(type = null) {
             this.loading = true;
-            try {
-                let dbData = await apiService.get('patients/' + this.patientId + '/medical');
-                this.loading = false;
-            } catch (err) {
-                console.log(err);
-            }
-        },
+            const patientStore = usePatientStore();
 
-        async getPartialData(type = null) {
-            this.loading = true;
-            if (!type) {
-                console.log("Error");
-                return
+            let uri = 'patients/' + patientStore.patientData.id + '/medical';
+            if (type) {
+                uri = uri + '?type=' + type;
             }
             try {
-                let dbData = await apiService.get('patients/' + this.patientId + '/medical?type=' + type);
-                this.medicalData[type] = dbData.data
+                let dbData = await apiService.get(uri);
+                type ? this.medicalData[type] = dbData.medicalData : this.medicalData = dbData.medicalData;
                 this.loading = false;
             } catch (err) {
                 console.log(err);

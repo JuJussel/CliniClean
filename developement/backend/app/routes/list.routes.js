@@ -15,10 +15,10 @@ module.exports = app => {
   app.get("/api/lists/encounterTypes", [authJwt.verifyToken], lists.encounterTypes.findAll);
   ////
 
-  app.get("/api/lists/insuranceProviders/:number", [authJwt.verifyToken], lists.insuranceProviders.findOne);
-  app.get("/api/lists/addresses/:zip", [authJwt.verifyToken], lists.addresses.findOne);
+  app.get("/api/lists/insuranceProviders", [authJwt.verifyToken], lists.insuranceProviders.findOne);
+  app.get("/api/lists/addresses", [authJwt.verifyToken], lists.addresses.findOne);
   app.get("/api/lists/schemas", [authJwt.verifyToken], lists.schemas.findAll);
-  app.get("/api/lists/diseases/:query", [authJwt.verifyToken], lists.diseases.findMany);
+  app.get("/api/lists/diseases", [authJwt.verifyToken], lists.diseases.findMany);
   app.get("/api/lists/static", [authJwt.verifyToken], lists.static.findAll);
   app.get("/api/lists/healthCheckExams", [authJwt.verifyToken], lists.healthCheckExams.findAll);
 

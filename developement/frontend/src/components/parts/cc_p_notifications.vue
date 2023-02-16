@@ -39,12 +39,12 @@ export default {
     },
     methods: {
         async handelClick(item) {
-            await this.$dataService().put.notifications(item.id);
+            await this.$api.put('notifications/' + item.id, { read: true });
             this.getNotifications();
             this.$emit('clickNotification', item);
         },
         async getNotifications() {
-            let notifications = await this.$dataService().get.notifications();
+            let notifications = await this.$api.get('notifications');
             this.notificationStore.notifications = notifications
         }
     },

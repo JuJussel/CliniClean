@@ -242,7 +242,7 @@ export default {
         async getAddress(target) {
             let zip = this.patient[target].zip;
             if (zip.length === 7) {
-                const addr = await this.$dataService().get.lists.addresses(zip);
+                const addr = await this.$api.get('lists/addresses?zip=' + zip);
                 this.patient[target].addr = addr.addr;
             }
         },

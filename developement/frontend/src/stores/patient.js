@@ -13,7 +13,7 @@ export const usePatientStore = defineStore({
         }
     },
     actions: {
-        async getFullData(id = null) {
+        async getData(id = null) {
             this.loading = true;
             if (id) {
                 this.patientId = id

@@ -30,8 +30,6 @@ export default {
     },
     methods: {
         async getOrders() {
-            this.orderStore.loading = true
-            let orders = (await this.$dataService().get.orders()) || [];
             this.orderStore.getOrders()
         },
     },

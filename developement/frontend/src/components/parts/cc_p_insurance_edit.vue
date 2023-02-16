@@ -187,10 +187,7 @@ export default {
             this.loading.provider = true;
             const number = this.insurance.providerNumber;
             if (number.length === 6 || number.length === 8) {
-                const data =
-                    await this.$dataService().get.lists.insuranceProviders(
-                        number
-                    );
+                const data = await this.$api.get("lists/insuranceProviders?number=" + number)
                 this.insurance.providerName =
                     data.Insurance_Number_Name +
                     " - " +
@@ -429,14 +426,10 @@ export default {
                 sendData.patient = this.patient;
 
                 try {
-                    await this.$dataService().post.insurance([sendData]);
-                    this.patientStore.loading = true;
-                    const patientData =
-                        await this.$dataService().get.patient.details(
-                            this.patient.id
-                        );
+                    let id = this.patientStore.patientData.id;
+                    await this.$api.post('patients/' + id + '/insurance', [sendData]);
+                    this.patientStore.getData(id);
                     this.loading.all = false;
-                    this.patientStore.patientData = patientData.patientData
                     this.uiStore.modals.receptionModalInsuranceEdit = false
                 } catch (err) {
                     this.loading.all = false;

@@ -130,22 +130,26 @@ export default {
         async searchDisease(query) {
             if (query === "") return [];
             this.loading.search = true;
-            this.searchResults = await this.$dataService().get.lists.diseases(
-                query
-            );
+            this.searchResults = await this.$api.get("lists/diseases?name=" + query)
             this.loading.search = false;
         },
         async submit() {
             this.$emit("submitting");
             this.loading.submit = true;
-            this.editData.patientId = this.encounterStore.encounterData.patient.id;
+            const id = this.encounterStore.encounterData.patient.id;
+            this.editData.patientId = id;
             this.editData.department = this.encounterStore.encounterData.department;
             if (!this.editData.insurance)
                 this.editData.insurance = this.encounterStore.encounterData.ins;
             if (this.editData.outcome === "" || !this.editData.outcome)
                 this.editData.endDate = "";
             try {
-                await this.$dataService().post.medical.diseases(this.editData);
+                await this.$api.post("patients/" + id + "/medical/diseases", this.editData);
+                this.$cui.notification({
+                    text: this.$lang.saved,
+                    duration: 2000,
+                    color: "primary",
+                });
                 this.$emit("submitted");
                 this.$emit("close");
             } catch {

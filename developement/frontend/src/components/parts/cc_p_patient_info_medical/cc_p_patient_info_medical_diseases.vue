@@ -139,7 +139,6 @@
                 :diseaseData="diseaseEditor.data"
                 @close="diseaseEditor.visible = false"
                 @submitting="diseaseEditor.loading = true"
-                @submitted="diseaseEditSubmitted"
             />
         </cui-card>
     </cui-modal>
@@ -199,16 +198,8 @@ export default {
             this.diseaseEditor.visible = true;
         },
         async diseaseEditSubmitted() {
+            await this.encounterStore.getData();
             this.diseaseEditor.loading = false;
-            this.$cui.notification({
-                text: this.$lang.saved,
-                duration: 2000,
-                color: "primary",
-            });
-            let patientHistory =
-                await this.$dataService().get.patient.medicalHistory(
-                    this.encounterStore.encounter.patient.id
-                );
         },
     },
     computed: {

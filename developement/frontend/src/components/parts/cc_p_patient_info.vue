@@ -133,7 +133,7 @@ export default {
         },
     },
     created() {
-        this.patientStore.getFullData()
+        this.patientStore.getData()
     },
     data() {
         return {

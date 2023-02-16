@@ -73,7 +73,7 @@ export default {
                     allergy
                 )
                 this.editModal.open = false
-                this.medicalStore.getPartialData('allergies')
+                this.medicalStore.getData('allergies')
             } catch (err) {
                 this.$apiError(err)
             }
