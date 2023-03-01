@@ -90,7 +90,7 @@ export default {
     methods: {
         async registerReservation() {
             this.loading = true;
-            await this.$dataService().post.encounters(this.reservation);
+            await this.$api.post('encounters', this.reservation);
             this.$emit("created");
             this.uiStore.modals.receptionModalReservation = false
         },

@@ -115,10 +115,8 @@ export default {
         async getInsurances() {
             this.loading.insurances = true;
             this.insuranceResults = [];
-
-            const res = await this.$dataService().get.patient.insuranceSets(
-                this.walkin.patient.id
-            );
+            let id = this.walkin.patient.id
+            const res = await this.$api.get('patients/' + id + '/insuranceSets');
             this.loading.insurances = false;
             this.insuranceResults = res;
         },
@@ -127,7 +125,7 @@ export default {
         },
         async registerWalkin() {
             this.loading.all = true;
-            await this.$dataService().post.encounters(this.walkin);
+            await this.$api.post('encounters', this.walkin);
             this.loading.all = false;
             this.uiStore.modals.receptionModalRegister = false
         },

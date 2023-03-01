@@ -41,6 +41,7 @@ module.exports = app => {
   const uploadSingle = multer({ storage: storagePost });
   const updateSingle = multer({ storage: storagePut });
 
+
   app.use(function (req, res, next) {
     res.header(
       "Access-Control-Allow-Headers",

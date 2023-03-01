@@ -227,15 +227,21 @@ export default {
             this.modals.basic.loading = true;
             const sendData = {
                 data: this.modals.basic.data,
-                patientId: this.patientData.id,
+                patientId: this.patientStore.patientData.id,
             };
-            await this.$dataService().put.medical.basics(sendData);
+            await this.$api.put(
+                'patients/'
+                + sendData.patientId
+                + '/medical/basics',
+                sendData);
             let patientHistory =
-                await this.$dataService().get.patient.medicalHistory(
-                    this.patientData.id
+                await this.$api.get(
+                    'patients/'
+                    + this.patientStore.patientData.id
+                    +'/medicalHistory'
                 );
 
-            this.usePatientStore.patientData = patientHistory
+            this.patientStore.patientData = patientHistory
             this.modals.basic.loading = false;
             this.modals.basic.visible = false;
         },

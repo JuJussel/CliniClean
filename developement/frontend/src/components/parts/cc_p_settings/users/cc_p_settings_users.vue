@@ -138,7 +138,7 @@ export default {
     },
      methods: {
         async getUsers() {
-            this.users = await this.$dataService().get.users.all();
+            this.users = await this.$api.get('users');
         },
         selectUser(user) {
             this.selectedUser = JSON.parse(JSON.stringify(user.row));
@@ -167,7 +167,8 @@ export default {
             if (this.resetPassword)
                 this.selectedUser.password = this.password.pass;
             try {
-                await this.$dataService().put.user.updateUser(
+                await this.$api.put(
+                    'users/' + this.selectedUser.id,
                     this.selectedUser
                 );
             } catch (error) {

@@ -48,7 +48,7 @@ const getOrcaPatientData = (id, result) => {
 // Exports
 
 exports.findMany = (req, res) => {
-  let name = req.query.id;
+  let name = req.query.query;
   let id = isNaN(parseInt(name)) ? null : name;
   name = japUtils.toFullwidth(name);
   Patient.find(
@@ -263,25 +263,22 @@ exports.findMedicalHistory = async (req, res) => {
 
 };
 
-exports.findDiseases = (req, res) => {
-  Orca.get.diseases(req.params.patientId, (err, data) => {
-    console.log(data);
-    if (err) {
-      res.status(500).send({
-        message: err,
-      });
+exports.findDiseases = async (req, res) => {
+
+  try {
+    let diseases = await Orca.get.diseases(req.params.patientId)
+    if (diseases.Api_Result === '21') {
+      res.send([]);
     } else {
-      if (data.Api_Result === '21') {
-        res.send([]);
-      } else {
-        // data = data.Disease_Information.Disease_Information_child;
-        // if (data.Department_Code) {
-        //   data = [data];
-        // }
-        res.send(data);
-      }
+      res.send(diseases);
     }
-  });
+
+  } catch (err) {
+    res.status(500).send({
+      message: err,
+    });
+  }
+
 };
 
 exports.create = async (req, res) => {

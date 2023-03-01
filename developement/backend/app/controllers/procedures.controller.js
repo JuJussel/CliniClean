@@ -64,33 +64,15 @@ exports.findMany = (req, res) => {
     })
 }
 
-
-//   ExaminationProcedure.find(cat, search, (err, data) => {
-//     if (err) {
-//       res.status(500).send({
-//         message: err
-//       });
-//     } else {
-//       res.send(data);
-//     }
-//   })
-// }
-
-
-
-
-exports.results = {
-  findMany: (req, res) => {
-    let code = req.params.code;
-    ExaminationProcedure.find({ "procedure.code": { $regex: code + ".*" } }, (err, data) => {
-      if (err) {
-        $logger.error(err);
-        res.status(500).send({ message: "Error retrieving Occupations" })
-      }
-      res.send(data);
-    })
-
-  }
+exports.findOne = (req, res) => {
+  let code = req.params.code;
+  ExaminationProcedure.find({ "procedure.code": { $regex: code + ".*" } }, (err, data) => {
+    if (err) {
+      $logger.error(err);
+      res.status(500).send({ message: "Error retrieving Occupations" })
+    }
+    res.send(data);
+  })
 }
 
 exports.fetchAndImport = (req, res) => {

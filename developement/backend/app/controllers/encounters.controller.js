@@ -172,9 +172,8 @@ exports.edit = async (req, res) => {
       }
     )
   }
-
-  Encounter.findOneAndUpdate(
-    { _id: request.id },
+  Encounter.updateOne(
+    { _id: req.params.encounterId },
     request,
     { runValidators: true },
     (err) => {

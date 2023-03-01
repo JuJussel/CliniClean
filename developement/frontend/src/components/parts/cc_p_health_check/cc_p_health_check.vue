@@ -307,7 +307,7 @@ export default {
         showEcg() {},
         async getExams() {
             let examinations =
-                await this.$dataService().get.lists.healthCheckExams();
+                await this.$api.get('lists/healthCheckExams');
             examinations = examinations.map((item) => {
                 item.results.forEach((res) => (res.value = ""));
                 let procedure = {

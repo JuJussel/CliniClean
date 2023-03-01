@@ -98,10 +98,7 @@ export default {
     methods: {
         async getResults() {
             this.resultsFull =
-                await this.$dataService().get.procedures.examresults(
-                    this.item.srycd
-                    //this.item.procedureClass._id
-                );
+                await this.$api.get('procedures/' + this.item.srycd);
         },
         selectResult(result) {
             this.selectedResults.push(result);

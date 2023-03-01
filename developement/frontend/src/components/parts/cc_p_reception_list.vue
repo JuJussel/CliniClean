@@ -164,12 +164,16 @@ export default {
         },
         async getDoctors() {
             this.layoutData.doctors =
-                await this.$dataService().get.doctors.all();
+                await this.$api.get('doctors');
         },
         async getEncounters() {
             this.layoutData.loading = true;
+            const start = this.$dayjs().startOf('day');
+            const end = this.$dayjs().endOf('day');
+            console.log(start);
+            const range = 'start=' + start.$d + '&end=' + end.$d;
             this.layoutData.encounters =
-                await this.$dataService().get.encounters.today();
+                await this.$api.get('encounters/range?' + range);
             this.layoutData.loading = false;
         },
         parseExamType(type) {
@@ -201,7 +205,7 @@ export default {
                 this.layoutData.view.modal.reservationAccept = row;
             } else {
                 this.layoutData.loading = true;
-                await this.$dataService().put.encounters(row);
+                await this.$api.put('encounters/' + row.id, row);
                 this.getEncounters();
             }
         },

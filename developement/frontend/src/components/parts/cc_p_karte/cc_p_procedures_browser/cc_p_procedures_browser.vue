@@ -50,14 +50,18 @@ export default {
     methods: {
         async selectProcedure(item) {
             this.$emit("select", item);
-            this.favourites = await this.$dataService().put.user.favourites(
-                this.userStore.userData.id,
+            this.favourites = await this.$api.put(
+                'users/'
+                + this.userStore.userData.id
+                + '/favourites',
                 item.row
             );
         },
         async getFavourites() {
-            this.favourites = await this.$dataService().get.users.favourites(
-                this.userStore.userData.id
+            this.favourites = await this.$api.get(
+                'users/'
+                + this.userStore.userData.id
+                + '/favourites'
             );
         }
     },

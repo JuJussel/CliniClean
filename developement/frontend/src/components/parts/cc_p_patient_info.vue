@@ -230,9 +230,7 @@ export default {
             let patientData = this.patientStore.patientData;
             if (patientData === "loading" || !patientData) return [];
             let today = new Date().toISOString();
-            let encounters = await this.$dataService().get.patient.encounters(
-                patientData.id
-            );
+            let encounters = await this.$api.get('patients/' + patientData.id + '/encounters');
             this.encounters = encounters.filter((item) => item.date < today);
             this.encounterReservations = encounters.filter(
                 (item) => item.date > today

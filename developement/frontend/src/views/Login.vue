@@ -54,7 +54,7 @@ export default {
     async login() {
       this.loading = true;
       try {
-        const res = await this.$dataService().post.auth(this.user);
+        const res = await this.$api.post('auth/login', this.user);
         this.userStore.userData = res
         this.$router.push('/home');
       } catch {

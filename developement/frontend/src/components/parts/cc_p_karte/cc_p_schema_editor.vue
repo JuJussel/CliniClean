@@ -67,7 +67,7 @@ export default {
         },
         async getSchemas() {
             this.loading.schemas = true;
-            this.schemas = await this.$dataService().get.lists.schemas();
+            this.schemas = await this.$api.get('lists/schemas/');
             this.loading.schemas = false;
         },
         addSchema() {

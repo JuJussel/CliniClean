@@ -79,10 +79,7 @@ export default {
                 return;
             }
             this.loading = true;
-            this.patientList = await this.$dataService().get.patient.search({
-                name: input,
-                id: input,
-            });
+            this.patientList = await this.$api.get('patients/search?query=' + input);
             this.loading = false;
         },
         async selectPatient(pat) {

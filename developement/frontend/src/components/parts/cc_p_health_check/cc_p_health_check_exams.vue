@@ -84,10 +84,9 @@ export default {
     },
     methods: {
         async getResults() {
+            const code = this.item.varData[0]._id.substring(0,15 )
             this.resultsFull =
-                await this.$dataService().get.procedures.examresults(
-                    this.item.varData[0]._id.substring(0,15 )
-                );
+                await this.$api.get('procedures/' + code);
         },
         selectResult(result) {
             this.selectedResults.push(result);

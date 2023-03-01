@@ -364,14 +364,12 @@ export default {
         },
     },
     async mounted() {
-        if (this.encounterStore.encounterData?.id) {
+        if (this.encounterStore.encounterData?._id) {
             let encounterId =
-                this.encounterStore.encounterData?.id;
-            this.encounter = await this.$dataService().get.encounters.findOne(
-                encounterId
-            );
+            this.encounterStore.encounterData?._id;
+            this.encounter = await this.$api.get('encounters/' + encounterId);
         }
-
+        
         if (this.encounter.baseCost.length < 1) {
             let baseCost = await baseCostUtil(
                 this.encounter,
@@ -380,9 +378,8 @@ export default {
             );
             this.encounter.baseCost = baseCost;
         }
-
+            
         this.encounter.doctor = this.userStore.userData.id;
-
         if (this.encounter?.karte?.soap?.html) {
             this.$refs.textEditor.setContent(this.encounter.karte.soap.html);
             this.soap = this.encounter.karte.soap;
@@ -416,7 +413,7 @@ export default {
             encounter.status = 10;
             encounter.closeEncounter = true;
             try {
-                await this.$dataService().put.encounters(encounter);
+                await this.$api.put('enconters/' + encounter.id, encounter);
                 this.$cui.notification({
                     text: this.$lang.examinationClosed,
                     duration: 3000,
@@ -472,7 +469,7 @@ export default {
                         images: this.images,
                     };
 
-                    await this.$dataService().put.encounters(encounter);
+                    await this.$api.put('encounters/' + encounter.id, encounter);
 
                     this.encounterStore.encounterData = encounter
 
@@ -493,9 +490,13 @@ export default {
                         file: file,
                         meta: this.modal.schemaEdit.meta,
                     };
-                    await this.$dataService().put.uploads.single(sendData);
-                    this.random++;
-                    this.modal.schemaEdit = null;
+                    try {
+                        await this.$api.put('uploads/single', sendData);
+                        this.random++;
+                        this.modal.schemaEdit = null;
+                    } catch (err) {
+                        this.$apiError(err);
+                    }
                 }.bind(this)
             );
         },
@@ -514,9 +515,7 @@ export default {
                         encounter: this.encounter.id,
                     },
                 };
-                let imgData = await this.$dataService().post.uploads.single(
-                    sendData
-                );
+                let imgData = await this.$api.post('uploads/single', sendData);
                 this.images.push(imgData);
                 const index = this.images.length - 1;
                 let url =

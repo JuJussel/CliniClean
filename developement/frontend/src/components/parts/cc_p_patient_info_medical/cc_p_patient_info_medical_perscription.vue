@@ -73,7 +73,7 @@ export default {
             med.endDate = this.$dayjs().format('[YYYYescape] YYYY-MM-DDTHH:mm:ssZ[Z]')
             let encounterData = this.patientData.encounters.find((enc) => enc._id === med.encounter)
             //Update Encounter...
-            await this.$dataService().put.encounters(encounterData);
+            await this.$api.put('encounters/' + encounterData.id, encounterData);
         }
     },
     computed: {

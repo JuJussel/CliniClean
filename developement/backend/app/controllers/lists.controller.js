@@ -69,6 +69,13 @@ exports.schemas = {
         });
       }
       schemas = schemas.filter(item => !(/(^|\/)\.[^\/\.]/g).test(item));
+      schemas = schemas.map(item => {
+        let element = {
+          name: item.split('.')[0],
+          url: '/assets/schemas/' + item
+        }
+        return element
+      })
       res.send(schemas);
     })
   }

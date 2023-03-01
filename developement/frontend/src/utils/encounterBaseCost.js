@@ -2,14 +2,13 @@ import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 import weekday from "dayjs/plugin/weekday";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import http from "../services/http.service";
+import api from "../services/api.service";
 
 dayjs.extend(isBetween);
 dayjs.extend(weekday);
 dayjs.extend(customParseFormat);
 
 export default async (encounter, baseItems, clinicInfo) => {
-
     if (encounter.type === 6) return [];
 
     const date = {
@@ -34,7 +33,7 @@ export default async (encounter, baseItems, clinicInfo) => {
     const holidaysList = await (
         await fetch("https://holidays-jp.github.io/api/v1/date.json")
     ).json();
-    const diseases = await http.get(
+    const diseases = await api.get(
         "patients/" + encounter.patient.id + "/diseases"
     );
 

@@ -11,7 +11,6 @@ import './css/custom.css'
 import '@fortawesome/fontawesome-free/css/all.css'
 import Lang from './lang/jp'
 import { parseDate, copy } from './utils'
-import DataService from '@/services/data.service'
 import ApiService from '@/services/api.service'
 import AclService from '@/services/acl.service'
 import VueNativeSock from "vue-native-websocket-vue3";
@@ -45,7 +44,6 @@ import "dayjs/locale/ja";
     app.use(Cui);
     app.provide('$notification', Cui.notification);
     app.use(router);
-    app.use(DataService, Globals);
     app.use(AclService, Globals);
     app.use(Auth);
     app.use(VueNativeSock, "wss://" + window.location.hostname + ":" + Globals.websocketPort, {

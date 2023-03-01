@@ -59,14 +59,28 @@ export default {
             if (this.search === '') return;
             this.loading = true;
             if (this.category.code == 25 || this.category.code == 30) {
-                this.results = await this.$dataService().get.medications.search(this.category.code, this.search);
+                this.results = await this.$api.get(
+                    'medications/'
+                    + this.category.code
+                    + '/'
+                    + this.search
+                )
             }
-            else this.results = await this.$dataService().get.procedures.search(this.category.code, this.search);
+            else this.results = await this.$api.get(
+                'procedures/'
+                + this.category.code
+                + '/'
+                + this.search
+            );
             this.loading = false;
         },
         async getFavourites() {
             this.loading = true;
-            this.results = await this.$dataService().get.procedures.favourites(this.category);
+            this.results = await this.$api.get(
+                'procedures/'
+                + this.category
+                + '/favourites'
+            );
             this.loading = false;
         },
         selectItem(item) {

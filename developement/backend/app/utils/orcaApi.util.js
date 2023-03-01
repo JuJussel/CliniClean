@@ -226,9 +226,7 @@ get.diseases = function (data) {
         }
       }
     };
-
     const route = "/orca101/diseasegetv2?class=01";
-
     sendRequest(route, "POST", requestData)
       .then((responseData) => {
         if (validate(responseData, ['00', '21'], "disease_infores")) {
@@ -258,7 +256,6 @@ get.diseases = function (data) {
               startDate: item.Disease_StartDate || null,
               insurance: item.Insurance_Combination_Number || "0001"
             }
-
             return item;
           })
           resolve(responseData)

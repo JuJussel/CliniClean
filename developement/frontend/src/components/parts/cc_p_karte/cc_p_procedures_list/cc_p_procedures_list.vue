@@ -143,12 +143,12 @@ export default {
                     procedure: item,
                     requester: this.userStore.userData.id,
                 };
-                let order = await this.$dataService().post.orders(requestData);
+                let order = await this.$api.post('orders', requestData);
                 item.order = { id: order._id, done: false, locked: false };
             }
         },
         async deleteOrder() {
-            await this.$dataService().delete.orders(this.orderBuffer.order.id);
+            await this.$api.delete('orders/' + this.orderBuffer.order.id);
             this.orderBuffer.order = null;
             this.orderBuffer = null;
             this.confirmOrderDelete = false;

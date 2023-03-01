@@ -7,6 +7,10 @@
 </template>
 
 <script>
+
+import { usePatientStore } from '@/stores/patient'
+import { mapStores } from 'pinia'
+
 export default {
     created() {
         this.getFiles();
@@ -18,7 +22,7 @@ export default {
     },
     methods: {
         async getFiles() {
-            let files = await this.$dataService().get.files(fileList);
+            let files = await this.$api.get('files?patient=' + this.patientStore.patientData.id);
             this.files = files;
         },
         openFile(file) {
@@ -35,6 +39,7 @@ export default {
         }
     },
     computed: {
+        ...mapStores(usePatientStore),
         treeData() {
             let tree = [];
             this.files.forEach((item) => {

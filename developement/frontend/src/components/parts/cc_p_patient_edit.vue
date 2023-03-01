@@ -309,18 +309,14 @@ export default {
             let newPatientId = null;
             if (this.editData) {
                 try {
-                    newPatientId = await this.$dataService().put.patients(
-                        this.patient
-                    );
+                    newPatientId = await this.$api.put('patients/' + this.patient.id, this.patient);
                 } catch (err) {
                     this.loading = false;
                     return;
                 }
             } else {
                 try {
-                    newPatientId = await this.$dataService().post.patients(
-                        this.patient
-                    );
+                    newPatientId = await this.$api.post('patients', this.patient);
                 } catch (err) {
                     this.loading = false;
                     return;
@@ -328,9 +324,7 @@ export default {
             }
             try {
                 var newPatientData =
-                    await this.$dataService().get.patient.details(
-                        newPatientId.patientId
-                    );
+                    await this.$api.get('patients/' + newPatientId.patientId);
             } catch (err) {
                 this.loading = false;
                 return;
@@ -343,7 +337,7 @@ export default {
             });
             this.$emit("showPatient", newPatientId.patientId);
 
-            this.patientStore.patientData = newPatientData.patientData
+            this.patientStore.patientData = newPatientData
             this.uiStore.modals.receptionModalPatientEdit = false
         },
     },

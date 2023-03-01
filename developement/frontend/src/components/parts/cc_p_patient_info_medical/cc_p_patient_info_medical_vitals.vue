@@ -223,8 +223,10 @@ export default {
             await this.$api.post('patients/' + id + '/medical?type=vitals', sendData);
 
             let patientHistory =
-                await this.$dataService().get.patient.medicalHistory(
-                    this.medicalStore.patientId
+                await this.$api.get(
+                    'patients/'
+                    + this.medicalStore.patientId
+                    + '/medicalHistory'
                 );
             this.modals.vitalRegister.loading = false;
             this.modals.vitalRegister.visible = false;

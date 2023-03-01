@@ -1,7 +1,7 @@
 const Patient = require("../models/patient.model.js");
 
 exports.createSingle = async (req, res) => {
-  
+
   // let uploadedFileId = req.file.filename.split('.')[0];
   // uploadedFiles = [uploadedFileId];
   res.send(req.dbData);
@@ -39,7 +39,7 @@ exports.createSingle = async (req, res) => {
   //   files[i].extension = extension;
 
   //   try {
-      
+
   //     let file = await File.create(files[i]);
   //     let base64Data = files[i].data.replace("data:", "").replace(/^.+,/, "");
   //     let filename = file._id + '.' + extension;
@@ -59,5 +59,6 @@ exports.createSingle = async (req, res) => {
 };
 
 exports.updateSingle = (req, res) => {
-  res.send(JSON.parse(req.body.data));
+  res.send({ ok: true })
+  // res.send(JSON.parse(req.body.data));
 };
