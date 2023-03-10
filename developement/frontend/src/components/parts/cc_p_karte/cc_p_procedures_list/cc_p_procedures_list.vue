@@ -8,7 +8,7 @@
                     <i :class="row.cat.icon"></i>
                 </td>
                 <td style="border-top: 5px solid var(--cui-gray-2)">
-                    <b>{{ row.name }}</b>
+                    <b>{{ row.name || row.disease }}</b>
                     <i v-if="row.varData" class="fas fa-clipboard-list"></i>
                 </td>
                 <td
@@ -95,6 +95,7 @@ import { mapStores } from 'pinia'
 
 import exam from "./cc_p_procedure_exam.vue";
 import shot from "./cc_p_procedure_shot.vue";
+import prevVac from "./cc_p_procedure_prevVac.vue";
 import perscription from "./cc_p_procedure_perscription.vue";
 import healthCheck from "./cc_p_procedure_health_check.vue";
 
@@ -102,7 +103,7 @@ export default {
     components: {
         exam,
         shot,
-        perVac: shot,
+        prevVac,
         perscription,
         healthCheck,
     },

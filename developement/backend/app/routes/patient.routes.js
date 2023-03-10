@@ -30,7 +30,7 @@ module.exports = app => {
 
   // *********** NEW ***********
   // route with no query should return error
-  // to update items nee to include query ?type=TYPE
+  // to update items need to include query ?type=TYPE
   app.post("/api/patients/:patientId/medical", [authJwt.verifyToken, routeAccess([0, 1, 1])], patientsMedical.add)
 
   // ********* NEW END *********

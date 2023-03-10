@@ -2,7 +2,7 @@
     <div v-if="activeOnly">
         <cui-table
                 :data="activeMeds"
-                style="max-height: calc(100% - 2px)"
+                style="max-height: 245px"
             >
                 <template #header>
                     <h2>{{ $lang.procedureCategoryLabels.perscription + $lang.active }}</h2>

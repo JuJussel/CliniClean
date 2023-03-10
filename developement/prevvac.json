@@ -1,0 +1,548 @@
+[
+  "https://www.pmda.go.jp/safety/info-services/drugs/items-information/vacc-guide/0002.html",
+  {
+    "disease": "インフルエンザ",
+    "vaccines": [
+      {
+        "commonName": "インフルエンザHAワクチン",
+        "variants": [
+          {
+            "name": "インフルエンザHAワクチン「KMB」",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631340FA1"
+          },
+          {
+            "name": "「ビケンHA」",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631340FA1"
+          },
+          {
+            "name": "インフルエンザHAワクチン「生研」",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631340FA1"
+          },
+          {
+            "name": "インフルエンザHAワクチン「第一三共」シリンジ0.25mL",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631340FA1"
+          },
+          {
+            "name": "インフルエンザHAワクチン「第一三共」シリンジ0.5mL",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631340FA1"
+          },
+          {
+            "name": "インフルエンザHAワクチン「第一三共」1mL",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631340FA1"
+          },
+          {
+            "name": "フルービックHA",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631340FA1"
+          },
+          {
+            "name": "フルービックHAシリンジ",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631340FA1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "黄熱",
+    "vaccines": [
+      {
+        "commonName": "黄熱ワクチン",
+        "variants": [
+          {
+            "name": "黄熱ワクチン1人用",
+            "url": "https: //www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631340LD1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "おたふくかぜ（流行性耳下腺炎）",
+    "vaccines": [
+      {
+        "commonName": "乾燥弱毒生おたふくかぜワクチン",
+        "variants": [
+          {
+            "name": "乾燥弱毒生おたふくかぜワクチン「タケダ」",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631340AD1"
+          },
+          {
+            "name": "乾燥弱毒生おたふくかぜワクチン「タケダ」",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631340AD1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "狂犬病",
+    "vaccines": [
+      {
+        "commonName": "乾燥組織培養不活化狂犬病ワクチン",
+        "variants": [
+          {
+            "name": "組織培養不活化狂犬病ワクチン",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/6313400A1"
+          },
+          {
+            "name": "ラビピュール筋注用",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/6313400A1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "新型コロナウイルス感染症",
+    "vaccines": [
+      {
+        "commonName": "コロナウイルス修飾ウリジンRNA ワクチン（SARS-CoV-2）",
+        "variants": [
+          {
+            "name": "コミナティ筋注（1価：起源株）",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631341D"
+          },
+          {
+            "name": "コミナティ筋注5～11歳用（1価：起源株）",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631341D"
+          },
+          {
+            "name": "コミナティ筋注6ヵ月～4歳用（1価：起源株）",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631341D"
+          },
+          {
+            "name": "コミナティRTU筋注（2価：起源株／オミクロン株BA.1）",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631341J"
+          },
+          {
+            "name": "コミナティRTU筋注（2価：起源株／オミクロン株BA.4-5）",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631341J"
+          },
+          {
+            "name": "コミナティ筋注5～11歳用（2価：起源株／オミクロン株BA.4-5）",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631341J"
+          },
+          {
+            "name": "スパイクバックス筋注（1価：起源株）",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631341E"
+          },
+          {
+            "name": "スパイクバックス筋注（2価：起源株／オミクロン株BA.1）",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631341K"
+          },
+          {
+            "name": "スパイクバックス筋注（2価：起源株／オミクロン株BA.4-5）",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631341K"
+          }
+        ]
+      },
+      {
+        "commonName": "コロナウイルス（SARS-CoV-2）ワクチン（遺伝子組換えサルアデノウイルスベクター）",
+        "variants": [
+          {
+            "name": "バキスゼブリア筋注",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631341F"
+          }
+        ]
+      },
+      {
+        "commonName": "組換えコロナウイルス（SARS-CoV-2）ワクチン",
+        "variants": [
+          {
+            "name": "ヌバキソビッド筋注",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631341G"
+          }
+        ]
+      },
+      {
+        "commonName": "コロナウイルス（SARS-CoV-2）ワクチン（遺伝子組換えアデノウイルスベクター）",
+        "variants": [
+          {
+            "name": "ジェコビデン筋注",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631341H"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "水痘",
+    "vaccines": [
+      {
+        "commonName": "乾燥弱毒生水痘ワクチン",
+        "variants": [
+          {
+            "name": "乾燥弱毒生水痘ワクチン「ビケン」",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631340ED1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "髄膜炎菌（4価結合体）",
+    "vaccines": [
+      {
+        "commonName": "4価髄膜炎菌ワクチン（ジフテリアトキソイド結合体）",
+        "variants": [
+          {
+            "name": "メナクトラ筋注",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/6311401A1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "成人用ジフテリアトキソイド",
+    "vaccines": [
+      {
+        "commonName": "成人用沈降ジフテリアトキソイド",
+        "variants": [
+          {
+            "name": "ジフトキ「ビケンF」",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/632240AA2"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "帯状疱疹",
+    "vaccines": [
+      {
+        "commonName": "乾燥組換え帯状疱疹ワクチン",
+        "variants": [
+          {
+            "name": "シングリックス筋注用（チャイニーズハムスター卵巣細胞由来）",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631341B"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "痘そう・サル痘",
+    "vaccines": [
+      {
+        "commonName": "乾燥細胞培養痘そうワクチン",
+        "variants": [
+          {
+            "name": "乾燥細胞培養痘そうワクチンLC16「KMB」",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631340K"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "日本脳炎",
+    "vaccines": [
+      {
+        "commonName": "乾燥細胞培養日本脳炎ワクチン",
+        "variants": [
+          {
+            "name": "エンセバック皮下注用",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631340ND1"
+          },
+          {
+            "name": "ジェービックV",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631340ND1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "肺炎球菌（13価結合型）",
+    "vaccines": [
+      {
+        "commonName": "沈降13価肺炎球菌結合型ワクチン（無毒性変異ジフテリア毒素結合体）",
+        "variants": [
+          {
+            "name": "プレベナー13水性懸濁注",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631140EC1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "肺炎球菌（23価莢膜ポリサッカライド）",
+    "vaccines": [
+      {
+        "commonName": "肺炎球菌ワクチン",
+        "variants": [
+          {
+            "name": "ニューモバックスNP",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/6311400A1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "破傷風トキソイド",
+    "vaccines": [
+      {
+        "commonName": "沈降破傷風トキソイド",
+        "variants": [
+          {
+            "name": "沈降破傷風トキソイド「生研」",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/6322400X2"
+          },
+          {
+            "name": "破トキ「ビケンF」",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/6322400X2"
+          },
+          {
+            "name": "沈降破傷風トキソイドキット「タケダ」",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/6322400X2"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "風しん",
+    "vaccines": [
+      {
+        "commonName": "乾燥弱毒生風しんワクチン",
+        "variants": [
+          {
+            "name": "乾燥弱毒生風しんワクチン「タケダ」",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631340BD1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "麻しん（はしか）",
+    "vaccines": [
+      {
+        "commonName": "乾燥弱毒生麻しんワクチン",
+        "variants": [
+          {
+            "name": "乾燥弱毒生風しんワクチン「タケダ」",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631340BD1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "麻しん、風しん混合（MR）",
+    "vaccines": [
+      {
+        "commonName": "乾燥弱毒生麻しん風しん混合ワクチン",
+        "variants": [
+          {
+            "name": "ミールビック",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/636940CD1"
+          },
+          {
+            "name": "乾燥弱毒生麻しん風しん混合ワクチン「タケダ」",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/636940CD1"
+          },
+          {
+            "name": "はしか風しん混合生ワクチン「第一三共」",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/636940CD1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "ロタウイルス",
+    "vaccines": [
+      {
+        "commonName": "経口弱毒生ヒトロタウイルスワクチン",
+        "variants": [
+          {
+            "name": "ロタリックス内用液",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631300AS1"
+          }
+        ]
+      },
+      {
+        "commonName": "5価経口弱毒生ロタウイルスワクチン",
+        "variants": [
+          {
+            "name": "ロタテック内用液",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631300AS1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "A型肝炎",
+    "vaccines": [
+      {
+        "commonName": "乾燥組織培養不活化A型肝炎ワクチン",
+        "variants": [
+          {
+            "name": "エイムゲン",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631340GD1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "B型肝炎",
+    "vaccines": [
+      {
+        "commonName": "組換え沈降B型肝炎ワクチン（酵母由来）",
+        "variants": [
+          {
+            "name": "ヘプタバックス－II/ヘプタバックス-II水性懸濁注シリンジ0.25mL／ヘプタバックス-II水性懸濁注シリンジ0.5mL",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/6313402A2"
+          },
+          {
+            "name": "ヘプタバックス-II水性懸濁注シリンジ0.5mL",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/6313402A2"
+          },
+          {
+            "name": "ビームゲン注0.25mL",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/6313402A2"
+          },
+          {
+            "name": "ビームゲン注0.5mL",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/6313402A2"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "BCG",
+    "vaccines": [
+      {
+        "commonName": "乾燥BCGワクチン",
+        "variants": [
+          {
+            "name": "乾燥BCGワクチン（経皮用・1人用）",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631140BD3"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "DPT-IPV（4種混合）",
+    "vaccines": [
+      {
+        "commonName": "沈降精製百日せきジフテリア破傷風不活化ポリオ（セービン株）混合ワクチン",
+        "variants": [
+          {
+            "name": "テトラビック皮下注シリンジ",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/636140DG1"
+          },
+          {
+            "name": "クアトロバック皮下注シリンジ",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/636140DG1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "DPT-DPT（3種混合）",
+    "vaccines": [
+      {
+        "commonName": "沈降精製百日せきジフテリア破傷風混合ワクチン",
+        "variants": [
+          {
+            "name": "トリビック",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/636140BA3"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "DT（2種混合）",
+    "vaccines": [
+      {
+        "commonName": "沈降ジフテリア破傷風混合トキソイド",
+        "variants": [
+          {
+            "name": "沈降ジフテリア破傷風混合トキソイド「タケダ」",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/636140AA1"
+          }
+        ]
+      },
+      {
+        "commonName": "沈降ジフテリア破傷風混合トキソイド",
+        "variants": [
+          {
+            "name": "DTビック",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/636140AA1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "Hib（インフルエンザ菌b型）",
+    "vaccines": [
+      {
+        "commonName": "乾燥ヘモフィルスb型ワクチン（破傷風トキソイド結合体）",
+        "variants": [
+          {
+            "name": "アクトヒブ",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631140CD1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "HPV（ヒトパピローマウイルス）",
+    "vaccines": [
+      {
+        "commonName": "組換え沈降2価ヒトパピローマウイルス様粒子ワクチン（イラクサギンウワバ細胞由来）",
+        "variants": [
+          {
+            "name": "サーバリックス",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631340Q"
+          }
+        ]
+      },
+      {
+        "commonName": "組換え沈降4価ヒトパピローマウイルス様粒子ワクチン（酵母由来）",
+        "variants": [
+          {
+            "name": "ガーダシル水性懸濁筋注シリンジ",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631340T"
+          }
+        ]
+      },
+      {
+        "commonName": "組換え沈降9価ヒトパピローマウイルス様粒子ワクチン（酵母由来）",
+        "variants": [
+          {
+            "name": "シルガード9水性懸濁筋注シリンジ",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631341C"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "IPV（不活化ポリオ）",
+    "vaccines": [
+      {
+        "commonName": "不活化ポリオワクチン（ソークワクチン）",
+        "variants": [
+          {
+            "name": "イモバックスポリオ皮下注",
+            "url": "https://www.pmda.go.jp/PmdaSearch/iyakuDetail/GeneralList/631340UG1"
+          }
+        ]
+      }
+    ]
+  }
+]

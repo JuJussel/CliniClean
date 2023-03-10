@@ -2,6 +2,7 @@
     <div v-if="activeOnly">
         <cui-table
             :data="diseases.active"
+            style="max-height: 245px"
         >
             <template #header>
                 <h2>{{ $lang.diseaseName }} {{ $lang.valid }}</h2>

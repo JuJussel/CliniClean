@@ -1,6 +1,28 @@
 <template>
     <div>
         <cui-table 
+            v-if="category.code === 31"
+            :data="settingStore.settingData.vaccines" 
+            style="height: 100%" 
+            singleSelect 
+            :loading="loading"
+            @select="selectItem">
+            <template #header>
+                <div style="display: flex; align-items: center">
+                    <h2> {{ $lang.procedureCategoryLabels[category.label] }} </h2>
+                </div>
+            </template>
+            <template #thead>
+                <cui-th> {{ $lang.procedureName}} </cui-th>
+                <cui-th> {{ $lang.points}} </cui-th>
+            </template>
+            <template v-slot:row="{ row }">
+                <td> {{ row.disease }} </td>
+                <td> {{ row.cost }} </td>
+            </template>
+        </cui-table>
+        <cui-table 
+            v-else
             :data="search !== '' ? results : categoryFavourites" 
             style="height: 100%" 
             singleSelect 
@@ -33,6 +55,10 @@
 </template>
 
 <script>
+
+import {useSettingStore} from '@/stores/setting'
+import {mapStores} from 'pinia'
+
 export default {
     props: {
         category: {
@@ -90,6 +116,7 @@ export default {
         }
     },
     computed: {
+        ...mapStores(useSettingStore),
         categoryFavourites() {
             return this.favourites.filter(item => item.cat.code === this.category.code)                
         }

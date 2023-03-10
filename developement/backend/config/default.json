@@ -1,5 +1,12 @@
 {
     "preflight": false,
+    "app": {
+        "port": "3003",
+        "certPath": "/etc/pki/tls/certs/key.pem",
+        "certKeyPath": "/etc/pki/tls/certs/cert.pem",
+        "uploadLimit": "50mb",
+        "useHttps": true
+    },
     "auth": {
         "secret": "StrongSecret",
         "lifetime": 3600

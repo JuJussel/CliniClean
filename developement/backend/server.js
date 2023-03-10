@@ -1,30 +1,31 @@
 const express = require('express');
 const fs = require('fs')
+const config = require('./config')
 const https = require('https')
 const cors = require("cors");
 const routes = require('./app/routes');
 const app = express();
 const helmet = require('helmet');
-const corsOptions = require('./config').cors
 const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const server = https.createServer({
-  key: fs.readFileSync('/etc/pki/tls/certs/key.pem'),
-  cert: fs.readFileSync('/etc/pki/tls/certs/cert.pem')
+  key: fs.readFileSync(config.app.certPath),
+  cert: fs.readFileSync(config.app.certKeyPath)
 }, app);
-const port = 3003;
+const port = config.app.port;
+
 
 require("./app/utils/logger.util");
 require('./app/utils/websocket.util')(server);
 
-app.use(express.json({ limit: '50mb' }))
+app.use(express.json({ limit: config.app.uploadLimit }))
 app.use(express.urlencoded({
   extended: true,
-  limit: '50mb'
+  limit: config.app.uploadLimit
 }));
 app.use(cookieParser());
 app.use(helmet());
-app.use(cors(corsOptions));
+app.use(cors(config.cors));
 app.use(morgan("short", { stream: $logger.stream }));
 app.use('/', routes);
 

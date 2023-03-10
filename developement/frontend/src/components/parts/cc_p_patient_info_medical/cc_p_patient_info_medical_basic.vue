@@ -32,25 +32,17 @@
         </div>
         <div class="grid-tables">
             <cui-card noPadding>
-                <allergies></allergies>
+                <allergies compact></allergies>
             </cui-card>
 
             <cui-card noPadding>
-                <cui-table>
-                    <template #header>
-                        <h3> Problem </h3>
-                    </template>
-                </cui-table>
+                <problems compact></problems>
             </cui-card>
             <cui-card noPadding>
                 <perscriptions activeOnly></perscriptions>
             </cui-card>
             <cui-card>
-                <cui-table>
-                    <template #header>
-                        <h3> Imunization </h3>
-                    </template>
-                </cui-table>
+                <vaccines></vaccines>
             </cui-card>
             <cui-card>
                 <orders pendingOnly></orders>
@@ -160,13 +152,17 @@ import diseases from './cc_p_patient_info_medical_diseases.vue'
 import perscriptions from './cc_p_patient_info_medical_perscription.vue'
 import orders from './cc_p_patient_info_medical_orders.vue'
 import allergies from './cc_p_patient_info_medical_allergies'
+import problems from './cc_p_patient_info_medical_problems'
+import vaccines from './cc_p_patient_info_medical_vaccines'
 
 export default {
     components: {
         diseases,
         perscriptions,
         orders,
-        allergies
+        allergies,
+        problems,
+        vaccines
     },
     props: {
         outline: {

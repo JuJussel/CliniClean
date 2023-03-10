@@ -55,8 +55,31 @@ export default {
     data() {
         return {
             tabs: [
-                { label: this.$lang.basic, name: "basic", icon: "fas fa-info" },
-                { label: "reg", name: "register", icon: "fas fa-info" },
+                {
+                    label: this.$lang.basic,
+                    name: "basic",
+                    icon: "fas fa-info"
+                },
+                {
+                    label: "reg",
+                    name: "register",
+                    icon: "fas fa-info"
+                },
+                {
+                    label: "LiSo",
+                    name: "register",
+                    icon: "fas fa-info"
+                },
+                {
+                    label: "AP",
+                    name: "register",
+                    icon: "fas fa-info"
+                },
+                {
+                    label: "PV",
+                    name: "register",
+                    icon: "fas fa-info"
+                },
                 {
                     label: this.$lang.vitals,
                     name: "vitals",
