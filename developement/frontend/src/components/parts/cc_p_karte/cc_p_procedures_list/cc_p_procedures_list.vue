@@ -8,7 +8,7 @@
                     <i :class="row.cat.icon"></i>
                 </td>
                 <td style="border-top: 5px solid var(--cui-gray-2)">
-                    <b>{{ row.name || row.disease }}</b>
+                    <b>{{ row.name }}</b>
                     <i v-if="row.varData" class="fas fa-clipboard-list"></i>
                 </td>
                 <td

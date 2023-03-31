@@ -8,14 +8,18 @@
             @update:modelValue="updateValue; varData.tradeName = ''"
             :disabled="item.order?.done || item.order?.locked"
         />
-        <cui-select
-            :data="varData.commonName?.variants || []"
-            v-model="varData.tradeName"
-            displayValueProp="name"
-            :label="$lang.tradeName"
-            @update:modelValue="updateValue"
-            :disabled="item.order?.done || item.order?.locked"
-        />
+        <div style="display: flex; align-items: center">
+            <cui-select
+                :data="varData.commonName?.variants || []"
+                v-model="varData.tradeName"
+                displayValueProp="name"
+                :label="$lang.tradeName"
+                @update:modelValue="updateValue"
+                :disabled="item.order?.done || item.order?.locked"
+            />
+            <cui-button icon="fas fa-circle-info" plain @click="openLink">
+            </cui-button>
+        </div>
     </div>
     <div style="display: flex">
         <cui-select
@@ -68,6 +72,9 @@ export default {
                 this.varData = this.item.varData;
             }
         },
+        openLink() {
+            window.open(this.varData.tradeName.url, '_blank');
+        }
     },
     data() {
         return {

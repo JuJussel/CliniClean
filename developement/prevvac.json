@@ -1,7 +1,7 @@
 [
   "https://www.pmda.go.jp/safety/info-services/drugs/items-information/vacc-guide/0002.html",
   {
-    "disease": "インフルエンザ",
+    "name": "インフルエンザ",
     "vaccines": [
       {
         "commonName": "インフルエンザHAワクチン",
@@ -43,7 +43,7 @@
     ]
   },
   {
-    "disease": "黄熱",
+    "name": "黄熱",
     "vaccines": [
       {
         "commonName": "黄熱ワクチン",
@@ -57,7 +57,7 @@
     ]
   },
   {
-    "disease": "おたふくかぜ（流行性耳下腺炎）",
+    "name": "おたふくかぜ（流行性耳下腺炎）",
     "vaccines": [
       {
         "commonName": "乾燥弱毒生おたふくかぜワクチン",
@@ -75,7 +75,7 @@
     ]
   },
   {
-    "disease": "狂犬病",
+    "name": "狂犬病",
     "vaccines": [
       {
         "commonName": "乾燥組織培養不活化狂犬病ワクチン",
@@ -93,7 +93,7 @@
     ]
   },
   {
-    "disease": "新型コロナウイルス感染症",
+    "name": "新型コロナウイルス感染症",
     "vaccines": [
       {
         "commonName": "コロナウイルス修飾ウリジンRNA ワクチン（SARS-CoV-2）",
@@ -166,7 +166,7 @@
     ]
   },
   {
-    "disease": "水痘",
+    "name": "水痘",
     "vaccines": [
       {
         "commonName": "乾燥弱毒生水痘ワクチン",
@@ -180,7 +180,7 @@
     ]
   },
   {
-    "disease": "髄膜炎菌（4価結合体）",
+    "name": "髄膜炎菌（4価結合体）",
     "vaccines": [
       {
         "commonName": "4価髄膜炎菌ワクチン（ジフテリアトキソイド結合体）",
@@ -194,7 +194,7 @@
     ]
   },
   {
-    "disease": "成人用ジフテリアトキソイド",
+    "name": "成人用ジフテリアトキソイド",
     "vaccines": [
       {
         "commonName": "成人用沈降ジフテリアトキソイド",
@@ -208,7 +208,7 @@
     ]
   },
   {
-    "disease": "帯状疱疹",
+    "name": "帯状疱疹",
     "vaccines": [
       {
         "commonName": "乾燥組換え帯状疱疹ワクチン",
@@ -222,7 +222,7 @@
     ]
   },
   {
-    "disease": "痘そう・サル痘",
+    "name": "痘そう・サル痘",
     "vaccines": [
       {
         "commonName": "乾燥細胞培養痘そうワクチン",
@@ -236,7 +236,7 @@
     ]
   },
   {
-    "disease": "日本脳炎",
+    "name": "日本脳炎",
     "vaccines": [
       {
         "commonName": "乾燥細胞培養日本脳炎ワクチン",
@@ -254,7 +254,7 @@
     ]
   },
   {
-    "disease": "肺炎球菌（13価結合型）",
+    "name": "肺炎球菌（13価結合型）",
     "vaccines": [
       {
         "commonName": "沈降13価肺炎球菌結合型ワクチン（無毒性変異ジフテリア毒素結合体）",
@@ -268,7 +268,7 @@
     ]
   },
   {
-    "disease": "肺炎球菌（23価莢膜ポリサッカライド）",
+    "name": "肺炎球菌（23価莢膜ポリサッカライド）",
     "vaccines": [
       {
         "commonName": "肺炎球菌ワクチン",
@@ -282,7 +282,7 @@
     ]
   },
   {
-    "disease": "破傷風トキソイド",
+    "name": "破傷風トキソイド",
     "vaccines": [
       {
         "commonName": "沈降破傷風トキソイド",
@@ -304,7 +304,7 @@
     ]
   },
   {
-    "disease": "風しん",
+    "name": "風しん",
     "vaccines": [
       {
         "commonName": "乾燥弱毒生風しんワクチン",
@@ -318,7 +318,7 @@
     ]
   },
   {
-    "disease": "麻しん（はしか）",
+    "name": "麻しん（はしか）",
     "vaccines": [
       {
         "commonName": "乾燥弱毒生麻しんワクチン",
@@ -332,7 +332,7 @@
     ]
   },
   {
-    "disease": "麻しん、風しん混合（MR）",
+    "name": "麻しん、風しん混合（MR）",
     "vaccines": [
       {
         "commonName": "乾燥弱毒生麻しん風しん混合ワクチン",
@@ -354,7 +354,7 @@
     ]
   },
   {
-    "disease": "ロタウイルス",
+    "name": "ロタウイルス",
     "vaccines": [
       {
         "commonName": "経口弱毒生ヒトロタウイルスワクチン",
@@ -377,7 +377,7 @@
     ]
   },
   {
-    "disease": "A型肝炎",
+    "name": "A型肝炎",
     "vaccines": [
       {
         "commonName": "乾燥組織培養不活化A型肝炎ワクチン",
@@ -391,7 +391,7 @@
     ]
   },
   {
-    "disease": "B型肝炎",
+    "name": "B型肝炎",
     "vaccines": [
       {
         "commonName": "組換え沈降B型肝炎ワクチン（酵母由来）",
@@ -417,7 +417,7 @@
     ]
   },
   {
-    "disease": "BCG",
+    "name": "BCG",
     "vaccines": [
       {
         "commonName": "乾燥BCGワクチン",
@@ -431,7 +431,7 @@
     ]
   },
   {
-    "disease": "DPT-IPV（4種混合）",
+    "name": "DPT-IPV（4種混合）",
     "vaccines": [
       {
         "commonName": "沈降精製百日せきジフテリア破傷風不活化ポリオ（セービン株）混合ワクチン",
@@ -449,7 +449,7 @@
     ]
   },
   {
-    "disease": "DPT-DPT（3種混合）",
+    "name": "DPT-DPT（3種混合）",
     "vaccines": [
       {
         "commonName": "沈降精製百日せきジフテリア破傷風混合ワクチン",
@@ -463,7 +463,7 @@
     ]
   },
   {
-    "disease": "DT（2種混合）",
+    "name": "DT（2種混合）",
     "vaccines": [
       {
         "commonName": "沈降ジフテリア破傷風混合トキソイド",
@@ -486,7 +486,7 @@
     ]
   },
   {
-    "disease": "Hib（インフルエンザ菌b型）",
+    "name": "Hib（インフルエンザ菌b型）",
     "vaccines": [
       {
         "commonName": "乾燥ヘモフィルスb型ワクチン（破傷風トキソイド結合体）",
@@ -500,7 +500,7 @@
     ]
   },
   {
-    "disease": "HPV（ヒトパピローマウイルス）",
+    "name": "HPV（ヒトパピローマウイルス）",
     "vaccines": [
       {
         "commonName": "組換え沈降2価ヒトパピローマウイルス様粒子ワクチン（イラクサギンウワバ細胞由来）",
@@ -532,7 +532,7 @@
     ]
   },
   {
-    "disease": "IPV（不活化ポリオ）",
+    "name": "IPV（不活化ポリオ）",
     "vaccines": [
       {
         "commonName": "不活化ポリオワクチン（ソークワクチン）",

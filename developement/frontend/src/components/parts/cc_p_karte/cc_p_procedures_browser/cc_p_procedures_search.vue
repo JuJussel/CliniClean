@@ -17,7 +17,7 @@
                 <cui-th> {{ $lang.points}} </cui-th>
             </template>
             <template v-slot:row="{ row }">
-                <td> {{ row.disease }} </td>
+                <td> {{ row.name }} </td>
                 <td> {{ row.cost }} </td>
             </template>
         </cui-table>

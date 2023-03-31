@@ -1,18 +1,12 @@
 <template>
     <div>
-        <cui-table :data="medicalStore.medicalData?.vaccines || []" style="max-height: 245px" >
+        <cui-table :data="vaccines || []" style="max-height: 245px" >
             <template #header>
                 <h2>{{ $lang.vaccines }}</h2>
-                <cui-button
-                    icon="fas fa-plus"
-                    :label="$lang.register"
-                    @click="openEditor"
-                    v-if="encounterStore.encounterData"
-                />
             </template>
             <template v-slot:row="{ row }">
                 <td> {{ row.name }} </td>
-                <td> {{ row.level }} </td>
+                <td> {{ $parseDate(row.date) }} </td>
             </template>
 
         </cui-table>
@@ -36,6 +30,21 @@ export default {
     },
     computed: {
         ...mapStores(useMedicalStore, useEncounterStore),
+        vaccines() {
+            let vaccines = [];
+            this.medicalStore.medicalData.encounters.forEach((enc) => {
+                let procedures = enc.karte?.procedures || null;
+                if (!procedures) return;
+                procedures = procedures.filter((proc) => proc.cat?.code === 31);
+                procedures = procedures.map((item) => {
+                    item.encounter = enc.id;
+                    item.date = enc.date;
+                    return item;
+                });
+                vaccines = vaccines.concat(procedures);
+            });
+            return vaccines;
+        },
     },
     methods: {
         openEditor(data = null) {

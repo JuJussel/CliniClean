@@ -1,18 +1,38 @@
 <template>
     <div style="position: relative">
         <div v-if="loading" class="loader"></div>
-        <div>
-            <cui-input :label="$lang.title" v-model="problemData.name"></cui-input>
-            <cui-textarea :label="$lang.note" v-model="problemData.note" />
+        <div style="display: grid; grid-template-columns: 300px auto; grid-gap: 20px">
+            <div>
+                <cui-radio :label="$lang.other" value="other" v-model="template"></cui-radio>
+                <cui-input :disabled="template !== 'other'" :label="$lang.title" v-model="problemData.name"></cui-input>
+            </div>
+            
+            <div>
+                <div style="display: flex; flex-wrap: wrap">
+                        <cui-radio 
+                            v-for="item in listStore.listData.problemTemplates" 
+                            :key="item.name" 
+                            :label="$lang.problemLabels[item]"
+                            style="width: 150px"
+                            :value="item"
+                            v-model="template"
+                            >
+                        </cui-radio>
+                </div>
+            </div>
         </div>
+        <cui-textarea :label="$lang.note" v-model="problemData.note" />
         <div style="display: flex; justify-content: flex-end">
             <cui-button :disabled="loading" plain :label="$lang.cancel" @click="$emit('close')"></cui-button>
-            <cui-button :disabled="problemData.name === ''" :loading="loading" primary :label="$lang.save" @click="save()"></cui-button>
+            <cui-button :disabled="problemData.name === '' && template === 'other'" :loading="loading" primary :label="$lang.save" @click="save()"></cui-button>
         </div>
     </div>
 </template>
 
 <script>
+
+import { useListStore } from '@/stores/list'
+import { mapStores } from 'pinia'
 
 export default {
     props: {
@@ -28,12 +48,16 @@ export default {
                 name: "",
                 note: ""
             },
+            template: "other",
             loading: false
         }
     },
     methods: {
         save() {
             this.loading = true
+            if (this.template !== 'other') {
+                this.problemData.name = this.$lang.problemLabels[this.template]
+            }
             this.$emit('update', this.problemData)
         }
     },
@@ -41,5 +65,8 @@ export default {
         if (this.problem)
             Object.assign(this.problemData, this.problem)
     },
+    computed: {
+        ...mapStores(useListStore)
+    }
 }
 </script>

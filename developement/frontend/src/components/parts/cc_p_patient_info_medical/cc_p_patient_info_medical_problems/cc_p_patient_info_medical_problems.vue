@@ -31,7 +31,7 @@
         @close="editModal.open = false"
     >
         <cui-card
-            style="width: 450px; height: 320px"
+            style="width: 800px; height: 470px"
             v-if="editModal.open"
         >
             <template #header>

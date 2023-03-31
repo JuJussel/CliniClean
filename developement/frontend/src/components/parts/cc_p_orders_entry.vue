@@ -70,6 +70,12 @@
                     :item="orderLocal.procedure"
                 />
             </div>
+            <div v-if="orderLocal.procedure.cat.code === 31">
+                <prev-vac-input
+                    @update="updateLocalOrderVar"
+                    :item="orderLocal.procedure"
+                />
+            </div>
             <div
                 v-if="orderLocal.procedure.cat.code === 90"
                 style="height: 50%"
@@ -104,6 +110,7 @@ import { mapStores } from 'pinia'
 
 import examInput from "../parts/cc_p_karte/cc_p_procedures_list/cc_p_procedure_exam.vue";
 import shotInput from "../parts/cc_p_karte/cc_p_procedures_list/cc_p_procedure_shot.vue";
+import prevVacInput from "../parts/cc_p_karte/cc_p_procedures_list/cc_p_procedure_prevVac.vue";
 import healthCheck from "../parts/cc_p_health_check";
 import { ContentMatch } from 'prosemirror-model'
 
@@ -112,6 +119,7 @@ export default {
         examInput,
         shotInput,
         healthCheck,
+        prevVacInput
     },
     emits: ["update"],
     beforeUnmount() {

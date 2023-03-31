@@ -39,6 +39,7 @@ import procedures from "./cc_p_patient_info_medical_procedures.vue";
 import diseases from "./cc_p_patient_info_medical_diseases.vue";
 import encounters from "./cc_p_patient_info_medical_encounters.vue";
 import files from "./cc_p_patient_info_medical_files.vue";
+import risks from "./cc_p_patient_info_medical_risks";
 
 export default {
     components: {
@@ -51,6 +52,7 @@ export default {
         diseases,
         encounters,
         files,
+        risks
     },
     data() {
         return {
@@ -66,8 +68,8 @@ export default {
                     icon: "fas fa-info"
                 },
                 {
-                    label: "LiSo",
-                    name: "register",
+                    label: this.$lang.lifestyle,
+                    name: "risks",
                     icon: "fas fa-info"
                 },
                 {
