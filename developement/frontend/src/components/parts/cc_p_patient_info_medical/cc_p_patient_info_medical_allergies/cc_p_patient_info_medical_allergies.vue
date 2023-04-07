@@ -65,10 +65,10 @@ export default {
             this.editModal.open = true
         },
         async saveAllergy(allergy) {
-            const patientId = 8
+            const patientId = this.encounterStore.encounterData.patient.id
             //save to DB
             try {
-                let result = await this.$api.post(
+                await this.$api.post(
                     "patients/" + patientId + "/medical?type=allergies",
                     allergy
                 )
@@ -77,7 +77,6 @@ export default {
             } catch (err) {
                 this.$apiError(err)
             }
-            // this.editModal.open = false
         }
     },
 }

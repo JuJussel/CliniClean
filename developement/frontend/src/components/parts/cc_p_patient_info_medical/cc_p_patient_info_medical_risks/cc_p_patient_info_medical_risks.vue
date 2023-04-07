@@ -3,7 +3,16 @@
         <div class="card-container">
             <cui-card>
                 <template v-slot:header>
-                    <h2>{{ $lang.lifestyleHabits }}</h2>
+                    <div style="display: flex; justify-content: space-between; width: 100%">
+                        <h2>{{ $lang.lifestyleHabits }}</h2>
+                        <cui-button
+                            icon="fas fa-plus"
+                            :label="$lang.register"
+                            v-if="encounterStore.encounterData"
+                            @click="modals.habits.visible = true"
+                        />
+                    </div>
+
                 </template>
                 <div></div>
             </cui-card>
@@ -35,6 +44,7 @@
             v-if="modals.habits.visible"
         >
             <template #header>
+                {{ $lang.lifestyleHabits }}
             </template>
         </cui-card>
     </cui-modal>
@@ -66,7 +76,7 @@ export default {
             this.editModal.open = true
         },
         async saveAllergy(allergy) {
-            const patientId = 8
+            const patientId = this.encounterStore.encounterData.patient.id
             //save to DB
             try {
                 let result = await this.$api.post(
@@ -78,7 +88,6 @@ export default {
             } catch (err) {
                 this.$apiError(err)
             }
-            // this.editModal.open = false
         }
     },
 }
