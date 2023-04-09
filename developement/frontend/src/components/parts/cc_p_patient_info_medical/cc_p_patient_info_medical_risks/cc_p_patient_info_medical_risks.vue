@@ -7,14 +7,23 @@
                         <h2>{{ $lang.lifestyleHabits }}</h2>
                         <cui-button
                             icon="fas fa-plus"
-                            :label="$lang.register"
+                            :label="$lang.edit"
                             v-if="encounterStore.encounterData"
                             @click="modals.habits.visible = true"
                         />
                     </div>
-
                 </template>
-                <div></div>
+                <div>
+                    <!-- Table with v-for. -->
+                        <div>{{ $lang.tobacco }}</div>
+                        <div>{{ $lang.coffee }}</div>
+                        <div>{{ $lang.alcohol }}</div>
+                        <div>{{ $lang.recreationalDrugs }}</div>
+                        <div>{{ $lang.counseling }}</div>
+                        <div>{{ $lang.exercisePatterns }}</div>
+                        <div>{{ $lang.hazardousActivities }}</div>
+                        <div>{{ $lang.sleepPatterns }}</div>
+                </div>
             </cui-card>
             <cui-card>
                 <template v-slot:header>
