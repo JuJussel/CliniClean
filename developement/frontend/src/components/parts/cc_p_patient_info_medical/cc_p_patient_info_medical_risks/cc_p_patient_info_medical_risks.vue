@@ -14,15 +14,17 @@
                     </div>
                 </template>
                 <div>
-                    <!-- Table with v-for. -->
-                        <div>{{ $lang.tobacco }}</div>
-                        <div>{{ $lang.coffee }}</div>
-                        <div>{{ $lang.alcohol }}</div>
-                        <div>{{ $lang.recreationalDrugs }}</div>
-                        <div>{{ $lang.counseling }}</div>
-                        <div>{{ $lang.exercisePatterns }}</div>
-                        <div>{{ $lang.hazardousActivities }}</div>
-                        <div>{{ $lang.sleepPatterns }}</div>
+                    <cui-table :data="lifestyleCats || []" style="max-height: 245px" >
+                        <template #header>
+                            <h2>{{ $lang.lifestyle }}</h2>
+                        </template>
+                        <template v-slot:row="{ row }">
+                            <td> {{ row.name }} </td>
+                            <td> {{ $parseDate(row.date) }} </td>
+                        </template>
+
+                    </cui-table>
+
                 </div>
             </cui-card>
             <cui-card>
@@ -73,7 +75,17 @@ export default {
                     open: false,
                     loading: false
                 }
-            }
+            },
+            lifestyleCats: [
+                {name: "tobacco" },
+                {name: "coffee" },
+                {name: "alcohol" },
+                {name: "recreationalDrugs" },
+                {name: "counseling" },
+                {name: "exercisePatterns" },
+                {name: "hazardousActivities" },
+                {name: "sleepPatterns" }
+            ]
         }
     },
     computed: {
