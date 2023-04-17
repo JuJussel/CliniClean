@@ -9,29 +9,24 @@
                             icon="fas fa-plus"
                             :label="$lang.edit"
                             v-if="encounterStore.encounterData"
-                            @click="modals.habits.visible = true"
+                            @click="openHabits"
                         />
                     </div>
                 </template>
-                <div>
-                    <cui-table :data="lifestyleCats || []" style="max-height: 245px" >
-                        <template #header>
-                            <h2>{{ $lang.lifestyle }}</h2>
-                        </template>
-                        <template v-slot:row="{ row }">
-                            <td> {{ row.name }} </td>
-                            <td> {{ $parseDate(row.date) }} </td>
-                        </template>
-
-                    </cui-table>
-
+                <div style="display: flex; flex-wrap: wrap">
+                    <cui-card style="width: 200px" v-for="(item,index) in habitCats" :key="index">
+                        <div style="display: flex; align-items: center;">
+                            <i style="margin-right: 10px" :class="item.icon"></i>
+                            {{ $lang[item.name] }}
+                            {{ item.value }}
+                        </div>
+                    </cui-card>
                 </div>
             </cui-card>
             <cui-card>
                 <template v-slot:header>
                     <h2>Social</h2>
                 </template>
-                <div></div>
             </cui-card>
         </div>
         <!-- <cui-table :data="vaccines || []" style="max-height: 245px" >
@@ -51,12 +46,36 @@
         @close="modals.habits.visible = false"
     >
         <cui-card
-            style="width: 600px; height: 640px"
+            style="width: 1000px; height: 750px"
             v-if="modals.habits.visible"
         >
             <template #header>
                 {{ $lang.lifestyleHabits }}
             </template>
+            <div style="display: flex; flex-wrap: wrap">
+                <cui-card style="width: 300px" v-for="(item,index) in habitInput" :key="index">
+                    <div style="display: flex; align-items: center;">
+                        <i style="margin-right: 10px" :class="item.icon"></i>
+                        {{ $lang[item.name] }}
+                    </div>
+                    <cui-textarea v-model="item.value" rows="5" cols="33" />
+                </cui-card>
+            </div>
+            <template #footer>
+                <cui-button
+                    :label="$lang.cancel"
+                    @click="this.modals.habits.visible = false"
+                    plain
+                    :loading="modals.habits.loading"
+                />
+                <cui-button
+                    :label="$lang.save"
+                    primary
+                    @click="saveHabit"
+                    :loading="modals.habits.loading"
+                />
+            </template>
+
         </cui-card>
     </cui-modal>
 </template>
@@ -72,40 +91,49 @@ export default {
         return {
             modals: {
                 habits: {
-                    open: false,
+                    visible: false,
                     loading: false
                 }
             },
-            lifestyleCats: [
-                {name: "tobacco" },
-                {name: "coffee" },
-                {name: "alcohol" },
-                {name: "recreationalDrugs" },
-                {name: "counseling" },
-                {name: "exercisePatterns" },
-                {name: "hazardousActivities" },
-                {name: "sleepPatterns" }
-            ]
+            habitInput: null
         }
     },
     computed: {
         ...mapStores(useMedicalStore, useEncounterStore),
+        habitCats() {
+            let tempalte = [
+                {name: "tobacco", icon: "fa-solid fa-smoking", value: ""},
+                {name: "coffee", icon: "fa-solid fa-mug-hot", value: ""},
+                {name: "alcohol", icon: "fa-solid fa-martini-glass", value: ""},
+                {name: "recreationalDrugs", icon: "fa-solid fa-cannabis", value: ""},
+                {name: "counseling", icon: "fa-solid fa-couch", value: ""},
+                {name: "exercisePatterns", icon: "fa-solid fa-dumbbell", value: ""},
+                {name: "hazardousActivities", icon: "fa-solid fa-bomb", value: ""},
+                {name: "sleepPatterns", icon: "fa-solid fa-moon", value: "" }
+            ]
+            return this.medicalStore.medicalData.habits || tempalte
+        }
     },
     methods: {
-        openEditor(data = null) {
-            if (data) Object.assign(editModal.data, data)
-            this.editModal.open = true
+        openHabits() {
+            let habitData = this.medicalStore.medicalData.habits || JSON.parse(JSON.stringify(this.habitCats))
+            habitData.forEach(item => delete item.icon)
+            this.habitInput = habitData
+            this.modals.habits.visible = true
         },
-        async saveAllergy(allergy) {
+
+        async saveHabit() {
+            this.modals.habits.loading = true
             const patientId = this.encounterStore.encounterData.patient.id
             //save to DB
             try {
                 let result = await this.$api.post(
-                    "patients/" + patientId + "/medical?type=allergies",
-                    allergy
+                    "patients/" + patientId + "/medical?type=habits",
+                    this.habitInput
                 )
-                this.editModal.open = false
-                this.medicalStore.getData('allergies')
+                this.modals.habits.visible = false
+                this.modals.habits.loading = false
+                this.medicalStore.getData('habits')
             } catch (err) {
                 this.$apiError(err)
             }

@@ -80,23 +80,45 @@ exports.add = (req, res) => {
   // Construct dynamic path
   let path = `medical.${type}`
 
-  // Insert new Item
-  Patient.findOneAndUpdate(
-    { _id: patientId },
-    {
-      $push: { [path]: request }
-    },
-    (err) => {
-      if (err) {
-        $logger.error(err);
-        res.status(500).send({ message: "Error creating Item" });
-        return
-      }
-    })
+  // Habits needs special case
+  // Is replaced which each post, not added
+
+  if (type === "habits") {
+    Patient.findOneAndUpdate(
+      { _id: patientId },
+      { [path]: request },
+      (err) => {
+        if (err) {
+          $logger.error(err);
+          res.status(500).send({ message: "Error creating Item" });
+          return
+        }
+      })
+  }
+
+  else {
+
+    // For all other types
+    // Insert new Item
+    Patient.findOneAndUpdate(
+      { _id: patientId },
+      {
+        $push: { [path]: request }
+      },
+      (err) => {
+        if (err) {
+          $logger.error(err);
+          res.status(500).send({ message: "Error creating Item" });
+          return
+        }
+      })
+
+  }
 
   // Send final response
   res.send({ ok: true })
 }
+
 
 exports.get = async (req, res) => {
 
