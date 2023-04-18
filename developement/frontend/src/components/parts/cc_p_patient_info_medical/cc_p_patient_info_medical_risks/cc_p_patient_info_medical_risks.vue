@@ -16,10 +16,10 @@
                 <div style="display: flex; flex-wrap: wrap">
                     <cui-card style="width: 200px" v-for="(item,index) in habitCats" :key="index">
                         <div style="display: flex; align-items: center;">
-                            <i style="margin-right: 10px" :class="item.icon"></i>
+                            <i style="margin-right: 10px" :class="habitTemplate.find(i => i.name === item.name).icon"></i>
                             {{ $lang[item.name] }}
-                            {{ item.value }}
                         </div>
+                        <div v-if="item.value !== ''" style="margin: 0 0 0 30px;padding: 10px; background-color: var(--cui-gray-2); border-radius: 10px;">{{ item.value }}</div>
                     </cui-card>
                 </div>
             </cui-card>
@@ -27,6 +27,7 @@
                 <template v-slot:header>
                     <h2>Social</h2>
                 </template>
+                Coming soon...
             </cui-card>
         </div>
         <!-- <cui-table :data="vaccines || []" style="max-height: 245px" >
@@ -55,7 +56,7 @@
             <div style="display: flex; flex-wrap: wrap">
                 <cui-card style="width: 300px" v-for="(item,index) in habitInput" :key="index">
                     <div style="display: flex; align-items: center;">
-                        <i style="margin-right: 10px" :class="item.icon"></i>
+                        <i style="margin-right: 10px" :class="habitTemplate.find(i => i.name === item.name).icon"></i>
                         {{ $lang[item.name] }}
                     </div>
                     <cui-textarea v-model="item.value" rows="5" cols="33" />
@@ -95,13 +96,8 @@ export default {
                     loading: false
                 }
             },
-            habitInput: null
-        }
-    },
-    computed: {
-        ...mapStores(useMedicalStore, useEncounterStore),
-        habitCats() {
-            let tempalte = [
+            habitInput: null,
+            habitTemplate: [
                 {name: "tobacco", icon: "fa-solid fa-smoking", value: ""},
                 {name: "coffee", icon: "fa-solid fa-mug-hot", value: ""},
                 {name: "alcohol", icon: "fa-solid fa-martini-glass", value: ""},
@@ -111,12 +107,17 @@ export default {
                 {name: "hazardousActivities", icon: "fa-solid fa-bomb", value: ""},
                 {name: "sleepPatterns", icon: "fa-solid fa-moon", value: "" }
             ]
-            return this.medicalStore.medicalData.habits || tempalte
+        }
+    },
+    computed: {
+        ...mapStores(useMedicalStore, useEncounterStore),
+        habitCats() {
+            return this.medicalStore.medicalData.habits || this.habitTemplate
         }
     },
     methods: {
         openHabits() {
-            let habitData = this.medicalStore.medicalData.habits || JSON.parse(JSON.stringify(this.habitCats))
+            let habitData = this.medicalStore.medicalData.habits || this.$copy(this.habitCats)
             habitData.forEach(item => delete item.icon)
             this.habitInput = habitData
             this.modals.habits.visible = true
