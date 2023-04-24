@@ -61,7 +61,7 @@
                     </template>
                     <template #thead>
                         <cui-th> {{ $lang.diseaseName }} </cui-th>
-                        <cui-th style="width: 130px">
+                        <cui-th style="width: 150px">
                             {{ $lang.startDate }}
                         </cui-th>
                         <cui-th style="width: 100px">
@@ -73,7 +73,9 @@
                         <cui-th></cui-th>
                     </template>
                     <template v-slot:row="{ row }">
-                        <td>{{ row.disease.name }}</td>
+                        <cui-tag>
+                            <td>{{ row.disease.name }}</td>
+                        </cui-tag>
                         <td>{{ $parseDate(row.startDate) }}</td>
                         <td>{{ parseSuspectLabel(row) }}</td>
                         <td>

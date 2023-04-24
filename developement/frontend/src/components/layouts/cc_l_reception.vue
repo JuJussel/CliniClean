@@ -146,7 +146,7 @@ export default {
     computed: {
         ...mapStores(usePatientStore, useUiStore),
         hasActivePatient() {
-            return this.patientStore.patientId;
+            return this.patientStore.patientData;
         },
     },
     methods: {

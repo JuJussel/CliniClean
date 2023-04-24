@@ -10,7 +10,7 @@
                     <h2>{{ $lang.procedursOnly }}</h2>
                 </template>
                 <template #thead>
-                    <cui-th> {{ $lang.date }} </cui-th>
+                    <cui-th style="width: 150px"> {{ $lang.date }} </cui-th>
                     <cui-th></cui-th>
                     <cui-th> {{ $lang.procedureName }} </cui-th>
                 </template>
@@ -20,7 +20,9 @@
                         <i :class="row.cat.icon" />
                         {{ $lang.procedureCategoryLabels[row.cat.label] }}
                     </td>
-                    <td>{{ row.name }}</td>
+                    <cui-tag>
+                        <td>{{ row.name }}</td>
+                    </cui-tag>
                 </template>
             </cui-table>
         </cui-card>

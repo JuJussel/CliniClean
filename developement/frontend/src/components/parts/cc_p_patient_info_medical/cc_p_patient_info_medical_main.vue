@@ -13,19 +13,19 @@
                 :index="index"
             />
         </cui-button-group>
-        <keep-alive>
-            <div
-                style="
+        <div
+        style="
                     position: relative;
                     overflow: auto;
                     flex: 1;
                     margin-top: 10px;
-                "
+                    "
             >
-                <div class="loader" v-if="loading" />
+            <div class="loader" v-if="loading" />
+            <keep-alive>
                 <component v-bind:is="activeTab"></component>
-            </div>
-        </keep-alive>
+            </keep-alive>
+        </div>
     </div>
 </template>
 
@@ -63,9 +63,9 @@ export default {
                     icon: "fas fa-info"
                 },
                 {
-                    label: "reg",
+                    label: this.$lang.management,
                     name: "register",
-                    icon: "fas fa-info"
+                    icon: "fas fa-id-card-clip"
                 },
                 {
                     label: this.$lang.lifestyle,
@@ -74,12 +74,12 @@ export default {
                 },
                 {
                     label: "AP",
-                    name: "register",
+                    name: "register1",
                     icon: "fas fa-info"
                 },
                 {
                     label: "PV",
-                    name: "register",
+                    name: "register2",
                     icon: "fas fa-info"
                 },
                 {

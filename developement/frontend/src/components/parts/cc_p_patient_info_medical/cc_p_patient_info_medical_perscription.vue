@@ -26,7 +26,7 @@
                     <h2>{{ $lang.procedureCategoryLabels.perscription }}</h2>
                 </template>
                 <template #thead>
-                    <cui-th> {{ $lang.date }} </cui-th>
+                    <cui-th style="width: 150px"> {{ $lang.date }} </cui-th>
                     <cui-th> {{ $lang.endDate }} </cui-th>
                     <cui-th> {{ $lang.perscriptionType }} </cui-th>
                     <cui-th> {{ $lang.perscriptionName }} </cui-th>
@@ -36,10 +36,12 @@
                     <td>{{ $parseDate(row.date) }}</td>
                     <td style="padding: 0">
                         <span v-if="getEndDate(row)">{{ $parseDate(getEndDate(row)) }}</span>
-                        <cui-button v-else label="終了" @click="updateEndDate(row)">  </cui-button>
+                        <cui-button primary v-else label="終了" @click="updateEndDate(row)">  </cui-button>
                     </td>
                     <td>{{ row.varData?.type.name || "" }}</td>
-                    <td>{{ row.name || "" }}</td>
+                    <cui-tag>
+                        <td>{{ row.name || "" }}</td>
+                    </cui-tag>
                     <td>
                         {{ row.varData?.timing.name || "" }}
                         {{ row.varData?.amount || "" + row.taniname || "" }}

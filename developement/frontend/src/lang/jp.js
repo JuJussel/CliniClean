@@ -98,6 +98,7 @@ export default {
     lifestyleHabits: "生活習慣",
     list: "一覧",
     mailAddress: "メール",
+    management: "管理",
     male: "男性",
     medical: "医療",
     medicationHistory: "薬剤歴",

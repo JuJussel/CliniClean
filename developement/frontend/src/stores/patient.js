@@ -15,11 +15,14 @@ export const usePatientStore = defineStore({
     actions: {
         async getData(id = null) {
             this.loading = true;
+            console.log('patientID' + id);
             if (id) {
-                this.patientId = id
+                this.patientData = {
+                    id: id
+                }
             }
             try {
-                let dbData = await apiService.get('patients/' + this.patientId);
+                let dbData = await apiService.get('patients/' + this.patientData.id);
                 this.patientData = dbData
                 this.loading = false;
 

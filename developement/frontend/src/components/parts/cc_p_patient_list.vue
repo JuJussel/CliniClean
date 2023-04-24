@@ -22,7 +22,7 @@
                         :label="$lang.register"
                         @click="
                             patientStore.patientData = null;
-                            useUiStore.modals.receptionModalPatientEdit = true
+                            uiStore.modals.receptionModalPatientEdit = true
                         "
                     ></cui-button>
                 </slot>
@@ -84,7 +84,9 @@ export default {
         },
         async selectPatient(pat) {
             this.$emit("selected", pat.row);
-            this.patientStore.patientId = pat.row.id
+            this.patientStore.patientData = {
+                id: pat.row.id
+            }
         },
     },
 };
