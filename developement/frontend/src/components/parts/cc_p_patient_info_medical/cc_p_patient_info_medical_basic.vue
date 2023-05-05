@@ -32,7 +32,7 @@
         </div>
         <div class="grid-tables">
             <cui-card noPadding>
-                <allergies compact></allergies>
+                <allergies></allergies>
             </cui-card>
 
             <cui-card noPadding>
@@ -151,8 +151,8 @@ import { mapStores } from 'pinia'
 import diseases from './cc_p_patient_info_medical_diseases.vue'
 import perscriptions from './cc_p_patient_info_medical_perscription.vue'
 import orders from './cc_p_patient_info_medical_orders.vue'
-import allergies from './cc_p_patient_info_medical_allergies'
-import problems from './cc_p_patient_info_medical_problems'
+import allergies from './cc_p_patient_info_medical_issues/cc_p_patient_info_medical_allergies'
+import problems from './cc_p_patient_info_medical_issues/cc_p_patient_info_medical_problems'
 import vaccines from './cc_p_patient_info_medical_vaccines'
 
 export default {

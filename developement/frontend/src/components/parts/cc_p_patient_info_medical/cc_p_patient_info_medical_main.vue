@@ -40,6 +40,7 @@ import diseases from "./cc_p_patient_info_medical_diseases.vue";
 import encounters from "./cc_p_patient_info_medical_encounters.vue";
 import files from "./cc_p_patient_info_medical_files.vue";
 import risks from "./cc_p_patient_info_medical_risks";
+import issues from './cc_p_patient_info_medical_issues'
 
 export default {
     components: {
@@ -52,7 +53,8 @@ export default {
         diseases,
         encounters,
         files,
-        risks
+        risks,
+        issues
     },
     data() {
         return {
@@ -60,7 +62,7 @@ export default {
                 {
                     label: this.$lang.basic,
                     name: "basic",
-                    icon: "fas fa-info"
+                    icon: "fas fa-gauge-high"
                 },
                 {
                     label: this.$lang.management,
@@ -70,11 +72,11 @@ export default {
                 {
                     label: this.$lang.lifestyle,
                     name: "risks",
-                    icon: "fas fa-info"
+                    icon: "fas fa-pizza-slice"
                 },
                 {
-                    label: "AP",
-                    name: "register1",
+                    label: this.$lang.issues,
+                    name: "issues",
                     icon: "fas fa-info"
                 },
                 {

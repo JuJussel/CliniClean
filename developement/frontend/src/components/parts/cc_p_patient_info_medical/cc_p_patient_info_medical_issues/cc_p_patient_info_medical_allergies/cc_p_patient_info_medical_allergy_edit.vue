@@ -4,10 +4,15 @@
         <div>
             <cui-input :label="$lang.allergyItem" v-model="allergyData.name"></cui-input>
                 <div style="display: flex; justify-content: space-between; width: 200px">
-                    <cui-radio label="low" :value="1" v-model="allergyData.level" />
-                    <cui-radio label="med" :value="2" v-model="allergyData.level" />
-                    <cui-radio label="high" :value="3" v-model="allergyData.level" />
+                    <cui-radio :label="$lang.allergySevrenity.light" :value="1" v-model="allergyData.level" />
+                    <cui-radio :label="$lang.allergySevrenity.medium" :value="2" v-model="allergyData.level" />
+                    <cui-radio :label="$lang.allergySevrenity.high" :value="3" v-model="allergyData.level" />
                 </div>
+            <div style="display: grid; grid-template-columns: 50% auto; gap: 10px">
+                <cui-datepicker v-model="allergyData.start" :label="$lang.startDate"></cui-datepicker>
+                <cui-datepicker v-model="allergyData.end" :label="$lang.endDate"></cui-datepicker>
+            </div>
+            <cui-textarea :label="$lang.reaction" v-model="allergyData.reaction" />
             <cui-textarea :label="$lang.note" v-model="allergyData.note" />
         </div>
         <div style="display: flex; justify-content: flex-end">
@@ -32,7 +37,11 @@ export default {
             allergyData: {
                 name: "",
                 level: 1,
-                note: ""
+                start: "",
+                end: "",
+                edited: this.$dayjs(),
+                note: "",
+                reaction: ""
             },
             loading: false
         }

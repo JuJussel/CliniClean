@@ -10,9 +10,31 @@
                     v-if="encounterStore.encounterData"
                 />
             </template>
+            <template #thead>
+                <cui-th>{{ $lang.title }}</cui-th>
+                <cui-th>{{ $lang.servrenity }}</cui-th>
+                <cui-th>{{ $lang.startDate }}</cui-th>
+                <cui-th>{{ $lang.endDate }}</cui-th>
+                <cui-th>{{ $lang.reaction }}</cui-th>
+                <cui-th>{{ $lang.note }}</cui-th>
+                <cui-th></cui-th>
+            </template>
             <template v-slot:row="{ row }">
                 <td> {{ row.name }} </td>
                 <td> {{ row.level }} </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                    <cui-tooltip v-if="row.note !== ''">
+                        <span>ssss</span>
+                        <template #tooltip>
+                            <div> {{ row.note }} </div>
+                        </template>
+                    </cui-tooltip>
+
+                </td>
+                <td></td>
             </template>
 
         </cui-table>
@@ -22,7 +44,7 @@
         @close="editModal.open = false"
     >
         <cui-card
-            style="width: 450px; height: 320px"
+            style="width: 450px; height: 480px"
             v-if="editModal.open"
         >
             <template #header>
