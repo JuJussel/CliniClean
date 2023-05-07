@@ -26,7 +26,7 @@
                 <td></td>
                 <td></td>
                 <td>
-                    <cui-tooltip v-if="row.note !== ''" onHover>
+                    <cui-tooltip v-if="row.note !== ''">
                         <span>ssss</span>
                         <template #tooltip>
                             <div> {{ row.note }} </div>
