@@ -22,17 +22,24 @@
             <template v-slot:row="{ row }">
                 <td> {{ row.name }} </td>
                 <td> {{ row.level }} </td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td> {{ row.start }} </td>
+                <td> {{ row.end }} </td>
                 <td>
-                    <cui-tooltip v-if="row.note !== ''">
-                        <span>ssss</span>
+                    <cui-tooltip v-if="row.reaction !== ''" onHover>
+                        <div style="max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">  {{ row.reaction }} </div>
+                        <template #tooltip>
+                            <div> {{ row.reaction }} </div>
+                        </template>
+                    </cui-tooltip>
+
+                </td>   
+                <td>
+                    <cui-tooltip v-if="row.note !== ''" onHover>
+                        <div style="max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"> {{ row.note }} </div>
                         <template #tooltip>
                             <div> {{ row.note }} </div>
                         </template>
                     </cui-tooltip>
-
                 </td>
                 <td></td>
             </template>
