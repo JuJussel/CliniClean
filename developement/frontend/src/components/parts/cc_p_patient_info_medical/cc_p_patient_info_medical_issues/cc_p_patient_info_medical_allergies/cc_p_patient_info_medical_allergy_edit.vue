@@ -36,7 +36,7 @@ export default {
         return {
             allergyData: {
                 name: "",
-                level: 1,
+                level: this.$lang.allergySevrenity.light,
                 start: "",
                 end: "",
                 edited: this.$dayjs(),

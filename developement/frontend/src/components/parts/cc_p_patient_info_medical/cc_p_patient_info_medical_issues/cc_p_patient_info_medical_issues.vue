@@ -3,8 +3,8 @@
         <cui-card noPadding>
             <allergies></allergies>
         </cui-card>
-                <cui-card noPadding>
-            <allergies></allergies>
+        <cui-card noPadding>
+            <problems></problems>
         </cui-card>
 
     </div>
@@ -16,10 +16,12 @@ import { useMedicalStore } from '@/stores/medical'
 import { useEncounterStore } from '@/stores/encounter'
 import { mapStores } from 'pinia'
 import allergies from './cc_p_patient_info_medical_allergies'
+import problems from './cc_p_patient_info_medical_problems'
 
 export default {
     components: {
-        allergies
+        allergies,
+        problems
     },
     data() {
         return {

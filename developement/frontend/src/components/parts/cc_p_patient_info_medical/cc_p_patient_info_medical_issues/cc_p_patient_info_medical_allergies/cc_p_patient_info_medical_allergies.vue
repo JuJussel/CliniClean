@@ -22,8 +22,8 @@
             <template v-slot:row="{ row }">
                 <td> {{ row.name }} </td>
                 <td> {{ row.level }} </td>
-                <td> {{ row.start }} </td>
-                <td> {{ row.end }} </td>
+                <td> {{ $parseDate(row.start) }} </td>
+                <td> {{ $parseDate(row.end) }} </td>
                 <td>
                     <cui-tooltip v-if="row.reaction !== ''" onHover>
                         <div style="max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">  {{ row.reaction }} </div>

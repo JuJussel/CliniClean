@@ -1,9 +1,7 @@
 <template>
-    <!-- Compact Version -->
-    <div v-if="compact">
+    <div>
         <cui-table :data="medicalStore.medicalData?.problems || []" style="max-height: 245px" >
             <template #header>
-                <h2>{{ $lang.problem }} {{ $lang.valid }}</h2>
                 <cui-button
                     icon="fas fa-plus"
                     :label="$lang.register"
@@ -11,8 +9,27 @@
                     v-if="encounterStore.encounterData"
                 />
             </template>
+            <template #thead>
+                <cui-th>{{ $lang.title }}</cui-th>
+                <cui-th>{{ $lang.startDate }}</cui-th>
+                <cui-th>{{ $lang.endDate }}</cui-th>
+                <cui-th>{{ $lang.note }}</cui-th>
+                <cui-th></cui-th>
+            </template>
+
             <template v-slot:row="{ row }">
                 <td> {{ row.name }} </td>
+                <td> {{ $parseDate(row.start) }} </td>
+                <td> {{ $parseDate(row.end) }} </td>
+                <td>
+                    <cui-tooltip v-if="row.note !== ''" onHover>
+                        <div style="max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"> {{ row.note }} </div>
+                        <template #tooltip>
+                            <div> {{ row.note }} </div>
+                        </template>
+                    </cui-tooltip>
+                </td>
+
             </template>
         </cui-table>
 
@@ -31,7 +48,7 @@
         @close="editModal.open = false"
     >
         <cui-card
-            style="width: 800px; height: 470px"
+            style="width: 900px; height: 400px"
             v-if="editModal.open"
         >
             <template #header>
@@ -80,10 +97,10 @@ export default {
             this.editModal.open = true
         },
         async saveProblem(problem) {
-            const patientId = 8
+            const patientId = this.encounterStore.encounterData.patient.id
             //save to DB
             try {
-                let result = await this.$api.post(
+                 await this.$api.post(
                     "patients/" + patientId + "/medical?type=problems",
                     problem
                 )
