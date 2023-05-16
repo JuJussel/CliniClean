@@ -60,21 +60,36 @@
         @close="modals.habits.visible = false"
     >
         <cui-card
-            style="width: 1000px; height: 750px"
+            style="width: 1000px; height: 650px"
             v-if="modals.habits.visible"
         >
             <template #header>
                 {{ $lang.lifestyleHabits }}
             </template>
-            <div style="display: flex; flex-wrap: wrap">
-                <cui-card style="width: 300px" v-for="(item,index) in habitInput" :key="index">
+            <cui-table :data="habitCats" compact>
+                <template #thead>
+                    <cui-th>{{ $lang.title }}</cui-th>
+                    <cui-th>{{ $lang.value }}</cui-th>
+                </template>
+
+                <template v-slot:row="{ row }">
+                    <td> 
+                        <i style="margin-right: 10px" :class="habitTemplate.find(i => i.name === row.name).icon"></i>
+                        {{ $lang[row.name] }} 
+                    </td>
+                    <td>
+                        <cui-input v-model="row.value"></cui-input>
+                    </td>
+                </template>
+            </cui-table>
+
+                <!-- <cui-card style="width: 300px" v-for="(item,index) in habitInput" :key="index">
                     <div style="display: flex; align-items: center;">
                         <i style="margin-right: 10px" :class="habitTemplate.find(i => i.name === item.name).icon"></i>
                         {{ $lang[item.name] }}
                     </div>
                     <cui-textarea v-model="item.value" rows="5" cols="33" />
-                </cui-card>
-            </div>
+                </cui-card> -->
             <template #footer>
                 <cui-button
                     :label="$lang.cancel"

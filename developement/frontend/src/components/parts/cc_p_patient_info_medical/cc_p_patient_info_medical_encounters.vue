@@ -1,41 +1,39 @@
 <template>
     <div style="height: 100%">
-        <cui-card noPadding style="max-height: 100%">
-            <cui-table
-                :data="medicalStore.medicalData.encounters || []"
-                style="max-height: calc(100% - 2px)"
-                outline
-            >
-                <template #header>
-                    <h2>{{ $lang.karte }} {{ $lang.history }}</h2>
-                </template>
-                <template #thead>
-                    <cui-th> {{ $lang.date }} </cui-th>
-                    <cui-th> {{ $lang.encounterType }} </cui-th>
-                    <cui-th
-                        v-for="(item, index) in procedureCategories"
-                        :key="index"
-                        style="width: 35px"
-                    >
-                        {{ $lang.procedureCategoryLabels[item.label] }}
-                    </cui-th>
-                </template>
-                <template v-slot:row="{ row }">
-                    <td>{{ $parseDate(row.date) }}</td>
-                    <td>{{ parseType(row.type) }}</td>
-                    <td
-                        v-for="(item, index) in procedureCategories"
-                        :key="index"
-                        style="width: 35px; text-align: center"
-                    >
-                        <i
-                            v-if="hasType(row, item)"
-                            :class="hasType(row, item)?.cat?.icon"
-                        ></i>
-                    </td>
-                </template>
-            </cui-table>
-        </cui-card>
+        <cui-table
+            :data="medicalStore.medicalData.encounters || []"
+            style="max-height: calc(100% - 2px)"
+            outline
+        >
+            <template #header>
+                <h2>{{ $lang.karte }} {{ $lang.history }}</h2>
+            </template>
+            <template #thead>
+                <cui-th> {{ $lang.date }} </cui-th>
+                <cui-th> {{ $lang.encounterType }} </cui-th>
+                <cui-th
+                    v-for="(item, index) in procedureCategories"
+                    :key="index"
+                    style="width: 35px"
+                >
+                    {{ $lang.procedureCategoryLabels[item.label] }}
+                </cui-th>
+            </template>
+            <template v-slot:row="{ row }">
+                <td>{{ $parseDate(row.date) }}</td>
+                <td>{{ parseType(row.type) }}</td>
+                <td
+                    v-for="(item, index) in procedureCategories"
+                    :key="index"
+                    style="width: 35px; text-align: center"
+                >
+                    <i
+                        v-if="hasType(row, item)"
+                        :class="hasType(row, item)?.cat?.icon"
+                    ></i>
+                </td>
+            </template>
+        </cui-table>
     </div>
 </template>
 

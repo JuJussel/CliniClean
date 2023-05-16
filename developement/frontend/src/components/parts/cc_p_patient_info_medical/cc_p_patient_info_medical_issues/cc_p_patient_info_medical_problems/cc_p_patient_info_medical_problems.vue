@@ -15,7 +15,6 @@
                 <cui-th>{{ $lang.startDate }}</cui-th>
                 <cui-th>{{ $lang.endDate }}</cui-th>
                 <cui-th>{{ $lang.note }}</cui-th>
-                <cui-th></cui-th>
             </template>
 
             <template v-slot:row="{ row }">
