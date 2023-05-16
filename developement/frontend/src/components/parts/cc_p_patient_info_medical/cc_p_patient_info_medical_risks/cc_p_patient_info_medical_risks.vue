@@ -1,18 +1,32 @@
 <template>
     <div style="height: calc(100% - 31px)">
         <div class="card-container">
-            <cui-card>
-                <template v-slot:header>
-                    <div style="display: flex; justify-content: space-between; width: 100%">
+                <cui-table :data="habitCats" outline>
+                    <template #header>
                         <h2>{{ $lang.lifestyleHabits }}</h2>
                         <cui-button
-                            icon="fas fa-plus"
+                            icon="fas fa-edit"
                             :label="$lang.edit"
-                            v-if="encounterStore.encounterData"
                             @click="openHabits"
+                            v-if="encounterStore.encounterData"
                         />
-                    </div>
-                </template>
+                    </template>
+                    <template #thead>
+                        <cui-th>{{ $lang.title }}</cui-th>
+                        <cui-th>{{ $lang.value }}</cui-th>
+                    </template>
+
+                    <template v-slot:row="{ row }">
+                        <td> 
+                            <i style="margin-right: 10px" :class="habitTemplate.find(i => i.name === row.name).icon"></i>
+                            {{ $lang[row.name] }} 
+                        </td>
+                        <td> {{ row.value }} </td>
+
+                    </template>
+                </cui-table>
+
+                <!-- 
                 <div style="display: flex; flex-wrap: wrap">
                     <cui-card style="width: 200px" v-for="(item,index) in habitCats" :key="index">
                         <div style="display: flex; align-items: center;">
@@ -21,8 +35,7 @@
                         </div>
                         <div v-if="item.value !== ''" style="margin: 0 0 0 30px;padding: 10px; background-color: var(--cui-gray-2); border-radius: 10px;">{{ item.value }}</div>
                     </cui-card>
-                </div>
-            </cui-card>
+                </div> -->
             <cui-card>
                 <template v-slot:header>
                     <h2>Social</h2>

@@ -151,9 +151,9 @@ exports.findOne = async (req, res) => {
       ]
     }
 
-    let files = await Patient.findById(id, 'files')
+    let files = await File.find({ patientId: req.params.patientId })
     files = JSON.parse(JSON.stringify(files))
-    orcaData.files = files.files || []
+    orcaData.files = files || []
 
     res.send(orcaData);
 

@@ -1,8 +1,8 @@
 <template>
     <div>
-        <cui-table :data="medicalStore.medicalData?.allergies || []" style="max-height: 245px" >
+        <cui-table :data="medicalStore.medicalData?.allergies || []" outline>
             <template #header>
-                <h2>{{ $lang.allergy }} {{ $lang.valid }}</h2>
+                <h2>{{ $lang.allergy }}</h2>
                 <cui-button
                     icon="fas fa-plus"
                     :label="$lang.register"

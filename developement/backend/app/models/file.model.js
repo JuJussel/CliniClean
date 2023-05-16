@@ -5,6 +5,7 @@ const FileSchema = new Schema(
     {
         extension: { type: String, required: true },
         size: Number,
+        patientId: { type: Number, default: null, required: false },
         type: { type: String, required: true },
         meta: {},
         date: { type: Date, default: Date.now() },

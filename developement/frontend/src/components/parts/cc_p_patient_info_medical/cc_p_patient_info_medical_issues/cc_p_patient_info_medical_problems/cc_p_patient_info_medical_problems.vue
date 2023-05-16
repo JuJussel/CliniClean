@@ -1,7 +1,8 @@
 <template>
     <div>
-        <cui-table :data="medicalStore.medicalData?.problems || []" style="max-height: 245px" >
+        <cui-table :data="medicalStore.medicalData?.problems || []" outline >
             <template #header>
+                <h2>{{ $lang.problem }}</h2>
                 <cui-button
                     icon="fas fa-plus"
                     :label="$lang.register"

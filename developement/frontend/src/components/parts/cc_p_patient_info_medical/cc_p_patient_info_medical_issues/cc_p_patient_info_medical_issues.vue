@@ -1,11 +1,7 @@
 <template>
-    <div style="height: calc(100%); display: grid; grid-template-rows: 50% auto;">
-        <cui-card noPadding>
+    <div class="table-cont">
             <allergies></allergies>
-        </cui-card>
-        <cui-card noPadding>
             <problems></problems>
-        </cui-card>
 
     </div>
 </template>
@@ -36,9 +32,10 @@ export default {
 </script>
 
 <style scoped>
-.card-container {
-    height: 100%;
+.table-cont {
+    height: calc(100% - 5px);
     display: grid;
-    grid-template-rows: 50% auto
+    grid-template-rows: 50%;
+    grid-gap: 20px
 }
 </style>

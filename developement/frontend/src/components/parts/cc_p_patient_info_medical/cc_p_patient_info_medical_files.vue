@@ -12,24 +12,10 @@ import { usePatientStore } from '@/stores/patient'
 import { mapStores } from 'pinia'
 
 export default {
-    created() {
-        this.getFiles();
-    },
-    data() {
-        return {
-            files: [],
-        };
-    },
     methods: {
-        async getFiles() {
-            let files = await this.$api.get('files?patient=' + this.patientStore.patientData.id);
-            this.files = files;
-        },
         openFile(file) {
-            console.log('click');
             if(!file.meta) return
             let filename = file.meta.id + '.' + file.meta.extension;
-            console.log(filename);
             let url = this.$GLOBALS.filesUrl + filename;
             window.open(
                 url,
@@ -42,7 +28,7 @@ export default {
         ...mapStores(usePatientStore),
         treeData() {
             let tree = [];
-            this.files.forEach((item) => {
+            this.patientStore.patientData.files.forEach((item) => {
                 let type = item.type.split("/")[0];
                 let index = tree.findIndex((i) => i.type === type);
                 if (index < 0) {
@@ -53,7 +39,7 @@ export default {
                     let source = item.meta.source
                     let name = item.meta.symbol ? item.meta.symbol + "-" + item.meta.number : this.$parseDate(item.date) || item.id
                     if (tree[index].children) {
-                        let index2 = tree[index].children.findIndex((i) => i.name === source);
+                        let index2 = tree[index].children.findIndex((i) => i.name === this.$lang[source]);
                         if (index2 < 0) {
                             tree[index]?.children.push({ type: source, name: this.$lang[source], children: [] });
                             index2 = tree[index].children.length - 1
