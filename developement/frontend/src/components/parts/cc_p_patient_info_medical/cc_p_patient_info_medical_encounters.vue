@@ -20,7 +20,7 @@
                 </cui-th>
             </template>
             <template v-slot:row="{ row }">
-                <td>{{ $parseDate(row.date) }}</td>
+                <td style="padding: 0"><cui-tag>{{ $parseDate(row.date) }}</cui-tag></td>
                 <td>{{ parseType(row.type) }}</td>
                 <td
                     v-for="(item, index) in procedureCategories"
@@ -33,6 +33,15 @@
                     ></i>
                 </td>
             </template>
+            <template v-slot:expand="{ expand }">
+                <div style="display: grid; grid-template-columns: 40% auto;">
+                    <div v-html="expand.karte.soap?.html || ''" style="border: solid 1px var(--cui-gray-3); padding: 10px" />
+                    <div style="border: solid 1px var(--cui-gray-3); margin-left: -1px">
+                        <proceduresListReadOnly :procedures="expand.karte.procedures"></proceduresListReadOnly>
+                    </div>
+                </div>
+            </template>
+
         </cui-table>
     </div>
 </template>
@@ -42,8 +51,12 @@
 import { useListStore } from '@/stores/list';
 import { useMedicalStore } from '@/stores/medical';
 import { mapStores } from 'pinia';
+import proceduresListReadOnly from '../cc_p_karte/cc_p_procedures_list/cc_p_procedure_list_read_only.vue'
 
 export default {
+    components: {
+        proceduresListReadOnly
+    },
     props: {
         outline: {
             default: false,
