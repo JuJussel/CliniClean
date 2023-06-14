@@ -9,26 +9,8 @@
                 style="display: flex; align-items: center; margin-right: 20px"
             >
                 <span> {{ $lang.bloodType }} </span>
-                <cui-tag>
-                    {{ medicalStore.medicalData.bloodType || this.$lang.unknown }}
-                </cui-tag>
+                <cui-tag :label="medicalStore.medicalData.bloodType || this.$lang.unknown" />
             </span>
-            <!-- <span
-                style="display: flex; align-items: center; margin-right: 20px"
-            >
-                <span> {{ $lang.alcohol }} </span>
-                <cui-tag>
-                    {{ patientData.alcohol || this.$lang.unknown }}
-                </cui-tag>
-            </span> -->
-            <!-- <span
-                style="display: flex; align-items: center; margin-right: 20px"
-            >
-                <span> {{ $lang.tabaco }} </span>
-                <cui-tag>
-                    {{ patientData.tabaco || this.$lang.unknown }}
-                </cui-tag>
-            </span> -->
         </div>
         <div class="grid-tables">
             <cui-card noPadding>

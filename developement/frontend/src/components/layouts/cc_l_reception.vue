@@ -17,7 +17,7 @@
                 v-if="hasActivePatient"
                 style="height: 100%"
             ></cc_p_patient_info>
-            <cui-tag v-else>{{ $lang.noPatientSelected }}</cui-tag>
+            <cui-tag :label="$lang.noPatientSelected" v-else />
         </cui-card>
 
         <!---------------- Modals ---------------->

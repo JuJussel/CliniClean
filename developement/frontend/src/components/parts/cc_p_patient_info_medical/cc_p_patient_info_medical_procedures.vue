@@ -20,9 +20,9 @@
                         <i :class="row.cat.icon" />
                         {{ $lang.procedureCategoryLabels[row.cat.label] }}
                     </td>
-                    <cui-tag>
-                        <td>{{ row.name }}</td>
-                    </cui-tag>
+                    <td>
+                        <cui-tag :label="row.name" />
+                    </td>
                 </template>
             </cui-table>
         </cui-card>

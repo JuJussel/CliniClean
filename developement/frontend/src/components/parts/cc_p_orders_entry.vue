@@ -84,9 +84,7 @@
             </div>
             <div v-if="orderLocal.procedure.comment">
                 <h4 style="margin: 10px">{{ $lang.comment }}</h4>
-                <cui-tag style="max-width: 250px; height: auto">
-                    {{ orderLocal.procedure.comment }}
-                </cui-tag>
+                <cui-tag style="max-width: 250px; height: auto" :label="orderLocal.procedure.comment" />
             </div>
             <h4 style="margin: 10px">{{ $lang.comment }} {{ $lang.add }}</h4>
             <cui-textarea

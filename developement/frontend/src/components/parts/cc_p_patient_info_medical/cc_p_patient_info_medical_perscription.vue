@@ -39,9 +39,9 @@
                         <cui-button primary v-else label="終了" @click="updateEndDate(row)">  </cui-button>
                     </td>
                     <td>{{ row.varData?.type.name || "" }}</td>
-                    <!-- <cui-tag>
-                        <td>{{ row.name || "" }}</td>
-                    </cui-tag> -->
+                    <td>
+                        <cui-tag :label="row.name || ''" />
+                    </td>
                     <td>
                         {{ row.varData?.timing.name || "" }}
                         {{ row.varData?.amount || ""}} 

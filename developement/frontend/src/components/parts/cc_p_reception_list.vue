@@ -44,11 +44,8 @@
                                         <cui-tag
                                             :danger="row.status === 2"
                                             :primary="row.status === 1"
-                                        >
-                                            {{
-                                                layoutData.docStati[row.status]
-                                            }}
-                                        </cui-tag>
+                                            :label="layoutData.docStati[row.status]"
+                                        />
                                     </td>
                                 </template>
                             </cui-table>
@@ -83,9 +80,7 @@
                             layoutData.view.modal.payment = true;
                         "
                     />
-                    <cui-tag v-else-if="row.status === 0">
-                        {{ $lang.paymentDone }}
-                    </cui-tag>
+                    <cui-tag v-else-if="row.status === 0" :label="$lang.paymentDone" />
                     <cui-select
                         v-else
                         :data="examStatiOptions(row)"

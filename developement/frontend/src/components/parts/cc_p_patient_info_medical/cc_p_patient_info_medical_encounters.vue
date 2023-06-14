@@ -20,7 +20,9 @@
                 </cui-th>
             </template>
             <template v-slot:row="{ row }">
-                <td style="padding: 0"><cui-tag>{{ $parseDate(row.date) }}</cui-tag></td>
+                <td style="padding: 0">
+                    <cui-tag :label="$parseDate(row.date)" />
+                </td>
                 <td>{{ parseType(row.type) }}</td>
                 <td
                     v-for="(item, index) in procedureCategories"

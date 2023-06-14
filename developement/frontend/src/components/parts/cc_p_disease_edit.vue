@@ -22,7 +22,7 @@
                 v-model="selectedDisease"
                 class="d66574"
             />
-            <cui-tag v-else> {{ editData.disease.name }} </cui-tag>
+            <cui-tag v-else :label="editData.disease.name" />
             <cui-input
                 v-model="editData.supplementNote"
                 :label="$lang.supplementalComment"

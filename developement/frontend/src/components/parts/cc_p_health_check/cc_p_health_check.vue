@@ -251,7 +251,7 @@
                     :key="examGroupIndex"
                 >
                     <div>
-                        <cui-tag>{{ examGroup.items[0].class.name }}</cui-tag>
+                        <cui-tag :label="examGroup.items[0].class.name" />
                     </div>
                     <div>
                         <exam-Input

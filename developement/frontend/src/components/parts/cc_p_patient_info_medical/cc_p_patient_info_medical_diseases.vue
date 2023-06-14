@@ -73,9 +73,9 @@
                         <cui-th></cui-th>
                     </template>
                     <template v-slot:row="{ row }">
-                        <cui-tag>
-                            <td>{{ row.disease.name }}</td>
-                        </cui-tag>
+                        <td>
+                            <cui-tag :label="row.disease.name" />
+                        </td>
                         <td>{{ $parseDate(row.startDate) }}</td>
                         <td>{{ parseSuspectLabel(row) }}</td>
                         <td>
