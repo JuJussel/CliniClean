@@ -152,7 +152,8 @@ export default {
                 });
                 this.$emit("submitted");
                 this.$emit("close");
-            } catch {
+            } catch(error) {
+                this.$apiError(error)
                 this.loading.submit = false;
             }
         },

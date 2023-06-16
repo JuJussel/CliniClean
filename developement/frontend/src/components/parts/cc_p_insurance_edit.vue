@@ -432,6 +432,7 @@ export default {
                     this.loading.all = false;
                     this.uiStore.modals.receptionModalInsuranceEdit = false
                 } catch (err) {
+                    this.$apiError(err)
                     this.loading.all = false;
                     return;
                 }

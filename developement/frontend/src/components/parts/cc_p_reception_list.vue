@@ -165,10 +165,14 @@ export default {
             this.layoutData.loading = true;
             const start = this.$dayjs().startOf('day');
             const end = this.$dayjs().endOf('day');
-            console.log(start);
             const range = 'start=' + start.$d + '&end=' + end.$d;
-            this.layoutData.encounters =
+            try {
+                this.layoutData.encounters =
                 await this.$api.get('encounters/range?' + range);
+            }
+            catch(error) { 
+                //this.$apiError(error)
+            }
             this.layoutData.loading = false;
         },
         parseExamType(type) {

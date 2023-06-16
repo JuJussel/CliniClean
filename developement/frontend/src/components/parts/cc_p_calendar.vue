@@ -149,7 +149,6 @@ export default {
             );
             let range = "start=" + start + "&end=" + end;
             let events = await this.$api.get("encounters/range?" + range);
-            console.log(events);
             events = events
                 .filter((item) => item.status === 0)
                 .map(function (event) {
