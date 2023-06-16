@@ -1,7 +1,6 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import piniaPersist from 'pinia-plugin-persist'
-import { store } from './store'
 import App from './App.vue'
 import router from './router'
 import Auth from '@/services/auth.service'
@@ -29,7 +28,7 @@ import "dayjs/locale/ja";
     dayjs.extend(relativeTime);
     dayjs.extend(isBetween);
     dayjs.locale("ja");
-    app.config.globalProperties.$api = ApiService;
+
     app.config.globalProperties.$dayjs = dayjs;
     app.config.globalProperties.$parseDate = parseDate;
     app.config.globalProperties.$copy = copy;
@@ -37,14 +36,15 @@ import "dayjs/locale/ja";
     app.config.globalProperties.$lang = Lang;
     app.config.globalProperties.$apiError = function (msg) {
         this.$cui.notification({ text: msg, color: 'danger' })
-        console.log(msg);
     };
+
     app.use(pinia)
-    app.use(store);
     app.use(Cui);
     app.provide('$notification', Cui.notification);
     app.use(router);
     app.use(AclService, Globals);
+    app.use(ApiService)
+
     app.use(Auth);
     app.use(VueNativeSock, "wss://" + window.location.hostname + ":" + Globals.websocketPort, {
         connectManually: true,

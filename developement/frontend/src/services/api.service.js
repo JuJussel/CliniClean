@@ -1,3 +1,4 @@
+import { createChainableState } from "@tiptap/vue-3";
 
 var request = function (route, data, type, abortSignal) {
 
@@ -64,6 +65,44 @@ var request = function (route, data, type, abortSignal) {
 }
 
 export default {
+
+  install: (app) => {
+
+    app.config.globalProperties.$api = {
+      get: async function (route, data = {}, abortSignal = null) {
+        try {
+          return await request(route, data, "GET", abortSignal);
+        } catch (err) {
+          app.config.globalProperties.$apiError(err)
+          return false
+        }
+      },
+      post: async function (route, data = {}, abortSignal = null) {
+        try {
+          return await request(route, data, "POST", abortSignal);
+        } catch (err) {
+          app.config.globalProperties.$apiError(err)
+          return false
+        }
+      },
+      put: async function (route, data = {}, abortSignal = null) {
+        try {
+          return await request(route, data, "PUT", abortSignal);
+        } catch (err) {
+          app.config.globalProperties.$apiError(err)
+          return false
+        }
+      },
+      delete: async function (route, data = {}, abortSignal = null) {
+        try {
+          return await request(route, data, "DELETE", abortSignal);
+        } catch (err) {
+          app.config.globalProperties.$apiError(err)
+          return false
+        }
+      }
+    }
+  },
   get: function (route, data = {}, abortSignal = null) {
     return request(route, data, "GET", abortSignal);
   },
