@@ -91,6 +91,7 @@ export default {
         async registerReservation() {
             this.loading = true;
             await this.$api.post('encounters', this.reservation);
+            this.patientStore.getData();
             this.$emit("created");
             this.uiStore.modals.receptionModalReservation = false
         },

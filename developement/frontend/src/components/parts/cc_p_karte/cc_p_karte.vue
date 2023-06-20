@@ -50,6 +50,7 @@
                 <cui-button
                     :label="$lang.reservation"
                     icon="fas fa-calendar-plus"
+                    @click="uiStore.modals.receptionModalReservation = true"
                 ></cui-button>
                 <cui-button
                     warn
@@ -293,6 +294,21 @@
                 </div>
             </cui-card>
         </cui-modal>
+        <cui-modal
+            :visible="uiStore.modals.receptionModalReservation"
+            closable
+            @close="uiStore.modals.receptionModalReservation = false"
+        >
+            <cui-card style="width: 1000px; height: 640px">
+                <template #header>
+                    <h2>
+                        {{ encounterStore.encounterData.patient.name
+                        }}{{ $lang.reservation }}
+                    </h2>
+                </template>
+                <reservation v-if="uiStore.modals.receptionModalReservation" />
+            </cui-card>
+        </cui-modal>
     </div>
 </template>
 
@@ -302,7 +318,9 @@ import { useUserStore } from '@/stores/user'
 import { useSettingStore } from '@/stores/setting'
 import { useListStore } from '@/stores/list'
 import { useEncounterStore } from '@/stores/encounter'
+import { useUiStore } from '@/stores/ui'
 import { mapStores } from 'pinia'
+
 
 import imageTag from "./cc_tiptap_imageTag/cc_tiptap_imageTag";
 import schemaEditor from "./cc_p_schema_editor.vue";
@@ -311,6 +329,7 @@ import painter from "../cc_p_painter.vue";
 import baseCostUtil from "../../../utils/encounterBaseCost";
 import procedureCheck from "../../../utils/procedureCheck";
 import proceduresBrowser from "./cc_p_procedures_browser";
+import reservation from "../cc_p_reception_reservation.vue"
 
 export default {
     components: {
@@ -318,6 +337,7 @@ export default {
         proceduresList,
         painter,
         proceduresBrowser,
+        reservation
     },
     emits: ["update"],
     data() {
@@ -390,7 +410,7 @@ export default {
             this.procedures = this.encounter.karte.procedures;
     },
     computed: {
-        ...mapStores(useUserStore, useSettingStore, useListStore, useEncounterStore)
+        ...mapStores(useUiStore, useUserStore, useSettingStore, useListStore, useEncounterStore)
     },
     methods: {
         async closeEncounter() {
