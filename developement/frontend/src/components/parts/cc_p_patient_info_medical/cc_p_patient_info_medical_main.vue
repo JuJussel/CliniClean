@@ -41,6 +41,7 @@ import encounters from "./cc_p_patient_info_medical_encounters.vue";
 import files from "./cc_p_patient_info_medical_files.vue";
 import risks from "./cc_p_patient_info_medical_risks";
 import issues from './cc_p_patient_info_medical_issues'
+import prevVac from './cc_p_patient_info_medical_prevVac'
 
 export default {
     components: {
@@ -54,7 +55,8 @@ export default {
         encounters,
         files,
         risks,
-        issues
+        issues,
+        prevVac
     },
     data() {
         return {
@@ -80,9 +82,9 @@ export default {
                     icon: "fas fa-info"
                 },
                 {
-                    label: "PV",
-                    name: "register2",
-                    icon: "fas fa-info"
+                    label: this.$lang.prevVac,
+                    name: "prevVac",
+                    icon: "fas fa-viruses"
                 },
                 {
                     label: this.$lang.vitals,

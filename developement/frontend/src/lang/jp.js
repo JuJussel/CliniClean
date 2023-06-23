@@ -152,6 +152,7 @@ export default {
     perscriptionAmount: "薬剤量",
     perscriptionDuration: "回・日数",
     prev: "前",
+    prevVac: "予防接種",
     points: "点数",
     problem: "プロブレム",
     problemLabels: {
