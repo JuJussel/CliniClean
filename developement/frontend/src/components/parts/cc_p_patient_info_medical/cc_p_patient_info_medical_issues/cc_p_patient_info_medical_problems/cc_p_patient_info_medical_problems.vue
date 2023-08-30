@@ -1,5 +1,4 @@
 <template>
-    <div>
         <cui-table :data="medicalStore.medicalData?.problems || []" outline >
             <template #header>
                 <h2>{{ $lang.problem }}</h2>
@@ -42,7 +41,6 @@
             impact (textfield),
             label (dangerous, inconvenient, cosmetic, custom)
         -->
-    </div>
     <cui-modal
         :visible="editModal.open"
         @close="editModal.open = false"

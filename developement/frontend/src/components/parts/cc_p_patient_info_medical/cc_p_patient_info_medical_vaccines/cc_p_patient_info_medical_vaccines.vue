@@ -1,16 +1,14 @@
 <template>
-    <div>
-        <cui-table :data="vaccines || []" style="max-height: 245px" >
-            <template #header>
-                <h2>{{ $lang.vaccines }}</h2>
-            </template>
-            <template v-slot:row="{ row }">
-                <td> {{ row.name }} </td>
-                <td> {{ $parseDate(row.date) }} </td>
-            </template>
+    <cui-table :data="vaccines || []" outline >
+        <template #header>
+            <h2>{{ $lang.vaccines }}</h2>
+        </template>
+        <template v-slot:row="{ row }">
+            <td> {{ row.name }} </td>
+            <td> {{ $parseDate(row.date) }} </td>
+        </template>
 
-        </cui-table>
-    </div>
+    </cui-table>
 </template>
 
 <script>

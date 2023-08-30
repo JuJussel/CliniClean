@@ -1,8 +1,8 @@
 <template>
-    <div v-if="activeOnly">
         <cui-table
                 :data="activeMeds"
-                style="max-height: 245px"
+                outline
+                v-if="activeOnly"
             >
                 <template #header>
                     <h2>{{ $lang.procedureCategoryLabels.perscription + $lang.active }}</h2>
@@ -14,13 +14,11 @@
                     <td>{{ row.name }}</td>
                 </template>
         </cui-table>
-    </div>
-    <div v-else style="height: 100%">
-        <cui-card noPadding style="max-height: 100%">
             <cui-table
                 :data="persc"
                 style="max-height: calc(100% - 2px)"
                 outline
+                v-else
             >
                 <template #header>
                     <h2>{{ $lang.procedureCategoryLabels.perscription }}</h2>
@@ -51,8 +49,6 @@
                     </td>
                 </template>
             </cui-table>
-        </cui-card>
-    </div>
 </template>
 
 <script>

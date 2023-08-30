@@ -1,6 +1,5 @@
 <template>
-    <div>
-        <cui-table :data="pendingOrders" style="max-height: 245px">
+        <cui-table :data="pendingOrders" outline>
             <template #header>
                 <h2>{{ $lang.order }} {{ $lang.pending }}</h2>
                 <cui-button
@@ -20,7 +19,6 @@
             </template>
 
         </cui-table>
-    </div>
 </template>
 
 <script>

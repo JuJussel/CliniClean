@@ -1,5 +1,4 @@
 <template>
-    <div>
         <cui-table :data="medicalStore.medicalData?.allergies || []" outline>
             <template #header>
                 <h2>{{ $lang.allergy }}</h2>
@@ -45,7 +44,6 @@
             </template>
 
         </cui-table>
-    </div>
     <cui-modal
         :visible="editModal.open"
         @close="editModal.open = false"

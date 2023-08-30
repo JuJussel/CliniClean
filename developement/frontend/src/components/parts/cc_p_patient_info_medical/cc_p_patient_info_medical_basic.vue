@@ -13,26 +13,25 @@
             </span>
         </div>
         <div class="grid-tables">
-            <cui-card noPadding>
+            <div>
                 <allergies></allergies>
-            </cui-card>
-
-            <cui-card noPadding>
+            </div>
+            <div>
                 <problems compact></problems>
-            </cui-card>
-            <cui-card noPadding>
+            </div>
+            <div>
                 <perscriptions activeOnly></perscriptions>
-            </cui-card>
-            <cui-card>
+            </div>
+            <div>
                 <vaccines></vaccines>
-            </cui-card>
-            <cui-card>
+            </div>
+            <div>
                 <orders pendingOnly></orders>
-            </cui-card>
-            <cui-card noPadding>
+            </div>
+            <div>
                 <diseases activeOnly></diseases>
-            </cui-card>
-            <cui-card>
+            </div>
+            <div>
                     <h3>Risk factors</h3>
                     <div style="display: grid; grid-template-columns: 50% auto">
                         <h5>Lifestyle - tabace alk,...</h5>
@@ -40,12 +39,9 @@
                         <h5>Asessment</h5>
                         <h5>Relatives</h5>
                     </div>
-            </cui-card>
+            </div>
         </div>
-        
-        
         <h3>Forms</h3>            
-
         <cui-table style="grid-column-end: span 2">
             <template #header>
                 <h3>{{ $lang.note }}</h3>
@@ -235,6 +231,8 @@ export default {
 }
 .grid-tables > div{
     min-width: 400px;
+    max-height: 300px;
+    padding: 10px;
     flex-grow: 1;
     width: auto!important;
 }
