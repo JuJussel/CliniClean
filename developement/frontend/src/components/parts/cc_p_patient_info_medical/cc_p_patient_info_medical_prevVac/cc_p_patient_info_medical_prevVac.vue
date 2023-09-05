@@ -1,63 +1,23 @@
 <template>
-    <div style="height: 100%">
-            <cui-card noPadding style="max-height: 100%">
-                <cui-table
-                    :data="medicalStore.medicalData?.immunization || []"
-                    style="max-height: calc(50% - 2px)"
-                    outline
-                >
-                    <template #header>
-                        <h2>{{ $lang.immunization }}</h2>
-                        <cui-button
-                            icon="fas fa-plus"
-                            :label="$lang.register"
-                            @click="openImmEditor(null)"
-                        />
-                    </template>
-                    <template #thead>
-                        <cui-th> {{ $lang.diseaseName }} </cui-th>
-                        <cui-th style="width: 150px">
-                            {{ $lang.startDate }}
-                        </cui-th>
-                        <cui-th style="width: 100px">
-                            {{ $lang.diseaseSuspectOrAcute }}
-                        </cui-th>
-                    </template>
-                    <template v-slot:row="{ row }">
-                        <td>
-                            <cui-tag :label="row.disease.name" />
-                        </td>
-                        <td>{{ $parseDate(row.startDate) }}</td>
-                        <td>
-                            <cui-button
-                                icon="fas fa-edit"
-                                plain
-                                @click="openImmEditor(row)"
-                                v-if="encounterStore.encounterData"
-                            ></cui-button>
-                        </td>
-                    </template>
-                </cui-table>
-            </cui-card>
-    </div>
-    <cui-modal
-        :visible="immEditor.visible"
-        :closable="!immEditor.loading"
-        @close="immEditor.visible = false"
-    >
-        <cui-card
-            style="width: 600px; height: 640px"
-            v-if="immEditor.visible"
-        >
+    <cui-table :data="prevVacs || []" outline>
+        <template #header>
+            <h2>{{ $lang.vaccines }}</h2>
+            <cui-button icon="fas fa-plus" :label="$lang.register" @click="openImmEditor(null)" />
+        </template>
+        <template v-slot:row="{ row }">
+            <td> {{ row.name }} </td>
+            <td> {{ $parseDate(row.date) }} </td>
+        </template>
+
+    </cui-table>
+
+    <cui-modal :visible="immEditor.visible" :closable="!immEditor.loading" @close="immEditor.visible = false">
+        <cui-card style="width: 600px; height: 640px" v-if="immEditor.visible">
             <template #header>
                 {{ $lang.prevVac }}
                 {{ immEditor.data ? $lang.edit : $lang.register }}
             </template>
-            <imm-editor
-                :item="immEditor.data"
-                @close="immEditor.visible = false"
-                @submitting="immEditor.loading = true"
-            />
+            <imm-editor :item="immEditor.data" @close="immEditor.visible = false" @submitting="immEditor.loading = true" />
         </cui-card>
     </cui-modal>
 </template>
@@ -66,6 +26,7 @@
 
 import { useListStore } from "@/stores/list"
 import { useMedicalStore } from "@/stores/medical"
+import { useEncounterStore } from "@/stores/encounter"
 import { mapStores } from "pinia";
 import immEditor from "./cc_p_patient_info_medical_prevVac_edit.vue";
 
@@ -107,7 +68,23 @@ export default {
         },
     },
     computed: {
-        ...mapStores(useListStore, useMedicalStore),
+        ...mapStores(useListStore, useMedicalStore, useEncounterStore),
+        prevVacs() {
+            let vaccines = [];
+            this.medicalStore.medicalData.encounters.forEach((enc) => {
+                let procedures = enc.karte?.procedures || null;
+                if (!procedures) return;
+                procedures = procedures.filter((proc) => proc.cat?.code === 31);
+                procedures = procedures.map((item) => {
+                    item.encounter = enc.id;
+                    item.date = enc.date;
+                    return item;
+                });
+                vaccines = vaccines.concat(procedures);
+            });
+            return vaccines;
+        },
+
     },
 };
 </script>

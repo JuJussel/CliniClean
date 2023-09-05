@@ -5,9 +5,7 @@
                 <h2>{{ $lang.basic }}</h2>
                 <cui-button icon="fas fa-edit" plain @click="showBasicModal" />
             </span>
-            <span
-                style="display: flex; align-items: center; margin-right: 20px"
-            >
+            <span style="display: flex; align-items: center; margin-right: 20px">
                 <span> {{ $lang.bloodType }} </span>
                 <cui-tag :label="medicalStore.medicalData.bloodType || this.$lang.unknown" />
             </span>
@@ -32,62 +30,43 @@
                 <diseases activeOnly></diseases>
             </div>
             <div>
-                    <h3>Risk factors</h3>
-                    <div style="display: grid; grid-template-columns: 50% auto">
-                        <h5>Lifestyle - tabace alk,...</h5>
-                        <h5>Family history</h5>
-                        <h5>Asessment</h5>
-                        <h5>Relatives</h5>
-                    </div>
+                <h3>Risk factors</h3>
+                <div style="display: grid; grid-template-columns: 50% auto">
+                    <h5>Lifestyle - tabace alk,...</h5>
+                    <h5>Family history</h5>
+                    <h5>Asessment</h5>
+                    <h5>Relatives</h5>
+                </div>
             </div>
         </div>
-        <h3>Forms</h3>            
+        <h3>Forms</h3>
         <cui-table style="grid-column-end: span 2">
             <template #header>
                 <h3>{{ $lang.note }}</h3>
             </template>
         </cui-table>
-        <cui-modal
-            :visible="modals.basic.visible"
-            :closable="!modals.basic.loading"
-            @close="modals.basic.visible = false"
-        >
+        <cui-modal :visible="modals.basic.visible" :closable="!modals.basic.loading" @close="modals.basic.visible = false">
             <cui-card style="width: 250px; height: auto; position: relative">
                 <template #header> {{ $lang.basic }} </template>
                 <div style="position: relative">
                     <div class="loader" v-if="modals.basic.loading" />
                     {{ $lang.bloodType }}
-                    <div
-                        style="
+                    <div style="
                             display: flex;
                             justify-content: space-between;
                             width: 100%;
-                        "
-                    >
+                        ">
                         <div>
-                            <cui-radio
-                                v-model="modals.basic.data.bloodType"
-                                :label="$lang.unknown"
-                                :value="$lang.unknown"
-                            />
+                            <cui-radio v-model="modals.basic.data.bloodType" :label="$lang.unknown"
+                                :value="$lang.unknown" />
                         </div>
                         <div>
-                            <cui-radio
-                                v-model="modals.basic.data.bloodType"
-                                v-for="(item, index) in bloodTypes.minus"
-                                :key="index"
-                                :label="item"
-                                :value="item"
-                            />
+                            <cui-radio v-model="modals.basic.data.bloodType" v-for="(item, index) in bloodTypes.minus"
+                                :key="index" :label="item" :value="item" />
                         </div>
                         <div>
-                            <cui-radio
-                                v-model="modals.basic.data.bloodType"
-                                v-for="(item, index) in bloodTypes.plus"
-                                :key="index"
-                                :label="item"
-                                :value="item"
-                            />
+                            <cui-radio v-model="modals.basic.data.bloodType" v-for="(item, index) in bloodTypes.plus"
+                                :key="index" :label="item" :value="item" />
                         </div>
                     </div>
                     <!-- <cui-input
@@ -102,18 +81,9 @@
                     /> -->
                 </div>
                 <template #footer>
-                    <cui-button
-                        :label="$lang.cancel"
-                        @click="this.modals.basic.visible = false"
-                        plain
-                        :loading="modals.basic.loading"
-                    />
-                    <cui-button
-                        :label="$lang.register"
-                        primary
-                        @click="updateBasic"
-                        :loading="modals.basic.loading"
-                    />
+                    <cui-button :label="$lang.cancel" @click="this.modals.basic.visible = false" plain
+                        :loading="modals.basic.loading" />
+                    <cui-button :label="$lang.register" primary @click="updateBasic" :loading="modals.basic.loading" />
                 </template>
             </cui-card>
         </cui-modal>
@@ -131,7 +101,7 @@ import perscriptions from './cc_p_patient_info_medical_perscription.vue'
 import orders from './cc_p_patient_info_medical_orders.vue'
 import allergies from './cc_p_patient_info_medical_issues/cc_p_patient_info_medical_allergies'
 import problems from './cc_p_patient_info_medical_issues/cc_p_patient_info_medical_problems'
-import vaccines from './cc_p_patient_info_medical_vaccines'
+import vaccines from './cc_p_patient_info_medical_prevVac'
 
 export default {
     components: {
@@ -212,7 +182,7 @@ export default {
                 await this.$api.get(
                     'patients/'
                     + this.patientStore.patientData.id
-                    +'/medicalHistory'
+                    + '/medicalHistory'
                 );
 
             this.patientStore.patientData = patientHistory
@@ -226,14 +196,15 @@ export default {
 
 <style scoped>
 .grid-tables {
-    display: flex; 
+    display: flex;
     flex-wrap: wrap;
 }
-.grid-tables > div{
+
+.grid-tables>div {
     min-width: 400px;
     max-height: 300px;
     padding: 10px;
     flex-grow: 1;
-    width: auto!important;
+    width: auto !important;
 }
 </style>
