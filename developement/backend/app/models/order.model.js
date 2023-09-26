@@ -2,7 +2,6 @@ const mongoose = require('./db.mongo')
 const Schema = mongoose.Schema;
 
 const date = new Date;
-console.log(date);
 
 const OrderSchema = new Schema({
     patient: { type: Number, ref: 'pub_patients' },

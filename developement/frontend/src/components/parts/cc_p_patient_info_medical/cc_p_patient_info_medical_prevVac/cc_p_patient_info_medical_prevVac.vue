@@ -2,12 +2,30 @@
     <cui-table :data="prevVacs || []" outline>
         <template #header>
             <h2>{{ $lang.vaccines }}</h2>
-            <cui-button icon="fas fa-plus" :label="$lang.register" @click="openImmEditor(null)" />
+            <cui-button icon="fas fa-plus" :label="$lang.register" @click="openImmEditor(null)"
+                v-if="encounterStore.encounterData" />
         </template>
         <template v-slot:row="{ row }">
             <td> {{ row.name }} </td>
+            <td>
+                <div style="display: flex; align-items: center;">
+                    <cui-tag :label="row.varData.commonName.commonName"></cui-tag>
+                    <i class="fa-solid fa-chevron-right" />
+                    <cui-tag :label="row.varData.tradeName.name"></cui-tag>
+                </div>
+            </td>
             <td> {{ $parseDate(row.date) }} </td>
         </template>
+        <template v-slot:expand="{ expand }">
+            {{ $lang.shotLocation }}:
+            {{ expand.varData?.location || "" }}
+            {{ $lang.shotAmount }}:
+            {{ expand.varData?.amount || "" }}
+            {{ expand.taniname || "" }}
+            {{ $lang.shotLot }}:
+            {{ expand.varData?.lot || "" }}
+        </template>
+
 
     </cui-table>
 

@@ -206,6 +206,7 @@ export default {
     recreationalDrugs: "娯楽用薬物",
     register: "登録",
     reservation: "予約",
+    repeatPersc: "定期処方",
     results: "結果",
     requester: "依頼者",
     servrenity: "重大度",

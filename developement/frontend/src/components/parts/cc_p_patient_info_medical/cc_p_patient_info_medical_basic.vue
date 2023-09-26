@@ -97,7 +97,7 @@ import { useMedicalStore } from '@/stores/medical'
 import { mapStores } from 'pinia'
 
 import diseases from './cc_p_patient_info_medical_diseases.vue'
-import perscriptions from './cc_p_patient_info_medical_perscription.vue'
+import perscriptions from './cc_p_patient_info_medical_perscription'
 import orders from './cc_p_patient_info_medical_orders.vue'
 import allergies from './cc_p_patient_info_medical_issues/cc_p_patient_info_medical_allergies'
 import problems from './cc_p_patient_info_medical_issues/cc_p_patient_info_medical_problems'

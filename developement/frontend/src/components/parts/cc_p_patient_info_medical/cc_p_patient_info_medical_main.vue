@@ -1,26 +1,15 @@
 <template>
     <div class="cc-patient-medical-info-main-wrapper">
-        <cui-button-group
-            v-model="activeTab"
-            class="cc_patient_medical_info_bg"
-        >
-            <cui-button-group-item
-                v-for="(tab, index) in tabs"
-                :key="index"
-                :label="tab.label"
-                :value="tab.name"
-                :icon="tab.icon"
-                :index="index"
-            />
+        <cui-button-group v-model="activeTab" class="cc_patient_medical_info_bg">
+            <cui-button-group-item v-for="(tab, index) in tabs" :key="index" :label="tab.label" :value="tab.name"
+                :icon="tab.icon" :index="index" />
         </cui-button-group>
-        <div
-        style="
+        <div style="
                     position: relative;
                     overflow: auto;
                     flex: 1;
                     margin-top: 10px;
-                    "
-            >
+                    ">
             <div class="loader" v-if="loading" />
             <keep-alive>
                 <component v-bind:is="activeTab"></component>
@@ -34,7 +23,7 @@ import basic from "./cc_p_patient_info_medical_basic.vue";
 import register from "./cc_p_patient_info_medical_register.vue";
 import vitals from "./cc_p_patient_info_medical_vitals.vue";
 import exams from "./cc_p_patient_info_medical_exams.vue";
-import perscription from "./cc_p_patient_info_medical_perscription.vue";
+import perscription from "./cc_p_patient_info_medical_perscription";
 import procedures from "./cc_p_patient_info_medical_procedures.vue";
 import diseases from "./cc_p_patient_info_medical_diseases.vue";
 import encounters from "./cc_p_patient_info_medical_encounters.vue";
