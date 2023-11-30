@@ -70,12 +70,18 @@
             </template>
         </cui-table>
         <cui-modal :visible="registerRepeat.open" @close="registerRepeat.open = false">
-            <cui-card style="width: 900px; height: 400px" v-if="registerRepeat.open">
+            <cui-card style="width: 900px; height: 420px" v-if="registerRepeat.open">
                 <template #header>
                     {{ $lang.repeatPersc }}
                     {{ $lang.register }}
                 </template>
-                <register></register>
+                <register ref="registerModal"></register>
+                <template v-slot:footer>
+                    <div class="justify-items-center flex">
+                        <cui-button :label="$lang.cancel" plain @click="registerRepeat.open = false" />
+                        <cui-button :label="$lang.register" primary @click="submitNewPers" />
+                    </div>
+                </template>
             </cui-card>
         </cui-modal>
 
@@ -106,6 +112,9 @@ export default {
         }
     },
     methods: {
+        submitNewPers() {
+            console.log(this.$refs.registerModal.perscription);
+        },
         getEndDate(item) {
             let typeCode = this.$lang.codes[item.varData?.timing?.unit] || null
             if (typeCode === 'perCodeTimingUnitDays') return this.$dayjs(item.date).add(item.varData.duration, 'day')

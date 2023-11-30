@@ -1,37 +1,14 @@
 <template>
     <div style="display: flex; flex-wrap: wrap">
-        <cui-select 
-            :data="types"
-            displayValueProp="name"
-            v-model="varData.type"
-            :label="$lang.perscriptionType"
-            style="margin-right: 30px"
-            @update:modelValue="updateValue"
-        />
-        <cui-select 
-            :data="filteredTimings"
-            displayValueProp="name"
-            v-model="varData.timing"
-            :label="$lang.perscriptionTiming" 
-            style="margin-right: 30px; width: 150px"
-            @update:modelValue="updateValue"
-        />
-        <cui-input 
-            :append="item?.taniname" 
-            v-model="varData.amount"
-            :label="$lang.perscriptionAmount" 
-            style="margin-right: 30px; width: 80px"
-            :disabled="!varData.type || !varData.timing"
-            @update:modelValue="updateValue"
-        />
-        <cui-input 
-            :append="varData.timing?.unit" 
-            v-model="varData.duration"
-            :label="$lang.perscriptionDuration" 
-            style="width: 80px"
-            :disabled="!varData.type || !varData.timing"
-            @update:modelValue="updateValue"
-        />
+        <cui-select :data="types" displayValueProp="name" v-model="varData.type" :label="$lang.perscriptionType"
+            style="margin-right: 30px" @update:modelValue="updateValue" />
+        <cui-select :data="filteredTimings" displayValueProp="name" v-model="varData.timing"
+            :label="$lang.perscriptionTiming" style="margin-right: 30px; width: 150px" @update:modelValue="updateValue" />
+        <cui-input :append="item?.taniname" v-model="varData.amount" :label="$lang.perscriptionAmount"
+            style="margin-right: 30px; width: 80px" :disabled="!varData.type || !varData.timing"
+            @update:modelValue="updateValue" />
+        <cui-input :append="varData.timing?.unit" v-model="varData.duration" :label="$lang.perscriptionDuration"
+            style="width: 80px" :disabled="!varData.type || !varData.timing" @update:modelValue="updateValue" />
     </div>
 </template>
 
@@ -75,7 +52,7 @@ export default {
     computed: {
         ...mapStores(useListStore),
         filteredTimings() {
-            if(this.varData.type?.code) {
+            if (this.varData.type?.code) {
                 return this.timings.filter(item => item.typeCode === this.varData.type.code)
             } else {
                 return []
