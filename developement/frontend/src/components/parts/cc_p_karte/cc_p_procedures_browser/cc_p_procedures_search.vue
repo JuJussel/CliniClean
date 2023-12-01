@@ -1,50 +1,33 @@
 <template>
     <div>
-        <cui-table 
-            v-if="category.code === 31"
-            :data="settingStore.settingData.vaccines" 
-            style="height: 100%" 
-            singleSelect 
-            :loading="loading"
-            @select="selectItem">
+        <cui-table v-if="category.code === 31" :data="settingStore.settingData.vaccines" style="height: 100%" singleSelect
+            :loading="loading" @select="selectItem">
             <template #header>
                 <div style="display: flex; align-items: center">
                     <h2> {{ $lang.procedureCategoryLabels[category.label] }} </h2>
                 </div>
             </template>
             <template #thead>
-                <cui-th> {{ $lang.procedureName}} </cui-th>
-                <cui-th> {{ $lang.points}} </cui-th>
+                <cui-th> {{ $lang.procedureName }} </cui-th>
+                <cui-th> {{ $lang.points }} </cui-th>
             </template>
             <template v-slot:row="{ row }">
                 <td> {{ row.name }} </td>
                 <td> {{ row.cost }} </td>
             </template>
         </cui-table>
-        <cui-table 
-            v-else
-            :data="search !== '' ? results : categoryFavourites" 
-            style="height: 100%" 
-            singleSelect 
-            :loading="loading"
-            @select="selectItem">
+        <cui-table v-else :data="search !== '' ? results : categoryFavourites" style="height: 100%" singleSelect
+            :loading="loading" @select="selectItem">
             <template #header>
                 <div style="display: flex; align-items: center">
                     <h2> {{ $lang.procedureCategoryLabels[category.label] }} </h2>
-                    <cui-input
-                        :placeholder="$lang.searchProcedure"
-                        icon="fas fa-search"
-                        darker
-                        v-model="search"
-                        @input="searchProcedures"
-                        noNote
-                        style="margin-left: 20px"
-                    />
+                    <cui-input :placeholder="$lang.searchProcedure" icon="fas fa-search" darker v-model="search"
+                        @input="searchProcedures" noNote style="margin-left: 20px" />
                 </div>
             </template>
             <template #thead>
-                <cui-th> {{ $lang.procedureName}} </cui-th>
-                <cui-th> {{ $lang.points}} </cui-th>
+                <cui-th> {{ $lang.procedureName }} </cui-th>
+                <cui-th> {{ $lang.points }} </cui-th>
             </template>
             <template v-slot:row="{ row }">
                 <td> {{ row.name }} </td>
@@ -56,8 +39,8 @@
 
 <script>
 
-import {useSettingStore} from '@/stores/setting'
-import {mapStores} from 'pinia'
+import { useSettingStore } from '@/stores/setting'
+import { mapStores } from 'pinia'
 
 export default {
     props: {
@@ -118,7 +101,7 @@ export default {
     computed: {
         ...mapStores(useSettingStore),
         categoryFavourites() {
-            return this.favourites.filter(item => item.cat.code === this.category.code)                
+            return this.favourites?.filter(item => item.cat.code === this.category.code) || []
         }
     }
 }

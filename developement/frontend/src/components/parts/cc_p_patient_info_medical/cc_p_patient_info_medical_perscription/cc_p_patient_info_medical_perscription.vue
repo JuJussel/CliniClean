@@ -70,7 +70,7 @@
             </template>
         </cui-table>
         <cui-modal :visible="registerRepeat.open" @close="registerRepeat.open = false">
-            <cui-card style="width: 900px; height: 420px" v-if="registerRepeat.open">
+            <cui-card style="width: 900px; height: 460px" v-if="registerRepeat.open">
                 <template #header>
                     {{ $lang.repeatPersc }}
                     {{ $lang.register }}
