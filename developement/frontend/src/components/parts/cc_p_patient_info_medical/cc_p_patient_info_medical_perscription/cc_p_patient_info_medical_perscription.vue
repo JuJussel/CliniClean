@@ -42,7 +42,7 @@
                 </td>
             </template>
         </cui-table>
-        <cui-table :data="activeMeds" outline>
+        <cui-table :data="repeatPersc" outline :loading="repPersLoading">
             <template #header>
                 <h2>{{ $lang.repeatPersc }}</h2>
                 <cui-button @click="registerRepeat.open = true" :label="$lang.register"></cui-button>
@@ -51,9 +51,7 @@
                 <cui-th> {{ $lang.perscriptionName }} </cui-th>
                 <cui-th> {{ $lang.perscriptionType }} </cui-th>
                 <cui-th> </cui-th>
-                <cui-th style="width: 150px"> Last Persc </cui-th>
-                <cui-th> Until </cui-th>
-                <cui-th> Add </cui-th>
+                <cui-th></cui-th>
             </template>
 
             <template v-slot:row="{ row }">
@@ -65,7 +63,9 @@
                     {{ row.varData?.timing.name || "" }}
                     {{ row.varData?.amount || "" }}
                     {{ row.taniname || "" }}
-
+                </td>
+                <td>
+                    <cui-button icon="fa-solid fa-file-import" @click="registerRepPers(row)" />
                 </td>
             </template>
         </cui-table>
@@ -91,6 +91,8 @@
 <script>
 
 import { useMedicalStore } from '@/stores/medical';
+import { usePatientStore } from '@/stores/patient';
+import { useEncounterStore } from '@/stores/encounter';
 import { mapStores } from 'pinia';
 import register from "./cc_p_patient_info_medical_perscription_registerRepeat.vue"
 
@@ -108,12 +110,18 @@ export default {
         return {
             registerRepeat: {
                 open: false
-            }
+            },
+            repPersLoading: false
         }
     },
     methods: {
-        submitNewPers() {
-            console.log(this.$refs.registerModal.perscription);
+        async submitNewPers() {
+            let persData = this.$refs.registerModal.perscription;
+            await this.$api.post('patients/' + this.patientStore.patientData.id + '/medical?type=repPers', persData);
+            this.registerRepeat.open = false
+            this.repPersLoading = true
+            await this.medicalStore.getData()
+            this.repPersLoading = false
         },
         getEndDate(item) {
             let typeCode = this.$lang.codes[item.varData?.timing?.unit] || null
@@ -125,10 +133,14 @@ export default {
             let encounterData = this.patientData.encounters.find((enc) => enc._id === med.encounter)
             //Update Encounter...
             await this.$api.put('encounters/' + encounterData.id, encounterData);
+        },
+        registerRepPers(item) {
+            console.log(item);
+            this.encounterStore.encounterData.karte.procedures.push(item)
         }
     },
     computed: {
-        ...mapStores(useMedicalStore),
+        ...mapStores(useMedicalStore, usePatientStore, useEncounterStore),
         activeMeds() {
             return this.persc.filter((item) => {
                 let endDate = this.getEndDate(item)
@@ -152,11 +164,7 @@ export default {
             return perscriptions;
         },
         repeatPersc() {
-            return [
-                { title: "Name1", meds: [{ name: "ABS" }] },
-                { title: "Name2", meds: [{ name: "ABS" }] },
-                { title: "Name3", meds: [{ name: "ABS" }] }
-            ]
+            return this.medicalStore.medicalData.repPers
         }
     },
 };
