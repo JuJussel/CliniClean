@@ -17,6 +17,12 @@ export default defineConfig({
       key: fs.readFileSync('/etc/pki/tls/certs/key.pem'),
       cert: fs.readFileSync('/etc/pki/tls/certs/cert.pem')
     },
+    fs: {
+      allow: [
+        "/home/localaa/dev/clini-ui-lib",
+        "/home/localaa/dev/CliniClean"
+      ]
+    },
     proxy: {
       '^/api': {
         target: 'https://localhost:3003',

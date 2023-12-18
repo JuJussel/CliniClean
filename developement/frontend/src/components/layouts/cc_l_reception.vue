@@ -1,32 +1,23 @@
 <template>
-    <div class="cc-reception-main-cont">
-        <cui-card class="cc-reception-patient-list" noPadding>
+    <div class="grid grid-cols-2 grid-rows-2">
+        <cui-card noPadding>
             <cc_p_reception_list></cc_p_reception_list>
         </cui-card>
         <cui-card>
             <cc_p_patient_list></cc_p_patient_list>
         </cui-card>
         <cui-card noPadding>
-            <cc_p_calendar
-                style="height: calc(100% - 1px)"
-                ref="calendar"
-            ></cc_p_calendar>
+            <cc_p_calendar style="height: calc(100% - 1px)" ref="calendar"></cc_p_calendar>
         </cui-card>
         <cui-card>
-            <cc_p_patient_info
-                v-if="hasActivePatient"
-                style="height: 100%"
-            ></cc_p_patient_info>
+            <cc_p_patient_info v-if="hasActivePatient" style="height: 100%"></cc_p_patient_info>
             <cui-tag :label="$lang.noPatientSelected" v-else />
         </cui-card>
 
         <!---------------- Modals ---------------->
 
-        <cui-modal
-            :visible="uiStore.modals.receptionModalRegister"
-            closable
-            @close="uiStore.modals.receptionModalRegister = false"
-        >
+        <cui-modal :visible="uiStore.modals.receptionModalRegister" closable
+            @close="uiStore.modals.receptionModalRegister = false">
             <cui-card style="width: 900px; height: 400px">
                 <template #header>
                     <h2>
@@ -38,13 +29,8 @@
             </cui-card>
         </cui-modal>
 
-        <cui-modal
-            :visible="
-                uiStore.modals.receptionModalReservation
-            "
-            closable
-            @close="uiStore.modals.receptionModalReservation = false"
-        >
+        <cui-modal :visible="uiStore.modals.receptionModalReservation
+            " closable @close="uiStore.modals.receptionModalReservation = false">
             <cui-card style="width: 1000px; height: 640px">
                 <template #header>
                     <h2>
@@ -56,11 +42,8 @@
             </cui-card>
         </cui-modal>
 
-        <cui-modal
-            :visible="uiStore.modals.receptionModalPatientEdit"
-            closable
-            @close="uiStore.modals.receptionModalPatientEdit = false"
-        >
+        <cui-modal :visible="uiStore.modals.receptionModalPatientEdit" closable
+            @close="uiStore.modals.receptionModalPatientEdit = false">
             <cui-card style="width: 1100px; height: 600px">
                 <template #header>
                     <h2 v-if="hasActivePatient">
@@ -68,15 +51,17 @@
                     </h2>
                     <h2 v-else>{{ $lang.patient }}{{ $lang.register }}</h2>
                 </template>
-                <cc_p_patient_edit />
+                <cc_p_patient_edit ref="patinetEdit" />
+                <template #footer>
+                    <cui-button :label="$lang.cancel" @click="uiStore.modals.receptionModalPatientEdit = false" plain />
+                    <cui-button primary :label="patientStore.patientData ? $lang.save : $lang.register"
+                        @click="$refs.patinetEdit?.validateForm" :loading="$refs.patinetEdit?.loading" />
+                </template>
             </cui-card>
         </cui-modal>
 
-        <cui-modal
-            :visible="uiStore.modals.receptionModalInsuranceEdit"
-            closable
-            @close="uiStore.modals.receptionModalInsuranceEdit = false"
-        >
+        <cui-modal :visible="uiStore.modals.receptionModalInsuranceEdit" closable
+            @close="uiStore.modals.receptionModalInsuranceEdit = false">
             <cui-card style="width: 1100px; height: 550px">
                 <template #header>
                     <h2>
@@ -156,11 +141,3 @@ export default {
     },
 };
 </script>
-
-<style scoped>
-.cc-reception-main-cont {
-    display: grid;
-    grid-template-columns: 50% 50%;
-    grid-template-rows: 40% 60%;
-}
-</style>

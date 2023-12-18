@@ -1,28 +1,12 @@
 <template>
   <div class="cc-login-main">
-    <cui-card style="width: 400px; height: 320px">
+    <cui-card style="width: 400px; height: 340px">
       <div class="cc-login-card">
         <span class="logo"></span>
         <div style="width: 300px">
-          <cui-input
-            :disabled="loading"
-            placeholder="ユーザ名"
-            icon="fas fa-user"
-            v-model="user.username"
-          />
-          <cui-input
-            :disabled="loading"
-            placeholder="パスワード"
-            icon="fas fa-lock"
-            type="password"
-            v-model="user.password"
-          />
-          <cui-button
-            @click="login"
-            :loading="loading"
-            label="ログイン"
-            style="float: right" primary
-          />
+          <cui-input :disabled="loading" placeholder="ユーザ名" icon="fas fa-user" v-model="user.username" />
+          <cui-input :disabled="loading" placeholder="パスワード" icon="fas fa-lock" type="password" v-model="user.password" />
+          <cui-button @click="login" :loading="loading" label="ログイン" style="float: right" primary />
 
         </div>
       </div>
@@ -67,26 +51,27 @@ export default {
 </script>
 
 <style scoped>
-  .cc-login-main {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .cc-login-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .logo {
-    background: url('../assets/img/CliniCleanLogo.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    height: 120px;
-    width: 350px;
-    display: block;
-    margin-bottom: 20px;
-  }
+.cc-login-main {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
+.cc-login-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo {
+  background: url('../assets/img/CliniCleanLogo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 120px;
+  width: 350px;
+  display: block;
+  margin-bottom: 20px;
+}
 </style>

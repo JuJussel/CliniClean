@@ -6,57 +6,24 @@
                     <div class="circle-number">1</div>
                     <h2>{{ $lang.basic }}</h2>
                     <div v-if="editData" style="margin-left: 10px">
-                        <cui-checkbox
-                            v-model="patient.editSexOrBirthdate"
-                            :label="$lang.editSexOrBirthdate"
-                        ></cui-checkbox>
+                        <cui-checkbox v-model="patient.editSexOrBirthdate" :label="$lang.editSexOrBirthdate"></cui-checkbox>
                     </div>
                 </template>
                 <div class="cc-patient-edit-form">
-                    <cui-input
-                        :disabled="editData && patient.editSexOrBirthdate"
-                        :note="errors.name"
-                        v-model="patient.name"
-                        required
-                        @input="updateHouseholder"
-                        :label="$lang.name"
-                    ></cui-input>
-                    <cui-input
-                        :disabled="editData && patient.editSexOrBirthdate"
-                        :note="errors.nameKana"
-                        v-model="patient.nameKana"
-                        required
-                        :label="$lang.nameKana"
-                    ></cui-input>
-                    <cui-datepicker
-                        :disabled="editData && !patient.editSexOrBirthdate"
-                        :note="errors.birthdate"
-                        v-model="patient.birthdate"
-                        required
-                        :label="$lang.birthdate"
-                    ></cui-datepicker>
+                    <cui-input :disabled="editData && patient.editSexOrBirthdate" :note="errors.name" v-model="patient.name"
+                        required @input="updateHouseholder" :label="$lang.name"></cui-input>
+                    <cui-input :disabled="editData && patient.editSexOrBirthdate" :note="errors.nameKana"
+                        v-model="patient.nameKana" required :label="$lang.nameKana"></cui-input>
+                    <cui-datepicker :disabled="editData && !patient.editSexOrBirthdate" :note="errors.birthdate"
+                        v-model="patient.birthdate" required :label="$lang.birthdate"></cui-datepicker>
                     <div style="display: flex; align-items: flex-end">
-                        <cui-radio
-                            :disabled="editData && !patient.editSexOrBirthdate"
-                            :caption="$lang.gender"
-                            :label="$lang.male"
-                            :value="1"
-                            v-model="patient.gender"
-                        />
-                        <cui-radio
-                            :disabled="editData && !patient.editSexOrBirthdate"
-                            style="margin-left: 10px"
-                            :label="$lang.female"
-                            :value="2"
-                            v-model="patient.gender"
-                        />
+                        <cui-radio :disabled="editData && !patient.editSexOrBirthdate" :caption="$lang.gender"
+                            :label="$lang.male" :value="1" v-model="patient.gender" />
+                        <cui-radio :disabled="editData && !patient.editSexOrBirthdate" style="margin-left: 10px"
+                            :label="$lang.female" :value="2" v-model="patient.gender" />
                     </div>
-                    <cui-select
-                        :note="errors.occupation"
-                        v-model="patient.occupation"
-                        :label="$lang.occupation"
-                        :data="listStore.listData.occupations"
-                    ></cui-select>
+                    <cui-select :note="errors.occupation" v-model="patient.occupation" :label="$lang.occupation"
+                        :data="listStore.listData.occupations"></cui-select>
                 </div>
             </cui-card>
             <cui-card :loading="loading">
@@ -64,43 +31,16 @@
                     <div class="circle-number">2</div>
                     <h2>{{ $lang.contactInfo }}</h2>
                 </template>
-                <cui-input
-                    :note="errors.addresszip"
-                    v-model="patient.address.zip"
-                    :label="$lang.zipCode"
-                    pattern="[0-9]*"
-                    @input="getAddress('address')"
-                ></cui-input>
-                <cui-input
-                    :note="errors.addressaddr"
-                    v-model="patient.address.addr"
-                    :label="$lang.address"
-                ></cui-input>
-                <cui-input
-                    :note="errors.phone"
-                    v-model="patient.phone"
-                    :label="$lang.telephone"
-                ></cui-input>
-                <cui-input
-                    :note="errors.mail"
-                    v-model="patient.mail"
-                    :label="$lang.mailAddress"
-                ></cui-input>
+                <cui-input :note="errors.addresszip" v-model="patient.address.zip" :label="$lang.zipCode" pattern="[0-9]*"
+                    @input="getAddress('address')"></cui-input>
+                <cui-input :note="errors.addressaddr" v-model="patient.address.addr" :label="$lang.address"></cui-input>
+                <cui-input :note="errors.phone" v-model="patient.phone" :label="$lang.telephone"></cui-input>
+                <cui-input :note="errors.mail" v-model="patient.mail" :label="$lang.mailAddress"></cui-input>
                 <div style="display: grid; grid-template-columns: 50% 50%">
-                    <cui-input
-                        v-model="patient.householderName"
-                        :label="$lang.householder"
-                    ></cui-input>
-                    <cui-select
-                        :label="$lang.relation"
-                        style="padding-left: 10px"
-                        :note="errors.relation"
-                        @select="updateHouseholder"
-                        displayValueProp="name"
-                        returnValueProp="name"
-                        v-model="patient.relation"
-                        :data="listStore.listData.relations"
-                    />
+                    <cui-input v-model="patient.householderName" :label="$lang.householder"></cui-input>
+                    <cui-select :label="$lang.relation" style="padding-left: 10px" :note="errors.relation"
+                        @select="updateHouseholder" displayValueProp="name" returnValueProp="name"
+                        v-model="patient.relation" :data="listStore.listData.relations" />
                 </div>
             </cui-card>
             <cui-card :loading="loading">
@@ -108,41 +48,13 @@
                     <div class="circle-number">3</div>
                     <h2>{{ $lang.workOrSchool }}</h2>
                 </template>
-                <cui-input
-                    :note="errors.companyname"
-                    v-model="patient.company.name"
-                    :label="$lang.workOrSchoolName"
-                ></cui-input>
-                <cui-input
-                    :note="errors.companyzip"
-                    v-model="patient.company.zip"
-                    :label="$lang.zipCode"
-                    @input="getAddress('company')"
-                ></cui-input>
-                <cui-input
-                    :note="errors.companyaddr"
-                    v-model="patient.company.addr"
-                    :label="$lang.address"
-                ></cui-input>
-                <cui-input
-                    :note="errors.companyphone"
-                    v-model="patient.company.phone"
-                    :label="$lang.telephone"
-                ></cui-input>
+                <cui-input :note="errors.companyname" v-model="patient.company.name"
+                    :label="$lang.workOrSchoolName"></cui-input>
+                <cui-input :note="errors.companyzip" v-model="patient.company.zip" :label="$lang.zipCode"
+                    @input="getAddress('company')"></cui-input>
+                <cui-input :note="errors.companyaddr" v-model="patient.company.addr" :label="$lang.address"></cui-input>
+                <cui-input :note="errors.companyphone" v-model="patient.company.phone" :label="$lang.telephone"></cui-input>
             </cui-card>
-        </div>
-        <div style="flex-grow: 1; display: flex; justify-content: flex-end">
-            <cui-button
-                :label="$lang.cancel"
-                @click="uiStore.modals.receptionModalPatientEdit = false"
-                plain
-            />
-            <cui-button
-                primary
-                :label="editData ? $lang.save : $lang.register"
-                @click="validateForm"
-                :loading="loading"
-            />
         </div>
     </div>
 </template>
@@ -349,9 +261,11 @@ export default {
     display: grid;
     grid-template-columns: 33% 33% auto;
 }
+
 .cc-patient-edit-header {
     grid-area: header;
 }
+
 .circle-number {
     width: 20px;
     height: 20px;
