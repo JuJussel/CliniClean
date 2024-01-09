@@ -1,30 +1,15 @@
 <template>
-    <cui-table
-        :data="patientList"
-        style="margin: -10px"
-        @select="selectPatient"
-        singleSelect
-        :loading="loading"
-    >
+    <cui-table :data="patientList" style="margin: -10px" @select="selectPatient" singleSelect :loading="loading">
         <template #header>
             <div style="display: flex; align-items: center">
                 <h2 style="margin-right: 20px">{{ $lang.patientList }}</h2>
-                <cui-input
-                    noNote
-                    darker
-                    @input="searchPatient"
-                    v-model="patientSearchInput"
-                    :placeholder="$lang.searchByNameodID"
-                    :loading="loading.patientSearch"
-                ></cui-input>
+                <cui-input noNote darker @input="searchPatient" v-model="patientSearchInput"
+                    :placeholder="$lang.searchByNameodID" :loading="loading.patientSearch"></cui-input>
                 <slot name="buttons">
-                    <cui-button
-                        :label="$lang.register"
-                        @click="
-                            patientStore.patientData = null;
-                            uiStore.modals.receptionModalPatientEdit = true
-                        "
-                    ></cui-button>
+                    <cui-button :label="$lang.register" @click="
+                        patientStore.patientData = null;
+                    uiStore.modals.receptionModalPatientEdit = true
+                        "></cui-button>
                 </slot>
             </div>
         </template>
@@ -75,7 +60,7 @@ export default {
         async searchPatient() {
             let input = this.patientSearchInput;
             if (input === "") {
-                this.patientList = [];
+                this.resetSearch();
                 return;
             }
             this.loading = true;

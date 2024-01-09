@@ -1,8 +1,8 @@
 <template>
     <div class="cc-reception-main-cont">
-        <cui-card :loading="loading" style="overflow: hidden">
-            <cc_p_patient_info_medical v-if="!loading" />
-        </cui-card>
+        <div style="overflow: hidden">
+            <cc_p_patient_info_medical v-if="!loading" :loading="loading" />
+        </div>
         <div class="resizer" @mousedown.stop="resizeHandler" />
         <cui-card :loading="loading" no-padding style="overflow: hidden">
             <cc_p_karte v-if="encounterStore.encounterData" />
@@ -98,6 +98,7 @@ export default {
     display: grid;
     grid-template-columns: v-bind(finalWidth) 5px auto;
 }
+
 .resizer {
     cursor: ew-resize;
     background: var(--cui-gray-2);

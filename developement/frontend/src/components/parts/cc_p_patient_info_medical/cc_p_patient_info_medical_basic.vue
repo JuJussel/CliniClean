@@ -1,6 +1,6 @@
 <template>
     <div class="cc-scoped-wrapper">
-        <div style="display: flex; align-items: center; margin-bottom: ">
+        <cui-card style="display: flex; align-items: center; margin-bottom: ">
             <span style="width: 150px; display: flex; align-items: center">
                 <h2>{{ $lang.basic }}</h2>
                 <cui-button icon="fas fa-edit" plain @click="showBasicModal" />
@@ -9,7 +9,7 @@
                 <span> {{ $lang.bloodType }} </span>
                 <cui-tag :label="medicalStore.medicalData.bloodType || this.$lang.unknown" />
             </span>
-        </div>
+        </cui-card>
         <div class="grid-tables">
             <div>
                 <allergies></allergies>

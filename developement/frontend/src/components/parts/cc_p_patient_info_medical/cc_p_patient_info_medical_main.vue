@@ -1,14 +1,16 @@
 <template>
     <div class="cc-patient-medical-info-main-wrapper">
-        <cui-button-group v-model="activeTab" class="cc_patient_medical_info_bg">
-            <cui-button-group-item v-for="(tab, index) in tabs" :key="index" :label="tab.label" :value="tab.name"
-                :icon="tab.icon" :index="index" />
-        </cui-button-group>
+        <cui-card>
+            <cui-button-group v-model="activeTab" class="cc_patient_medical_info_bg">
+                <cui-button-group-item v-for="(tab, index) in tabs" :key="index" :label="tab.label" :value="tab.name"
+                    :icon="tab.icon" :index="index" />
+            </cui-button-group>
+        </cui-card>
         <div style="
                     position: relative;
                     overflow: auto;
+                    padding: 5px;
                     flex: 1;
-                    margin-top: 10px;
                     ">
             <div class="loader" v-if="loading" />
             <keep-alive>
@@ -33,6 +35,12 @@ import issues from './cc_p_patient_info_medical_issues'
 import prevVac from './cc_p_patient_info_medical_prevVac'
 
 export default {
+    props: {
+        loading: {
+            type: Boolean,
+            default: true
+        }
+    },
     components: {
         basic,
         register,
@@ -114,7 +122,6 @@ export default {
                 },
             ],
             activeTab: "basic",
-            loading: false,
         };
     },
 };

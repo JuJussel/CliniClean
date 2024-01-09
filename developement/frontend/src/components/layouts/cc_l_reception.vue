@@ -9,10 +9,10 @@
         <cui-card noPadding>
             <cc_p_calendar style="height: calc(100% - 1px)" ref="calendar"></cc_p_calendar>
         </cui-card>
-        <cui-card>
+        <div style="padding: 10px">
             <cc_p_patient_info v-if="hasActivePatient" style="height: 100%"></cc_p_patient_info>
             <cui-tag :label="$lang.noPatientSelected" v-else />
-        </cui-card>
+        </div>
 
         <!---------------- Modals ---------------->
 
