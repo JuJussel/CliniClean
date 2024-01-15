@@ -53,7 +53,7 @@
                 </template>
                 <cc_p_patient_edit ref="patinetEdit" />
                 <template #footer>
-                    <cui-button :label="$lang.cancel" @click="uiStore.modals.receptionModalPatientEdit = false" plain />
+                    <cui-button plain :label="$lang.cancel" @click="uiStore.modals.receptionModalPatientEdit = false" />
                     <cui-button primary :label="patientStore.patientData ? $lang.save : $lang.register"
                         @click="$refs.patinetEdit?.validateForm" :loading="$refs.patinetEdit?.loading" />
                 </template>
