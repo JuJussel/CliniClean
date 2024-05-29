@@ -1,61 +1,36 @@
 <template>
     <div>
         <cui-card noPadding>
-            <cui-table
-                :data="vitalCats"
-                compact
-                style="height: auto; margin: 10px"
-            >
+            <cui-table :data="vitalCats" compact style="height: auto; margin: 10px">
                 <template #header>
                     <h2>{{ $lang.vitals }}</h2>
-                    <cui-button
-                        icon="fas fa-plus"
-                        :label="$lang.register"
-                        v-if="encounterStore.encounterData"
-                        @click="openVitalRegister"
-                    />
+                    <cui-button icon="fas fa-plus" :label="$lang.register" v-if="encounterStore.encounterData"
+                        @click="openVitalRegister" />
                 </template>
+
                 <template #thead>
-                    <cui-th
-                        class="vital-row-header-scoped"
-                        style="z-index: 5 !important"
-                    >
-                        <cui-checkbox
-                            v-if="isViewer"
-                            :label="$lang.showChart"
-                            v-model="showChartAll"
-                        />
+                    <cui-th class="vital-row-header-scoped" style="z-index: 5 !important">
+                        <cui-checkbox v-if="isViewer" :label="$lang.showChart" v-model="showChartAll" />
                     </cui-th>
-                    <cui-th
-                        v-for="(item, index) in vitalData"
-                        :key="index"
-                        style="min-width: 100px; font-size: 12px"
-                    >
+                    <cui-th v-for="(item, index) in vitalData" :key="index" style="min-width: 100px; font-size: 12px">
                         {{ $parseDate(item.date) }}
                     </cui-th>
                 </template>
+
                 <template v-slot:row="{ row }">
                     <td class="vital-row-header-scoped">
                         <span style="display: flex">
-                            <cui-checkbox
-                                v-if="isViewer"
-                                v-model="row.selectedDisp"
-                                :label="
-                                    $lang.vitalCategories[row.name] +
-                                    (row.unit || '')
-                                "
-                            />
+                            <cui-checkbox v-if="isViewer" v-model="row.selectedDisp" :label="$lang.vitalCategories[row.name] +
+                (row.unit || '')
+                " />
                             <span v-else>
                                 {{ $lang.vitalCategories[row.name] }}
                                 {{ row.unit }}
                             </span>
                         </span>
                     </td>
-                    <td
-                        v-for="(item, index) in vitalData"
-                        :key="index"
-                        style="border-right: solid 1px var(--cui-gray-2)"
-                    >
+                    <td v-for="(item, index) in vitalData" :key="index"
+                        style="border-right: solid 1px var(--cui-gray-2)">
                         {{ returnVitalValue(item.values, row) }}
                     </td>
                 </template>
@@ -65,43 +40,25 @@
             <chart :options="chartOptions" :dataSet="chartData" />
         </cui-card>
     </div>
-    <cui-modal
-        :visible="modals.vitalRegister.visible"
-        :closable="!modals.vitalRegister.loading"
-        @close="modals.vitalRegister.visible = false"
-    >
-        <cui-card
-            style="width: 600px; max-height: 500px; position: relative"
-            v-if="modals.vitalRegister.data"
-        >
+    <cui-modal :visible="modals.vitalRegister.visible" :closable="!modals.vitalRegister.loading"
+        @close="modals.vitalRegister.visible = false">
+        <cui-card style="width: 600px; max-height: 500px; position: relative" v-if="modals.vitalRegister.data">
+
             <template #header>
                 {{ $lang.vitals }} {{ $lang.register }}
             </template>
             <div class="vital-cont-scoped">
                 <div class="loader" v-if="modals.vitalRegister.loading" />
-                <cui-input
-                    v-for="(item, index) in modals.vitalRegister.data"
-                    :key="index"
-                    :label="$lang.vitalCategories[item.name]"
-                    v-model="item.value"
-                    :append="item.unit"
-                    style="width: 150px; margin-right: 20px"
-                />
+                <cui-input v-for="(item, index) in modals.vitalRegister.data" :key="index"
+                    :label="$lang.vitalCategories[item.name]" v-model="item.value" :append="item.unit"
+                    style="width: 150px; margin-right: 20px" />
             </div>
+
             <template #footer>
-                <cui-button
-                    :label="$lang.cancel"
-                    @click="this.modals.vitalRegister.visible = false"
-                    plain
-                    :loading="modals.vitalRegister.loading"
-                />
-                <cui-button
-                    :label="$lang.register"
-                    primary
-                    @click="register"
-                    :disabled="!inputPresent"
-                    :loading="modals.vitalRegister.loading"
-                />
+                <cui-button :label="$lang.cancel" @click="this.modals.vitalRegister.visible = false" plain
+                    :loading="modals.vitalRegister.loading" />
+                <cui-button :label="$lang.register" primary @click="register" :disabled="!inputPresent"
+                    :loading="modals.vitalRegister.loading" />
             </template>
         </cui-card>
     </cui-modal>
@@ -153,11 +110,11 @@ export default {
                         formatter: function (value) {
                             return this.$dayjs(value).format(
                                 "YYYY" +
-                                    this.$lang.dateLocals.yearSeparator +
-                                    "MM" +
-                                    this.$lang.dateLocals.monthSeparator +
-                                    "DD" +
-                                    this.$lang.dateLocals.daySeparator
+                                this.$lang.dateLocals.yearSeparator +
+                                "MM" +
+                                this.$lang.dateLocals.monthSeparator +
+                                "DD" +
+                                this.$lang.dateLocals.daySeparator
                             );
                         }.bind(this),
                     },
@@ -225,7 +182,7 @@ export default {
             let patientHistory =
                 await this.$api.get(
                     'patients/'
-                    + this.medicalStore.patientId
+                    + id
                     + '/medicalHistory'
                 );
             this.modals.vitalRegister.loading = false;
@@ -301,7 +258,7 @@ export default {
     },
 };
 </script>
-    
+
 <style>
 .vital-cont-scoped {
     position: relative;
@@ -309,17 +266,16 @@ export default {
     display: flex;
     flex-wrap: wrap;
 }
+
 .vital-row-header-scoped {
     min-width: 100px;
     position: sticky;
     left: 0;
     z-index: 3 !important;
-    background: linear-gradient(
-        90deg,
-        white 0%,
-        white calc(100% - 0.05em),
-        var(--cui-gray-2) calc(100% - 0.05em),
-        var(--cui-gray-2) 100%
-    );
+    background: linear-gradient(90deg,
+            white 0%,
+            white calc(100% - 0.05em),
+            var(--cui-gray-2) calc(100% - 0.05em),
+            var(--cui-gray-2) 100%);
 }
 </style>
