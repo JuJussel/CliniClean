@@ -30,8 +30,9 @@
         </cui-modal>
 
         <cui-modal :visible="uiStore.modals.receptionModalReservation
-            " closable @close="uiStore.modals.receptionModalReservation = false">
+                " closable @close="uiStore.modals.receptionModalReservation = false">
             <cui-card style="width: 1000px; height: 640px">
+
                 <template #header>
                     <h2>
                         {{ patientStore.patientData.name
@@ -45,6 +46,7 @@
         <cui-modal :visible="uiStore.modals.receptionModalPatientEdit" closable
             @close="uiStore.modals.receptionModalPatientEdit = false">
             <cui-card style="width: 1100px; height: 600px">
+
                 <template #header>
                     <h2 v-if="hasActivePatient">
                         {{ patientStore.patientData.name }}{{ $lang.edit }}
@@ -52,10 +54,11 @@
                     <h2 v-else>{{ $lang.patient }}{{ $lang.register }}</h2>
                 </template>
                 <cc_p_patient_edit ref="patinetEdit" />
+
                 <template #footer>
                     <cui-button plain :label="$lang.cancel" @click="uiStore.modals.receptionModalPatientEdit = false" />
                     <cui-button primary :label="patientStore.patientData ? $lang.save : $lang.register"
-                        @click="$refs.patinetEdit?.validateForm" :loading="$refs.patinetEdit?.loading" />
+                        @click="$refs.patinetEdit.validateForm()" :loading="$refs.patinetEdit?.loading" />
                 </template>
             </cui-card>
         </cui-modal>
@@ -63,6 +66,7 @@
         <cui-modal :visible="uiStore.modals.receptionModalInsuranceEdit" closable
             @close="uiStore.modals.receptionModalInsuranceEdit = false">
             <cui-card style="width: 1100px; height: 550px">
+
                 <template #header>
                     <h2>
                         {{ patientStore.patientData.name
@@ -137,7 +141,7 @@ export default {
     methods: {
         savePayment() {
             this.$refs.payment.savePayment();
-        },
+        }
     },
 };
 </script>

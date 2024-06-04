@@ -6,12 +6,13 @@
                     <div class="circle-number">1</div>
                     <h2>{{ $lang.basic }}</h2>
                     <div v-if="editData" style="margin-left: 10px">
-                        <cui-checkbox v-model="patient.editSexOrBirthdate" :label="$lang.editSexOrBirthdate"></cui-checkbox>
+                        <cui-checkbox v-model="patient.editSexOrBirthdate"
+                            :label="$lang.editSexOrBirthdate"></cui-checkbox>
                     </div>
                 </template>
                 <div class="cc-patient-edit-form">
-                    <cui-input :disabled="editData && patient.editSexOrBirthdate" :note="errors.name" v-model="patient.name"
-                        required @input="updateHouseholder" :label="$lang.name"></cui-input>
+                    <cui-input :disabled="editData && patient.editSexOrBirthdate" :note="errors.name"
+                        v-model="patient.name" required @input="updateHouseholder" :label="$lang.name"></cui-input>
                     <cui-input :disabled="editData && patient.editSexOrBirthdate" :note="errors.nameKana"
                         v-model="patient.nameKana" required :label="$lang.nameKana"></cui-input>
                     <cui-datepicker :disabled="editData && !patient.editSexOrBirthdate" :note="errors.birthdate"
@@ -27,12 +28,13 @@
                 </div>
             </cui-card>
             <cui-card :loading="loading">
+
                 <template #header>
                     <div class="circle-number">2</div>
                     <h2>{{ $lang.contactInfo }}</h2>
                 </template>
-                <cui-input :note="errors.addresszip" v-model="patient.address.zip" :label="$lang.zipCode" pattern="[0-9]*"
-                    @input="getAddress('address')"></cui-input>
+                <cui-input :note="errors.addresszip" v-model="patient.address.zip" :label="$lang.zipCode"
+                    pattern="[0-9]*" @input="getAddress('address')"></cui-input>
                 <cui-input :note="errors.addressaddr" v-model="patient.address.addr" :label="$lang.address"></cui-input>
                 <cui-input :note="errors.phone" v-model="patient.phone" :label="$lang.telephone"></cui-input>
                 <cui-input :note="errors.mail" v-model="patient.mail" :label="$lang.mailAddress"></cui-input>
@@ -44,6 +46,7 @@
                 </div>
             </cui-card>
             <cui-card :loading="loading">
+
                 <template #header>
                     <div class="circle-number">3</div>
                     <h2>{{ $lang.workOrSchool }}</h2>
@@ -53,7 +56,8 @@
                 <cui-input :note="errors.companyzip" v-model="patient.company.zip" :label="$lang.zipCode"
                     @input="getAddress('company')"></cui-input>
                 <cui-input :note="errors.companyaddr" v-model="patient.company.addr" :label="$lang.address"></cui-input>
-                <cui-input :note="errors.companyphone" v-model="patient.company.phone" :label="$lang.telephone"></cui-input>
+                <cui-input :note="errors.companyphone" v-model="patient.company.phone"
+                    :label="$lang.telephone"></cui-input>
             </cui-card>
         </div>
     </div>
@@ -159,6 +163,8 @@ export default {
             }
         },
         validateForm() {
+            console.log("Hey");
+
             Object.keys(this.errors).forEach((key) => {
                 this.errors[key] = "";
             });
