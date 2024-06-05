@@ -5,65 +5,14 @@
                 <Chip :label="userStore.fullName" :image="avatarUrl" @click="toggleUserMenu" />
                 <OverlayPanel ref="userMenu">
                     <Button label="Profile" icon="pi pi-user" severity="secondary" size="small" />
-
                 </OverlayPanel>
-
             </template>
         </Menubar>
-        <main class="grow grid gap-2 grid-rows-2 grid-cols-2 mt-2">
-            <Card>
-
-                <template #title>Simple Card</template>
-
-                <template #content>
-                    <p class="m-0">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error
-                        repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione
-                        quam perferendis esse, cupiditate neque
-                        quas!
-                    </p>
-                </template>
-            </Card>
-            <Card>
-
-                <template #title>Simple Card</template>
-
-                <template #content>
-                    <p class="m-0">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error
-                        repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione
-                        quam perferendis esse, cupiditate neque
-                        quas!
-                    </p>
-                </template>
-            </Card>
-            <Card>
-
-                <template #title>Simple Card</template>
-
-                <template #content>
-                    <p class="m-0">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error
-                        repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione
-                        quam perferendis esse, cupiditate neque
-                        quas!
-                    </p>
-                </template>
-            </Card>
-            <Card>
-
-                <template #title>Simple Card</template>
-
-                <template #content>
-                    <p class="m-0">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error
-                        repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione
-                        quam perferendis esse, cupiditate neque
-                        quas!
-                    </p>
-                </template>
-            </Card>
-
+        <main class="grow mt-2">
+            <component
+                :is="uiStore.activeTab"
+                style="height: 100%"
+            ></component>
         </main>
     </div>
 </template>
@@ -77,18 +26,30 @@ import { useUiStore } from '@/stores/ui'
 import { useSettingStore } from '@/stores/setting'
 import { mapStores } from 'pinia'
 
+import reception from '../layouts/receptionv2.vue'
+
 export default {
+    components: {
+        reception
+    },
     data() {
         return {
             menuItems: [{
                 label: this.$lang.home,
                 icon: 'pi pi-home',
                 command: () => {
-                    changeMenu("home")
+                    this.uiStore.activeTab = 'dashboard'
+                }
+            },{
+                label: this.$lang.reception,
+                icon: 'pi pi-home',
+                command: () => {
+                    this.uiStore.activeTab = 'reception'
                 }
             },]
         }
     },
+
     computed: {
         ...mapStores(useUserStore, useListStore, useNotificationStore, useUiStore, useSettingStore),
         avatarUrl() {
@@ -105,14 +66,11 @@ export default {
             return hasNot.length > 0 ? true : false;
         },
     },
+
     methods: {
-        changeMenu(val) {
-            if (val === "logout") {
-                this.$auth().remove();
-                this.$router.push("/");
-            } else {
-                this.uiStore.activeTab = val
-            }
+        logout() {
+            this.$auth().remove();
+            this.$router.push("/");
         },
         toggleUserMenu(event) {
             this.$refs.userMenu.toggle(event);
