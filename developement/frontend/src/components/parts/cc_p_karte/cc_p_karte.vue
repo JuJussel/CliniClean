@@ -1,34 +1,17 @@
 <template>
-    <div
-        class="cc-medical-karte-main"
-        v-bind:class="{ 'fixed-proc': fixedProcBrowser }"
-    >
-        <cui-side-bar
-            v-if="!fixedProcBrowser"
-            noButton
-            :sidebar="$lang.procedursOnly + $lang.register"
-            ref="procedureSelector"
-            icon="fa-solid fa-xmark"
-            width="400px"
-        >
-            <proceduresBrowser
-                style="width: calc(100% - 20px); height: calc(100% - 60px)"
-                @select="addProcedure"
-            />
+    <div class="cc-medical-karte-main" v-bind:class="{ 'fixed-proc': fixedProcBrowser }">
+        <cui-side-bar v-if="!fixedProcBrowser" noButton :sidebar="$lang.procedursOnly + $lang.register"
+            ref="procedureSelector" icon="fa-solid fa-xmark" width="400px">
+            <proceduresBrowser style="width: calc(100% - 20px); height: calc(100% - 60px)" @select="addProcedure" />
         </cui-side-bar>
-        <div
-            style="
+        <div style="
                 padding: 5px;
                 display: flex;
                 align-items: center;
                 grid-area: karte1;
-            "
-        >
+            ">
             <div v-if="saving" class="cc-medical-exam-loader-cont">
-                <div
-                    class="loader"
-                    style="background-color: transparent; scale: 0.6"
-                />
+                <div class="loader" style="background-color: transparent; scale: 0.6" />
                 <div style="margin-left: -10px">{{ $lang.saving }}</div>
             </div>
             <div v-else-if="saved" class="cc-medical-exam-loader-cont">
@@ -37,217 +20,113 @@
             </div>
         </div>
         <div style="grid-area: karte2">
-            <div
-                class="cc-medical-exam-controls"
-                v-if="encounter?.status === 3"
-            >
-                <cui-button
-                    plain
-                    :label="$lang.view"
-                    icon="fas fa-columns"
-                    @click="fixedProcBrowser = !fixedProcBrowser"
-                ></cui-button>
-                <cui-button
-                    :label="$lang.reservation"
-                    icon="fas fa-calendar-plus"
-                    @click="uiStore.modals.receptionModalReservation = true"
-                ></cui-button>
-                <cui-button
-                    warn
-                    :label="$lang.pause"
-                    icon="fas fa-pause"
-                ></cui-button>
-                <cui-button
-                    primary
-                    :label="$lang.finish"
-                    icon="fas fa-check-double"
-                    @click="modal.confirmEncounterClose = true"
-                ></cui-button>
+            <div class="cc-medical-exam-controls" v-if="encounter?.status === 3">
+                <cui-button plain :label="$lang.view" icon="fas fa-columns"
+                    @click="fixedProcBrowser = !fixedProcBrowser"></cui-button>
+                <cui-button :label="$lang.reservation" icon="fas fa-calendar-plus"
+                    @click="uiStore.modals.receptionModalReservation = true"></cui-button>
+                <cui-button warn :label="$lang.pause" icon="fas fa-pause"></cui-button>
+                <cui-button primary :label="$lang.finish" icon="fas fa-check-double"
+                    @click="modal.confirmEncounterClose = true"></cui-button>
             </div>
             <div v-else-if="encounter?.status === 10">
-                <cui-button
-                    primary
-                    :label="$lang.next"
-                    icon="fas fa-check-double"
-                ></cui-button>
+                <cui-button primary :label="$lang.next" icon="fas fa-check-double"></cui-button>
             </div>
         </div>
         <div class="cc-medical-karte-soap" style="grid-area: karte3">
             <div class="cc-headers">
                 <b>{{ $lang.soapObservation }}</b>
             </div>
-            <cui-editor
-                style="height: calc(60% - 40px)"
-                :customMenuItems="customMenuItems"
-                :customExtensions="customTextExtensions"
-                :content="soap"
-                ref="textEditor"
-                @update="updateState"
-            />
+            <cui-editor style="height: calc(60% - 40px)" :customMenuItems="customMenuItems"
+                :customExtensions="customTextExtensions" :content="soap" ref="textEditor" @update="updateState" />
             <div class="h2-header">
                 <b>{{ $lang.image }}</b>
             </div>
             <div class="cc-image-cont" style="height: calc(40% - 40px)">
-                <cui-card
-                    v-for="(img, index) in images"
-                    :key="index"
-                    no-padding
-                    @click="showImage(img)"
-                    class="cc-image-card"
-                >
+                <cui-card v-for="(img, index) in images" :key="index" no-padding @click="showImage(img)"
+                    class="cc-image-card">
                     <div class="cc-image-card-schema-cont">
-                        <img
-                            class="cc-image-card-img"
-                            :src="
-                                $GLOBALS.filesUrl +
-                                img.id +
-                                '.' +
-                                img.extension +
-                                '?' +
-                                random
-                            "
-                            :alt="$lang.image + index"
-                        />
+                        <img class="cc-image-card-img" :src="$GLOBALS.filesUrl +
+        img.id +
+        '.' +
+        img.extension +
+        '?' +
+        random
+        " :alt="$lang.image + index" />
                         <div class="cc-image-card-text">
                             <span>{{ $lang.image + index }} </span>
-                            <i
-                                v-if="img.meta.source === 'schema'"
-                                class="fas fa-edit hover-icon"
-                                style="margin-left: 10px"
-                                @click.stop="editSchema(img, index)"
-                            ></i>
+                            <i v-if="img.meta.source === 'schema'" class="fas fa-edit hover-icon"
+                                style="margin-left: 10px" @click.stop="editSchema(img, index)"></i>
                         </div>
                     </div>
                 </cui-card>
             </div>
-            <input
-                style="display: none"
-                type="file"
-                ref="file"
-                v-on:change="addImage()"
-                accept="image/png, image/gif, image/jpeg"
-            />
+            <input style="display: none" type="file" ref="file" v-on:change="addImage()"
+                accept="image/png, image/gif, image/jpeg" />
         </div>
         <div style="grid-area: karte4">
             <div class="cc-headers proc-head">
                 <b> {{ $lang.procedures }} </b>
-                <cui-button
-                    v-if="!fixedProcBrowser"
-                    icon="fa-solid fa-plus"
-                    label="行為登録"
-                    plain
-                    @click="$refs.procedureSelector.toggle()"
-                ></cui-button>
+                <cui-button v-if="!fixedProcBrowser" icon="fa-solid fa-plus" label="行為登録" plain
+                    @click="$refs.procedureSelector.toggle()"></cui-button>
             </div>
-            <proceduresList
-                style="height: calc(100% - 40px)"
-                :encounter="encounter"
-                :procedures="procedures"
-                :random="random"
-                @remove="removeProcedure"
-            />
+            <proceduresList style="height: calc(100% - 40px)" :encounter="encounter" :procedures="procedures"
+                :random="random" @remove="removeProcedure" />
         </div>
-        <proceduresBrowser
-            v-if="fixedProcBrowser"
-            class="fixed-proc-browser"
-            @select="addProcedure"
-        />
-        <cui-modal
-            :visible="modal.schema"
-            closable
-            @close="modal.schema = false"
-        >
+        <proceduresBrowser v-if="fixedProcBrowser" class="fixed-proc-browser" @select="addProcedure" />
+        <cui-modal :visible="modal.schema" closable @close="modal.schema = false">
             <cui-card style="width: 1160px; height: 700px" noPadding>
                 <template #header>
                     <h2>{{ $lang.schema }}</h2>
                 </template>
-                <schema-editor
-                    @addSchema="addSchema"
-                    @cancel="modal.schema = false"
-                ></schema-editor>
+                <schema-editor @addSchema="addSchema" @cancel="modal.schema = false"></schema-editor>
             </cui-card>
         </cui-modal>
-        <cui-modal
-            :visible="modal.schemaEdit"
-            closable
-            @close="modal.schemaEdit = null"
-        >
+        <cui-modal :visible="modal.schemaEdit" closable @close="modal.schemaEdit = null">
             <cui-card style="width: 600px; height: 700px" noPadding>
+
                 <template #header>
                     <h2>{{ $lang.schema }}</h2>
                 </template>
-                <painter
-                    :schema="modal.schemaEdit.file"
-                    ref="schemaEditor"
-                ></painter>
+                <painter :schema="modal.schemaEdit.file" ref="schemaEditor"></painter>
+
                 <template #footer>
-                    <cui-button
-                        :label="$lang.cancel"
-                        plain
-                        @click="modal.schemaEdit = null"
-                    ></cui-button>
-                    <cui-button
-                        :label="$lang.save"
-                        primary
-                        @click="updateSchema"
-                    ></cui-button>
+                    <cui-button :label="$lang.cancel" plain @click="modal.schemaEdit = null"></cui-button>
+                    <cui-button :label="$lang.save" primary @click="updateSchema"></cui-button>
                 </template>
             </cui-card>
         </cui-modal>
-        <cui-modal
-            :visible="modal.confirmEncounterClose"
-            @close="modal.confirmEncounterClose = false"
-            :closable="!loading"
-        >
-            <cui-card
-                style="
+        <cui-modal :visible="modal.confirmEncounterClose" @close="modal.confirmEncounterClose = false"
+            :closable="!loading">
+            <cui-card style="
                     width: 250px;
                     height: 150px;
                     border-radius: 20px;
                     padding: 0;
-                "
-                :loading="loading"
-            >
+                " :loading="loading">
+
                 <template #header> {{ $lang.confirm }} </template>
                 <div>{{ $lang.confirmEncounterClose }}</div>
-                <div
-                    style="
+                <div style="
                         display: flex;
                         justify-content: flex-end;
                         margin-top: 10px;
-                    "
-                >
-                    <cui-button
-                        plain
-                        :label="$lang.cancel"
-                        @click="modal.confirmEncounterClose = false"
-                    />
-                    <cui-button
-                        primary
-                        :label="$lang.finish"
-                        @click="closeEncounter"
-                    />
+                    ">
+                    <cui-button plain :label="$lang.cancel" @click="modal.confirmEncounterClose = false" />
+                    <cui-button primary :label="$lang.finish" @click="closeEncounter" />
                 </div>
             </cui-card>
         </cui-modal>
-        <cui-modal
-            :visible="submitErrors.length > 0"
-            @close="submitErrors = []"
-        >
+        <cui-modal :visible="submitErrors.length > 0" @close="submitErrors = []">
             <cui-card style="width: 1000px; height: 400px" noPadding>
-                <div
-                    style="
+                <div style="
                         height: 100%;
                         display: flex;
                         flex-direction: column;
                         justify-content: space-between;
-                    "
-                >
-                    <cui-table
-                        square
-                        :data="submitErrors"
-                        style="height: auto; max-height: 400px"
-                    >
+                    ">
+                    <cui-table square :data="submitErrors" style="height: auto; max-height: 400px">
+
                         <template #header>
                             <div>
                                 <h2>
@@ -256,6 +135,7 @@
                                 </h2>
                             </div>
                         </template>
+
                         <template v-slot:row="row">
                             <td>
                                 {{ encounter.karte.procedures[row.index].name }}
@@ -263,43 +143,31 @@
                             <td>
                                 <div v-for="(item, i) in row.errors" :key="i">
                                     {{
-                                        $lang.validationMessages[
-                                            item.context.label
-                                        ]
-                                    }}
+        $lang.validationMessages[
+        item.context.label
+        ]
+    }}
                                     <span v-if="item.context.label">:</span>
                                     {{ item.message }}
                                 </div>
                             </td>
                         </template>
                     </cui-table>
-                    <div
-                        style="
+                    <div style="
                             display: flex;
                             justify-content: flex-end;
                             padding: 10px;
-                        "
-                    >
-                        <cui-button
-                            plain
-                            :label="$lang.cancel"
-                            @click="submitErrors = []"
-                        />
-                        <cui-button
-                            primary
-                            :label="$lang.finish"
-                            @click="closeExamination"
-                        />
+                        ">
+                        <cui-button plain :label="$lang.cancel" @click="submitErrors = []" />
+                        <cui-button primary :label="$lang.finish" @click="closeExamination" />
                     </div>
                 </div>
             </cui-card>
         </cui-modal>
-        <cui-modal
-            :visible="uiStore.modals.receptionModalReservation"
-            closable
-            @close="uiStore.modals.receptionModalReservation = false"
-        >
+        <cui-modal :visible="uiStore.modals.receptionModalReservation" closable
+            @close="uiStore.modals.receptionModalReservation = false">
             <cui-card style="width: 1000px; height: 640px">
+
                 <template #header>
                     <h2>
                         {{ encounterStore.encounterData.patient.name
@@ -337,7 +205,7 @@ export default {
         proceduresList,
         painter,
         proceduresBrowser,
-        reservation
+        // reservation
     },
     emits: ["update"],
     data() {
@@ -386,10 +254,10 @@ export default {
     async mounted() {
         if (this.encounterStore.encounterData?._id) {
             let encounterId =
-            this.encounterStore.encounterData?._id;
+                this.encounterStore.encounterData?._id;
             this.encounter = await this.$api.get('encounters/' + encounterId);
         }
-        
+
         if (this.encounter.baseCost.length < 1) {
             let baseCost = await baseCostUtil(
                 this.encounter,
@@ -398,7 +266,7 @@ export default {
             );
             this.encounter.baseCost = baseCost;
         }
-            
+
         this.encounter.doctor = this.userStore.userData.id;
         if (this.encounter?.karte?.soap?.html) {
             this.$refs.textEditor.setContent(this.encounter.karte.soap.html);
@@ -545,10 +413,10 @@ export default {
                     imgData.extension;
                 this.$refs.textEditor.editor.commands.insertContent(
                     "<imageTag index='" +
-                        index +
-                        "' url='" +
-                        url +
-                        "'></imageTag>"
+                    index +
+                    "' url='" +
+                    url +
+                    "'></imageTag>"
                 );
             }
         },
@@ -573,12 +441,14 @@ export default {
         "karte3 karte4";
     height: 100%;
 }
+
 .cc-medical-karte-main.fixed-proc {
     grid-template-columns: 35% calc(65% - 400px) 400px;
     grid-template-areas:
         "karte1 karte2 karte2"
         "karte3 karte4 proc";
 }
+
 .cc-medical-exam-loader-cont {
     position: relative;
     display: flex;
@@ -586,6 +456,7 @@ export default {
     align-items: center;
     opacity: 0.7;
 }
+
 .cc-medical-exam-loader-cont .loader {
     position: relative;
     width: 50px;
@@ -593,33 +464,40 @@ export default {
     justify-content: center;
     display: flex;
 }
+
 .cc-medical-karte-soap {
     border-right: solid 1px var(--cui-gray-5);
     overflow: hidden;
 }
+
 .cc-image-card-text {
     display: flex;
     align-items: center;
 }
+
 .hover-icon:hover {
     color: var(--cui-primary);
 }
+
 .cc-medical-exam-controls {
     display: flex;
     align-items: center;
     justify-content: flex-end;
     height: 100%;
 }
+
 .proc-head {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 </style>
+
 <style>
 .cc-medical-karte-image-card .cui-card {
     cursor: pointer;
 }
+
 .fixed-proc-browser {
     grid-area: proc;
     border-left: solid 1px var(--cui-gray-5);

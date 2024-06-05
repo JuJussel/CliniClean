@@ -18,6 +18,12 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import isBetween from "dayjs/plugin/isBetween";
 import "dayjs/locale/ja";
 
+import PrimeVue from 'primevue/config';
+import Aura from 'primevue/themes/aura';
+import 'primeicons/primeicons.css'
+
+
+
 (async () => {
     const app = createApp(App);
     const pinia = createPinia();
@@ -52,6 +58,15 @@ import "dayjs/locale/ja";
         reconnection: true,
         reconnectionAttempts: 5,
         reconnectionDelay: 3000,
+    });
+
+    app.use(PrimeVue, {
+        theme: {
+            preset: Aura,
+            options: {
+                darkModeSelector: '.my-app-dark',
+            }
+        }
     });
 
     app.mount('#app')

@@ -2,10 +2,15 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
 import fs from 'fs'
+import Components from 'unplugin-vue-components/vite';
+import { PrimeVueResolver } from 'unplugin-vue-components/resolvers';
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [vue(), Components({
+    resolvers: [
+      PrimeVueResolver()
+    ]
+  })],
   resolve: {
     extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
     alias: {
@@ -20,7 +25,8 @@ export default defineConfig({
     fs: {
       allow: [
         "/home/localaa/dev/clini-ui-lib",
-        "/home/localaa/dev/CliniClean"
+        "/home/localaa/dev/CliniClean",
+        "/home/localaa/.nvm"
       ]
     },
     proxy: {
