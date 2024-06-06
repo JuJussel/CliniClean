@@ -1,5 +1,5 @@
 import Joi from "joi";
-import lang from "../lang/jp"
+import { default as lang } from "../lang/jp"
 
 export default (index = 0, proc = null) => {
     if (!proc) return false;

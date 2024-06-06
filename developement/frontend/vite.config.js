@@ -4,13 +4,27 @@ import path from 'path'
 import fs from 'fs'
 import Components from 'unplugin-vue-components/vite';
 import { PrimeVueResolver } from 'unplugin-vue-components/resolvers';
+import AutoImport from 'unplugin-auto-import/vite'
 
 export default defineConfig({
-  plugins: [vue(), Components({
-    resolvers: [
-      PrimeVueResolver()
-    ]
-  })],
+  plugins: [
+    vue(),
+    Components({
+      resolvers: [
+        PrimeVueResolver()
+      ]
+    }),
+    AutoImport({
+      imports: [
+        'vue',
+        'pinia',
+        {
+          '@/stores/ui.js': ['useUiStore'],
+          '@/lang/jp.js': [['default', 'lang']]
+        }
+      ]
+    })
+  ],
   resolve: {
     extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
     alias: {
