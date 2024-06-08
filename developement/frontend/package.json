@@ -27,7 +27,6 @@
     "primeicons": "^7.0.0",
     "primevue": "^4.0.0-beta.4",
     "quill-image-resize": "^3.0.9",
-    "socket.io-client": "^2.5.0",
     "vue": "^3.2.41",
     "vue-cropperjs": "^5.0.0",
     "vue-echarts": "*",
@@ -36,9 +35,7 @@
     "vue-router": "^4.0.8",
     "vue-socket.io": "^3.0.10",
     "vue3-echarts": "^1.0.4",
-    "vue3-editor": "*",
-    "vuex": "^4.0.0",
-    "vuex-persistedstate": "*"
+    "vue3-editor": "*"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^3.2.0",

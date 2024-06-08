@@ -26,7 +26,7 @@ export default defineConfig({
           // '@/stores/order.js': ['useOrderStore'],
           '@/stores/patient.js': ['usePatientStore'],
           '@/stores/setting.js': ['useSettingStore'],
-          '@/stores/ui.js': ['useuiStore'],
+          '@/stores/ui.js': ['useUiStore'],
           '@/stores/user.js': ['useUserStore'],
           '@/lang/jp.js': [['default', 'lang']],
           'vue-i18n': ['useI18n']

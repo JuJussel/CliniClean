@@ -12,7 +12,7 @@ import '@fortawesome/fontawesome-free/css/all.css'
 import { parseDate, copy } from './utils'
 import ApiService from '@/services/api.service'
 import AclService from '@/services/acl.service'
-// import VueNativeSock from "vue-native-websocket-vue3";
+import VueNativeSock from "vue-native-websocket-vue3";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import isBetween from "dayjs/plugin/isBetween";
@@ -22,8 +22,6 @@ import i18n from '@/lang/i18n'
 import PrimeVue from 'primevue/config';
 import Aura from 'primevue/themes/aura';
 import 'primeicons/primeicons.css'
-
-import { io } from "socket.io-client";
 
 
 (async () => {
@@ -44,8 +42,6 @@ import { io } from "socket.io-client";
     app.config.globalProperties.$dayjs = dayjs;
     app.config.globalProperties.$parseDate = parseDate;
     app.config.globalProperties.$copy = copy;
-    // app.config.globalProperties.$GLOBALS = Globals;
-    // app.config.globalProperties.$lang = Lang;
     app.config.globalProperties.$apiError = function (msg) {
         this.$cui.notification({ text: msg, color: 'danger' })
     };
@@ -60,7 +56,7 @@ import { io } from "socket.io-client";
     app.use(ApiService)
 
     app.use(Auth);
-    app.use(VueNativeSock, "wss://" + window.location.hostname + ":" + globals.websocketPort, {
+    app.use(VueNativeSock, window.origin, {
         connectManually: true,
         format: "json",
         reconnection: true,
@@ -72,9 +68,10 @@ import { io } from "socket.io-client";
         theme: {
             preset: Aura,
             options: {
-                darkModeSelector: '.my-app-dark',
+                darkModeSelector: '.my-app-dark'
             }
-        }
+        },
+        ripple: true
     });
 
     app.use(i18n)
