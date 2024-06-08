@@ -1,5 +1,4 @@
 import dayjs from "dayjs";
-import lang from "../lang/jp";
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import "dayjs/locale/ja";
 dayjs.extend(customParseFormat)

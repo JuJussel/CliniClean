@@ -9,13 +9,13 @@ export const usePatientStore = defineStore({
     state: () => {
         return {
             loading: false,
-            patientData: null
+            patientData: null,
+            medicalData: null
         }
     },
     actions: {
         async getData(id = null) {
             this.loading = true;
-            console.log('patientID' + id);
             if (id) {
                 this.patientData = {
                     id: id

@@ -19,8 +19,18 @@ export default defineConfig({
         'vue',
         'pinia',
         {
-          '@/stores/ui.js': ['useUiStore'],
-          '@/lang/jp.js': [['default', 'lang']]
+          '@/stores/encounter.js': ['useEncounterStore'],
+          '@/stores/list.js': ['useListStore'],
+          // '@/stores/medical.js': ['useMedicalStore'],
+          // '@/stores/notification.js': ['useNotificationStore'],
+          // '@/stores/order.js': ['useOrderStore'],
+          '@/stores/patient.js': ['usePatientStore'],
+          '@/stores/setting.js': ['useSettingStore'],
+          '@/stores/ui.js': ['useuiStore'],
+          '@/stores/user.js': ['useUserStore'],
+          '@/lang/jp.js': [['default', 'lang']],
+          'vue-i18n': ['useI18n']
+
         }
       ]
     })

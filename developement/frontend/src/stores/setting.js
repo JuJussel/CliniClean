@@ -9,7 +9,7 @@ export const useSettingStore = defineStore({
     state: () => {
         return {
             loading: false,
-            settingData: null
+            settingData: {}
         }
     },
     actions: {
@@ -17,7 +17,7 @@ export const useSettingStore = defineStore({
             this.loading = true
             try {
                 let dbData = await apiService.get('settings/public');
-                this.settingData = dbData
+                this.settingData = Object.assign(this.settingData, dbData)
                 this.loading = false;
             } catch (err) {
                 console.log(err);

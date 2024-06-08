@@ -1,4 +1,3 @@
-import { store } from "../store"
 import { useUserStore } from '@/stores/user'
 import { useUiStore } from '@/stores/ui'
 /*

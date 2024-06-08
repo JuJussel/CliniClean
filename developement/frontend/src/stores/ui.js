@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { socket } from "@/utils/socket.js";
 
 export const useUiStore = defineStore({
     id: 'ui',
@@ -7,17 +8,39 @@ export const useUiStore = defineStore({
     },
     state: () => {
         return {
+            websocketConnected: false,
             loading: false,
-            activeTab: "dashboard",
+            activeTab: shallowRef(null),
             medicalTab: null,
+            receptionTab: null,
+            orderTab: null,
             modals: {
                 receptionModalRegister: false,
                 receptionModalReservation: false,
                 receptionModalPatientEdit: false,
                 receptionModalInsuranceEdit: false
-            }
+            },
+            notification: []
         }
-    }
+    },
+    actions: {
+        bindEvents() {
+            socket.on("connect", () => {
+                this.websocketConnected = true;
+            });
+
+            socket.on("disconnect", () => {
+                this.websocketConnected = false;
+            });
+
+            socket.on("notificationUpdate"), (data) => {
+                console.log(data);
+            }
+        },
+        connect() {
+            socket.connect();
+        }
+    },
 })
 
 export default useUiStore
