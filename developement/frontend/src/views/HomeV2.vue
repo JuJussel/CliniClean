@@ -1,5 +1,6 @@
 <template>
     <div class="flex flex-col h-full p-2">
+        <Toast position="top-center" />
         <Menubar :model="menuItems">
             <template #end>
                 <Chip :label="userStore.fullName" :image="avatarUrl" @click="toggleUserMenu" class="cursor-pointer" />
@@ -18,7 +19,9 @@
 
 <script setup>
 
-import reception from '../layouts/receptionv2.vue'
+import reception from '@/comps/layouts/reception '
+import Toast from 'primevue/toast';
+
 
 const { t } = useI18n({})
 const uiStore = useUiStore()

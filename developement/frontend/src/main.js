@@ -22,6 +22,7 @@ import i18n from '@/lang/i18n'
 import PrimeVue from 'primevue/config';
 import Aura from 'primevue/themes/aura';
 import 'primeicons/primeicons.css'
+import ToastService from 'primevue/toastservice';
 
 
 (async () => {
@@ -38,14 +39,14 @@ import 'primeicons/primeicons.css'
     dayjs.locale("ja");
 
     // To remove
-    app.use(Cui);
-    app.config.globalProperties.$dayjs = dayjs;
-    app.config.globalProperties.$parseDate = parseDate;
-    app.config.globalProperties.$copy = copy;
-    app.config.globalProperties.$apiError = function (msg) {
-        this.$cui.notification({ text: msg, color: 'danger' })
-    };
-    app.provide('$notification', Cui.notification);
+    // app.use(Cui);
+    // app.config.globalProperties.$dayjs = dayjs;
+    // app.config.globalProperties.$parseDate = parseDate;
+    // app.config.globalProperties.$copy = copy;
+    // app.config.globalProperties.$apiError = function (msg) {
+    //     this.$cui.notification({ text: msg, color: 'danger' })
+    // };
+    // app.provide('$notification', Cui.notification);
 
     const settingStore = useSettingStore()
     const globals = await (await fetch('/api/settings/frontend')).json();
@@ -73,6 +74,7 @@ import 'primeicons/primeicons.css'
         },
         ripple: true
     });
+    app.use(ToastService);
 
     app.use(i18n)
 

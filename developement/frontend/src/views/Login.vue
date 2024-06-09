@@ -1,16 +1,16 @@
 <template>
   <div class="cc-login-main">
-    <cui-card style="width: 400px; height: 340px">
-      <div class="cc-login-card">
-        <span class="logo"></span>
-        <div style="width: 300px">
-          <cui-input :disabled="loading" placeholder="ユーザ名" icon="fas fa-user" v-model="user.username" />
-          <cui-input :disabled="loading" placeholder="パスワード" icon="fas fa-lock" type="password" v-model="user.password" />
-          <cui-button @click="login" :loading="loading" label="ログイン" style="float: right" primary />
+    <!-- <cui-card style="width: 400px; height: 340px"> -->
+    <div class="cc-login-card">
+      <span class="logo"></span>
+      <div style="width: 300px">
+        <!-- <cui-input :disabled="loading" placeholder="ユーザ名" icon="fas fa-user" v-model="user.username" />
+          <cui-input :disabled="loading" placeholder="パスワード" icon="fas fa-lock" type="password" v-model="user.password" /> -->
+        <!-- <button @click="login" :loading="loading" label="ログイン" style="float: right" primary /> -->
 
-        </div>
       </div>
-    </cui-card>
+    </div>
+    <!-- </cui-card> -->
   </div>
 </template>
 
@@ -21,6 +21,9 @@ import { mapStores } from 'pinia'
 
 export default {
   name: 'LoginView',
+  created() {
+    this.login()
+  },
   data() {
     return {
       user: {
