@@ -6,6 +6,7 @@
             </template>
         </Card>
         <Card>
+
             <template #content>
                 <p class="m-0">
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error
