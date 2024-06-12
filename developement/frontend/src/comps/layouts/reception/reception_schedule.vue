@@ -1,6 +1,6 @@
 <template>
     <div>
-        <DataTable :value="schedule">
+        <DataTable :value="schedule" :loading="loading">
             <Column field="patient.name" :header="$t('name')"></Column>
             <Column field="type" :header="$t('encounterType')">
                 <template #body="slotProps">
@@ -10,8 +10,11 @@
             <Column field="status" :header="$t('status')">
 
                 <template #body="slotProps">
+                    <Button v-if="useAcl(2) && slotProps.status === 10">
 
-                    <Select v-model="slotProps.data.status" :options="examStatiOptions(slotProps.data.status)"
+                    </Button>
+                    <cui-tag v-else-if="slotProps.status === 0" :value="$t('paymentDone')" />
+                    <Select v-else v-model="slotProps.data.status" :options="examStatiOptions(slotProps.data.status)"
                         optionLabel="name" optionValue="status" @change="changeStatus" class="w-full md:w-14rem">
                         <template #value="slotProps">
                             <span> {{ parseStatusLabel(slotProps.value) }} </span>
@@ -37,8 +40,12 @@
 
 <script setup>
 
-// TODO: Color for select ::pt="{ root: { style: 'background: #E29578; border: none' }, label: { style: 'color: white' }, dropdown: { style: 'color: white' } }"
+// TODO: 
+// Color for select :: pt = "{ root: { style: 'background: #E29578; border: none' }, label: { style: 'color: white' }, dropdown: { style: 'color: white' } }"
+// Filter for table
+// Doctor list
 
+import useAcl from "@/composables/aclComposable.js"
 import useApi from "@/composables/apiComposable.js"
 import dayjs from "dayjs"
 import Select from 'primevue/select';
