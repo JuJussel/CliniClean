@@ -1,6 +1,10 @@
 <template>
-    <div>
-        <DataTable :value="schedule" :loading="loading">
+        <DataTable :value="schedule" :loading="loading" scrollable scrollHeight="flex">
+            <template #empty>
+                <div class="flex justify-center">
+                    <img src="@/assets/img/empty2.jpg" alt="Nothing here" class="w-3/5">
+                </div>
+            </template>
             <Column field="patient.name" :header="$t('name')"></Column>
             <Column field="type" :header="$t('encounterType')">
                 <template #body="slotProps">
@@ -35,7 +39,6 @@
                 </template>
             </Column>
         </DataTable>
-    </div>
 </template>
 
 <script setup>
@@ -64,6 +67,8 @@ async function getSchedule() {
     const range = 'start=' + start.$d + '&end=' + end.$d;
 
     schedule.value = await useApi.get("encounters/range?" + range)
+
+    loading.value = false
 }
 
 function parseExamType(type) {
@@ -103,9 +108,3 @@ function changeStatus(selection) {
 
 
 </script>
-
-<style>
-.selectColor {
-    background: red
-}
-</style>

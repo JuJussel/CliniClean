@@ -1,6 +1,6 @@
 <template>
     <div class="grid gap-2 grid-rows-2 grid-cols-2">
-        <Card>
+        <Card :pt="{body: {class: 'h-full'},content: {class: 'h-full'}}">
             <template #content>
                 <schedule />
             </template>
