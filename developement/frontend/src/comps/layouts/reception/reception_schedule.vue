@@ -1,44 +1,45 @@
 <template>
-        <DataTable :value="schedule" :loading="loading" scrollable scrollHeight="flex">
-            <template #empty>
-                <div class="flex justify-center">
-                    <img src="@/assets/img/empty2.jpg" alt="Nothing here" class="w-3/5">
-                </div>
+    <DataTable :value="schedule" :loading="loading" scrollable scrollHeight="flex">
+        <template #empty>
+            <div class="flex justify-center">
+                <img src="@/assets/img/empty2.jpg" alt="Nothing here" class="w-3/5">
+            </div>
+        </template>
+        <Column field="patient.name" :header="$t('name')"></Column>
+        <Column field="type" :header="$t('encounterType')">
+            <template #body="slotProps">
+                <span> {{ parseExamType(slotProps.data.type) }} </span>
             </template>
-            <Column field="patient.name" :header="$t('name')"></Column>
-            <Column field="type" :header="$t('encounterType')">
-                <template #body="slotProps">
-                    <span> {{ parseExamType(slotProps.data.type) }} </span>
-                </template>
-            </Column>
-            <Column field="status" :header="$t('status')">
+        </Column>
+        <Column field="status" :header="$t('status')">
 
-                <template #body="slotProps">
-                    <Button v-if="useAcl(2) && slotProps.status === 10">
+            <template #body="slotProps">
+                <Button v-if="useAcl(2) && slotProps.status === 10">
 
-                    </Button>
-                    <cui-tag v-else-if="slotProps.status === 0" :value="$t('paymentDone')" />
-                    <Select v-else v-model="slotProps.data.status" :options="examStatiOptions(slotProps.data.status)"
-                        optionLabel="name" optionValue="status" @change="changeStatus" class="w-full md:w-14rem">
-                        <template #value="slotProps">
-                            <span> {{ parseStatusLabel(slotProps.value) }} </span>
-                        </template>
-                    </Select>
-                </template>
-            </Column>
-            <Column field="lastChange" :header="$t('waitTime')">
+                </Button>
+                <cui-tag v-else-if="slotProps.status === 0" :value="$t('paymentDone')" />
+                <Select v-else v-model="slotProps.data.status" :options="examStatiOptions(slotProps.data.status)"
+                    optionLabel="name" optionValue="status" @change="changeStatus(slotProps.data)"
+                    class="w-full md:w-14rem">
+                    <template #value="slotProps">
+                        <span> {{ parseStatusLabel(slotProps.value) }} </span>
+                    </template>
+                </Select>
+            </template>
+        </Column>
+        <Column field="lastChange" :header="$t('waitTime')">
 
-                <template #body="slotProps">
-                    <span> {{ parseWaitTime(slotProps.data.lastChange).time }} </span>
-                </template>
-            </Column>
-            <Column field="date" :header="$t('receptionTime')">
+            <template #body="slotProps">
+                <span> {{ parseWaitTime(slotProps.data.lastChange).time }} </span>
+            </template>
+        </Column>
+        <Column field="date" :header="$t('receptionTime')">
 
-                <template #body="slotProps">
-                    <span> {{ dayjs(slotProps.data.date).format("HH時mm分") }} </span>
-                </template>
-            </Column>
-        </DataTable>
+            <template #body="slotProps">
+                <span> {{ dayjs(slotProps.data.date).format("HH時mm分") }} </span>
+            </template>
+        </Column>
+    </DataTable>
 </template>
 
 <script setup>
@@ -101,8 +102,16 @@ function examStatiOptions(currentStatus) {
     return status;
 }
 
-function changeStatus(selection) {
-    console.log(selection);
+async function changeStatus(row) {
+    if (row.status === 3 && row.type === 6) row.status = 4;
+    if (row.status === 2) {
+        // TODO show reservation accept popup
+    } else {
+        loading.value = true
+        await useApi.put('encounters/' + row.id, row)
+        getSchedule()
+    }
+
 }
 
 
