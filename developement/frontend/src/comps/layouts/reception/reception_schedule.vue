@@ -2,7 +2,7 @@
     <DataTable :value="schedule" :loading="loading" scrollable scrollHeight="flex">
         <template #empty>
             <div class="flex justify-center">
-                <img src="@/assets/img/empty2.jpg" alt="Nothing here" class="w-3/5">
+                <img src="@/assets/img/empty2.jpg" alt="Nothing here" class="w-2/5">
             </div>
         </template>
         <Column field="patient.name" :header="$t('name')"></Column>
@@ -17,7 +17,7 @@
                 <Button v-if="useAcl(2) && slotProps.status === 10">
 
                 </Button>
-                <cui-tag v-else-if="slotProps.status === 0" :value="$t('paymentDone')" />
+                <Tag v-else-if="slotProps.status === 0" :value="$t('paymentDone')" />
                 <Select v-else v-model="slotProps.data.status" :options="examStatiOptions(slotProps.data.status)"
                     optionLabel="name" optionValue="status" @change="changeStatus(slotProps.data)"
                     class="w-full md:w-14rem">
@@ -40,6 +40,10 @@
             </template>
         </Column>
     </DataTable>
+
+    <Dialog v-model:visible="receptionAcceptModalVisible" modal :header="$t('reception') + $t('register')">
+        <ReceptionAcceptReservation @close="receptionAcceptModalVisible = false" @commit="" />
+    </Dialog>
 </template>
 
 <script setup>
@@ -53,11 +57,13 @@ import useAcl from "@/composables/aclComposable.js"
 import useApi from "@/composables/apiComposable.js"
 import dayjs from "dayjs"
 import Select from 'primevue/select';
+import ReceptionAcceptReservation from './modals/reception_acp_res.vue'
 
 const listStore = useListStore()
 
 const loading = ref(false)
 const schedule = ref([])
+const receptionAcceptModalVisible = ref(false)
 
 getSchedule()
 
@@ -105,13 +111,12 @@ function examStatiOptions(currentStatus) {
 async function changeStatus(row) {
     if (row.status === 3 && row.type === 6) row.status = 4;
     if (row.status === 2) {
-        // TODO show reservation accept popup
+        receptionAcceptModalVisible.value = true
     } else {
         loading.value = true
         await useApi.put('encounters/' + row.id, row)
         getSchedule()
     }
-
 }
 
 

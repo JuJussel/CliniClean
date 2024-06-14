@@ -75,5 +75,32 @@ export default {
             return false
         }
     },
+    post: async function (route, data = {}, abortSignal = null) {
+        const toast = useToast()
+        try {
+            return await request(route, data, "POST", abortSignal);
+        } catch (err) {
+            toast.add({ severity: 'error', summary: 'Error', detail: err, life: 3000 });
+            return false
+        }
+    },
+    put: async function (route, data = {}, abortSignal = null) {
+        const toast = useToast()
+        try {
+            return await request(route, data, "PUT", abortSignal);
+        } catch (err) {
+            toast.add({ severity: 'error', summary: 'Error', detail: err, life: 3000 });
+            return false
+        }
+    },
+    delete: async function (route, data = {}, abortSignal = null) {
+        const toast = useToast()
+        try {
+            return await request(route, data, "DELETE", abortSignal);
+        } catch (err) {
+            toast.add({ severity: 'error', summary: 'Error', detail: err, life: 3000 });
+            return false
+        }
+    }
 }
 
