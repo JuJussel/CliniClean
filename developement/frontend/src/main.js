@@ -20,7 +20,7 @@ import "dayjs/locale/ja";
 import i18n from '@/lang/i18n'
 
 import PrimeVue from 'primevue/config';
-import Aura from 'primevue/themes/aura';
+import Aura from '@primevue/themes/aura';
 import 'primeicons/primeicons.css'
 import ToastService from 'primevue/toastservice';
 

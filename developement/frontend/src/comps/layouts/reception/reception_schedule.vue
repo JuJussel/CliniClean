@@ -41,7 +41,7 @@
         </Column>
     </DataTable>
 
-    <Dialog v-model:visible="receptionAcceptModal" modal :header="$t('reception') + $t('register')">
+    <Dialog v-model:visible="receptionAcceptModal" modal :header="$t('reception') + $t('register')" class="w-3/5">
         <ReceptionAcceptReservation v-bind:encounter="receptionAcceptModal" @close="receptionAcceptModal = null"
             @commit="" />
     </Dialog>

@@ -19,7 +19,7 @@
 
 <script setup>
 
-import reception from '@/comps/layouts/reception '
+import reception from '@/comps/layouts/reception'
 import Toast from 'primevue/toast';
 
 
