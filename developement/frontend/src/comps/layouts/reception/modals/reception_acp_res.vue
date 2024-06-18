@@ -26,7 +26,7 @@ const insurances = ref([])
 const uiLoading = ref(false)
 const insuranceSetsLoading = ref(false)
 const comment = ref(null)
-const selectedInsurance = reactive()
+const selectedInsurance = ref({ data: null })
 
 comment.value = props.encounter.note
 
@@ -40,13 +40,14 @@ async function getInsurances() {
 }
 
 function setInsurance(ins) {
-    selectedInsurance.value = ins
+    selectedInsurance.value.data = ins
 }
 
 async function commit() {
     uiLoading.value = true
+    console.log(selectedInsurance.value.data.Insurance_Combination_Number);
     const encounterData = {
-        ins: selectedInsurance.value.value.Insurance_Combination_Number,
+        ins: selectedInsurance.value,
         status: 1,
         note: comment.value
     }
