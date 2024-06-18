@@ -45,14 +45,11 @@ function setInsurance(ins) {
 
 async function commit() {
     uiLoading.value = true
-    console.log(selectedInsurance.value.data.Insurance_Combination_Number);
     const encounterData = {
-        ins: selectedInsurance.value,
-        status: 1,
+        ins: selectedInsurance.value.data.Insurance_Combination_Number,
+        status: 2,
         note: comment.value
     }
-    console.log(encounterData);
-    return
     await useApi.put('encounters/' + props.encounter.id, encounterData)
     uiLoading.value = true
     emit('commit')
