@@ -1,10 +1,11 @@
 <template>
     <div>
         <div v-if="notificationStore.notifications?.length < 1" class="wrapper">
-            <img src="/img/empty2.8ccd6968.jpg" style="width: 200px;">
+            <!-- <img src="@/img/empty2.jpg" style="width: 200px;"> -->
             <b> {{ $lang.noNotifications }} </b>
         </div>
-        <div v-for="(item, index) in notificationStore.notifications" :key="index" class="notification-item" @click="handelClick(item)">
+        <div v-for="(item, index) in notificationStore.notifications" :key="index" class="notification-item"
+            @click="handelClick(item)">
             <cui-badge :visible="!item.recepients[0].read">
                 <div v-if="item.content.meta.type === 'examResultsAvailable'" style="display:flex">
                     <div style="width:50px; height:50px; display:flex; align-items:center; justify-content:center">
@@ -12,7 +13,8 @@
                     </div>
                     <div>
                         <div>
-                            <span style="font-weight: normal; color: var(--cui-primary)"> {{ $lang.examResultsAvailable }} </span>
+                            <span style="font-weight: normal; color: var(--cui-primary)"> {{ $lang.examResultsAvailable
+                                }} </span>
                         </div>
                         <div>
                             <span> {{ item.content.meta.order.patient.name }} </span>
@@ -55,18 +57,20 @@ export default {
 </script>
 
 <style scoped>
-    .wrapper {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    .notification-item {
-        padding: 15px;
-        border-radius: 10px;
-        transition: all .2s ease;
-    }
-    .notification-item:hover {
-        background: var(--cui-gray-2);
-        cursor: pointer;
-    }
-     </style>
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.notification-item {
+    padding: 15px;
+    border-radius: 10px;
+    transition: all .2s ease;
+}
+
+.notification-item:hover {
+    background: var(--cui-gray-2);
+    cursor: pointer;
+}
+</style>

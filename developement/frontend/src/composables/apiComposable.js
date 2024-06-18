@@ -1,4 +1,6 @@
 import { useToast } from "primevue/usetoast"
+import useUiStore from "@/stores/ui.js"
+
 
 const request = function (route, data, type, abortSignal) {
 
@@ -63,42 +65,42 @@ const request = function (route, data, type, abortSignal) {
     });
     return promise;
 }
-
+// https://stackoverflow.com/questions/77855947/use-a-vue-service-outside-of-a-vue-component
 
 export default {
     get: async function (route, data = {}, abortSignal = null) {
-        const toast = useToast()
+        const uiStore = useUiStore()
         try {
             return await request(route, data, "GET", abortSignal);
         } catch (err) {
-            toast.add({ severity: 'error', summary: 'Error', detail: err, life: 3000 });
+            uiStore.toasts.push({ severity: 'error', summary: 'Error', detail: err, life: 3000 })
             return false
         }
     },
     post: async function (route, data = {}, abortSignal = null) {
-        const toast = useToast()
+        const uiStore = useUiStore()
         try {
             return await request(route, data, "POST", abortSignal);
         } catch (err) {
-            toast.add({ severity: 'error', summary: 'Error', detail: err, life: 3000 });
+            uiStore.toasts.push({ severity: 'error', summary: 'Error', detail: err, life: 3000 })
             return false
         }
     },
     put: async function (route, data = {}, abortSignal = null) {
-        const toast = useToast()
+        const uiStore = useUiStore()
         try {
             return await request(route, data, "PUT", abortSignal);
         } catch (err) {
-            toast.add({ severity: 'error', summary: 'Error', detail: err, life: 3000 });
+            uiStore.toasts.push({ severity: 'error', summary: 'Error', detail: err, life: 3000 })
             return false
         }
     },
     delete: async function (route, data = {}, abortSignal = null) {
-        const toast = useToast()
+        const uiStore = useUiStore()
         try {
             return await request(route, data, "DELETE", abortSignal);
         } catch (err) {
-            toast.add({ severity: 'error', summary: 'Error', detail: err, life: 3000 });
+            uiStore.toasts.push({ severity: 'error', summary: 'Error', detail: err, life: 3000 })
             return false
         }
     }

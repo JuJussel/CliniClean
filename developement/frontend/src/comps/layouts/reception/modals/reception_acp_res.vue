@@ -1,7 +1,7 @@
 <template>
     <div class="grid grid-cols-6 gap-16">
         <div class="col-span-4">
-            <InsuranceTable v-bind:insurances="insurances" :loading="insuranceSetsLoading" />
+            <InsuranceTable v-bind:insurances="insurances" :loading="insuranceSetsLoading" @select="setInsurance" />
         </div>
         <div class="col-span-2">
             <label for="comment">{{ $t('comment') }}</label>
@@ -10,7 +10,7 @@
     </div>
     <div class="flex justify-end gap-2">
         <Button type="button" label="Cancel" severity="secondary" @click="$emit('close')"></Button>
-        <Button type="button" label="Save" @click="commit()"></Button>
+        <Button type="button" label="Save" @click="commit()" :disabled="!selectedInsurance"></Button>
     </div>
 </template>
 
@@ -23,9 +23,12 @@ const props = defineProps(['encounter'])
 const emit = defineEmits(['close', 'commit'])
 
 const insurances = ref([])
-const loading = ref(false)
+const uiLoading = ref(false)
 const insuranceSetsLoading = ref(false)
 const comment = ref(null)
+const selectedInsurance = reactive()
+
+comment.value = props.encounter.note
 
 getInsurances()
 
@@ -34,6 +37,26 @@ async function getInsurances() {
     const patientId = props.encounter.patient.id
     insurances.value = await useApi.get('patients/' + patientId + '/insuranceSets')
     insuranceSetsLoading.value = false
+}
+
+function setInsurance(ins) {
+    selectedInsurance.value = ins
+}
+
+async function commit() {
+    uiLoading.value = true
+    const encounterData = {
+        ins: selectedInsurance.value.value.Insurance_Combination_Number,
+        status: 1,
+        note: comment.value
+    }
+    console.log(encounterData);
+    return
+    await useApi.put('encounters/' + props.encounter.id, encounterData)
+    uiLoading.value = true
+    emit('commit')
+    emit('close')
+
 }
 
 

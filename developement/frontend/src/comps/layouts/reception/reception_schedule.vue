@@ -41,9 +41,10 @@
         </Column>
     </DataTable>
 
-    <Dialog v-model:visible="receptionAcceptModal" modal :header="$t('reception') + $t('register')" class="w-3/5">
-        <ReceptionAcceptReservation v-bind:encounter="receptionAcceptModal" @close="receptionAcceptModal = null"
-            @commit="" />
+    <Dialog v-model:visible="receptionAcceptModal.visible" modal :header="$t('reception') + $t('register')"
+        class="w-3/5">
+        <ReceptionAcceptReservation v-bind:encounter="receptionAcceptModal.data"
+            @close="receptionAcceptModal.visible = false" @commit="getSchedule()" />
     </Dialog>
 </template>
 
@@ -64,7 +65,10 @@ const listStore = useListStore()
 
 const loading = ref(false)
 const schedule = ref([])
-const receptionAcceptModal = ref(null)
+const receptionAcceptModal = ref({
+    data: null,
+    visible: false
+})
 
 getSchedule()
 
@@ -112,7 +116,8 @@ function examStatiOptions(currentStatus) {
 async function changeStatus(seletection, row) {
     if (seletection.value === 3 && row.type === 6) seletection.value = 4;
     if (seletection.value === 2) {
-        receptionAcceptModal.value = row
+        receptionAcceptModal.value.data = row
+        receptionAcceptModal.value.visible = true
     } else {
         commitEncounter(seletection)
     }

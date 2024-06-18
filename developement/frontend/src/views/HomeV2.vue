@@ -21,8 +21,9 @@
 
 import reception from '@/comps/layouts/reception'
 import Toast from 'primevue/toast';
+import { useToast } from 'primevue/usetoast';
 
-
+const toast = useToast();
 const { t } = useI18n({})
 const uiStore = useUiStore()
 const userStore = useUserStore()
@@ -72,6 +73,13 @@ function logout() {
     this.$auth().remove();
     this.$router.push("/");
 }
+
+watch(uiStore.toasts, () => {
+    uiStore.toasts.forEach((item, index) => {
+        toast.add(item);
+        uiStore.toasts.splice(index, 1)
+    })
+})
 
 </script>
 

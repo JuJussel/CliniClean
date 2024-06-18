@@ -16,7 +16,8 @@ export const useUiStore = defineStore({
                 receptionModalPatientEdit: false,
                 receptionModalInsuranceEdit: false
             },
-            notification: []
+            notification: [],
+            toasts: []
         }
     },
 })
