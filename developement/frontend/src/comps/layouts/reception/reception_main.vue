@@ -5,7 +5,7 @@
                 <Schedule />
             </template>
         </Card>
-        <Card>
+        <Card :pt="{ body: { class: 'h-full' }, content: { class: 'h-full' } }">
 
             <template #content>
                 <Patient />
