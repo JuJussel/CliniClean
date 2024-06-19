@@ -50,11 +50,6 @@
 
 <script setup>
 
-// TODO: 
-// Color for select :: pt = "{ root: { style: 'background: #E29578; border: none' }, label: { style: 'color: white' }, dropdown: { style: 'color: white' } }"
-// Filter for table
-// Doctor list
-
 import useAcl from "@/composables/aclComposable.js"
 import useApi from "@/composables/apiComposable.js"
 import dayjs from "dayjs"
