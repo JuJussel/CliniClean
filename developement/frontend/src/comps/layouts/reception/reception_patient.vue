@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="flex justify-between items-center">
         <IconField>
             <InputIcon class="pi pi-search z-10" />
             <AutoComplete v-model="selectedPatient" forceSelection optionLabel="name" :suggestions="searchResults"
@@ -14,8 +14,20 @@
                 </template>
             </AutoComplete>
         </IconField>
+        <div>
+            <div v-if="patientData" class="flex items-center gap-2">
+                <Tag severity="success" :value="patientData.id"></Tag>
+                <span class="font-bold">{{ patientData.name }}</span>
+            </div>
+            <div v-else></div>
+        </div>
+        <div>
+            Actions
+        </div>
+
     </div>
-    <div class="flex h-full">
+    <Divider />
+    <div class="">
         <ProgressSpinner v-if="patientDataLoading" strokeWidth="4" animationDuration=".5s" class="self-center" />
         <PatientInfo v-if="patientData && !patientDataLoading" :patientData="patientData" />
     </div>
