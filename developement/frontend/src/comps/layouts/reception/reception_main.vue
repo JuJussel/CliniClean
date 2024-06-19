@@ -33,10 +33,6 @@
 import Schedule from './reception_schedule'
 import Patient from './reception_patient.vue'
 
-const { t } = useI18n({})
-const uiStore = useUiStore()
-const patientStore = usePatientStore()
-
 
 
 

@@ -15,8 +15,8 @@
             </AutoComplete>
         </IconField>
     </div>
-    <div class="flex h-full items-center">
-        <ProgressSpinner v-if="patientDataLoading" strokeWidth="4" animationDuration=".5s" />
+    <div class="flex h-full">
+        <ProgressSpinner v-if="patientDataLoading" strokeWidth="4" animationDuration=".5s" class="self-center" />
         <PatientInfo v-if="patientData && !patientDataLoading" :patientData="patientData" />
     </div>
 </template>
