@@ -120,8 +120,6 @@ async function changeStatus(seletection, row) {
 
 async function commitEncounter(encounter) {
     loading.value = true
-    console.log(encounter);
-    // await useApi.put('encounters/' + encounter.id, encounter)
     getSchedule()
 
 }

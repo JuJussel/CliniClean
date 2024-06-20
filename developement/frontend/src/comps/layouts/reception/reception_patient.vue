@@ -51,18 +51,28 @@
         <PatientInfo v-if="patientData && !patientDataLoading" :patientData="patientData"
             :encounterHistory="encounterHistory" />
     </div>
+
+    <Dialog v-model:visible="modals.walkin.open" modal :header="$t('newReception')" class="w-3/5">
+        <NewWalkin :patient="patientData" @commit="" @close="modals.walkin.open = false" />
+    </Dialog>
+
 </template>
 
 <script setup>
 import useApi from '@/composables/apiComposable.js'
 import parseDate from '@/composables/dateComposable.js'
 import PatientInfo from '@/comps/shared/layouts/patient_info_basic.vue'
+import NewWalkin from './modals/reception_new_walkin.vue'
 
 const patientDataLoading = ref(false)
 const selectedPatient = ref()
 const searchResults = ref([])
 const patientData = ref()
 const encounterHistory = ref()
+const modals = ref({
+    walkin: { open: false },
+    reservation: { open: false }
+})
 
 const search = async (event) => {
     searchResults.value = await useApi.get('patients/search?query=' + event.query);
@@ -74,6 +84,11 @@ const getPatientData = async (event) => {
     encounterHistory.value = await useApi.get('patients/' + event.value.id + '/encounters');
     patientDataLoading.value = false
     selectedPatient.value = null
+}
+
+const triggerNewWalkin = () => {
+    modals.value.walkin.insuranceSets =
+        modals.value.walkin.open = true
 }
 
 </script>
