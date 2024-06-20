@@ -42,7 +42,8 @@
 
             </DataTable>
             <div v-else>
-                {{ $t('reservation') }} {{$t('hasNot') }}
+                {{ $t('reservation') }}
+                {{ $t('hasNot') }}
             </div>
         </Fieldset>
 
