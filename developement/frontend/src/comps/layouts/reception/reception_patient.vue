@@ -21,10 +21,10 @@
             </div>
         </div>
         <div v-if="patientData" class="grid grid-flow-col auto-cols-auto gap-2">
-            <Button :label="$t('reception')" raised class="w-24" />
-            <Button :label="$t('reservation')" severity="secondary" raised />
-            <Button :label="$t('edit')" severity="secondary" raised />
-            <Button :label="$t('details')" severity="secondary" raised />
+            <Button :label="$t('reception')" @click="triggerNewWalkin" raised class="w-24" />
+            <Button :label="$t('reservation')" @click="triggerNewReservation" severity="secondary" raised />
+            <Button :label="$t('edit')" @click="triggerPatientEdit" severity="secondary" raised />
+            <Button :label="$t('details')" @click="showPatientDetails" severity="secondary" raised />
         </div>
     </div>
     <div>
