@@ -9,8 +9,8 @@
         </div>
     </div>
     <div class="flex justify-end gap-2">
-        <Button type="button" label="Cancel" severity="secondary" @click="$emit('close')"></Button>
-        <Button type="button" label="Save" @click="commit()" :disabled="!selectedInsurance"></Button>
+        <Button type="button" label="Cancel" severity="secondary" @click="$emit('close')" raised></Button>
+        <Button type="button" label="Save" @click="commit()" :disabled="!selectedInsurance" raised></Button>
     </div>
 </template>
 
