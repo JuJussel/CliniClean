@@ -3,6 +3,13 @@
         tableStyle="min-width: 50rem" selectionMode="single">
         <Column field="Insurance_Combination_Number" :header="$t('insuranceCombinationNumber')"></Column>
         <Column field="InsuranceProvider_WholeName" :header="$t('insurance')"></Column>
+        <Column field="Certificate_ExpiredDate" :header="$t('validUntil')">
+            <template #body="slotProps">
+                <span> {{ parseDate(slotProps.data.Certificate_ExpiredDate) }} </span>
+            </template>
+
+        </Column>
+
         <Column field="PublicInsurance_Information" :header="$t('publicInsurance')">
             <template #body="slotProps">
                 <span> {{ slotProps.data.PublicInsurance_Information?.[0]?.PublicInsurance_Name }} </span>
@@ -23,12 +30,6 @@
             <template #body="slotProps">
                 <span> {{ slotProps.data.PublicInsurance_Information?.[3]?.PublicInsurance_Name }} </span>
             </template>
-        </Column>
-        <Column field="Certificate_ExpiredDate" :header="$t('validUntil')">
-            <template #body="slotProps">
-                <span> {{ parseDate(slotProps.data.Certificate_ExpiredDate) }} </span>
-            </template>
-
         </Column>
     </DataTable>
 </template>

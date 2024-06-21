@@ -52,7 +52,7 @@
             :encounterHistory="encounterHistory" />
     </div>
 
-    <Dialog v-model:visible="modals.walkin.open" modal :header="$t('newReception')" class="w-3/5">
+    <Dialog v-model:visible="modals.walkin.open" modal :header="$t('newReception')" class="w-[72rem]" :closable="false">
         <NewWalkin :patient="patientData" @commit="" @close="modals.walkin.open = false" />
     </Dialog>
 

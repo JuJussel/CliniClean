@@ -51,7 +51,7 @@ async function commit() {
         note: comment.value
     }
     await useApi.put('encounters/' + props.encounter.id, encounterData)
-    uiLoading.value = true
+    uiLoading.value = false
     emit('commit')
     emit('close')
 

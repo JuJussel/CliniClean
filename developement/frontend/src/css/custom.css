@@ -17,3 +17,8 @@
     background: rgb(255 255 255 / 60%) !important;
     color: var(--p-primary-color) !important;
 }
+.field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}

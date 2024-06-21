@@ -30,7 +30,6 @@ export default defineConfig({
           '@/stores/user.js': ['useUserStore'],
           '@/lang/jp.js': [['default', 'lang']],
           'vue-i18n': ['useI18n']
-
         }
       ]
     })

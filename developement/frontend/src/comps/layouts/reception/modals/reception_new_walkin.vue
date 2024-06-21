@@ -1,22 +1,27 @@
 <template>
-    <div class="grid grid-cols-6 gap-16">
-        <div>
-            <Select v-model="selectedCity" :options="cities" optionLabel="name" placeholder="Select a City"
-                class="w-full md:w-56" />
-
+    <BlockUI :blocked="uiLoading">
+        <div class="flex flax-col gap-10">
+            <div class="w-30">
+                <div class="field">
+                    <label>{{ $t('encounterType') }}</label>
+                    <Select id="encType" v-model="encounterType" :options="listStore.listData.encounterTypes"
+                        optionLabel="name" class="w-60" :disabled="uiLoading" />
+                </div>
+                <div class="field">
+                    <label for="comment">{{ $t('comment') }}</label>
+                    <Textarea id="comment" v-model="comment" rows="5" class="w-60" :disabled="uiLoading" />
+                </div>
+            </div>
+            <Fieldset :legend="$t('selectInsurance')">
+                <InsuranceTable v-bind:insurances="insurances" :loading="insuranceSetsLoading" @select="setInsurance" />
+            </Fieldset>
         </div>
-
-        <div class="col-span-4">
-            <InsuranceTable v-bind:insurances="insurances" :loading="insuranceSetsLoading" @select="setInsurance" />
-        </div>
-        <div class="col-span-2">
-            <label for="comment">{{ $t('comment') }}</label>
-            <Textarea id="comment" v-model="comment" rows="5" class="w-full h-3/4" />
-        </div>
-    </div>
-    <div class="flex justify-end gap-2">
-        <Button type="button" label="Cancel" severity="secondary" @click="$emit('close')" raised></Button>
-        <Button type="button" label="Save" @click="commit()" :disabled="!selectedInsurance" raised></Button>
+    </BlockUI>
+    <div class="flex justify-end gap-2 mt-8">
+        <Button type="button" label="Cancel" severity="secondary" @click="$emit('close')" raised
+            :disabled="uiLoading"></Button>
+        <Button type="button" label="Save" @click="commit()" :disabled="uiLoading || !selectedInsurance.data" raised
+            :loading="uiLoading"></Button>
     </div>
 </template>
 
@@ -24,6 +29,9 @@
 
 import useApi from "@/composables/apiComposable.js"
 import InsuranceTable from "@/comps/shared/tables/insurance_sets"
+import Select from 'primevue/select';
+
+const listStore = useListStore()
 
 const props = defineProps(['patient'])
 const emit = defineEmits(['close', 'commit'])
@@ -33,6 +41,7 @@ const uiLoading = ref(false)
 const insuranceSetsLoading = ref(false)
 const comment = ref(null)
 const selectedInsurance = ref({ data: null })
+const encounterType = ref(listStore.listData.encounterTypes[0])
 
 getInsurances()
 
@@ -50,15 +59,16 @@ function setInsurance(ins) {
 async function commit() {
     uiLoading.value = true
     const encounterData = {
-        ins: selectedInsurance.value.data.Insurance_Combination_Number,
-        status: 2,
+        patient: props.patient,
+        ins: selectedInsurance.value.data,
+        encouterType: encounterType.value.id,
         note: comment.value
     }
-    await useApi.put('encounters/' + props.encounter.id, encounterData)
+    console.log(encounterData);
+    await useApi.post('encounters', encounterData);
     uiLoading.value = true
     emit('commit')
     emit('close')
-
 }
 
 
