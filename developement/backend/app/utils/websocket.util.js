@@ -33,7 +33,7 @@ module.exports = server => {
     // End Create Server
 
     // Handel MEssages to Server
-    const handleMessages = (message) => {};
+    const handleMessages = (message) => { };
     // End Handel MEssages to Server
 
     // Send Messages to Clients

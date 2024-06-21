@@ -1,8 +1,10 @@
 <template>
     <div class="flex justify-between items-center">
         <div class="grid grid-cols-2">
-            <IconField>
-                <InputIcon class="pi pi-search z-10" />
+            <InputGroup>
+                <InputGroupAddon>
+                    <i class="pi pi-search" />
+                </InputGroupAddon>
                 <AutoComplete v-model="selectedPatient" forceSelection optionLabel="name" :suggestions="searchResults"
                     :disabled="patientDataLoading" @option-select="getPatientData" @complete="search"
                     :pt="{ pcInput: { style: { 'margin-left': '20px' } } }">
@@ -14,7 +16,7 @@
                         </div>
                     </template>
                 </AutoComplete>
-            </IconField>
+            </InputGroup>
             <div v-if="patientData" class="flex items-center gap-2">
                 <Tag severity="success" :value="patientData.id"></Tag>
                 <span class="font-bold">{{ patientData.name }}</span>

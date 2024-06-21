@@ -57,7 +57,7 @@ import ToastService from 'primevue/toastservice';
     app.use(ApiService)
 
     app.use(Auth);
-    app.use(VueNativeSock, window.origin, {
+    app.use(VueNativeSock, 'wss://localhost:3003', {
         connectManually: true,
         format: "json",
         reconnection: true,

@@ -35,7 +35,7 @@ const userMenu = ref(null);
 
 await listStore.getData()
 await settingStore.getData()
-proxy.$connect("");
+proxy.$connect();
 
 const menuItems =
     [{

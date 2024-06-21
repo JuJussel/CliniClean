@@ -64,9 +64,8 @@ async function commit() {
         encouterType: encounterType.value.id,
         note: comment.value
     }
-    console.log(encounterData);
     await useApi.post('encounters', encounterData);
-    uiLoading.value = true
+    uiLoading.value = false
     emit('commit')
     emit('close')
 }
