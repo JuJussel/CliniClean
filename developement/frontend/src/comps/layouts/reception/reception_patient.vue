@@ -91,4 +91,15 @@ const triggerNewWalkin = () => {
         modals.value.walkin.open = true
 }
 
+const triggerNewReservation = () => {
+
+}
+const triggerPatientEdit = () => {
+    
+}
+const showPatientDetails = () => {
+    
+}
+
+
 </script>
