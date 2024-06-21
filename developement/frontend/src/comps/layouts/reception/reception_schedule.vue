@@ -55,8 +55,12 @@ import useApi from "@/composables/apiComposable.js"
 import dayjs from "dayjs"
 import Select from 'primevue/select';
 import ReceptionAcceptReservation from './modals/reception_acp_res.vue'
+import { getCurrentInstance } from "vue";
+
 
 const listStore = useListStore()
+const { proxy } = getCurrentInstance()
+
 
 const loading = ref(false)
 const schedule = ref([])
@@ -64,6 +68,10 @@ const receptionAcceptModal = ref({
     data: null,
     visible: false
 })
+
+proxy.$socket.onmessage = (res) => {
+    console.log(res);
+}
 
 getSchedule()
 

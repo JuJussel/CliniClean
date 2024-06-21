@@ -13,10 +13,10 @@ import { parseDate, copy } from './utils'
 import ApiService from '@/services/api.service'
 import AclService from '@/services/acl.service'
 import VueNativeSock from "vue-native-websocket-vue3";
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
-import isBetween from "dayjs/plugin/isBetween";
-import "dayjs/locale/ja";
+// import dayjs from "dayjs";
+// import relativeTime from "dayjs/plugin/relativeTime";
+// import isBetween from "dayjs/plugin/isBetween";
+// import "dayjs/locale/ja";
 import i18n from '@/lang/i18n'
 
 import PrimeVue from 'primevue/config';
@@ -34,9 +34,9 @@ import ToastService from 'primevue/toastservice';
     app.use(pinia)
 
     // DayJs Config
-    dayjs.extend(relativeTime);
-    dayjs.extend(isBetween);
-    dayjs.locale("ja");
+    // dayjs.extend(relativeTime);
+    // dayjs.extend(isBetween);
+    // dayjs.locale("ja");
 
     // To remove
     // app.use(Cui);
