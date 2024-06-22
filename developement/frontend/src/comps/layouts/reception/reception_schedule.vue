@@ -71,9 +71,7 @@ const receptionAcceptModal = ref({
 
 
 proxy.$socket.onmessage = (res) => {
-    console.log(res.data.event);
-    if (res.data.event === 'updateEncounter') console.log('trigger');
-    getSchedule()
+    if (JSON.parse(res.data).event === 'updateEncounter') getSchedule()
 }
 
 getSchedule()

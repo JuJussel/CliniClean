@@ -1,15 +1,15 @@
 <template>
-    <div class="grid grid-cols-2 grid-rows-2 gap-3">
-        <Fieldset :legend="$t('basic')" class="row-span-2">
+    <div class="grid grid-cols-2 grid-rows-2 gap-3 max-h-[39vh]">
+        <div :legend="$t('basic')" class="row-span-2">
             <ul>
                 <li class="flex p-1" v-for="(item, index) in listDataBasic" :key="index">
                     <div class="w-28 leading-8">{{ item.title }}</div>
                     <tag severity="secondary">{{ item.value }}</tag>
                 </li>
             </ul>
-        </Fieldset>
-        <Fieldset :legend="$t('outPatient') + $t('history')">
-            <DataTable :value="pastEncounters" tableStyle="min-width: 20rem">
+        </div>
+        <div :legend="$t('outPatient') + $t('history')">
+            <DataTable :value="pastEncounters" tableStyle="min-width: 20rem" scrollable scrollHeight="flex">
                 <Column field="date" :header="$t('date')">
                     <template #body="slotProps">
                         <span> {{ parseDate(slotProps.data.date) }} </span>
@@ -24,9 +24,9 @@
                 </Column>
 
             </DataTable>
-        </Fieldset>
-        <Fieldset :legend="$t('reservation')">
-            <DataTable :value="reservations" v-if="reservations.length > 0" tableStyle="min-width: 20rem">
+        </div>
+        <div :legend="$t('reservation')">
+            <DataTable :value="reservations" v-if="reservations.length > 0" tableStyle="min-width: 20rem" scrollable scrollHeight="flex">
                 <Column field="date" :header="$t('date')">
                     <template #body="slotProps">
                         <span> {{ parseDate(slotProps.data.date) }} </span>
@@ -45,7 +45,7 @@
                 {{ $t('reservation') }}
                 {{ $t('hasNot') }}
             </div>
-        </Fieldset>
+        </div>
 
     </div>
 </template>

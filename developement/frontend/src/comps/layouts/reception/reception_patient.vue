@@ -1,6 +1,6 @@
 <template>
-    <div class="flex justify-between items-center">
-        <div class="grid grid-cols-2">
+    <div class="flex justify-between items-center mb-8">
+        <div class="grid grid-cols-2 gap-2">
             <InputGroup>
                 <InputGroupAddon>
                     <i class="pi pi-search" />
@@ -30,7 +30,6 @@
         </div>
     </div>
     <div>
-        <!-- <ProgressSpinner v-if="patientDataLoading" strokeWidth="4" animationDuration=".5s" class="self-center" /> -->
         <div v-if="patientDataLoading" class="mt-10 grid grid-cols-2 gap-4">
             <div>
                 <Skeleton class="mb-2"></Skeleton>
@@ -53,7 +52,6 @@
         <PatientInfo v-if="patientData && !patientDataLoading" :patientData="patientData"
             :encounterHistory="encounterHistory" />
     </div>
-
     <Dialog v-model:visible="modals.walkin.open" modal :header="$t('newReception')" class="w-[72rem]" :closable="false">
         <NewWalkin :patient="patientData" @commit="" @close="modals.walkin.open = false" />
     </Dialog>
@@ -63,7 +61,7 @@
 <script setup>
 import useApi from '@/composables/apiComposable.js'
 import parseDate from '@/composables/dateComposable.js'
-import PatientInfo from '@/comps/shared/layouts/patient_info_basic.vue'
+import PatientInfo from './reception_patient_info.vue'
 import NewWalkin from './modals/reception_new_walkin.vue'
 
 const patientDataLoading = ref(false)
