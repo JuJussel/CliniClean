@@ -7,7 +7,7 @@
                 </InputGroupAddon>
                 <AutoComplete v-model="selectedPatient" forceSelection optionLabel="name" :suggestions="searchResults"
                     :disabled="patientDataLoading" @option-select="getPatientData" @complete="search"
-                    :pt="{ pcInput: { style: { 'margin-left': '20px' } } }">
+                    :pt="{ pcInput: { style: { 'margin-left': '20px' } } }" :placeholder="$t('search')">
                     <template #option="slotProps">
                         <div class="grid grid-flow-col auto-cols-max gap-3">
                             <Tag severity="success" :value="slotProps.option.id"></Tag>
@@ -16,6 +16,7 @@
                         </div>
                     </template>
                 </AutoComplete>
+                <Button icon="pi pi-plus" severity="secondary" />
             </InputGroup>
             <div v-if="patientData" class="flex items-center gap-2">
                 <Tag severity="success" :value="patientData.id"></Tag>
@@ -95,10 +96,10 @@ const triggerNewReservation = () => {
 
 }
 const triggerPatientEdit = () => {
-    
+
 }
 const showPatientDetails = () => {
-    
+
 }
 
 
