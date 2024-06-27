@@ -7,7 +7,7 @@
                 </InputGroupAddon>
                 <AutoComplete v-model="selectedPatient" forceSelection optionLabel="name" :suggestions="searchResults"
                     :disabled="patientDataLoading" @option-select="getPatientData" @complete="search"
-                    :pt="{ pcInput: { style: { 'margin-left': '20px' } } }" :placeholder="$t('search')">
+                    :pt="{ pcInput: { style: { 'margin-left': '20px' } } }" :placeholder="$t('patientSearch')">
                     <template #option="slotProps">
                         <div class="grid grid-flow-col auto-cols-max gap-3">
                             <Tag severity="success" :value="slotProps.option.id"></Tag>
@@ -56,6 +56,11 @@
     <Dialog v-model:visible="modals.walkin.open" modal :header="$t('newReception')" class="w-[72rem]" :closable="false">
         <NewWalkin :patient="patientData" @commit="" @close="modals.walkin.open = false" />
     </Dialog>
+    <Dialog v-model:visible="modals.patientEdit.open" modal :header="$t('newReception')" class="w-[72rem]"
+        :closable="false">
+        <NewWalkin :patient="patientData" @commit="" @close="modals.walkin.open = false" />
+    </Dialog>
+
 
 </template>
 
@@ -72,7 +77,8 @@ const patientData = ref()
 const encounterHistory = ref()
 const modals = ref({
     walkin: { open: false },
-    reservation: { open: false }
+    reservation: { open: false },
+    patientEdit: { open: false }
 })
 
 const search = async (event) => {
@@ -96,7 +102,7 @@ const triggerNewReservation = () => {
 
 }
 const triggerPatientEdit = () => {
-
+    modals.patientEdit.open = true
 }
 const showPatientDetails = () => {
 
