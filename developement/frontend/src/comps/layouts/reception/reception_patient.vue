@@ -16,7 +16,7 @@
                         </div>
                     </template>
                 </AutoComplete>
-                <Button icon="pi pi-plus" severity="secondary" />
+                <Button icon="pi pi-plus" severity="secondary" @click="triggerPatientEdit" />
             </InputGroup>
             <div v-if="patientData" class="flex items-center gap-2">
                 <Tag severity="success" :value="patientData.id"></Tag>
@@ -26,7 +26,7 @@
         <div v-if="patientData" class="grid grid-flow-col auto-cols-auto gap-2">
             <Button :label="$t('reception')" @click="triggerNewWalkin" raised class="w-24" />
             <Button :label="$t('reservation')" @click="triggerNewReservation" severity="secondary" raised />
-            <Button :label="$t('edit')" @click="triggerPatientEdit" severity="secondary" raised />
+            <Button :label="$t('edit')" @click="triggerPatientEdit()" severity="secondary" raised />
             <Button :label="$t('details')" @click="showPatientDetails" severity="secondary" raised />
         </div>
     </div>
@@ -56,9 +56,9 @@
     <Dialog v-model:visible="modals.walkin.open" modal :header="$t('newReception')" class="w-[72rem]" :closable="false">
         <NewWalkin :patient="patientData" @commit="" @close="modals.walkin.open = false" />
     </Dialog>
-    <Dialog v-model:visible="modals.patientEdit.open" modal :header="$t('newReception')" class="w-[72rem]"
+    <Dialog v-model:visible="modals.patientEdit.open" modal :header="$t('patientEdit')" class="w-[72rem]"
         :closable="false">
-        <NewWalkin :patient="patientData" @commit="" @close="modals.walkin.open = false" />
+        <EditPatient :patient="patientData" @commit="" @close="modals.patientEdit.open = false" />
     </Dialog>
 
 
@@ -69,6 +69,7 @@ import useApi from '@/composables/apiComposable.js'
 import parseDate from '@/composables/dateComposable.js'
 import PatientInfo from './reception_patient_info.vue'
 import NewWalkin from './modals/reception_new_walkin.vue'
+import EditPatient from './modals/reception_edit_patient.vue'
 
 const patientDataLoading = ref(false)
 const selectedPatient = ref()
@@ -80,6 +81,7 @@ const modals = ref({
     reservation: { open: false },
     patientEdit: { open: false }
 })
+const patientEditData = null
 
 const search = async (event) => {
     searchResults.value = await useApi.get('patients/search?query=' + event.query);
@@ -102,10 +104,10 @@ const triggerNewReservation = () => {
 
 }
 const triggerPatientEdit = () => {
-    modals.patientEdit.open = true
+    modals.value.patientEdit.open = true
 }
-const showPatientDetails = () => {
-
+const showPatientDetails = (patient = null) => {
+    patientEditData = patient
 }
 
 
