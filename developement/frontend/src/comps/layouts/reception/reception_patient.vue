@@ -6,6 +6,7 @@
                     <i class="pi pi-search" />
                 </InputGroupAddon>
                 <AutoComplete v-model="selectedPatient" forceSelection optionLabel="name" :suggestions="searchResults"
+                :loading="searching"
                     :disabled="patientDataLoading" @option-select="getPatientData" @complete="search"
                     :pt="{ pcInput: { style: { 'margin-left': '20px' } } }" :placeholder="$t('patientSearch')">
                     <template #option="slotProps">
@@ -72,6 +73,7 @@ import NewWalkin from './modals/reception_new_walkin.vue'
 import EditPatient from './modals/reception_edit_patient.vue'
 
 const patientDataLoading = ref(false)
+const searching = ref(false)
 const selectedPatient = ref()
 const searchResults = ref([])
 const patientData = ref()
@@ -84,7 +86,9 @@ const modals = ref({
 const patientEditData = null
 
 const search = async (event) => {
+    searching.value = true
     searchResults.value = await useApi.get('patients/search?query=' + event.query);
+    searching.value = false
 }
 
 const getPatientData = async (event) => {
