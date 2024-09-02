@@ -1,7 +1,7 @@
 <template>
-    <div class="flex flex-col h-full p-2">
+    <div class="flex flex-col h-full">
         <Toast position="top-center" />
-        <Menubar :model="menuItems">
+        <Menubar :model="menuItems" class="menubar-round-bottom">
             <template #end>
                 <Chip :label="userStore.fullName" :image="avatarUrl" @click="toggleUserMenu" class="cursor-pointer" />
                 <OverlayPanel ref="userMenu">
@@ -9,7 +9,7 @@
                 </OverlayPanel>
             </template>
         </Menubar>
-        <main class="grow mt-2 overflow-hidden">
+        <main class="grow mt-2 overflow-hidden p-2">
             <transition name="juzoom">
                 <component :is="uiStore.activeTab" style="height: 100%"></component>
             </transition>
