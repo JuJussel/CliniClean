@@ -6,14 +6,18 @@
                     <i class="pi pi-search" />
                 </InputGroupAddon>
                 <AutoComplete v-model="selectedPatient" forceSelection optionLabel="name" :suggestions="searchResults"
-                :loading="searching"
                     :disabled="patientDataLoading" @option-select="getPatientData" @complete="search"
                     :pt="{ pcInput: { style: { 'margin-left': '20px' } } }" :placeholder="$t('patientSearch')">
                     <template #option="slotProps">
-                        <div class="grid grid-flow-col auto-cols-max gap-3">
+                        <div v-if="!searching" class="grid grid-flow-col auto-cols-max gap-3">
                             <Tag severity="success" :value="slotProps.option.id"></Tag>
                             <b>{{ slotProps.option.name }}</b>
                             <span>{{ parseDate(slotProps.option.birthdate) }}</span>
+                        </div>
+                        <div v-else>
+                            <Skeleton width="20rem" height="2rem" class="mb-2"></Skeleton>
+                            <Skeleton width="20rem" height="2rem" class="mb-2"></Skeleton>
+                            <Skeleton width="20rem" height="2rem" class="mb-2"></Skeleton>
                         </div>
                     </template>
                 </AutoComplete>
@@ -87,14 +91,15 @@ const patientEditData = null
 
 const search = async (event) => {
     searching.value = true
-    searchResults.value = await useApi.get('patients/search?query=' + event.query);
+    searchResults.value = [0]
+    searchResults.value = await useApi.get('patients/search?query=' + event.query)
     searching.value = false
 }
 
 const getPatientData = async (event) => {
     patientDataLoading.value = true
     patientData.value = await useApi.get('patients/' + event.value.id)
-    encounterHistory.value = await useApi.get('patients/' + event.value.id + '/encounters');
+    encounterHistory.value = await useApi.get('patients/' + event.value.id + '/encounters')
     patientDataLoading.value = false
     selectedPatient.value = null
 }
