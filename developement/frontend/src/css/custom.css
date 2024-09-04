@@ -42,8 +42,3 @@ body {
     --p-menubar-item-color: white !important;
     --p-menubar-item-icon-color: white !important;
 }
-
-.menubar-round-bottom {
-    border-bottom-right-radius: 5px !important;
-    border-bottom-left-radius: 5px !important;
-}

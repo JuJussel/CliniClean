@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col h-full">
         <Toast position="top-center" />
-        <Menubar :model="menuItems" class="menubar-round-bottom">
+        <Menubar :model="menuItems">
             <template #end>
                 <Chip :label="userStore.fullName" :image="avatarUrl" @click="toggleUserMenu" class="cursor-pointer" />
                 <OverlayPanel ref="userMenu">
