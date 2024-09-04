@@ -65,6 +65,11 @@
         :closable="false">
         <EditPatient :patient="patientData" @commit="" @close="modals.patientEdit.open = false" />
     </Dialog>
+    <Dialog v-model:visible="modals.reservation.open" modal :header="$t('reservation')" class="w-[72rem]"
+        :closable="false">
+        <NewReservation :patient="patientData" @commit="" @close="modals.reservation.open = false" />
+    </Dialog>
+
 
 
 </template>
@@ -75,6 +80,7 @@ import parseDate from '@/composables/dateComposable.js'
 import PatientInfo from './reception_patient_info.vue'
 import NewWalkin from './modals/reception_new_walkin.vue'
 import EditPatient from './modals/reception_edit_patient.vue'
+import NewReservation from './modals/reception_new_reservation.vue'
 
 const patientDataLoading = ref(false)
 const searching = ref(false)
@@ -85,7 +91,7 @@ const encounterHistory = ref()
 const modals = ref({
     walkin: { open: false },
     reservation: { open: false },
-    patientEdit: { open: false }
+    patientEdit: { open: false },
 })
 const patientEditData = null
 
@@ -110,7 +116,7 @@ const triggerNewWalkin = () => {
 }
 
 const triggerNewReservation = () => {
-
+    modals.value.reservation.open = true
 }
 const triggerPatientEdit = () => {
     modals.value.patientEdit.open = true

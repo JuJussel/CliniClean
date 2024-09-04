@@ -1,6 +1,6 @@
 <template>
-    <div class="cc-calendar-cont">
-        <div class="cal-header">
+    <div class="h-full p-2">
+        <div>
             <!-- <cui-button-group @change="changeView">
                 <cui-button-group-item
                     :label="$lang.prev"
@@ -29,8 +29,19 @@
                     value="dayGridMonth"
                 ></cui-button-group-item>
             </cui-button-group> -->
+            <ButtonGroup>
+                <Button :label="$t('prev')" icon="pi pi-angle-left" />
+                <Button :label="$t('today')" />
+                <Button :label="$t('next')" icon="pi pi-angle-right" iconPos="right" />
+            </ButtonGroup>
+            <ButtonGroup>
+                <Button label="Save" icon="pi pi-check" />
+                <Button label="Delete" icon="pi pi-trash" />
+                <Button label="Cancel" icon="pi pi-times" />
+            </ButtonGroup>
+
         </div>
-        <div ref="calendar" style="margin-top: -59px"></div>
+        <div ref="calendar"></div>
     </div>
 </template>
 
@@ -173,34 +184,3 @@ export default {
     },
 };
 </script>
-
-<style scoped>
-.cal-header {
-    margin-bottom: -20px;
-    display: flex;
-    justify-content: flex-end;
-    height: 55px;
-    padding: 10px;
-}
-
-.cal-header .fc-toolbar-title {
-    margin-left: 20px !important;
-}
-</style>
-
-<style>
-.fc-toolbar-chunk {
-    margin-left: 20px !important;
-}
-
-.fc .fc-toolbar.fc-header-toolbar {
-    margin-bottom: 1.1em !important;
-}
-
-.cc-calendar-cont {
-    height: 100%;
-    overflow: hidden;
-    border-bottom: solid 1px #dddddd;
-    border-radius: 20px;
-}
-</style>
