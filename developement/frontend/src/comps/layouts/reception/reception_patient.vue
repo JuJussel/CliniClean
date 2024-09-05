@@ -122,7 +122,6 @@ const triggerPatientEdit = () => {
     modals.value.patientEdit.open = true
 }
 const showPatientDetails = (patient = null) => {
-    patientEditData = patient
 }
 
 

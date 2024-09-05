@@ -1,7 +1,13 @@
 <template>
+    <div>
+
+    </div>
+</template>
+
+<!-- <template>
     <div class="cc-calendar-cont">
         <div class="cal-header">
-            <!-- <cui-button-group @change="changeView">
+            <cui-button-group @change="changeView">
                 <cui-button-group-item
                     :label="$lang.prev"
                     :value="1"
@@ -28,7 +34,7 @@
                     :label="$lang.month"
                     value="dayGridMonth"
                 ></cui-button-group-item>
-            </cui-button-group> -->
+            </cui-button-group>
         </div>
         <div ref="calendar" style="margin-top: -59px"></div>
     </div>
@@ -203,4 +209,4 @@ export default {
     border-bottom: solid 1px #dddddd;
     border-radius: 20px;
 }
-</style>
+</style> -->
