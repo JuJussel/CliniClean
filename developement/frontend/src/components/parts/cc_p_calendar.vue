@@ -1,4 +1,10 @@
 <template>
+    <div>
+
+    </div>
+</template>
+
+<!-- <template>
     <div class="cc-calendar-cont">
         <div class="cal-header">
             <cui-button-group @change="changeView">
@@ -182,6 +188,7 @@ export default {
     height: 55px;
     padding: 10px;
 }
+
 .cal-header .fc-toolbar-title {
     margin-left: 20px !important;
 }
@@ -191,13 +198,15 @@ export default {
 .fc-toolbar-chunk {
     margin-left: 20px !important;
 }
+
 .fc .fc-toolbar.fc-header-toolbar {
     margin-bottom: 1.1em !important;
 }
+
 .cc-calendar-cont {
     height: 100%;
     overflow: hidden;
     border-bottom: solid 1px #dddddd;
     border-radius: 20px;
 }
-</style>
+</style> -->

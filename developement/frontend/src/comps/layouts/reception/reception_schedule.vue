@@ -18,7 +18,7 @@
 
                 </Button>
                 <Tag v-else-if="slotProps.data.status === 0" :value="$t('paymentDone')" />
-                <Select v-else modelValue="slotProps.data.status" :options="examStatiOptions(slotProps.data.status)"
+                <Select v-else :modelValue="slotProps.data.status" :options="examStatiOptions(slotProps.data.status)"
                     optionLabel="name" optionValue="status" @change="changeStatus($event, slotProps.data)"
                     class="w-full md:w-14rem" :SelectChangeEvent="changeStatus">
                     <template #value>

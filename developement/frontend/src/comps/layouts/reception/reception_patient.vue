@@ -9,10 +9,15 @@
                     :disabled="patientDataLoading" @option-select="getPatientData" @complete="search"
                     :pt="{ pcInput: { style: { 'margin-left': '20px' } } }" :placeholder="$t('patientSearch')">
                     <template #option="slotProps">
-                        <div class="grid grid-flow-col auto-cols-max gap-3">
+                        <div v-if="!searching" class="grid grid-flow-col auto-cols-max gap-3">
                             <Tag severity="success" :value="slotProps.option.id"></Tag>
                             <b>{{ slotProps.option.name }}</b>
                             <span>{{ parseDate(slotProps.option.birthdate) }}</span>
+                        </div>
+                        <div v-else>
+                            <Skeleton width="20rem" height="2rem" class="mb-2"></Skeleton>
+                            <Skeleton width="20rem" height="2rem" class="mb-2"></Skeleton>
+                            <Skeleton width="20rem" height="2rem" class="mb-2"></Skeleton>
                         </div>
                     </template>
                 </AutoComplete>
@@ -60,6 +65,11 @@
         :closable="false">
         <EditPatient :patient="patientData" @commit="" @close="modals.patientEdit.open = false" />
     </Dialog>
+    <Dialog v-model:visible="modals.reservation.open" modal :header="$t('reservation')" class="w-[72rem]"
+        :closable="false">
+        <NewReservation :patient="patientData" @commit="" @close="modals.reservation.open = false" />
+    </Dialog>
+
 
 
 </template>
@@ -70,8 +80,10 @@ import parseDate from '@/composables/dateComposable.js'
 import PatientInfo from './reception_patient_info.vue'
 import NewWalkin from './modals/reception_new_walkin.vue'
 import EditPatient from './modals/reception_edit_patient.vue'
+import NewReservation from './modals/reception_new_reservation.vue'
 
 const patientDataLoading = ref(false)
+const searching = ref(false)
 const selectedPatient = ref()
 const searchResults = ref([])
 const patientData = ref()
@@ -79,18 +91,21 @@ const encounterHistory = ref()
 const modals = ref({
     walkin: { open: false },
     reservation: { open: false },
-    patientEdit: { open: false }
+    patientEdit: { open: false },
 })
 const patientEditData = null
 
 const search = async (event) => {
-    searchResults.value = await useApi.get('patients/search?query=' + event.query);
+    searching.value = true
+    searchResults.value = [0]
+    searchResults.value = await useApi.get('patients/search?query=' + event.query)
+    searching.value = false
 }
 
 const getPatientData = async (event) => {
     patientDataLoading.value = true
     patientData.value = await useApi.get('patients/' + event.value.id)
-    encounterHistory.value = await useApi.get('patients/' + event.value.id + '/encounters');
+    encounterHistory.value = await useApi.get('patients/' + event.value.id + '/encounters')
     patientDataLoading.value = false
     selectedPatient.value = null
 }
@@ -101,13 +116,12 @@ const triggerNewWalkin = () => {
 }
 
 const triggerNewReservation = () => {
-
+    modals.value.reservation.open = true
 }
 const triggerPatientEdit = () => {
     modals.value.patientEdit.open = true
 }
 const showPatientDetails = (patient = null) => {
-    patientEditData = patient
 }
 
 
