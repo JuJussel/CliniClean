@@ -65,7 +65,7 @@ exports.create = async (req, res) => {
 
   request = {
     patient: request.patient.id,
-    type: request.encouterType,
+    type: request.encounterType,
     date: date,
     ins: request.ins?.Insurance_Combination_Number ? request.ins.Insurance_Combination_Number : null,
     note: request.note,

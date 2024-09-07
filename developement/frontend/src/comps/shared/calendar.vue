@@ -70,21 +70,21 @@ const changeView = (view) => {
 }
 
 const getEvents = async (i, successCallback) => {
-    
+
     eventsLoading.value = true
     const range = 'start=' + dayjs(i.startStr).$d + '&end=' + dayjs(i.endStr).$d;
 
     let events = await useApi.get("encounters/range?" + range)
-    events = events.filter((item) => item.status === 0)
+    events = events.filter((item) => item.status === 1)
     events = events.map(function (event) {
-            return {
-                id: event.id,
-                title: event.patient.name,
-                start: event.date,
-                end: event.shinsatu_end,
-                meta: event,
-            };
-        });        
+        return {
+            id: event.id,
+            title: event.patient.name,
+            start: event.date,
+            end: event.shinsatu_end,
+            meta: event,
+        };
+    });
     eventsLoading.value = false
     successCallback(events)
 }

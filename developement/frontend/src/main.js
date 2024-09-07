@@ -24,6 +24,8 @@ import Aura from '@primevue/themes/aura';
 import 'primeicons/primeicons.css'
 import ToastService from 'primevue/toastservice';
 
+import primeVueLocale from "./lang/ja.json"
+
 
 (async () => {
     const app = createApp(App);
@@ -72,6 +74,7 @@ import ToastService from 'primevue/toastservice';
                 darkModeSelector: '.my-app-dark'
             }
         },
+        locale: primeVueLocale.primeVue,
         ripple: true
     });
     app.use(ToastService);
