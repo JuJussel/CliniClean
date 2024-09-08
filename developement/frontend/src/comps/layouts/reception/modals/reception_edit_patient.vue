@@ -1,39 +1,52 @@
 <template>
-    <div>
-        <div class="flex flex-col gap-1 mb-4">
-            <label for="name">{{$t('name')}}</label>
-            <InputText id="name" v-model="patientData.name" />
-        </div>
-        <div class="flex flex-col gap-1 mb-4">
-            <label for="name">{{$t('nameKana')}}</label>
-            <InputText id="name" v-model="patientData.nameKana" />
-        </div>
-        <div class="flex flex-col gap-1 mb-4">
-            <label for="birthDate">{{$t('birthdate')}}</label>
-            <DatePicker id="birthDate" v-model="patientData.birthDate" showIcon/>
-        </div>
-        <div class="flex flex-col gap-1 mb-4">
-            <label for="gender">{{$t('gender')}}</label>
-            <div class="flex gap-3">
-                <div class="flex items-center">
-                    <RadioButton v-model="patientData.gender" inputId="gender1" name="gender" value="1" />
-                    <label for="gender1" class="ml-2">{{ $t('male') }}</label>
-                </div>
-                <div class="flex items-center">
-                    <RadioButton v-model="patientData.gender" inputId="gender2" name="gender" value="2" />
-                    <label for="gender2" class="ml-2">{{ $t('female') }}</label>
-                </div>
-                <div class="flex items-center">
-                    <RadioButton v-model="patientData.gender" inputId="gender3" name="gender" value="3" />
-                    <label for="gender3" class="ml-2">{{ $t('other') }}</label>
+    <div class="grid grid-cols-3 gap-4">
+        <div>
+            <div class="flex flex-col gap-1 mb-4">
+                <label for="name">{{ $t('name') }}</label>
+                <InputText id="name" v-model="patientData.name" />
+            </div>
+            <div class="flex flex-col gap-1 mb-4">
+                <label for="name">{{ $t('nameKana') }}</label>
+                <InputText id="name" v-model="patientData.nameKana" />
+            </div>
+            <div class="flex flex-col gap-1 mb-4">
+                <label for="birthDate">{{ $t('birthdate') }}</label>
+                <DatePicker id="birthDate" v-model="patientData.birthDate" showIcon />
+            </div>
+            <div class="flex flex-col gap-1 mb-4">
+                <label for="gender">{{ $t('gender') }}</label>
+                <div class="flex gap-3">
+                    <div class="flex items-center">
+                        <RadioButton v-model="patientData.gender" inputId="gender1" name="gender" value="1" />
+                        <label for="gender1" class="ml-2">{{ $t('male') }}</label>
+                    </div>
+                    <div class="flex items-center">
+                        <RadioButton v-model="patientData.gender" inputId="gender2" name="gender" value="2" />
+                        <label for="gender2" class="ml-2">{{ $t('female') }}</label>
+                    </div>
+                    <div class="flex items-center">
+                        <RadioButton v-model="patientData.gender" inputId="gender3" name="gender" value="3" />
+                        <label for="gender3" class="ml-2">{{ $t('other') }}</label>
+                    </div>
                 </div>
             </div>
-
-
+            <div class="flex flex-col gap-1 mb-4">
+                <label for="name">{{ $t('occupation') }}</label>
+                <InputText id="name" v-model="patientData.occupation" />
+            </div>
         </div>
-        <div class="flex flex-col gap-1 mb-4">
-            <label for="name">{{$t('occupation')}}</label>
-            <InputText id="name" v-model="patientData.name" />
+        <div>
+            <Tag :value="$t('contactInfo')" severity="secondary" class="h-8 mb-4" />
+            <h1>Test</h1>
+            <div class="flex flex-col gap-1 mb-4">
+                <label for="name">{{ $t('zipCode') }}</label>
+                <InputText id="name" v-model="patientData.address.zip" />
+            </div>
+            <div class="flex flex-col gap-1 mb-4">
+                <label for="name">{{ $t('occupation') }}</label>
+                <InputText id="name" v-model="patientData.occupation" />
+            </div>
+
         </div>
     </div>
 
