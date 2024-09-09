@@ -6,7 +6,7 @@
                 <div class="flex flex-col gap-1 mb-4 ">
                     <label>{{ $t('encounterType') }}</label>
                     <Select v-model="reservationData.encounterType" :options="listStore.listData.encounterTypes"
-                        optionLabel="name" placeholder="Select a City" />
+                        optionLabel="name" />
                 </div>
                 <div class="flex flex-col gap-1 mb-4">
                     <label>{{ $t('date') }}</label>
