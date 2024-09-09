@@ -6,8 +6,8 @@
             <Step value="2"> {{ $t('insurance') }}</Step>
             <Step value="3"> {{ $t('confirm') }}</Step>
         </StepList>
-        <StepPanels class="pb-0!">
-            <StepPanel v-slot="{ activateCallback }" value="1">
+        <StepPanels class="!pb-0 h-[480px]">
+            <StepPanel value="1">
                 <div class="grid grid-cols-3 gap-4 pb-4">
                     <Fieldset :legend="$t('basic')">
                         <div class="flex flex-col gap-1 mb-4">
@@ -104,11 +104,12 @@
                     <Button type="button" :label="$t('next')" @click="activeStep = '2'" raised></Button>
                 </div>
             </StepPanel>
-            <StepPanel v-slot="{ activateCallback }" value="2">
+            <StepPanel value="2">
                 <div class="flex justify-end gap-2">
                     <Button type="button" :label="$t('cancel')" severity="secondary" @click="$emit('close')"
                         raised></Button>
-                    <Button type="button" :label="$t('prev')" @click="activeStep = '1'" raised></Button>
+                    <Button type="button" :label="$t('prev')" severity="secondary" @click="activeStep = '1'"
+                        raised></Button>
                     <Button type="button" :label="$t('next')" @click="activeStep = '3'" raised></Button>
                 </div>
 
