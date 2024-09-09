@@ -6,9 +6,9 @@
             <Step value="2"> {{ $t('insurance') }}</Step>
             <Step value="3"> {{ $t('confirm') }}</Step>
         </StepList>
-        <StepPanels>
+        <StepPanels class="pb-0!">
             <StepPanel v-slot="{ activateCallback }" value="1">
-                <div class="grid grid-cols-3 gap-4 mb-4">
+                <div class="grid grid-cols-3 gap-4 pb-4">
                     <Fieldset :legend="$t('basic')">
                         <div class="flex flex-col gap-1 mb-4">
                             <label for="name">{{ $t('name') }}</label>
