@@ -6,9 +6,9 @@
             <Step value="2"> {{ $t('insurance') }}</Step>
             <Step value="3"> {{ $t('confirm') }}</Step>
         </StepList>
-        <StepPanels class="!pb-0 h-[480px]">
+        <StepPanels class="!pb-0 ">
             <StepPanel value="1">
-                <div class="grid grid-cols-3 gap-4 pb-4">
+                <div class="grid grid-cols-3 gap-4 pb-4 h-[480px]">
                     <Fieldset :legend="$t('basic')">
                         <div class="flex flex-col gap-1 mb-4">
                             <label for="name">{{ $t('name') }}</label>
@@ -101,10 +101,11 @@
                 <div class="flex justify-end gap-2">
                     <Button type="button" :label="$t('cancel')" severity="secondary" @click="$emit('close')"
                         raised></Button>
-                    <Button type="button" :label="$t('next')" @click="activeStep = '2'" raised></Button>
+                    <Button type="button" :label="$t('next')" @click="nextStep" raised></Button>
                 </div>
             </StepPanel>
             <StepPanel value="2">
+                <div class=" h-[480px]"> </div>
                 <div class="flex justify-end gap-2">
                     <Button type="button" :label="$t('cancel')" severity="secondary" @click="$emit('close')"
                         raised></Button>
@@ -130,6 +131,7 @@ import StepPanels from 'primevue/steppanels';
 import StepItem from 'primevue/stepitem';
 import Step from 'primevue/step';
 import StepPanel from 'primevue/steppanel';
+import Joi from "joi";
 
 import locale from "@/lang/ja.json"
 
@@ -163,8 +165,38 @@ const patientData = reactive({
     },
     insurance: [],
 })
+const errors = reactive ({
+    id: "",
+    name: "",
+    nameKana: "",
+    birthdate: "",
+    gender: "",
+    householderName: "",
+    relation: "",
+    occupation: "",
+    phone: "",
+    mail: "",
+    addresszip: "",
+    addressaddr: "",
+    companyname: "",
+    companyzip: "",
+    companyaddr: "",
+    companyphone: "",
+    insurance: "",
+})
 
-function commit() {
+const nextStep = () => {
+    if (activeStep === "1" && validateForm()) {
+        activeStep = "2"
+    } else if (activeStep === "2") {
+        activeStep = "3"
+    } else {
+
+    }
+
+}
+
+const validateForm = () => {
 
 }
 </script>
