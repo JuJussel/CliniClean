@@ -12,7 +12,7 @@
                     <Fieldset :legend="$t('basic')">
                         <div class="flex flex-col gap-1 mb-4">
                             <label for="name">{{ $t('name') }}</label>
-                            <InputText id="name" v-model="patientData.name" />
+                            <InputText id="name" v-model="patientData.name" :invalid="errors.name" />
                         </div>
                         <div class="flex flex-col gap-1 mb-4">
                             <label for="name">{{ $t('nameKana') }}</label>
@@ -101,7 +101,7 @@
                 <div class="flex justify-end gap-2">
                     <Button type="button" :label="$t('cancel')" severity="secondary" @click="$emit('close')"
                         raised></Button>
-                    <Button type="button" :label="$t('next')" @click="nextStep" raised></Button>
+                    <Button type="button" :label="$t('next')" @click="nextStep()" raised></Button>
                 </div>
             </StepPanel>
             <StepPanel value="2">
@@ -166,27 +166,27 @@ const patientData = reactive({
     insurance: [],
 })
 const errors = reactive ({
-    id: "",
-    name: "",
-    nameKana: "",
-    birthdate: "",
-    gender: "",
-    householderName: "",
-    relation: "",
-    occupation: "",
-    phone: "",
-    mail: "",
-    addresszip: "",
-    addressaddr: "",
-    companyname: "",
-    companyzip: "",
-    companyaddr: "",
-    companyphone: "",
-    insurance: "",
+    id: false,
+    name: false,
+    nameKana: false,
+    birthdate: false,
+    gender: false,
+    householderName: false,
+    relation: false,
+    occupation: false,
+    phone: false,
+    mail: false,
+    addresszip: false,
+    addressaddr: false,
+    companyname: false,
+    companyzip: false,
+    companyaddr: false,
+    companyphone: false,
+    insurance: false,
 })
 
-const nextStep = () => {
-    if (activeStep === "1" && validateForm()) {
+const nextStep = () => {    
+    if (activeStep.value === "1" && validateForm()) {
         activeStep = "2"
     } else if (activeStep === "2") {
         activeStep = "3"
@@ -197,6 +197,64 @@ const nextStep = () => {
 }
 
 const validateForm = () => {
+    console.log("checking");
+    
+            Object.keys(errors).forEach((key) => {
+                errors[key] = false;
+            });
+            const schema = Joi.object({
+                name: Joi.string().required(),
+                nameKana: Joi.string().required(),
+                birthdate: Joi.date().max("now").required(),
+                gender: Joi.number().required(),
+                householderName: Joi.string().allow(""),
+                relation: Joi.string().allow(""),
+                occupation: Joi.string().allow(""),
+                phone: Joi.string()
+                    .pattern(/^[0-9]*$/)
+                    .allow(""),
+                mail: Joi.string().email({ tlds: false }).allow(""),
+                address: Joi.object({
+                    zip: Joi.string()
+                        .pattern(/^[0-9]*$/)
+                        .allow(""),
+                    addr: Joi.string(),
+                }),
+                company: Joi.object({
+                    name: Joi.string().allow(""),
+                    zip: Joi.string()
+                        .pattern(/^[0-9]*$/)
+                        .allow(""),
+                    addr: Joi.string().allow(""),
+                    phone: Joi.string()
+                        .pattern(/^[0-9]*$/)
+                        .allow(""),
+                }),
+                insurance: Joi.array(),
+            });
+            try {
+                Joi.assert(patientData, schema, {
+                    abortEarly: false,
+                    allowUnknown: true,
+                    messages: locale.validationMessages,
+                });
+                return true
+            } catch (err) {                
+                err.details.forEach((e) => {
+                    let key = e.path[0];
+                    if (e.path.length > 1) {
+                        key = key + e.path[1];
+                    }
+                    errors[key] = null;
+                    setTimeout(
+                        function () {
+                            errors[key] = e.message;
+                        }, 50
+                    );
+                });
+                return false
+            }
+
 
 }
 </script>
