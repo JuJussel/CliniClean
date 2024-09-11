@@ -79,7 +79,7 @@ import useApi from '@/composables/apiComposable.js'
 import parseDate from '@/composables/dateComposable.js'
 import PatientInfo from './reception_patient_info.vue'
 import NewWalkin from './modals/reception_new_walkin.vue'
-import EditPatient from './modals/reception_edit_patient.vue'
+import EditPatient from './modals/reception_patient_new.vue'
 import NewReservation from './modals/reception_new_reservation.vue'
 
 const patientDataLoading = ref(false)
