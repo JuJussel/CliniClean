@@ -1,11 +1,16 @@
 <template>
     <div>
-        <div class="flex items-center gap-2 mb-4">
-            <ToggleSwitch id="isPublic" v-model="isPublic" />
-            <label for="isPublic">{{ $t('publicInsurance') }}</label>
-        </div>
-        <Fieldset :legend="$t('insurance')" v-if="!isPublic">
-            <div class="grid grid-cols-2 gap-6">
+        <Fieldset>
+            <template #legend>
+                <div class="flex  items-center gap-6">
+                    <div>{{ $t('insurance')+$t('register') }}</div>
+                    <div class="flex items-center gap-2">
+                        <ToggleSwitch id="isPublic" v-model="isPublic" />
+                        <label for="isPublic">{{ $t('publicInsurance') }}</label>
+                    </div>
+                </div>
+            </template>
+            <div class="grid grid-cols-4 gap-4" v-if="!isPublic">
                 <div class="flex flex-col gap-1 mb-4">
                     <div>
                         <label for="name">{{ $t('insuranceSymbol') }}</label>
@@ -22,9 +27,8 @@
                     </div>
                     <InputText id="name" v-model="newInsuranceData.number" :invalid="errors.number ? true : false" />
                 </div>
-                <div class="grid grid-cols-2 gap-2">
                     <div class="flex flex-col gap-1">
-                        <label for="name">{{ $t('householder') }}</label>
+                        <label for="name">{{ $t('insuranceInsuredName') }}</label>
                         <InputText id="name" v-model="newInsuranceData.insuredName" />
                     </div>
                     <div class="flex flex-col gap-1 mb-4">
@@ -32,7 +36,6 @@
                         <Select v-model="newInsuranceData.relation" :options="listStore.listData.relations"
                             optionLabel="name" />
                     </div>
-                </div>
                 <div class="flex flex-col gap-1 mb-4">
                     <div>
                         <label for="name">{{ $t('insuranceProviderNumber') }}</label>
@@ -73,7 +76,13 @@
                         showIcon :invalid="errors.validDate ? true : false" />
                 </div>
                 <div>
-                    File
+                    <FileUpload :multiple="true" mode="basic" @select="updateFiles" customUpload auto severity="secondary" class="p-button-outlined" />
+                    <DataView :value="filesRaw">
+                        <template #list="slotProps">
+                            <div v-for="(item, index) in slotProps.items" :key="index"> 
+                                {{ item[0].name }}</div>
+                        </template>
+                    </DataView>
                 </div>
             </div>
         </Fieldset>
@@ -90,6 +99,7 @@ import locale from "@/lang/ja.json"
 const listStore = useListStore()
 
 const isPublic = ref(false)
+const filesRaw = ref([])
 const newInsuranceData = reactive({
     symbol: "",
     number: "",
@@ -112,6 +122,12 @@ const errors = reactive({
     provider: "",
     recepient: "",
 })
+
+const updateFiles = (event) => {
+    console.log(event.files);
+        
+    filesRaw.value.push(event.files)
+}
 
 
 </script>
