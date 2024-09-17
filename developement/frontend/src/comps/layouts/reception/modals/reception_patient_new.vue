@@ -18,7 +18,7 @@
             <StepPanel value="2">
                 <div class=" h-[480px]">
                     <PatientDataInsuranceForm />
-                    <PatientDataInsuranceTable :insurances="[]" />
+                    <PatientDataInsuranceTable v-if="insurances.length > 0" :insurances="insurances" />
                 </div>
                 <div class="flex justify-end gap-2">
                     <Button type="button" :label="$t('cancel')" severity="secondary" @click="$emit('close')"
@@ -49,6 +49,7 @@ const emit = defineEmits(['close', 'commit'])
 
 const activeStep = ref("2")
 const patientDataBasicForm = ref(null)
+const insurances = ref([])
 
 const nextStep = () => {
 

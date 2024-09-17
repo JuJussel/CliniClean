@@ -3,7 +3,7 @@
         <Fieldset>
             <template #legend>
                 <div class="flex  items-center gap-6">
-                    <div>{{ $t('insurance')+$t('register') }}</div>
+                    <div>{{ $t('insurance') + $t('register') }}</div>
                     <div class="flex items-center gap-2">
                         <ToggleSwitch id="isPublic" v-model="isPublic" />
                         <label for="isPublic">{{ $t('publicInsurance') }}</label>
@@ -27,15 +27,15 @@
                     </div>
                     <InputText id="name" v-model="newInsuranceData.number" :invalid="errors.number ? true : false" />
                 </div>
-                    <div class="flex flex-col gap-1">
-                        <label for="name">{{ $t('insuranceInsuredName') }}</label>
-                        <InputText id="name" v-model="newInsuranceData.insuredName" />
-                    </div>
-                    <div class="flex flex-col gap-1 mb-4">
-                        <label for="name">{{ $t('relation') }}</label>
-                        <Select v-model="newInsuranceData.relation" :options="listStore.listData.relations"
-                            optionLabel="name" />
-                    </div>
+                <div class="flex flex-col gap-1">
+                    <label for="name">{{ $t('insuranceInsuredName') }}</label>
+                    <InputText id="name" v-model="newInsuranceData.insuredName" />
+                </div>
+                <div class="flex flex-col gap-1 mb-4">
+                    <label for="name">{{ $t('relation') }}</label>
+                    <Select v-model="newInsuranceData.relation" :options="listStore.listData.relations"
+                        optionLabel="name" />
+                </div>
                 <div class="flex flex-col gap-1 mb-4">
                     <div>
                         <label for="name">{{ $t('insuranceProviderNumber') }}</label>
@@ -75,12 +75,15 @@
                     <DatePicker id="validDate" v-model="newInsuranceData.validDate" :dateFormat="locale.dateFormat"
                         showIcon :invalid="errors.validDate ? true : false" />
                 </div>
-                <div>
-                    <FileUpload :multiple="true" mode="basic" @select="updateFiles" customUpload auto severity="secondary" class="p-button-outlined" />
+                <div class="flex gap-4 col-span-2">
+                    <FileUpload :multiple="true" mode="basic" @select="updateFiles" customUpload auto
+                        severity="secondary" class="p-button-outlined shrink-0" />
                     <DataView :value="filesRaw">
                         <template #list="slotProps">
-                            <div v-for="(item, index) in slotProps.items" :key="index"> 
-                                {{ item[0].name }}</div>
+                            <div v-for="(item, index) in slotProps.items" :key="index" class="flex gap-2 items-center">
+                                <i class="pi pi-file-arrow-up"></i>
+                                <div>{{ item[0].name }}</div>
+                            </div>
                         </template>
                     </DataView>
                 </div>
@@ -125,7 +128,7 @@ const errors = reactive({
 
 const updateFiles = (event) => {
     console.log(event.files);
-        
+
     filesRaw.value.push(event.files)
 }
 
