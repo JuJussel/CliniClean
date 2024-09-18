@@ -196,7 +196,7 @@ get.insuranceProvider = function (data, result) {
 
   sendRequest(route, "POST", requestData)
     .then((responseData) => {
-      if (validate(responseData, ["00"], "insprogetres")) {
+      if (validate(responseData, ["00", "15"], "insprogetres")) {
         responseData = responseData.insprogetres.TInsuranceProvider_Information.TInsuranceProvider_Information_child;
         result(null, responseData);
       } else {

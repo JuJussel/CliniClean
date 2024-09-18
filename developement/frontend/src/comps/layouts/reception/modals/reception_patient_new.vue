@@ -17,15 +17,14 @@
             </StepPanel>
             <StepPanel value="2">
                 <div class=" h-[480px]">
-                    <PatientDataInsuranceForm />
-                    <PatientDataInsuranceTable v-if="insurances.length > 0" :insurances="insurances" />
+                    <PatientDataInsuranceForm ref="insuranceForm" />
                 </div>
                 <div class="flex justify-end gap-2">
                     <Button type="button" :label="$t('cancel')" severity="secondary" @click="$emit('close')"
                         raised></Button>
                     <Button type="button" :label="$t('prev')" severity="secondary" @click="activeStep = '1'"
                         raised></Button>
-                    <Button type="button" :label="$t('next')" @click="activeStep = '3'" raised></Button>
+                    <Button type="button" :label="$t('next')" @click="nextStep" raised></Button>
                 </div>
             </StepPanel>
         </StepPanels>
@@ -43,20 +42,22 @@ import Step from 'primevue/step';
 import StepPanel from 'primevue/steppanel';
 import PatientDataBasicForm from '@/comps/shared/forms/patient_data_basic.vue'
 import PatientDataInsuranceForm from '@/comps/shared/forms/patient_data_insurance.vue'
-import PatientDataInsuranceTable from '@/comps/shared/tables/insurance_sets.vue'
 
 const emit = defineEmits(['close', 'commit'])
 
 const activeStep = ref("2")
 const patientDataBasicForm = ref(null)
-const insurances = ref([])
+const insuranceForm = ref(null)
+
 
 const nextStep = () => {
 
     if (activeStep.value === "1" && patientDataBasicForm.value.validateForm()) {
         activeStep.value = "2"
-    } else if (activeStep.value === "2") {
-        activeStep.value = "3"
+    } else if (activeStep.value === "2" && insuranceForm.value.validateForm()) {
+        console.log("OK");
+
+        activeStep.value = "2"
     } else {
 
     }

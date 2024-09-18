@@ -42,3 +42,8 @@ body {
     --p-menubar-item-color: white !important;
     --p-menubar-item-icon-color: white !important;
 }
+
+::selection {
+  background: var(--p-button-primary-background);
+  color: white
+}
