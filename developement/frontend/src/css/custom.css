@@ -47,3 +47,11 @@ body {
   background: var(--p-button-primary-background);
   color: white
 }
+
+.p-dialog-header {
+background-color: var(--p-gray-700);
+color: white;
+border-top-right-radius: var(--p-dialog-border-radius);
+border-top-left-radius: var(--p-dialog-border-radius);
+
+}

@@ -10,7 +10,37 @@
                     </div>
                 </div>
             </template>
-            <div class="grid grid-cols-4 gap-4" v-if="!isPublic">
+            <div class="grid grid-cols-4 gap-4" v-if="isPublic">
+                <div class="flex flex-col gap-1 mb-4">
+                    <div>
+                        <label for="name">{{ $t('publicInsuranceProvider') }}</label>
+                        <span v-if="errors.provider" class="ml-2 text-xs text-[var(--p-inputtext-invalid-border-color)]"
+                            id="name-help">{{ errors.provider }}</span>
+                    </div>
+                    <InputText id="name" v-model="newInsuranceData.provider"
+                        :invalid="errors.provider ? true : false" />
+                </div>
+                <div class="flex flex-col gap-1 mb-4">
+                    <div>
+                        <label for="name">{{ $t('publicInsuranceRecepient') }}</label>
+                        <span v-if="errors.recepient"
+                            class="ml-2 text-xs text-[var(--p-inputtext-invalid-border-color)]" id="name-help">{{
+                                errors.recepient }}</span>
+                    </div>
+                    <InputText id="name" v-model="newInsuranceData.recepient"
+                        :invalid="errors.recepient ? true : false" />
+                </div>
+                <div class="flex flex-col gap-1 mb-4">
+                    <div>
+                        <label for="getDate">{{ $t('validUntil') }}</label>
+                        <span v-if="errors.getDate" class="ml-2 text-xs text-[var(--p-inputtext-invalid-border-color)]"
+                            id="name-help">{{ errors.getDate }}</span>
+                    </div>
+                    <DatePicker id="getDate" v-model="newInsuranceData.validDate" :dateFormat="locale.dateFormat"
+                        showIcon selectionMode="range" :invalid="errors.getDate ? true : false" />
+                </div>
+            </div>
+            <div class="grid grid-cols-4 gap-4" v-else>
                 <div class="flex flex-col gap-1 mb-4">
                     <div>
                         <label for="name">{{ $t('insuranceSymbol') }}</label>
@@ -59,7 +89,7 @@
                                 errors.providerName }}</span>
                     </div>
                     <InputText id="name" v-model="newInsuranceData.providerName"
-                        :invalid="errors.providerName ? true : false" />
+                        :invalid="errors.providerName ? true : false" :disabled="insuranceNameLoading" />
                 </div>
                 <div class="flex flex-col gap-1 mb-4">
                     <div>
@@ -78,7 +108,7 @@
                                 errors.validDate }}</span>
                     </div>
                     <DatePicker id="validDate" v-model="newInsuranceData.validDate" :dateFormat="locale.dateFormat"
-                        showIcon :invalid="errors.validDate ? true : false" />
+                        showIcon selectionMode="range" :invalid="errors.validDate ? true : false" />
                 </div>
             </div>
         </Fieldset>
@@ -115,9 +145,11 @@ const newInsuranceData = reactive({
     relation: listStore.listData.relations[18],
     providerNumber: "",
     providerName: "",
-    getDate: "",
-    validDate: "",
-    files: []
+    getDate: null,
+    validDate: [],
+    files: [],
+    provider: "",
+    recepient: ""
 })
 const errors = reactive({
     insuredName: "",
@@ -207,14 +239,15 @@ const validateForm = () => {
 
 const getInsuranceName = async () => {
     clearTimeout(insuranceNameTimeout.value)
-    insuranceNameLoading.value = true;
     const number = newInsuranceData.providerNumber;
+    if (number === "") return
+    insuranceNameLoading.value = true;
     if (number.length === 6 || number.length === 8) {
         insuranceNameTimeout.value = setTimeout(async () => {
             insuranceNameLoading.value = true;
             const data = await useApi.get("lists/insuranceProviders?number=" + number)
             if (data.Insurance_Number_Name && data.InsuranceProvider_WholeName) {
-                newInsuranceData.value.providerName =
+                newInsuranceData.providerName =
                     data.Insurance_Number_Name +
                     " - " +
                     data.InsuranceProvider_WholeName;
