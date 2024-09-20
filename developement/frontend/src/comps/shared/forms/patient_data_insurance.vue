@@ -2,113 +2,207 @@
     <div>
         <Fieldset>
             <template #legend>
-                <div class="flex  items-center gap-6">
-                    <div>{{ $t('insurance') + $t('register') }}</div>
+                <div class="flex items-center gap-6">
+                    <div>{{ $t("insurance") + $t("register") }}</div>
                     <div class="flex items-center gap-2">
                         <ToggleSwitch id="isPublic" v-model="isPublic" />
-                        <label for="isPublic">{{ $t('publicInsurance') }}</label>
+                        <label for="isPublic">{{
+                            $t("publicInsurance")
+                        }}</label>
                     </div>
                 </div>
             </template>
             <div class="grid grid-cols-4 gap-4" v-if="isPublic">
                 <div class="flex flex-col gap-1 mb-4">
                     <div>
-                        <label for="name">{{ $t('publicInsuranceProvider') }}</label>
-                        <span v-if="errors.provider" class="ml-2 text-xs text-[var(--p-inputtext-invalid-border-color)]"
-                            id="name-help">{{ errors.provider }}</span>
+                        <label for="name">{{
+                            $t("publicInsuranceProvider")
+                        }}</label>
+                        <span
+                            v-if="errors.provider"
+                            class="ml-2 text-xs text-[var(--p-inputtext-invalid-border-color)]"
+                            id="name-help"
+                            >{{ errors.provider }}</span
+                        >
                     </div>
-                    <InputText id="name" v-model="newInsuranceData.provider"
-                        :invalid="errors.provider ? true : false" />
+                    <InputText
+                        id="name"
+                        v-model="newInsuranceData.provider"
+                        :invalid="errors.provider ? true : false"
+                    />
                 </div>
                 <div class="flex flex-col gap-1 mb-4">
                     <div>
-                        <label for="name">{{ $t('publicInsuranceRecepient') }}</label>
-                        <span v-if="errors.recepient"
-                            class="ml-2 text-xs text-[var(--p-inputtext-invalid-border-color)]" id="name-help">{{
-                                errors.recepient }}</span>
+                        <label for="name">{{
+                            $t("publicInsuranceRecepient")
+                        }}</label>
+                        <span
+                            v-if="errors.recepient"
+                            class="ml-2 text-xs text-[var(--p-inputtext-invalid-border-color)]"
+                            id="name-help"
+                            >{{ errors.recepient }}</span
+                        >
                     </div>
-                    <InputText id="name" v-model="newInsuranceData.recepient"
-                        :invalid="errors.recepient ? true : false" />
+                    <InputText
+                        id="name"
+                        v-model="newInsuranceData.recepient"
+                        :invalid="errors.recepient ? true : false"
+                    />
                 </div>
                 <div class="flex flex-col gap-1 mb-4">
                     <div>
-                        <label for="getDate">{{ $t('validUntil') }}</label>
-                        <span v-if="errors.getDate" class="ml-2 text-xs text-[var(--p-inputtext-invalid-border-color)]"
-                            id="name-help">{{ errors.getDate }}</span>
+                        <label for="getDate">{{ $t("validUntil") }}</label>
+                        <span
+                            v-if="errors.getDate"
+                            class="ml-2 text-xs text-[var(--p-inputtext-invalid-border-color)]"
+                            id="name-help"
+                            >{{ errors.getDate }}</span
+                        >
                     </div>
-                    <DatePicker id="getDate" v-model="newInsuranceData.validDate" :dateFormat="locale.dateFormat"
-                        showIcon selectionMode="range" :invalid="errors.getDate ? true : false" />
+                    <DatePicker
+                        id="getDate"
+                        v-model="newInsuranceData.validDate"
+                        :dateFormat="locale.dateFormat"
+                        showIcon
+                        selectionMode="range"
+                        :invalid="errors.getDate ? true : false"
+                    />
                 </div>
             </div>
             <div class="grid grid-cols-4 gap-4" v-else>
                 <div class="flex flex-col gap-1 mb-4">
                     <div>
-                        <label for="name">{{ $t('insuranceSymbol') }}</label>
-                        <span v-if="errors.symbol" class="ml-2 text-xs text-[var(--p-inputtext-invalid-border-color)]"
-                            id="name-help">{{ errors.symbol }}</span>
+                        <label for="name">{{ $t("insuranceSymbol") }}</label>
+                        <span
+                            v-if="errors.symbol"
+                            class="ml-2 text-xs text-[var(--p-inputtext-invalid-border-color)]"
+                            id="name-help"
+                            >{{ errors.symbol }}</span
+                        >
                     </div>
-                    <InputText id="name" v-model="newInsuranceData.symbol" :invalid="errors.symbol ? true : false" />
+                    <InputText
+                        id="name"
+                        v-model="newInsuranceData.symbol"
+                        :invalid="errors.symbol ? true : false"
+                    />
                 </div>
                 <div class="flex flex-col gap-1 mb-4">
                     <div>
-                        <label for="name">{{ $t('insuranceNumber') }}</label>
-                        <span v-if="errors.number" class="ml-2 text-xs text-[var(--p-inputtext-invalid-border-color)]"
-                            id="name-help">{{ errors.number }}</span>
+                        <label for="name">{{ $t("insuranceNumber") }}</label>
+                        <span
+                            v-if="errors.number"
+                            class="ml-2 text-xs text-[var(--p-inputtext-invalid-border-color)]"
+                            id="name-help"
+                            >{{ errors.number }}</span
+                        >
                     </div>
-                    <InputText id="name" v-model="newInsuranceData.number" :invalid="errors.number ? true : false" />
+                    <InputText
+                        id="name"
+                        v-model="newInsuranceData.number"
+                        :invalid="errors.number ? true : false"
+                    />
                 </div>
                 <div class="flex flex-col gap-1">
                     <div>
-                        <label for="name">{{ $t('insuranceInsuredName') }}</label>
-                        <span v-if="errors.insuredName"
-                            class="ml-2 text-xs text-[var(--p-inputtext-invalid-border-color)]" id="name-help">{{
-                                errors.insuredName }}</span>
+                        <label for="name">{{
+                            $t("insuranceInsuredName")
+                        }}</label>
+                        <span
+                            v-if="errors.insuredName"
+                            class="ml-2 text-xs text-[var(--p-inputtext-invalid-border-color)]"
+                            id="name-help"
+                            >{{ errors.insuredName }}</span
+                        >
                     </div>
-                    <InputText id="name" v-model="newInsuranceData.insuredName" />
+                    <InputText
+                        id="name"
+                        v-model="newInsuranceData.insuredName"
+                    />
                 </div>
                 <div class="flex flex-col gap-1 mb-4">
-                    <label for="name">{{ $t('relation') }}</label>
-                    <Select v-model="newInsuranceData.relation" :options="listStore.listData.relations"
-                        optionLabel="name" />
-                </div>
-                <div class="flex flex-col gap-1 mb-4">
-                    <div>
-                        <label for="name">{{ $t('insuranceProviderNumber') }}</label>
-                        <span v-if="errors.providerNumber"
-                            class="ml-2 text-xs text-[var(--p-inputtext-invalid-border-color)]" id="name-help">{{
-                                errors.providerNumber }}</span>
-                    </div>
-                    <InputText id="name" v-model="newInsuranceData.providerNumber"
-                        :invalid="errors.providerNumber ? true : false" @update:modelValue="getInsuranceName" />
-                </div>
-                <div class="flex flex-col gap-1 mb-4">
-                    <div>
-                        <label for="name">{{ $t('insuranceProviderName') }}</label>
-                        <span v-if="errors.providerName"
-                            class="ml-2 text-xs text-[var(--p-inputtext-invalid-border-color)]" id="name-help">{{
-                                errors.providerName }}</span>
-                    </div>
-                    <InputText id="name" v-model="newInsuranceData.providerName"
-                        :invalid="errors.providerName ? true : false" :disabled="insuranceNameLoading" />
+                    <label for="name">{{ $t("relation") }}</label>
+                    <Select
+                        v-model="newInsuranceData.relation"
+                        :options="listStore.listData.relations"
+                        optionLabel="name"
+                    />
                 </div>
                 <div class="flex flex-col gap-1 mb-4">
                     <div>
-                        <label for="getDate">{{ $t('insuranceGetDate') }}</label>
-                        <span v-if="errors.getDate" class="ml-2 text-xs text-[var(--p-inputtext-invalid-border-color)]"
-                            id="name-help">{{ errors.getDate }}</span>
+                        <label for="name">{{
+                            $t("insuranceProviderNumber")
+                        }}</label>
+                        <span
+                            v-if="errors.providerNumber"
+                            class="ml-2 text-xs text-[var(--p-inputtext-invalid-border-color)]"
+                            id="name-help"
+                            >{{ errors.providerNumber }}</span
+                        >
                     </div>
-                    <DatePicker id="getDate" v-model="newInsuranceData.getDate" :dateFormat="locale.dateFormat" showIcon
-                        :invalid="errors.getDate ? true : false" />
+                    <InputText
+                        id="name"
+                        v-model="newInsuranceData.providerNumber"
+                        :invalid="errors.providerNumber ? true : false"
+                        @update:modelValue="getInsuranceName"
+                    />
                 </div>
                 <div class="flex flex-col gap-1 mb-4">
                     <div>
-                        <label for="validDate">{{ $t('validUntil') }}</label>
-                        <span v-if="errors.validDate"
-                            class="ml-2 text-xs text-[var(--p-inputtext-invalid-border-color)]" id="name-help">{{
-                                errors.validDate }}</span>
+                        <label for="name">{{
+                            $t("insuranceProviderName")
+                        }}</label>
+                        <span
+                            v-if="errors.providerName"
+                            class="ml-2 text-xs text-[var(--p-inputtext-invalid-border-color)]"
+                            id="name-help"
+                            >{{ errors.providerName }}</span
+                        >
                     </div>
-                    <DatePicker id="validDate" v-model="newInsuranceData.validDate" :dateFormat="locale.dateFormat"
-                        showIcon selectionMode="range" :invalid="errors.validDate ? true : false" />
+                    <InputText
+                        id="name"
+                        v-model="newInsuranceData.providerName"
+                        :invalid="errors.providerName ? true : false"
+                        :disabled="insuranceNameLoading"
+                    />
+                </div>
+                <div class="flex flex-col gap-1 mb-4">
+                    <div>
+                        <label for="getDate">{{
+                            $t("insuranceGetDate")
+                        }}</label>
+                        <span
+                            v-if="errors.getDate"
+                            class="ml-2 text-xs text-[var(--p-inputtext-invalid-border-color)]"
+                            id="name-help"
+                            >{{ errors.getDate }}</span
+                        >
+                    </div>
+                    <DatePicker
+                        id="getDate"
+                        v-model="newInsuranceData.getDate"
+                        :dateFormat="locale.dateFormat"
+                        showIcon
+                        :invalid="errors.getDate ? true : false"
+                    />
+                </div>
+                <div class="flex flex-col gap-1 mb-4">
+                    <div>
+                        <label for="validDate">{{ $t("validUntil") }}</label>
+                        <span
+                            v-if="errors.validDate"
+                            class="ml-2 text-xs text-[var(--p-inputtext-invalid-border-color)]"
+                            id="name-help"
+                            >{{ errors.validDate }}</span
+                        >
+                    </div>
+                    <DatePicker
+                        id="validDate"
+                        v-model="newInsuranceData.validDate"
+                        :dateFormat="locale.dateFormat"
+                        showIcon
+                        selectionMode="range"
+                        :invalid="errors.validDate ? true : false"
+                    />
                 </div>
             </div>
         </Fieldset>
@@ -121,22 +215,20 @@
 </template>
 
 <script setup>
-import FileUploadList from '@/comps/shared/forms/file_upload_list.vue'
-import ToggleSwitch from 'primevue/toggleswitch';
-import DatePicker from 'primevue/datepicker';
-import Select from 'primevue/select';
+import FileUploadList from "@/comps/shared/forms/file_upload_list.vue";
+import ToggleSwitch from "primevue/toggleswitch";
+import DatePicker from "primevue/datepicker";
+import Select from "primevue/select";
 import Joi from "joi";
-import locale from "@/lang/ja.json"
-import useApi from "@/composables/apiComposable.js"
+import locale from "@/lang/ja.json";
+import useApi from "@/composables/apiComposable.js";
 
+const listStore = useListStore();
+const fileUpload = ref(null);
 
-const listStore = useListStore()
-const fileUpload = ref(null)
-
-
-const isPublic = ref(false)
-const insuranceNameLoading = ref(false)
-const insuranceNameTimeout = ref(null)
+const isPublic = ref(false);
+const insuranceNameLoading = ref(false);
+const insuranceNameTimeout = ref(null);
 
 const newInsuranceData = reactive({
     symbol: "",
@@ -149,8 +241,8 @@ const newInsuranceData = reactive({
     validDate: [],
     files: [],
     provider: "",
-    recepient: ""
-})
+    recepient: "",
+});
 const errors = reactive({
     insuredName: "",
     symbol: "",
@@ -163,15 +255,14 @@ const errors = reactive({
     provider: "",
     recepient: "",
     provider: "",
-    recepient: ""
-})
+    recepient: "",
+});
 
 const validateForm = () => {
-
     Object.keys(errors).forEach((key) => {
         errors[key] = false;
     });
-    newInsuranceData.files = fileUpload.value.filesRaw
+    newInsuranceData.files = fileUpload.value.filesRaw;
     console.log(newInsuranceData);
 
     let schema = Joi.object({
@@ -219,7 +310,7 @@ const validateForm = () => {
             allowUnknown: true,
             messages: locale.validationMessages,
         });
-        return true
+        return true;
     } catch (err) {
         err.details.forEach((e) => {
             let key = e.path[0];
@@ -227,35 +318,38 @@ const validateForm = () => {
                 key = key + e.path[1];
             }
             errors[key] = null;
-            setTimeout(
-                function () {
-                    errors[key] = e.message;
-                }, 50
-            );
+            setTimeout(function () {
+                errors[key] = e.message;
+            }, 50);
         });
-        return false
+        return false;
     }
-}
+};
 
 const getInsuranceName = async () => {
-    clearTimeout(insuranceNameTimeout.value)
+    clearTimeout(insuranceNameTimeout.value);
     const number = newInsuranceData.providerNumber;
-    if (number === "") return
+    if (number === "") return;
     insuranceNameLoading.value = true;
     if (number.length === 6 || number.length === 8) {
         insuranceNameTimeout.value = setTimeout(async () => {
             insuranceNameLoading.value = true;
-            const data = await useApi.get("lists/insuranceProviders?number=" + number)
-            if (data.Insurance_Number_Name && data.InsuranceProvider_WholeName) {
+            const data = await useApi.get(
+                "lists/insuranceProviders?number=" + number
+            );
+            if (
+                data.Insurance_Number_Name &&
+                data.InsuranceProvider_WholeName
+            ) {
                 newInsuranceData.providerName =
                     data.Insurance_Number_Name +
                     " - " +
                     data.InsuranceProvider_WholeName;
             }
             insuranceNameLoading.value = false;
-        }, 1000)
+        }, 1000);
     }
-}
+};
 
 const checkInsuranceNumber = (value, helpers) => {
     if (value.length != 8 && value.length != 6) {
@@ -288,13 +382,7 @@ const checkInsuranceNumber = (value, helpers) => {
     var x8 = ns[7];
     if (x8 !== "") {
         var check =
-            x1 * 1 +
-            x2 * 1 +
-            x3 * 1 +
-            x4 * 1 +
-            x5 * 1 +
-            x6 * 1 +
-            x7 * 1;
+            x1 * 1 + x2 * 1 + x3 * 1 + x4 * 1 + x5 * 1 + x6 * 1 + x7 * 1;
         var check_str = check.toString();
         var check_pos = check_str.length - 1;
         var check_number = 10 - check_str[check_pos];
@@ -308,7 +396,7 @@ const checkInsuranceNumber = (value, helpers) => {
     } else {
         return value;
     }
-}
+};
 
 const checkProvider = (data, helpers) => {
     let check_number = 0;
@@ -339,13 +427,7 @@ const checkProvider = (data, helpers) => {
     var x8 = ns[7];
     if (x8 !== "") {
         var check =
-            x1 * 1 +
-            x2 * 1 +
-            x3 * 1 +
-            x4 * 1 +
-            x5 * 1 +
-            x6 * 1 +
-            x7 * 1;
+            x1 * 1 + x2 * 1 + x3 * 1 + x4 * 1 + x5 * 1 + x6 * 1 + x7 * 1;
         var check_str = check.toString();
         var check_pos = check_str.length - 1;
         check_number = 10 - check_str[check_pos];
@@ -358,7 +440,7 @@ const checkProvider = (data, helpers) => {
     } else {
         return data;
     }
-}
+};
 
 const checkRecepient = (data, helpers) => {
     let check_number = 0;
@@ -397,10 +479,10 @@ const checkRecepient = (data, helpers) => {
     } else {
         return data;
     }
-}
+};
 
 defineExpose({
-    validateForm
-})
-
+    validateForm,
+    newInsuranceData,
+});
 </script>
