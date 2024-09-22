@@ -220,8 +220,8 @@ import ToggleSwitch from "primevue/toggleswitch";
 import DatePicker from "primevue/datepicker";
 import Select from "primevue/select";
 import Joi from "joi";
-import locale from "@/lang/ja.json";
 import useApi from "@/composables/apiComposable.js";
+const { locale } = useI18n();
 
 const listStore = useListStore();
 const fileUpload = ref(null);

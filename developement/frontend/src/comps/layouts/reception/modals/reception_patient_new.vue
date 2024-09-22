@@ -58,7 +58,7 @@
                 <div class="h-[480px]">
                     <PatientInfo
                         v-if="activeStep === '3'"
-                        :patientData="patientDataBasicForm.patientData"
+                        :patientDataBasic="patientDataBasicForm.patientData"
                     />
                 </div>
                 <div class="flex justify-end gap-2">

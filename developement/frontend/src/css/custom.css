@@ -34,24 +34,24 @@ body {
     flex-direction: column;
     margin-bottom: 10px;
 }
-/* Menu bar customization */
+/* Customization */
 :root {
     --p-menubar-background: var(--p-gray-700) !important;
     --p-menubar-border-color: var(--p-gray-700) !important;
     --p-menubar-border-radius: 0 !important;
     --p-menubar-item-color: white !important;
     --p-menubar-item-icon-color: white !important;
+    --p-tag-contrast-background: var(--p-gray-700) !important;
 }
 
 ::selection {
-  background: var(--p-button-primary-background);
-  color: white
+    background: var(--p-button-primary-background);
+    color: white;
 }
 
 .p-dialog-header {
-background-color: var(--p-gray-700);
-color: white;
-border-top-right-radius: var(--p-dialog-border-radius);
-border-top-left-radius: var(--p-dialog-border-radius);
-
+    background-color: var(--p-gray-700);
+    color: white;
+    border-top-right-radius: var(--p-dialog-border-radius);
+    border-top-left-radius: var(--p-dialog-border-radius);
 }
