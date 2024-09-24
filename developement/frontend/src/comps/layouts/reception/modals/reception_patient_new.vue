@@ -7,24 +7,11 @@
         </StepList>
         <StepPanels class="!pb-0">
             <StepPanel value="1">
-                <PatientDataBasicForm
-                    ref="patientDataBasicForm"
-                    class="h-[480px]"
-                />
+                <PatientDataBasicForm ref="patientDataBasicForm" class="h-[480px]" />
                 <div class="flex justify-end gap-2">
-                    <Button
-                        type="button"
-                        :label="$t('cancel')"
-                        severity="secondary"
-                        @click="$emit('close')"
-                        text
-                    ></Button>
-                    <Button
-                        type="button"
-                        :label="$t('next')"
-                        @click="nextStep()"
-                        raised
-                    ></Button>
+                    <Button type="button" :label="$t('cancel')" severity="secondary" @click="$emit('close')"
+                        text></Button>
+                    <Button type="button" :label="$t('next')" @click="nextStep()" raised></Button>
                 </div>
             </StepPanel>
             <StepPanel value="2">
@@ -32,56 +19,24 @@
                     <PatientDataInsuranceForm ref="insuranceForm" />
                 </div>
                 <div class="flex justify-end gap-2">
-                    <Button
-                        type="button"
-                        :label="$t('cancel')"
-                        severity="secondary"
-                        @click="$emit('close')"
-                        text
-                    ></Button>
-                    <Button
-                        type="button"
-                        :label="$t('prev')"
-                        severity="secondary"
-                        @click="activeStep = '1'"
-                        raised
-                    ></Button>
-                    <Button
-                        type="button"
-                        :label="$t('next')"
-                        @click="nextStep"
-                        raised
-                    ></Button>
+                    <Button type="button" :label="$t('cancel')" severity="secondary" @click="$emit('close')"
+                        text></Button>
+                    <Button type="button" :label="$t('prev')" severity="secondary" @click="activeStep = '1'"
+                        raised></Button>
+                    <Button type="button" :label="$t('next')" @click="nextStep" raised></Button>
                 </div>
             </StepPanel>
             <StepPanel value="3">
-                <div class="h-[480px]">
-                    <PatientInfo
-                        v-if="activeStep === '3'"
-                        :patientDataBasic="patientDataBasicForm.patientData"
-                    />
+                <div v-if="activeStep === '3'" class=" h-[480px] grid grid-cols-3 gap-2">
+                    <PatientInfo :patientDataBasic="patientDataBasicForm.patientData" />
+
                 </div>
                 <div class="flex justify-end gap-2">
-                    <Button
-                        type="button"
-                        :label="$t('cancel')"
-                        severity="secondary"
-                        @click="$emit('close')"
-                        text
-                    ></Button>
-                    <Button
-                        type="button"
-                        :label="$t('prev')"
-                        severity="secondary"
-                        @click="activeStep = '2'"
-                        raised
-                    ></Button>
-                    <Button
-                        type="button"
-                        :label="$t('next')"
-                        @click="nextStep"
-                        raised
-                    ></Button>
+                    <Button type="button" :label="$t('cancel')" severity="secondary" @click="$emit('close')"
+                        text></Button>
+                    <Button type="button" :label="$t('prev')" severity="secondary" @click="activeStep = '2'"
+                        raised></Button>
+                    <Button type="button" :label="$t('next')" @click="nextStep" raised></Button>
                 </div>
             </StepPanel>
         </StepPanels>
@@ -97,6 +52,7 @@ import StepPanel from "primevue/steppanel";
 import PatientDataBasicForm from "@/comps/shared/forms/patient_data_basic.vue";
 import PatientDataInsuranceForm from "@/comps/shared/forms/patient_data_insurance.vue";
 import PatientInfo from "@/comps/shared/patient_info_basic.vue";
+import PatientInsuranceView from "@/comps/shared/insurance_info.vue"
 
 const emit = defineEmits(["close", "commit"]);
 
