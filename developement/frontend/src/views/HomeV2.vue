@@ -4,9 +4,9 @@
         <Menubar :model="menuItems">
             <template #end>
                 <Chip :label="userStore.fullName" :image="avatarUrl" @click="toggleUserMenu" class="cursor-pointer" />
-                <OverlayPanel ref="userMenu">
+                <Popover ref="userMenu">
                     <Button label="Profile" icon="pi pi-user" severity="secondary" size="small" />
-                </OverlayPanel>
+                </Popover>
             </template>
         </Menubar>
         <main class="grow mt-2 overflow-hidden p-2">
@@ -22,6 +22,7 @@
 import reception from '@/comps/layouts/reception'
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
+import Popover from 'primevue/popover';
 
 const toast = useToast();
 const { t } = useI18n({})

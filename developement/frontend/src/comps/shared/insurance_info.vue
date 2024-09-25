@@ -25,8 +25,8 @@
             </tag>
         </div>
     </div>
-    <div v-else>
-        <div class="flex p-1 gap-2">
+    <div v-else class="grid grid-cols-4">
+        <div class="flex p-1 gap-2 h-10">
             <div class="w-20 leading-8 text-right text-xs text-[var(--p-button-text-secondary-color)]">
                 {{ $t("insuranceSymbol") }}
             </div>
@@ -47,7 +47,7 @@
                 {{ $t("insuranceInsuredName") }}
             </div>
             <tag severity="contrast">
-                {{ insurance.insuredName + " - " + insurance.relation }}
+                {{ insurance.insuredName + " - " + insurance.relation.name }}
             </tag>
         </div>
         <div class="flex p-1 gap-2">
@@ -58,7 +58,7 @@
                 {{ insurance.providerNumber }}
             </tag>
         </div>
-        <div class="flex p-1 gap-2">
+        <div class="flex p-1 gap-2 h-10">
             <div class="w-20 leading-8 text-right text-xs text-[var(--p-button-text-secondary-color)]">
                 {{ $t("insuranceProviderName") }}
             </div>
@@ -71,16 +71,16 @@
                 {{ $t("insuranceGetDate") }}
             </div>
             <tag severity="contrast">
-                {{ insurance.getDate }}
+                {{ parseDate(insurance.getDate) }}
             </tag>
         </div>
 
-        <div class="flex p-1 gap-2">
+        <div class="flex p-1 gap-2 col-span-2">
             <div class="w-20 leading-8 text-right text-xs text-[var(--p-button-text-secondary-color)]">
                 {{ $t("validUntil") }}
             </div>
             <tag severity="contrast">
-                {{ insurance.validDate }}
+                {{ parseDate(insurance.validDate[0]) + " - " + parseDate(insurance.validDate[1]) }}
             </tag>
         </div>
 
@@ -89,6 +89,7 @@
 </template>
 
 <script setup>
+import parseDate from "@/composables/dateComposable.js";
 
 const props = defineProps(['insurance'])
 

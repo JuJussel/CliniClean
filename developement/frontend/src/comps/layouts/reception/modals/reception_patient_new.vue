@@ -15,28 +15,32 @@
                 </div>
             </StepPanel>
             <StepPanel value="2">
-                <div class="h-[480px]">
-                    <PatientDataInsuranceForm ref="insuranceForm" />
+                <div class="h-[480px]" v-if="insuranceReady">
+                    <PatientDataInsuranceForm ref="insuranceForm" :patient="patientDataBasicForm.patientData" />
                 </div>
                 <div class="flex justify-end gap-2">
                     <Button type="button" :label="$t('cancel')" severity="secondary" @click="$emit('close')"
                         text></Button>
+                    <Button type="button" :label="$t('skip')" severity="secondary" @click="nextStep(true)"
+                        text></Button>
                     <Button type="button" :label="$t('prev')" severity="secondary" @click="activeStep = '1'"
                         raised></Button>
-                    <Button type="button" :label="$t('next')" @click="nextStep" raised></Button>
+                    <Button type="button" :label="$t('next')" @click="nextStep()" raised></Button>
                 </div>
             </StepPanel>
             <StepPanel value="3">
-                <div v-if="activeStep === '3'" class=" h-[480px] grid grid-cols-3 gap-2">
+                <div v-if="activeStep === '3'" class=" h-[480px] grid grid-cols-3  gap-2">
                     <PatientInfo :patientDataBasic="patientDataBasicForm.patientData" />
-
+                    <Fieldset v-if="!insuranceSkipped" :legend="$t('insurance')" class="col-span-3 h-36">
+                        <PatientInsuranceView :insurance="insuranceForm.newInsuranceData" />
+                    </Fieldset>
                 </div>
                 <div class="flex justify-end gap-2">
                     <Button type="button" :label="$t('cancel')" severity="secondary" @click="$emit('close')"
                         text></Button>
                     <Button type="button" :label="$t('prev')" severity="secondary" @click="activeStep = '2'"
                         raised></Button>
-                    <Button type="button" :label="$t('next')" @click="nextStep" raised></Button>
+                    <Button type="button" :label="$t('register')" @click="submit" raised></Button>
                 </div>
             </StepPanel>
         </StepPanels>
@@ -59,13 +63,25 @@ const emit = defineEmits(["close", "commit"]);
 const activeStep = ref("1");
 const patientDataBasicForm = ref(null);
 const insuranceForm = ref(null);
+const insuranceSkipped = ref(false)
+const insuranceReady = ref(false)
 
-const nextStep = () => {
-    if (activeStep.value === "1" && patientDataBasicForm.value.validateForm()) {
+const nextStep = (skipInsurance = false) => {
+    if (skipInsurance) {
+        insuranceSkipped.value = true
         activeStep.value = "3";
+    }
+    if (activeStep.value === "1" && patientDataBasicForm.value.validateForm()) {
+        insuranceReady.value = true
+        activeStep.value = "2";
     } else if (activeStep.value === "2" && insuranceForm.value.validateForm()) {
+        insuranceSkipped.value = false
         activeStep.value = "3";
     } else {
     }
-};
+}
+
+const submit = () => {
+
+}
 </script>

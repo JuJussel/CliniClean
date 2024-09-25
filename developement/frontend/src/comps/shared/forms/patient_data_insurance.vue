@@ -72,7 +72,8 @@
                             class="ml-2 text-xs text-[var(--p-inputtext-invalid-border-color)]" id="name-help">{{
                                 errors.insuredName }}</span>
                     </div>
-                    <InputText id="name" v-model="newInsuranceData.insuredName" />
+                    <InputText :disabled="newInsuranceData.relation.name === '本人'" id="name"
+                        v-model="newInsuranceData.insuredName" />
                 </div>
                 <div class="flex flex-col gap-1 mb-4">
                     <label for="name">{{ $t("relation") }}</label>
@@ -142,6 +143,7 @@ import Select from "primevue/select";
 import Joi from "joi";
 import useApi from "@/composables/apiComposable.js";
 import locale from "@/lang/ja.json";
+import { watch } from "vue";
 
 
 const listStore = useListStore();
@@ -150,16 +152,18 @@ const fileUpload = ref(null);
 const insuranceNameLoading = ref(false);
 const insuranceNameTimeout = ref(null);
 
+const props = defineProps(['patient'])
+
 const newInsuranceData = reactive({
     isPublic: false,
-    symbol: "",
-    number: "",
-    insuredName: "",
+    symbol: "12345676",
+    number: "12345676",
+    insuredName: props.patient.name,
     relation: listStore.listData.relations[18],
-    providerNumber: "",
-    providerName: "",
-    getDate: null,
-    validDate: [],
+    providerNumber: "39082144",
+    providerName: "Provider Name",
+    getDate: "2024-09-24T00:00:00.000",
+    validDate: ["2024-09-24T00:00:00.000", "2024-09-30T00:00:00.000"],
     files: [],
     provider: "",
     recepient: "",
@@ -178,6 +182,12 @@ const errors = reactive({
     provider: "",
     recepient: "",
 });
+
+
+watch(newInsuranceData, () => {
+    console.log("change");
+    newInsuranceData.relation.name === '本人' ? newInsuranceData.insuredName = props.patient.name : newInsuranceData.insuredName = ""
+})
 
 const validateForm = () => {
     Object.keys(errors).forEach((key) => {
