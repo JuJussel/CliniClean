@@ -1,7 +1,7 @@
 <template>
-    <div v-if="insurance.isPublic">
-        <div class="flex p-1 gap-2">
-            <div class="w-20 leading-8 text-right text-xs text-[var(--p-button-text-secondary-color)]">
+    <div v-if="insurance.isPublic" class="grid grid-cols-4">
+        <div class=" flex p-1 gap-2">
+            <div class="w-25 leading-8 text-right text-xs text-[var(--p-button-text-secondary-color)]">
                 {{ $t("publicInsuranceProvider") }}
             </div>
             <tag severity="contrast">
@@ -9,19 +9,19 @@
             </tag>
         </div>
         <div class="flex p-1 gap-2">
-            <div class="w-20 leading-8 text-right text-xs text-[var(--p-button-text-secondary-color)]">
+            <div class="w-25 leading-8 text-right text-xs text-[var(--p-button-text-secondary-color)]">
                 {{ $t("publicInsuranceRecepient") }}
             </div>
             <tag severity="contrast">
                 {{ insurance.recepient }}
             </tag>
         </div>
-        <div class="flex p-1 gap-2">
-            <div class="w-20 leading-8 text-right text-xs text-[var(--p-button-text-secondary-color)]">
+        <div class="flex p-1 gap-2 col-span-2">
+            <div class="w-25 leading-8 text-right text-xs text-[var(--p-button-text-secondary-color)]">
                 {{ $t("validUntil") }}
             </div>
             <tag severity="contrast">
-                {{ insurance.validDate }}
+                {{ parseDate(insurance.validDate[0]) + " - " + parseDate(insurance.validDate[1]) }}
             </tag>
         </div>
     </div>
