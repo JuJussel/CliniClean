@@ -33,7 +33,7 @@
     </BlockUI>
     <div class="flex justify-end gap-2">
         <Button type="button" :label="$t('cancel')" severity="secondary" @click="$emit('close')" :disabled="uiLoading"
-            raised></Button>
+            text></Button>
         <Button type="button" :label="$t('save')" @click="commit()" :disabled="uiLoading || !inputOK" raised></Button>
     </div>
 

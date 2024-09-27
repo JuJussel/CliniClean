@@ -314,6 +314,7 @@ post.patient = async function (data, result) {
   data.name = japUtils.toFullwidth(data.name);
   data.nameKana = japUtils.toFullwidth(data.nameKana);
   data.householderName = japUtils.toFullwidth(data.householderName);
+  data.relation = japUtils.toFullwidth(data.relation.name)
 
   const requestData = {
     data: {

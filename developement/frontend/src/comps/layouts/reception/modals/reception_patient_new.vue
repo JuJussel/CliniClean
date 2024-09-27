@@ -28,20 +28,24 @@
                     <Button type="button" :label="$t('next')" @click="nextStep()" raised></Button>
                 </div>
             </StepPanel>
-            <StepPanel value="3">
-                <div v-if="activeStep === '3'" class=" h-[480px] grid grid-cols-3  gap-2">
-                    <PatientInfo :patientDataBasic="patientDataBasicForm.patientData" />
-                    <Fieldset v-if="!insuranceSkipped" :legend="$t('insurance')" class="col-span-3 h-36">
-                        <PatientInsuranceView :insurance="insuranceForm.newInsuranceData" />
-                    </Fieldset>
-                </div>
-                <div class="flex justify-end gap-2">
-                    <Button type="button" :label="$t('cancel')" severity="secondary" @click="$emit('close')"
-                        text></Button>
-                    <Button type="button" :label="$t('prev')" severity="secondary" @click="activeStep = '2'"
-                        raised></Button>
-                    <Button type="button" :label="$t('register')" @click="submit" raised></Button>
-                </div>
+            <StepPanel value="3" class="flex items-center justify-center">
+                <ProgressSpinner v-if="loading" class="!absolute z-[10000] !w-[150px] !h-[150px]" />
+                <BlockUI :blocked="loading" class="grow">
+                    <div v-if="activeStep === '3'" class=" h-[480px] grid grid-cols-3 -1 gap-2">
+                        <PatientInfo :patientDataBasic="patientDataBasicForm.patientData" />
+                        <Fieldset v-if="!insuranceSkipped" :legend="$t('insurance')" class="col-span-3 h-36">
+                            <PatientInsuranceView :insurance="insuranceForm.newInsuranceData" />
+                        </Fieldset>
+                    </div>
+                    <div class="flex justify-end gap-2">
+                        <Button type="button" :label="$t('cancel')" severity="secondary" @click="$emit('close')" text
+                            :disabled="loading"></Button>
+                        <Button type="button" :label="$t('prev')" severity="secondary" @click="activeStep = '2'" raised
+                            :disabled="loading"></Button>
+                        <Button type="button" :label="$t('register')" @click="submit" raised
+                            :disabled="loading"></Button>
+                    </div>
+                </BlockUI>
             </StepPanel>
         </StepPanels>
     </Stepper>
@@ -57,6 +61,7 @@ import PatientDataBasicForm from "@/comps/shared/forms/patient_data_basic.vue";
 import PatientDataInsuranceForm from "@/comps/shared/forms/patient_data_insurance.vue";
 import PatientInfo from "@/comps/shared/patient_info_basic.vue";
 import PatientInsuranceView from "@/comps/shared/insurance_info.vue"
+import useApi from "@/composables/apiComposable.js"
 
 const emit = defineEmits(["close", "commit"]);
 
@@ -65,6 +70,7 @@ const patientDataBasicForm = ref(null);
 const insuranceForm = ref(null);
 const insuranceSkipped = ref(false)
 const insuranceReady = ref(false)
+const loading = ref(false)
 
 const nextStep = (skipInsurance = false) => {
     if (skipInsurance) {
@@ -81,7 +87,17 @@ const nextStep = (skipInsurance = false) => {
     }
 }
 
-const submit = () => {
+const submit = async () => {
+    // loading.value = true
+    try {
+        let patientSendData = patientDataBasicForm.value.patientData
+        insuranceSkipped.value ? patientSendData.insurance = [] : patientSendData.insurance = [insuranceForm.value.newInsuranceData]
+        console.log(patientSendData);
 
+        // await useApi.post('patients', patientSendData)
+    } catch {
+        return
+    }
+    // emit('close')
 }
 </script>
