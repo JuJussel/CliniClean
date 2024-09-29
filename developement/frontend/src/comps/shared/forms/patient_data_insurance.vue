@@ -8,7 +8,7 @@
                         <ToggleSwitch id="isPublic" v-model="newInsuranceData.isPublic" />
                         <label for="isPublic">{{
                             $t("publicInsurance")
-                        }}</label>
+                            }}</label>
                     </div>
                 </div>
             </template>
@@ -17,7 +17,7 @@
                     <div>
                         <label for="name">{{
                             $t("publicInsuranceProvider")
-                        }}</label>
+                            }}</label>
                         <span v-if="errors.provider" class="ml-2 text-xs text-[var(--p-inputtext-invalid-border-color)]"
                             id="name-help">{{ errors.provider }}</span>
                     </div>
@@ -28,7 +28,7 @@
                     <div>
                         <label for="name">{{
                             $t("publicInsuranceRecepient")
-                        }}</label>
+                            }}</label>
                         <span v-if="errors.recepient"
                             class="ml-2 text-xs text-[var(--p-inputtext-invalid-border-color)]" id="name-help">{{
                                 errors.recepient }}</span>
@@ -67,7 +67,7 @@
                     <div>
                         <label for="name">{{
                             $t("insuranceInsuredName")
-                        }}</label>
+                            }}</label>
                         <span v-if="errors.insuredName"
                             class="ml-2 text-xs text-[var(--p-inputtext-invalid-border-color)]" id="name-help">{{
                                 errors.insuredName }}</span>
@@ -84,7 +84,7 @@
                     <div>
                         <label for="name">{{
                             $t("insuranceProviderNumber")
-                        }}</label>
+                            }}</label>
                         <span v-if="errors.providerNumber"
                             class="ml-2 text-xs text-[var(--p-inputtext-invalid-border-color)]" id="name-help">{{
                                 errors.providerNumber }}</span>
@@ -96,7 +96,7 @@
                     <div>
                         <label for="name">{{
                             $t("insuranceProviderName")
-                        }}</label>
+                            }}</label>
                         <span v-if="errors.providerName"
                             class="ml-2 text-xs text-[var(--p-inputtext-invalid-border-color)]" id="name-help">{{
                                 errors.providerName }}</span>
@@ -108,7 +108,7 @@
                     <div>
                         <label for="getDate">{{
                             $t("insuranceGetDate")
-                        }}</label>
+                            }}</label>
                         <span v-if="errors.getDate" class="ml-2 text-xs text-[var(--p-inputtext-invalid-border-color)]"
                             id="name-help">{{ errors.getDate }}</span>
                     </div>
@@ -163,7 +163,7 @@ const newInsuranceData = reactive({
     providerNumber: "39082144",
     providerName: "Provider Name",
     getDate: "2024-09-24T00:00:00.000",
-    validDate: ["2024-09-24T00:00:00.000", "2024-09-30T00:00:00.000"],
+    validDate: [],
     files: [],
     provider: "",
     recepient: "",

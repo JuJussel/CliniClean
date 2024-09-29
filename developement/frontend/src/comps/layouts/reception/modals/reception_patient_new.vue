@@ -62,6 +62,7 @@ import PatientDataInsuranceForm from "@/comps/shared/forms/patient_data_insuranc
 import PatientInfo from "@/comps/shared/patient_info_basic.vue";
 import PatientInsuranceView from "@/comps/shared/insurance_info.vue"
 import useApi from "@/composables/apiComposable.js"
+import fileTools from "@/composables/fileComposable.js"
 
 const emit = defineEmits(["close", "commit"]);
 
@@ -88,16 +89,32 @@ const nextStep = (skipInsurance = false) => {
 }
 
 const submit = async () => {
-    // loading.value = true
+    loading.value = true
     try {
         let patientSendData = patientDataBasicForm.value.patientData
-        insuranceSkipped.value ? patientSendData.insurance = [] : patientSendData.insurance = [insuranceForm.value.newInsuranceData]
-        console.log(patientSendData);
+        if (insuranceSkipped.value) {
+            patientSendData.insurance = []
+        } else {
+            patientSendData.insurance = [insuranceForm.value.newInsuranceData]
+            patientSendData.insurance[0].files = await fileTools.objectURLtoBlob(patientSendData.insurance[0].files)
+            console.log(patientSendData);
+            const meta = {
+                source: "insurance",
+                symbol: patientSendData.insurance[0].symbol,
+                number: patientSendData.insurance[0].number,
+                provider: patientSendData.insurance[0].providerNumber,
 
-        // await useApi.post('patients', patientSendData)
-    } catch {
+            }
+            patientSendData.insurance[0].files = await fileTools.blobToDataURL(patientSendData.insurance[0].files, meta)
+        }
+
+        await useApi.post('patients', patientSendData)
+        emit('close')
+    } catch (err) {
+        console.log(err);
+
         return
     }
-    // emit('close')
+    loading.value = false
 }
 </script>
