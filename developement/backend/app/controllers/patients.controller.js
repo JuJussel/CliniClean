@@ -5,6 +5,7 @@ const File = require("../models/file.model.js");
 const Encounter = require("../models/encounter.model.js");
 const Vital = require("../models/vital.model.js");
 const Order = require("../models/order.model.js");
+const { log } = require("console");
 // const { relativeTimeRounding } = require("moment");
 // const { isNull } = require("util");
 
@@ -282,25 +283,25 @@ exports.findDiseases = async (req, res) => {
 };
 
 exports.create = async (req, res) => {
-  const fs = require('fs');
-  const envConfig = require("../../env");
+  try {
+    const fs = require('fs');
+    const envConfig = require("../../env");
 
-  let request = req.body;
+    let request = req.body;
 
-  let files = [];
-  let fileIds = [];
+    let files = [];
+    let fileIds = [];
 
-  request.insurance.forEach(item => {
-    files.push(...item.files);
-  })
+    request.insurance.forEach(item => {
+      files.push(...item.files);
+    })
 
-  for (let i = 0; i < files.length; i++) {
+    for (let i = 0; i < files.length; i++) {
 
-    let extension = files[i].name.split('.');
-    extension = extension[extension.length - 1];
-    files[i].extension = extension;
+      let extension = files[i].name.split('.');
+      extension = extension[extension.length - 1];
+      files[i].extension = extension;
 
-    try {
 
       let file = await File.create(files[i]);
       let base64Data = files[i].data.replace("data:", "").replace(/^.+,/, "");
@@ -311,33 +312,32 @@ exports.create = async (req, res) => {
         }
       });
       fileIds.push(file._id);
-    } catch (err) {
-      $logger.error(err);
-      res.status(500).send({ message: "Error creating Patient" });
+
     }
 
+    request.files = fileIds;
+
+    Orca.post.patient(request, (err, data) => {
+      if (err) {
+        res.status(500).send({
+          message: err,
+        });
+      } else {
+        request._id = data;
+
+        Patient.create(request, (err, patient) => {
+          if (err) {
+            $logger.error(err);
+            res.status(500).send({ message: "Error creating Patient" });
+          }
+          res.send({ patientId: data });
+        })
+      }
+    })
+  } catch (err) {
+    $logger.error(err);
+    res.status(500).send({ message: "Error creating Patient" });
   }
-
-  request.files = fileIds;
-
-  Orca.post.patient(request, (err, data) => {
-    if (err) {
-      res.status(500).send({
-        message: err,
-      });
-    } else {
-      request._id = data;
-
-      Patient.create(request, (err, patient) => {
-        if (err) {
-          $logger.error(err);
-          res.status(500).send({ message: "Error creating Patient" });
-        }
-        res.send({ patientId: data });
-      })
-    }
-  });
-
 };
 
 exports.edit = async (req, res) => {

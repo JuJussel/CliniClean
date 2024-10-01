@@ -107,12 +107,13 @@ const submit = async () => {
             }
             patientSendData.insurance[0].files = await fileTools.blobToDataURL(patientSendData.insurance[0].files, meta)
         }
-
+        // Insurance not added in Orca
+        // File remove data in DB
+        // File has no patientID
         await useApi.post('patients', patientSendData)
-        emit('close')
+        // emit('close')
     } catch (err) {
         console.log(err);
-
         return
     }
     loading.value = false

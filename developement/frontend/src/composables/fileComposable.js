@@ -7,6 +7,7 @@ const blobToDataURL = async (files, meta = "") => {
     );
     function readAsDataURL(file) {
         return new Promise((resolve) => {
+
             let fileReader = new FileReader();
             fileReader.onload = function () {
                 return resolve({
@@ -25,7 +26,13 @@ const blobToDataURL = async (files, meta = "") => {
 const objectURLtoBlob = async (files) => {
     return Promise.all(
         files.map(async (file) => {
-            return await fetch(file.objectURL).then(r => r.blob())
+            return await fetch(file[0].objectURL)
+                .then(r => r.blob())
+                .then(blobFile => new File(
+                    [blobFile],
+                    file[0].name,
+                    { type: file[0].type }))
+
         }))
 }
 
