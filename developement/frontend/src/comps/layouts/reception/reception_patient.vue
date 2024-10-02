@@ -63,7 +63,7 @@
     </Dialog>
     <Dialog v-model:visible="modals.patientEdit.open" modal :header="$t('patientEdit')" class="w-[72rem]"
         :closable="false">
-        <EditPatient :patient="patientData" @commit="" @close="modals.patientEdit.open = false" />
+        <EditPatient :patient="patientData" @patientCreated="getPatientData" @close="modals.patientEdit.open = false" />
     </Dialog>
     <Dialog v-model:visible="modals.reservation.open" modal :header="$t('reservation')" class="w-[72rem]"
         :closable="false">
@@ -103,9 +103,10 @@ const search = async (event) => {
 }
 
 const getPatientData = async (event) => {
+    let patientId = event.value.id ? event.value.id : event
     patientDataLoading.value = true
-    patientData.value = await useApi.get('patients/' + event.value.id)
-    encounterHistory.value = await useApi.get('patients/' + event.value.id + '/encounters')
+    patientData.value = await useApi.get('patients/' + patientId)
+    encounterHistory.value = await useApi.get('patients/' + patientId + '/encounters')
     patientDataLoading.value = false
     selectedPatient.value = null
 }
