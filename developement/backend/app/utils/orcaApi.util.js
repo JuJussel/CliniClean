@@ -62,6 +62,8 @@ const sendRequest = function (route, method, data = null) {
 
 const validate = function (data, acceptedCodes, key) {
   const status = data[key].Api_Result;
+  console.log(status);
+
   if (acceptedCodes.includes(status)) {
     return true;
   } else {
@@ -380,14 +382,9 @@ post.patient = async function (data, result) {
 ////////////////////////////////////////////////////////////////////////////
 post.insurance = async function (data, result) {
 
-  let insurances = data.filter((item) => item.type === "ins");
-  let publicInsurance = data.filter(
-    (item) => item.type === "pub"
-  );
+  let ins = data.insurance[0]
 
-  for (let i = 0; i < insurances.length; i++) {
-    const ins = insurances[i];
-
+  if (!ins.isPublic) {
     ins.insuredName = japUtils.toFullwidth(ins.insuredName);
 
     const insReqData = {
@@ -395,11 +392,11 @@ post.insurance = async function (data, result) {
         patientmodreq: {
           $: { type: "record" },
           Mod_Key: { $: { type: "string" }, _: "2" },
-          Patient_ID: { $: { type: "string" }, _: ins.patient.id },
-          WholeName: { $: { type: "string" }, _: japUtils.toFullwidth(ins.patient.name) },
-          WholeName_inKana: { $: { type: "string" }, _: japUtils.toFullwidth(ins.patient.nameKana) },
-          BirthDate: { $: { type: "string" }, _: ins.patient.birthdate },
-          Sex: { $: { type: "string" }, _: ins.patient.gender },
+          Patient_ID: { $: { type: "string" }, _: data.patientId },
+          WholeName: { $: { type: "string" }, _: japUtils.toFullwidth(data.name) },
+          WholeName_inKana: { $: { type: "string" }, _: japUtils.toFullwidth(data.nameKana) },
+          BirthDate: { $: { type: "string" }, _: data.birthdate },
+          Sex: { $: { type: "string" }, _: data.gender },
           HealthInsurance_Information: {
             $: { type: "record" },
             InsuranceProvider_Class: { $: { type: "string" }, _: "" },
@@ -427,52 +424,45 @@ post.insurance = async function (data, result) {
       result(insResData.patientmodres.Api_Result_Message, null);
       return;
     }
-  }
-
-  if (publicInsurance.length > 0) {
-
-    const pubInsReqData = {
+  } else {
+    let pubInsReqData = {
       data: {
         patientmodreq: {
           $: { type: "record" },
           Mod_Key: { $: { type: "string" }, _: "2" },
-          Patient_ID: { $: { type: "string" }, _: publicInsurance[0].patient.id },
-          WholeName: { $: { type: "string" }, _: japUtils.toFullwidth(publicInsurance[0].patient.name) },
-          WholeName_inKana: { $: { type: "string" }, _: japUtils.toFullwidth(publicInsurance[0].patient.nameKana) },
-          BirthDate: { $: { type: "string" }, _: publicInsurance[0].patient.birthdate },
-          Sex: { $: { type: "string" }, _: publicInsurance[0].patient.gender },
+          Patient_ID: { $: { type: "string" }, _: data.patientId },
+          WholeName: { $: { type: "string" }, _: japUtils.toFullwidth(data.name) },
+          WholeName_inKana: { $: { type: "string" }, _: japUtils.toFullwidth(data.nameKana) },
+          BirthDate: { $: { type: "string" }, _: data.birthdate },
+          Sex: { $: { type: "string" }, _: data.gender },
           HealthInsurance_Information: {
             $: { type: "record" },
             PublicInsurance_Information: {
               $: { type: "array" },
-              PublicInsurance_Information_child: []
+              PublicInsurance_Information_child: [
+                {
+                  $: { type: "record" },
+                  PublicInsurance_Class: { $: { type: "string" }, _: "" },
+                  PublicInsurer_Number: { $: { type: "string" }, _: ins.provider },
+                  PublicInsuredPerson_Number: {
+                    $: { type: "string" },
+                    _: ins.recepient,
+                  },
+                  Certificate_IssuedDate: {
+                    $: { type: "string" },
+                    _: ins.validDate[0],
+                  },
+                  Certificate_ExpiredDate: {
+                    $: { type: "string" },
+                    _: ins.validDate[1],
+                  },
+                }
+              ]
             }
           }
         }
       }
     };
-
-    publicInsurance.forEach((pub) => {
-      let pubInstance = {
-        $: { type: "record" },
-        PublicInsurance_Class: { $: { type: "string" }, _: "" },
-        PublicInsurer_Number: { $: { type: "string" }, _: pub.provider },
-        PublicInsuredPerson_Number: {
-          $: { type: "string" },
-          _: pub.recepient,
-        },
-        Certificate_IssuedDate: {
-          $: { type: "string" },
-          _: pub.validDate[0],
-        },
-        Certificate_ExpiredDate: {
-          $: { type: "string" },
-          _: pub.validDate[1],
-        },
-      };
-      pubInsReqData.data.patientmodreq.HealthInsurance_Information.PublicInsurance_Information.PublicInsurance_Information_child.push(pubInstance);
-    });
-
     const route = "/orca12/patientmodv2?class=04";
 
     const pubResData = await sendRequest(route, "POST", pubInsReqData)
@@ -486,10 +476,8 @@ post.insurance = async function (data, result) {
       return;
     }
   }
-
   result(null, null);
   return;
-
 };
 
 

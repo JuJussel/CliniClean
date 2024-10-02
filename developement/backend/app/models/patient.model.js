@@ -8,7 +8,6 @@ const PatientSchema = new Schema({
     visible: { type: Boolean, default: true },
     active: { type: Boolean, default: true },
     doctor: Number,
-    files: { type: Array },
     vitals: { type: Array },
     craeted: { type: String, default: new Date() }
 }, {

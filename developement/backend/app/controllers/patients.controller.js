@@ -6,6 +6,7 @@ const Encounter = require("../models/encounter.model.js");
 const Vital = require("../models/vital.model.js");
 const Order = require("../models/order.model.js");
 const { log } = require("console");
+const { rejections } = require("winston");
 // const { relativeTimeRounding } = require("moment");
 // const { isNull } = require("util");
 
@@ -45,6 +46,55 @@ const getOrcaPatientData = (id, result) => {
     }
   });
 }
+
+const registerInsurance = async (request) => {
+  /*
+  Request needs to have:
+  insurance: array of length 1.. ??
+  patientId
+  name
+  nameKana
+  birthdate
+  gender
+  */
+  const fs = require('fs');
+  const envConfig = require("../../env");
+
+  for (let i = 0; i < request.insurance[0].files.length; i++) {
+
+    let extension = request.insurance[0].files[i].name.split('.');
+    extension = extension[extension.length - 1];
+    request.insurance[0].files[i].extension = extension;
+    let fileDBData = JSON.parse(JSON.stringify(request.insurance[0].files[i]));
+    fileDBData.patientId = request._id;
+    delete fileDBData.data
+
+    try {
+
+      let file = await File.create(fileDBData);
+      let base64Data = request.insurance[0].files[i].data.replace("data:", "").replace(/^.+,/, "");
+      let filename = file._id + '.' + extension;
+      fs.writeFile(envConfig.PROJECT_DIR + '/storage/' + filename, base64Data, 'base64', function (err) {
+        if (err) {
+          $logger.error(err);
+          return false
+        }
+      });
+    } catch (err) {
+      $logger.error(err);
+      return false
+    }
+  }
+
+  request.insurance[0].edit = true;
+
+  Orca.post.insurance(request, (err, data) => {
+    if (err) {
+      throw Error(err);
+    }
+    return true
+  });
+};
 
 // Exports
 
@@ -284,38 +334,7 @@ exports.findDiseases = async (req, res) => {
 
 exports.create = async (req, res) => {
   try {
-    const fs = require('fs');
-    const envConfig = require("../../env");
-
     let request = req.body;
-
-    let files = [];
-    let fileIds = [];
-
-    request.insurance.forEach(item => {
-      files.push(...item.files);
-    })
-
-    for (let i = 0; i < files.length; i++) {
-
-      let extension = files[i].name.split('.');
-      extension = extension[extension.length - 1];
-      files[i].extension = extension;
-
-
-      let file = await File.create(files[i]);
-      let base64Data = files[i].data.replace("data:", "").replace(/^.+,/, "");
-      let filename = file._id + '.' + extension;
-      fs.writeFile(envConfig.PROJECT_DIR + '/storage/' + filename, base64Data, 'base64', function (err) {
-        if (err) {
-          $logger.error(err);
-        }
-      });
-      fileIds.push(file._id);
-
-    }
-
-    request.files = fileIds;
 
     Orca.post.patient(request, (err, data) => {
       if (err) {
@@ -324,13 +343,23 @@ exports.create = async (req, res) => {
         });
       } else {
         request._id = data;
+        patientDBData = JSON.parse(JSON.stringify(request));
+        delete patientDBData.insurance
+        request.patientId = data;
 
-        Patient.create(request, (err, patient) => {
+        Patient.create(patientDBData, async (err, patient) => {
           if (err) {
             $logger.error(err);
             res.status(500).send({ message: "Error creating Patient" });
           }
-          res.send({ patientId: data });
+
+          try {
+            await registerInsurance(request)
+            res.send({ patientId: data });
+          } catch (err) {
+            $logger.error(err);
+            res.status(500).send({ message: "Error creating Patient" });
+          }
         })
       }
     })
