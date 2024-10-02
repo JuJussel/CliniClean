@@ -63,9 +63,11 @@ import PatientInfo from "@/comps/shared/patient_info_basic.vue";
 import PatientInsuranceView from "@/comps/shared/insurance_info.vue"
 import useApi from "@/composables/apiComposable.js"
 import fileTools from "@/composables/fileComposable.js"
+import { useToast } from "primevue/usetoast";
 
 const emit = defineEmits(["close", "commit"]);
 
+const toast = useToast();
 const activeStep = ref("1");
 const patientDataBasicForm = ref(null);
 const insuranceForm = ref(null);
@@ -107,10 +109,8 @@ const submit = async () => {
             }
             patientSendData.insurance[0].files = await fileTools.blobToDataURL(patientSendData.insurance[0].files, meta)
         }
-        // Insurance not added in Orca
-        // File remove data in DB
-        // File has no patientID
-        await useApi.post('patients', patientSendData)
+        let patientID = await useApi.post('patients', patientSendData)
+        toast.add({ severity: 'success', summary: $t('success'), detail: $t('patientRegistered'), life: 3000 });
         // emit('close')
     } catch (err) {
         console.log(err);
