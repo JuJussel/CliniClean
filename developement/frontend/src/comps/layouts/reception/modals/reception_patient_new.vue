@@ -110,9 +110,9 @@ const submit = async () => {
             }
             patientSendData.insurance[0].files = await fileTools.blobToDataURL(patientSendData.insurance[0].files, meta)
         }
-        let patientId = await useApi.post('patients', patientSendData)
-        toast.add({ severity: 'success', summary: $t('success'), detail: $t('patientRegistered'), life: 3000 });
-        emit('clientCreated', patientId)
+        let patient = await useApi.post('patients', patientSendData)
+        toast.add({ severity: 'success', summary: t('success'), detail: t('patientRegistered'), life: 3000 });
+        emit('patientCreated', patient.patientId)
         emit('close')
     } catch (err) {
         console.log(err);

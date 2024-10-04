@@ -90,7 +90,7 @@ const registerInsurance = async (request) => {
 
   Orca.post.insurance(request, (err, data) => {
     if (err) {
-      throw Error(err);
+      return false;
     }
     return true
   });
@@ -353,13 +353,20 @@ exports.create = async (req, res) => {
             res.status(500).send({ message: "Error creating Patient" });
           }
 
-          try {
-            await registerInsurance(request)
+          if (await registerInsurance(request)) {
             res.send({ patientId: data });
-          } catch (err) {
+          } else {
             $logger.error(err);
             res.status(500).send({ message: "Error creating Patient" });
+
           }
+          // try {
+          //   await registerInsurance(request)
+          //   res.send({ patientId: data });
+          // } catch (err) {
+          // $logger.error(err);
+          // res.status(500).send({ message: "Error creating Patient" });
+          // }
         })
       }
     })

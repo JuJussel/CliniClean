@@ -103,7 +103,7 @@ const search = async (event) => {
 }
 
 const getPatientData = async (event) => {
-    let patientId = event.value.id ? event.value.id : event
+    let patientId = event.value?.id ? event.value.id : event
     patientDataLoading.value = true
     patientData.value = await useApi.get('patients/' + patientId)
     encounterHistory.value = await useApi.get('patients/' + patientId + '/encounters')

@@ -67,7 +67,7 @@ const validate = function (data, acceptedCodes, key) {
   if (acceptedCodes.includes(status)) {
     return true;
   } else {
-    $logger.error(data[key].Api_Result_Message);
+    $logger.error("Orca Api Validate:" + data[key].Api_Result_Message);
     return false;
   }
 };
