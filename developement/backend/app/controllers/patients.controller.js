@@ -76,12 +76,12 @@ const registerInsurance = async (request) => {
       let filename = file._id + '.' + extension;
       fs.writeFile(envConfig.PROJECT_DIR + '/storage/' + filename, base64Data, 'base64', function (err) {
         if (err) {
-          $logger.error(err);
+          $logger.error("Cannot save file1:" + err);
           return false
         }
       });
     } catch (err) {
-      $logger.error(err);
+      $logger.error("Cannot save file2:" + err);
       return false
     }
   }
@@ -90,9 +90,11 @@ const registerInsurance = async (request) => {
 
   Orca.post.insurance(request, (err, data) => {
     if (err) {
+      $logger.error("Cannot post insurance to Orca:" + err);
       return false;
+    } else {
+      return true
     }
-    return true
   });
 };
 
@@ -349,15 +351,17 @@ exports.create = async (req, res) => {
 
         Patient.create(patientDBData, async (err, patient) => {
           if (err) {
-            $logger.error(err);
+            $logger.error("ID3345352\:" + err);
             res.status(500).send({ message: "Error creating Patient" });
           }
 
-          if (await registerInsurance(request)) {
+          let insurance = await registerInsurance(request)
+
+          if (insurance) {
+
             res.send({ patientId: data });
           } else {
-            $logger.error(err);
-            res.status(500).send({ message: "Error creating Patient" });
+            res.status(500).send({ message: "Error creating Insurance" });
 
           }
           // try {

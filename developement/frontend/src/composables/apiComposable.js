@@ -74,7 +74,7 @@ export default {
             return await request(route, data, "GET", abortSignal);
         } catch (err) {
             uiStore.toasts.push({ severity: 'error', summary: 'Error', detail: err, life: 3000 })
-            return false
+            throw Error(err)
         }
     },
     post: async function (route, data = {}, abortSignal = null) {
@@ -83,7 +83,7 @@ export default {
             return await request(route, data, "POST", abortSignal);
         } catch (err) {
             uiStore.toasts.push({ severity: 'error', summary: 'Error', detail: err, life: 3000 })
-            return false
+            throw Error(err)
         }
     },
     put: async function (route, data = {}, abortSignal = null) {
@@ -92,7 +92,7 @@ export default {
             return await request(route, data, "PUT", abortSignal);
         } catch (err) {
             uiStore.toasts.push({ severity: 'error', summary: 'Error', detail: err, life: 3000 })
-            return false
+            throw Error(err)
         }
     },
     delete: async function (route, data = {}, abortSignal = null) {
@@ -101,7 +101,7 @@ export default {
             return await request(route, data, "DELETE", abortSignal);
         } catch (err) {
             uiStore.toasts.push({ severity: 'error', summary: 'Error', detail: err, life: 3000 })
-            return false
+            throw Error(err)
         }
     }
 }

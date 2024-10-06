@@ -116,8 +116,7 @@ const submit = async () => {
         emit('close')
     } catch (err) {
         console.log(err);
-        return
+        loading.value = false
     }
-    loading.value = false
 }
 </script>

@@ -62,7 +62,6 @@ const sendRequest = function (route, method, data = null) {
 
 const validate = function (data, acceptedCodes, key) {
   const status = data[key].Api_Result;
-  console.log(status);
 
   if (acceptedCodes.includes(status)) {
     return true;
@@ -420,7 +419,7 @@ post.insurance = async function (data, result) {
         result(responseData, null);
         return;
       });
-    if (!validate(insResData, ["00"], "patientmodres")) {
+    if (!validate(insResData, ["00", "K1", "K2", "K3", "K4", "K5"], "patientmodres")) {
       result(insResData.patientmodres.Api_Result_Message, null);
       return;
     }
