@@ -20,8 +20,8 @@
     <div class="flex justify-end gap-2 mt-8">
         <Button type="button" :label="$t('cancel')" severity="secondary" @click="$emit('close')" raised
             :disabled="uiLoading"></Button>
-        <Button type="button" :label="$t('reception')" @click="commit()" :disabled="uiLoading || !selectedInsurance.data" raised
-            :loading="uiLoading"></Button>
+        <Button type="button" :label="$t('reception')" @click="commit()"
+            :disabled="uiLoading || !selectedInsurance.data" raised :loading="uiLoading"></Button>
     </div>
 </template>
 
@@ -61,7 +61,7 @@ async function commit() {
     const encounterData = {
         patient: props.patient,
         ins: selectedInsurance.value.data,
-        encouterType: encounterType.value.id,
+        encounterType: encounterType.value.id,
         note: comment.value
     }
     await useApi.post('encounters', encounterData);
