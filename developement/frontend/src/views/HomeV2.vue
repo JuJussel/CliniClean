@@ -3,13 +3,21 @@
         <Toast position="top-center" />
         <Menubar :model="menuItems">
             <template #end>
-                <Chip :label="userStore.fullName" :image="avatarUrl" @click="toggleUserMenu" class="cursor-pointer" />
-                <Popover ref="userMenu">
-                    <Button label="Profile" icon="pi pi-user" severity="secondary" size="small" />
-                </Popover>
+                <div class="flex">
+                    <Chip class="mr-4 h-[40px]">
+                        <Button icon="pi pi-bars" text severity="secondary" />
+                        <Button :label="$t('startEncounter')" icon="pi pi-play" text severity="primary"
+                            iconPos="right" />
+                    </Chip>
+                    <Chip :label="userStore.fullName" :image="avatarUrl" @click="toggleUserMenu"
+                        class="cursor-pointer" />
+                    <Popover ref="userMenu">
+                        <Button label="Profile" icon="pi pi-user" severity="secondary" size="small" />
+                    </Popover>
+                </div>
             </template>
         </Menubar>
-        <main class="grow mt-2 overflow-hidden p-2">
+        <main class="grow overflow-hidden p-2">
             <transition name="juzoom">
                 <component :is="uiStore.activeTab" style="height: 100%"></component>
             </transition>
@@ -53,11 +61,18 @@ const menuItems =
         }
     }, {
         label: t("order"),
-        icon: 'fas fa-laptop-medical',
+        icon: 'fas fa-basket-shopping',
         command: () => {
             uiStore.activeTab = reception
         }
-    }]
+    }, {
+        label: t("patientInfo"),
+        icon: 'fas fa-laptop-medical',
+        command: () => {
+            uiStore.activeTab = medical
+        }
+    }
+    ]
 
 const avatarUrl = computed(() => {
     return settingStore.settingData.filesUrl +
