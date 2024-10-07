@@ -6,8 +6,8 @@
                 <div class="flex">
                     <Chip class="mr-4 h-[40px]">
                         <Button icon="pi pi-bars" text severity="secondary" />
-                        <Button :label="$t('startEncounter')" icon="pi pi-play" text severity="primary"
-                            iconPos="right" />
+                        <Button :label="$t('startEncounter')" icon="pi pi-play" text severity="primary" iconPos="right"
+                            @click="startFirstEncounter" />
                     </Chip>
                     <Chip :label="userStore.fullName" :image="avatarUrl" @click="toggleUserMenu"
                         class="cursor-pointer" />
@@ -28,6 +28,7 @@
 <script setup>
 
 import reception from '@/comps/layouts/reception'
+import encounter from '@/comps/layouts/encounter'
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
 import Popover from 'primevue/popover';
