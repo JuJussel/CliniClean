@@ -23,6 +23,7 @@ import PrimeVue from 'primevue/config';
 import Aura from '@primevue/themes/aura';
 import 'primeicons/primeicons.css'
 import ToastService from 'primevue/toastservice';
+import Tooltip from 'primevue/tooltip';
 
 import primeVueLocale from "./lang/ja.json"
 
@@ -80,6 +81,8 @@ import primeVueLocale from "./lang/ja.json"
     app.use(ToastService);
 
     app.use(i18n)
+
+    app.directive('tooltip', Tooltip);
 
     app.mount('#app')
 

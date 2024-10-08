@@ -8,7 +8,8 @@ export const useEncounterStore = defineStore({
     state: () => {
         return {
             loading: false,
-            encounterData: null
+            encounterData: null,
+            patientData: null
         }
     }
 })

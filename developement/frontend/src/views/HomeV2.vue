@@ -4,11 +4,7 @@
         <Menubar :model="menuItems">
             <template #end>
                 <div class="flex">
-                    <Chip class="mr-4 h-[40px]">
-                        <Button icon="pi pi-bars" text severity="secondary" />
-                        <Button :label="$t('startEncounter')" icon="pi pi-play" text severity="primary" iconPos="right"
-                            @click="startFirstEncounter" />
-                    </Chip>
+                    <encounterWidget />
                     <Chip :label="userStore.fullName" :image="avatarUrl" @click="toggleUserMenu"
                         class="cursor-pointer" />
                     <Popover ref="userMenu">
@@ -29,6 +25,7 @@
 
 import reception from '@/comps/layouts/reception'
 import encounter from '@/comps/layouts/encounter'
+import encounterWidget from '@/comps/shared/widgets/encounter_widget.vue'
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
 import Popover from 'primevue/popover';
@@ -90,6 +87,7 @@ function logout() {
     this.$auth().remove();
     this.$router.push("/");
 }
+
 
 watch(uiStore.toasts, () => {
     uiStore.toasts.forEach((item, index) => {
