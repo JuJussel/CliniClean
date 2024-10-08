@@ -4,34 +4,34 @@
     </button>
 </template>
 
-<script>
-export default {
-    props: {
-        icon: {
-            type: String,
-            required: true,
-        },
-        title: {
-            type: String,
-            required: true,
-        },
-        action: {
-            type: Function,
-            required: true,
-        },
-        isActive: {
-            type: Function,
-            default: null,
-        },
+<script setup>
+
+const props = defineProps({
+    icon: {
+        type: String,
+        required: true,
     },
-}
+    title: {
+        type: String,
+        required: true,
+    },
+    action: {
+        type: Function,
+        required: true,
+    },
+    isActive: {
+        type: Function,
+        default: null,
+    }
+})
+
 </script>
 
 <style scoped>
 .menu-item {
     width: 1.75rem;
     height: 1.75rem;
-    color: var(--cui-font-color);
+    color: var(--p-inputtext-color);
     border: none;
     background-color: transparent;
     border-radius: 0.4rem;

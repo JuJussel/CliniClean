@@ -8,7 +8,7 @@
 <script>
 import { Editor, EditorContent } from "@tiptap/vue-3";
 import StarterKit from "@tiptap/starter-kit";
-import MenuBar from "./cui-editor-menu-bar.vue"
+import MenuBar from "./menu_bar.vue"
 
 export default {
     components: {
