@@ -1,7 +1,7 @@
 <template>
-    <button class="menu-item" :class="{ 'is-active': isActive ? isActive() : null }" @click="action" :title="title">
+    <div text class="menu-item" :class="{ 'is-active': isActive ? isActive() : null }" @click="action" :title="title">
         <i :class="icon"></i>
-    </button>
+    </div>
 </template>
 
 <script setup>
@@ -26,23 +26,23 @@ const props = defineProps({
 })
 
 </script>
-
+<!-- --text-color -->
 <style scoped>
 .menu-item {
-    width: 1.75rem;
-    height: 1.75rem;
-    color: var(--p-inputtext-color);
-    border: none;
-    background-color: transparent;
-    border-radius: 0.4rem;
-    padding: 0.25rem;
-    margin-right: 0.25rem;
-    cursor: pointer
+    cursor: pointer;
+    display: inline-block;
+    float: left;
+    height: 24px;
+    padding: 3px;
+    width: 26px;
+    color: #64748b;
 }
 
-.menu-item.is-active,
+.menu-item.is-active {
+    color: var(--p-primary-color)
+}
+
 .menu-item:hover {
-    color: #FFF;
-    background-color: var(--p-primary-color);
+    color: #334155
 }
 </style>

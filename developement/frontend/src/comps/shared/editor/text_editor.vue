@@ -8,6 +8,8 @@
 <script>
 import { Editor, EditorContent } from "@tiptap/vue-3";
 import StarterKit from "@tiptap/starter-kit";
+import Image from '@tiptap/extension-image'
+import ImageResize from 'tiptap-extension-resize-image';
 import MenuBar from "./menu_bar.vue"
 
 export default {
@@ -38,7 +40,9 @@ export default {
             options: {
                 content: this.content,
                 extensions: [
-                    StarterKit
+                    StarterKit,
+                    Image,
+                    ImageResize
                 ],
                 onUpdate: function ({ editor }) {
                     clearTimeout(this.timeout);

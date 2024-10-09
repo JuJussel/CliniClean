@@ -6,7 +6,7 @@
         </Card>
         <Card :pt="{ body: { class: 'h-full' }, content: { class: 'h-full' } }" class="col-span-4">
             <template #content>
-                <Karte />
+                <Karte v-if="ready" />
             </template>
         </Card>
         <Card class="col-span-2">
@@ -27,5 +27,21 @@
 <script setup>
 
 import Karte from './karte'
+
+const encounterStore = useEncounterStore()
+const ready = ref(false)
+
+// Initialize Encounter Store Karte Data
+if (!encounterStore.encounterData.karte) {
+    encounterStore.encounterData.karte = {
+        soap: "",
+        procedures: [],
+        images: []
+    }
+}
+ready.value = true
+
+
+
 
 </script>
