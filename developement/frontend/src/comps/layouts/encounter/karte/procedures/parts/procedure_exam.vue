@@ -88,7 +88,7 @@ const getResults = async() => {
     this.resultsFull =
         await this.$api.get('procedures/' + this.item.srycd);
 }
-const selectResult = (result) {
+const selectResult = (result) => {
     this.selectedResults.push(result);
     let fullResult = this.resultsFull.find(
         (i) =>
