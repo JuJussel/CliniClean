@@ -32,7 +32,7 @@ const startFirstEncounter = async () => {
     progress.value = 10
     loading.value = true
     encounterStore.encounterData = null
-    const encounterId = "67024a3becac5c11ab416bfa"
+    const encounterId = "6707733894ff22f1937f7bab"
     let encounterData = await useApi.get('encounters/' + encounterId)
     progress.value = 50
     let patientData = await useApi.get('patients/' + encounterData.patient.id)

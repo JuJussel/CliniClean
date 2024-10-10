@@ -41,7 +41,6 @@ export default {
                 content: this.content,
                 extensions: [
                     StarterKit,
-                    Image,
                     ImageResize
                 ],
                 onUpdate: function ({ editor }) {

@@ -12,7 +12,7 @@
 
 <script setup>
 
-import Soap from './encounter_karte_soap.vue'
-import Procedures from './encounter_karte_procedures.vue'
+import Soap from './soap'
+import Procedures from './procedures'
 
 </script>
