@@ -14,8 +14,9 @@
                 <Karte v-if="ready" />
             </template>
         </Card>
-        <Card class="col-span-2">
-            <template #title>Simple Card</template>
+        <Card 
+        :pt="{ body: { class: 'h-full' }, content: { class: 'h-full' } }"
+        class="col-span-2">
             <template #content>
                 <Browser />
             </template>

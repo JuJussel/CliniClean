@@ -80,8 +80,8 @@ const resultsFull = ref([])
 const filter = ref("")
 const selectedResults = ref([])
 const results = ref([])
-const selectDummy = ref(nul)
-const timer = ref(nul)
+const selectDummy = ref(null)
+const timer = ref(null)
 
 // Functions /////////////////////////////////////////////////
 const getResults = async() => {
