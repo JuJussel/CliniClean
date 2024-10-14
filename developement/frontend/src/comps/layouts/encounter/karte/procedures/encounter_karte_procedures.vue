@@ -17,9 +17,9 @@
                         <span class="ml-4">{{ item.name }}</span>
                     </div>
                 </AccordionHeader>
-                <AccordionContent> 
+                <AccordionContent>
                     {{ item.cat?.label }}
-                    <component :is="parts[item.cat?.label]" item/>
+                    <component :is="parts[item.cat?.label]" :item />
                     <!-- <exam v-if="item.cat?.label === 'exam'" item></exam> -->
                 </AccordionContent>
             </AccordionPanel>
@@ -33,8 +33,7 @@ import AccordionPanel from "primevue/accordionpanel";
 import AccordionHeader from "primevue/accordionheader";
 import AccordionContent from "primevue/accordioncontent";
 //Parts
-import Exam from './parts/procedure_exam.vue'
-
+import Exam from "./parts/procedure_exam.vue";
 
 const encounterStore = useEncounterStore();
 
