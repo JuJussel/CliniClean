@@ -7,7 +7,7 @@
         :placeholder="$t('exam') + $t('add')"
         :maxSelectedLabels="0" 
         class="w-full" />
-    <DataTable v-if="selectedResults.length > 0" stripedRows size="small" :value="selectedResults" showGridlines class="mt-2">
+    <DataTable v-if="selectedResults.length > 0" size="small" :value="selectedResults" showGridlines class="mt-2">
         <Column field="resultName" :header="$t('resultName')"></Column>
         <Column field="value" :header="$t('value')" class="!w-[100px]">
             <template #body="slotProps">
