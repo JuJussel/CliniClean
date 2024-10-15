@@ -18,7 +18,6 @@
                     </div>
                 </AccordionHeader>
                 <AccordionContent>
-                    {{ item.cat?.label }}
                     <component :is="parts[item.cat?.label]" :item />
                     <!-- <exam v-if="item.cat?.label === 'exam'" item></exam> -->
                 </AccordionContent>

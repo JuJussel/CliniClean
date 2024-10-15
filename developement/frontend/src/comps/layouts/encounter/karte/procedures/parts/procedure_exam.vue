@@ -1,71 +1,35 @@
 <template>
-    <div>
-        <!-- <cui-table :data="results">
-            <template #header>
-                <div style="display: flex; align-items: center">
-                    {{ $lang.exam }} {{ $lang.results }}
-                    <cui-select
-                        v-if="filteredResults.length > 0"
-                        :data="filteredResults"
-                        :placeholder="$lang.exam + $lang.add"
-                        noNote
-                        @select="selectResult"
-                        search
-                        v-model="selectDummy"
-                        @input="(value) => (filter = value)"
-                        style="margin-left: 20px; width: 200px"
-                        color="#37474f"
-                        :disabled="!$aclService(2)"
-                    >
-                    </cui-select>
-                </div>
+    <MultiSelect 
+        v-model="selectedResults" 
+        :options="resultsFull" 
+        optionLabel="resultName" 
+        filter 
+        :placeholder="$t('exam') + $t('add')"
+        :maxSelectedLabels="0" 
+        class="w-full" />
+    <DataTable v-if="selectedResults.length > 0" stripedRows size="small" :value="selectedResults" showGridlines class="mt-2">
+        <Column field="resultName" :header="$t('resultName')"></Column>
+        <Column field="value" :header="$t('value')" class="!w-[100px]">
+            <template #body="slotProps">
+                    <div v-if="slotProps.data.order?.done"></div>
+                    <div v-else>
+                        <InputGroup class="!w-[120px]">
+                            <InputText type="text" v-model="slotProps.data.value"/>
+                            <InputGroupAddon v-if="slotProps.data.unit.name && slotProps.data.unit.name !== '＊未設定'">
+                                {{ slotProps.data.unit.name }}
+                            </InputGroupAddon>
+                        </InputGroup>
+                    </div>
             </template>
-            <template v-slot:row="{ row }">
-                <td>
-                    <span
-                        v-if="row.result.shared.name === '分析物固有結果コード'"
-                    >
-                        {{ row.result.single.name }}
-                    </span>
-                    <span v-else> {{ row.result.shared.name }} </span>
-                </td>
-                <td style="width: 150px">
-                    <span v-if="item.order?.done">
-                        <span style="margin-right: 5px">{{ row.value }}</span>
-                        <span v-if="row.unit.name !== '＊未設定'">{{
-                            row.unit.name
-                        }}</span>
-                    </span>
-                    <cui-input
-                        v-else
-                        v-model="row.value"
-                        noNote
-                        :disabled="item.order?.locked || !$aclService(2)"
-                        :placeholder="$lang.value + $lang.input"
-                        :append="
-                            row.unit.name !== '＊未設定' ? row.unit.name : null
-                        "
-                    />
-                </td>
-                <td class="cc-shared-procedure-exam-row-buttons">
-                    <cui-button
-                        icon="far fa-trash-alt"
-                        danger
-                        :disabled="
-                            item.order?.done ||
-                            item.order?.locked ||
-                            !$aclService(2)
-                        "
-                        @click="removeResult(row)"
-                    />
-                </td>
-            </template>
-        </cui-table> -->
-    </div>
+        </Column>
+    </DataTable>
 </template>
 
 <script setup>
+// Imports /////////////////////////////////////////////////////
+import useApi from "@/composables/apiComposable.js";
 
+// Props //////////////////////////////////////////////////////
 const props = defineProps({
     item: {
         default: null,
@@ -73,6 +37,7 @@ const props = defineProps({
     }
 })
 
+// Emits //////////////////////////////////////////////////////
 const emit = defineEmits(['update'])
 
 // Data //////////////////////////////////////////////////////
@@ -84,10 +49,24 @@ const selectDummy = ref(null)
 const timer = ref(null)
 
 // Functions /////////////////////////////////////////////////
-const getResults = async() => {
-    this.resultsFull =
-        await this.$api.get('procedures/' + this.item.srycd);
-}
+// Get Results on mounted
+onMounted(async () => {
+    let resultsList = await useApi.get('procedures/' + props.item.srycd);
+    let resultsListWithResultName = resultsList.map((item) => {
+        item.resultName = item.result.shared.name
+        if (item.resultName === "分析物固有結果コード") {
+            item.resultName = item.result.single.name
+        }
+        return item
+    })
+    resultsListWithResultName = resultsListWithResultName.filter((value, index, self) =>
+    index === self.findIndex((t) => (
+        t.resultName === value.resultName
+    ))
+)
+    resultsFull.value = resultsListWithResultName
+})
+
 const selectResult = (result) => {
     this.selectedResults.push(result);
     let fullResult = this.resultsFull.find(
@@ -104,49 +83,49 @@ const removeResult = (result) => {
 }
 
 // Computes /////////////////////////////////////////////////
-const items = computed(() => {
-    return [...new Set(this.resultsFull.map((v) => v.item.name))];
-})
-const itemDetails = computed(() => {
-    return [...new Set(this.resultsFull.map((v) => v.itemDetail.name))];
-})
-const samples = computed(() => {
-    return [...new Set(this.resultsFull.map((v) => v.sample.name))];
-})
-const methods = computed(() => {
-    return [...new Set(this.resultsFull.map((v) => v.method.name))];
-})
-const resultsSingle = computed(() => {
-    return [
-        ...new Set(this.resultsFull.map((v) => v.result.single.name)),
-    ];
-})
-const resultsShared = computed(() => {
-    let array = [
-        ...new Set(this.resultsFull.map((v) => v.result.shared.name)),
-    ];
-    return array.filter((i) => i !== "分析物固有結果コード");
-})
-const combinedResults = computed(() => {
-    return this.resultsSingle.concat(this.resultsShared);
-})
-const filteredResults = computed(() => {
-    let selectedItems1 = [
-        ...new Set(this.results.map((v) => v.result.single.name)),
-    ];
-    let selectedItems2 = [
-        ...new Set(this.results.map((v) => v.result.shared.name)),
-    ];
-    let selectedItems = selectedItems1.concat(selectedItems2);
-    let array = this.combinedResults.filter(
-        (item) => !selectedItems.includes(item)
-    );
-    if (this.filter === "") {
-        return array;
-    } else {
-        return array.filter((i) => i.includes(this.filter));
-    }
-})
+// const items = computed(() => {
+//     return [...new Set(resultsFull.value.map((v) => v.item.name))];
+// })
+// const itemDetails = computed(() => {
+//     return [...new Set(resultsFull.value.map((v) => v.itemDetail.name))];
+// })
+// const samples = computed(() => {
+//     return [...new Set(resultsFull.value.map((v) => v.sample.name))];
+// })
+// const methods = computed(() => {
+//     return [...new Set(resultsFull.value.map((v) => v.method.name))];
+// })
+// const resultsSingle = computed(() => {
+//     return [
+//         ...new Set(resultsFull.value.map((v) => v.result.single.name)),
+//     ];
+// })
+// const resultsShared = computed(() => {
+//     let array = [
+//         ...new Set(resultsFull.value.map((v) => v.result.shared.name)),
+//     ];
+//     return array.filter((i) => i !== "分析物固有結果コード");
+// })
+// const combinedResults = computed(() => {
+//     return resultsSingle.value.concat(resultsShared.value);
+// })
+// const filteredResults = computed(() => {
+//     let selectedItems1 = [
+//         ...new Set(results.value.map((v) => v.result.single.name)),
+//     ];
+//     let selectedItems2 = [
+//         ...new Set(results.value.map((v) => v.result.shared.name)),
+//     ];
+//     let selectedItems = selectedItems1.concat(selectedItems2);
+//     let array = combinedResults.filter(
+//         (item) => !selectedItems.includes(item)
+//     );
+//     if (this.filter === "") {
+//         return array;
+//     } else {
+//         return array.filter((i) => i.includes(this.filter));
+//     }
+// })
 
 // Watchers /////////////////////////////////////////////////
 watch(
