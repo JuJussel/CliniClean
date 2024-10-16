@@ -74,13 +74,11 @@ onMounted(async () => {
 });
 
 // Functions
-const selectProcedure = async (item) => {
+const selectProcedure = (item) => {
     item.cat = filteredProcedureCategories.value.find(
         (item) => item.code === activeCategory.value
     );
-    console.log(item);
-
-    favs.value = await useApi.put(
+    favs.value = useApi.put(
         "users/" + userStore.userData.id + "/favourites",
         item
     );

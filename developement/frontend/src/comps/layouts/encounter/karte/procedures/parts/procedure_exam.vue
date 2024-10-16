@@ -1,13 +1,14 @@
 <template>
     <MultiSelect 
-        v-model="selectedResults" 
-        :options="resultsFull" 
+        v-model="props.item.varData" 
+        :options="resultsFull"
         optionLabel="resultName" 
         filter 
+        dataKey="id"
         :placeholder="$t('exam') + $t('add')"
         :maxSelectedLabels="0" 
         class="w-full" />
-    <DataTable v-if="selectedResults.length > 0" size="small" :value="selectedResults" showGridlines class="mt-2">
+    <DataTable v-if="props.item.varData?.length > 0" size="small" :value="props.item.varData" showGridlines class="mt-2">
         <Column field="resultName" :header="$t('resultName')"></Column>
         <Column field="value" :header="$t('value')" class="!w-[100px]">
             <template #body="slotProps">
@@ -51,6 +52,7 @@ const timer = ref(null)
 // Functions /////////////////////////////////////////////////
 // Get Results on mounted
 onMounted(async () => {
+    if (!props.item.varData) { props.item.varData = [] }
     let resultsList = await useApi.get('procedures/' + props.item.srycd);
     let resultsListWithResultName = resultsList.map((item) => {
         item.resultName = item.result.shared.name
@@ -67,20 +69,20 @@ onMounted(async () => {
     resultsFull.value = resultsListWithResultName
 })
 
-const selectResult = (result) => {
-    this.selectedResults.push(result);
-    let fullResult = this.resultsFull.find(
-        (i) =>
-            i.result.single.name === result ||
-            i.result.shared.name === result
-    );
-    fullResult.value = "";
-    this.results.push(fullResult);
-    this.selectDummy = this.$lang.results + this.$lang.add;
-}
-const removeResult = (result) => {
-    this.results.splice(result._index, 1);
-}
+// const selectResult = (result) => {
+//     this.selectedResults.push(result);
+//     let fullResult = this.resultsFull.find(
+//         (i) =>
+//             i.result.single.name === result ||
+//             i.result.shared.name === result
+//     );
+//     fullResult.value = "";
+//     this.results.push(fullResult);
+//     this.selectDummy = this.$lang.results + this.$lang.add;
+// }
+// const removeResult = (result) => {
+//     this.results.splice(result._index, 1);
+// }
 
 // Computes /////////////////////////////////////////////////
 // const items = computed(() => {
