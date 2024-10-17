@@ -15,12 +15,12 @@
                 <AccordionHeader>
                     <div class="flex justify-between items-center w-full mr-2">
                         <div>
-                            <i v-if="item.varData?.length > 0" :class="item.cat.icon" class="text-[var(--p-primary-color)]"  v-tooltip.left="$t('hasData')"/>
+                            <i v-if="item.varData?.length > 0 || item.varData?.type || item.varData.location" :class="item.cat.icon" class="text-[var(--p-primary-color)]"  v-tooltip.left="$t('hasData')"/>
                             <i v-else :class="item.cat.icon"/>
                             <span class="ml-4">{{ item.name }}</span>
                         </div>
                         <div>
-                            <Button @click="openOrder($event, index)" icon="pi pi-shopping-cart" severity="secondary" text size="small" class="!p-1"/>
+                            <Button v-if="item.cat.code !==25 " @click="openOrder($event, index)" icon="pi pi-shopping-cart" severity="secondary" text size="small" class="!p-1"/>
                             <Button @click="openBilling($event, index)" icon="fas fa-yen-sign" severity="secondary" text size="small" class="!p-1"/>
                             <Button @click="deleteProcedure($event, index)" icon="pi pi-trash" severity="secondary" text size="small" class="!p-1"/>
                         </div>
@@ -42,11 +42,15 @@ import AccordionHeader from "primevue/accordionheader";
 import AccordionContent from "primevue/accordioncontent";
 //Parts
 import Exam from "./parts/procedure_exam.vue";
+import Perscription from "./parts/procedures_perscription.vue"
+import Shot from './parts/procedures_shot.vue'
 
 const encounterStore = useEncounterStore();
 
 const parts = {
     exam: Exam,
+    perscription: Perscription,
+    shot: Shot
 };
 
 const openOrder = (event, index) => {
