@@ -1,5 +1,5 @@
 <template>
-    <div class="flex gap-4 flex-wrap">
+    <div v-if="ready" class="flex gap-4 flex-wrap">
         <div class="field">
             <label>{{ $t('shotLocation') }}</label>
             <Select v-model="props.item.varData.location" :options="listStore.listData.shotLocations || []" :placeholder="$t('shotLocation')" class="w-[160px]"/>
@@ -30,16 +30,18 @@ const props = defineProps({
         type: Object,
     }
 })
+const ready = ref(false)
 
 // Functions /////////////////////////////////////////////////
 onMounted(() => {
     if (!props.item.varData) {
         props.item.varData = {
             location: null,
-            amount: "",
-            lot: ""
+            amount: null,
+            lot: null
         }
     }
+    ready.value = true
 
 })
 

@@ -15,7 +15,7 @@
                 <AccordionHeader>
                     <div class="flex justify-between items-center w-full mr-2">
                         <div>
-                            <i v-if="item.varData?.length > 0 || item.varData?.type || item.varData.location" :class="item.cat.icon" class="text-[var(--p-primary-color)]"  v-tooltip.left="$t('hasData')"/>
+                            <i v-if="item.varData?.length > 0 || item.varData?.type || item.varData?.location" :class="item.cat.icon" class="text-[var(--p-primary-color)]"  v-tooltip.left="$t('hasData')"/>
                             <i v-else :class="item.cat.icon"/>
                             <span class="ml-4">{{ item.name }}</span>
                         </div>
@@ -28,6 +28,11 @@
                 </AccordionHeader>
                 <AccordionContent>
                     <component :is="parts[item.cat?.label]" :item />
+                    <div class="field">
+                        <label for="note">{{ $t('note') }}</label>
+                        <Textarea id="note" v-model="item.note" rows="1"/>
+                    </div>
+
                     <!-- <exam v-if="item.cat?.label === 'exam'" item></exam> -->
                 </AccordionContent>
             </AccordionPanel>
@@ -50,7 +55,8 @@ const encounterStore = useEncounterStore();
 const parts = {
     exam: Exam,
     perscription: Perscription,
-    shot: Shot
+    shot: Shot,
+    prevVac: Shot
 };
 
 const openOrder = (event, index) => {

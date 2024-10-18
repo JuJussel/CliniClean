@@ -1,19 +1,23 @@
 <template>
     <div class="grid gap-2 grid-cols-9">
-        <Card
-            :pt="{ body: { class: 'h-full' }, content: { class: 'h-full' } }"
-            class="col-span-3"
-        >
-            <template #content> </template>
-        </Card>
-        <Card
-            :pt="{ body: { class: 'h-full' }, content: { class: 'h-full' } }"
-            class="col-span-4"
-        >
-            <template #content>
-                <Karte v-if="ready" />
-            </template>
-        </Card>
+        <splitter class="col-span-7" style="background: none; border: none">
+            <splitterPanel class="grid w-full mr-[0.25rem]">
+                <Card
+                    :pt="{ body: { class: 'h-full' }, content: { class: 'h-full' } }"
+                >
+                    <template #content> </template>
+                </Card>
+            </splitterPanel>
+            <splitterPanel class="grid w-full ml-[0.25rem]">
+                <Card
+                    :pt="{ body: { class: 'h-full' }, content: { class: 'h-full' } }"
+                >
+                    <template #content>
+                        <Karte v-if="ready" />
+                    </template>
+                </Card>
+            </splitterPanel>
+        </splitter>
         <Card 
         :pt="{ body: { class: 'h-full' }, content: { class: 'h-full' } }"
         class="col-span-2">

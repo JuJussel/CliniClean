@@ -1,5 +1,5 @@
 <template>
-    <div class="flex gap-4 flex-wrap">
+    <div v-if="ready" class="flex gap-4 flex-wrap">
         <div class="field">
             <label>{{ $t('perscriptionType') }}</label>
             <Select v-model="props.item.varData.type" :options="types" optionLabel="name" :placeholder="$t('perscriptionType')"/>
@@ -39,6 +39,7 @@ const props = defineProps({
         type: Object,
     }
 })
+const ready = ref(false)
 
 // Functions /////////////////////////////////////////////////
 onMounted(() => {
@@ -50,6 +51,7 @@ onMounted(() => {
             duration: null
         }
     }
+    ready.value = true
 
 })
 

@@ -41,7 +41,7 @@
                 <template #body="slotProps">
                     <div class="h-[34px] flex justify-end align-center">
                         <Tag
-                            :value="slotProps.data.cost.slice(0, -3)"
+                            :value="slotProps.data.cost?.slice(0, -3)"
                             severity="secondary"
                             class="w-12 h-8"
                         />
@@ -90,7 +90,10 @@ const triggerSearch = (delay = 1000) => {
         clearTimeout(globalThis.timeout);
     }
     globalThis.timeout = setTimeout(async () => {
-        if (searchInput.value === "") return;
+        if (searchInput.value === "") {
+            listData.value = favs.value.filter(item => item.cat.code === activeCategory.value)
+            return
+        };
         isSearching.value = true;
         if (activeCategory.value == 25 || activeCategory.value == 30) {
             listData.value = await useApi.get(
