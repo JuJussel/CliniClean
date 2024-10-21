@@ -3,14 +3,22 @@
         <splitter class="col-span-7" style="background: none; border: none">
             <splitterPanel class="grid w-full mr-[0.25rem]">
                 <Card
-                    :pt="{ body: { class: 'h-full' }, content: { class: 'h-full' } }"
+                    :pt="{
+                        body: { class: 'h-full' },
+                        content: { class: 'h-full' },
+                    }"
                 >
-                    <template #content> </template>
+                    <template #content>
+                        <Patient />
+                    </template>
                 </Card>
             </splitterPanel>
             <splitterPanel class="grid w-full ml-[0.25rem]">
                 <Card
-                    :pt="{ body: { class: 'h-full' }, content: { class: 'h-full' } }"
+                    :pt="{
+                        body: { class: 'h-full' },
+                        content: { class: 'h-full' },
+                    }"
                 >
                     <template #content>
                         <Karte v-if="ready" />
@@ -18,9 +26,10 @@
                 </Card>
             </splitterPanel>
         </splitter>
-        <Card 
-        :pt="{ body: { class: 'h-full' }, content: { class: 'h-full' } }"
-        class="col-span-2">
+        <Card
+            :pt="{ body: { class: 'h-full' }, content: { class: 'h-full' } }"
+            class="col-span-2"
+        >
             <template #content>
                 <Browser />
             </template>
@@ -31,6 +40,7 @@
 <script setup>
 import Karte from "./karte";
 import Browser from "./browser";
+import Patient from "../patient";
 
 const encounterStore = useEncounterStore();
 const ready = ref(false);
