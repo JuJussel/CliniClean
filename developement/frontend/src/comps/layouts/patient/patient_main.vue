@@ -14,11 +14,24 @@
             </template>
         </SelectButton>
 
+        <keep-alive>
+            <component :is="parts[activeView]" />
+        </keep-alive>
     </div>
 </template>
 
 <script setup>
+
+import Basic from './patient_basic/patient_basic.vue'
+import {Risks} from './patient_medical'
+import useApi from "@/composables/apiComposable.js";
+
 const patientStore = usePatientStore();
+
+const parts = {
+    basic: Basic,
+    risk: Risks
+}
 
 const activeView = ref('dashboard')
 const views = [
@@ -39,6 +52,13 @@ const views = [
 const availableViews = computed(() => {
     // needs ACLs enabled here - don't remember how this was implemented
     return views
+})
+
+//If medical view is allowed, same as above - need to check ACLs
+onMounted(async () => {
+    if (true) {
+        patientStore.activePatientDataMedical = await useApi.get('patients/' + patientStore.activePatientDataBasic.id + '/medicalHistory')
+    }
 })
 
 </script>

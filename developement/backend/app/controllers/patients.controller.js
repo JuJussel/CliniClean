@@ -272,7 +272,7 @@ exports.findMedicalHistory = async (req, res) => {
 
     patientData.encounters = await Encounter.find({ patient: id }) || [];
     patientData.vitals = await Vital.find({ patientId: id }).sort({ date: -1 }) || [];
-    patientData.orders = await Order.find({ patientId: id }).sort({ date: -1 }) || [];
+    patientData.orders = await Order.find({ patient: id }).sort({ date: -1 }) || [];
     res.send(patientData);
 
     // getOrcaPatientData(id, (err, data) => {

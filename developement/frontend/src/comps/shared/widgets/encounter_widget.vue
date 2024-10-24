@@ -18,6 +18,7 @@
 
 import useApi from "@/composables/apiComposable.js"
 const encounterStore = useEncounterStore()
+const patientStore = usePatientStore()
 const uiStore = useUiStore()
 import encounter from '@/comps/layouts/encounter'
 import ButtonGroup from 'primevue/buttongroup';
@@ -26,9 +27,11 @@ const loading = ref(false)
 const progress = ref(10)
 
 const startFirstEncounter = async () => {
-    // Needs to select the first encounter of the day (time filter?)
+    // Needs to select the first encounter of the day (time filter?) - or the first one in the waiting list
     // and change the status and start the encounter
     // Not done yet
+    // Basically there is always an encounter active - unless user clicks "end encounter and don't go to next one"
+    // In that case the click needs to start the next encounter in the list..
     progress.value = 10
     loading.value = true
     encounterStore.encounterData = null
@@ -38,6 +41,7 @@ const startFirstEncounter = async () => {
     let patientData = await useApi.get('patients/' + encounterData.patient.id)
     progress.value = 80
     encounterStore.patientData = patientData
+    patientStore.activePatientDataBasic = patientData
     await useApi.put('encounters/' + encounterId, { status: 3 })
     progress.value = 90
     encounterData = await useApi.get('encounters/' + encounterId)
