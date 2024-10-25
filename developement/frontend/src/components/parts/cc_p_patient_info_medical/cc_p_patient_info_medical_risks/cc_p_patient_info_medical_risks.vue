@@ -126,14 +126,14 @@ export default {
             },
             habitInput: null,
             habitTemplate: [
-                {name: "tobacco", icon: "fa-solid fa-smoking", value: ""},
-                {name: "coffee", icon: "fa-solid fa-mug-hot", value: ""},
-                {name: "alcohol", icon: "fa-solid fa-martini-glass", value: ""},
-                {name: "recreationalDrugs", icon: "fa-solid fa-cannabis", value: ""},
-                {name: "counseling", icon: "fa-solid fa-couch", value: ""},
-                {name: "exercisePatterns", icon: "fa-solid fa-dumbbell", value: ""},
-                {name: "hazardousActivities", icon: "fa-solid fa-bomb", value: ""},
-                {name: "sleepPatterns", icon: "fa-solid fa-moon", value: "" }
+                {"name": "tobacco", "icon": "fa-solid fa-smoking", "value": ""},
+                {"name": "coffee", "icon": "fa-solid fa-mug-hot", "value": ""},
+                {"name": "alcohol", "icon": "fa-solid fa-martini-glass", "value": ""},
+                {"name": "recreationalDrugs", "icon": "fa-solid fa-cannabis", "value": ""},
+                {"name": "counseling", "icon": "fa-solid fa-couch", "value": ""},
+                {"name": "exercisePatterns", "icon": "fa-solid fa-dumbbell", "value": ""},
+                {"name": "hazardousActivities", "icon": "fa-solid fa-bomb", "value": ""},
+                {"name": "sleepPatterns", "icon": "fa-solid fa-moon", "value": "" }
             ]
         }
     },
