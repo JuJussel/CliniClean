@@ -1,7 +1,7 @@
 <template>
     <Fieldset :legend="$t('basic')">
         <div class="flex p-1 gap-2">
-            <div class="w-20 leading-8 text-right text-xs text-[var(--p-button-text-secondary-color)]">
+            <div class="w-20 infoLabel">
                 {{ $t("name") }}
             </div>
             <tag v-if="patientDataBasic.name !== ''" severity="contrast">
@@ -9,7 +9,7 @@
             <tag v-else severity="secondary"> {{ $t("unknown") }} </tag>
         </div>
         <div class="flex p-1 gap-2">
-            <div class="w-20 leading-8 text-right text-xs text-[var(--p-button-text-secondary-color)]">
+            <div class="w-20 infoLabel">
                 {{ $t("nameKana") }}
             </div>
             <tag v-if="patientDataBasic.nameKana !== ''" severity="contrast">
@@ -17,7 +17,7 @@
             <tag v-else severity="secondary"> {{ $t("unknown") }} </tag>
         </div>
         <div class="flex p-1 gap-2">
-            <div class="w-20 leading-8 text-right text-xs text-[var(--p-button-text-secondary-color)]">
+            <div class="w-20 infoLabel">
                 {{ $t("birthdate") }}
             </div>
             <tag v-if="patientDataBasic.birthdate !== ''" severity="contrast">
@@ -25,7 +25,7 @@
             <tag v-else severity="secondary"> {{ $t("unknown") }} </tag>
         </div>
         <div class="flex p-1 gap-2">
-            <div class="w-20 leading-8 text-right text-xs text-[var(--p-button-text-secondary-color)]">
+            <div class="w-20 infoLabel">
                 {{ $t("gender") }}
             </div>
             <tag v-if="patientDataBasic.gender !== ''" severity="contrast">
@@ -35,7 +35,7 @@
             <tag v-else severity="secondary"> {{ $t("unknown") }} </tag>
         </div>
         <div class="flex p-1 gap-2">
-            <div class="w-20 leading-8 text-right text-xs text-[var(--p-button-text-secondary-color)]">
+            <div class="w-20 infoLabel">
                 {{ $t("occupation") }}
             </div>
             <tag v-if="patientDataBasic.occupation !== ''" severity="contrast">
@@ -45,7 +45,7 @@
     </Fieldset>
     <Fieldset :legend="$t('contactInfo')">
         <div class="flex p-1 gap-2">
-            <div class="w-20 leading-8 text-right text-xs text-[var(--p-button-text-secondary-color)]">
+            <div class="w-20 infoLabel">
                 {{ $t("zipCode") }}
             </div>
             <tag v-if="patientDataBasic.address.zip !== ''" severity="contrast">
@@ -53,7 +53,7 @@
             <tag v-else severity="secondary"> {{ $t("unknown") }} </tag>
         </div>
         <div class="flex p-1 gap-2">
-            <div class="w-20 leading-8 text-right text-xs text-[var(--p-button-text-secondary-color)]">
+            <div class="w-20 infoLabel">
                 {{ $t("address") }}
             </div>
             <tag v-if="patientDataBasic.address.addr !== ''" severity="contrast">
@@ -61,7 +61,7 @@
             <tag v-else severity="secondary"> {{ $t("unknown") }} </tag>
         </div>
         <div class="flex p-1 gap-2">
-            <div class="w-20 leading-8 text-right text-xs text-[var(--p-button-text-secondary-color)]">
+            <div class="w-20 infoLabel">
                 {{ $t("telephone") }}
             </div>
             <tag v-if="patientDataBasic.phone !== ''" severity="contrast">
@@ -69,7 +69,7 @@
             <tag v-else severity="secondary"> {{ $t("unknown") }} </tag>
         </div>
         <div class="flex p-1 gap-2">
-            <div class="w-20 leading-8 text-right text-xs text-[var(--p-button-text-secondary-color)]">
+            <div class="w-20 infoLabel">
                 {{ $t("mailAddress") }}
             </div>
             <tag v-if="patientDataBasic.mail !== ''" severity="contrast">
@@ -77,7 +77,7 @@
             <tag v-else severity="secondary"> {{ $t("unknown") }} </tag>
         </div>
         <div class="flex p-1 gap-2">
-            <div class="w-20 leading-8 text-right text-xs text-[var(--p-button-text-secondary-color)]">
+            <div class="w-20 infoLabel">
                 {{ $t("householder") }}
             </div>
             <tag v-if="patientDataBasic.householderName !== ''" severity="contrast">
@@ -87,7 +87,7 @@
     </Fieldset>
     <Fieldset :legend="$t('workOrSchool')">
         <div class="flex p-1 gap-2">
-            <div class="w-20 leading-8 text-right text-xs text-[var(--p-button-text-secondary-color)]">
+            <div class="w-20 infoLabel">
                 {{ $t("workOrSchoolName") }}
             </div>
             <tag v-if="patientDataBasic.company.name !== ''" severity="contrast">
@@ -95,7 +95,7 @@
             <tag v-else severity="secondary"> {{ $t("unknown") }} </tag>
         </div>
         <div class="flex p-1 gap-2">
-            <div class="w-20 leading-8 text-right text-xs text-[var(--p-button-text-secondary-color)]">
+            <div class="w-20 infoLabel">
                 {{ $t("zipCode") }}
             </div>
             <tag v-if="patientDataBasic.company.zip !== ''" severity="contrast">
@@ -103,7 +103,7 @@
             <tag v-else severity="secondary"> {{ $t("unknown") }} </tag>
         </div>
         <div class="flex p-1 gap-2">
-            <div class="w-20 leading-8 text-right text-xs text-[var(--p-button-text-secondary-color)]">
+            <div class="w-20 infoLabel">
                 {{ $t("address") }}
             </div>
             <tag v-if="patientDataBasic.company.addr !== ''" severity="contrast">
@@ -111,7 +111,7 @@
             <tag v-else severity="secondary"> {{ $t("unknown") }} </tag>
         </div>
         <div class="flex p-1 gap-2">
-            <div class="w-20 leading-8 text-right text-xs text-[var(--p-button-text-secondary-color)]">
+            <div class="w-20 infoLabel">
                 {{ $t("telephone") }}
             </div>
             <tag v-if="patientDataBasic.company.phone !== ''" severity="contrast">
