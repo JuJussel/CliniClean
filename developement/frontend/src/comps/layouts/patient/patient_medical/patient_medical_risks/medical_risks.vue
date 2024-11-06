@@ -1,5 +1,6 @@
 <template>
     <div>
+        ADD
         <!-- <DataView :value="listStore.listData.habitCategories">
             <template #list="slotProps">
                 <div class="flex flex-col gap-4">
@@ -29,7 +30,7 @@
                 </div>
             </template>
         </DataView> -->
-        <DataTable v-model:editingRows="editingRows" :value="habits" editMode="row" size="small">
+        <!-- <DataTable v-model:editingRows="editingRows" :value="habits" editMode="row" size="small">
             <Column class="w-[200px]">
                 <template #body="slotProps">
                      <i :class="slotProps.data.icon " />
@@ -40,9 +41,12 @@
                 <template #body="slotProps">
                     <div class="flex gap-2">
                         <div v-for="(item, index) in slotProps.data.fields" :key="index">
-                            <div v-if="item.value">
+                            <div v-if="item.value" class="flex items-center">
                                 <span class="infoLabel mr-2">{{ $t(item.name) }}:</span>
-                                <tag severity="contrast" >
+                                <div v-if="item.type==='selectMultiAdd'">
+                                    <Chip v-for="(tag, tagIndex) in item.value" :key="tagIndex" :label="tag"/>
+                                </div>
+                                <tag v-else severity="contrast" >
                                     {{ item.value }}
                                     {{ $t(item.unit) }}
                                 </tag>
@@ -52,11 +56,46 @@
                     </div>
                 </template>
                 <template #editor="{ data, field }">
-                    <InputText v-model="data[field]" fluid />
+                    <div class="flex gap-2">
+                        <div v-for="(item, index) in data.fields" :key="index">
+                            <div class="flex items-center">
+                                <span class="infoLabel mr-2">{{ $t(item.name) }}:</span>
+                                <InputGroup v-if="item.type === 'number'"  class="!w-24">
+                                    <InputNumber v-model="data[field]" size="small"/>
+                                    <InputGroupAddon v-if="item.unit">{{ $t(item.unit) }}</InputGroupAddon>
+                                </InputGroup>
+                                <InputGroup v-else-if="item.type === 'text'"  class="!w-24">
+                                    <InputText v-model="data[field]" size="small"/>
+                                    <InputGroupAddon v-if="item.unit">{{ $t(item.unit) }}</InputGroupAddon>
+                                </InputGroup>
+                                <div v-else-if="item.type === 'selectMultiAdd'">
+                                    <Chip v-for="(tag, tagIndex) in item.value" :key="tagIndex" :label="tag" removable />
+                                    <InputText v-model="data[field]" size="small"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </template>
+            </Column>
+            <Column :rowEditor="true" class="w-16" style="width: 10%; min-width: 8rem" bodyStyle="text-align:center"></Column>
+        </DataTable> -->
+        <DataTable v-model:editingRows="editingRows" :value="habits" editMode="row" size="small">
+            <Column class="w-[200px]">
+                <template #body="slotProps">
+                     <i :class="slotProps.data.icon " />
+                     <span class="ml-4">{{ $t(slotProps.data.name) }}</span>
+                </template>
+            </Column>
+            <Column>
+                <template #body="slotProps">
+                </template>
+                <template #editor="{ data, field }">
                 </template>
             </Column>
             <Column :rowEditor="true" class="w-16" style="width: 10%; min-width: 8rem" bodyStyle="text-align:center"></Column>
         </DataTable>
+
     </div>
 </template>
 
