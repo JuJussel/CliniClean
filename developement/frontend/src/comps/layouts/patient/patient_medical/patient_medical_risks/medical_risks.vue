@@ -1,6 +1,6 @@
 <template>
     <div>
-        ADD
+        <Button icon="pi pi-plus" :label="$t('add')" severity="contrast" />
         <!-- <DataView :value="listStore.listData.habitCategories">
             <template #list="slotProps">
                 <div class="flex flex-col gap-4">
@@ -91,6 +91,13 @@
                 <template #body="slotProps">
                 </template>
                 <template #editor="{ data, field }">
+                    <div>
+                        <InputGroup>
+                            <InputText v-model="data[field]" />
+                            <Button icon="pi pi-plus"  severity="secondary"/>
+                        </InputGroup>
+
+                    </div>
                 </template>
             </Column>
             <Column :rowEditor="true" class="w-16" style="width: 10%; min-width: 8rem" bodyStyle="text-align:center"></Column>
@@ -123,10 +130,10 @@ const habits = computed(() => {
 
     let baseArray = JSON.parse(JSON.stringify(listStore.listData.habitCategories))
 
-    patientStore.activePatientDataMedical.habits?.forEach(habit => {
-        let index = baseArray.findIndex((i) => i.name === habit.name)
-        baseArray[index].fields = habit.fields
-    });
+    // patientStore.activePatientDataMedical.habits?.forEach(habit => {
+    //     let index = baseArray.findIndex((i) => i.name === habit.name)
+    //     baseArray[index].fields = habit.fields
+    // });
 
     return baseArray
 
