@@ -80,7 +80,13 @@
             </Column>
             <Column :rowEditor="true" class="w-16" style="width: 10%; min-width: 8rem" bodyStyle="text-align:center"></Column>
         </DataTable> -->
-        <DataTable v-model:editingRows="editingRows" :value="habits" editMode="row" size="small">
+        <DataTable 
+            v-model:editingRows="editingRowsDummy" 
+            :value="habits" 
+            editMode="row" 
+            size="small" 
+            @row-edit-save="habitValueEditSave"
+            @row-edit-init="initRowEdit">
             <Column class="w-[200px]">
                 <template #body="slotProps">
                      <i :class="slotProps.data.icon " />
@@ -90,41 +96,24 @@
             <Column>
                 <template #body="slotProps">
                 </template>
-                <template #editor="{ data, field }">
-                    <div>
-                        <InputGroup>
-                            <InputText v-model="data[field]" />
-                            <Button icon="pi pi-plus"  severity="secondary"/>
-                        </InputGroup>
-
-                    </div>
+                <template #editor="{data, field, index}">
+                    <ItemEdit :itemData="rowEditCopy.find(i => i.index === index).data.values" />
                 </template>
             </Column>
             <Column :rowEditor="true" class="w-16" style="width: 10%; min-width: 8rem" bodyStyle="text-align:center"></Column>
         </DataTable>
-
     </div>
 </template>
 
 <script setup>
+
+import ItemEdit from './medical_risks_item_edit.vue'
+
 const listStore = useListStore();
 const patientStore = usePatientStore();
 
-const editingRows = ref([]);
-
-// const habitData = computed(() => {
-//     return [];
-// });
-
-// const findValue = (category) => {
-//     console.log(category);
-
-//     return (
-//         patientStore.activePatientDataMedical.habits?.find(
-//             (item) => item.name === category
-//         ).value || 1
-//     );
-// };
+const editingRowsDummy = ref([]);
+const rowEditCopy = ref([])
 
 const habits = computed(() => {
 
@@ -138,5 +127,20 @@ const habits = computed(() => {
     return baseArray
 
 })
+
+const habitValueEditSave = async (event) => {
+    let { dummy, index } = event
+    let newDataIndex = rowEditCopy.value.findIndex(i => i.index === index)   
+    let completeOldData = JSON.parse(JSON.stringify(habits.value))
+    completeOldData[index].values = rowEditCopy.value[newDataIndex].data.values
+    rowEditCopy.value.splice(newDataIndex,1)
+    // POST
+
+ 
+}
+
+const initRowEdit = (data) => {
+    rowEditCopy.value.push(JSON.parse(JSON.stringify(data)))
+}
 
 </script>
