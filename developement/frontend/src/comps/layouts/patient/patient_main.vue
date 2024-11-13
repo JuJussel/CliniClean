@@ -24,7 +24,7 @@
 
 import Basic from './patient_basic/patient_basic.vue'
 import {Risks} from './patient_medical'
-import useApi from "@/composables/apiComposable.js";
+import useApi from "@/composables/apiComposable.js"
 
 const patientStore = usePatientStore();
 
@@ -57,7 +57,8 @@ const availableViews = computed(() => {
 //If medical view is allowed, same as above - need to check ACLs
 onMounted(async () => {
     if (true) {
-        patientStore.activePatientDataMedical = await useApi.get('patients/' + patientStore.activePatientDataBasic.id + '/medicalHistory')
+        let patientMedicalData = await useApi.get('patients/' + patientStore.activePatientDataBasic.id + '/medical')
+        patientStore.activePatientDataMedical = patientMedicalData.medicalData
     }
 })
 

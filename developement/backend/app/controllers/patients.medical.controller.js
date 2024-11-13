@@ -116,7 +116,7 @@ exports.add = (req, res) => {
   }
 
   // Send final response
-  res.send({ ok: true })
+  res.send({ ok: true, request: request })
 }
 
 
@@ -155,22 +155,11 @@ exports.get = async (req, res) => {
       medicalData.orders = await Order.find({ patientId: patientId }).sort({ date: -1 }) || [];
       medicalData.diseases = await Orca.get.diseases(patientId)
     }
-
-
-
     // Send final response
     res.send({ ok: true, medicalData, type })
-
-
-
   } catch (err) {
     $logger.error(err);
     res.status(500).send({ message: "Error getting Patient" });
   }
-
-
-
-
-
 }
 

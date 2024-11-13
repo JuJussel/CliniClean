@@ -227,7 +227,7 @@ get.diseases = function (data) {
         }
       }
     };
-    const route = "/orca101/diseasegetv2?class=01";
+    const route = "/api01rv2/diseasegetv2?class=01";
     sendRequest(route, "POST", requestData)
       .then((responseData) => {
         if (validate(responseData, ['00', '21'], "disease_infores")) {
