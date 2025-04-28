@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import apiService from '@/services/api.service.js'
 
 export const useUserStore = defineStore({
     id: 'user',

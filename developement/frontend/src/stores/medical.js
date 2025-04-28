@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
-import apiService from '@/services/api.service.js'
 import { usePatientStore } from './patient'
+import useApi from "@/composables/apiComposable.js"
 
 export const useMedicalStore = defineStore({
     id: 'medical',
@@ -23,7 +23,7 @@ export const useMedicalStore = defineStore({
                 uri = uri + '?type=' + type;
             }
             try {
-                let dbData = await apiService.get(uri);
+                let dbData = await useApi.get(uri);
                 type ? this.medicalData[type] = dbData.medicalData : this.medicalData = dbData.medicalData;
                 this.loading = false;
             } catch (err) {

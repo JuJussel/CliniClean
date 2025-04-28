@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import apiService from '@/services/api.service.js'
+import useApi from "@/composables/apiComposable.js"
 
 export const usePatientStore = defineStore({
     id: 'patient',
@@ -22,7 +22,7 @@ export const usePatientStore = defineStore({
                 }
             }
             try {
-                let dbData = await apiService.get('patients/' + this.patientData.id);
+                let dbData = await useApi.get('patients/' + this.patientData.id);
                 this.patientData = dbData
                 this.loading = false;
 

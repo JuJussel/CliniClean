@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import apiService from '@/services/api.service.js'
+import useApi from "@/composables/apiComposable.js"
 
 export const useSettingStore = defineStore({
     id: 'setting',
@@ -16,7 +16,7 @@ export const useSettingStore = defineStore({
         async getData() {
             this.loading = true
             try {
-                let dbData = await apiService.get('settings/public');
+                let dbData = await useApi.get('settings/public');
                 this.settingData = Object.assign(this.settingData, dbData)
                 this.loading = false;
             } catch (err) {
