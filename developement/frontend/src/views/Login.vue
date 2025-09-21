@@ -42,7 +42,7 @@ export default {
             try {
                 const res = await useApi.post("auth/login", this.user);
                 this.userStore.userData = res;
-                this.$router.push("/home");
+                this.$router.push("/clinicare/app");
             } catch {
                 this.loading = false;
             }

@@ -1,6 +1,6 @@
 import { createWebHistory, createRouter } from "vue-router";
 import Login from "@/views/Login.vue";
-import medicalHome from "@/views/medicalHome.vue"
+import MedicalHome from "@/views/MedicalHome.vue"
 
 const routes = [
   {
@@ -9,10 +9,10 @@ const routes = [
     component: Login,
   },
   {
-    path: "/medical",
-    name: "Medical",
-    component: medicalHome,
-  },
+    path: "/clinicare/app",
+    name: "CliniCare",
+    component: MedicalHome,
+  }
 ];
 
 const router = createRouter({

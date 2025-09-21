@@ -9,7 +9,7 @@ const dbOptions = {};
 
 mongoose.connect(
     dbPath,
-    dbOptions, 
+    dbOptions,
     (err, client) => {
         if (err) {
             console.log(err);

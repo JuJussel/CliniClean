@@ -1,5 +1,4 @@
 <template>
-    <div v-if="modules.length > 1">Placeholder</div>
     <Suspense>
         <router-view />
     </Suspense>
@@ -13,14 +12,12 @@ import router from "./router";
 const isAuthenticated = function () {
     auth.check()
         .then(() => {
-            router.push("/medical");
+            router.push("/clinicare/app");
         })
         .catch(() => {
             router.push("/");
         });
 };
-
-const modules = ref(["medical"]);
 
 // Created
 isAuthenticated();
