@@ -28,7 +28,7 @@ export default defineConfig({
           '@/stores/setting.js': ['useSettingStore'],
           '@/stores/ui.js': ['useUiStore'],
           '@/stores/user.js': ['useUserStore'],
-          '@/lang/jp.js': [['default', 'lang']],
+          '@/stores/Reception.js': ['useReceptionStore'],
           'vue-i18n': ['useI18n']
         }
       ]

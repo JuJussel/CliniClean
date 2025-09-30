@@ -41,7 +41,23 @@ body {
     --p-menubar-border-radius: 0 !important;
     --p-menubar-item-color: white !important;
     --p-menubar-item-icon-color: white !important;
-    --p-tag-contrast-background: var(--p-gray-700) !important;
+    /* --p-tag-contrast-background: var(--p-gray-700) !important; */
+    /* --p-primary-contrast-color: #ffffff !important; */
+    --p-slate-50: #f8fafc !important;
+    --p-slate-100: #f1f5f9 !important;
+    --p-slate-200: #e2e8f0 !important;
+    --p-slate-300: #cbd5e1 !important;
+    --p-slate-400: #818d9f !important;
+    --p-slate-500: #444e5c !important;
+    --p-slate-600: #3e4b5b !important;
+    --p-slate-700: #2b3647 !important;
+    --p-slate-800: #1e293b !important;
+    --p-slate-900: #0f172a !important;
+    --p-slate-950: #020617 !important;
+}
+.p-datatable-row-selected {
+    background-color: var(--p-slate-700) !important;
+    color: white !important;
 }
 
 ::selection {
@@ -61,18 +77,18 @@ body {
 ::-webkit-scrollbar {
     width: 10px;
 }
- 
+
 /* Track */
 ::-webkit-scrollbar-track {
     background: #f1f1f1;
 }
- 
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
     background: #888;
     border-radius: 5px;
 }
- 
+
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
@@ -80,10 +96,10 @@ body {
 /* Scrollbar End*/
 
 .infoLabel {
-    width: 5rem; 
-    line-height: 2rem!important;
+    width: 5rem;
+    line-height: 2rem !important;
     text-align: right;
     font-size: 0.75rem; /* 12px */
-    line-height: 2rem; /* 16px */ 
-    color: var(--p-button-text-secondary-color)
+    line-height: 2rem; /* 16px */
+    color: var(--p-button-text-secondary-color);
 }
