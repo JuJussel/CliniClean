@@ -1,13 +1,13 @@
 <template>
     <div class="layout-columns w-full" :style="{ height }">
         <div class="grid h-full w-full gap-4" :class="`grid-cols-${columns}`">
-            <div v-for="idx in columns" :key="idx" class="h-full w-full">
+            <div v-for="idx in columns" :key="idx" class="h-full w-full overflow-hidden min-h-0">
                 <Card class="h-full w-full">
                     <template #title>
                         <slot :name="'column-' + idx + '-title'" :index="idx" />
                     </template>
                     <template #content>
-                        <div :class="noPadding ? 'm-[-20px]' : ''">
+                        <div :class="noPadding ? 'm-[-20px] min-h-0' : 'min-h-0'">
                             <slot
                                 :name="'column-' + idx + '-content'"
                                 :index="idx"

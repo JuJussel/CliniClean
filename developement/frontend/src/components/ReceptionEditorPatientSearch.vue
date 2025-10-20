@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="flex flex-col h-full min-h-0">
         <div class="flex gap-2 mb-4">
             <div class="w-64">
                 <InputGroup>
@@ -15,15 +15,18 @@
             </div>
             <Button :label="$t('newPatient')" @click="" class="w-32" />
         </div>
-        <DataTable
-            :value="patientSearchResults"
-            v-model:selection="receptionStore.multiView.data.patient"
-            selectionMode="single"
-            dataKey="id"
-            class="w-full"
-            :loading="searching"
-            @rowSelect="receptionStore.multiView.mode = 'patientDetails'"
-        >
+        <div class="min-h-0 h-[calc(100vh-150px)]">
+            <DataTable
+                :value="patientSearchResults"
+                v-model:selection="receptionStore.multiView.data.patient"
+                selectionMode="single"
+                dataKey="id"
+                class="w-full h-full"
+                :loading="searching"
+                scrollable
+                scrollHeight="flex"
+                @rowSelect="receptionStore.multiView.mode = 'patientDetails'"
+            >
             <Column field="id" :header="$t('id')" />
             <Column field="name" :header="$t('name')" />
             <Column field="birthdate" :header="$t('birthdate')" />
@@ -46,12 +49,13 @@
                     </div>
                 </template>
             </Column>
-        </DataTable>
+            </DataTable>
+        </div>
     </div>
 </template>
 
 <script setup>
-import { watch } from "vue";
+import { watch, ref } from "vue";
 import useApi from "@/composables/apiComposable.js";
 
 const receptionStore = useReceptionStore();
@@ -59,6 +63,8 @@ const receptionStore = useReceptionStore();
 const patientSearchInput = ref(null);
 const patientSearchResults = ref([]);
 const searching = ref(false);
+
+// keep table scrollable; pagination was removed per request
 
 let searchTimeout = null;
 
@@ -88,4 +94,6 @@ watch(patientSearchInput, (newVal) => {
 const selectPatient = (patient) => {
     receptionStore.multiView.mode = "patientDetails";
 };
+
+// no-op: pagination removed
 </script>
