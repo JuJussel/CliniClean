@@ -25,7 +25,7 @@
         <main class="grow overflow-hidden p-2">
             <transition name="juzoom">
                 <component
-                    :is="uiStore.activeTab"
+                    :is="{...uiStore.activeTab}"
                     style="height: 100%"
                 ></component>
             </transition>
@@ -58,7 +58,7 @@ proxy.$connect();
 
 const menuItems = [
     {
-        label: t("home"),
+        label: t("homeView"),
         icon: "fa fa-home menu-icon",
         command: () => {
             uiStore.activeTab = receptionOld;

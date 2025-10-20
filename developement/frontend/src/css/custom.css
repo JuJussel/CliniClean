@@ -103,3 +103,13 @@ body {
     line-height: 2rem; /* 16px */
     color: var(--p-button-text-secondary-color);
 }
+
+h3 {
+    font-family: inherit;
+    font-weight: 600;
+    line-height: 1.5;
+    font-size: large;
+    margin-block: 1.5rem 0.5rem;
+    margin-inline: 0;
+    color: var(--p-emerald-600);
+}

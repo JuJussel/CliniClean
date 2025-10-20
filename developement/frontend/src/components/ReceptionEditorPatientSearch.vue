@@ -13,7 +13,7 @@
                     />
                 </InputGroup>
             </div>
-            <Button :label="$t('newPatient')" @click="" class="w-32" />
+            <Button :label="$t('newPatient')" @click="receptionStore.multiView.mode=PatientNew" class="w-32" />
         </div>
         <div class="min-h-0 h-[calc(100vh-150px)]">
             <DataTable
@@ -25,7 +25,7 @@
                 :loading="searching"
                 scrollable
                 scrollHeight="flex"
-                @rowSelect="receptionStore.multiView.mode = 'patientDetails'"
+                @rowSelect="receptionStore.multiView.mode = PatientInfo"
             >
             <Column field="id" :header="$t('id')" />
             <Column field="name" :header="$t('name')" />
@@ -57,6 +57,8 @@
 <script setup>
 import { watch, ref } from "vue";
 import useApi from "@/composables/apiComposable.js";
+import PatientNew from "./ReceptionEditorPatientNew.vue";
+import PatientInfo from "./ReceptionEditorPatientInfo.vue";
 
 const receptionStore = useReceptionStore();
 

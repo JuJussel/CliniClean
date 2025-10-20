@@ -13,9 +13,43 @@ import Aura from '@primevue/themes/aura';
 import 'primeicons/primeicons.css'
 import ToastService from 'primevue/toastservice';
 import Tooltip from 'primevue/tooltip';
-
 import primeVueLocale from "./lang/ja.json"
 
+// Form Inputs
+// Formkit does not work with automatic registration :(
+import AutoComplete from 'primevue/autocomplete';
+import CascadeSelect from 'primevue/cascadeselect';
+import Checkbox from 'primevue/checkbox';
+import ColorPicker from 'primevue/colorpicker';
+import DatePicker from 'primevue/datepicker';
+import Editor from 'primevue/editor';
+import InputMask from 'primevue/inputmask';
+import InputNumber from 'primevue/inputnumber';
+import InputOtp from 'primevue/inputotp';
+import InputText from 'primevue/inputtext';
+import Knob from 'primevue/knob';
+import Listbox from 'primevue/listbox';
+import MultiSelect from 'primevue/multiselect';
+import Password from 'primevue/password';
+import RadioButton from 'primevue/radiobutton';
+import Rating from 'primevue/rating';
+import Select from 'primevue/select';
+import SelectButton from 'primevue/selectbutton';
+import Slider from 'primevue/slider';
+import Textarea from 'primevue/textarea';
+import ToggleButton from 'primevue/togglebutton';
+import ToggleSwitch from 'primevue/toggleswitch';
+import TreeSelect from 'primevue/treeselect';
+import Button from 'primevue/button'
+
+// // Import Quill styles for Editor
+// import 'quill/dist/quill.core.css';
+// import 'quill/dist/quill.snow.css';
+
+import { plugin as formkitPlugin, defaultConfig as formkitDefaultConfig } from '@formkit/vue'
+import formkitConfig from './config/formkit.config.js'
+import '@sfxcode/formkit-primevue/dist/style.css'
+import PrimeSelectWithIcon from '@/components/PrimeSelectWithIcon.vue'
 
 (async () => {
     const app = createApp(App);
@@ -72,7 +106,41 @@ import primeVueLocale from "./lang/ja.json"
 
     app.use(i18n)
 
+    app.use(
+        formkitPlugin,
+        formkitDefaultConfig(formkitConfig)
+    )
+
     app.directive('tooltip', Tooltip);
+
+    // Register Form Input Components
+    // Formkit does not work with automatic registration :(
+    app.component('AutoComplete', AutoComplete);
+    app.component('CascadeSelect', CascadeSelect);
+    app.component('Checkbox', Checkbox);
+    app.component('ColorPicker', ColorPicker);
+    app.component('DatePicker', DatePicker);
+    app.component('Editor', Editor);
+    app.component('InputMask', InputMask);
+    app.component('InputNumber', InputNumber);
+    app.component('InputOtp', InputOtp);
+    app.component('InputText', InputText);
+    app.component('Knob', Knob);
+    app.component('Listbox', Listbox);
+    app.component('MultiSelect', MultiSelect);
+    app.component('Password', Password);
+    app.component('RadioButton', RadioButton);
+    app.component('Rating', Rating);
+    app.component('Select', Select);
+    app.component('SelectButton', SelectButton);
+    app.component('Slider', Slider);
+    app.component('Textarea', Textarea);
+    app.component('ToggleButton', ToggleButton);
+    app.component('ToggleSwitch', ToggleSwitch);
+    app.component('TreeSelect', TreeSelect);
+    app.component('Button', Button);
+    // Small wrapper component that renders icons + labels for Select options
+    app.component('PrimeSelectWithIcon', PrimeSelectWithIcon);
 
     app.mount('#app')
 
