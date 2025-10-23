@@ -3,12 +3,19 @@
         <div class="h-[calc(100vh-200px)] overflow-auto min-h-0">
             <FormKitDataEdit
                 v-model="patient"
+                id="patientForm"
+                actionsClass="!hidden"
                 :schema="formSchema"
                 class="p-4"
+                @data-saved="submitPatient"
             />
         </div>
         <div class="flex justify-end mt-4">
-            <Button :label="$t('register')" icon="pi pi-check" @click="save" />
+            <Button
+                :label="$t('register')"
+                icon="pi pi-check"
+                @click="validateForm()"
+            />
         </div>
     </div>
 </template>
@@ -18,15 +25,11 @@ import { FormKitDataEdit } from "@sfxcode/formkit-primevue/components";
 
 import useApi from "@/composables/apiComposable.js";
 import { useI18n } from "vue-i18n";
+import { submitForm } from "@formkit/vue";
 
 const { t } = useI18n();
 
 const listStore = useListStore();
-
-const genders = listStore.listData.genders;
-const telecomTypes = listStore.listData.telecomTypes;
-const telecomUses = listStore.listData.telecomUses;
-const addressUses = listStore.listData.addressUses;
 
 const formSchema = [
     {
@@ -45,12 +48,14 @@ const formSchema = [
                         name: "family",
                         label: t("lastName"),
                         outerClass: "col-6",
+                        validation: "required",
                     },
                     {
                         $formkit: "primeInputText",
                         name: "given",
                         label: t("firstName"),
                         outerClass: "col-6",
+                        validation: "required",
                     },
                 ],
             },
@@ -62,12 +67,14 @@ const formSchema = [
                         name: "family",
                         label: t("lastNameKana"),
                         outerClass: "col-6",
+                        validation: "required",
                     },
                     {
                         $formkit: "primeInputText",
                         name: "given",
                         label: t("firstNameKana"),
                         outerClass: "col-6",
+                        validation: "required",
                     },
                 ],
             },
@@ -83,6 +90,7 @@ const formSchema = [
         label: t("birthdate"),
         outerClass: "col-6",
         showIcon: true,
+        validation: "required",
     },
     {
         $formkit: "primeSelect",
@@ -134,6 +142,7 @@ const formSchema = [
                         name: "value",
                         label: t("phoneOrMail"),
                         outerClass: "col-6",
+                        validation: "required",
                     },
                 ],
             },
@@ -164,12 +173,14 @@ const formSchema = [
                         name: "postalCode",
                         label: t("zipCode"),
                         outerClass: "col-3",
+                        validation: "required",
                     },
                     {
                         $formkit: "primeInputText",
                         name: "text",
                         label: t("address"),
                         outerClass: "col-3",
+                        validation: "required",
                     },
                     {
                         $formkit: "list",
@@ -188,7 +199,7 @@ const formSchema = [
     },
     {
         $el: "h3",
-        children: t("relation"),
+        children: t("householder"),
     },
 
     {
@@ -200,6 +211,13 @@ const formSchema = [
                 for: ["item", "key", "$contact"],
                 children: [
                     {
+                        $formkit: "primeInputText",
+                        id: "householderName",
+                        name: "name",
+                        label: t("name"),
+                        outerClass: "col-8",
+                    },
+                    {
                         $formkit: "primeSelect",
                         name: "use",
                         label: t("relation"),
@@ -207,12 +225,7 @@ const formSchema = [
                         options: listStore.listData.relations,
                         outerClass: "col-4",
                         optionLabel: (o) => t(o.name),
-                    },
-                    {
-                        $formkit: "primeInputText",
-                        name: "name",
-                        label: t("name"),
-                        outerClass: "col-8",
+                        if: "$get(householderName).value",
                     },
                 ],
             },
@@ -252,55 +265,12 @@ const patient = ref({
     contact: [{ name: "", relation: "" }],
 });
 
-function addName() {
-    patient.value.name.push({ use: "additional", family: "", given: "" });
+async function validateForm() {
+    await submitForm("patientForm");
 }
 
-function removeName(idx) {
-    patient.value.name.splice(idx, 1);
-}
-
-function addTelecom() {
-    patient.value.telecom.push({ system: "phone", value: "", use: "home" });
-}
-
-function removeTelecom(idx) {
-    patient.value.telecom.splice(idx, 1);
-}
-
-function addAddress() {
-    patient.value.address.push({
-        use: "home",
-        type: "postal",
-        line: [],
-        text: "",
-        postalCode: "",
-        country: "JPN",
-    });
-}
-
-function removeAddress(idx) {
-    patient.value.address.splice(idx, 1);
-}
-
-function addContact() {
-    patient.value.contact.push({ name: "", relation: "" });
-}
-
-function removeContact(idx) {
-    patient.value.contact.splice(idx, 1);
-}
-
-async function save() {
-    if (!validateForm()) return;
+async function submitPatient() {
     const payload = JSON.parse(JSON.stringify(patient.value));
-
-    try {
-        // emit event or update store as needed
-        alert("Saved");
-    } catch (e) {
-        console.error(e);
-        alert("Save failed");
-    }
+    alert("Saved");
 }
 </script>

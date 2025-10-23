@@ -49,7 +49,6 @@ import Button from 'primevue/button'
 import { plugin as formkitPlugin, defaultConfig as formkitDefaultConfig } from '@formkit/vue'
 import formkitConfig from './config/formkit.config.js'
 import '@sfxcode/formkit-primevue/dist/style.css'
-import PrimeSelectWithIcon from '@/components/PrimeSelectWithIcon.vue'
 
 (async () => {
     const app = createApp(App);
@@ -139,8 +138,6 @@ import PrimeSelectWithIcon from '@/components/PrimeSelectWithIcon.vue'
     app.component('ToggleSwitch', ToggleSwitch);
     app.component('TreeSelect', TreeSelect);
     app.component('Button', Button);
-    // Small wrapper component that renders icons + labels for Select options
-    app.component('PrimeSelectWithIcon', PrimeSelectWithIcon);
 
     app.mount('#app')
 
