@@ -337,6 +337,29 @@ exports.findDiseases = async (req, res) => {
 exports.create = async (req, res) => {
   try {
     let request = req.body;
+    let ocraId = await Orca.post.patientAsync(request)
+    request._id = ocraId;
+    request.patientId = ocraId;
+
+    Patient.create(request, async (err, patient) => {
+      if (err) {
+        $logger.error("ID3345352\:" + err);
+        res.status(500).send({ message: "Error creating Patient" });
+      }
+    }
+
+
+
+  } catch (err) {
+    $logger.error(err);
+    res.status(500).send({ message: "Error creating Patient" });
+  }
+}
+
+
+exports.create2 = async (req, res) => {
+  try {
+    let request = req.body;
 
     Orca.post.patient(request, (err, data) => {
       if (err) {

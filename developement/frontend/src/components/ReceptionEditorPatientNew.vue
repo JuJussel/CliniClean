@@ -1,20 +1,23 @@
 <template>
     <div>
-        <div class="h-[calc(100vh-200px)] overflow-auto min-h-0">
-            <FormKitDataEdit
-                v-model="patient"
-                id="patientForm"
-                actionsClass="!hidden"
-                :schema="formSchema"
-                class="p-4"
-                @data-saved="submitPatient"
-            />
-        </div>
+        <FormKit
+            id="patientForm"
+            v-model="patient"
+            type="form"
+            @submit="submitPatient"
+            :disabled="loading"
+            actionsClass="!hidden"
+            class="p-4"
+            :actions="false"
+        >
+            <FormKitSchema :schema="formSchema" :data="patient" />
+        </FormKit>
         <div class="flex justify-end mt-4">
             <Button
                 :label="$t('register')"
                 icon="pi pi-check"
                 @click="validateForm()"
+                :loading="loading"
             />
         </div>
     </div>
@@ -26,10 +29,13 @@ import { FormKitDataEdit } from "@sfxcode/formkit-primevue/components";
 import useApi from "@/composables/apiComposable.js";
 import { useI18n } from "vue-i18n";
 import { submitForm } from "@formkit/vue";
+import PatientInfo from "./ReceptionEditorPatientInfo.vue";
+import { useToast } from "primevue/usetoast";
 
 const { t } = useI18n();
-
+const toast = useToast();
 const listStore = useListStore();
+const receptionStore = useReceptionStore();
 
 const formSchema = [
     {
@@ -226,12 +232,15 @@ const formSchema = [
                         outerClass: "col-4",
                         optionLabel: (o) => t(o.name),
                         if: "$get(householderName).value",
+                        validation: "required",
                     },
                 ],
             },
         ],
     },
 ];
+
+const loading = ref(false);
 
 const patient = ref({
     birthDate: null,
@@ -265,12 +274,35 @@ const patient = ref({
     contact: [{ name: "", relation: "" }],
 });
 
-async function validateForm() {
-    await submitForm("patientForm");
+function validateForm() {
+    submitForm("patientForm");
 }
 
 async function submitPatient() {
+    loading.value = true;
     const payload = JSON.parse(JSON.stringify(patient.value));
-    alert("Saved");
+    console.log(payload);
+    
+    try {
+        // const response = await useApi.post("/patients", payload);
+        toast.add({
+            severity: "success",
+            summary: t("success"),
+            detail: t("patientCreatedSuccessfully"),
+            life: 3000,
+        });
+        emit("patientCreated", response.data);
+        emit("close");
+    } catch (error) {
+        toast.add({
+            severity: "error",
+            summary: t("error"),
+            detail: t("patientCreationFailed"),
+            life: 5000,
+        });
+    } finally {
+        loading.value = false;
+        receptionStore.multiView.mode = PatientInfo;
+    }
 }
 </script>
