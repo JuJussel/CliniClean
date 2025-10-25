@@ -9,7 +9,7 @@ const PatientSchema = new Schema({
     // --- Core Patient Identification and Status (FHIR Standard) ---
 
     // Native MongoDB ID
-    _id: { type: 'ObjectId', description: 'MongoDB primary key.' },
+    // _id: { type: 'ObjectId', description: 'MongoDB primary key.' },
 
     // FHIR Resource ID (often matches the string version of _id)
     id: { type: 'string', required: true, description: 'The logical FHIR ID for the resource.' },
@@ -88,7 +88,7 @@ const PatientSchema = new Schema({
     // --- Custom and Extended Fields ---
 
     // Custom field for record creation date
-    createdDate: { type: 'date', default: 'Date.now', description: 'Record creation timestamp.' },
+    createdDate: { type: 'date', default: Date.now(), description: 'Record creation timestamp.' },
 
     // Custom field for occupation (often an extension in FHIR)
     occupation: { type: 'string', description: 'The primary occupation of the patient.' },

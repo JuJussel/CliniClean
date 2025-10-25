@@ -351,7 +351,14 @@
         "shotDataMissing": "接種項目未入力",
         "amount": "量",
         "lot": "LotNo",
-        "duration": "回・日数"
+        "duration": "回・日数",
+        "notKanji": "漢字を含めないでください",
+        "kanji": "漢字をご入力ください",
+        "kana": "カナをご入力ください",
+        "katakana": "カタカナをご入力ください",
+        "romaji": "ローマ字をご入力ください",
+        "invalidPhone": "有効な電話番号を入力してください",
+        "invalidPostal": "有効な郵便番号を入力してください"
     },
     "vitalCategories": {
         "bloodType": "血液型",

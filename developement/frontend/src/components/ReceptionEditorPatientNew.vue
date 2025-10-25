@@ -1,22 +1,24 @@
 <template>
     <div>
-        <FormKit
-            id="patientForm"
-            v-model="patient"
-            type="form"
-            @submit="submitPatient"
-            :disabled="loading"
-            actionsClass="!hidden"
-            class="p-4"
-            :actions="false"
-        >
-            <FormKitSchema :schema="formSchema" :data="patient" />
-        </FormKit>
+        <div class="h-[calc(100vh-200px)] overflow-auto min-h-0 p-4">
+            <FormKit
+                id="patientForm"
+                v-model="patient"
+                type="form"
+                @submit="submitPatient"
+                :disabled="loading"
+                actionsClass="!hidden"
+                class="p-4"
+                :actions="false"
+            >
+                <FormKitSchema :schema="formSchema" :data="patient" />
+            </FormKit>
+        </div>
         <div class="flex justify-end mt-4">
             <Button
                 :label="$t('register')"
                 icon="pi pi-check"
-                @click="validateForm()"
+                @click="submitForm('patientForm')"
                 :loading="loading"
             />
         </div>
@@ -24,8 +26,6 @@
 </template>
 
 <script setup>
-import { FormKitDataEdit } from "@sfxcode/formkit-primevue/components";
-
 import useApi from "@/composables/apiComposable.js";
 import { useI18n } from "vue-i18n";
 import { submitForm } from "@formkit/vue";
@@ -73,14 +73,14 @@ const formSchema = [
                         name: "family",
                         label: t("lastNameKana"),
                         outerClass: "col-6",
-                        validation: "required",
+                        validation: "required|notKanji",
                     },
                     {
                         $formkit: "primeInputText",
                         name: "given",
                         label: t("firstNameKana"),
                         outerClass: "col-6",
-                        validation: "required",
+                        validation: "required|notKanji",
                     },
                 ],
             },
@@ -96,7 +96,7 @@ const formSchema = [
         label: t("birthdate"),
         outerClass: "col-6",
         showIcon: true,
-        validation: "required",
+        validation: "required|date_before",
     },
     {
         $formkit: "primeSelect",
@@ -105,6 +105,7 @@ const formSchema = [
         optionLabel: (g) => t(g),
         options: listStore.listData.genders,
         outerClass: "col-3",
+        validation: "required",
     },
     {
         $formkit: "primeSelect",
@@ -113,6 +114,7 @@ const formSchema = [
         optionLabel: (o) => t(o),
         options: listStore.listData.occupations,
         outerClass: "col-3",
+        validation: "required",
     },
     {
         $el: "h3",
@@ -148,7 +150,16 @@ const formSchema = [
                         name: "value",
                         label: t("phoneOrMail"),
                         outerClass: "col-6",
-                        validation: "required",
+                        if: "$item.system === 'email'",
+                        validation: "required|email",
+                    },
+                    {
+                        $formkit: "primeInputText",
+                        name: "value",
+                        label: t("phoneOrMail"),
+                        outerClass: "col-6",
+                        if: "$item.system === 'phone'",
+                        validation: "required|japanesePhone",
                     },
                 ],
             },
@@ -179,7 +190,7 @@ const formSchema = [
                         name: "postalCode",
                         label: t("zipCode"),
                         outerClass: "col-3",
-                        validation: "required",
+                        validation: "required|japanesePostal",
                     },
                     {
                         $formkit: "primeInputText",
@@ -274,15 +285,9 @@ const patient = ref({
     contact: [{ name: "", relation: "" }],
 });
 
-function validateForm() {
-    submitForm("patientForm");
-}
-
 async function submitPatient() {
     loading.value = true;
     const payload = JSON.parse(JSON.stringify(patient.value));
-    console.log(payload);
-    
     try {
         // const response = await useApi.post("/patients", payload);
         toast.add({
@@ -291,18 +296,17 @@ async function submitPatient() {
             detail: t("patientCreatedSuccessfully"),
             life: 3000,
         });
-        emit("patientCreated", response.data);
-        emit("close");
+        receptionStore.multiView.data.patient = response;
+        receptionStore.multiView.mode = PatientInfo;
     } catch (error) {
         toast.add({
             severity: "error",
-            summary: t("error"),
+            summary: error,
             detail: t("patientCreationFailed"),
             life: 5000,
         });
     } finally {
         loading.value = false;
-        receptionStore.multiView.mode = PatientInfo;
     }
 }
 </script>

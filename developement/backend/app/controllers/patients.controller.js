@@ -1,4 +1,4 @@
-const Patient = require("../models/patient.model.js");
+const Patient = require("../models/PatientModel.js");
 const Orca = require("../utils/orcaApi.util");
 const japUtils = require("japanese-string-utils");
 const File = require("../models/file.model.js");
@@ -337,17 +337,18 @@ exports.findDiseases = async (req, res) => {
 exports.create = async (req, res) => {
   try {
     let request = req.body;
-    let ocraId = await Orca.post.patientAsync(request)
-    request._id = ocraId;
-    request.patientId = ocraId;
+    // let ocraId = await Orca.post.patientAsync(request)
+    request.id = "123";
 
-    Patient.create(request, async (err, patient) => {
-      if (err) {
-        $logger.error("ID3345352\:" + err);
-        res.status(500).send({ message: "Error creating Patient" });
-      }
-    }
+    let patient = await Patient.create(request);
 
+    // Patient.create(request, async (err, patient) => {
+    //   if (err) {
+    //     $logger.error("ID3345352\:" + err);
+    //     res.status(500).send({ message: "Error creating Patient" });
+    //   }
+    // }
+    res.send(patient)
 
 
   } catch (err) {

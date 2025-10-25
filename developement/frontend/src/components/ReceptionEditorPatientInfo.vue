@@ -1,7 +1,8 @@
 <template>
     <div>
-                {{  receptionStore.multiView.data.patient.name }}
-
+        {{
+            receptionStore.multiView.data.patient.name || "No patient selected"
+        }}
     </div>
 </template>
 
