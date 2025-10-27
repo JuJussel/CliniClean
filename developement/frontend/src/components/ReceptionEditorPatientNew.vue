@@ -216,36 +216,40 @@ const formSchema = [
     },
     {
         $el: "h3",
-        children: t("householder"),
+        children: t("relation"),
     },
-
     {
-        $formkit: "list",
+        $formkit: "primeCheckbox",
+        name: "hasContacts",
+        id: "registerContact",
+        suffix: t("registerContact"),
+        outerClass: "col-6",
+    },
+    {
+        $formkit: "group",
+        if: "$hasContacts",
         name: "contact",
         children: [
             {
-                $formkit: "group",
-                for: ["item", "key", "$contact"],
-                children: [
-                    {
-                        $formkit: "primeInputText",
-                        id: "householderName",
-                        name: "name",
-                        label: t("name"),
-                        outerClass: "col-8",
-                    },
-                    {
-                        $formkit: "primeSelect",
-                        name: "use",
-                        label: t("relation"),
-                        optionLabel: (o) => t(o),
-                        options: listStore.listData.relations,
-                        outerClass: "col-4",
-                        optionLabel: (o) => t(o.name),
-                        if: "$get(householderName).value",
-                        validation: "required",
-                    },
-                ],
+                $formkit: "primeAutoComplete",
+                id: "contactName",
+                complete: async (i) => {
+                    if (i.length > 2)
+                        await useApi.get("patients/search?query=" + i);
+                },
+                name: "name",
+                dropdown: true,
+                label: "Basic AutoComplete - Use [h]ello",
+            },
+            {
+                $formkit: "primeSelect",
+                name: "use",
+                label: t("relation"),
+                optionLabel: (o) => t(o),
+                options: listStore.listData.relations,
+                outerClass: "col-4",
+                optionLabel: (o) => t(o.name),
+                validation: "required",
             },
         ],
     },
@@ -282,7 +286,7 @@ const patient = ref({
         },
     ],
     occupation: "employee",
-    contact: [{ name: "", relation: "" }],
+    hasContacts: false,
 });
 
 async function submitPatient() {
