@@ -1,6 +1,5 @@
-// const Patient = require("../models/patient.model.js");
-const Patient = require("../models/xxx_patient.model.js");
 const Person = require("../models/person.model.js");
+const Patient = require("../models/xxx_patient.model.js");
 const Orca = require("../utils/orcaApi.util");
 const japUtils = require("japanese-string-utils");
 const File = require("../models/file.model.js");
@@ -341,24 +340,25 @@ exports.create = async (req, res) => {
     let request = req.body;
     // Handle contact person reference
     if (request.hasContact && request.contact) {
-      if (request.contact.person) {
+      if (request.contact.name) {
         // If contact.person is an ObjectId string, it's a reference to existing person
-        if (typeof request.contact.person === 'string') {
+        if (typeof request.contact.name === 'string') {
+          // If contact.person is string, create new person
+          const newPerson = await Person.create(request.contact);
+          request.contact.name = { id: newPerson._id };
+        } else {
           // Verify the person exists
-          const existingPerson = await Person.findById(request.contact.person);
+          const existingPerson = await Person.findById(request.contact.name.id);
           if (!existingPerson) {
             throw new Error('Referenced person not found');
           }
-        } else {
-          // If contact.person is an object, create new person
-          const newPerson = await Person.create(request.contact.person);
-          request.contact.person = newPerson._id;
         }
       }
     }
 
     // let ocraId = await Orca.post.patientAsync(request)
     request.id = "123";
+
 
     let patient = await Patient.create(request);
     res.send(patient)
