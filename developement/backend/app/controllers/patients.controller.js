@@ -1,4 +1,5 @@
-const Patient = require("../models/patient.model.js");
+// const Patient = require("../models/patient.model.js");
+const Patient = require("../models/xxx_patient.model.js");
 const Person = require("../models/person.model.js");
 const Orca = require("../utils/orcaApi.util");
 const japUtils = require("japanese-string-utils");

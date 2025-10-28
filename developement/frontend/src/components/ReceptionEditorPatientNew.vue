@@ -223,7 +223,6 @@ const formSchema = [
         name: "hasContacts",
         id: "registerContact",
         suffix: t("registerContact"),
-        outerClass: "col-6",
     },
     {
         $formkit: "group",
@@ -234,12 +233,15 @@ const formSchema = [
                 $formkit: "primeAutoComplete",
                 id: "contactName",
                 complete: async (i) => {
-                    if (i.length > 2)
-                        await useApi.get("patients/search?query=" + i);
+                    return await useApi.get("patients/search?query=" + i);
                 },
                 name: "name",
+                optionLabel: "name",
                 dropdown: true,
-                label: "Basic AutoComplete - Use [h]ello",
+                minLength: 3,
+                label: t("name"),
+                outerClass: "col-6",
+                fluid: true,
             },
             {
                 $formkit: "primeSelect",
@@ -250,6 +252,53 @@ const formSchema = [
                 outerClass: "col-4",
                 optionLabel: (o) => t(o.name),
                 validation: "required",
+                outerClass: "col-6",
+            },
+        ],
+    },
+    {
+        $formkit: "group",
+        name: "contact",
+        if: "$contact.name.id == undefined && $hasContacts",
+        children: [
+            {
+                $formkit: "group",
+                name: "address",
+                children: [
+                    {
+                        $formkit: "primeSelect",
+                        name: "use",
+                        label: t("use"),
+                        optionLabel: (o) => t(o),
+                        options: listStore.listData.telecomUses,
+                        outerClass: "$reset col-2",
+                    },
+                    {
+                        $formkit: "primeInputText",
+                        name: "postalCode",
+                        label: t("zipCode"),
+                        outerClass: "col-3",
+                        validation: "required|japanesePostal",
+                    },
+                    {
+                        $formkit: "primeInputText",
+                        name: "text",
+                        label: t("address"),
+                        outerClass: "col-3",
+                        validation: "required",
+                    },
+                    {
+                        $formkit: "list",
+                        name: "line",
+                        children: [
+                            {
+                                $formkit: "primeInputText",
+                                label: t("RoomOrCompany"),
+                                outerClass: "col-4",
+                            },
+                        ],
+                    },
+                ],
             },
         ],
     },
