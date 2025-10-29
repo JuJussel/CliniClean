@@ -358,9 +358,9 @@ exports.create = async (req, res) => {
 
     // let ocraId = await Orca.post.patientAsync(request)
     request.id = "123";
+    request.type = 'patient';
 
-
-    let patient = await Patient.create(request);
+    let patient = await Person.create(request);
     res.send(patient)
 
 
@@ -369,53 +369,6 @@ exports.create = async (req, res) => {
     res.status(500).send({ message: "Error creating Patient" });
   }
 }
-
-
-exports.create2 = async (req, res) => {
-  try {
-    let request = req.body;
-
-    Orca.post.patient(request, (err, data) => {
-      if (err) {
-        res.status(500).send({
-          message: err,
-        });
-      } else {
-        request._id = data;
-        patientDBData = JSON.parse(JSON.stringify(request));
-        delete patientDBData.insurance
-        request.patientId = data;
-
-        Patient.create(patientDBData, async (err, patient) => {
-          if (err) {
-            $logger.error("ID3345352\:" + err);
-            res.status(500).send({ message: "Error creating Patient" });
-          }
-
-          let insurance = await registerInsurance(request)
-
-          if (insurance) {
-
-            res.send({ patientId: data });
-          } else {
-            res.status(500).send({ message: "Error creating Insurance" });
-
-          }
-          // try {
-          //   await registerInsurance(request)
-          //   res.send({ patientId: data });
-          // } catch (err) {
-          // $logger.error(err);
-          // res.status(500).send({ message: "Error creating Patient" });
-          // }
-        })
-      }
-    })
-  } catch (err) {
-    $logger.error(err);
-    res.status(500).send({ message: "Error creating Patient" });
-  }
-};
 
 exports.edit = async (req, res) => {
   const envConfig = require("../../env");

@@ -12,7 +12,7 @@ const PersonSchema = new Schema({
 
     //Type of the cperson
     type: {
-        type: 'string', enum: ['patient', 'guardian', 'emergency_contact', 'contact' 'other'],
+        type: 'string', enum: ['patient', 'guardian', 'emergency_contact', 'contact', 'other'],
         description: 'The type of person (e.g., patient, guardian, emergency contact).',
         default: 'contact'
     },

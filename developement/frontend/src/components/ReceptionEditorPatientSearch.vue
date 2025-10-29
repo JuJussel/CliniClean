@@ -13,7 +13,11 @@
                     />
                 </InputGroup>
             </div>
-            <Button :label="$t('newPatient')" @click="receptionStore.multiView.mode=PatientNew" class="w-32" />
+            <Button
+                :label="$t('newPatient')"
+                @click="receptionStore.multiView.mode = PatientNew"
+                class="w-32"
+            />
         </div>
         <div class="min-h-0 h-[calc(100vh-150px)]">
             <DataTable
@@ -27,28 +31,28 @@
                 scrollHeight="flex"
                 @rowSelect="receptionStore.multiView.mode = PatientInfo"
             >
-            <Column field="id" :header="$t('id')" />
-            <Column field="name" :header="$t('name')" />
-            <Column field="birthdate" :header="$t('birthdate')" />
-            <Column>
-                <template #body="slotProps">
-                    <div class="flex gap-2">
-                        <Button
-                            icon="pi pi-eye"
-                            @click="viewPatient(slotProps.data)"
-                        />
-                        <Button
-                            icon="pi pi-pencil"
-                            @click="editPatient(slotProps.data)"
-                        />
-                        <Button
-                            icon="pi pi-trash"
-                            severity="danger"
-                            @click="deletePatient(slotProps.data)"
-                        />
-                    </div>
-                </template>
-            </Column>
+                <Column field="id" :header="$t('id')" />
+                <Column field="name" :header="$t('name')" />
+                <Column field="birthdate" :header="$t('birthdate')" />
+                <Column>
+                    <template #body="slotProps">
+                        <div class="flex gap-2">
+                            <Button
+                                icon="pi pi-eye"
+                                @click="viewPatient(slotProps.data)"
+                            />
+                            <Button
+                                icon="pi pi-pencil"
+                                @click="editPatient(slotProps.data)"
+                            />
+                            <Button
+                                icon="pi pi-trash"
+                                severity="danger"
+                                @click="deletePatient(slotProps.data)"
+                            />
+                        </div>
+                    </template>
+                </Column>
             </DataTable>
         </div>
     </div>
@@ -75,7 +79,7 @@ receptionStore.multiView.data.patient = null;
 const search = async () => {
     searching.value = true;
     patientSearchResults.value = await useApi.get(
-        "patients/search?query=" + patientSearchInput.value
+        "persons/search?query=" + patientSearchInput.value
     );
     searching.value = false;
 };
@@ -84,7 +88,7 @@ watch(patientSearchInput, (newVal) => {
     searching.value = false;
     receptionStore.multiView.data.patient = null;
     if (searchTimeout) clearTimeout(searchTimeout);
-    if (newVal && newVal.length >= 3) {
+    if (newVal) {
         searchTimeout = setTimeout(() => {
             search();
         }, 500);

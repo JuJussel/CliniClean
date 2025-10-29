@@ -92,7 +92,7 @@ watch(
     async (newVal) => {
         if (!newVal || selectedContact.value) return;
 
-        const query = `${newVal.family || ""} ${newVal.given || ""}`.trim();
+        const query = `${newVal.family || ""}${newVal.given || ""}`.trim();
         if (query.length < 2) {
             searchResults.value = [];
             return;
@@ -100,7 +100,10 @@ watch(
 
         searchLoading.value = true;
         try {
-            const results = await useApi.get("patients/search?query=" + query);
+            const results = await useApi.get(
+                "persons/search?query=" +
+                    JSON.stringify(patient.value.contact.name)
+            );
             searchResults.value = results;
         } catch (error) {
             console.error("Search error:", error);
@@ -423,7 +426,7 @@ async function submitPatient() {
     loading.value = true;
     const payload = JSON.parse(JSON.stringify(patient.value));
     try {
-        // const response = await useApi.post("/patients", payload);
+        const response = await useApi.post("/patients", payload);
         toast.add({
             severity: "success",
             summary: t("success"),
