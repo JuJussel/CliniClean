@@ -7,56 +7,15 @@ const { rejections } = require("winston");
 
 exports.findMany = async (req, res) => {
   try {
-    let search = req.query.query;
-    let query = { $or: [] };
-    let searchObject;
+    const { id, family, given, familyKana, givenKana, query } = req.query;
+    let mongoQuery = { $or: [] };
+    console.log(query);
 
-    // Try to parse as JSON first
-    try {
-      searchObject = JSON.parse(search);
-    } catch (e) {
-      // If parsing fails, it's a regular string search
-      searchObject = null;
-    }
-
-    if (searchObject && typeof searchObject === 'object') {
-      // Handle object-based search
-      if (searchObject.id) {
-        query.$or.push({ id: new RegExp(searchObject.id, 'i') });
-      }
-
-      // Handle kanji name match
-      if (searchObject.family || searchObject.given) {
-        const nameMatch = {};
-        if (searchObject.family) {
-          nameMatch['name.family'] = new RegExp(japUtils.toFullwidth(searchObject.family), 'i');
-        }
-        if (searchObject.given) {
-          nameMatch['name.given'] = new RegExp(japUtils.toFullwidth(searchObject.given), 'i');
-        }
-        if (Object.keys(nameMatch).length > 0) {
-          query.$or.push(nameMatch);
-        }
-      }
-
-      // Handle kana name match
-      if (searchObject.familyKana || searchObject.givenKana) {
-        const kanaMatch = {};
-        if (searchObject.familyKana) {
-          kanaMatch['name.familyKana'] = new RegExp(japUtils.toFullwidth(searchObject.familyKana), 'i');
-        }
-        if (searchObject.givenKana) {
-          kanaMatch['name.givenKana'] = new RegExp(japUtils.toFullwidth(searchObject.givenKana), 'i');
-        }
-        if (Object.keys(kanaMatch).length > 0) {
-          query.$or.push(kanaMatch);
-        }
-      }
-    } else {
-      // Handle regular string search
-      const searchValue = japUtils.toFullwidth(search);
-      query.$or = [
-        { id: new RegExp(search, 'i') },
+    // If query parameter exists, use it for general search
+    if (query) {
+      const searchValue = japUtils.toFullwidth(query);
+      mongoQuery.$or = [
+        { id: new RegExp(query, 'i') },
         { 'name.family': new RegExp(searchValue, 'i') },
         { 'name.given': new RegExp(searchValue, 'i') },
         { 'name.familyKana': new RegExp(searchValue, 'i') },
@@ -81,47 +40,47 @@ exports.findMany = async (req, res) => {
           }
         }
       ];
-    }
-      // Handle object search with specific field matching
-      if (search.id) {
-        query.$or.push({ id: new RegExp(search.id, 'i') });
+    } else {
+      // Handle specific field search
+      if (id) {
+        mongoQuery.$or.push({ id: new RegExp(id, 'i') });
       }
 
       // Handle kanji name match
-      if (search.family || search.given) {
+      if (family || given) {
         const nameMatch = {};
-        if (search.family) {
-          nameMatch['name.family'] = new RegExp(japUtils.toFullwidth(search.family), 'i');
+        if (family) {
+          nameMatch['name.family'] = new RegExp(japUtils.toFullwidth(family), 'i');
         }
-        if (search.given) {
-          nameMatch['name.given'] = new RegExp(japUtils.toFullwidth(search.given), 'i');
+        if (given) {
+          nameMatch['name.given'] = new RegExp(japUtils.toFullwidth(given), 'i');
         }
         if (Object.keys(nameMatch).length > 0) {
-          query.$or.push(nameMatch);
+          mongoQuery.$or.push(nameMatch);
         }
       }
 
       // Handle kana name match
-      if (search.familyKana || search.givenKana) {
+      if (familyKana || givenKana) {
         const kanaMatch = {};
-        if (search.familyKana) {
-          kanaMatch['name.familyKana'] = new RegExp(japUtils.toFullwidth(search.familyKana), 'i');
+        if (familyKana) {
+          kanaMatch['name.familyKana'] = new RegExp(japUtils.toFullwidth(familyKana), 'i');
         }
-        if (search.givenKana) {
-          kanaMatch['name.givenKana'] = new RegExp(japUtils.toFullwidth(search.givenKana), 'i');
+        if (givenKana) {
+          kanaMatch['name.givenKana'] = new RegExp(japUtils.toFullwidth(givenKana), 'i');
         }
         if (Object.keys(kanaMatch).length > 0) {
-          query.$or.push(kanaMatch);
+          mongoQuery.$or.push(kanaMatch);
         }
       }
     }
 
     // If no valid search criteria were provided, return empty array
-    if (query.$or.length === 0) {
+    if (mongoQuery.$or.length === 0) {
       return res.send([]);
     }
 
-    const persons = await Person.find(query)
+    const persons = await Person.find(mongoQuery)
       .select('name birthDate gender type')
       .lean()
       .exec();

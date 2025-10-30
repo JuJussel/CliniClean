@@ -12,29 +12,6 @@
                     :actions="false"
                 >
                     <FormKitSchema :schema="formSchema" :data="patient" />
-                    <div
-                        v-if="
-                            searchResults.length > 0 &&
-                            patient.hasContacts &&
-                            !selectedContact
-                        "
-                        class="mb-3"
-                    >
-                        <Listbox
-                            v-model="selectedContact"
-                            :options="searchResults"
-                            :optionLabel="
-                                (contact) =>
-                                    `${contact.name.family} ${contact.name.given}`
-                            "
-                            filter
-                            listStyle="max-height:250px"
-                            class="w-full"
-                            :loading="searchLoading"
-                            :placeholder="t('selectExistingContact')"
-                            @change="handleContactSelect"
-                        />
-                    </div>
                 </FormKit>
             </div>
         </div>
@@ -64,6 +41,7 @@ const receptionStore = useReceptionStore();
 const searchResults = ref([]);
 const searchLoading = ref(false);
 const selectedContact = ref(null);
+const currentSearchController = ref(null);
 
 const patient = ref({
     birthDate: null,
@@ -90,31 +68,66 @@ const loading = ref(false);
 watch(
     () => patient.value.contact?.name,
     async (newVal) => {
+        // Cancel any pending request
+        if (currentSearchController.value) {
+            currentSearchController.value.abort();
+        }
+
         if (!newVal || selectedContact.value) return;
 
-        const query = `${newVal.family || ""}${newVal.given || ""}`.trim();
-        if (query.length < 2) {
+        // Check if we have at least 2 characters in any field
+        const hasMinChars = Object.values(newVal).some(
+            (val) => (val || "").length >= 2
+        );
+        if (!hasMinChars) {
             searchResults.value = [];
             return;
         }
 
+        // Create new AbortController for this request
+        currentSearchController.value = new AbortController();
         searchLoading.value = true;
+
         try {
+            // Build query parameters with only non-empty values
+            const params = new URLSearchParams();
+            if (newVal.family) params.append("family", newVal.family);
+            if (newVal.given) params.append("given", newVal.given);
+            if (newVal.familyKana)
+                params.append("familyKana", newVal.familyKana);
+            if (newVal.givenKana) params.append("givenKana", newVal.givenKana);
+
             const results = await useApi.get(
-                "persons/search?query=" +
-                    JSON.stringify(patient.value.contact.name)
+                `persons/search?${params.toString()}`,
+                { signal: currentSearchController.value?.signal }
             );
-            searchResults.value = results;
+
+            // Only update results if controller exists and request wasn't aborted
+            if (
+                currentSearchController.value &&
+                !currentSearchController.value.signal.aborted
+            ) {
+                searchResults.value = results;
+            }
         } catch (error) {
-            console.error("Search error:", error);
-            searchResults.value = [];
+            // Only handle error if it's not an abort error
+            if (error.name !== "AbortError") {
+                console.error("Search error:", error);
+                searchResults.value = [];
+            }
         } finally {
-            searchLoading.value = false;
+            // Only reset loading state if this was the last request and controller still exists
+            if (
+                currentSearchController.value &&
+                !currentSearchController.value.signal.aborted
+            ) {
+                searchLoading.value = false;
+            }
+            currentSearchController.value = null;
         }
     },
     { deep: true }
 );
-
 const handleContactSelect = (contact) => {
     if (!contact) return;
 
@@ -128,6 +141,30 @@ const handleContactSelect = (contact) => {
         person: contact._id,
     };
 };
+async function submitPatient() {
+    loading.value = true;
+    const payload = JSON.parse(JSON.stringify(patient.value));
+    try {
+        const response = await useApi.post("/patients", payload);
+        toast.add({
+            severity: "success",
+            summary: t("success"),
+            detail: t("patientCreatedSuccessfully"),
+            life: 3000,
+        });
+        receptionStore.multiView.data.patient = response;
+        receptionStore.multiView.mode = PatientInfo;
+    } catch (error) {
+        toast.add({
+            severity: "error",
+            summary: error,
+            detail: t("patientCreationFailed"),
+            life: 5000,
+        });
+    } finally {
+        loading.value = false;
+    }
+}
 
 const formSchema = [
     {
@@ -302,7 +339,7 @@ const formSchema = [
                         label: t("lastName"),
                         outerClass: "col-6",
                         validation: "required",
-                        disabled: false,
+                        disabled: "$selectedContact",
                     },
                     {
                         $formkit: "primeInputText",
@@ -318,7 +355,7 @@ const formSchema = [
                         label: t("lastNameKana"),
                         outerClass: "col-6",
                         validation: "required|notKanji",
-                        disabled: "selectedContact",
+                        disabled: "$selectedContact",
                     },
                     {
                         $formkit: "primeInputText",
@@ -326,51 +363,17 @@ const formSchema = [
                         label: t("firstNameKana"),
                         outerClass: "col-6",
                         validation: "required|notKanji",
-                        disabled: "selectedContact",
+                        disabled: "$selectedContact",
                     },
                 ],
             },
             {
-                $formkit: "group",
-                if: "searchResults.length > 0 && !selectedContact",
-                children: [
-                    {
-                        $el: "div",
-                        attrs: {
-                            class: "col-12 mb-3",
-                        },
-                        children: [
-                            {
-                                $cmp: "ListBox",
-                                props: {
-                                    options: "$searchResults",
-                                    optionLabel:
-                                        "name.family + ' ' + name.given",
-                                    filter: true,
-                                    listStyle: "max-height:250px",
-                                    class: "w-full",
-                                    loading: "$searchLoading",
-                                    placeholder: t("selectExistingContact"),
-                                },
-                                on: {
-                                    change: "handleContactSelect($event.value)",
-                                },
-                            },
-                        ],
-                    },
-                ],
-            },
-
-            {
-                $formkit: "primeSelect",
-                name: "use",
-                label: t("relation"),
-                optionLabel: (o) => t(o),
-                options: listStore.listData.relations,
-                outerClass: "col-4",
-                optionLabel: (o) => t(o.name),
-                validation: "required",
-                outerClass: "col-6",
+                $formkit: "primeListbox",
+                name: "selectedContact",
+                label: "Cookie notice",
+                optionLabel: "name",
+                // optionValue: "value",
+                options: "$searchResults",
             },
         ],
     },
@@ -421,29 +424,4 @@ const formSchema = [
         ],
     },
 ];
-
-async function submitPatient() {
-    loading.value = true;
-    const payload = JSON.parse(JSON.stringify(patient.value));
-    try {
-        const response = await useApi.post("/patients", payload);
-        toast.add({
-            severity: "success",
-            summary: t("success"),
-            detail: t("patientCreatedSuccessfully"),
-            life: 3000,
-        });
-        receptionStore.multiView.data.patient = response;
-        receptionStore.multiView.mode = PatientInfo;
-    } catch (error) {
-        toast.add({
-            severity: "error",
-            summary: error,
-            detail: t("patientCreationFailed"),
-            life: 5000,
-        });
-    } finally {
-        loading.value = false;
-    }
-}
 </script>
