@@ -2,6 +2,11 @@
     <div>
         <div class="h-[calc(100vh-200px)] overflow-auto min-h-0 p-4">
             <div class="max-w-[700px]">
+                <Listbox
+                    :options="searchResults"
+                    optionLabel="gender"
+                    class="w-full md:w-56"
+                />
                 <FormKit
                     id="patientForm"
                     v-model="patient"
@@ -38,10 +43,8 @@ const toast = useToast();
 const listStore = useListStore();
 const receptionStore = useReceptionStore();
 
-const searchResults = ref([]);
+const searchResults = ref([{ gender: "asd" }]);
 const searchLoading = ref(false);
-const selectedContact = ref(null);
-const currentSearchController = ref(null);
 
 const patient = ref({
     birthDate: null,
@@ -60,86 +63,115 @@ const patient = ref({
         line: "",
     },
     occupation: "employee",
-    hasContacts: false,
+    contact: {
+        register: false,
+        id: null,
+        name: {
+            family: "",
+            given: "",
+            familyKana: "",
+            givenKana: "",
+        },
+        address: {
+            address: "",
+            zip: "",
+            country: "JPN",
+            line: "",
+        },
+    },
 });
 const loading = ref(false);
+
+// Track the timeout
+let searchTimeout = null;
 
 // Watch for changes in contact name
 watch(
     () => patient.value.contact?.name,
-    async (newVal) => {
-        // Cancel any pending request
-        if (currentSearchController.value) {
-            currentSearchController.value.abort();
+    (newVal) => {
+        // Clear any existing timeout
+        if (searchTimeout) {
+            clearTimeout(searchTimeout);
         }
 
-        if (!newVal || selectedContact.value) return;
+        if (!newVal) return;
 
-        // Check if we have at least 2 characters in any field
-        const hasMinChars = Object.values(newVal).some(
-            (val) => (val || "").length >= 2
-        );
-        if (!hasMinChars) {
-            searchResults.value = [];
-            return;
-        }
+        // Set new timeout
+        searchTimeout = setTimeout(async () => {
+            // Check if we have at least 2 characters in any field
 
-        // Create new AbortController for this request
-        currentSearchController.value = new AbortController();
-        searchLoading.value = true;
-
-        try {
-            // Build query parameters with only non-empty values
-            const params = new URLSearchParams();
-            if (newVal.family) params.append("family", newVal.family);
-            if (newVal.given) params.append("given", newVal.given);
-            if (newVal.familyKana)
-                params.append("familyKana", newVal.familyKana);
-            if (newVal.givenKana) params.append("givenKana", newVal.givenKana);
-
-            const results = await useApi.get(
-                `persons/search?${params.toString()}`,
-                { signal: currentSearchController.value?.signal }
+            const hasMinChars = Object.values(newVal).some(
+                (val) => (val || "").length >= 2
             );
-
-            // Only update results if controller exists and request wasn't aborted
-            if (
-                currentSearchController.value &&
-                !currentSearchController.value.signal.aborted
-            ) {
-                searchResults.value = results;
-            }
-        } catch (error) {
-            // Only handle error if it's not an abort error
-            if (error.name !== "AbortError") {
-                console.error("Search error:", error);
+            if (!hasMinChars) {
                 searchResults.value = [];
+                return;
             }
-        } finally {
-            // Only reset loading state if this was the last request and controller still exists
-            if (
-                currentSearchController.value &&
-                !currentSearchController.value.signal.aborted
-            ) {
+
+            searchLoading.value = true;
+
+            try {
+                // Build query parameters with only non-empty values
+                const params = new URLSearchParams();
+                if (newVal.family) params.append("family", newVal.family);
+                if (newVal.given) params.append("given", newVal.given);
+                if (newVal.familyKana)
+                    params.append("familyKana", newVal.familyKana);
+                if (newVal.givenKana)
+                    params.append("givenKana", newVal.givenKana);
+
+                const results = await useApi.get(
+                    `persons/search?${params.toString()}`
+                );
+
+                searchResults.value = results;
+            } catch (error) {
+                // Only handle error if it's not an abort error
+                if (error.name !== "AbortError") {
+                    console.error("Search error:", error);
+                }
+            } finally {
                 searchLoading.value = false;
             }
-            currentSearchController.value = null;
-        }
+        }, 1000); // 1 second delay
     },
     { deep: true }
 );
-const handleContactSelect = (contact) => {
-    if (!contact) return;
 
-    // Disable form fields by setting selectedContact
-    selectedContact.value = contact;
+const searchPerson = async () => {
+    try {
+        const params = new URLSearchParams();
+        if (
+            patient.value.contact.name.family &&
+            patient.value.contact.name.family.length > 1
+        )
+            params.append("family", patient.value.contact.name.family);
+        if (
+            patient.value.contact.name.given &&
+            patient.value.contact.name.given.length > 1
+        )
+            params.append("given", patient.value.contact.name.given);
+        if (
+            patient.value.contact.name.familyKana &&
+            patient.value.contact.name.familyKana.length > 1
+        )
+            params.append("familyKana", patient.value.contact.name.familyKana);
+        if (
+            patient.value.contact.name.givenKana &&
+            patient.value.contact.name.givenKana.length > 1
+        )
+            params.append("givenKana", patient.value.contact.name.givenKana);
 
-    // Update contact information
-    patient.value.contact = {
-        ...patient.value.contact,
-        name: { id: contact._id },
-        person: contact._id,
-    };
+        return await useApi.get(`persons/search?${params.toString()}`);
+    } catch (error) {
+        console.error("Search error:", error);
+        return [];
+    }
+};
+
+const handleContactSelect = (c) => {
+    if (!c) return;
+    existingContact.value = c.value;
 };
 async function submitPatient() {
     loading.value = true;
@@ -319,69 +351,80 @@ const formSchema = [
         children: t("relation"),
     },
     {
-        $formkit: "primeCheckbox",
-        name: "hasContacts",
-        id: "registerContact",
-        suffix: t("registerContact"),
-    },
-    {
         $formkit: "group",
-        if: "$hasContacts",
         name: "contact",
         children: [
             {
-                $formkit: "group",
-                name: "name",
-                children: [
-                    {
-                        $formkit: "primeInputText",
-                        name: "family",
-                        label: t("lastName"),
-                        outerClass: "col-6",
-                        validation: "required",
-                        disabled: "$selectedContact",
-                    },
-                    {
-                        $formkit: "primeInputText",
-                        name: "given",
-                        label: t("firstName"),
-                        outerClass: "col-6",
-                        validation: "required",
-                        disabled: "$selectedContact",
-                    },
-                    {
-                        $formkit: "primeInputText",
-                        name: "familyKana",
-                        label: t("lastNameKana"),
-                        outerClass: "col-6",
-                        validation: "required|notKanji",
-                        disabled: "$selectedContact",
-                    },
-                    {
-                        $formkit: "primeInputText",
-                        name: "givenKana",
-                        label: t("firstNameKana"),
-                        outerClass: "col-6",
-                        validation: "required|notKanji",
-                        disabled: "$selectedContact",
-                    },
-                ],
-            },
-            {
-                $formkit: "primeListbox",
-                name: "selectedContact",
-                label: "Cookie notice",
-                optionLabel: "name",
-                // optionValue: "value",
-                options: "$searchResults",
+                $formkit: "primeCheckbox",
+                name: "register",
+                id: "registerContact",
+                suffix: t("registerContact"),
             },
         ],
     },
     {
         $formkit: "group",
+        if: "$contact.register",
         name: "contact",
-        if: "$contact.name.id == undefined && $hasContacts",
         children: [
+            {
+                $el: "div",
+                attrs: {
+                    class: "grid gap-4 grid-cols-2 w-full",
+                },
+                children: [
+                    {
+                        $el: "div",
+                        attrs: {
+                            class: "grid grid-cols-2 gap-4",
+                        },
+                        children: [
+                            {
+                                $formkit: "group",
+                                name: "name",
+                                children: [
+                                    {
+                                        $formkit: "primeInputText",
+                                        name: "family",
+                                        label: t("lastName"),
+                                        validation: "required",
+                                    },
+                                    {
+                                        $formkit: "primeInputText",
+                                        name: "given",
+                                        label: t("firstName"),
+                                        validation: "required",
+                                    },
+                                    {
+                                        $formkit: "primeInputText",
+                                        name: "familyKana",
+                                        label: t("lastNameKana"),
+                                        validation: "required|notKanji",
+                                    },
+                                    {
+                                        $formkit: "primeInputText",
+                                        name: "givenKana",
+                                        label: t("firstNameKana"),
+                                        validation: "required|notKanji",
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                    {
+                        $el: "div",
+                        children: [
+                            {
+                                $cmp: "Listbox",
+                                props: {
+                                    options: searchResults.value,
+                                    optionLabel: "gender",
+                                },
+                            },
+                        ],
+                    },
+                ],
+            },
             {
                 $formkit: "group",
                 name: "address",
@@ -409,15 +452,10 @@ const formSchema = [
                         validation: "required",
                     },
                     {
-                        $formkit: "list",
+                        $formkit: "primeInputText",
                         name: "line",
-                        children: [
-                            {
-                                $formkit: "primeInputText",
-                                label: t("RoomOrCompany"),
-                                outerClass: "col-4",
-                            },
-                        ],
+                        label: t("RoomOrCompany"),
+                        outerClass: "col-4",
                     },
                 ],
             },
