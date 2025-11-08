@@ -2,11 +2,6 @@
     <div>
         <div class="h-[calc(100vh-200px)] overflow-auto min-h-0 p-4">
             <div class="max-w-[700px]">
-                <Listbox
-                    :options="searchResults"
-                    optionLabel="gender"
-                    class="w-full md:w-56"
-                />
                 <FormKit
                     id="patientForm"
                     v-model="patient"
@@ -37,14 +32,16 @@ import { useI18n } from "vue-i18n";
 import { submitForm } from "@formkit/vue";
 import PatientInfo from "./ReceptionEditorPatientInfo.vue";
 import { useToast } from "primevue/usetoast";
+import { getNode } from "@formkit/core";
 
 const { t } = useI18n();
 const toast = useToast();
 const listStore = useListStore();
 const receptionStore = useReceptionStore();
-
-const searchResults = ref([{ gender: "asd" }]);
 const searchLoading = ref(false);
+const loading = ref(false);
+let searchTimeout = null;
+const searchResults = ref([]);
 
 const patient = ref({
     birthDate: null,
@@ -80,10 +77,6 @@ const patient = ref({
         },
     },
 });
-const loading = ref(false);
-
-// Track the timeout
-let searchTimeout = null;
 
 // Watch for changes in contact name
 watch(
@@ -93,18 +86,19 @@ watch(
         if (searchTimeout) {
             clearTimeout(searchTimeout);
         }
-
         if (!newVal) return;
+
+        const node = getNode("contactSearch");
+        if (!node) return;
 
         // Set new timeout
         searchTimeout = setTimeout(async () => {
             // Check if we have at least 2 characters in any field
-
             const hasMinChars = Object.values(newVal).some(
                 (val) => (val || "").length >= 2
             );
             if (!hasMinChars) {
-                searchResults.value = [];
+                node.props.options = [];
                 return;
             }
 
@@ -123,8 +117,8 @@ watch(
                 const results = await useApi.get(
                     `persons/search?${params.toString()}`
                 );
-
-                searchResults.value = results;
+                searchResults.vaklue = results;
+                node.props.options = results;
             } catch (error) {
                 // Only handle error if it's not an abort error
                 if (error.name !== "AbortError") {
@@ -138,41 +132,11 @@ watch(
     { deep: true }
 );
 
-const searchPerson = async () => {
-    try {
-        const params = new URLSearchParams();
-        if (
-            patient.value.contact.name.family &&
-            patient.value.contact.name.family.length > 1
-        )
-            params.append("family", patient.value.contact.name.family);
-        if (
-            patient.value.contact.name.given &&
-            patient.value.contact.name.given.length > 1
-        )
-            params.append("given", patient.value.contact.name.given);
-        if (
-            patient.value.contact.name.familyKana &&
-            patient.value.contact.name.familyKana.length > 1
-        )
-            params.append("familyKana", patient.value.contact.name.familyKana);
-        if (
-            patient.value.contact.name.givenKana &&
-            patient.value.contact.name.givenKana.length > 1
-        )
-            params.append("givenKana", patient.value.contact.name.givenKana);
-
-        return await useApi.get(`persons/search?${params.toString()}`);
-    } catch (error) {
-        console.error("Search error:", error);
-        return [];
-    }
-};
-
 const handleContactSelect = (c) => {
     if (!c) return;
     existingContact.value = c.value;
 };
+
 async function submitPatient() {
     loading.value = true;
     const payload = JSON.parse(JSON.stringify(patient.value));
@@ -412,16 +376,13 @@ const formSchema = [
                         ],
                     },
                     {
-                        $el: "div",
-                        children: [
-                            {
-                                $cmp: "Listbox",
-                                props: {
-                                    options: searchResults.value,
-                                    optionLabel: "gender",
-                                },
-                            },
-                        ],
+                        $formkit: "primeListbox",
+                        id: "contactSearch",
+                        name: "cookie_notice",
+                        label: t("existingPerson"),
+                        pt: { root: { class: "h-[122px]" } },
+                        optionLabel: (o) => `${o.name.family}${o.name.given}`,
+                        options: [],
                     },
                 ],
             },
@@ -442,14 +403,13 @@ const formSchema = [
                         name: "postalCode",
                         label: t("zipCode"),
                         outerClass: "col-3",
-                        validation: "required|japanesePostal",
+                        validation: "japanesePostal",
                     },
                     {
                         $formkit: "primeInputText",
                         name: "text",
                         label: t("address"),
                         outerClass: "col-3",
-                        validation: "required",
                     },
                     {
                         $formkit: "primeInputText",
