@@ -8,27 +8,55 @@ export const usePatientStore = defineStore({
     },
     state: () => {
         return {
-            loading: false,
-            activePatientDataBasic: null,
-            activePatientDataMedical: null,
+            search: {
+                timeout: null,
+                loading: false,
+                results: [{ 'id': '' }, { 'id': '' }, { 'id': '' }, { 'id': '' }, { 'id': '' }, { 'id': '' }, { 'id': '' }, { 'id': '' }, { 'id': '' }, { 'id': '' }, { 'id': '' }, { 'id': '' }, { 'id': '' }, { 'id': '' }, { 'id': '' }, { 'id': '' }, { 'id': '' }, { 'id': '' }, { 'id': '' }, { 'id': '' }],
+            },
+            basic: {
+                loading: false,
+                data: [],
+            },
+            medical: {
+                loading: false,
+                data: [],
+            },
         }
     },
     actions: {
-        async getData(id = null) {
-            this.loading = true;
+        async getBasic(id = null) {
+            this.basic.loading = true;
             if (id) {
-                this.patientData = {
+                this.basic = {
                     id: id
                 }
             }
             try {
-                let dbData = await useApi.get('patients/' + this.patientData.id);
-                this.patientData = dbData
-                this.loading = false;
+                let dbData = await useApi.get('patients/' + this.basic.id);
+                this.basic.data = dbData
+                this.basic.loading = false;
 
             } catch (err) {
                 console.log(err);
             }
         },
+        async searchPatients(params) {
+            if (!params || params.length < 1) {
+                this.search.results = [];
+                return;
+            }
+            if (this.search.timeout) clearTimeout(this.search.timeout);
+            this.search.timeout = setTimeout(async () => {
+                this.search.loading = true;
+                this.search.results = Array.from({ length: 10 }).map((_, i) => ({ id: "" }));
+                try {
+                    this.search.results = await useApi.get("persons/search?query=" + params);
+                } catch (err) {
+                    this.search.results = [];
+                    console.log(err);
+                }
+                this.search.loading = false;
+            }, 500);
+        }
     }
 })

@@ -1,27 +1,50 @@
 <template>
-    <div>
-        <div class="h-[calc(100vh-200px)] overflow-auto min-h-0 p-4">
-            <div class="max-w-[700px]">
-                <FormKit
-                    id="patientForm"
-                    v-model="patient"
-                    type="form"
-                    @submit="submitPatient"
-                    :disabled="loading"
-                    actionsClass="!hidden"
-                    :actions="false"
-                >
-                    <FormKitSchema :schema="formSchema" :data="patient" />
-                </FormKit>
+    <Toolbar>
+        <template #center>
+            {{ $t("newPatient") }}
+        </template>
+
+        <template #end>
+            <div class="gap-4 flex">
+                <Button
+                    :label="$t('cancel')"
+                    @click="
+                        uiStore.tabs.reception.multiview.mode = PatientSearch
+                    "
+                    severity="secondary"
+                    icon="pi pi-times"
+                />
+                <Button
+                    :label="$t('register')"
+                    icon="pi pi-check"
+                    severity="success"
+                    @click="submitForm('patientForm')"
+                    :loading="loading"
+                />
             </div>
-        </div>
-        <div class="flex justify-end mt-4">
-            <Button
-                :label="$t('register')"
-                icon="pi pi-check"
-                @click="submitForm('patientForm')"
-                :loading="loading"
-            />
+        </template>
+    </Toolbar>
+    <div
+        class="overflow-auto min-h-0 p-2 flex justify-center mt-4"
+        :pt="{
+            content: {
+                class: 'flex justify-center',
+            },
+            header: { class: '!hidden' },
+        }"
+    >
+        <div class="max-w-[700px]">
+            <FormKit
+                id="patientForm"
+                v-model="patient"
+                type="form"
+                @submit="submitPatient"
+                :disabled="loading"
+                actionsClass="!hidden"
+                :actions="false"
+            >
+                <FormKitSchema :schema="formSchema" :data="patient" />
+            </FormKit>
         </div>
     </div>
 </template>
@@ -31,8 +54,11 @@ import useApi from "@/composables/apiComposable.js";
 import { useI18n } from "vue-i18n";
 import { submitForm } from "@formkit/vue";
 import PatientInfo from "./ReceptionEditorPatientInfo.vue";
+import PatientSearch from "./ReceptionEditorPatientSearch.vue";
 import { useToast } from "primevue/usetoast";
 import { getNode } from "@formkit/core";
+
+const uiStore = useUiStore();
 
 const { t } = useI18n();
 const toast = useToast();
@@ -52,7 +78,10 @@ const patient = ref({
         familyKana: "",
         givenKana: "",
     },
-    telecom: [{ system: "phone", value: "", use: "home" }],
+    telecom: [
+        { system: "phone", value: "", use: "home" },
+        { system: "mail", value: "", use: "home" },
+    ],
     address: {
         address: "",
         zip: "",
@@ -164,262 +193,315 @@ async function submitPatient() {
 
 const formSchema = [
     {
-        $el: "h3",
-        children: [t("name"), ""],
-    },
-    {
-        $formkit: "group",
-        name: "name",
-        children: [
-            {
-                $formkit: "primeInputText",
-                name: "family",
-                label: t("lastName"),
-                outerClass: "col-6",
-                validation: "required",
-            },
-            {
-                $formkit: "primeInputText",
-                name: "given",
-                label: t("firstName"),
-                outerClass: "col-6",
-                validation: "required",
-            },
-            {
-                $formkit: "primeInputText",
-                name: "familyKana",
-                label: t("lastNameKana"),
-                outerClass: "col-6",
-                validation: "required|notKanji",
-            },
-            {
-                $formkit: "primeInputText",
-                name: "givenKana",
-                label: t("firstNameKana"),
-                outerClass: "col-6",
-                validation: "required|notKanji",
-            },
-        ],
-    },
-    {
-        $el: "h3",
-        children: t("basic"),
-    },
-    {
-        $formkit: "primeDatePicker",
-        name: "birthDate",
-        label: t("birthdate"),
-        outerClass: "col-6",
-        showIcon: true,
-        validation: "required|date_before",
-    },
-    {
-        $formkit: "primeSelect",
-        name: "gender",
-        label: t("gender"),
-        optionLabel: (g) => t(g),
-        options: listStore.listData.genders,
-        outerClass: "col-3",
-        validation: "required",
-    },
-    {
-        $formkit: "primeSelect",
-        name: "occupation",
-        label: t("occupation"),
-        optionLabel: (o) => t(o),
-        options: listStore.listData.occupations,
-        outerClass: "col-3",
-        validation: "required",
-    },
-    {
-        $el: "h3",
-        children: t("contactInfo"),
-    },
-
-    {
-        $formkit: "list",
-        name: "telecom",
+        $cmp: "Fieldset",
+        props: {
+            legend: t("name"),
+            pt: { content: { class: "grid grid-cols-2 gap-2" } },
+        },
         children: [
             {
                 $formkit: "group",
-                for: ["item", "key", "$telecom"],
+                name: "name",
                 children: [
                     {
-                        $formkit: "primeSelect",
-                        name: "use",
-                        label: t("use"),
-                        optionLabel: (o) => t(o),
-                        options: listStore.listData.telecomUses,
-                        outerClass: "col-3",
-                    },
-                    {
-                        $formkit: "primeSelect",
-                        name: "system",
-                        label: t("system"),
-                        optionLabel: (o) => t(o),
-                        options: listStore.listData.telecomTypes,
-                        outerClass: "col-3",
+                        $formkit: "primeInputText",
+                        name: "family",
+                        label: t("lastName"),
+                        validation: "required",
+                        variant: "filled",
                     },
                     {
                         $formkit: "primeInputText",
-                        name: "value",
-                        label: t("phoneOrMail"),
-                        outerClass: "col-6",
-                        if: "$item.system === 'email'",
-                        validation: "required|email",
+                        name: "given",
+                        label: t("firstName"),
+                        validation: "required",
+                        variant: "filled",
                     },
                     {
                         $formkit: "primeInputText",
-                        name: "value",
-                        label: t("phoneOrMail"),
-                        outerClass: "col-6",
-                        if: "$item.system === 'phone'",
-                        validation: "required|japanesePhone",
+                        name: "familyKana",
+                        label: t("lastNameKana"),
+                        validation: "required|notKanji",
+                        variant: "filled",
+                    },
+                    {
+                        $formkit: "primeInputText",
+                        name: "givenKana",
+                        label: t("firstNameKana"),
+                        validation: "required|notKanji",
+                        variant: "filled",
                     },
                 ],
             },
         ],
     },
     {
-        $el: "h3",
-        children: t("address"),
-    },
-    {
-        $formkit: "group",
-        name: "address",
+        $cmp: "Fieldset",
+        props: {
+            legend: t("basic"),
+            pt: { content: { class: "grid grid-cols-4 gap-2" } },
+        },
         children: [
             {
-                $formkit: "primeInputText",
-                name: "postalCode",
-                label: t("zipCode"),
-                outerClass: "col-4",
-                validation: "required|japanesePostal",
+                $formkit: "primeDatePicker",
+                name: "birthDate",
+                label: t("birthdate"),
+                showIcon: true,
+                outerClass: "col-span-2",
+                validation: "required|date_before",
+                variant: "filled",
             },
             {
-                $formkit: "primeInputText",
-                name: "text",
-                label: t("address"),
-                outerClass: "col-4",
+                $formkit: "primeSelect",
+                name: "gender",
+                label: t("gender"),
+                optionLabel: (g) => t(g),
+                options: listStore.listData.genders,
                 validation: "required",
+                variant: "filled",
             },
             {
-                $formkit: "primeInputText",
-                name: "line",
-                label: t("RoomOrCompany"),
-                outerClass: "col-4",
-            },
-        ],
-    },
-    {
-        $el: "h3",
-        children: t("relation"),
-    },
-    {
-        $formkit: "group",
-        name: "contact",
-        children: [
-            {
-                $formkit: "primeCheckbox",
-                name: "register",
-                id: "registerContact",
-                suffix: t("registerContact"),
+                $formkit: "primeSelect",
+                name: "occupation",
+                label: t("occupation"),
+                optionLabel: (o) => t(o),
+                options: listStore.listData.occupations,
+                validation: "required",
+                variant: "filled",
             },
         ],
     },
     {
-        $formkit: "group",
-        if: "$contact.register",
-        name: "contact",
+        $cmp: "Fieldset",
+        props: {
+            legend: t("contactInfo"),
+            pt: { content: { class: "grid grid-cols-2 gap-2" } },
+        },
         children: [
             {
-                $el: "div",
-                attrs: {
-                    class: "grid gap-4 grid-cols-2 w-full",
-                },
+                $formkit: "list",
+                name: "telecom",
                 children: [
                     {
-                        $el: "div",
-                        attrs: {
-                            class: "grid grid-cols-2 gap-4",
-                        },
+                        $formkit: "group",
+                        for: ["item", "key", "$telecom"],
                         children: [
                             {
-                                $formkit: "group",
-                                name: "name",
-                                children: [
-                                    {
-                                        $formkit: "primeInputText",
-                                        name: "family",
-                                        label: t("lastName"),
-                                        validation: "required",
-                                    },
-                                    {
-                                        $formkit: "primeInputText",
-                                        name: "given",
-                                        label: t("firstName"),
-                                        validation: "required",
-                                    },
-                                    {
-                                        $formkit: "primeInputText",
-                                        name: "familyKana",
-                                        label: t("lastNameKana"),
-                                        validation: "required|notKanji",
-                                    },
-                                    {
-                                        $formkit: "primeInputText",
-                                        name: "givenKana",
-                                        label: t("firstNameKana"),
-                                        validation: "required|notKanji",
-                                    },
-                                ],
+                                $formkit: "primeInputText",
+                                name: "value",
+                                label: t("email"),
+                                if: "$item.system === 'mail'",
+                                validation: "required|email",
+                                variant: "filled",
+                            },
+                            {
+                                $formkit: "primeInputText",
+                                name: "value",
+                                label: t("phone"),
+                                if: "$item.system === 'phone'",
+                                validation: "required|japanesePhone",
+                                variant: "filled",
                             },
                         ],
                     },
-                    {
-                        $formkit: "primeListbox",
-                        id: "contactSearch",
-                        name: "cookie_notice",
-                        label: t("existingPerson"),
-                        pt: { root: { class: "h-[122px]" } },
-                        optionLabel: (o) => `${o.name.family}${o.name.given}`,
-                        options: [],
-                    },
                 ],
             },
+        ],
+    },
+    {
+        $cmp: "Fieldset",
+        props: {
+            legend: t("contactInfo"),
+            pt: { content: { class: "grid grid-cols-3 gap-2" } },
+        },
+        children: [
             {
                 $formkit: "group",
                 name: "address",
                 children: [
                     {
-                        $formkit: "primeSelect",
-                        name: "use",
-                        label: t("use"),
-                        optionLabel: (o) => t(o),
-                        options: listStore.listData.telecomUses,
-                        outerClass: "$reset col-2",
-                    },
-                    {
                         $formkit: "primeInputText",
                         name: "postalCode",
                         label: t("zipCode"),
-                        outerClass: "col-3",
-                        validation: "japanesePostal",
+                        validation: "required|japanesePostal",
+                        variant: "filled",
                     },
                     {
                         $formkit: "primeInputText",
                         name: "text",
                         label: t("address"),
-                        outerClass: "col-3",
+                        validation: "required",
+                        variant: "filled",
                     },
                     {
                         $formkit: "primeInputText",
                         name: "line",
                         label: t("RoomOrCompany"),
-                        outerClass: "col-4",
+                        variant: "filled",
                     },
                 ],
             },
         ],
     },
+
+    // {
+    //     $formkit: "list",
+    //     name: "telecom",
+    //     children: [
+    //         {
+    //             $formkit: "group",
+    //             for: ["item", "key", "$telecom"],
+    //             children: [
+    //                 {
+    //                     $formkit: "primeSelect",
+    //                     name: "use",
+    //                     label: t("use"),
+    //                     optionLabel: (o) => t(o),
+    //                     options: listStore.listData.telecomUses,
+    //                     outerClass: "col-3",
+    //                     variant: "filled",
+    //                 },
+    //                 {
+    //                     $formkit: "primeSelect",
+    //                     name: "system",
+    //                     label: t("system"),
+    //                     optionLabel: (o) => t(o),
+    //                     options: listStore.listData.telecomTypes,
+    //                     outerClass: "col-3",
+    //                     variant: "filled",
+    //                 },
+    //                 {
+    //                     $formkit: "primeInputText",
+    //                     name: "value",
+    //                     label: t("phoneOrMail"),
+    //                     outerClass: "col-6",
+    //                     if: "$item.system === 'email'",
+    //                     validation: "required|email",
+    //                     variant: "filled",
+    //                 },
+    //                 {
+    //                     $formkit: "primeInputText",
+    //                     name: "value",
+    //                     label: t("phoneOrMail"),
+    //                     outerClass: "col-6",
+    //                     if: "$item.system === 'phone'",
+    //                     validation: "required|japanesePhone",
+    //                     variant: "filled",
+    //                 },
+    //             ],
+    //         },
+    //     ],
+    // },
+    // {
+    //     $el: "h3",
+    //     children: t("relation"),
+    // },
+    // {
+    //     $formkit: "group",
+    //     name: "contact",
+    //     children: [
+    //         {
+    //             $formkit: "primeCheckbox",
+    //             name: "register",
+    //             id: "registerContact",
+    //             suffix: t("registerContact"),
+    //         },
+    //     ],
+    // },
+    // {
+    //     $formkit: "group",
+    //     if: "$contact.register",
+    //     name: "contact",
+    //     children: [
+    //         {
+    //             $el: "div",
+    //             attrs: {
+    //                 class: "grid gap-4 grid-cols-2 w-full",
+    //             },
+    //             children: [
+    //                 {
+    //                     $el: "div",
+    //                     attrs: {
+    //                         class: "grid grid-cols-2 gap-4",
+    //                     },
+    //                     children: [
+    //                         {
+    //                             $formkit: "group",
+    //                             name: "name",
+    //                             children: [
+    //                                 {
+    //                                     $formkit: "primeInputText",
+    //                                     name: "family",
+    //                                     label: t("lastName"),
+    //                                     validation: "required",
+    //                                 },
+    //                                 {
+    //                                     $formkit: "primeInputText",
+    //                                     name: "given",
+    //                                     label: t("firstName"),
+    //                                     validation: "required",
+    //                                 },
+    //                                 {
+    //                                     $formkit: "primeInputText",
+    //                                     name: "familyKana",
+    //                                     label: t("lastNameKana"),
+    //                                     validation: "required|notKanji",
+    //                                 },
+    //                                 {
+    //                                     $formkit: "primeInputText",
+    //                                     name: "givenKana",
+    //                                     label: t("firstNameKana"),
+    //                                     validation: "required|notKanji",
+    //                                 },
+    //                             ],
+    //                         },
+    //                     ],
+    //                 },
+    //                 {
+    //                     $formkit: "primeListbox",
+    //                     id: "contactSearch",
+    //                     name: "cookie_notice",
+    //                     label: t("existingPerson"),
+    //                     pt: { root: { class: "h-[122px]" } },
+    //                     optionLabel: (o) => `${o.name.family}${o.name.given}`,
+    //                     options: [],
+    //                 },
+    //             ],
+    //         },
+    //         {
+    //             $formkit: "group",
+    //             name: "address",
+    //             children: [
+    //                 {
+    //                     $formkit: "primeSelect",
+    //                     name: "use",
+    //                     label: t("use"),
+    //                     optionLabel: (o) => t(o),
+    //                     options: listStore.listData.telecomUses,
+    //                     outerClass: "$reset col-2",
+    //                 },
+    //                 {
+    //                     $formkit: "primeInputText",
+    //                     name: "postalCode",
+    //                     label: t("zipCode"),
+    //                     outerClass: "col-3",
+    //                     validation: "japanesePostal",
+    //                 },
+    //                 {
+    //                     $formkit: "primeInputText",
+    //                     name: "text",
+    //                     label: t("address"),
+    //                     outerClass: "col-3",
+    //                 },
+    //                 {
+    //                     $formkit: "primeInputText",
+    //                     name: "line",
+    //                     label: t("RoomOrCompany"),
+    //                     outerClass: "col-4",
+    //                 },
+    //             ],
+    //         },
+    //     ],
+    // },
 ];
 </script>

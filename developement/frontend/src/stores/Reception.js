@@ -20,7 +20,11 @@ export const useReceptionStore = defineStore({
             multiView: {
                 mode: null,
                 data: {
-                    patient: null
+                    patient: null,
+                    searchResults: {
+                        loading: false,
+                        data: []
+                    }
                 }
             }
         }

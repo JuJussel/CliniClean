@@ -41,6 +41,7 @@ import ToggleButton from 'primevue/togglebutton';
 import ToggleSwitch from 'primevue/toggleswitch';
 import TreeSelect from 'primevue/treeselect';
 import Button from 'primevue/button'
+import Fieldset from 'primevue/fieldset'
 
 // // Import Quill styles for Editor
 // import 'quill/dist/quill.core.css';
@@ -138,6 +139,7 @@ import '@sfxcode/formkit-primevue/dist/style.css'
     app.component('ToggleSwitch', ToggleSwitch);
     app.component('TreeSelect', TreeSelect);
     app.component('Button', Button);
+    app.component('Fieldset', Fieldset);
 
     app.mount('#app')
 

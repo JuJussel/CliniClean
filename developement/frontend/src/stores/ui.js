@@ -3,8 +3,11 @@ import { defineStore } from 'pinia'
 export const useUiStore = defineStore({
     id: 'ui',
     persist: {
-        enabled: true
+        enabled: false
     },
+    /////////////////////////////////////////////////////////////////////////////////////
+    // STATE
+    /////////////////////////////////////////////////////////////////////////////////////
     state: () => {
         return {
             loading: false,
@@ -17,7 +20,19 @@ export const useUiStore = defineStore({
                 receptionModalInsuranceEdit: false
             },
             notification: [],
-            toasts: []
+            toasts: [],
+            tabs: {
+                reception: {
+                    multiview: {
+                        mode: null,
+                    }
+                }
+            },
+            navigation: {
+                history: [],
+                transitionName: 'slide-left',
+                suppressWatcher: false,
+            },
         }
     },
 })
