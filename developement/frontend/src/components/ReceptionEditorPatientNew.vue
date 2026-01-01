@@ -1,9 +1,10 @@
 <template>
     <Toolbar>
-        <template #center>
-            {{ $t("newPatient") }}
+        <template #start>
+            <span class="pi pi-user mr-2"></span>
+            <div class="text-base font-bold">{{ $t("newPatient") }}</div>
         </template>
-
+        <template #center> </template>
         <template #end>
             <div class="gap-4 flex">
                 <Button

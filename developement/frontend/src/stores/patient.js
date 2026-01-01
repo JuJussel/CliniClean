@@ -4,14 +4,14 @@ import useApi from "@/composables/apiComposable.js"
 export const usePatientStore = defineStore({
     id: 'patient',
     persist: {
-        enabled: true
+        enabled: false
     },
     state: () => {
         return {
             search: {
                 timeout: null,
-                loading: false,
-                results: [{ 'id': '' }, { 'id': '' }, { 'id': '' }, { 'id': '' }, { 'id': '' }, { 'id': '' }, { 'id': '' }, { 'id': '' }, { 'id': '' }, { 'id': '' }, { 'id': '' }, { 'id': '' }, { 'id': '' }, { 'id': '' }, { 'id': '' }, { 'id': '' }, { 'id': '' }, { 'id': '' }, { 'id': '' }, { 'id': '' }],
+                loading: true,
+                results: [],
             },
             basic: {
                 loading: false,
@@ -58,5 +58,11 @@ export const usePatientStore = defineStore({
                 this.search.loading = false;
             }, 500);
         }
-    }
+    },
+    getters: {
+        fullName: (state) => {
+            const n = state.basic.data?.name || {};
+            return [n.family, n.given].filter(Boolean).join(' ');
+        },
+    },
 })

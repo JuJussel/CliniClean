@@ -1,11 +1,9 @@
 <template>
     <div>
-        {{
-            receptionStore.multiView.data.patient.name || "No patient selected"
-        }}
+        {{ patientStore.fullName || "No patient selected" }}
     </div>
 </template>
 
 <script setup>
-const receptionStore = useReceptionStore();
+const patientStore = usePatientStore();
 </script>

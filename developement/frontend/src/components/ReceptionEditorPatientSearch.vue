@@ -23,19 +23,8 @@
             </template>
 
             <template #start>
-                <Button
-                    icon="pi pi-plus"
-                    class="mr-2"
-                    severity="secondary"
-                    text
-                />
-                <Button
-                    icon="pi pi-print"
-                    class="mr-2"
-                    severity="secondary"
-                    text
-                />
-                <Button icon="pi pi-upload" severity="secondary" text />
+                <span class="pi pi-user mr-2"></span>
+                <div class="text-base font-bold">{{ $t("patientList") }}</div>
             </template>
         </Toolbar>
         <Panel
@@ -54,7 +43,7 @@
                 dataKey="id"
                 scrollable
                 scrollHeight="flex"
-                @rowSelect="receptionStore.multiView.mode = PatientInfo"
+                @rowSelect="uiStore.tabs.reception.multiview.mode = PatientInfo"
             >
                 <Column field="id" :header="$t('id')" class="w-24">
                     <template #body="slotProps">
@@ -122,6 +111,7 @@
 import parseDate from "@/composables/dateComposable.js";
 import { watch, ref } from "vue";
 import PatientNew from "@/components/ReceptionEditorPatientNew.vue";
+import PatientInfo from "@/components/ReceptionEditorPatientInfo.vue";
 
 const uiStore = useUiStore();
 const patientStore = usePatientStore();
