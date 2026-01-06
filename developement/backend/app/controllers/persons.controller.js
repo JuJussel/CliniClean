@@ -7,7 +7,7 @@ const { rejections } = require("winston");
 
 exports.findMany = async (req, res) => {
   try {
-    const { id, family, given, familyKana, givenKana, query } = req.query;
+    const { id, family, given, familyKana, givenKana, query, patientsOnly } = req.query;
     let mongoQuery = { $or: [] };
     console.log(query);
 
@@ -80,8 +80,13 @@ exports.findMany = async (req, res) => {
       return res.send([]);
     }
 
+    // Add patientsOnly filter if applicable
+    if (patientsOnly === 'true' || patientsOnly === true) {
+      mongoQuery.type = 'patient';
+    }
+
     const persons = await Person.find(mongoQuery)
-      .select('name birthDate gender type')
+      .select('name birthDate gender type id')
       .lean()
       .exec();
 

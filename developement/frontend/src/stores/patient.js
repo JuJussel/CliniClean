@@ -8,6 +8,7 @@ export const usePatientStore = defineStore({
     },
     state: () => {
         return {
+            selected: null,
             search: {
                 timeout: null,
                 loading: true,
@@ -24,15 +25,10 @@ export const usePatientStore = defineStore({
         }
     },
     actions: {
-        async getBasic(id = null) {
+        async getBasic(id = this.selected?.id || null) {
             this.basic.loading = true;
-            if (id) {
-                this.basic = {
-                    id: id
-                }
-            }
             try {
-                let dbData = await useApi.get('patients/' + this.basic.id);
+                let dbData = await useApi.get('patients/' + id);
                 this.basic.data = dbData
                 this.basic.loading = false;
 
@@ -50,7 +46,7 @@ export const usePatientStore = defineStore({
                 this.search.loading = true;
                 this.search.results = Array.from({ length: 10 }).map((_, i) => ({ id: "" }));
                 try {
-                    this.search.results = await useApi.get("persons/search?query=" + params);
+                    this.search.results = await useApi.get("persons/search?patientsOnly=true&query=" + params);
                 } catch (err) {
                     this.search.results = [];
                     console.log(err);

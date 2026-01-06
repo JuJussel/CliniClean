@@ -38,7 +38,7 @@
         >
             <DataTable
                 :value="patientStore.search.results"
-                v-model:selection="patientStore.basic.data"
+                v-model:selection="patientStore.selected"
                 selectionMode="single"
                 dataKey="id"
                 scrollable
