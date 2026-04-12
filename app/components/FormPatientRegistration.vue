@@ -1,4 +1,6 @@
 <script setup>
+import * as z from "zod";
+
 const systemStore = useSystemStore();
 
 const state = reactive({
@@ -25,13 +27,36 @@ const state = reactive({
     occupation: "employee",
 });
 
-const schema = {
-    type: "object",
-    properties: {
-        type: { type: "string", const: "patient" },
-        birthDate: { type: "string", format: "date" },
-    },
-};
+const schema = z.object({
+    birthDate: z.coerce
+        .date()
+        .date($t("validationMessages.dateBase"))
+        .max(new Date(), $t("validationMessages.dateMax"))
+        .min(new Date(1900, 0, 1), $t("validationMessages.dateMin")),
+    name: z.object({
+        family: z.string().min(1, $t("validationMessages.stringEmpty")),
+        given: z.string().min(1, $t("validationMessages.stringEmpty")),
+        familyKana: z.string().min(1, $t("validationMessages.stringEmpty")),
+        givenKana: z.string().min(1, $t("validationMessages.stringEmpty")),
+    }),
+    gender: z.enum(["male", "female", "other", "unknown"]),
+    telecom: z.object({
+        email: z.email().optional(),
+        phoneMobile: z.string(),
+    }),
+    address: z.object({
+        address: z.string(),
+        zip: z.number(),
+        line: z.string(),
+    }),
+});
+
+async function fetchAddress() {
+    const address = await $fetch("/api/address/" + state.address.zip, {
+        method: "GET",
+    });
+    state.address.address = address.address;
+}
 
 function onSubmit() {
     console.log("Form submitted with state:", state);
@@ -41,16 +66,16 @@ function onSubmit() {
 <template>
     <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
         <div class="grid grid-cols-2 gap-2">
-            <UFormField :label="$t('lastName')" name="lastName">
+            <UFormField :label="$t('lastName')" name="name.family">
                 <UInput v-model="state.name.family" class="flex" />
             </UFormField>
-            <UFormField :label="$t('firstName')" name="firstName">
+            <UFormField :label="$t('firstName')" name="name.given">
                 <UInput v-model="state.name.given" class="flex" />
             </UFormField>
-            <UFormField :label="$t('lastNameKana')" name="lastNameKana">
+            <UFormField :label="$t('lastNameKana')" name="name.familyKana">
                 <UInput v-model="state.name.familyKana" class="flex" />
             </UFormField>
-            <UFormField :label="$t('firstNameKana')" name="firstNameKana">
+            <UFormField :label="$t('firstNameKana')" name="name.givenKana">
                 <UInput v-model="state.name.givenKana" class="flex" />
             </UFormField>
 
@@ -102,6 +127,7 @@ function onSubmit() {
                     v-model="state.address.zip"
                     class="flex"
                     placeholder="1420063"
+                    @change="fetchAddress"
                 />
             </UFormField>
             <UFormField :label="$t('address')" name="address">
