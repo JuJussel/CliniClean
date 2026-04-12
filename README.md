@@ -98,6 +98,22 @@ Check out the [deployment documentation](https://nuxt.com/docs/getting-started/d
     <span style="color:white">/api/person/search</span>
 </a>
 
+### <span style="color:#5c6370">Lists</span>
+
+<a>
+    <span style="color:#c678dd">get</span>
+    <span style="color:white">/api/lists</span>
+</a>
+
+### <span style="color:#5c6370">Address</span>
+
+<a>
+    <span style="color:#c678dd">get</span>
+    <span style="color:white">/api/address/</span>
+        <span style="color:#61aeee">[...zip]</span>
+
+</a>
+
 ---
 
 <a>

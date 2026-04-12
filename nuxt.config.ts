@@ -3,19 +3,24 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   modules: [
-   '@nuxt/fonts',
-   '@nuxt/icon',
-   'nuxt-auth-utils',
-   'nuxt-mongoose',
-   '@pinia/nuxt',
-   '@nuxt/ui',
-   'nuxt-file-storage',
-   '@nuxt/eslint',
-   '@nuxtjs/i18n'
+    '@nuxt/fonts',
+    '@nuxt/icon',
+    'nuxt-auth-utils',
+    'nuxt-mongoose',
+    '@pinia/nuxt',
+    'pinia-plugin-persistedstate',
+    '@nuxt/ui',
+    'nuxt-file-storage',
+    '@nuxt/eslint',
+    '@nuxtjs/i18n',
+    'dayjs-nuxt',
   ],
   css: ['~/assets/css/main.css'],
     fileStorage: {
         mount: process.env.mount,
+  },
+  piniaPluginPersistedstate: {
+    storage: "localStorage",
   },
   i18n: {
     locales: [{
@@ -24,6 +29,12 @@ export default defineNuxtConfig({
       file: 'ja.json'
     }],
     defaultLocale: 'ja', 
+  },
+    dayjs: {
+    locales: ['ja'],
+    plugins: ['relativeTime', 'isBetween', 'localizedFormat', 'timezone'],
+    defaultLocale: 'ja',
+    defaultTimezone: 'Asia/Tokyo',
   },
   app: {
     head: {

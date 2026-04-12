@@ -16,15 +16,20 @@
     "@nuxt/ui": "^4.6.1",
     "@nuxtjs/i18n": "^10.2.4",
     "@pinia/nuxt": "^0.11.3",
+    "dayjs-nuxt": "^2.1.11",
+    "japanese-string-utils": "^0.5.0",
     "nuxt": "^4.4.2",
     "nuxt-auth-utils": "^0.5.29",
     "nuxt-mongoose": "^1.1.2",
+    "pinia-plugin-persistedstate": "^4.7.1",
     "tailwindcss": "^4.2.2",
     "vue": "^3.5.31",
     "vue-router": "^5.0.4",
+    "xml2js": "^0.6.2",
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@iconify-json/material-symbols": "^1.2.65",
     "@types/node": "^25.5.2",
     "nuxt-file-storage": "^0.3.2"
   }

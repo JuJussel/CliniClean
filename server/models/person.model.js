@@ -8,7 +8,7 @@ const Person = defineMongooseModel({
             type: 'string', enum: ['patient', 'guardian', 'emergency_contact', 'contact', 'other'],
             default: 'contact'
         },
-        active: { type: 'boolean', default: true },
+        status: { type: 'string', enum: ['active', 'inactive', 'pending'], default: 'active' },
         birthDate: { type: 'date' },
         gender: {
             type: 'string',
@@ -59,16 +59,22 @@ const Person = defineMongooseModel({
         occupation: { type: 'string' },
         contact: {
             person: {
-                type: mongoose.Schema.Types.ObjectId,
+                type: 'string',
                 ref: "persons",
             },
             relationship: {
                 type: 'string',
                 description: 'The nature of the relationship (e.g., guardian, next-of-kin).'
             },
-
+        },
+        insurances: {
+            type: 'array',
         }
+    },
+    options: {
+        collection: 'persons',
     }
+
 })
 
 export default Person

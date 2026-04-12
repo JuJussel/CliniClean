@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
           avatar: user.avatar,
           fullName: user.nameLast + ' ' + user.nameFirst
         },
-      })
+      }, { maxAge: 60 * 60 * 10 }) // Session valid for 10 hours
       return { user: userWithoutPassword }
     }
   }

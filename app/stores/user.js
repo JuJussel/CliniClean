@@ -1,4 +1,5 @@
 export const useUserStore = defineStore('userStore', {
+    persist: true,
     state: () => ({
         loading: false,
         userData: null

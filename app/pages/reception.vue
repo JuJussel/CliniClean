@@ -41,7 +41,7 @@ const items = ref([
                 }"
             >
                 <template #newWalkin>
-                    <div class="h-full">New Walkin</div>
+                    <ReceptionNewWalkin />
                 </template>
                 <template #search>
                     <ReceptionPatientSearch class="h-full" />
