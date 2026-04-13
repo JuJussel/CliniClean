@@ -20,7 +20,7 @@ const state = reactive({
     },
     address: {
         address: "",
-        zip: "",
+        zip: null,
         country: "JPN",
         line: "",
     },
@@ -28,11 +28,15 @@ const state = reactive({
 });
 
 const schema = z.object({
-    birthDate: z.coerce
-        .date()
-        .date($t("validationMessages.dateBase"))
-        .max(new Date(), $t("validationMessages.dateMax"))
-        .min(new Date(1900, 0, 1), $t("validationMessages.dateMin")),
+    birthDate: z
+        .custom((val) => val && typeof val === "object" && "toDate" in val, {
+            message: "Invalid date selection",
+        })
+        .transform((calendarDate) => calendarDate.toDate("UTC")) // Convert to native Date
+        .pipe(z.date())
+        .refine((date) => date <= new Date(), {
+            message: "Birth date cannot be in the future",
+        }),
     name: z.object({
         family: z.string().min(1, $t("validationMessages.stringEmpty")),
         given: z.string().min(1, $t("validationMessages.stringEmpty")),
@@ -45,9 +49,9 @@ const schema = z.object({
         phoneMobile: z.string(),
     }),
     address: z.object({
-        address: z.string(),
-        zip: z.number(),
-        line: z.string(),
+        address: z.string().min(1, $t("validationMessages.stringEmpty")),
+        zip: z.number().min(999999, $t("validationMessages.stringEmpty")),
+        line: z.string().min(1, $t("validationMessages.stringEmpty")),
     }),
 });
 
@@ -58,8 +62,10 @@ async function fetchAddress() {
     state.address.address = address.address;
 }
 
-function onSubmit() {
-    console.log("Form submitted with state:", state);
+function onSubmit(event) {
+    console.log("CHeck");
+
+    console.log("Form submitted with state:", event.data);
 }
 </script>
 
@@ -122,31 +128,34 @@ function onSubmit() {
         </div>
 
         <div class="grid grid-cols-3 gap-2">
-            <UFormField :label="$t('zipCode')" name="zipCode">
-                <UInput
+            <UFormField :label="$t('zipCode')" name="address.zip">
+                <UInputNumber
                     v-model="state.address.zip"
                     class="flex"
                     placeholder="1420063"
                     @change="fetchAddress"
+                    :increment="false"
+                    :decrement="false"
+                    :format-options="{ useGrouping: false }"
                 />
             </UFormField>
-            <UFormField :label="$t('address')" name="address">
+            <UFormField :label="$t('address')" name="address.address">
                 <UInput v-model="state.address.address" class="flex" />
             </UFormField>
-            <UFormField :label="$t('RoomOrCompany')" name="addressLine">
+            <UFormField :label="$t('RoomOrCompany')" name="address.line">
                 <UInput v-model="state.address.line" class="flex" />
             </UFormField>
         </div>
 
         <div class="grid grid-cols-2 gap-2">
-            <UFormField :label="$t('email')" name="email">
+            <UFormField :label="$t('email')" name="telacom.email">
                 <UInput
                     v-model="state.telecom.email"
                     class="flex"
                     placeholder="email@mail.com"
                 />
             </UFormField>
-            <UFormField :label="$t('phone')" name="phone">
+            <UFormField :label="$t('phone')" name="telecom.phoneMobile">
                 <UInput
                     v-model="state.telecom.phoneMobile"
                     class="flex"
