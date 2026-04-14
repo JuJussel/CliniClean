@@ -38,14 +38,40 @@ async function searchPatients() {
 
 <template>
     <div>
-        <UInput
-            v-model="searchQuery"
-            :loading="searchLoading"
-            class="max-w-sm"
-            icon="i-lucide-search"
-            :placeholder="$t('patientSearch')"
-            @update:modelValue="searchPatients"
-        />
+        <div class="flex gap-2">
+            <UInput
+                v-model="searchQuery"
+                :loading="searchLoading"
+                class="max-w-sm"
+                icon="material-symbols:search-rounded"
+                :placeholder="$t('patientSearch')"
+                @update:modelValue="searchPatients"
+            />
+              <UModal>
+                <UButton 
+                    color="neutral" 
+                    icon="material-symbols-add" >
+                    {{ $t('registerNewPatient') }}
+                </UButton>
+                <template #title>
+                    <div class="flex items-center gap-2">
+                         
+                        <UIcon name="material-symbols:person-add" class="size-5" />
+                        {{$t('registerNewPatient')}}
+                    </div>
+                </template>
+                <template #body>
+                    <FormPatientRegistration />
+                </template>
+                <template #footer>
+                    <UButton color="primary" type="submit" form="patient-registration-form">
+                        {{ $t('register') }}
+                    </UButton>
+
+                </template>
+            </UModal>
+        </div>
+        
         <UTable
             :loading="searchLoading"
             :data="searchResults"

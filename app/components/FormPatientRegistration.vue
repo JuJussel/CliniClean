@@ -70,7 +70,7 @@ function onSubmit(event) {
 </script>
 
 <template>
-    <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
+    <UForm :schema="schema" :state="state" class="max-w-[700px]" @submit="onSubmit">
         <div class="grid grid-cols-2 gap-2">
             <UFormField :label="$t('lastName')" name="name.family">
                 <UInput v-model="state.name.family" class="flex" />

@@ -14,6 +14,7 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxtjs/i18n',
     'dayjs-nuxt',
+    'nuxt-qrcode',
   ],
   css: ['~/assets/css/main.css'],
     fileStorage: {
@@ -30,11 +31,17 @@ export default defineNuxtConfig({
     }],
     defaultLocale: 'ja', 
   },
-    dayjs: {
+  dayjs: {
     locales: ['ja'],
     plugins: ['relativeTime', 'isBetween', 'localizedFormat', 'timezone'],
     defaultLocale: 'ja',
     defaultTimezone: 'Asia/Tokyo',
+  },
+  qrcode: {
+    options: {
+      variant: 'circle',
+      radius: 1,
+    },
   },
   app: {
     head: {
