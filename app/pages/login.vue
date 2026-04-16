@@ -1,8 +1,8 @@
 <script setup>
 const { loggedIn, user, fetch: refreshSession } = useUserSession();
 const credentials = reactive({
-    username: "",
-    password: "",
+    username: "ekurosu2",
+    password: "Passw0rd",
 });
 const userStore = useUserStore();
 const systemStore = useSystemStore();
