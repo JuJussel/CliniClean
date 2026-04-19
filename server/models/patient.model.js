@@ -1,7 +1,7 @@
 import { defineMongooseModel } from '#nuxt/mongoose'
 
-const Person = defineMongooseModel({
-    name: 'Person',
+const Patient = defineMongooseModel({
+    name: 'Patient',
     schema: {
         id: { type: 'string', default: null, description: 'ID matching Orca patient ID.' },
         type: {
@@ -26,7 +26,7 @@ const Person = defineMongooseModel({
         },
         nameOther: {
             type: 'array',
-            description: 'Other names for the person, such as maiden names or nicknames.',
+            description: 'Other names for the Patient, such as maiden names or nicknames.',
             items: {
                 type: 'object',
                 properties: {
@@ -59,8 +59,28 @@ const Person = defineMongooseModel({
         occupation: { type: 'string' },
         contact: {
             person: {
-                type: 'string',
-                ref: "persons",
+                type: 'object',
+                properties: {
+                    name: {
+                        type: 'object',
+                        properties: {
+                            family: { type: 'string' },
+                            given: { type: 'string' },
+                            familyKana: { type: 'string' },
+                            givenKana: { type: 'string' },
+
+                        }
+                    },
+                    telecom: {
+                        type: 'object',
+                        properties: {
+                            email: { type: 'string' },
+                            phoneMobile: { type: 'string' },
+                            phoneHome: { type: 'string' },
+                            phoneWork: { type: 'string' },
+                        }
+                    },
+                }
             },
             relationship: {
                 type: 'string',
@@ -72,9 +92,9 @@ const Person = defineMongooseModel({
         }
     },
     options: {
-        collection: 'persons',
+        collection: 'patients',
     }
 
 })
 
-export default Person
+export default Patient

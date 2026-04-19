@@ -3,4 +3,4 @@ import postgres from 'postgres';
 
 const queryClient = postgres(process.env.ORCA_POSTGRES_URL);
 
-export const db = drizzle(queryClient);
+export const orcaDb = drizzle(queryClient);

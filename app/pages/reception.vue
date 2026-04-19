@@ -5,11 +5,6 @@ definePageMeta({
 
 const items = ref([
     {
-        label: $t("register"),
-        icon: "i-material-symbols-person-add-rounded",
-        slot: "newWalkin",
-    },
-    {
         label: $t("patientSearch"),
         icon: "i-material-symbols-search-rounded",
         slot: "search",
@@ -40,9 +35,6 @@ const items = ref([
                     content: 'h-full',
                 }"
             >
-                <template #newWalkin>
-                    <ReceptionNewWalkin />
-                </template>
                 <template #search>
                     <ReceptionPatientSearch class="h-full" />
                 </template>

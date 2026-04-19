@@ -6,8 +6,8 @@ export default defineCachedEventHandler(async (event) => {
 
 
         const zip = getRouterParam(event, 'zip')
-       
-        const address = await db.execute(`
+
+        const address = await orcaDb.execute(`
             SELECT editadrs_name 
             FROM public.tbl_adrs
             WHERE post = ${zip}::text
@@ -17,7 +17,7 @@ export default defineCachedEventHandler(async (event) => {
         return { address: address[0]?.editadrs_name || null }
     } catch (e) {
         console.log(e);
-        
+
         throw createError({
             status: 500,
             message: 'Failed to fetch address data',

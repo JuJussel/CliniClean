@@ -3,6 +3,8 @@ import * as z from "zod";
 
 const systemStore = useSystemStore();
 
+const emit = defineEmits(["submitted"]);
+
 const state = reactive({
     type: "patient",
     birthDate: null,
@@ -14,7 +16,7 @@ const state = reactive({
         givenKana: "",
     },
     telecom: {
-        email: "",
+        email: undefined,
         phoneMobile: "",
         phoneHome: "",
     },
@@ -45,8 +47,12 @@ const schema = z.object({
     }),
     gender: z.enum(["male", "female", "other", "unknown"]),
     telecom: z.object({
-        email: z.email().optional(),
-        phoneMobile: z.string(),
+        email: z
+            .email()
+            .min(1, $t("validationMessages.stringEmpty"))
+            .optional()
+            .or(z.literal("")),
+        phoneMobile: z.string().min(1, $t("validationMessages.stringEmpty")),
     }),
     address: z.object({
         address: z.string().min(1, $t("validationMessages.stringEmpty")),
@@ -62,15 +68,19 @@ async function fetchAddress() {
     state.address.address = address.address;
 }
 
-function onSubmit(event) {
-    console.log("CHeck");
-
-    console.log("Form submitted with state:", event.data);
+async function onSubmit(event) {
+    emit("submitted", event.data);
 }
 </script>
 
 <template>
-    <UForm :schema="schema" :state="state" class="max-w-[700px]" @submit="onSubmit">
+    <UForm
+        ref="form"
+        :schema="schema"
+        :state="state"
+        class="max-w-175"
+        @submit="onSubmit"
+    >
         <div class="grid grid-cols-2 gap-2">
             <UFormField :label="$t('lastName')" name="name.family">
                 <UInput v-model="state.name.family" class="flex" />
@@ -148,7 +158,7 @@ function onSubmit(event) {
         </div>
 
         <div class="grid grid-cols-2 gap-2">
-            <UFormField :label="$t('email')" name="telacom.email">
+            <UFormField :label="$t('email')" name="telecom.email">
                 <UInput
                     v-model="state.telecom.email"
                     class="flex"
@@ -163,7 +173,5 @@ function onSubmit(event) {
                 />
             </UFormField>
         </div>
-
-        <UButton type="submit"> Submit </UButton>
     </UForm>
 </template>

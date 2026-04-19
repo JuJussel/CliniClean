@@ -1,10 +1,10 @@
-export const usePersonStore = defineStore('PersonStore', {
+export const usePatientStore = defineStore('PatientStore', {
     state: () => ({
         searchTimeout: null,
 
     }),
     actions: {
-        async searchPersons(query, patientsOnly = false) {
+        async searchPatients(query, patientsOnly = false) {
             if (!query) {
                 return [];
             }
@@ -13,14 +13,13 @@ export const usePersonStore = defineStore('PersonStore', {
             return new Promise((resolve) => {
                 this.searchTimeout = setTimeout(async () => {
                     try {
-                        const res = await $fetch("api/person/search", {
+                        const res = await $fetch("api/patient/search", {
                             params: {
                                 query: query,
-                                patientsOnly: patientsOnly
                             },
                             method: "GET",
                         });
-                        resolve(res.persons);
+                        resolve(res.patients);
                     } catch (e) {
                         console.error(e);
                         resolve([]);

@@ -1,5 +1,4 @@
-import Person from '../../models/person.model'
-// const japUtils = require("japanese-string-utils");
+import Patient from '../../models/patient.model'
 import japUtils from 'japanese-string-utils';
 
 
@@ -10,7 +9,7 @@ export default defineEventHandler(async (event) => {
 
     try {
 
-        const { id, family, given, familyKana, givenKana, query, patientsOnly } = getQuery(event)
+        const { id, family, given, familyKana, givenKana, query } = getQuery(event)
 
         let mongoQuery = { $or: [] };
         // If query parameter exists, use it for general search
@@ -84,25 +83,19 @@ export default defineEventHandler(async (event) => {
             return res.send([]);
         }
 
-        // Add patientsOnly filter if applicable
-        if (patientsOnly === 'true' || patientsOnly === true) {
-            mongoQuery.type = 'patient';
-        }
-
-
-        const persons = await Person.find(mongoQuery)
+        const patients = await Patient.find(mongoQuery)
             .select('name birthDate gender type id')
             .lean()
             .exec();
 
-        return { persons }
+        return { patients }
 
 
 
     } catch (error) {
         throw createError({
             status: 500,
-            message: 'An error occurred while searching for persons.',
+            message: 'An error occurred while searching for patients.',
         });
     }
 

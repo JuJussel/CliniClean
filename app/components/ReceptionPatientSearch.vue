@@ -30,7 +30,7 @@ const columns = [
 async function searchPatients() {
     searchResults.value = [];
     searchLoading.value = true;
-    const res = await usePersonStore().searchPersons(searchQuery.value, true);
+    const res = await usePatientStore().searchPatients(searchQuery.value, true);
     searchResults.value = res;
     searchLoading.value = false;
 }
@@ -47,31 +47,9 @@ async function searchPatients() {
                 :placeholder="$t('patientSearch')"
                 @update:modelValue="searchPatients"
             />
-              <UModal>
-                <UButton 
-                    color="neutral" 
-                    icon="material-symbols-add" >
-                    {{ $t('registerNewPatient') }}
-                </UButton>
-                <template #title>
-                    <div class="flex items-center gap-2">
-                         
-                        <UIcon name="material-symbols:person-add" class="size-5" />
-                        {{$t('registerNewPatient')}}
-                    </div>
-                </template>
-                <template #body>
-                    <FormPatientRegistration />
-                </template>
-                <template #footer>
-                    <UButton color="primary" type="submit" form="patient-registration-form">
-                        {{ $t('register') }}
-                    </UButton>
-
-                </template>
-            </UModal>
+            <ModalPatientRegistration />
         </div>
-        
+
         <UTable
             :loading="searchLoading"
             :data="searchResults"
