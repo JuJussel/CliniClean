@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
     try {
         const id = getRouterParam(event, 'id')
         const orcaResponse = await getPatientInfo(id)
-        return {orcaResponse}
+        return orcaResponse
 
         // const patient = await Patient.findOne({ id }).lean()
         // console.log(patient);
@@ -23,11 +23,9 @@ export default defineEventHandler(async (event) => {
 
         // return { patient }
     } catch (e) {
-        console.log(e);
-
         throw createError({
             status: 500,
-            message: 'Failed to fetch patient data',
+            message: 'Failed to fetch patient data: ' + e.message,
         })
     }
 })

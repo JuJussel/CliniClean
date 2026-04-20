@@ -23,6 +23,11 @@ export default defineNuxtConfig({
   piniaPluginPersistedstate: {
     storage: "localStorage",
   },
+  // hooks: {
+  //   'app:error': (error) => {
+  //     console.error('[Global App Error]:', error);
+  //   }
+  // },
   i18n: {
     locales: [{
       code: 'ja',

@@ -20,6 +20,11 @@ export async function callOrcaApi(endpoint, method = 'GET', data = null) {
             'Authorization': 'Basic ' + Buffer.from(`${orcaUser}:${orcaPass}`).toString('base64')
         }
     };
+    const xmlOptions = {
+        ignoreAttrs: true,
+        explicitArray: false,
+    };
+
 
     if (data) {
         const builder = new xml2js.Builder();
@@ -27,12 +32,15 @@ export async function callOrcaApi(endpoint, method = 'GET', data = null) {
     }
 
     try {
+        
         const response = await fetch(url, options);
         if (!response.ok) {
+          
             throw new Error(`Orca API error: ${response.statusText} (${response.status})`);
         }
-        const responseData = await response.text();
-        return await xml2js.parseStringPromise(responseData);
+        var responseData = await response.text();
+        responseData = await xml2js.parseStringPromise(responseData, xmlOptions);
+        return responseData.xmlio2
     } catch (error) {
         console.error('Error calling Orca API:', error);
         throw error;
@@ -48,12 +56,13 @@ export async function getPatientInfo(patientId) {
     try {
         const endpoint = `/api01rv2/patientgetv2?id=${patientId}`;
         const responseData = await callOrcaApi(endpoint, 'GET');
-
+        console.log(responseData);
+        
         // Validate response structure
-        if (responseData.patientinfores?.[0]?.Api_Result == ['00']) {
-            return responseData.patientinfores[0].Patient_Information[0];
+        if (responseData.patientinfores?.Api_Result == ['00']) {
+            return responseData.patientinfores.Patient_Information;
         } else {
-            const errorMsg = responseData?.patientinfores?.[0]?.Api_Result_Message?.[0] || 'Unknown error';
+            const errorMsg = responseData?.patientinfores?.Api_Result_Message || 'Unknown error';
             throw new Error(`Orca API error: ${errorMsg}`);
         }
     } catch (error) {
