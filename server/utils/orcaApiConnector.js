@@ -56,7 +56,6 @@ export async function getPatientInfo(patientId) {
     try {
         const endpoint = `/api01rv2/patientgetv2?id=${patientId}`;
         const responseData = await callOrcaApi(endpoint, 'GET');
-        console.log(responseData);
         
         // Validate response structure
         if (responseData.patientinfores?.Api_Result == ['00']) {
@@ -66,7 +65,6 @@ export async function getPatientInfo(patientId) {
             throw new Error(`Orca API error: ${errorMsg}`);
         }
     } catch (error) {
-        console.error('Error getting patient info:', error);
         throw error;
     }
 }
@@ -77,6 +75,11 @@ export async function getPatientInfo(patientId) {
  * @returns {Promise<object>} Response from Orca API
  */
 export async function registerPatient(patientData) {
+
+
+
+
+    
     try {
         const endpoint = '/api01rv2/patientset';
         const response = await callOrcaApi(endpoint, 'POST', patientData);
