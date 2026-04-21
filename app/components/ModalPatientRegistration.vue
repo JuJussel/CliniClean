@@ -1,7 +1,14 @@
 <script setup>
 async function onPatientSubmitted(patientData) {
     console.log("New patient registered:", patientData);
-    // You can add additional logic here, such as refreshing the patient list
+    try {
+        const res = await $fetch("api/patient/register", {
+            body: patientData,
+            method: "POST",
+        });
+    } catch (e) {
+        console.error(e);
+    }
 }
 </script>
 

@@ -11,6 +11,7 @@ export default defineEventHandler(async (event) => {
         const orcaResponse = await registerPatient(body)
 
         // Extract Orca patient ID from response (adjust field names based on actual Orca API response)
+        console.log(orcaResponse);
         const orcaPatientId = orcaResponse?.patientsetres?.[0]?.Patient_ID?.[0]
 
         if (!orcaPatientId) {
@@ -20,14 +21,14 @@ export default defineEventHandler(async (event) => {
         // Create local database record
         const patient = new Patient({
             ...body,
-            orcaId: orcaPatientId
+            id: orcaPatientId
         })
         await patient.save()
 
         return {
             success: true,
             patient,
-            orcaId: orcaPatientId
+            id: orcaPatientId
         }
 
     } catch (error) {

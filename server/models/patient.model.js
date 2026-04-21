@@ -4,10 +4,6 @@ const Patient = defineMongooseModel({
     name: 'Patient',
     schema: {
         id: { type: 'string', default: null, description: 'ID matching Orca patient ID.' },
-        type: {
-            type: 'string', enum: ['patient', 'guardian', 'emergency_contact', 'contact', 'other'],
-            default: 'contact'
-        },
         status: { type: 'string', enum: ['active', 'inactive', 'pending'], default: 'active' },
         birthDate: { type: 'date' },
         gender: {
