@@ -1,9 +1,9 @@
-export default defineCachedEventHandler(async (event) => {
+export default defineEventHandler(async (event) => {
 
+    // Check if user is authenticated
     await requireUserSession(event)
-
+    
     try {
-
 
         const zip = getRouterParam(event, 'zip')
 
@@ -13,7 +13,6 @@ export default defineCachedEventHandler(async (event) => {
             WHERE post = ${zip}::text
         `
         );
-
         return { address: address[0]?.editadrs_name || null }
     } catch (e) {
         console.log(e);

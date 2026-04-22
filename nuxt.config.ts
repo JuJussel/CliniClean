@@ -28,6 +28,11 @@ export default defineNuxtConfig({
   //     console.error('[Global App Error]:', error);
   //   }
   // },
+  nitro: {
+    routeRules: {
+      '/api/**': { cache: false, swr:false },
+    }
+  },
   i18n: {
     locales: [{
       code: 'ja',
