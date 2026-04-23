@@ -2,7 +2,6 @@ import Patient from '../../models/patient.model'
 import { registerPatient } from '../../utils/orcaApiConnector'
 
 export default defineEventHandler(async (event) => {
-    await requireUserSession(event)
 
     try {
         const body = await readBody(event)

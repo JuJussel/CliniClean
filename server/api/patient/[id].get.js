@@ -4,8 +4,6 @@ import { registerPatient } from '../../utils/orcaApiConnector'
 
 export default defineEventHandler(async (event) => {
 
-    await requireUserSession(event)
-
     try {
         const id = getRouterParam(event, 'id')
         const orcaResponse = await getPatientInfo(id)

@@ -1,7 +1,4 @@
 export default defineEventHandler(async (event) => {
-
-    // Check if user is authenticated
-    await requireUserSession(event)
     
     try {
 

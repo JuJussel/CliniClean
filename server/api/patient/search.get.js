@@ -4,9 +4,6 @@ import japUtils from 'japanese-string-utils';
 
 export default defineEventHandler(async (event) => {
 
-    // Check if user is authenticated
-    await requireUserSession(event)
-
     try {
 
         const { id, family, given, familyKana, givenKana, query } = getQuery(event)

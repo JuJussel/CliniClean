@@ -1,7 +1,4 @@
 <script setup>
-definePageMeta({
-    middleware: ["authenticated"],
-});
 
 const items = ref([
     {

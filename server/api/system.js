@@ -1,8 +1,6 @@
 import system from "../models/system.model.js";
 
 export default defineEventHandler(async (event) => {
-
-    await requireUserSession(event)
     try {
 
         const systemData = await system.find({ category: { $in: ["ui", "config"] } }).lean()

@@ -1,4 +1,21 @@
 <script setup>
+
+import {ModalPatientRegistration, ModalPatientWalkin} from '#components'
+const overlay = useOverlay()
+
+async function openRegistrationModal() {
+    const registrationModal = overlay.create(ModalPatientRegistration, {destroyOnClose: true})
+    const action = await registrationModal.open()
+
+    if(!action) return
+    if(action.modal === 'walkin') {
+        const walkinModal = overlay.create(ModalPatientWalkin, {destroyOnClose: true})
+        walkinModal.open({patientId: action.id})
+    }
+    
+}
+
+
 const dayjs = useDayjs();
 
 const searchQuery = ref("");
@@ -47,7 +64,12 @@ async function searchPatients() {
                 :placeholder="$t('patientSearch')"
                 @update:modelValue="searchPatients"
             />
-            <ModalPatientRegistration />
+                    <UButton color="neutral" icon="material-symbols-add"
+                    @click="openRegistrationModal"
+                    >
+            {{ $t("registerNewPatient") }}
+        </UButton>
+
         </div>
 
         <UTable
