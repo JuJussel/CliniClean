@@ -3,7 +3,6 @@ import japUtils from 'japanese-string-utils';
 
 
 export default defineEventHandler(async (event) => {
-
     try {
 
         const { id, family, given, familyKana, givenKana, query } = getQuery(event)
@@ -77,23 +76,41 @@ export default defineEventHandler(async (event) => {
 
         // If no valid search criteria were provided, return empty array
         if (mongoQuery.$or.length === 0) {
-            return res.send([]);
+            return {
+                success: true,
+                data: {
+                    patients: []
+                }
+            }
         }
 
         const patients = await Patient.find(mongoQuery)
             .select('name birthDate gender type id')
             .lean()
-            .exec();
+            .exec()
 
-        return { patients }
-
-
-
+        return {
+            success: true,
+            data: {
+                patients
+            }
+        }
     } catch (error) {
+        if (error.statusCode) {
+            throw error
+        }
+
+        console.error('[Patient Search API Error]', {
+            query: getQuery(event),
+            error: error.message,
+            stack: error.stack
+        })
+
         throw createError({
             status: 500,
-            message: 'An error occurred while searching for patients.',
-        });
+            statusMessage: 'Internal Server Error',
+            message: 'An error occurred while searching for patients'
+        })
     }
 
 

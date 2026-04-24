@@ -10,9 +10,14 @@ export const useSystemStore = defineStore('systemStore', {
                 const res = await $fetch("api/system", {
                     method: "GET",
                 });
-                this.system = res.data;
+                if (res.success && res.data) {
+                    this.system = res.data;
+                } else {
+                    console.error('API Error:', res.message);
+                    this.system = null;
+                }
             } catch (e) {
-                console.error(e);
+                console.error('System data error:', e);
                 this.system = null;
             }
         }

@@ -19,9 +19,14 @@ export const usePatientStore = defineStore('PatientStore', {
                             },
                             method: "GET",
                         });
-                        resolve(res.patients);
+                        if (res.success && res.data) {
+                            resolve(res.data.patients || []);
+                        } else {
+                            console.error('API Error:', res.message);
+                            resolve([]);
+                        }
                     } catch (e) {
-                        console.error(e);
+                        console.error('Search error:', e);
                         resolve([]);
                     }
                 }, 500);

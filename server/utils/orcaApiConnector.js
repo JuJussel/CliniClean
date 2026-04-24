@@ -165,7 +165,29 @@ export async function registerPatient(patientData) {
 
         const endpoint = '/orca12/patientmodv2?class=01';
         const response = await callOrcaApi(endpoint, 'POST', orcaPatientData);
-        if(!isValidApiResult(response, ['00', 'K1', 'K2', 'K3', 'K4', 'K5'], 'patientmodres')) {
+        // Delete patient if registration failed due to duplicate (K0) to prevent orphan records in Orca
+        if(!isValidApiResult(response, ['00','K1', 'K2', 'K3', 'K4', 'K5'], 'patientmodres')) {
+            if(response.patientmodres.Api_Result === 'K0') {
+                const deletePatient= {
+                    data: {
+                        patientmodreq: {
+                            $: { type: 'record' },
+                            Patient_ID: { $: { type: 'string' }, _: response.patientmodres.Patient_Information.Patient_ID  },
+                            WholeName: { $: { type: 'string' }, _: buildWholeName(patientData.name) },
+                            WholeName_inKana: { $: { type: 'string' }, _: buildWholeNameKana(patientData.name) },
+
+                            BirthDate: { $: { type: 'string' }, _: formatBirthDate(patientData.birthDate) },
+                            Sex: { $: { type: 'string' }, _: patientData.gender === 'male' ? '1' : '2' },
+                        }
+                    }
+                }
+                const endpoint = '/orca12/patientmodv2?class=03';
+
+                const deleteResponse =await callOrcaApi(endpoint, 'POST', deletePatient);
+                console.log(deleteResponse);
+                
+
+            }
             const errorMsg = response.patientmodres.Api_Warning_Message1 || 'Unknown error during patient registration';
             return { success: false, message: errorMsg }
         }

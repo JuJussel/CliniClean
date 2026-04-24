@@ -1,4 +1,6 @@
 <script setup>
+import { th } from 'zod/v4/locales';
+
 const toast = useToast()
 const emit = defineEmits(['close'])
 
@@ -12,11 +14,17 @@ async function onPatientSubmitted(patientData) {
             method: "POST",
         });
 
-        toast.add($t("patientRegistered"), {type: "success"})
-        registered.value = true
-
+        if (res.success && res.data?.id) {
+            // toast.add( { title: $t("patientRegistered") })
+            registered.value = true
+        } else {
+            throw new Error(res.message)
+        }
     } catch (e) {
-        console.error(e);
+        console.log("ddddddddd");
+        
+        console.error('Registration error:', e);
+        toast.add({ title: e.message, color: "error"})
     }
 }
 </script>

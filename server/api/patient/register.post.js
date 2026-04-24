@@ -2,21 +2,38 @@ import Patient from '../../models/patient.model'
 import { registerPatient } from '../../utils/orcaApiConnector'
 
 export default defineEventHandler(async (event) => {
-
     try {
+
         const body = await readBody(event)
+
+        // Validate required fields
+        if (!body.name?.family || !body.name?.given) {
+            throw createError({
+                status: 400,
+                statusMessage: 'Invalid Patient Data',
+                message: 'Patient name (family and given) is required'
+            })
+        }
 
         // Register patient in Orca first
         const orcaResponse = await registerPatient(body)
-        if(!orcaResponse.success) {
-            throw new Error(orcaResponse.message)
+        if (!orcaResponse.success) {
+            throw createError({
+                status: 400,
+                statusMessage: 'Orca Registration Failed',
+                message: orcaResponse.message
+            })
         }
 
-        // Extract Orca patient ID from response (adjust field names based on actual Orca API response)
-        const orcaPatientId = orcaResponse.patientInfo.Patient_ID
+        // Extract Orca patient ID from response
+        const orcaPatientId = orcaResponse.patientInfo?.Patient_ID
 
         if (!orcaPatientId) {
-            throw new Error('Failed to create patient in Orca')
+            throw createError({
+                status: 400,
+                statusMessage: 'Invalid Orca Response',
+                message: 'Failed to retrieve patient ID from Orca'
+            })
         }
 
         // Create local database record
@@ -28,13 +45,25 @@ export default defineEventHandler(async (event) => {
 
         return {
             success: true,
-            patient,
-            id: orcaPatientId
+            data: {
+                patient,
+                id: orcaPatientId
+            }
+        }
+    } catch (error) {
+        if (error.statusCode) {
+            throw error
         }
 
-    } catch (error) {
-        console.error('Error registering patient:', error)
-        throw createError(400, error.message)
-    }
+        console.error('[Patient Register API Error]', {
+            error: error.message,
+            stack: error.stack
+        })
 
+        throw createError({
+            status: 500,
+            statusMessage: 'Internal Server Error',
+            message: 'Failed to register patient'
+        })
+    }
 })

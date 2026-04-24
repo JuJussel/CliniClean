@@ -8,23 +8,23 @@ const emit = defineEmits(["submitted"]);
 const state = reactive({
     type: "patient",
     birthDate: null,
-    gender: "male",
+    gender: "female",
     name: {
-        family: "",
-        given: "",
-        familyKana: "",
-        givenKana: "",
+        family: "田中",
+        given: "由依",
+        familyKana: "たなか",
+        givenKana: "ゆい",
     },
     telecom: {
-        email: undefined,
-        phoneMobile: "",
-        phoneHome: "",
+        email: "yui@mail.com",
+        phoneMobile: "08012345678",
+        phoneHome: "08012345678",
     },
     address: {
-        address: "",
-        zip: null,
+        address: "東京都品川区小山",
+        zip: 1420062,
         country: "JPN",
-        line: "",
+        line: "Room 101",
     },
     occupation: "employee",
 });
@@ -62,10 +62,19 @@ const schema = z.object({
 });
 
 async function fetchAddress() {
-    const address = await $fetch("/api/address/" + state.address.zip, {
-        method: "GET",
-    });
-    state.address.address = address.address;
+    try {
+        const response = await $fetch("/api/address/" + state.address.zip, {
+            method: "GET",
+        })
+        if (response.success && response.data) {
+            state.address.address = response.data.address
+        } else {
+            throw new Error(response.message || 'Failed to fetch address')
+        }
+    } catch (error) {
+        console.error('Error fetching address:', error)
+        // Show user-friendly error message
+    }
 }
 
 async function onSubmit(event) {
