@@ -8,10 +8,12 @@ export default defineEventHandler(async (event) => {
 
         // Register patient in Orca first
         const orcaResponse = await registerPatient(body)
+        if(!orcaResponse.success) {
+            throw new Error(orcaResponse.message)
+        }
 
         // Extract Orca patient ID from response (adjust field names based on actual Orca API response)
-        console.log(orcaResponse);
-        const orcaPatientId = orcaResponse?.patientsetres?.[0]?.Patient_ID?.[0]
+        const orcaPatientId = orcaResponse.patientInfo.Patient_ID
 
         if (!orcaPatientId) {
             throw new Error('Failed to create patient in Orca')

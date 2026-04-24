@@ -7,7 +7,10 @@ export default defineEventHandler(async (event) => {
     try {
         const id = getRouterParam(event, 'id')
         const orcaResponse = await getPatientInfo(id)
-        return orcaResponse
+        if(!orcaResponse.success) {
+            new Error(orcaResponse.message)
+        }
+        return orcaResponse.patientInfo
 
         // const patient = await Patient.findOne({ id }).lean()
         // console.log(patient);

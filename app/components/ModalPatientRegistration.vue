@@ -1,8 +1,8 @@
 <script setup>
-
+const toast = useToast()
 const emit = defineEmits(['close'])
 
-const created = ref(false)
+const registered = ref(false);
 
 async function onPatientSubmitted(patientData) {
     console.log("New patient registered:", patientData);
@@ -11,7 +11,10 @@ async function onPatientSubmitted(patientData) {
             body: patientData,
             method: "POST",
         });
-        created = true
+
+        toast.add($t("patientRegistered"), {type: "success"})
+        registered.value = true
+
     } catch (e) {
         console.error(e);
     }
@@ -27,25 +30,35 @@ async function onPatientSubmitted(patientData) {
             </div>
         </template>
         <template #body>
-            <UButton color="neutral" icon="material-symbols-add"
-                @click="emit('close', {modal: 'walkin', id: 12})"
-            >
-                {{ $t("registerNewPatient") }}
-            </UButton>
-
+            <div v-if="registered">
+                {{ $t("patientRegistered") }}
+            </div>
             <FormPatientRegistration
+                v-else
                 v-on:submitted="onPatientSubmitted"
                 ref="newPatientForm"
             />
         </template>
         <template #footer>
-            <UButton
-                color="primary"
-                form="patient-registration-form"
-                @click="$refs.newPatientForm.$refs.form.submit()"
-            >
-                {{ $t("register") }}
-            </UButton>
+            <div v-if="registered">
+                <UButton 
+                    color="neutral" 
+                    icon="material-symbols:playlist-add-rounded"
+                    @click="emit('close', {modal: 'walkin', id: 12})"
+                >
+                    {{ $t("newReception") }}
+                </UButton>
+
+            </div>
+            <div v-else>
+                <UButton
+                    color="primary"
+                    form="patient-registration-form"
+                    @click="$refs.newPatientForm.$refs.form.submit()"
+                >
+                    {{ $t("register") }}
+                </UButton>
+            </div>
         </template>
     </UModal>
 </template>

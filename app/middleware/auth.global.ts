@@ -1,5 +1,4 @@
 export default defineNuxtRouteMiddleware((to, from) => {
-  return
   const { loggedIn } = useUserSession()
   // Pages that do not need authentication
   const publicPages=['/login']
