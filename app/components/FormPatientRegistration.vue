@@ -1,6 +1,13 @@
 <script setup>
 import * as z from "zod";
 
+const props = defineProps({
+    disabled: {
+        type: Boolean,
+        default: false,
+    },
+});
+
 const systemStore = useSystemStore();
 
 const emit = defineEmits(["submitted"]);
@@ -65,14 +72,14 @@ async function fetchAddress() {
     try {
         const response = await $fetch("/api/address/" + state.address.zip, {
             method: "GET",
-        })
+        });
         if (response.success && response.data) {
-            state.address.address = response.data.address
+            state.address.address = response.data.address;
         } else {
-            throw new Error(response.message || 'Failed to fetch address')
+            throw new Error(response.message || "Failed to fetch address");
         }
     } catch (error) {
-        console.error('Error fetching address:', error)
+        console.error("Error fetching address:", error);
         // Show user-friendly error message
     }
 }
@@ -87,6 +94,7 @@ async function onSubmit(event) {
         ref="form"
         :schema="schema"
         :state="state"
+        :disabled="disabled"
         class="max-w-175"
         @submit="onSubmit"
     >
