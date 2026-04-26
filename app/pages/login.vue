@@ -5,7 +5,6 @@ const credentials = reactive({
     password: "Passw0rd",
 });
 const userStore = useUserStore();
-const systemStore = useSystemStore();
 
 if (loggedIn.value) {
     // If already logged in, redirect to home page
@@ -22,7 +21,6 @@ async function login() {
         // Refresh the session on client-side and redirect to the home page
         await refreshSession();
         userStore.setUser(userData.user); // Update the user store with the logged-in user's
-        await systemStore.getSystemData(); // Fetch system data after login
         await navigateTo("/");
     } catch {
         alert("Bad credentials");

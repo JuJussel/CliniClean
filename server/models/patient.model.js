@@ -83,9 +83,6 @@ const Patient = defineMongooseModel({
                 description: 'The nature of the relationship (e.g., guardian, next-of-kin).'
             },
         },
-        insurances: {
-            type: 'array',
-        }
     },
     options: {
         collection: 'patients',

@@ -20,7 +20,9 @@ const navItems = [
 
 async function logout() {
     await clearSession();
+    localStorage.clear();
     await navigateTo("/login");
+    window.location.reload();
 }
 </script>
 

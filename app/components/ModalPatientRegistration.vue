@@ -1,11 +1,9 @@
 <script setup>
-import { th } from "zod/v4/locales";
-
 const toast = useToast();
 const emit = defineEmits(["close"]);
 const loading = ref(false);
 
-const registered = ref(false);
+const registered = ref(null);
 
 async function onPatientSubmitted(patientData) {
     loading.value = true;
@@ -18,7 +16,7 @@ async function onPatientSubmitted(patientData) {
 
         if (res.success && res.data?.id) {
             // toast.add( { title: $t("patientRegistered") })
-            registered.value = true;
+            registered.value = res.data.id;
         } else {
             throw new Error(res.message);
         }
@@ -52,13 +50,45 @@ async function onPatientSubmitted(patientData) {
             />
         </template>
         <template #footer>
-            <div v-if="registered">
+            <div v-if="registered" class="flex justify-between gap-2 w-full">
+                <div class="flex gap-2">
+                    <UButton
+                        color="neutral"
+                        icon="material-symbols:playlist-add-rounded"
+                        @click="
+                            emit('close', { modal: 'walkin', id: registered })
+                        "
+                    >
+                        {{ $t("newReception") }}
+                    </UButton>
+                    <UButton
+                        color="neutral"
+                        icon="material-symbols:calendar-clock-rounded"
+                        @click="
+                            emit('close', {
+                                modal: 'reservation',
+                                id: registered,
+                            })
+                        "
+                    >
+                        {{ $t("reservation") }}
+                    </UButton>
+                    <UButton
+                        color="neutral"
+                        icon="material-symbols:person-edit-sharp"
+                        @click="
+                            emit('close', { modal: 'edit', id: registered })
+                        "
+                    >
+                        {{ $t("edit") }}
+                    </UButton>
+                </div>
                 <UButton
                     color="neutral"
-                    icon="material-symbols:playlist-add-rounded"
-                    @click="emit('close', { modal: 'walkin', id: 12 })"
+                    variant="outline"
+                    @click="emit('close')"
                 >
-                    {{ $t("newReception") }}
+                    {{ $t("close") }}
                 </UButton>
             </div>
             <div v-else>

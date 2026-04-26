@@ -10,7 +10,7 @@ const User = defineMongooseModel({
         nameFirst: { type: String, required: true },
         nameLast: { type: String, required: true },
         active: { type: Boolean, default: true },
-        userGroup: Number,
+        type: { type: String, required: true },
         status: { type: Number, required: true },
         isDirectory: { type: Boolean, default: false },
         hasOrca: { type: Boolean, default: false },
@@ -19,6 +19,13 @@ const User = defineMongooseModel({
     },
     options: {
         collection: 'users',
+        toJSON: { virtuals: true },
+        toObject: { virtuals: true }
+    },
+    hooks: (schema) => {
+        schema.virtual('fullName').get(function () {
+            return `${this.nameFirst} ${this.nameLast}`
+        })
     }
 })
 

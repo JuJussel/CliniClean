@@ -1,11 +1,9 @@
 import Patient from '../../models/patient.model'
-import { registerPatient } from '../../utils/orcaApiConnector'
-
 
 export default defineEventHandler(async (event) => {
     try {
 
-        const id = getRouterParam(event, 'id')
+        const id = getRouterParam(event, 'id').toString().padStart(5, '0');
 
         // Validate patient ID
         if (!id || typeof id !== 'string') {
@@ -16,6 +14,7 @@ export default defineEventHandler(async (event) => {
             })
         }
 
+        // Get orca data for insurances and make sure patient matches
         const orcaResponse = await getPatientInfo(id)
         if (!orcaResponse.success) {
             throw createError({
@@ -25,9 +24,24 @@ export default defineEventHandler(async (event) => {
             })
         }
 
+        // Create insurance set array for patient
+
+        let insuranceSets = orcaResponse.patientInfo.HealthInsurance_Information.HealthInsurance_Information_child
+
+        if (!Array.isArray(insuranceSets)) {
+            insuranceSets = [insuranceSets]
+        }
+
+        // Get DB patient data and attach insurance sets to it
+        let patient = await Patient.findOne({ id })
+
+        // Convert to plain object to ensure properties are included in response
+        patient = patient.toObject ? patient.toObject() : patient
+        patient.insuranceSets = insuranceSets
+
         return {
             success: true,
-            data: orcaResponse.patientInfo
+            data: patient
         }
     } catch (error) {
         if (error.statusCode) {

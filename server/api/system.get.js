@@ -1,14 +1,18 @@
 import system from "../models/system.model.js";
+import user from "../models/user.model.js";
 
 export default defineEventHandler(async (event) => {
     try {
 
         const systemData = await system.find({ category: { $in: ['ui', 'config'] } }).lean()
+        const doctors = await user.find({ type: 'doctor', active: true }).select('nameLast nameFirst _id status')
 
         const data = {
             ui: systemData.find((item) => item.category === 'ui')?.data || {},
-            config: systemData.find((item) => item.category === 'config')?.data || {}
+            config: systemData.find((item) => item.category === 'config')?.data || {},
+            doctors: doctors || []
         }
+
 
         return {
             success: true,

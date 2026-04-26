@@ -1,20 +1,27 @@
 <script setup>
-
-import {ModalPatientRegistration, ModalPatientWalkin} from '#components'
-const overlay = useOverlay()
+import { ModalPatientRegistration, ModalPatientWalkin } from "#components";
+const overlay = useOverlay();
 
 async function openRegistrationModal() {
-    const registrationModal = overlay.create(ModalPatientRegistration, {destroyOnClose: true})
-    const action = await registrationModal.open()
+    const registrationModal = overlay.create(ModalPatientRegistration, {
+        destroyOnClose: true,
+    });
+    const action = await registrationModal.open();
 
-    if(!action) return
-    if(action.modal === 'walkin') {
-        const walkinModal = overlay.create(ModalPatientWalkin, {destroyOnClose: true})
-        walkinModal.open({patientId: action.id})
+    if (!action) return;
+    if (action.modal === "walkin") {
+        openWalkinModal(action.id);
     }
-    
 }
 
+async function openWalkinModal(patientId) {
+    const walkinModal = overlay.create(ModalPatientWalkin, {
+        destroyOnClose: true,
+    });
+    const action = await walkinModal.open({ patientId: patientId });
+
+    if (!action) return;
+}
 
 const dayjs = useDayjs();
 
@@ -42,6 +49,10 @@ const columns = [
             return dayjs(patient.birthDate).format("LL");
         },
     },
+    {
+        accessorKey: "actions",
+        header: "",
+    },
 ];
 
 async function searchPatients() {
@@ -64,12 +75,13 @@ async function searchPatients() {
                 :placeholder="$t('patientSearch')"
                 @update:modelValue="searchPatients"
             />
-                    <UButton color="neutral" icon="material-symbols-add"
-                    @click="openRegistrationModal"
-                    >
-            {{ $t("registerNewPatient") }}
-        </UButton>
-
+            <UButton
+                color="neutral"
+                icon="material-symbols-add"
+                @click="openRegistrationModal"
+            >
+                {{ $t("registerNewPatient") }}
+            </UButton>
         </div>
 
         <UTable
@@ -77,6 +89,49 @@ async function searchPatients() {
             :data="searchResults"
             :columns="columns"
             class="flex-1"
-        />
+        >
+            <template #actions-header>
+                <div class="min-w-72"></div>
+            </template>
+            <div class="text-right">{{ $t("actions") }}</div>
+            <template #actions-cell="{ row }">
+                <div class="flex gap-2 justify-end">
+                    <UButton
+                        size="xs"
+                        variant="outline"
+                        color="neutral"
+                        icon="material-symbols:playlist-add-rounded"
+                        @click="openWalkinModal(row.original?.id)"
+                    >
+                        {{ $t("newReception") }}
+                    </UButton>
+                    <UButton
+                        size="xs"
+                        variant="outline"
+                        color="neutral"
+                        icon="material-symbols:calendar-clock-rounded"
+                        @click="
+                            emit('close', {
+                                modal: 'reservation',
+                                id: registered,
+                            })
+                        "
+                    >
+                        {{ $t("reservation") }}
+                    </UButton>
+                    <UButton
+                        size="xs"
+                        variant="outline"
+                        color="neutral"
+                        icon="material-symbols:person-edit-sharp"
+                        @click="
+                            emit('close', { modal: 'edit', id: registered })
+                        "
+                    >
+                        {{ $t("edit") }}
+                    </UButton>
+                </div>
+            </template>
+        </UTable>
     </div>
 </template>
