@@ -38,22 +38,22 @@ const insuranceConfirmed = ref(false);
 
 const insuranceColumns = [
     {
-        accessorKey: "id",
+        accessorKey: "Insurance_Combination_Number",
         header: $t("id"),
     },
     {
-        accessorKey: "name",
+        accessorKey: "InsuranceProvider_WholeName",
         header: $t("insuranceProviderName"),
     },
     {
-        accessorKey: "number",
+        accessorKey: "Certificate_StartDate",
         header: $t("insuranceNumber"),
     },
 ];
 
 const publicInsuranceColumns = [
     {
-        accessorKey: "id",
+        accessorKey: "Insurance_Combination_Number",
         header: $t("id"),
     },
     {
@@ -77,27 +77,35 @@ const patientName = computed(() => {
     }
     return "";
 });
-
-const doctorOptions = computed(() => {
-    return systemStore.system?.ui?.doctors || [];
-});
 </script>
 
 <template>
-    <div class="grid grid-cols-2 gap-2" v-if="patient">
+    <div class="grid grid-cols-2 gap-6" v-if="patient">
         <UFormField :label="$t('patient')" name="name">
-            <UInput v-model="patientName" disabled variant="subtle" />
+            <UInput
+                v-model="patientName"
+                disabled
+                variant="subtle"
+                class="flex"
+            />
         </UFormField>
         <UFormField :label="$t('reception')" name="receptionDate">
-            <UInput v-model="receptionDate" disabled variant="subtle" />
+            <UInput
+                v-model="receptionDate"
+                disabled
+                variant="subtle"
+                class="flex"
+            />
         </UFormField>
         <UFormField :label="$t('doctor')" name="doctor">
             <USelect
                 v-model="selectedDoctor"
-                :options="systemStore.system?.doctors"
+                :items="systemStore.system?.doctors || []"
+                valueKey="id"
                 labelKey="fullName"
                 :placeholder="$t('select')"
                 searchable
+                class="w-full"
             />
         </UFormField>
         <UFormField
@@ -107,6 +115,7 @@ const doctorOptions = computed(() => {
             <UCheckbox
                 :label="$t('insurance') + $t('confirm')"
                 v-model="insuranceConfirmed"
+                class="mt-[10px]"
             />
         </UFormField>
     </div>
@@ -118,7 +127,7 @@ const doctorOptions = computed(() => {
             }}</label>
             <UTable
                 v-model="selectedInsurance"
-                :data="insuranceOptions"
+                :data="patient.insuranceSets"
                 :columns="insuranceColumns"
             />
         </div>

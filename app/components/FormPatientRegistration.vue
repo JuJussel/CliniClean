@@ -98,21 +98,41 @@ async function onSubmit(event) {
         class="max-w-175"
         @submit="onSubmit"
     >
-        <div class="grid grid-cols-2 gap-2">
-            <UFormField :label="$t('lastName')" name="name.family">
+        <div class="grid grid-cols-6 gap-6">
+            <UFormField
+                :label="$t('lastName')"
+                name="name.family"
+                class="col-span-3"
+            >
                 <UInput v-model="state.name.family" class="flex" />
             </UFormField>
-            <UFormField :label="$t('firstName')" name="name.given">
+            <UFormField
+                :label="$t('firstName')"
+                name="name.given"
+                class="col-span-3"
+            >
                 <UInput v-model="state.name.given" class="flex" />
             </UFormField>
-            <UFormField :label="$t('lastNameKana')" name="name.familyKana">
+            <UFormField
+                :label="$t('lastNameKana')"
+                name="name.familyKana"
+                class="col-span-3"
+            >
                 <UInput v-model="state.name.familyKana" class="flex" />
             </UFormField>
-            <UFormField :label="$t('firstNameKana')" name="name.givenKana">
+            <UFormField
+                :label="$t('firstNameKana')"
+                name="name.givenKana"
+                class="col-span-3"
+            >
                 <UInput v-model="state.name.givenKana" class="flex" />
             </UFormField>
 
-            <UFormField :label="$t('birthDate')" name="birthDate">
+            <UFormField
+                :label="$t('birthDate')"
+                name="birthDate"
+                class="col-span-3"
+            >
                 <UInputDate
                     v-model="state.birthDate"
                     :label="$t('birthDate')"
@@ -140,7 +160,7 @@ async function onSubmit(event) {
                 </UInputDate>
             </UFormField>
 
-            <UFormField :label="$t('gender')" name="gender">
+            <UFormField :label="$t('gender')" name="gender" class="col-span-3">
                 <USelect
                     v-model="state.gender"
                     :items="systemStore.system?.ui?.genders"
@@ -152,10 +172,11 @@ async function onSubmit(event) {
                     {{ $t(state.gender) }}
                 </USelect>
             </UFormField>
-        </div>
-
-        <div class="grid grid-cols-3 gap-2">
-            <UFormField :label="$t('zipCode')" name="address.zip">
+            <UFormField
+                :label="$t('zipCode')"
+                name="address.zip"
+                class="col-span-2"
+            >
                 <UInputNumber
                     v-model="state.address.zip"
                     class="flex"
@@ -166,23 +187,36 @@ async function onSubmit(event) {
                     :format-options="{ useGrouping: false }"
                 />
             </UFormField>
-            <UFormField :label="$t('address')" name="address.address">
+            <UFormField
+                :label="$t('address')"
+                name="address.address"
+                class="col-span-2"
+            >
                 <UInput v-model="state.address.address" class="flex" />
             </UFormField>
-            <UFormField :label="$t('RoomOrCompany')" name="address.line">
+            <UFormField
+                :label="$t('RoomOrCompany')"
+                name="address.line"
+                class="col-span-2"
+            >
                 <UInput v-model="state.address.line" class="flex" />
             </UFormField>
-        </div>
-
-        <div class="grid grid-cols-2 gap-2">
-            <UFormField :label="$t('email')" name="telecom.email">
+            <UFormField
+                :label="$t('email')"
+                name="telecom.email"
+                class="col-span-3"
+            >
                 <UInput
                     v-model="state.telecom.email"
                     class="flex"
                     placeholder="email@mail.com"
                 />
             </UFormField>
-            <UFormField :label="$t('phone')" name="telecom.phoneMobile">
+            <UFormField
+                :label="$t('phone')"
+                name="telecom.phoneMobile"
+                class="col-span-3"
+            >
                 <UInput
                     v-model="state.telecom.phoneMobile"
                     class="flex"
