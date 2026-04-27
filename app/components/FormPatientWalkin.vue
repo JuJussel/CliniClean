@@ -95,7 +95,7 @@ const doctorOptions = computed(() => {
             <USelect
                 v-model="selectedDoctor"
                 :options="systemStore.system?.doctors"
-                option-attribute="name"
+                labelKey="fullName"
                 :placeholder="$t('select')"
                 searchable
             />
