@@ -32,6 +32,26 @@ export default defineEventHandler(async (event) => {
             insuranceSets = [insuranceSets]
         }
 
+        insuranceSets.forEach((element, index) => {
+
+            if (element.PublicInsurance_Information) {
+                if (
+                    Array.isArray(
+                        element.PublicInsurance_Information
+                            .PublicInsurance_Information_child
+                    )
+                ) {
+                    insuranceSets[index].PublicInsurance_Information =
+                        element.PublicInsurance_Information.PublicInsurance_Information_child;
+                } else {
+                    insuranceSets[index].PublicInsurance_Information = [
+                        element.PublicInsurance_Information
+                            .PublicInsurance_Information_child,
+                    ];
+                }
+            }
+        });
+
         // Get DB patient data and attach insurance sets to it
         let patient = await Patient.findOne({ id })
 

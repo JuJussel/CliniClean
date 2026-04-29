@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, reactive, computed, watch, onMounted } from "vue";
 
 const props = defineProps({
     patientId: {
@@ -11,9 +11,10 @@ const props = defineProps({
 const toast = useToast();
 
 async function fetchPatientData(patientId) {
+    isLoading.value = true;
     try {
         const patientData = await $fetch(`/api/patient/${patientId}`);
-        return patientData.data;
+        patient.value = patientData.data;
     } catch (e) {
         toast.add({
             title: "Error",
@@ -21,20 +22,38 @@ async function fetchPatientData(patientId) {
             color: "error",
         });
         console.error("Error fetching patient data:", e);
-        return null;
+        patient.value = null;
+    } finally {
+        isLoading.value = false;
     }
 }
 
 const systemStore = useSystemStore();
 const dayjs = useDayjs();
 
-const state = reactive({});
+const isLoading = ref(true);
+const patient = ref(null);
+const walkingData = reactive({
+    doctor: null,
+    ins: null,
+    insuranceConfirmed: false,
+    receptionMemo: "",
+    status: 2, // 2 for walk-in
+});
 
-const patient = await fetchPatientData(props.patientId);
-const selectedDoctor = ref(null);
-const selectedInsurance = ref(null);
-const selectedPublicInsurance = ref(null);
-const insuranceConfirmed = ref(false);
+// Fetch patient data when component mounts
+onMounted(() => {
+    fetchPatientData(props.patientId);
+});
+
+// Expose isLoading for parent components
+defineExpose({
+    isLoading,
+});
+
+const handleInsuranceSelected = (insuranceRow) => {
+    walkingData.ins = insuranceRow.id;
+};
 
 const insuranceColumns = [
     {
@@ -46,41 +65,77 @@ const insuranceColumns = [
         header: $t("insuranceProviderName"),
     },
     {
+        accessorFn: (row) =>
+            row.PublicInsurance_Information?.[0]?.PublicInsurance_Name,
+        header: $t("publicInsurance") + "1",
+    },
+    {
+        accessorFn: (row) =>
+            row.PublicInsurance_Information?.[1]?.PublicInsurance_Name,
+        header: $t("publicInsurance") + "2",
+    },
+    {
+        accessorFn: (row) =>
+            row.PublicInsurance_Information?.[2]?.PublicInsurance_Name,
+        header: $t("publicInsurance") + "3",
+    },
+    {
         accessorKey: "Certificate_StartDate",
         header: $t("insuranceNumber"),
     },
 ];
 
-const publicInsuranceColumns = [
-    {
-        accessorKey: "Insurance_Combination_Number",
-        header: $t("id"),
-    },
-    {
-        accessorKey: "name",
-        header: $t("publicInsuranceProvider"),
-    },
-    {
-        accessorKey: "recipient",
-        header: $t("publicInsuranceRecepient"),
-    },
-];
-
-const insuranceOptions = [];
-
-const publicInsuranceOptions = [];
-
 const receptionDate = computed(() => dayjs().format("LL"));
 const patientName = computed(() => {
-    if (patient?.name) {
-        return `${patient.name.family || ""} ${patient.name.given || ""}`.trim();
+    if (patient.value?.name) {
+        return `${patient.value.name.family || ""} ${patient.value.name.given || ""}`.trim();
     }
     return "";
 });
 </script>
 
 <template>
-    <div class="grid grid-cols-2 gap-6" v-if="patient">
+    <!-- Loading Skeleton -->
+    <div v-if="isLoading">
+        <div class="grid grid-cols-2 gap-6 mb-4">
+            <!-- Patient Name Skeleton -->
+            <div>
+                <USkeleton class="h-5 w-20 mb-2" />
+                <USkeleton class="h-10 w-full" />
+            </div>
+            <!-- Reception Date Skeleton -->
+            <div>
+                <USkeleton class="h-5 w-24 mb-2" />
+                <USkeleton class="h-10 w-full" />
+            </div>
+            <!-- Doctor Skeleton -->
+            <div>
+                <USkeleton class="h-5 w-16 mb-2" />
+                <USkeleton class="h-10 w-full" />
+            </div>
+            <!-- Insurance Confirm Skeleton -->
+            <div>
+                <USkeleton class="h-5 w-32 mb-2" />
+                <USkeleton class="h-6 w-6" />
+            </div>
+            <!-- Memo Skeleton (spans full width) -->
+            <div class="col-span-2">
+                <USkeleton class="h-5 w-16 mb-2" />
+                <USkeleton class="h-24 w-full" />
+            </div>
+        </div>
+        <!-- Insurance Table Skeleton -->
+        <div class="mt-4">
+            <USkeleton class="h-5 w-20 mb-2" />
+            <div class="space-y-2">
+                <USkeleton class="h-10 w-full" />
+                <USkeleton class="h-10 w-full" />
+                <USkeleton class="h-10 w-full" />
+            </div>
+        </div>
+    </div>
+    <!-- Loaded Content -->
+    <div v-else class="grid grid-cols-2 gap-6">
         <UFormField :label="$t('patient')" name="name">
             <UInput
                 v-model="patientName"
@@ -99,7 +154,7 @@ const patientName = computed(() => {
         </UFormField>
         <UFormField :label="$t('doctor')" name="doctor">
             <USelect
-                v-model="selectedDoctor"
+                v-model="walkingData.doctor"
                 :items="systemStore.system?.doctors || []"
                 valueKey="id"
                 labelKey="fullName"
@@ -114,33 +169,24 @@ const patientName = computed(() => {
         >
             <UCheckbox
                 :label="$t('insurance') + $t('confirm')"
-                v-model="insuranceConfirmed"
-                class="mt-[10px]"
+                v-model="walkingData.insuranceConfirmed"
+                class="mt-2.5"
             />
         </UFormField>
+        <UFormField :label="$t('memo')" name="memo">
+            <UTextarea v-model="walkingData.receptionMemo" class="w-full" />
+        </UFormField>
     </div>
-    <div class="mt-4">
+    <div v-if="!isLoading" class="mt-4">
         <!-- Insurance Table -->
         <div>
             <label class="block text-sm font-medium mb-2">{{
                 $t("insurance")
             }}</label>
-            <UTable
-                v-model="selectedInsurance"
-                :data="patient.insuranceSets"
+            <CompTable
+                :data="patient.insuranceSets || []"
                 :columns="insuranceColumns"
-            />
-        </div>
-
-        <!-- Public Insurance Table -->
-        <div>
-            <label class="block text-sm font-medium mb-2">{{
-                $t("publicInsurance")
-            }}</label>
-            <UTable
-                v-model="selectedPublicInsurance"
-                :data="publicInsuranceOptions"
-                :columns="publicInsuranceColumns"
+                @row-selected="handleInsuranceSelected"
             />
         </div>
     </div>
