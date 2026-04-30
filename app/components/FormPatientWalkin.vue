@@ -208,7 +208,12 @@ const patientName = computed(() => {
         <UFormField :label="$t('memo')" name="receptionMemo">
             <UTextarea v-model="walkinData.receptionMemo" class="w-full" />
         </UFormField>
-        <UFormField name="ins" :label="$t('insurance')" v-if="!isLoading">
+        <UFormField
+            name="ins"
+            :label="$t('insurance')"
+            v-if="!isLoading"
+            class="col-span-2"
+        >
             <CompTable
                 :data="patient.insuranceSets || []"
                 :columns="insuranceColumns"
