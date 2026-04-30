@@ -15,7 +15,7 @@ async function onPatientSubmitted(patientData) {
         });
 
         if (res.success && res.data?.id) {
-            // toast.add( { title: $t("patientRegistered") })
+            toast.add( { title: $t("patientRegistered") })
             registered.value = res.data.id;
         } else {
             throw new Error(res.message);

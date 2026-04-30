@@ -5,7 +5,8 @@ const Encounter = defineMongooseModel({
     name: 'Encounter',
     schema: {
         patient: { type: Number, ref: "patients", required: true },
-        type: { type: Number, required: true },
+        // Reception type: 1: General, 2: PrevVaccination, 3: Follow-up, 4: Telemedicine, 5: Home Visit, 6: HealthCheckup, 7: Other
+        type: { type: Number, required: true, default: 1 },
         ins: String,
         receptionMemo: String,
         baseCost: [{}],

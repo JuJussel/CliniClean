@@ -1,3 +1,4 @@
+import { sseEvents } from "../../utils/sse"
 import Encounter from "../../models/encounter.model.js";
 
 export default defineEventHandler(async (event) => {
@@ -6,11 +7,32 @@ export default defineEventHandler(async (event) => {
 
         const encounter = new Encounter(body)
         await encounter.save()
-        return encounter
+
+        // Broadcast SSE message to all connected clients
+        sseEvents.emit('publish', {
+            event: 'encounterCreated',
+            message: {encounter},
+            timestamp: new Date().toISOString()
+        })
+
+        return {
+            success: true,
+            data: encounter
+        }
     } catch (error) {
+        if (error.statusCode) {
+            throw error
+        }
+
+        console.error('[Encounter Create API Error]', {
+            error: error.message,
+            stack: error.stack
+        })
+
         throw createError({
-            statusCode: 500,
-            statusMessage: error.message
+            status: 500,
+            statusMessage: 'Internal Server Error',
+            message: 'Failed to create encounter'
         })
     }
 })

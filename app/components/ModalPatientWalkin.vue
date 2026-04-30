@@ -1,15 +1,39 @@
 <script setup>
 import { ref, computed } from "vue";
+const toast = useToast();
+
 
 defineProps(["patientId"]);
 
 const emit = defineEmits(["close"]);
 const walkinForm = ref("walkinForm");
-const registered = ref(null);
+const submitting = ref(false);
 
 const isLoading = computed(() => {
-    return walkinForm.value.isLoading;
+    return walkinForm.value.isLoading || submitting.value;
 });
+
+const onWalkinSubmitted = async () => {
+    submitting.value = true;
+    try {
+        const walkinData = walkinForm.value.walkinData;
+        console.log(walkinData);
+        
+        await $fetch('/api/encounter/create', { method: 'POST', body: walkinData });
+        toast.add( { title: $t("walkinRegistered") })
+        emit("close", { modal: "walkin", id: walkinForm.value.patientId });
+    } catch (e) {
+        console.error("Error creating encounter:", e);
+        toast.add( { title: e.message, color: "error" })
+    } finally {
+        submitting.value = false;
+    }
+    
+
+
+
+};
+
 </script>
 
 <template>
@@ -24,13 +48,16 @@ const isLoading = computed(() => {
             </div>
         </template>
         <template #body>
-            <FormPatientWalkin :patient-id="patientId" ref="walkinForm" />
+            <FormPatientWalkin 
+                            v-on:submitted="onWalkinSubmitted"
+
+            :disabled="submitting" :patient-id="patientId" ref="walkinForm" />
         </template>
         <template #footer>
             <div>
                 <UButton
                     icon="material-symbols:playlist-add-rounded"
-                    @click="emit('close', { modal: 'walkin', id: registered })"
+                    @click="walkinForm.$refs.form.submit()"
                     :loading="isLoading"
                     :disabled="isLoading"
                 >

@@ -1,10 +1,17 @@
 <script setup>
-import { ref, reactive, computed, watch, onMounted } from "vue";
+import { ref, reactive, computed, onMounted } from "vue";
+import * as z from "zod";
+
+const emit = defineEmits(["submitted"]);
 
 const props = defineProps({
     patientId: {
         type: String,
         required: true,
+    },
+    disabled: {
+        type: Boolean,
+        default: false,
     },
 });
 
@@ -28,18 +35,33 @@ async function fetchPatientData(patientId) {
     }
 }
 
+async function onSubmit(event) {    
+    emit("submitted", event.data);
+}
+
+
 const systemStore = useSystemStore();
 const dayjs = useDayjs();
 
 const isLoading = ref(true);
 const patient = ref(null);
-const walkingData = reactive({
-    doctor: null,
-    ins: null,
+const walkinData = reactive({
+    doctor: "",
+    ins: "",
     insuranceConfirmed: false,
     receptionMemo: "",
     status: 2, // 2 for walk-in
+    patient: props.patientId,
 });
+
+const schema = z.object({
+    doctor: z.string().min(1, $t("validationMessages.stringEmpty")),
+    ins: z.string(),
+    insuranceConfirmed: z.boolean(),
+    receptionMemo: z.string(),
+    status: z.number(),
+    patient: z.string(),
+})
 
 // Fetch patient data when component mounts
 onMounted(() => {
@@ -48,11 +70,13 @@ onMounted(() => {
 
 // Expose isLoading for parent components
 defineExpose({
-    isLoading,
+    isLoading, walkinData
 });
 
 const handleInsuranceSelected = (insuranceRow) => {
-    walkingData.ins = insuranceRow.id;
+    console.log(insuranceRow);
+    
+    walkinData.ins = insuranceRow.Insurance_Combination_Number;
 };
 
 const insuranceColumns = [
@@ -135,7 +159,13 @@ const patientName = computed(() => {
         </div>
     </div>
     <!-- Loaded Content -->
-    <div v-else class="grid grid-cols-2 gap-6">
+    <UForm 
+        v-else
+        :disabled="disabled"  
+        class="grid grid-cols-2 gap-6" 
+        ref="form" 
+        @submit="onSubmit"
+        :schema="schema">
         <UFormField :label="$t('patient')" name="name">
             <UInput
                 v-model="patientName"
@@ -154,7 +184,7 @@ const patientName = computed(() => {
         </UFormField>
         <UFormField :label="$t('doctor')" name="doctor">
             <USelect
-                v-model="walkingData.doctor"
+                v-model="walkinData.doctor"
                 :items="systemStore.system?.doctors || []"
                 valueKey="id"
                 labelKey="fullName"
@@ -169,14 +199,14 @@ const patientName = computed(() => {
         >
             <UCheckbox
                 :label="$t('insurance') + $t('confirm')"
-                v-model="walkingData.insuranceConfirmed"
+                v-model="walkinData.insuranceConfirmed"
                 class="mt-2.5"
             />
         </UFormField>
-        <UFormField :label="$t('memo')" name="memo">
-            <UTextarea v-model="walkingData.receptionMemo" class="w-full" />
+        <UFormField :label="$t('memo')" name="receptionMemo">
+            <UTextarea v-model="walkinData.receptionMemo" class="w-full" />
         </UFormField>
-    </div>
+    </UForm>
     <div v-if="!isLoading" class="mt-4">
         <!-- Insurance Table -->
         <div>

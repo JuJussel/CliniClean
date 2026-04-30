@@ -1,5 +1,4 @@
 <script setup>
-
 const items = ref([
     {
         label: $t("patientSearch"),
@@ -12,13 +11,32 @@ const items = ref([
         slot: "calendar",
     },
 ]);
+
+
+// Connect to SSE stream
+const eventSource = ref(null)
+onMounted(() => {
+    eventSource.value = new EventSource('/api/sse')
+    eventSource.value.onmessage = (event) => {
+        console.log(event);
+        
+    }
+})
+
+// Cleanup on component unmount
+onUnmounted(() => {
+    if (eventSource.value) {
+        eventSource.value.close()
+    }
+})
 </script>
 
 <template>
     <div class="grid grid-cols-2 gap-4 h-full">
+
         <UCard>
-            <template #header> </template>
         </UCard>
+
         <UCard
             :ui="{
                 body: 'h-full',
