@@ -35,10 +35,9 @@ async function fetchPatientData(patientId) {
     }
 }
 
-async function onSubmit(event) {    
+async function onSubmit(event) {
     emit("submitted", event.data);
 }
-
 
 const systemStore = useSystemStore();
 const dayjs = useDayjs();
@@ -56,12 +55,12 @@ const walkinData = reactive({
 
 const schema = z.object({
     doctor: z.string().min(1, $t("validationMessages.stringEmpty")),
-    ins: z.string(),
+    ins: z.string().min(1, $t("validationMessages.selectRequired")),
     insuranceConfirmed: z.boolean(),
     receptionMemo: z.string(),
     status: z.number(),
     patient: z.string(),
-})
+});
 
 // Fetch patient data when component mounts
 onMounted(() => {
@@ -70,12 +69,13 @@ onMounted(() => {
 
 // Expose isLoading for parent components
 defineExpose({
-    isLoading, walkinData
+    isLoading,
+    walkinData,
 });
 
 const handleInsuranceSelected = (insuranceRow) => {
     console.log(insuranceRow);
-    
+
     walkinData.ins = insuranceRow.Insurance_Combination_Number;
 };
 
@@ -159,13 +159,15 @@ const patientName = computed(() => {
         </div>
     </div>
     <!-- Loaded Content -->
-    <UForm 
+    <UForm
         v-else
-        :disabled="disabled"  
-        class="grid grid-cols-2 gap-6" 
-        ref="form" 
+        :disabled="disabled"
+        class="grid grid-cols-2 gap-6"
+        ref="form"
         @submit="onSubmit"
-        :schema="schema">
+        :state="walkinData"
+        :schema="schema"
+    >
         <UFormField :label="$t('patient')" name="name">
             <UInput
                 v-model="patientName"
@@ -206,18 +208,12 @@ const patientName = computed(() => {
         <UFormField :label="$t('memo')" name="receptionMemo">
             <UTextarea v-model="walkinData.receptionMemo" class="w-full" />
         </UFormField>
-    </UForm>
-    <div v-if="!isLoading" class="mt-4">
-        <!-- Insurance Table -->
-        <div>
-            <label class="block text-sm font-medium mb-2">{{
-                $t("insurance")
-            }}</label>
+        <UFormField name="ins" :label="$t('insurance')" v-if="!isLoading">
             <CompTable
                 :data="patient.insuranceSets || []"
                 :columns="insuranceColumns"
                 @row-selected="handleInsuranceSelected"
             />
-        </div>
-    </div>
+        </UFormField>
+    </UForm>
 </template>

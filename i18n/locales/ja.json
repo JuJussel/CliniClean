@@ -344,6 +344,7 @@
     "work": "仕事",
     "mobile": "携帯",
     "validationMessages": {
+        "selectRequired": "選択してください",
         "stringEmpty": "ご入力してください",
         "numberBase": "数字をご入力してください",
         "dateBase": "日付を選択してください",
