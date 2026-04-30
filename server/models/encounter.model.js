@@ -1,3 +1,4 @@
+import mongoose from 'mongoose'
 import { defineMongooseModel } from '#nuxt/mongoose'
 
 const Encounter = defineMongooseModel({

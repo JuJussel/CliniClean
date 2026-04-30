@@ -1,4 +1,4 @@
-import Encounter from "server/models/Encounter";
+import Encounter from "../../models/encounter.model.js";
 
 export default defineEventHandler(async (event) => {
     try {
@@ -14,3 +14,4 @@ export default defineEventHandler(async (event) => {
         })
     }
 })
+

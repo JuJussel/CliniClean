@@ -31,6 +31,9 @@ export default defineNuxtConfig({
   nitro: {
     routeRules: {
       '/api/**': { cache: false, swr:false },
+    },
+    experimental: {
+      websocket: true
     }
   },
   i18n: {
