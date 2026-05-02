@@ -9,6 +9,11 @@ const props = defineProps({
         type: String,
         required: true,
     },
+    patientRef: {
+        type: String,
+        required: true,
+    },
+
     disabled: {
         type: Boolean,
         default: false,
@@ -50,7 +55,7 @@ const walkinData = reactive({
     insuranceConfirmed: false,
     receptionMemo: "",
     status: 2, // 2 for walk-in
-    patient: props.patientId,
+    patient: props.patientRef,
 });
 
 const schema = z.object({
@@ -59,7 +64,7 @@ const schema = z.object({
     insuranceConfirmed: z.boolean(),
     receptionMemo: z.string(),
     status: z.number(),
-    patient: z.string(),
+    patient: z.string().min(1, $t("validationMessages.stringEmpty")),
 });
 
 // Fetch patient data when component mounts
@@ -74,8 +79,6 @@ defineExpose({
 });
 
 const handleInsuranceSelected = (insuranceRow) => {
-    console.log(insuranceRow);
-
     walkinData.ins = insuranceRow.Insurance_Combination_Number;
 };
 
@@ -188,7 +191,7 @@ const patientName = computed(() => {
             <USelect
                 v-model="walkinData.doctor"
                 :items="systemStore.system?.doctors || []"
-                valueKey="id"
+                valueKey="_id"
                 labelKey="fullName"
                 :placeholder="$t('select')"
                 searchable

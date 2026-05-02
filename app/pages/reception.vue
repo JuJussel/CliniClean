@@ -12,29 +12,27 @@ const items = ref([
     },
 ]);
 
-
 // Connect to SSE stream
-const eventSource = ref(null)
+const eventSource = ref(null);
 onMounted(() => {
-    eventSource.value = new EventSource('/api/sse')
+    eventSource.value = new EventSource("/api/sse");
     eventSource.value.onmessage = (event) => {
         console.log(event);
-        
-    }
-})
+    };
+});
 
 // Cleanup on component unmount
 onUnmounted(() => {
     if (eventSource.value) {
-        eventSource.value.close()
+        eventSource.value.close();
     }
-})
+});
 </script>
 
 <template>
     <div class="grid grid-cols-2 gap-4 h-full">
-
         <UCard>
+            <ReceptionList class="h-full" />
         </UCard>
 
         <UCard

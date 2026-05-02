@@ -1,10 +1,12 @@
 import mongoose from 'mongoose'
 import { defineMongooseModel } from '#nuxt/mongoose'
+import User from "./user.model.js";
+import Patient from "./patient.model.js";
 
 const Encounter = defineMongooseModel({
     name: 'Encounter',
     schema: {
-        patient: { type: Number, ref: "patients", required: true },
+        patient: { type: mongoose.ObjectId, ref: Patient, required: true },
         // Reception type: 1: General, 2: PrevVaccination, 3: Follow-up, 4: Telemedicine, 5: Home Visit, 6: HealthCheckup, 7: Other
         type: { type: Number, required: true, default: 1 },
         ins: String,
@@ -16,7 +18,7 @@ const Encounter = defineMongooseModel({
         status: { type: Number, required: true, default: 2 },
         endDate: Date,
         locked: Boolean,
-        doctor: String,
+        doctor: { type: mongoose.ObjectId, ref: User, required: true },
         karte:
         {
             soap: { type: String, default: "" },
@@ -28,7 +30,7 @@ const Encounter = defineMongooseModel({
         department: { type: String, default: '01' },
         examinationStart: Date,
         examinationEnd: Date,
-        editHistory: [{ type: mongoose.ObjectId, ref: "encounters" }],
+        editHistory: [{ type: mongoose.ObjectId, ref: "Encounter" }],
         lastChange: { type: Date, default: Date.now },
         payment: {}
     },

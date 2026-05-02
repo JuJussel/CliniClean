@@ -2,8 +2,7 @@
 import { ref, computed } from "vue";
 const toast = useToast();
 
-
-defineProps(["patientId"]);
+defineProps(["patient"]);
 
 const emit = defineEmits(["close"]);
 const walkinForm = ref("walkinForm");
@@ -17,23 +16,20 @@ const onWalkinSubmitted = async () => {
     submitting.value = true;
     try {
         const walkinData = walkinForm.value.walkinData;
-        console.log(walkinData);
-        
-        await $fetch('/api/encounter/create', { method: 'POST', body: walkinData });
-        toast.add( { title: $t("walkinRegistered") })
-        emit("close", { modal: "walkin", id: walkinForm.value.patientId });
+
+        await $fetch("/api/encounter/create", {
+            method: "POST",
+            body: walkinData,
+        });
+        toast.add({ title: $t("walkinRegistered") });
+        emit("close", { modal: "walkin", id: walkinForm.value.patient });
     } catch (e) {
         console.error("Error creating encounter:", e);
-        toast.add( { title: e.message, color: "error" })
+        toast.add({ title: e.message, color: "error" });
     } finally {
         submitting.value = false;
     }
-    
-
-
-
 };
-
 </script>
 
 <template>
@@ -48,10 +44,13 @@ const onWalkinSubmitted = async () => {
             </div>
         </template>
         <template #body>
-            <FormPatientWalkin 
-                            v-on:submitted="onWalkinSubmitted"
-
-            :disabled="submitting" :patient-id="patientId" ref="walkinForm" />
+            <FormPatientWalkin
+                v-on:submitted="onWalkinSubmitted"
+                :disabled="submitting"
+                :patient-id="patient.id"
+                :patient-ref="patient._id"
+                ref="walkinForm"
+            />
         </template>
         <template #footer>
             <div>

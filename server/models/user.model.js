@@ -1,9 +1,11 @@
 import { defineMongooseModel } from '#nuxt/mongoose'
+import mongoose from 'mongoose'
+
 
 const User = defineMongooseModel({
     name: 'User',
     schema: {
-        _id: { type: String, required: true },
+        _id: { type: mongoose.ObjectId, required: true },
         avatar: { type: String, required: false },
         username: { type: String, required: true },
         password: { type: String, required: true },
@@ -15,7 +17,8 @@ const User = defineMongooseModel({
         isDirectory: { type: Boolean, default: false },
         hasOrca: { type: Boolean, default: false },
         created: { type: Date, default: Date.now },
-        preferences: { type: {}, required: false }
+        preferences: { type: {}, required: false },
+        id: { type: String, required: true, unique: true }
     },
     options: {
         collection: 'users',

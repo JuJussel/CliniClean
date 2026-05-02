@@ -14,11 +14,11 @@ async function openRegistrationModal() {
     }
 }
 
-async function openWalkinModal(patientId) {
+async function openWalkinModal(patient) {
     const walkinModal = overlay.create(ModalPatientWalkin, {
         destroyOnClose: true,
     });
-    const action = await walkinModal.open({ patientId: patientId });
+    const action = await walkinModal.open({ patient: patient });
 
     if (!action) return;
 }
@@ -101,7 +101,7 @@ async function searchPatients() {
                         variant="outline"
                         color="neutral"
                         icon="material-symbols:playlist-add-rounded"
-                        @click="openWalkinModal(row.original?.id)"
+                        @click="openWalkinModal(row.original)"
                     >
                         {{ $t("newReception") }}
                     </UButton>
