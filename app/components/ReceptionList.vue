@@ -9,7 +9,7 @@ const columns = [
         header: $t("id"),
     },
     {
-        accessorKey: "patient.name.family",
+        accessorKey: "name",
         header: $t("name"),
         cell: (row) => {
             const patient = row.row.original.patient;
@@ -35,6 +35,10 @@ const columns = [
             return $t(label);
         },
     },
+    {
+        accessorKey: "actions",
+        header: "",
+    },
 ];
 
 onMounted(async () => {
@@ -56,6 +60,22 @@ onMounted(async () => {
         row-key="id"
         v-if="systemStore.system"
     >
+        <template #name-cell="{ row }">
+            <div>
+                <ULink
+                    inactive-class="text-primary hover:text-primary/80"
+                    :to="
+                        '/patient/' +
+                        row.original.patient.id +
+                        '/karte/' +
+                        row.original._id
+                    "
+                >
+                    {{ row.original.patient.name?.family }}
+                    {{ row.original.patient.name?.given }}
+                </ULink>
+            </div>
+        </template>
         <template #status-cell="{ row }">
             <USelect
                 v-model="row.original.status"
@@ -93,6 +113,37 @@ onMounted(async () => {
                     </div>
                 </template>
             </USelect>
+        </template>
+        <template #actions-cell="{ row }">
+            <div class="flex gap-2 justify-end">
+                <UButton
+                    size="xs"
+                    variant="outline"
+                    color="neutral"
+                    icon="material-symbols:playlist-add-rounded"
+                    @click=""
+                >
+                    {{ $t("newReception") }}
+                </UButton>
+                <UButton
+                    size="xs"
+                    variant="outline"
+                    color="neutral"
+                    icon="material-symbols:calendar-clock-rounded"
+                    @click=""
+                >
+                    {{ $t("reservation") }}
+                </UButton>
+                <UButton
+                    size="xs"
+                    variant="outline"
+                    color="neutral"
+                    icon="material-symbols:person-edit-sharp"
+                    @click=""
+                >
+                    {{ $t("edit") }}
+                </UButton>
+            </div>
         </template>
     </UTable>
 </template>
