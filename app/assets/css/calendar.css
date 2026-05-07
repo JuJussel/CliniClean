@@ -1,0 +1,125 @@
+/* FullCalendar Nuxt UI Theme Override
+This file uses standard CSS with Tailwind/Nuxt UI variables.
+It supports light/dark mode and follows the Nuxt UI aesthetic.
+*/
+
+:root {
+/* Nuxt UI usually defines these, but we provide fallbacks just in case /
+--fc-primary: var(--color-primary-500, #3b82f6);
+--fc-primary-hover: var(--color-primary-600, #2563eb);
+--fc-primary-text: #ffffff;
+--fc-gray-200: var(--color-gray-200, #e5e7eb);
+--fc-gray-50: var(--color-gray-50, #f9fafb);
+--fc-border-radius: 0.75rem; / rounded-xl */
+}
+
+/* Base Calendar Styles */
+.fc {
+font-family: inherit;
+--fc-border-color: var(--fc-gray-200);
+--fc-button-bg-color: var(--fc-primary);
+--fc-button-border-color: var(--fc-primary);
+--fc-button-hover-bg-color: var(--fc-primary-hover);
+--fc-button-hover-border-color: var(--fc-primary-hover);
+--fc-button-active-bg-color: var(--fc-primary-hover);
+--fc-button-active-border-color: var(--fc-primary-hover);
+--fc-event-bg-color: var(--fc-primary);
+--fc-event-border-color: var(--fc-primary);
+}
+
+/* Container & Borders */
+.fc-theme-standard .fc-scrollgrid {
+border-radius: var(--fc-border-radius);
+border: 1px solid var(--fc-border-color);
+overflow: hidden;
+}
+
+/* Toolbar & Buttons */
+.fc .fc-toolbar-title {
+font-size: 1.25rem;
+font-weight: 600;
+color: var(--color-gray-900, #111827);
+}
+
+.fc .fc-button {
+border-radius: 0.5rem; /* rounded-md */
+font-weight: 500;
+text-transform: capitalize;
+padding: 0.5rem 1rem;
+box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+border: none;
+}
+
+/* Modern Event Styling */
+.fc-v-event, .fc-h-event {
+background-color: rgba(var(--color-primary-500-rgb, 59, 130, 246), 0.1);
+border: none;
+border-left: 4px solid var(--fc-primary);
+border-radius: 4px;
+padding: 2px 4px;
+}
+
+.fc-event-main {
+color: var(--fc-primary);
+font-weight: 600;
+font-size: 0.85rem;
+}
+
+/* Header Cells */
+.fc .fc-col-header-cell {
+background-color: var(--fc-gray-50);
+padding: 0.75rem 0;
+font-size: 0.75rem;
+font-weight: 700;
+text-transform: uppercase;
+letter-spacing: 0.05em;
+color: var(--color-gray-500, #6b7280);
+}
+
+/* Today Highlight */
+.fc .fc-daygrid-day.fc-day-today {
+background-color: rgba(var(--color-primary-500-rgb, 59, 130, 246), 0.05);
+}
+
+/* --- Dark Mode Support --- /
+/ Assumes your Nuxt app toggles a .dark class on  or  */
+.dark .fc {
+--fc-border-color: var(--color-gray-800, #1f2937);
+--fc-page-bg-color: transparent;
+--fc-neutral-bg-color: var(--color-gray-900, #111827);
+color: var(--color-gray-200, #e5e7eb);
+}
+
+.dark .fc .fc-toolbar-title {
+color: #ffffff;
+}
+
+.dark .fc .fc-col-header-cell {
+background-color: rgba(31, 41, 55, 0.5); /* gray-800/50 */
+color: var(--color-gray-400, #9ca3af);
+}
+
+.dark .fc-v-event, .dark .fc-h-event {
+background-color: rgba(var(--color-primary-500-rgb, 59, 130, 246), 0.2);
+}
+
+.dark .fc-event-main {
+color: var(--color-primary-400, #60a5fa);
+}
+
+.dark .fc .fc-daygrid-day.fc-day-today {
+background-color: rgba(var(--color-primary-500-rgb, 59, 130, 246), 0.15);
+}
+
+/* Popovers (More + link) */
+.fc-popover {
+background-color: #ffffff;
+border: 1px solid var(--fc-gray-200);
+border-radius: 0.5rem;
+box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.dark .fc-popover {
+background-color: var(--color-gray-900, #111827);
+border-color: var(--color-gray-800, #1f2937);
+}

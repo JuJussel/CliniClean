@@ -1,7 +1,8 @@
 <script setup>
 import dayjs from "#build/dayjs.imports.mjs";
 const systemStore = useSystemStore();
-
+const overlay = useOverlay();
+import { ModalPatientReservation } from "#components";
 const receptionList = ref(null);
 const eventSource = ref(null);
 
@@ -77,6 +78,16 @@ const updateReceptionList = async (event) => {
     }
 };
 
+async function openReservationModal(patient) {
+    const reservationModal = overlay.create(ModalPatientReservation, {
+        destroyOnClose: true,
+    });
+    const action = await reservationModal.open({ patient: patient });
+
+    if (!action) return;
+}
+
+
 </script>
 
 <template>
@@ -148,17 +159,8 @@ const updateReceptionList = async (event) => {
                     size="xs"
                     variant="outline"
                     color="neutral"
-                    icon="material-symbols:playlist-add-rounded"
-                    @click=""
-                >
-                    {{ $t("newReception") }}
-                </UButton>
-                <UButton
-                    size="xs"
-                    variant="outline"
-                    color="neutral"
                     icon="material-symbols:calendar-clock-rounded"
-                    @click=""
+                    @click="openReservationModal(row.original.patient)"
                 >
                     {{ $t("reservation") }}
                 </UButton>

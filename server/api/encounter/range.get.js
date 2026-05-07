@@ -20,7 +20,14 @@ export default defineEventHandler(async (event) => {
         })
             .populate('patient', 'name.family name.given id')
             .populate('doctor', 'nameLast nameFirst _id')
+            .lean()
 
+            encounters.forEach(encounter => {
+                encounter.title = `${encounter.patient?.name?.family || ''} ${encounter.patient?.name?.given?.[0] || ''} `
+                encounter.start = encounter.date
+                encounter.end = new Date(new Date(encounter.date).getTime() + 30 * 60 * 1000) // Default to 30 min duration
+            })
+            
         return encounters
     } catch (err) {
         console.error(err)

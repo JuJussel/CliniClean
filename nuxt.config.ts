@@ -16,7 +16,7 @@ export default defineNuxtConfig({
     'dayjs-nuxt',
     'nuxt-qrcode',
   ],
-  css: ['~/assets/css/main.css'],
+  css: ['~/assets/css/main.css', '~/assets/css/calendar.css'],
     fileStorage: {
         mount: process.env.mount,
   },

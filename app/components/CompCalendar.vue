@@ -1,23 +1,20 @@
 <template>
     <div class="h-full p-2">
         <div class="flex gap-2 -mb-7">
-            <div>
-                <!-- <InputGroup>
-                    <Button :label="$t('prev')" icon="pi pi-angle-left" severity="secondary" @click="navigateView(1)" />
-                    <Button :label="$t('today')" severity="secondary" @click="navigateView(2)" />
-                    <Button :label="$t('next')" icon="pi pi-angle-right" iconPos="right" severity="secondary"
-                        @click="navigateView(3)" />
-                </InputGroup> -->
-            </div>
-            <div>
-                <!-- <InputGroup>
-                    <Button :label="$t('day')" severity="secondary" @click="changeView('timeGridDay')" />
-                    <Button :label="$t('week')" severity="secondary" @click="changeView('timeGridWeek')" />
-                    <Button :label="$t('month')" severity="secondary" @click="changeView('dayGridMonth')" />
-                </InputGroup> -->
-            </div>
+                <UFieldGroup>
+                    <UButton color="neutral" variant="soft" :label="$t('prev')" @click="navigateView(1)" />
+                    <UButton color="neutral" variant="soft" :label="$t('today')" @click="navigateView(2)" />
+                    <UButton color="neutral" variant="soft" :label="$t('next')" @click="navigateView(3)" />
+
+                </UFieldGroup>
+                <UFieldGroup>
+                    <UButton color="neutral" variant="soft" :label="$t('day')" @click="changeView('timeGridDay')" />
+                    <UButton color="neutral" variant="soft" :label="$t('week')" @click="changeView('timeGridWeek')" />
+                    <UButton color="neutral" variant="soft" :label="$t('month')" @click="changeView('dayGridMonth')" />
+
+                </UFieldGroup>
         </div>
-        <FullCalendar ref='fullCalendar' :options="calendarOptions" />
+        <FullCalendar ref='fullCalendar' :options="calendarOptions" :events="props.events" />
     </div>
 </template>
 
@@ -27,10 +24,15 @@ import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import dayjs from "dayjs"
-import useApi from "@/composables/apiComposable.js"
+import dayjs from "#build/dayjs.imports.mjs";
 
 const emit = defineEmits(['selectDate'])
+const props = defineProps({
+    events: {
+        type: Array,
+        default: () => [],
+    },
+})
 
 const fullCalendar = ref(null)
 const eventsLoading = ref(false)
@@ -72,21 +74,15 @@ const changeView = (view) => {
 const getEvents = async (i, successCallback) => {
 
     eventsLoading.value = true
-    const range = 'start=' + dayjs(i.startStr).$d + '&end=' + dayjs(i.endStr).$d;
+    const start = dayjs(i.startStr).$d 
+    const end =  dayjs(i.endStr).$d;
 
-    let events = await useApi.get("encounters/range?" + range)
-    events = events.filter((item) => item.status === 1)
-    events = events.map(function (event) {
-        return {
-            id: event.id,
-            title: event.patient.name,
-            start: event.date,
-            end: event.shinsatu_end,
-            meta: event,
-        };
-    });
+    const response = await fetch(
+        `/api/encounter/range?start=${start}&end=${end}`,
+    );
+
     eventsLoading.value = false
-    successCallback(events)
+    successCallback(await response.json())
 }
 
 const calendarOptions = reactive({
