@@ -11,7 +11,6 @@ export default defineEventHandler(async (event) => {
         // Broadcast SSE message to all connected clients
         sseEvents.emit('publish', {
             event: 'encounterCreated',
-            action: 'updateReceptionList',
             message: {encounter},
             timestamp: new Date().toISOString()
         })
