@@ -12,21 +12,6 @@ const items = ref([
     },
 ]);
 
-// Connect to SSE stream
-const eventSource = ref(null);
-onMounted(() => {
-    eventSource.value = new EventSource("/api/sse");
-    eventSource.value.onmessage = (event) => {
-        console.log(event);
-    };
-});
-
-// Cleanup on component unmount
-onUnmounted(() => {
-    if (eventSource.value) {
-        eventSource.value.close();
-    }
-});
 </script>
 
 <template>
@@ -52,7 +37,7 @@ onUnmounted(() => {
                     <ReceptionPatientSearch class="h-full" />
                 </template>
                 <template #calendar>
-                    <div class="h-full">Calendar</div>
+                    <ReceptionCalendar class="h-full" />
                 </template>
             </UTabs>
         </UCard>

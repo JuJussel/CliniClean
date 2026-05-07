@@ -3,6 +3,8 @@ import dayjs from "#build/dayjs.imports.mjs";
 const systemStore = useSystemStore();
 
 const receptionList = ref(null);
+const eventSource = ref(null);
+
 const columns = [
     {
         accessorKey: "patient.id",
@@ -42,13 +44,39 @@ const columns = [
 ];
 
 onMounted(async () => {
+    // Connect to SSE stream
+        eventSource.value = new EventSource("/api/sse");
+        eventSource.value.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        updateReceptionList(data);
+    };
+
+    getReceptionList();
+});
+
+const getReceptionList = async () => {
     const start = dayjs().startOf("day").toISOString();
     const end = dayjs().endOf("day").toISOString();
     const response = await fetch(
         `/api/encounter/range?start=${start}&end=${end}`,
     );
     receptionList.value = await response.json();
+};
+
+// Cleanup on component unmount
+onUnmounted(() => {
+    if (eventSource.value) {
+        eventSource.value.close();
+    }
 });
+
+const updateReceptionList = async (event) => {
+   
+    if (event.event === "encounterCreated") {
+        await getReceptionList();
+    }
+};
+
 </script>
 
 <template>
