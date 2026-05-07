@@ -5,24 +5,24 @@ const toast = useToast();
 defineProps(["patient"]);
 
 const emit = defineEmits(["close"]);
-const walkinForm = ref("walkinForm");
+const reservationForm = ref("reservationForm");
 const submitting = ref(false);
 
 const isLoading = computed(() => {
-    return walkinForm.value.isLoading || submitting.value;
+    return reservationForm.value.isLoading || submitting.value;
 });
 
 const onReservationSubmitted = async () => {
     submitting.value = true;
     try {
-        const walkinData = walkinForm.value.walkinData;
+        const walkinData = reservationForm.value.walkinData;
 
         await $fetch("/api/encounter/create", {
             method: "POST",
             body: walkinData,
         });
         toast.add({ title: $t("walkinRegistered") });
-        emit("close", { modal: "walkin", id: walkinForm.value.patient });
+        emit("close", { modal: "walkin", id: reservationForm.value.patient });
     } catch (e) {
         console.error("Error creating encounter:", e);
         toast.add({ title: e.message, color: "error" });
@@ -30,10 +30,14 @@ const onReservationSubmitted = async () => {
         submitting.value = false;
     }
 };
+
+const setDate = (date) => {
+    reservationForm.value.setDate(date);
+};
 </script>
 
 <template>
-    <UModal  :ui="{ content: '!max-w-4xl' }">
+    <UModal :ui="{ content: 'max-w-4xl!' }">
         <template #title>
             <div class="flex items-center gap-2">
                 <UIcon
@@ -44,23 +48,22 @@ const onReservationSubmitted = async () => {
             </div>
         </template>
         <template #body>
-            <div class="grid grid-cols-2 gap-4">
-                <FormPatientWalkin
+            <div class="grid grid-cols-4 gap-4">
+                <FormPatientReservation
                     v-on:submitted="onReservationSubmitted"
                     :disabled="submitting"
                     :patient-id="patient.id"
                     :patient-ref="patient._id"
-                    ref="walkinForm"
+                    ref="reservationForm"
                 />
-                            <CompCalendar/>
-
+                <CompCalendar class="col-span-3" @select-date="setDate" />
             </div>
         </template>
         <template #footer>
             <div>
                 <UButton
                     icon="material-symbols:playlist-add-rounded"
-                    @click="walkinForm.$refs.form.submit()"
+                    @click="reservationForm.$refs.form.submit()"
                     :loading="isLoading"
                     :disabled="isLoading"
                 >
