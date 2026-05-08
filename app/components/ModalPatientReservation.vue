@@ -56,7 +56,10 @@ const setDate = (date) => {
                     :patient-ref="patient._id"
                     ref="reservationForm"
                 />
-                <CompCalendar class="col-span-3" @select-date="setDate" />
+                <div class="h-[550px] col-span-3">
+                    <CompCalendar @select-date="setDate" />
+
+                </div>
             </div>
         </template>
         <template #footer>

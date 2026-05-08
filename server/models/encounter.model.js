@@ -18,7 +18,7 @@ const Encounter = defineMongooseModel({
         status: { type: Number, required: true, default: 2 },
         endDate: Date,
         locked: Boolean,
-        doctor: { type: mongoose.ObjectId, ref: User, required: true },
+        doctor: { type: mongoose.ObjectId, ref: User },
         karte:
         {
             soap: { type: String, default: "" },

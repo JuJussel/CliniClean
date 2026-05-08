@@ -1,7 +1,7 @@
 <script setup>
 import { ref, reactive, computed, onMounted } from "vue";
 import * as z from "zod";
-import { Time, CalendarDate } from "@internationalized/date";
+import { Time, CalendarDate, CalendarDateTime, ZonedDateTime } from '@internationalized/date'
 
 const emit = defineEmits(["submitted"]);
 
@@ -45,7 +45,6 @@ async function onSubmit(event) {
 }
 
 const systemStore = useSystemStore();
-const dayjs = useDayjs();
 
 const isLoading = ref(true);
 const patient = ref(null);
@@ -53,16 +52,23 @@ const reservationData = reactive({
     doctor: "",
     reservationMemo: "",
     patient: props.patientRef,
-    date: "",
-    time: "",
+    date: undefined,
+    time: undefined,
 });
 
 const schema = z.object({
-    doctor: z.string().min(1, $t("validationMessages.stringEmpty")),
+    doctor: z.string($t("validationMessages.stringEmpty")),
     reservationMemo: z.string(),
-    patient: z.string().min(1, $t("validationMessages.stringEmpty")),
-    date: z.string(),
-    time: z.string(),
+    patient: z.string(),
+    date: z.custom((val) =>
+      val instanceof CalendarDate ||
+      val instanceof CalendarDateTime ||
+      val instanceof ZonedDateTime,
+        { message: $t("validationMessages.stringEmpty") }
+    ),
+    time: z.custom((val) => val instanceof Time, {
+      message: $t("validationMessages.stringEmpty")
+    })
 });
 
 const setDate = (date) => {
