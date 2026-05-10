@@ -12,14 +12,12 @@ const isLoading = computed(() => {
     return reservationForm.value.isLoading || submitting.value;
 });
 
-const onReservationSubmitted = async () => {
+async function onReservationSubmitted(reservationData) {
     submitting.value = true;
     try {
-        const walkinData = reservationForm.value.walkinData;
-
         await $fetch("/api/encounter/create", {
             method: "POST",
-            body: walkinData,
+            body: reservationData,
         });
         toast.add({ title: $t("walkinRegistered") });
         emit("close", { modal: "walkin", id: reservationForm.value.patient });
@@ -29,7 +27,7 @@ const onReservationSubmitted = async () => {
     } finally {
         submitting.value = false;
     }
-};
+}
 
 const setDate = (date) => {
     reservationForm.value.setDate(date);
@@ -58,7 +56,6 @@ const setDate = (date) => {
                 />
                 <div class="h-[550px] col-span-3">
                     <CompCalendar @select-date="setDate" />
-
                 </div>
             </div>
         </template>
@@ -68,7 +65,7 @@ const setDate = (date) => {
                     icon="material-symbols:playlist-add-rounded"
                     @click="reservationForm.$refs.form.submit()"
                     :loading="isLoading"
-                    :disabled="isLoading"
+                    :disabled="submitting"
                 >
                     {{ $t("newReservation") }}
                 </UButton>

@@ -19,14 +19,15 @@ const Encounter = defineMongooseModel({
         endDate: Date,
         locked: Boolean,
         doctor: { type: mongoose.ObjectId, ref: User },
-        karte:
-        {
-            soap: { type: String, default: "" },
-            procedures: { type: [{}], default: [] },
-            images: [
-                { type: mongoose.ObjectId, ref: "files" }
-            ]
-        },
+        karte: [
+            {
+                soap: { type: String, default: "" },
+                procedures: { type: [{}], default: [] },
+                images: [
+                    { type: mongoose.ObjectId, ref: "files" }
+                ]
+            },
+        ],
         department: { type: String, default: '01' },
         examinationStart: Date,
         examinationEnd: Date,

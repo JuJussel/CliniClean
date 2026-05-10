@@ -46,8 +46,8 @@ const columns = [
 
 onMounted(async () => {
     // Connect to SSE stream
-        eventSource.value = new EventSource("/api/sse");
-        eventSource.value.onmessage = (event) => {
+    eventSource.value = new EventSource("/api/sse");
+    eventSource.value.onmessage = (event) => {
         const data = JSON.parse(event.data);
         updateReceptionList(data);
     };
@@ -72,7 +72,6 @@ onUnmounted(() => {
 });
 
 const updateReceptionList = async (event) => {
-   
     if (event.event === "encounterCreated") {
         await getReceptionList();
     }
@@ -86,8 +85,6 @@ async function openReservationModal(patient) {
 
     if (!action) return;
 }
-
-
 </script>
 
 <template>
@@ -106,7 +103,7 @@ async function openReservationModal(patient) {
                     :to="
                         '/patient/' +
                         row.original.patient.id +
-                        '/karte/' +
+                        '?encounterId=' +
                         row.original._id
                     "
                 >

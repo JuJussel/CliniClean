@@ -1,5 +1,9 @@
 <script setup>
-import { ModalPatientRegistration, ModalPatientWalkin } from "#components";
+import {
+    ModalPatientRegistration,
+    ModalPatientWalkin,
+    ModalPatientReservation,
+} from "#components";
 const overlay = useOverlay();
 
 async function openRegistrationModal() {
@@ -19,6 +23,15 @@ async function openWalkinModal(patient) {
         destroyOnClose: true,
     });
     const action = await walkinModal.open({ patient: patient });
+
+    if (!action) return;
+}
+
+async function openReservationModal(patient) {
+    const reservationModal = overlay.create(ModalPatientReservation, {
+        destroyOnClose: true,
+    });
+    const action = await reservationModal.open({ patient: patient });
 
     if (!action) return;
 }
@@ -110,12 +123,7 @@ async function searchPatients() {
                         variant="outline"
                         color="neutral"
                         icon="material-symbols:calendar-clock-rounded"
-                        @click="
-                            emit('close', {
-                                modal: 'reservation',
-                                id: registered,
-                            })
-                        "
+                        @click="openReservationModal(row.original)"
                     >
                         {{ $t("reservation") }}
                     </UButton>
