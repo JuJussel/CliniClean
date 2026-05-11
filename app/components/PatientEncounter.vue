@@ -1,23 +1,49 @@
+<script setup>
+// Dummy data for the collapsible items
+const dummyEncounters = [
+    {
+        label: "May 11, 2026 - Routine Checkup",
+        icon: "i-heroicons-calendar",
+        content:
+            "Patient reported slight dizziness. BP: 120/80. Prescribed hydration and rest.",
+    },
+    {
+        label: "April 20, 2026 - Vaccination",
+        icon: "i-heroicons-beaker",
+        content:
+            "Administered seasonal influenza vaccine. No immediate adverse reactions.",
+    },
+    {
+        label: "March 05, 2026 - Lab Results",
+        icon: "i-heroicons-document-text",
+        content:
+            "Blood work indicates normal levels across all primary markers.",
+    },
+];
+
+const enconterData = reactive({
+    soap: {},
+    procedures: [],
+    images: [],
+});
+
+</script>
+
+
 <template>
-    <div class="p-4">
-        <div class="grid grid-cols-12 gap-4">
-            <div class="col-span-8">
-                <UCard>
+    <div>
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <UCard :ui="{ body: 'p-0 sm:p-0' }">
                     <template #header>
                         <h3 class="text-base font-semibold">Clinical Notes</h3>
                     </template>
 
-                    <UTextarea
-                        color="white"
-                        variant="outline"
-                        placeholder="Type your notes here..."
-                        :rows="20"
-                        autoresize
-                    />
+                    <PatientEncounterSoap :content="enconterData.soap"/>  
                 </UCard>
             </div>
 
-            <div class="col-span-4 space-y-4">
+            <div class="space-y-4">
                 <UCard>
                     <div class="flex flex-wrap gap-2 justify-center">
                         <UButton
@@ -69,26 +95,3 @@
     </div>
 </template>
 
-<script setup>
-// Dummy data for the collapsible items
-const dummyEncounters = [
-    {
-        label: "May 11, 2026 - Routine Checkup",
-        icon: "i-heroicons-calendar",
-        content:
-            "Patient reported slight dizziness. BP: 120/80. Prescribed hydration and rest.",
-    },
-    {
-        label: "April 20, 2026 - Vaccination",
-        icon: "i-heroicons-beaker",
-        content:
-            "Administered seasonal influenza vaccine. No immediate adverse reactions.",
-    },
-    {
-        label: "March 05, 2026 - Lab Results",
-        icon: "i-heroicons-document-text",
-        content:
-            "Blood work indicates normal levels across all primary markers.",
-    },
-];
-</script>
