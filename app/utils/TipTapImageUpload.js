@@ -11,6 +11,8 @@ export function fileToBase64(file) {
 }
 
 export function insertImageFromFile(editor, file) {
+  console.log(editor);
+
   fileToBase64(file).then((dataUrl) => {
     editor.chain().focus().setImage({ src: dataUrl }).run()
   })

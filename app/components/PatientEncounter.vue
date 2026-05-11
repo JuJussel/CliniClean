@@ -21,108 +21,15 @@ const dummyEncounters = [
     },
 ];
 
-const enconterData = reactive({
+const encounterData = reactive({
     soap: {
-  type: 'doc',
-  content: [
-    {
-      type: 'heading',
-      attrs: { level: 1 },
-      content: [{ type: 'text', text: 'Welcome to the Editor 👋' }]
+        type: "doc",
+        content: [],
     },
-    {
-      type: 'paragraph',
-      content: [
-        { type: 'text', text: 'This is a ' },
-        { type: 'text', marks: [{ type: 'bold' }], text: 'rich text' },
-        { type: 'text', text: ' editor with support for ' },
-        { type: 'text', marks: [{ type: 'italic' }], text: 'italic' },
-        { type: 'text', text: ', ' },
-        { type: 'text', marks: [{ type: 'strike' }], text: 'strikethrough' },
-        { type: 'text', text: ', and ' },
-        { type: 'text', marks: [{ type: 'code' }], text: 'inline code' },
-        { type: 'text', text: '.' }
-      ]
-    },
-    {
-      type: 'heading',
-      attrs: { level: 2 },
-      content: [{ type: 'text', text: 'Features' }]
-    },
-    {
-      type: 'bulletList',
-      content: [
-        {
-          type: 'listItem',
-          content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Headings (H1–H6)' }] }]
-        },
-        {
-          type: 'listItem',
-          content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Bullet and ordered lists' }] }]
-        },
-        {
-          type: 'listItem',
-          content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Blockquotes and code blocks' }] }]
-        }
-      ]
-    },
-    {
-      type: 'heading',
-      attrs: { level: 2 },
-      content: [{ type: 'text', text: 'Steps' }]
-    },
-    {
-      type: 'orderedList',
-      attrs: { start: 1 },
-      content: [
-        {
-          type: 'listItem',
-          content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Install Nuxt UI' }] }]
-        },
-        {
-          type: 'listItem',
-          content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Add the Editor component' }] }]
-        },
-        {
-          type: 'listItem',
-          content: [{ type: 'paragraph', content: [{ type: 'text', text: 'Start writing!' }] }]
-        }
-      ]
-    },
-    {
-      type: 'blockquote',
-      content: [
-        {
-          type: 'paragraph',
-          content: [{ type: 'text', text: 'Great things are built one block at a time.' }]
-        }
-      ]
-    },
-    {
-      type: 'codeBlock',
-      attrs: { language: 'ts' },
-      content: [{ type: 'text', text: "const greeting = 'Hello, Nuxt UI!'\nconsole.log(greeting)" }]
-    },
-    {
-      type: 'paragraph',
-      content: [
-        { type: 'text', text: 'Learn more at ' },
-        {
-          type: 'text',
-          marks: [{ type: 'link', attrs: { href: 'https://ui.nuxt.com', target: '_blank' } }],
-          text: 'ui.nuxt.com'
-        },
-        { type: 'text', text: '.' }
-      ]
-    }
-  ]
-},
     procedures: [],
     images: [],
 });
-
 </script>
-
 
 <template>
     <div>
@@ -130,10 +37,15 @@ const enconterData = reactive({
             <div>
                 <UCard :ui="{ body: 'p-0 sm:p-0' }">
                     <template #header>
-                        <h3 class="text-base font-semibold">Clinical Notes</h3>
+                        <h3 class="text-base font-semibold">
+                            {{ $t("soap") }}
+                        </h3>
                     </template>
 
-                    <PatientEncounterSoap :content="enconterData.soap"/>  
+                    <CompTextEditor
+                        v-model="encounterData.soap"
+                        class="h-full"
+                    />
                 </UCard>
             </div>
 
@@ -188,4 +100,3 @@ const enconterData = reactive({
         </div>
     </div>
 </template>
-
