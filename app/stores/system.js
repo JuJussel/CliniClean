@@ -3,12 +3,19 @@ export const useSystemStore = () => {
         persist: true,
         state: () => ({
             system: null,
+            icons: {
+                phone: "fa-solid fa-phone",
+                email: "fa-solid fa-envelope",
+                work: "fa-solid fa-briefcase",
+                home: "fa-solid fa-house",
+                mobile: "fa-solid fa-mobile-screen"
+            }
 
         }),
         actions: {
             async getSystemData() {
                 try {
-                    const res = await $fetch("api/system", {
+                    const res = await $fetch("/api/system", {
                         method: "GET",
                     });
                     if (res.success && res.data) {
