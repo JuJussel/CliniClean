@@ -70,6 +70,12 @@ const encounterData = reactive({
                             color="gray"
                             >Archive</UButton
                         >
+                        <USlideover>
+                            <UButton label="Open" color="neutral" variant="subtle" />
+                            <template #content>
+                                <CompProcedureBrowser class="h-full m-4" />
+                            </template>
+                        </USlideover>
                     </div>
                 </UCard>
 
