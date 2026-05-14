@@ -10,8 +10,7 @@ export default defineEventHandler(async (event) => {
   const { username, password } = await readValidatedBody(event, bodySchema.parse)
 
   // Find User in DB
-  const user = await User.findOne({ username })
-
+  const user = await User.findOne({ username }).select('username password avatar nameFirst nameLast id').lean()
   if (user && typeof user.password === 'string') {
     const isPasswordValid = await verifyPassword(user.password, password);
     if (isPasswordValid) {
