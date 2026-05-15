@@ -1,7 +1,5 @@
 export default defineEventHandler(async (event) => {
     try {
-        await requireUserSession(event)
-
         const zip = getRouterParam(event, 'zip')
 
         // Validate zip code format

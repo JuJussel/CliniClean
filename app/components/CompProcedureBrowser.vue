@@ -20,7 +20,7 @@ const columns = [
     },
 ];
 
-defineEmits(["selected"]);
+const emit = defineEmits(["selected"]);
 
 const filteredProcedureCategories = computed(() => {
     return systemStore?.system?.ui.procedureCategories.filter(
@@ -43,13 +43,17 @@ const searchProcedures = (delay = 1000) => {
         try {
             if (activeCategory.value == 25 || activeCategory.value == 30) {
                 const res = await fetch(
-                    `/api/medications/search?cat=${activeCategory.value}&search=${searchInput.value}`,
+                    `/api/medication/search?cat=${activeCategory.value}&search=${searchInput.value}`,
                 );
-                procedures.value = await res.json();
+                const data = await res.json();
+                procedures.value = data.data || [];
+
             } else {
-                procedures.value = await fetch(
-                    `/api/procedures/search?cat=${activeCategory.value}&search=${searchInput.value}`,
+                const res = await fetch(
+                    `/api/procedure/search?cat=${activeCategory.value}&search=${searchInput.value}`,
                 );
+                const data = await res.json();
+                procedures.value = data.data || [];
             }
         } catch (error) {
             console.error(error);
@@ -75,12 +79,12 @@ const getFavourites = async () => {
     }
 };
 
-const selectProcedure = (item) => {
-    console.log(item);
-
+const selectProcedure = (e, row) => {
+    const item = row.original;
+    
     emit("selected", item);
     try {
-        fetch(`/api/users/${userStore?.userData?._id}/favourites`, {
+        fetch(`/api/user/${userStore?.userData?._id}/favourites`, {
             method: "POST",
             body: JSON.stringify(item),
         });
