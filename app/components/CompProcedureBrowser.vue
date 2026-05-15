@@ -76,6 +76,8 @@ const getFavourites = async () => {
 };
 
 const selectProcedure = (item) => {
+    console.log(item);
+
     emit("selected", item);
     try {
         fetch(`/api/users/${userStore?.userData?._id}/favourites`, {

@@ -4,13 +4,25 @@ export const useSystemStore = () => {
         state: () => ({
             system: null,
             icons: {
-                phone: "fa-solid fa-phone",
-                email: "fa-solid fa-envelope",
-                work: "fa-solid fa-briefcase",
-                home: "fa-solid fa-house",
-                mobile: "fa-solid fa-mobile-screen"
-            }
-
+                "set": "material-symbols-light:tab-group-outline",
+                "perscription": "material-symbols:pill-outline",
+                "shot": "material-symbols-light:syringe-outline",
+                "prevVac": "material-symbols-light:coronavirus-outline",
+                "op": "material-symbols-light:bed-outline",
+                "treat": "material-symbols-light:healing-outline",
+                "exam": "material-symbols:lab-research-outline-rounded",
+                "xRay": "material-symbols-light:radiology-outline",
+                "healthCheck": "material-symbols-light:medical-information-outline",
+                "dashboard": "material-symbols-light:space-dashboard-outline",
+                "basic": "material-symbols-light:medical-information-outline",
+                "risk": "material-symbols-light:warning-outline",
+                "issues": "material-symbols-light:asterisk",
+                "vitals": "material-symbols-light:vital-signs",
+                "procedures": "material-symbols-light:list-alt-outline",
+                "diseases": "material-symbols-light:sick-outline",
+                "encounter": "material-symbols-light:outpatient-med-outline",
+                "files": "material-symbols-light:attach-file"
+            },
         }),
         actions: {
             async getSystemData() {
