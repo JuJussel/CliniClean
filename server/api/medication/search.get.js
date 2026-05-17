@@ -3,7 +3,7 @@ import japUtils from 'japanese-string-utils';
 export default defineEventHandler(async (event) => {
     try {
         const { cat, search } = getQuery(event)
-        
+
         const searchCode = search
         const searchName = search + '%';
         const searchNameKana = japUtils.toKatakana(search) + '%';
@@ -17,13 +17,13 @@ export default defineEventHandler(async (event) => {
         }
 
         // Build where clauses
-        let where =  `
+        let where = `
             (ykzkbn = '1' OR ykzkbn = '6')
             AND (name LIKE '${searchName}' OR kananame LIKE '${searchNameKana}' or srycd IN ('${searchCode}'))
             AND yukoedymd = '99999999'
         `;
 
-        if( cat == 30) {
+        if (cat === "310") {
             where = `
                 ykzkbn = '4'
                 AND (name LIKE '${searchName}' OR kananame LIKE '${searchNameKana}' OR srycd IN ('${searchCode}'))
@@ -41,7 +41,7 @@ export default defineEventHandler(async (event) => {
                 ten AS cost
             FROM public.tbl_tensu
             WHERE ` + where + ` LIMIT 200
-        `, [ searchName, searchNameKana, searchCode]);
+        `, [searchName, searchNameKana, searchCode]);
 
         return {
             success: true,

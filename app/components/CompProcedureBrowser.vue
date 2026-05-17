@@ -6,7 +6,6 @@ const toast = useToast();
 const searching = ref(false);
 const procedures = ref([]);
 const searchInput = ref("");
-const favs = ref([]);
 const activeCategory = ref(systemStore?.system?.ui.procedureCategories[0].code);
 const timeout = ref(null);
 const columns = [
@@ -24,7 +23,7 @@ const emit = defineEmits(["selected"]);
 
 const filteredProcedureCategories = computed(() => {
     return systemStore?.system?.ui.procedureCategories.filter(
-        (item) => item.code != 90,
+        (item) => item.code != "90",
     );
 });
 
@@ -34,14 +33,12 @@ const searchProcedures = (delay = 1000) => {
     }
     timeout.value = setTimeout(async () => {
         if (searchInput.value === "") {
-            procedures.value = favs.value.filter(
-                (item) => item.cat.code === activeCategory.value,
-            );
+            procedures.value = []
             return;
         }
         searching.value = true;
         try {
-            if (activeCategory.value == 25 || activeCategory.value == 30) {
+            if (activeCategory.value == "212" || activeCategory.value == "310") {
                 const res = await fetch(
                     `/api/medication/search?cat=${activeCategory.value}&search=${searchInput.value}`,
                 );
@@ -64,48 +61,11 @@ const searchProcedures = (delay = 1000) => {
     }, delay);
 };
 
-const getFavourites = async () => {
-    searching.value = true;
-    try {
-        const res = await fetch(
-            `/api/user/${userStore?.userData?._id}/favourites`,
-        );
-        favs.value = await res.json();
-    } catch (error) {
-        console.error(error);
-        toast.add({ title: error.message, color: "error" });
-    } finally {
-        searching.value = false;
-    }
-};
-
 const selectProcedure = (e, row) => {
     const item = row.original;
-    
     emit("selected", item);
-    try {
-        fetch(`/api/user/${userStore?.userData?._id}/favourites`, {
-            method: "POST",
-            body: JSON.stringify(item),
-        });
-    } catch (error) {
-        console.error(error);
-        toast.add({
-            title: error.message,
-            color: "error",
-        });
-    }
 };
 
-watch(activeCategory, () => {
-    procedures.value = favs.value.filter(
-        (item) => item.cat.code === activeCategory.value,
-    );
-});
-
-onMounted(async () => {
-    await getFavourites();
-});
 </script>
 
 <template>
