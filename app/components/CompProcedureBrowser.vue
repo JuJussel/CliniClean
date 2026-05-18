@@ -38,20 +38,11 @@ const searchProcedures = (delay = 1000) => {
         }
         searching.value = true;
         try {
-            if (activeCategory.value == "212" || activeCategory.value == "310") {
-                const res = await fetch(
-                    `/api/medication/search?cat=${activeCategory.value}&search=${searchInput.value}`,
-                );
-                const data = await res.json();
-                procedures.value = data.data || [];
-
-            } else {
-                const res = await fetch(
-                    `/api/procedure/search?cat=${activeCategory.value}&search=${searchInput.value}`,
-                );
-                const data = await res.json();
-                procedures.value = data.data || [];
-            }
+            const res = await fetch(
+                `/api/procedure/search?cat=${activeCategory.value}&search=${searchInput.value}`,
+            );
+            const data = await res.json();
+            procedures.value = data.data || [];
         } catch (error) {
             console.error(error);
             toast.add({ title: error.message, color: "error" });

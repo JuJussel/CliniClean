@@ -1,10 +1,8 @@
 import japUtils from 'japanese-string-utils';
-import Procedure from "../../models/procedure.model.js";
 
 export default defineEventHandler(async (event) => {
     try {
         const { cat, search } = getQuery(event)
-        const searchKana = japUtils.toKatakana(search) + '%';
 
         if (!cat || !search) {
             throw createError({
@@ -14,60 +12,98 @@ export default defineEventHandler(async (event) => {
             });
         }
 
-        let query = {
-            $and: [
-                { srykbn: String(cat) },
-                {
-                    $or: [
-                        { name: { $regex: ".*" + search + ".*" } },
-                        { kananame: { $regex: ".*" + searchKana + ".*" } },
-                        { formalname: { $regex: ".*" + search + ".*" } },
-                        { formalname: { $regex: ".*" + searchKana + ".*" } },
-                        { srycd: search }
-                    ]
-                }
-            ]
-        };
+        const searchCode = search;
+        const searchName = search + '%';
+        const searchNameKana = japUtils.toKatakana(search) + '%';
+
+        let results;
 
         if (cat === "212") {
-            query.$and.push({
-                $or: [
-                    { ykzkbn: '1' },
-                    { ykzkbn: '6' }
-                ]
-            })
+            results = await orcaClient`
+                SELECT
+                    srycd,
+                    name,
+                    formalname,
+                    taniname,
+                    yakkakjncd,
+                    ten AS cost,
+                    concat(cdkbn_kbn, lpad(cdkbn_kbnnum::text, 3, '0'), lpad(cdkbn_kbnnum_eda::text, 2, '0')) AS "procedureClass"
+                FROM public.tbl_tensu
+                WHERE (ykzkbn = '1' OR ykzkbn = '6')
+                    AND (
+                        name     LIKE ${searchName}
+                        OR kananame LIKE ${searchNameKana}
+                        OR srycd   = ${searchCode}
+                    )
+                    AND yukoedymd = '99999999'
+                LIMIT 200
+            `;
+        } else if (cat === "310") {
+            results = await orcaClient`
+                SELECT
+                    srycd,
+                    name,
+                    formalname,
+                    taniname,
+                    yakkakjncd,
+                    ten AS cost,
+                    concat(cdkbn_kbn, lpad(cdkbn_kbnnum::text, 3, '0'), lpad(cdkbn_kbnnum_eda::text, 2, '0')) AS "procedureClass"
+                FROM public.tbl_tensu
+                WHERE ykzkbn = '4'
+                    AND (
+                        name     LIKE ${searchName}
+                        OR kananame LIKE ${searchNameKana}
+                        OR srycd   = ${searchCode}
+                    )
+                    AND yukoedymd = '99999999'
+                LIMIT 200
+            `;
+        } else {
+            results = await orcaClient`
+                SELECT
+                    srycd,
+                    name,
+                    formalname,
+                    taniname,
+                    yakkakjncd,
+                    ten AS cost,
+                    concat(cdkbn_kbn, lpad(cdkbn_kbnnum::text, 3, '0'), lpad(cdkbn_kbnnum_eda::text, 2, '0')) AS "procedureClass"
+                FROM public.tbl_tensu
+                WHERE srysyukbn = ${cat}
+                    AND (
+                        name        LIKE ${searchName}
+                        OR kananame  LIKE ${searchNameKana}
+                        OR formalname LIKE ${searchName}
+                        OR formalname LIKE ${searchNameKana}
+                        OR srycd     = ${searchCode}
+                    )
+                    AND yukoedymd = '99999999'
+                    AND NOT srysyukbn = ''
+                LIMIT 200
+            `;
         }
-
-        if (cat === "310") {
-            query.$and.push({ ykzkbn: '4' })
-        }
-
-
-        const results = await Procedure.find(query,
-            ('srycd name formalname taniname ten procedureClass'))
-            .populate('procedureClass', 'name')
-            .lean()
 
         return {
             success: true,
             data: results
         }
 
-
     } catch (error) {
         if (error.statusCode) {
             throw error
         }
 
-        console.error('[Medication Search API Error]', {
+        console.error('[Procedure Search API Error]', {
             error: error.message,
+            pgCode: error.code,       // PostgreSQL error code e.g. 42703 = undefined column
+            pgDetail: error.detail,   // Extra detail from PostgreSQL
             stack: error.stack
         })
 
         throw createError({
             status: 500,
             statusMessage: 'Internal Server Error',
-            message: 'An error occurred while searching for medications'
+            message: 'An error occurred while searching for procedure'
         })
     }
 })
