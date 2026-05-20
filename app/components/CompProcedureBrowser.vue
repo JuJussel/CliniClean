@@ -21,6 +21,14 @@ const columns = [
 
 const emit = defineEmits(["selected"]);
 
+watch(activeCategory, () => {
+    searchInput.value = "";
+    procedures.value = [];
+    if (timeout.value) {
+        clearTimeout(timeout.value);
+    }
+});
+
 const filteredProcedureCategories = computed(() => {
     return systemStore?.system?.ui.procedureCategories.filter(
         (item) => item.code != "90",
@@ -32,10 +40,9 @@ const searchProcedures = (delay = 1000) => {
         clearTimeout(timeout);
     }
     timeout.value = setTimeout(async () => {
-        if (searchInput.value === "") {
-            procedures.value = []
-            return;
-        }
+        procedures.value = []
+        if (searchInput.value === "") return
+
         searching.value = true;
         try {
             const res = await fetch(

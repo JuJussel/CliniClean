@@ -50,7 +50,7 @@ onMounted(async () => {
                     <span>{{ $dayjs(item.date).format('YYYY-MM-DD') }} </span>
                 </template>
                 <template #content="{ item }">
-                    <PatientEncounter :encounterId="item" />
+                    <PatientEncounter :encounter="item" />
                 </template>
             </UTabs>
 
