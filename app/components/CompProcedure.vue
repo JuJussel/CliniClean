@@ -10,10 +10,12 @@ const props = defineProps({
 
 const emit = defineEmits(['delete', 'order', 'billing']);
 
+// ── Helpers ──────────────────────────────────────────────────────
 const hasData = (item) => {
     return item.varData?.length > 0 || item.varData?.type || item.varData?.location;
 };
 
+// ── Event handlers ───────────────────────────────────────────────
 const openOrder = (event, index) => {
     event.stopPropagation();
     emit('order', { event, index });
@@ -29,17 +31,73 @@ const deleteProcedure = (event, index) => {
     emit('delete', { event, index });
 };
 
-// Dynamic part components - uncomment and import when part files are created
-// import Exam from "./parts/procedure_exam.vue";
-// import Perscription from "./parts/procedures_perscription.vue";
-// import Shot from "./parts/procedures_shot.vue";
-//
-// const parts = {
-//     exam: Exam,
-//     perscription: Perscription,
-//     shot: Shot,
-//     prevVac: Shot
-// };
+// ── Prescription computed ────────────────────────────────────────
+const perscriptionTypes = computed(() => {
+    const rawTypes = systemStore?.system?.ui.perscriptionTypes || [];
+    return rawTypes.map(t => ({
+        label: t.name,
+        value: t
+    }));
+});
+
+const perscriptionTimings = computed(() => {
+    return systemStore?.system?.ui.perscriptionTimings || [];
+});
+
+const filteredTimings = (item) => {
+    const typeCode = item.varData?.type?.code;
+    if (typeCode) {
+        return perscriptionTimings.value
+            .filter(t => t.typeCode === typeCode)
+            .map(t => ({
+                label: t.name,
+                value: t
+            }));
+    }
+    return [];
+};
+
+// ── Shot computed ────────────────────────────────────────────────
+const shotLocations = computed(() => {
+    return systemStore?.system?.ui.shotLocations || [];
+});
+
+// ── Exam data ────────────────────────────────────────────────────
+// Cache exam results per srycd so we don't re-fetch on every toggle
+const examResultsCache = reactive({});
+
+// TODO: The old version used a separate API (useApi.get('procedures/' + srycd))
+// that returned exam result items with { result.shared.name, result.single.name, unit, value }.
+// A dedicated endpoint (e.g. /api/procedure/results) needs to be created to match that data shape.
+const loadExamResults = async (item) => {
+    if (!item.srycd || examResultsCache[item.srycd]) return;
+
+    try {
+        const res = await $fetch(`/api/procedure/results`, {
+            params: { srycd: item.srycd }
+        });
+        let resultsList = (res.data || res || []).map((r) => {
+            r.resultName = r.result?.shared?.name || r.name;
+            if (r.resultName === '分析物固有結果コード') {
+                r.resultName = r.result?.single?.name || r.name;
+            }
+            return r;
+        });
+        // De-duplicate by resultName
+        resultsList = resultsList.filter((value, index, self) =>
+            index === self.findIndex((t) => t.resultName === value.resultName)
+        );
+        examResultsCache[item.srycd] = resultsList;
+    } catch (error) {
+        console.error('[CompProcedure] Failed to load exam results:', error.message);
+        examResultsCache[item.srycd] = [];
+    }
+};
+
+const examResultColumns = [
+    { accessorKey: 'resultName', header: $t('resultName') },
+    { accessorKey: 'value', header: $t('value') },
+];
 </script>
 
 <template>
@@ -49,7 +107,7 @@ const deleteProcedure = (event, index) => {
             multiple
         >
             <template #default="{ item, index }">
-                <div class="flex justify-between items-center w-full pr-2">
+                <div class="flex justify-between items-center w-full px-4">
                     <div class="flex items-center gap-3">
                         <UTooltip v-if="hasData(item)" :text="$t('hasData')">
                             <UIcon
@@ -90,11 +148,124 @@ const deleteProcedure = (event, index) => {
                     </div>
                 </div>
             </template>
+
             <template #content="{ item }">
                 <div class="p-3 space-y-3">
-                    <!-- Dynamic part components - uncomment when part files are created -->
-                    <!-- <component :is="parts[item.cat?.label]" :item /> -->
 
+                    <!-- ═══ Shot / PrevVac ═══ -->
+                    <div v-if="item.cat?.label === 'shot' || item.cat?.label === 'prevVac'" class="flex gap-4 flex-wrap">
+                        <div>
+                            <label class="block text-sm font-medium mb-1">{{ $t('shotLocation') }}</label>
+                            <USelect
+                                v-model="item.varData.location"
+                                :items="shotLocations"
+                                :placeholder="$t('shotLocation')"
+                                class="w-40"
+                            />
+                        </div>
+                        <div class="w-24">
+                            <label class="block text-sm font-medium mb-1">{{ $t('shotAmount') }}</label>
+                            <div class="flex items-center gap-1">
+                                <UInput
+                                    type="number"
+                                    v-model="item.varData.amount"
+                                    :disabled="!item.varData.location"
+                                    class="flex-1"
+                                />
+                                <span v-if="item.taniname" class="text-sm text-muted">{{ $t('vial') }}</span>
+                            </div>
+                        </div>
+                        <div class="w-24">
+                            <label class="block text-sm font-medium mb-1">{{ $t('shotLot') }}</label>
+                            <UInput
+                                type="number"
+                                v-model="item.varData.lot"
+                                :disabled="!item.varData.location"
+                            />
+                        </div>
+                    </div>
+
+                    <!-- ═══ Prescription ═══ -->
+                    <div v-else-if="item.cat?.label === 'perscription'" class="flex gap-4 flex-wrap">
+                        <div>
+                            <label class="block text-sm font-medium mb-1">{{ $t('perscriptionType') }}</label>
+                            <USelect
+                                v-model="item.varData.type"
+                                :items="perscriptionTypes"
+                                :placeholder="$t('perscriptionType')"
+                            />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">{{ $t('perscriptionTiming') }}</label>
+                            <USelect
+                                v-model="item.varData.timing"
+                                :items="filteredTimings(item)"
+                                :disabled="!item.varData.type"
+                                :placeholder="$t('perscriptionTiming')"
+                                class="w-40"
+                            />
+                        </div>
+                        <div class="w-24">
+                            <label class="block text-sm font-medium mb-1">{{ $t('perscriptionAmount') }}</label>
+                            <div class="flex items-center gap-1">
+                                <UInput
+                                    type="number"
+                                    v-model="item.varData.amount"
+                                    :disabled="!item.varData.type"
+                                    class="flex-1"
+                                />
+                                <span v-if="item.taniname" class="text-sm text-muted">{{ item.taniname }}</span>
+                            </div>
+                        </div>
+                        <div class="w-24">
+                            <label class="block text-sm font-medium mb-1">{{ $t('perscriptionDuration') }}</label>
+                            <div class="flex items-center gap-1">
+                                <UInput
+                                    type="number"
+                                    v-model="item.varData.duration"
+                                    :disabled="!item.varData.type"
+                                    class="flex-1"
+                                />
+                                <span v-if="item.varData.timing?.unit" class="text-sm text-muted">{{ item.varData.timing?.unit }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ═══ Exam ═══ -->
+                    <div v-else-if="item.cat?.label === 'exam'">
+                        <USelectMenu
+                            v-model="item.varData"
+                            :items="examResultsCache[item.srycd] || []"
+                            labelKey="resultName"
+                            valueKey="id"
+                            multiple
+                            searchable
+                            :placeholder="$t('exam') + $t('add')"
+                            class="w-full mb-2"
+                            @open="loadExamResults(item)"
+                        />
+                        <UTable
+                            v-if="item.varData?.length > 0"
+                            :data="item.varData"
+                            :columns="examResultColumns"
+                            class="w-full border border-[var(--ui-border)] rounded-lg"
+                        >
+                            <template #value-cell="{ row }">
+                                <div v-if="row.original.order?.done"></div>
+                                <div v-else class="flex items-center gap-1 w-[120px]">
+                                    <UInput type="text" v-model="row.original.value" class="flex-1" />
+                                    <span
+                                        v-if="row.original.unit?.name && row.original.unit?.name !== '＊未設定'"
+                                        class="text-sm text-muted"
+                                    >
+                                        {{ row.original.unit.name }}
+                                    </span>
+                                </div>
+                            </template>
+                        </UTable>
+                    </div>
+
+                    <!-- ═══ Note (always shown) ═══ -->
                     <div>
                         <label class="block text-sm font-medium mb-1">{{ $t('note') }}</label>
                         <UTextarea v-model="item.note" :rows="1" />

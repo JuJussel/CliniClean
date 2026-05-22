@@ -61,6 +61,20 @@ const searchProcedures = (delay = 1000) => {
 
 const selectProcedure = (e, row) => {
     const item = row.original;
+    const catObj = systemStore?.system?.ui.procedureCategories.find(
+        (c) => c.code == activeCategory.value
+    );
+    item.cat = catObj || { code: activeCategory.value };
+
+    const label = catObj.label;
+    if (label === 'shot' || label === 'prevVac') {
+        item.varData = { location: null, amount: null, lot: null };
+    } else if (label === 'perscription') {
+        item.varData = { type: null, timing: [], amount: null, duration: null };
+    } else if (label === 'exam') {
+        item.varData = [];
+    }
+
     emit("selected", item);
 };
 
