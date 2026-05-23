@@ -242,7 +242,7 @@ const examResultColumns = [
                             searchable
                             :placeholder="$t('exam') + $t('add')"
                             class="w-full mb-2"
-                            @open="loadExamResults(item)"
+                            @update:open="loadExamResults(item)"
                         />
                         <UTable
                             v-if="item.varData?.length > 0"

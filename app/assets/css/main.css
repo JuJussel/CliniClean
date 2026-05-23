@@ -1,8 +1,184 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
 
+:root {
+  /* Soft, soothing clinical light blue-gray background */
+  /* --ui-bg: #edf2f7;
+  --ui-bg-muted: #e2e8f0;
+  --ui-bg-elevated: #f8fafc; */
+
+  /* High contrast text colors for readability */
+  --ui-text: #1e293b;
+  --ui-text-muted: #475569;
+  --ui-text-dimmed: #64748b;
+  --ui-text-highlighted: #0f172a;
+
+  /* Neumorphic shadow colors for light mode */
+  --shadow-dark: #c5ceda;
+  --shadow-light: #ffffff;
+
+  /* Clinical primary color (Teal) */
+  --ui-primary: #0d9488;
+}
+
+.dark {
+  /* Deep professional clinical slate-blue background */
+  --ui-bg: #0f172a;
+  --ui-bg-muted: #1e293b;
+  --ui-bg-elevated: #1e293b;
+
+  /* High contrast text colors for dark mode */
+  --ui-text: #e2e8f0;
+  --ui-text-muted: #94a3b8;
+  --ui-text-dimmed: #64748b;
+  --ui-text-highlighted: #f8fafc;
+
+  /* Neumorphic shadow colors for dark mode */
+  --shadow-dark: #070b13;
+  --shadow-light: #1b253b;
+
+  /* Clinical primary color (Teal) */
+  --ui-primary: #2dd4bf;
+}
+
+@theme {
+  /* Generous rounded corners matching Neumorphism guidelines */
+  --ui-radius: 1rem;
+
+  /* Neumorphic shadows */
+  --shadow-neu-flat: 6px 6px 16px var(--shadow-dark), -6px -6px 16px var(--shadow-light);
+  --shadow-neu-inset: inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light);
+}
+
+/* Global Application Resets & Base Styles */
 html,
 body,
 #app {
-    color: var(--ui-text-muted);
+  background-color: var(--ui-bg) !important;
+  color: var(--ui-text);
+  font-family: 'Outfit', 'Inter', system-ui, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+/* Dashboard Navbar and floating headers */
+header,
+.u-dashboard-navbar {
+  background-color: var(--ui-bg) !important;
+  border-bottom: none !important;
+  box-shadow: 4px 4px 12px var(--shadow-dark), -4px -4px 12px var(--shadow-light);
+  border-radius: 1rem;
+  margin: 0.75rem;
+  padding: 0.5rem 1rem;
+}
+
+/* Panel Backgrounds */
+.u-dashboard-panel,
+.u-dashboard-group {
+  background-color: var(--ui-bg) !important;
+}
+
+/* Inset inputs for standard HTML inputs as well */
+/* input[type="text"],
+input[type="password"],
+input[type="number"],
+input[type="email"],
+textarea,
+select {
+  box-shadow: var(--shadow-neu-inset) !important;
+  background-color: var(--ui-bg) !important;
+  border: none !important;
+  border-radius: 0.75rem !important;
+  padding: 0.5rem 0.75rem !important;
+  color: var(--ui-text) !important;
+  outline: none !important;
+  transition: all 0.2s ease-in-out;
+} */
+
+/* Table Enhancements */
+.u-table {
+  background-color: var(--ui-bg) !important;
+  border-collapse: separate !important;
+  border-spacing: 0 0.5rem !important;
+}
+
+.u-table tr {
+  box-shadow: var(--shadow-neu-flat);
+  border-radius: 0.75rem;
+  transition: transform 0.2s ease;
+}
+
+.u-table tr:hover {
+  transform: translateY(-1px);
+}
+
+.u-table td {
+  background-color: var(--ui-bg) !important;
+  border: none !important;
+}
+
+.u-table td:first-child {
+  border-top-left-radius: 0.75rem;
+  border-bottom-left-radius: 0.75rem;
+}
+
+.u-table td:last-child {
+  border-top-right-radius: 0.75rem;
+  border-bottom-right-radius: 0.75rem;
+}
+
+/* Scrollbars for beautiful clinical feel */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--ui-bg);
+  box-shadow: inset 1px 1px 3px var(--shadow-dark), inset -1px -1px 3px var(--shadow-light);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--ui-bg-muted);
+  border-radius: 10px;
+  box-shadow: 1px 1px 2px var(--shadow-dark), -1px -1px 2px var(--shadow-light);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ui-text-dimmed);
+}
+
+.neu-button-solid {
+  cursor: pointer !important;
+  transition: all 0.2s ease-in-out;
+  box-shadow: var(--shadow-neu-flat);
+  background-size: 200% auto;
+  transition: 0.5s;
+
+}
+
+.neu-button-solid:hover {
+  background-position: right center;
+}
+
+.neu-button-solid.bg-inverted {
+  background-image: linear-gradient(to right, #e2e8f0 0%, #f8fafc 51%, #e2e8f0 100%);
+  color: var(--ui-text-highlighted) !important;
+}
+
+.dark .neu-button-solid.bg-inverted {
+  background-image: linear-gradient(to right, #1e293b 0%, #334155 51%, #1e293b 100%);
+  color: var(--ui-text-highlighted) !important;
+}
+
+.neu-button-solid.bg-primary {
+  background-image: linear-gradient(to right, #4CB8C4 0%, #3CD3AD 51%, #4CB8C4 100%)
+}
+
+.dark .neu-button-solid.bg-primary {
+  background-image: linear-gradient(to right, #0d9488 0%, #14b8a6 51%, #0d9488 100%);
+  color: var(--ui-text-highlighted) !important;
 }

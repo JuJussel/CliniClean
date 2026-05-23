@@ -65,13 +65,13 @@ watch(() => props.encounter.karte, () => {
                         <UButton
                             icon="i-heroicons-printer"
                             size="sm"
-                            color="gray"
+                            color="neutral"
                             >Print</UButton
                         >
                         <UButton
                             icon="i-heroicons-archive-box"
                             size="sm"
-                            color="gray"
+                            color="neutral"
                             >Archive</UButton
                         >
                         <USlideover>

@@ -1,6 +1,5 @@
 <script setup>
 import { ja } from "@nuxt/ui/locale";
-
 const { user, clear: clearSession, loggedIn } = useUserSession();
 
 const active = ref();
