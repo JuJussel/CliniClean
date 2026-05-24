@@ -1,14 +1,14 @@
 import { defineMongooseModel } from '#nuxt/mongoose'
 
-const System = defineMongooseModel({
-    name: 'System',
+const Settings = defineMongooseModel({
+    name: 'Settings',
     schema: {
         category: String,
         data: Object
     },
     options: {
-        collection: 's_system',
+        collection: 'settings',
     }
 })
 
-export default System
+export default Settings

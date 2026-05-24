@@ -14,6 +14,7 @@ const emit = defineEmits(['delete', 'order', 'billing']);
 const hasData = (item) => {
     return item.varData?.length > 0 || item.varData?.type || item.varData?.location;
 };
+const examsLoading = ref(false)
 
 // ── Event handlers ───────────────────────────────────────────────
 const openOrder = (event, index) => {
@@ -71,12 +72,11 @@ const examResultsCache = reactive({});
 // A dedicated endpoint (e.g. /api/procedure/results) needs to be created to match that data shape.
 const loadExamResults = async (item) => {
     if (!item.srycd || examResultsCache[item.srycd]) return;
+    examsLoading.value = true
 
     try {
-        const res = await $fetch(`/api/procedure/results`, {
-            params: { srycd: item.srycd }
-        });
-        let resultsList = (res.data || res || []).map((r) => {
+        const res = await $fetch(`/api/procedure/exam?srycd=${item.srycd}`);
+        let resultsList = (res.data || []).map((r) => {
             r.resultName = r.result?.shared?.name || r.name;
             if (r.resultName === '分析物固有結果コード') {
                 r.resultName = r.result?.single?.name || r.name;
@@ -91,6 +91,8 @@ const loadExamResults = async (item) => {
     } catch (error) {
         console.error('[CompProcedure] Failed to load exam results:', error.message);
         examResultsCache[item.srycd] = [];
+    } finally {
+        examsLoading.value = false
     }
 };
 
@@ -237,8 +239,8 @@ const examResultColumns = [
                             v-model="item.varData"
                             :items="examResultsCache[item.srycd] || []"
                             labelKey="resultName"
-                            valueKey="id"
                             multiple
+                            :loading="examsLoading"
                             searchable
                             :placeholder="$t('exam') + $t('add')"
                             class="w-full mb-2"
