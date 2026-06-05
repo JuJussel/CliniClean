@@ -59,9 +59,10 @@ const items = ref([
     <UTabs
         :items="items"
         color="neutral"
-        class="h-full"
+        class="h-full flex flex-col min-h-0"
         :ui="{
-            content: 'h-full',
+            root: 'flex flex-col h-full min-h-0',
+            content: 'flex-1 overflow-y-auto min-h-0',
             list: 'flex-wrap',
             indicator: 'hidden',
             trigger:

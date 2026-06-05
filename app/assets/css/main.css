@@ -20,7 +20,10 @@
   /* Clinical primary color (Teal) */
   --ui-primary: #0d9488;
 }
-
+::selection {
+  background-color: #0d9488; /* 背景色：黄色 */
+  color: #ffffff;           /* 文字色：濃いグレー */
+}
 .dark {
   /* Deep professional clinical slate-blue background */
   --ui-bg: #0f172a;

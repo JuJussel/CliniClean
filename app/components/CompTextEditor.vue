@@ -109,14 +109,18 @@ defineExpose({ save });
 </script>
 
 <template>
-    <div>
+    <div class="h-full flex flex-col min-h-0">
         <UEditor
             v-slot="{ editor }"
             v-model="content"
             content-type="json"
             :image="false"
             :extensions="extensions"
-            class="flex-1"
+            :ui="{
+                root: 'h-full flex flex-col min-h-0',
+                content: 'flex-1 overflow-y-auto min-h-0'
+            }"
+            class="h-full flex-1 min-h-0"
             :placeholder="$t('startWriting')"
             ref="editorRef"
         >

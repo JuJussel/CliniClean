@@ -1,4 +1,7 @@
 <script setup>
+definePageMeta({
+    key: (route) => `${route.params.patientId}-${route.query.encounterId || ""}`,
+});
 
 const route = useRoute();
 const patientId = route.params.patientId;
@@ -23,27 +26,32 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div class="h-full grid grid-cols-2 gap-4">
+    <div class="h-full grid grid-cols-2 gap-4 min-h-0">
         <UCard
             :ui="{
-                body: 'h-full',
+                root: 'flex flex-col h-full min-h-0',
+                body: 'flex-1 min-h-0'
             }"
+            class="h-full"
         >
             <PatientMedical :patientId="patientId" />
         </UCard>
 
         <UCard
             :ui="{
-                body: 'h-full',
+                root: 'flex flex-col h-full min-h-0',
+                body: 'flex-1 min-h-0'
             }"
+            class="h-full"
             v-if="encounters.length > 0"
         >
             <UTabs
                 :items="encounters"
                 color="neutral"
-                class="h-full"
+                class="h-full flex flex-col min-h-0"
                 :ui="{
-                    content: 'h-full',
+                    root: 'flex flex-col h-full min-h-0',
+                    content: 'flex-1 min-h-0'
                 }"
             >
               <template #default="{ item }">

@@ -2,7 +2,7 @@
 import dayjs from "#build/dayjs.imports.mjs";
 const systemStore = useSystemStore();
 const overlay = useOverlay();
-import { ModalPatientReservation } from "#components";
+import { ModalPatientReservation, ModalPayment } from "#components";
 const receptionList = ref(null);
 const eventSource = ref(null);
 
@@ -85,6 +85,20 @@ async function openReservationModal(patient) {
 
     if (!action) return;
 }
+
+async function startPayment(encounter) {
+
+
+    
+    const paymentModal = overlay.create(ModalPayment, {
+        destroyOnClose: true,
+    });
+    const action = await paymentModal.open({ encounter: encounter });
+
+    if (action?.success) {
+        await getReceptionList();
+    }
+}
 </script>
 
 <template>
@@ -152,6 +166,16 @@ async function openReservationModal(patient) {
         </template>
         <template #actions-cell="{ row }">
             <div class="flex gap-2 justify-end">
+                <UButton
+                    size="xs"
+                    variant="outline"
+                    color="neutral"
+                    icon="material-symbols:payments-outline-rounded"
+                    @click="startPayment(row.original)"
+                    v-if="row.original.status === 4"
+                >
+                    {{ $t("startPayment") }}
+                </UButton>
                 <UButton
                     size="xs"
                     variant="outline"

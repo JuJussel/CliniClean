@@ -53,7 +53,15 @@ const onWalkinSubmitted = async () => {
             />
         </template>
         <template #footer>
-            <div>
+            <div class="flex justify-end gap-3 w-full">
+                <UButton
+                    color="neutral"
+                    variant="outline"
+                    @click="emit('close')"
+                    :disabled="submitting"
+                >
+                    {{ $t("cancel") }}
+                </UButton>
                 <UButton
                     icon="material-symbols:playlist-add-rounded"
                     @click="walkinForm.$refs.form.submit()"

@@ -14,9 +14,9 @@ async function onPatientSubmitted(patientData) {
             method: "POST",
         });
 
-        if (res.success && res.data?.id) {
+        if (res.success && res.data?.patient) {
             toast.add( { title: $t("patientRegistered") })
-            registered.value = res.data.id;
+            registered.value = res.data.patient;
         } else {
             throw new Error(res.message);
         }
@@ -56,7 +56,7 @@ async function onPatientSubmitted(patientData) {
                         color="neutral"
                         icon="material-symbols:playlist-add-rounded"
                         @click="
-                            emit('close', { modal: 'walkin', id: registered })
+                            emit('close', { modal: 'walkin', patient: registered })
                         "
                     >
                         {{ $t("newReception") }}
@@ -67,7 +67,7 @@ async function onPatientSubmitted(patientData) {
                         @click="
                             emit('close', {
                                 modal: 'reservation',
-                                id: registered,
+                                patient: registered,
                             })
                         "
                     >
@@ -77,7 +77,7 @@ async function onPatientSubmitted(patientData) {
                         color="neutral"
                         icon="material-symbols:person-edit-sharp"
                         @click="
-                            emit('close', { modal: 'edit', id: registered })
+                            emit('close', { modal: 'edit', patient: registered })
                         "
                     >
                         {{ $t("edit") }}

@@ -14,7 +14,10 @@ async function openRegistrationModal() {
 
     if (!action) return;
     if (action.modal === "walkin") {
-        openWalkinModal(action.id);
+        openWalkinModal(action.patient);
+    }
+    if (action.modal === "reservation") {
+        openReservationModal(action.patient);
     }
 }
 
