@@ -108,15 +108,11 @@ async function onCompletePayment() {
             },
         });
 
-        if (response.success) {
-            toast.add({ title: $t("saved") });
-            emit("close", { success: true });
-        } else {
-            throw new Error(response.error || "Failed to update encounter status");
-        }
+        toast.add({ title: $t("saved") });
+        emit("close", { success: true });
     } catch (e) {
         console.error("Error completing payment:", e);
-        toast.add({ title: e.message || "Error completing payment", color: "error" });
+        toast.add({ title: e.data?.message || e.message || "Error completing payment", color: "error" });
     } finally {
         submitting.value = false;
     }

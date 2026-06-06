@@ -70,10 +70,14 @@ export default defineEventHandler(async (event) => {
       data: encounter,
     };
   } catch (error) {
+    if (error.statusCode) {
+      throw error;
+    }
     console.error("[Start Payment API Error]", error);
-    return {
-      success: false,
-      error: error.message || "Failed to start payment process",
-    };
+    throw createError({
+      status: 500,
+      statusMessage: "Internal Server Error",
+      message: error.message || "Failed to start payment process",
+    });
   }
 });

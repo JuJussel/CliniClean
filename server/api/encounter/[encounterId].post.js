@@ -10,10 +10,14 @@ export default defineEventHandler(async (event) => {
             success: true,
         };
     } catch (error) {
-        console.log(error);
-        return {
-            error: error.message,
-            success: false,
-        };
+        if (error.statusCode) {
+            throw error
+        }
+        console.error('[Encounter Update API Error]', error);
+        throw createError({
+            status: 500,
+            statusMessage: 'Internal Server Error',
+            message: error.message || 'Failed to update encounter'
+        })
     }
 }); 

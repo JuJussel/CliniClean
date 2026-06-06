@@ -321,42 +321,72 @@ export async function registerOrcaMedicalProcedures(
   try {
     const formattedDate = formatBirthDate(performDate);
 
-    // Group procedures by category code
-    const categoriesMap = {};
-    for (const proc of procedures) {
-      const catCode = proc.cat?.code || "01";
-      if (!categoriesMap[catCode]) {
-        categoriesMap[catCode] = [];
-      }
-      categoriesMap[catCode].push(proc);
-    }
+    const medicalInfoChildList = [];
 
-    const medicalInfoChildList = Object.entries(categoriesMap).map(
-      ([catCode, procs]) => {
-        return {
+    for (const proc of procedures) {
+      let medicalClass = proc.cat?.code || "01";
+      let medicalClassNumber = proc.count ? String(proc.count) : "1";
+      const medicationInfoChild = [];
+
+      if (medicalClass === "310") {
+        let procCode = "130000510";
+        if (proc.varData?.location === "静脈") {
+          medicalClass = "320";
+          procCode = "130003510";
+        }
+
+        medicationInfoChild.push({
           $: { type: "record" },
-          Medical_Class: { $: { type: "string" }, _: String(catCode) },
-          Medication_Info: {
-            $: { type: "array" },
-            Medication_Info_child: procs.map((p) => {
-              let amount = 1;
-              if (
-                p.varData &&
-                typeof p.varData.amount !== "undefined" &&
-                p.varData.amount !== null
-              ) {
-                amount = p.varData.amount;
-              }
-              return {
-                $: { type: "record" },
-                Medication_Code: { $: { type: "string" }, _: p.srycd },
-                Medication_Number: { $: { type: "string" }, _: String(amount) },
-              };
-            }),
+          Medication_Code: { $: { type: "string" }, _: procCode },
+          Medication_Name: { $: { type: "string" }, _: "" },
+        });
+
+        medicationInfoChild.push({
+          $: { type: "record" },
+          Medication_Code: { $: { type: "string" }, _: proc.srycd },
+          Medication_Number: {
+            $: { type: "string" },
+            _: proc.varData?.amount ? String(proc.varData.amount) : "1",
           },
-        };
-      },
-    );
+        });
+      } else if (proc.cat?.code === "212") {
+        medicalClassNumber = proc.varData?.duration
+          ? String(proc.varData.duration)
+          : "1";
+
+        if (proc.varData?.type?.code === 3) {
+          medicalClass = "222";
+        } else if (proc.varData?.type?.code === 5) {
+          medicalClass = "232";
+        } else {
+          medicalClass = "212";
+        }
+
+        medicationInfoChild.push({
+          $: { type: "record" },
+          Medication_Code: { $: { type: "string" }, _: proc.srycd },
+          Medication_Number: {
+            $: { type: "string" },
+            _: proc.varData?.amount ? String(proc.varData.amount) : "1",
+          },
+        });
+      } else {
+        medicationInfoChild.push({
+          $: { type: "record" },
+          Medication_Code: { $: { type: "string" }, _: proc.srycd },
+        });
+      }
+
+      medicalInfoChildList.push({
+        $: { type: "record" },
+        Medical_Class: { $: { type: "string" }, _: medicalClass },
+        Medical_Class_Number: { $: { type: "string" }, _: medicalClassNumber },
+        Medication_info: {
+          $: { type: "array" },
+          Medication_info_child: medicationInfoChild,
+        },
+      });
+    }
 
     const orcaMedicalData = {
       data: {
@@ -373,19 +403,18 @@ export async function registerOrcaMedicalProcedures(
               $: { type: "record" },
               Insurance_Combination_Number: { $: { type: "string" }, _: ins },
             },
-          },
-          Medical_Information: {
-            $: { type: "list" },
-            Medical_Information_child: medicalInfoChildList,
+            Medical_Information: {
+              $: { type: "array" },
+              Medical_Information_child: medicalInfoChildList,
+            },
           },
         },
       },
     };
 
-    console.log("orcaMedicalData", JSON.stringify(orcaMedicalData, null, 2));
-
     const endpoint = "/api21/medicalmodv2?class=01";
     const response = await callOrcaApi(endpoint, "POST", orcaMedicalData);
+    logger.info({ response }, "orca response");
 
     if (
       !isValidApiResult(

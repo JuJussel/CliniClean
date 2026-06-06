@@ -25,7 +25,7 @@ const onWalkinSubmitted = async () => {
         emit("close", { modal: "walkin", id: walkinForm.value.patient });
     } catch (e) {
         console.error("Error creating encounter:", e);
-        toast.add({ title: e.message, color: "error" });
+        toast.add({ title: e.data?.message || e.message, color: "error" });
     } finally {
         submitting.value = false;
     }

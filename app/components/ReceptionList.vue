@@ -104,25 +104,17 @@ async function startPayment(encounter) {
 
         toast.remove("orca-loading");
 
-        if (response.success) {
-            const paymentModal = overlay.create(ModalPayment, {
-                destroyOnClose: true,
-            });
-            await paymentModal.open({ encounter: response.data });
-            await getReceptionList();
-        } else {
-            toast.add({
-                title: "ORCA連携エラー",
-                description: response.error || "支払いプロセスの開始に失敗しました。",
-                color: "error"
-            });
-        }
+        const paymentModal = overlay.create(ModalPayment, {
+            destroyOnClose: true,
+        });
+        await paymentModal.open({ encounter: response.data });
+        await getReceptionList();
     } catch (error) {
         toast.remove("orca-loading");
         console.error("Error starting payment:", error);
         toast.add({
-            title: "通信エラー",
-            description: error.message || "サーバーとの通信に失敗しました。",
+            title: "ORCA連携エラー",
+            description: error.data?.message || error.message || "支払いプロセスの開始に失敗しました。",
             color: "error"
         });
     }
