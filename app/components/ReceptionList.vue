@@ -1,8 +1,9 @@
 <script setup>
 import dayjs from "#build/dayjs.imports.mjs";
+import { ModalPatientReservation, ModalPayment } from "#components";
+
 const systemStore = useSystemStore();
 const overlay = useOverlay();
-import { ModalPatientReservation, ModalPayment } from "#components";
 const receptionList = ref(null);
 const eventSource = ref(null);
 
@@ -87,16 +88,43 @@ async function openReservationModal(patient) {
 }
 
 async function startPayment(encounter) {
-
-
-    
-    const paymentModal = overlay.create(ModalPayment, {
-        destroyOnClose: true,
+    const toast = useToast();
+    toast.add({
+        id: "orca-loading",
+        title: "ORCA連携中...",
+        description: "ORCAシステムに受付登録と診療行為を送信しています。",
+        color: "primary",
+        timeout: 0
     });
-    const action = await paymentModal.open({ encounter: encounter });
 
-    if (action?.success) {
-        await getReceptionList();
+    try {
+        const response = await $fetch(`/api/encounter/${encounter._id}/start-payment`, {
+            method: "POST"
+        });
+
+        toast.remove("orca-loading");
+
+        if (response.success) {
+            const paymentModal = overlay.create(ModalPayment, {
+                destroyOnClose: true,
+            });
+            await paymentModal.open({ encounter: response.data });
+            await getReceptionList();
+        } else {
+            toast.add({
+                title: "ORCA連携エラー",
+                description: response.error || "支払いプロセスの開始に失敗しました。",
+                color: "error"
+            });
+        }
+    } catch (error) {
+        toast.remove("orca-loading");
+        console.error("Error starting payment:", error);
+        toast.add({
+            title: "通信エラー",
+            description: error.message || "サーバーとの通信に失敗しました。",
+            color: "error"
+        });
     }
 }
 </script>
@@ -172,7 +200,7 @@ async function startPayment(encounter) {
                     color="neutral"
                     icon="material-symbols:payments-outline-rounded"
                     @click="startPayment(row.original)"
-                    v-if="row.original.status === 4"
+                    v-if="row.original.status >= 3 && row.original.status < 5"
                 >
                     {{ $t("startPayment") }}
                 </UButton>
@@ -190,7 +218,6 @@ async function startPayment(encounter) {
                     variant="outline"
                     color="neutral"
                     icon="material-symbols:person-edit-sharp"
-                    @click=""
                 >
                     {{ $t("edit") }}
                 </UButton>

@@ -187,8 +187,8 @@ async function onCompletePayment() {
                                 v-slot="{ label }"
                                 v-model="copayRate"
                                 :items="copayOptions"
-                                valueKey="value"
-                                labelKey="label"
+                                value-key="value"
+                                label-key="label"
                                 class="w-full"
                             >
                                 {{ label || '30%' }}
@@ -201,8 +201,8 @@ async function onCompletePayment() {
                                 v-slot="{ label }"
                                 v-model="paymentMethod"
                                 :items="paymentMethodOptions"
-                                valueKey="value"
-                                labelKey="label"
+                                value-key="value"
+                                label-key="label"
                                 class="w-full"
                             >
                                 {{ label || '現金 (Cash)' }}
@@ -286,8 +286,8 @@ async function onCompletePayment() {
                 <UButton
                     color="neutral"
                     variant="outline"
-                    @click="emit('close')"
                     :disabled="submitting"
+                    @click="emit('close')"
                 >
                     {{ $t("cancel") }}
                 </UButton>
