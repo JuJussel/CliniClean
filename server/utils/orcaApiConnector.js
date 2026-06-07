@@ -138,7 +138,7 @@ export async function getPatientDiseases(patientId, performDate) {
   try {
     const date = new Date(performDate);
     const y = date.getFullYear();
-    const m = String(date.getMonth() + 1).padStart(2, '0');
+    const m = String(date.getMonth() + 1).padStart(2, "0");
     const baseDate = `${y}-${m}`;
 
     const orcaDiseaseData = {
@@ -482,6 +482,147 @@ export async function registerOrcaMedicalProcedures(
     return { success: true, response: response.medicalres };
   } catch (error) {
     console.error("Error registering Orca medical procedures:", error);
+    return { success: false, message: error.message || error };
+  }
+}
+
+/**
+ * Fetch incomplete/intermediate patients from ORCA
+ * @param {Date|string} performDate - The examination date
+ * @returns {Promise<object>} List of incomplete patients
+ */
+export async function getIncompletePatients(performDate) {
+  try {
+    const formattedDate = formatBirthDate(performDate); // YYYY-MM-DD
+    const orcaRequestData = {
+      data: {
+        tmedicalgetreq: {
+          $: { type: "record" },
+          Perform_Date: { $: { type: "string" }, _: formattedDate },
+          InOut: { $: { type: "string" }, _: "2" }, // Outpatient
+        },
+      },
+    };
+    const endpoint = "/api01rv2/tmedicalgetv2";
+    const response = await callOrcaApi(endpoint, "POST", orcaRequestData);
+
+    if (!isValidApiResult(response, ["00", "15"], "tmedicalgetres")) {
+      const errorMsg =
+        response.tmedicalgetres?.Api_Result_Message ||
+        "Error fetching intermediate patients";
+      return { success: false, message: errorMsg };
+    }
+
+    const patientInfoList =
+      response.tmedicalgetres?.Tmedical_List_Information
+        ?.Tmedical_List_Information_child || [];
+    const patients = Array.isArray(patientInfoList)
+      ? patientInfoList
+      : [patientInfoList];
+
+    return {
+      success: true,
+      patients: response.tmedicalgetres?.Tmedical_List_Information
+        ? patients
+        : [],
+    };
+  } catch (error) {
+    console.error("Error fetching incomplete patients:", error);
+    return { success: false, message: error.message || error };
+  }
+}
+
+/**
+ * Fetch patient payment/income info from ORCA
+ * @param {string} patientId - The patient's Orca ID
+ * @param {Date|string} performDate - The examination date
+ * @returns {Promise<object>} Payment/income information
+ */
+export async function getPatientPaymentInfo(patientId, performDate) {
+  try {
+    const formattedDate = formatBirthDate(performDate); // YYYY-MM-DD
+    const orcaRequestData = {
+      data: {
+        private_objects: {
+          $: { type: "record" },
+          Patient_ID: { $: { type: "string" }, _: patientId },
+          Perform_Date: { $: { type: "string" }, _: formattedDate },
+        },
+      },
+    };
+    const endpoint = "/api01rv2/incomeinfv2";
+    const response = await callOrcaApi(endpoint, "POST", orcaRequestData);
+
+    if (!isValidApiResult(response, ["0000", "B1", "21"], "private_objects")) {
+      const errorMsg =
+        response.private_objects?.Api_Result_Message ||
+        "Error fetching payment info";
+      return { success: false, message: errorMsg };
+    }
+
+    const incomeInfo = response.private_objects?.Income_Information;
+    let incomeList = incomeInfo?.Income_Information_child || [];
+    if (incomeList && !Array.isArray(incomeList)) {
+      incomeList = [incomeList];
+    }
+
+    return {
+      success: true,
+      payments: incomeList,
+      raw: response.private_objects,
+    };
+  } catch (error) {
+    console.error("Error fetching patient payment info:", error);
+    return { success: false, message: error.message || error };
+  }
+}
+
+/**
+ * Fetch all registered receptions in ORCA for a specific date
+ * @param {Date|string} performDate - The examination date
+ * @param {string} departmentCode - The department code (default '01')
+ * @returns {Promise<object>} List of registered receptions
+ */
+export async function getOrcaReceptionList(performDate, departmentCode = "01") {
+  try {
+    const formattedDate = formatBirthDate(performDate); // YYYY-MM-DD
+    const orcaRequestData = {
+      data: {
+        acceptlstreq: {
+          $: { type: "record" },
+          Acceptance_Date: { $: { type: "string" }, _: formattedDate },
+          Department_Code: { $: { type: "string" }, _: departmentCode },
+          Physician_Code: { $: { type: "string" }, _: "" },
+          Medical_Information: { $: { type: "string" }, _: "" },
+          Display_Order_Sort: { $: { type: "string" }, _: "True" },
+        },
+      },
+    };
+    const endpoint = "/api01rv2/acceptlstv2?class=03"; // class=03 for all receptions
+    const response = await callOrcaApi(endpoint, "POST", orcaRequestData);
+
+    if (!isValidApiResult(response, ["00", "B1", "21"], "acceptlstres")) {
+      const errorMsg =
+        response.acceptlstres?.Api_Result_Message ||
+        "Error fetching ORCA reception list";
+      return { success: false, message: errorMsg };
+    }
+
+    const acceptInfoList =
+      response.acceptlstres?.Acceptlst_Information
+        ?.Acceptlst_Information_child || [];
+    const receptions = Array.isArray(acceptInfoList)
+      ? acceptInfoList
+      : [acceptInfoList];
+
+    return {
+      success: true,
+      receptions: response.acceptlstres?.Acceptlst_Information
+        ? receptions
+        : [],
+    };
+  } catch (error) {
+    console.error("Error fetching ORCA reception list:", error);
     return { success: false, message: error.message || error };
   }
 }

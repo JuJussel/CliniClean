@@ -4,8 +4,11 @@ import { ModalPatientReservation, ModalPayment } from "#components";
 
 const systemStore = useSystemStore();
 const overlay = useOverlay();
+const toast = useToast();
 const receptionList = ref(null);
 const eventSource = ref(null);
+const paymentStatuses = ref({});
+let statusPollInterval = null;
 
 const columns = [
     {
@@ -45,6 +48,28 @@ const columns = [
     },
 ];
 
+const checkPaymentStatus = async (encounterId) => {
+    try {
+        const res = await $fetch(`/api/encounter/${encounterId}/payment-status`);
+        paymentStatuses.value[encounterId] = res;
+    } catch (err) {
+        console.error(`Error fetching payment status for ${encounterId}:`, err);
+    }
+};
+
+const startStatusPolling = () => {
+    if (statusPollInterval) clearInterval(statusPollInterval);
+    statusPollInterval = setInterval(async () => {
+        if (!receptionList.value) return;
+        const pendingEncounters = receptionList.value.filter(
+            (enc) => enc.status === 4 && (!paymentStatuses.value[enc._id] || paymentStatuses.value[enc._id].status !== "ready_to_pay")
+        );
+        for (const enc of pendingEncounters) {
+            await checkPaymentStatus(enc._id);
+        }
+    }, 15000);
+};
+
 onMounted(async () => {
     // Connect to SSE stream
     eventSource.value = new EventSource("/api/sse");
@@ -53,7 +78,8 @@ onMounted(async () => {
         updateReceptionList(data);
     };
 
-    getReceptionList();
+    await getReceptionList();
+    startStatusPolling();
 });
 
 const getReceptionList = async () => {
@@ -63,12 +89,23 @@ const getReceptionList = async () => {
         `/api/encounter/range?start=${start}&end=${end}`,
     );
     receptionList.value = await response.json();
+
+    // Fetch initial status for any payment stage encounters
+    if (receptionList.value) {
+        const pendingEncounters = receptionList.value.filter(enc => enc.status === 4);
+        for (const enc of pendingEncounters) {
+            checkPaymentStatus(enc._id);
+        }
+    }
 };
 
 // Cleanup on component unmount
 onUnmounted(() => {
     if (eventSource.value) {
         eventSource.value.close();
+    }
+    if (statusPollInterval) {
+        clearInterval(statusPollInterval);
     }
 });
 
@@ -88,11 +125,10 @@ async function openReservationModal(patient) {
 }
 
 async function startPayment(encounter) {
-    const toast = useToast();
     toast.add({
         id: "orca-loading",
-        title: "ORCA連携中...",
-        description: "ORCAシステムに受付登録と診療行為を送信しています。",
+        title: $t("orcaLoadingTitle"),
+        description: $t("orcaLoadingDesc"),
         color: "primary",
         timeout: 0
     });
@@ -103,18 +139,41 @@ async function startPayment(encounter) {
         });
 
         toast.remove("orca-loading");
-
-        const paymentModal = overlay.create(ModalPayment, {
-            destroyOnClose: true,
-        });
-        await paymentModal.open({ encounter: response.data });
         await getReceptionList();
     } catch (error) {
         toast.remove("orca-loading");
         console.error("Error starting payment:", error);
         toast.add({
-            title: "ORCA連携エラー",
-            description: error.data?.message || error.message || "支払いプロセスの開始に失敗しました。",
+            title: $t("orcaErrorTitle"),
+            description: error.data?.message || error.message || $t("orcaErrorDesc"),
+            color: "error"
+        });
+    }
+}
+
+async function openPaymentModal(encounter) {
+    const paymentModal = overlay.create(ModalPayment, {
+        destroyOnClose: true,
+    });
+    await paymentModal.open({ encounter });
+    await getReceptionList();
+}
+
+async function updateEncounterStatus(encounterId, newStatus) {
+    try {
+        await $fetch(`/api/encounter/${encounterId}`, {
+            method: "POST",
+            body: {
+                status: newStatus
+            }
+        });
+        toast.add({ title: $t("saved") });
+        await getReceptionList();
+    } catch (error) {
+        console.error("Error updating encounter status:", error);
+        toast.add({
+            title: $t("orcaErrorTitle"),
+            description: error.data?.message || error.message || "Failed to update encounter status",
             color: "error"
         });
     }
@@ -148,7 +207,8 @@ async function startPayment(encounter) {
         </template>
         <template #status-cell="{ row }">
             <USelect
-                v-model="row.original.status"
+                :model-value="row.original.status"
+                @update:model-value="(val) => updateEncounterStatus(row.original._id, val)"
                 :items="systemStore.system.ui.encounterStati || []"
                 valueKey="id"
                 :placeholder="$t('select')"
@@ -186,15 +246,43 @@ async function startPayment(encounter) {
         </template>
         <template #actions-cell="{ row }">
             <div class="flex gap-2 justify-end">
+                <!-- Case 1: Start Payment (Kick off Payment) -->
+                <!-- Show if either status is 3, or status is 4 and ORCA says not_registered -->
                 <UButton
+                    v-if="(row.original.status === 4 && paymentStatuses[row.original._id]?.status === 'not_registered')"
                     size="xs"
                     variant="outline"
                     color="neutral"
                     icon="material-symbols:payments-outline-rounded"
                     @click="startPayment(row.original)"
-                    v-if="row.original.status >= 3 && row.original.status < 5"
                 >
                     {{ $t("startPayment") }}
+                </UButton>
+
+                <!-- Case 2: ORCA in progress / checking status -->
+                <!-- Show if status is 4 and ORCA says in_progress or loading -->
+                <UButton
+                    v-else-if="row.original.status === 4 && (paymentStatuses[row.original._id]?.status === 'in_progress' || paymentStatuses[row.original._id]?.status === 'loading')"
+                    size="xs"
+                    variant="outline"
+                    color="neutral"
+                    icon="material-symbols:hourglass-empty"
+                    disabled
+                >
+                    {{ $t("processingOnOrca") }}
+                </UButton>
+
+                <!-- Case 3: Ready to Pay -->
+                <!-- Show if status is 4 and ORCA says ready_to_pay -->
+                <UButton
+                    v-else-if="row.original.status === 4 && paymentStatuses[row.original._id]?.status === 'ready_to_pay'"
+                    size="xs"
+                    variant="solid"
+                    color="success"
+                    icon="material-symbols:payments-outline-rounded"
+                    @click="openPaymentModal(row.original)"
+                >
+                    {{ $t("readyToPay") }}
                 </UButton>
                 <UButton
                     size="xs"

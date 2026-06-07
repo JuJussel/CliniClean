@@ -1,4 +1,11 @@
 <script setup>
+const props = defineProps({
+    patientId: {
+        type: String,
+        required: true,
+    },
+});
+
 const items = ref([
     {
         label: $t("dashboard"),
@@ -69,6 +76,8 @@ const items = ref([
                 'data-[state=active]:bg-inverted data-[state=active]:text-inverted rounded-md',
         }"
     >
-        <template #search> </template>
+        <template #basic>
+            <PatientMedicalBasic :patientId="props.patientId" />
+        </template>
     </UTabs>
 </template>

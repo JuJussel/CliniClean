@@ -1,4 +1,5 @@
 import Patient from '../../models/patient.model'
+import Encounter from '../../models/encounter.model'
 
 export default defineEventHandler(async (event) => {
     try {
@@ -58,6 +59,16 @@ export default defineEventHandler(async (event) => {
         // Convert to plain object to ensure properties are included in response
         patient = patient.toObject ? patient.toObject() : patient
         patient.insuranceSets = insuranceSets
+
+        // Query and attach patient's encounters (visit history)
+        let encounters = []
+        if (patient && patient._id) {
+            encounters = await Encounter.find({ patient: patient._id })
+                .populate('doctor', 'nameLast nameFirst _id')
+                .sort({ date: -1 })
+                .lean()
+        }
+        patient.encounters = encounters
 
         return {
             success: true,

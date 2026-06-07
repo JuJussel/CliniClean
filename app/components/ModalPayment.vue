@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 
 const systemStore = useSystemStore();
 const toast = useToast();
@@ -37,18 +37,91 @@ const dummyProcedures = [
     { name: "処方料 (Prescription Fee)", cost: 68 },
 ];
 
+const orcaStatus = ref("loading");
+const orcaPoints = ref(0);
+const orcaAmount = ref(0);
+const fetchError = ref(null);
+
+const baseCostCatalog = {
+    '111000110': { name: '初診料 (Initial Consultation)', cost: 288 },
+    '112007410': { name: '再診料 (Follow-up Consultation)', cost: 74 },
+    '111000770': { name: '初診深夜加算', cost: 480 },
+    '111012170': { name: '初診深夜加算(小児)', cost: 480 },
+    '111000670': { name: '初診休日加算', cost: 365 },
+    '111012070': { name: '初診休日加算(小児)', cost: 365 },
+    '111000570': { name: '初診時間外加算', cost: 85 },
+    '111011970': { name: '初診時間外加算(小児)', cost: 85 },
+    '111012470': { name: '初診夜間早朝等加算', cost: 50 },
+    '112001310': { name: '再診深夜加算', cost: 420 },
+    '112014970': { name: '再診深夜加算(小児)', cost: 420 },
+    '112001210': { name: '再診休日加算', cost: 260 },
+    '112014870': { name: '再診休日加算(小児)', cost: 260 },
+    '112001110': { name: '再診時間外加算', cost: 65 },
+    '112014770': { name: '再診時間外加算(小児)', cost: 65 },
+    '112015570': { name: '再診夜間早朝等加算', cost: 50 },
+    '112000970': { name: '再診乳幼児加算', cost: 38 },
+    '111000370': { name: '初診乳幼児加算', cost: 75 }
+};
+
+const fetchPaymentStatus = async () => {
+    orcaStatus.value = "loading";
+    try {
+        const res = await $fetch(`/api/encounter/${props.encounter._id}/payment-status`);
+        orcaStatus.value = res.status;
+        if (res.status === "ready_to_pay") {
+            orcaPoints.value = res.points || 0;
+            orcaAmount.value = res.amount || 0;
+        }
+    } catch (err) {
+        console.error("Error fetching ORCA payment status in modal:", err);
+        orcaStatus.value = "error";
+        fetchError.value = err.data?.message || err.message || "Failed to fetch ORCA status";
+    }
+};
+
+onMounted(async () => {
+    await fetchPaymentStatus();
+});
+
 const proceduresList = computed(() => {
-    const list = props.encounter?.karte?.procedures || [];
-    if (list.length > 0) {
-        return list.map(item => ({
+    const list = [];
+    
+    // Add base cost items if present
+    const baseCostItems = props.encounter?.baseCost || [];
+    for (const item of baseCostItems) {
+        const catalogItem = baseCostCatalog[item.code];
+        if (catalogItem) {
+            list.push({
+                name: catalogItem.name,
+                cost: catalogItem.cost
+            });
+        } else {
+            list.push({
+                name: `基本診療料 (${item.code})`,
+                cost: 0
+            });
+        }
+    }
+
+    // Add doctor's entered procedures
+    const procItems = props.encounter?.karte?.procedures || [];
+    for (const item of procItems) {
+        list.push({
             name: item.name,
             cost: item.cost || item.tensu || 0
-        }));
+        });
+    }
+
+    if (list.length > 0) {
+        return list;
     }
     return dummyProcedures;
 });
 
 const totalPoints = computed(() => {
+    if (orcaStatus.value === "ready_to_pay") {
+        return orcaPoints.value;
+    }
     return proceduresList.value.reduce((sum, item) => sum + (item.cost || 0), 0);
 });
 
@@ -57,6 +130,9 @@ const totalPrice = computed(() => {
 });
 
 const amountToPay = computed(() => {
+    if (orcaStatus.value === "ready_to_pay") {
+        return orcaAmount.value;
+    }
     return Math.round(totalPrice.value * (copayRate.value / 100));
 });
 
@@ -147,6 +223,51 @@ async function onCompletePayment() {
                         <span class="text-neutral-500 dark:text-neutral-400 mr-2">{{ $t("date") }}:</span>
                         <span>{{ useDayjs()(encounter.date).format("LLL") }}</span>
                     </div>
+                </div>
+
+                <!-- ORCA Status Warning / Spinner Banner -->
+                <div v-if="orcaStatus === 'loading'" class="bg-neutral-50 dark:bg-slate-900 border border-neutral-200 dark:border-slate-800 p-4 rounded-lg flex flex-col items-center justify-center gap-2 text-sm text-neutral-500">
+                    <UIcon name="svg-spinners:ring-resize" class="size-6 text-primary" />
+                    <span>ORCAの精算状態を確認しています...</span>
+                </div>
+
+                <div v-else-if="orcaStatus === 'in_progress'" class="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900 p-4 rounded-lg flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-amber-700 dark:text-amber-400">
+                    <div class="flex items-center gap-2">
+                        <UIcon name="material-symbols:warning-amber-rounded" class="size-5 text-amber-500 shrink-0" />
+                        <span>
+                            ORCA端末での会計精算が完了していません。ORCA側で「中途終了」したデータを呼び出して精算処理を完了させてください。
+                        </span>
+                    </div>
+                    <UButton size="xs" color="amber" variant="subtle" icon="material-symbols:refresh" @click="fetchPaymentStatus">
+                        状態を更新する
+                    </UButton>
+                </div>
+
+                <div v-else-if="orcaStatus === 'not_registered'" class="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900 p-4 rounded-lg flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-amber-700 dark:text-amber-400">
+                    <div class="flex items-center gap-2">
+                        <UIcon name="material-symbols:warning-amber-rounded" class="size-5 text-amber-500 shrink-0" />
+                        <span>
+                            ORCAへの受付登録・送信が行われていません。「会計開始」から送信処理を完了させてください。
+                        </span>
+                    </div>
+                    <UButton size="xs" color="amber" variant="subtle" icon="material-symbols:refresh" @click="fetchPaymentStatus">
+                        状態を更新する
+                    </UButton>
+                </div>
+
+                <div v-else-if="orcaStatus === 'error'" class="bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900 p-4 rounded-lg flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-red-700 dark:text-red-400">
+                    <div class="flex items-center gap-2">
+                        <UIcon name="material-symbols:error-outline-rounded" class="size-5 text-red-500 shrink-0" />
+                        <span>ORCAの通信エラー: {{ fetchError || '状態を取得できませんでした。' }}</span>
+                    </div>
+                    <UButton size="xs" color="error" variant="subtle" icon="material-symbols:refresh" @click="fetchPaymentStatus">
+                        再試行
+                    </UButton>
+                </div>
+
+                <div v-else-if="orcaStatus === 'ready_to_pay'" class="bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-900 p-4 rounded-lg flex items-center gap-2 text-sm text-green-700 dark:text-green-400">
+                    <UIcon name="material-symbols:check-circle-outline-rounded" class="size-5 text-green-500 shrink-0" />
+                    <span>ORCA側での精算が確認されました。以下の金額で会計を完了してください。</span>
                 </div>
 
                 <!-- Procedures / Billing List -->
@@ -290,7 +411,7 @@ async function onCompletePayment() {
                 <UButton
                     color="primary"
                     :loading="submitting"
-                    :disabled="!isReceivedAmountValid || submitting"
+                    :disabled="!isReceivedAmountValid || submitting || orcaStatus === 'loading' || orcaStatus === 'in_progress' || orcaStatus === 'not_registered'"
                     icon="material-symbols:check-circle-outline-rounded"
                     @click="onCompletePayment"
                 >

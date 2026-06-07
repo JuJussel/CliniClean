@@ -53,6 +53,7 @@ const Patient = defineMongooseModel({
             }
         },
         occupation: { type: 'string' },
+        bloodType: { type: 'string' },
         contact: {
             person: {
                 type: 'object',

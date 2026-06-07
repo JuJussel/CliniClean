@@ -66,7 +66,7 @@ watch(
 </script>
 
 <template>
-    <div class="grid grid-cols-2 grid-rows-[1fr_auto] gap-4 h-full min-h-0">
+    <div v-if="encounter.status === 3" class="grid grid-cols-2 grid-rows-[1fr_auto] gap-4 h-full min-h-0">
         <div class="h-full min-h-0 row-span-2">
             <UCard
                 :ui="{
