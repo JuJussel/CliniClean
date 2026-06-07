@@ -86,6 +86,7 @@ const Patient = defineMongooseModel({
     },
     options: {
         collection: 'patients',
+        id: false
     }
 
 })

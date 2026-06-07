@@ -129,6 +129,56 @@ export async function getPatientInfo(patientId) {
 }
 
 /**
+ * Fetch patient disease/diagnosis information from ORCA
+ * @param {string} patientId - The patient's Orca ID
+ * @param {Date|string} performDate - Reference date to determine active diseases (formatted to YYYY-MM)
+ * @returns {Promise<object>} Object with success flag and array of diseases
+ */
+export async function getPatientDiseases(patientId, performDate) {
+  try {
+    const date = new Date(performDate);
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, '0');
+    const baseDate = `${y}-${m}`;
+
+    const orcaDiseaseData = {
+      data: {
+        disease_inforeq: {
+          $: { type: "record" },
+          Patient_ID: { $: { type: "string" }, _: patientId },
+          Base_Date: { $: { type: "string" }, _: baseDate },
+          Select_Mode: { $: { type: "string" }, _: "All" },
+        },
+      },
+    };
+
+    const endpoint = "/api01rv2/diseasegetv2?class=01";
+    const response = await callOrcaApi(endpoint, "POST", orcaDiseaseData);
+
+    if (!isValidApiResult(response, ["00", "B1", "21"], "disease_infores")) {
+      const errorMsg =
+        response.disease_infores?.Api_Result_Message ||
+        "Unknown error during patient disease query";
+      return { success: false, message: errorMsg };
+    }
+
+    const diseaseInfo = response.disease_infores?.Disease_Information;
+    let diseaseList = diseaseInfo?.Disease_Information_child || [];
+    if (diseaseList && !Array.isArray(diseaseList)) {
+      diseaseList = [diseaseList];
+    }
+
+    return {
+      success: true,
+      diseases: diseaseList,
+    };
+  } catch (error) {
+    console.error("Error fetching patient diseases:", error);
+    return { success: false, message: error.message || error };
+  }
+}
+
+/**
  * Register a new patient in Orca
  * Maps patient data from local schema to Orca API XML structure
  * @param {object} patientData - Patient data object with: birthDate, name, telecom, address
