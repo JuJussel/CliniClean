@@ -134,27 +134,10 @@ const getEncounterStatusLabel = (statusId) => {
 }
 
 const resolveDepartmentName = (deptCode) => {
-    const depts = {
-        "01": "内科",
-        "02": "小児科",
-        "03": "外科",
-        "04": "整形外科",
-        "05": "皮膚科",
-        "06": "泌尿器科",
-        "07": "産婦人科",
-        "08": "眼科",
-        "09": "耳鼻咽喉科",
-        "10": "精神科",
-        "11": "脳神経外科",
-        "12": "放射線科",
-        "13": "麻酔科",
-        "14": "リハビリ科",
-        "15": "歯科",
-        "16": "矯正歯科",
-        "17": "小児歯科",
-        "18": "口腔外科"
-    }
-    return depts[deptCode] || deptCode || "一般"
+    if (!deptCode) return $t('departments.general')
+    const key = `departments.${deptCode}`
+    const translated = $t(key)
+    return translated !== key ? translated : deptCode
 }
 </script>
 

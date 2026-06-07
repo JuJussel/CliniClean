@@ -15,7 +15,13 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n',
     'dayjs-nuxt',
     'nuxt-qrcode',
+    'nuxt-echarts'
   ],
+  echarts: {
+    renderer: ['svg', 'canvas'],
+    charts: ['LineChart'],
+    components: ['TooltipComponent', 'GridComponent', 'LegendComponent', 'TitleComponent'],
+  },
   css: ['~/assets/css/main.css', '~/assets/css/calendar.css'],
     fileStorage: {
         mount: process.env.mount,

@@ -79,5 +79,8 @@ const items = ref([
         <template #basic>
             <PatientMedicalBasic :patientId="props.patientId" />
         </template>
+        <template #vitals>
+            <PatientMedicalVitals :patientId="props.patientId" />
+        </template>
     </UTabs>
 </template>
