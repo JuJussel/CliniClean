@@ -1,5 +1,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { ModalPatientVitals } from '#components'
 
 const props = defineProps({
     patientId: {
@@ -11,6 +13,7 @@ const props = defineProps({
 const toast = useToast()
 const dayjs = useDayjs()
 const { t } = useI18n()
+const overlay = useOverlay()
 
 const isLoading = ref(true)
 const vitals = ref([])
@@ -31,22 +34,6 @@ const graphCategories = [
 ]
 const activeCategories = ref(['temperature', 'pulse']) // default plotted categories
 
-// Form model for new vitals
-const form = ref({
-    date: dayjs().format('YYYY-MM-DDTHH:mm'),
-    bloodPreasureHigh: null,
-    bloodPreasureLow: null,
-    pulse: null,
-    temperature: null,
-    spo2: null,
-    weight: null,
-    height: null,
-    waist: null,
-    head: null,
-    breast: null,
-    memo: ''
-})
-
 // Fetch historical vitals
 async function fetchVitals() {
     isLoading.value = true
@@ -65,8 +52,8 @@ async function fetchVitals() {
     } catch (error) {
         console.error('Error fetching vitals:', error)
         toast.add({
-            title: $t('error') || 'Error',
-            description: $t('vitalsTab.fetchError'),
+            title: t('error') || 'Error',
+            description: t('vitalsTab.fetchError'),
             color: 'error'
         })
     } finally {
@@ -78,53 +65,14 @@ onMounted(() => {
     fetchVitals()
 })
 
-// Submit new vitals
-async function handleRecordSubmit() {
-    isSubmitting.value = true
-    try {
-        const response = await $fetch(`/api/patient/${props.patientId}/vitals`, {
-            method: 'POST',
-            body: {
-                ...form.value,
-                date: new Date(form.value.date)
-            }
-        })
-        if (response && response.success) {
-            toast.add({
-                title: $t('saved') || '保存しました',
-                description: $t('vitalsTab.saveSuccess'),
-                color: 'success'
-            })
-            isModalOpen.value = false
-            // Reset form values
-            form.value = {
-                date: dayjs().format('YYYY-MM-DDTHH:mm'),
-                bloodPreasureHigh: null,
-                bloodPreasureLow: null,
-                pulse: null,
-                temperature: null,
-                spo2: null,
-                weight: null,
-                height: null,
-                waist: null,
-                head: null,
-                breast: null,
-                memo: ''
-            }
-            await fetchVitals()
-        } else {
-            throw new Error('Failed to save vitals')
-        }
-    } catch (error) {
-        console.error('Error saving vitals:', error)
-        toast.add({
-            title: $t('error') || 'Error',
-            description: $t('vitalsTab.saveError'),
-            color: 'error'
-        })
-    } finally {
-        isSubmitting.value = false
-    }
+async function openAddVitalsModal() {
+    const vitalsModal = overlay.create(ModalPatientVitals, {
+        destroyOnClose: true
+    })
+    await vitalsModal.open({
+        patientId: props.patientId
+    })
+    await fetchVitals()
 }
 
 // Table columns setup (fully localized reactively)
@@ -329,7 +277,7 @@ const toggleCategory = (cat) => {
             <UButton 
                 color="primary"
                 icon="material-symbols:add"
-                @click="isModalOpen = true"
+                @click="openAddVitalsModal"
             >
                 {{ $t('vitalsTab.recordButton') }}
             </UButton>
@@ -450,103 +398,5 @@ const toggleCategory = (cat) => {
                 <VChart :option="chartOption" autoresize class="w-full h-full" />
             </div>
         </UCard>
-
-        <!-- 3. Add Vitals Recording Modal Form -->
-        <UModal v-model:open="isModalOpen">
-            <template #content>
-                <div class="p-6 space-y-4">
-                    <div class="flex items-center justify-between pb-3 border-b border-neutral-100 dark:border-neutral-800">
-                        <h3 class="text-base font-bold text-neutral-800 dark:text-neutral-100">
-                            {{ $t('vitalsTab.modalTitle') }}
-                        </h3>
-                        <UButton 
-                            icon="material-symbols:close" 
-                            variant="ghost" 
-                            color="neutral" 
-                            size="sm"
-                            @click="isModalOpen = false" 
-                        />
-                    </div>
-
-                    <form @submit.prevent="handleRecordSubmit" class="space-y-4 max-h-[500px] overflow-y-auto pr-1">
-
-                        <div class="grid grid-cols-2 gap-4">
-                            <!-- Temperature -->
-                            <UFormField :label="`${$t('vitalCategories.temperature')} (℃)`">
-                                <UInput v-model.number="form.temperature" type="number" step="0.1" class="w-full" placeholder="36.5" />
-                            </UFormField>
-                            
-                            <!-- Pulse -->
-                            <UFormField :label="`${$t('vitalCategories.pulse')} (bpm)`">
-                                <UInput v-model.number="form.pulse" type="number" class="w-full" placeholder="72" />
-                            </UFormField>
-
-                            <!-- BP High -->
-                            <UFormField :label="`${$t('bloodPreasure')} - 収縮期(S) (mmHg)`">
-                                <UInput v-model.number="form.bloodPreasureHigh" type="number" class="w-full" placeholder="120" />
-                            </UFormField>
-
-                            <!-- BP Low -->
-                            <UFormField :label="`${$t('bloodPreasure')} - 拡張期(D) (mmHg)`">
-                                <UInput v-model.number="form.bloodPreasureLow" type="number" class="w-full" placeholder="80" />
-                            </UFormField>
-
-                            <!-- SpO2 -->
-                            <UFormField :label="`${$t('vitalCategories.spo2')} (%)`">
-                                <UInput v-model.number="form.spo2" type="number" class="w-full" placeholder="98" />
-                            </UFormField>
-
-                            <!-- Weight -->
-                            <UFormField :label="`${$t('vitalCategories.weight')} (kg)`">
-                                <UInput v-model.number="form.weight" type="number" step="0.1" class="w-full" placeholder="60.0" />
-                            </UFormField>
-
-                            <!-- Height -->
-                            <UFormField :label="`${$t('vitalCategories.height')} (cm)`">
-                                <UInput v-model.number="form.height" type="number" step="0.1" class="w-full" placeholder="170.0" />
-                            </UFormField>
-
-                            <!-- Waist -->
-                            <UFormField :label="`${$t('vitalCategories.waist')} (cm)`">
-                                <UInput v-model.number="form.waist" type="number" step="0.1" class="w-full" placeholder="80.0" />
-                            </UFormField>
-
-                            <!-- Head -->
-                            <UFormField :label="`${$t('vitalCategories.head')} (cm)`">
-                                <UInput v-model.number="form.head" type="number" step="0.1" class="w-full" placeholder="55.0" />
-                            </UFormField>
-
-                            <!-- Breast -->
-                            <UFormField :label="`${$t('vitalCategories.breast')} (cm)`">
-                                <UInput v-model.number="form.breast" type="number" step="0.1" class="w-full" placeholder="90.0" />
-                            </UFormField>
-                        </div>
-
-                        <!-- Memo -->
-                        <UFormField :label="$t('vitalsTab.memo')">
-                            <UTextarea v-model="form.memo" class="w-full" placeholder="測定メモ" />
-                        </UFormField>
-
-                        <div class="flex justify-end gap-3 pt-3 border-t border-neutral-100 dark:border-neutral-800">
-                            <UButton 
-                                type="button" 
-                                color="neutral" 
-                                variant="outline"
-                                @click="isModalOpen = false"
-                            >
-                                {{ $t('cancel') || 'キャンセル' }}
-                            </UButton>
-                            <UButton 
-                                type="submit" 
-                                color="primary"
-                                :loading="isSubmitting"
-                            >
-                                {{ $t('vitalsTab.modalSave') }}
-                            </UButton>
-                        </div>
-                    </form>
-                </div>
-            </template>
-        </UModal>
     </div>
 </template>

@@ -278,12 +278,12 @@ async function updateEncounterStatus(encounterId, newStatus) {
                     v-else-if="row.original.status === 4 && paymentStatuses[row.original._id]?.status === 'ready_to_pay'"
                     size="xs"
                     variant="solid"
-                    color="success"
                     icon="material-symbols:payments-outline-rounded"
                     @click="openPaymentModal(row.original)"
                 >
                     {{ $t("readyToPay") }}
                 </UButton>
+                <UButton v-else-if="row.original.status === 4" loading variant="ghost"/>
                 <UButton
                     size="xs"
                     variant="outline"

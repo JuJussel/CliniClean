@@ -79,6 +79,14 @@ export default defineEventHandler(async (event) => {
       });
     }
 
+    // Save ORCA reception details to the encounter
+    encounter.payment = {
+      ...(encounter.payment || {}),
+      acceptanceId: receptionResult.response?.Acceptance_Id,
+      acceptanceTime: receptionResult.response?.Acceptance_Time,
+    };
+    encounter.markModified("payment");
+
     // 2. Add procedures/billing info to ORCA (medicalmodv2?class=01)
     const procedures = encounter.karte?.procedures || [];
 
