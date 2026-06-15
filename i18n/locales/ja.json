@@ -54,6 +54,17 @@
   "delete": "削除",
   "diseases": "病名",
   "diseaseOutcome": "転帰",
+  "diseaseOutcomeFlags": {
+    "F": "治癒",
+    "D": "死亡",
+    "C": "中止",
+    "S": "移行"
+  },
+  "diseaseSuspectFlags": {
+    "S": "疑い",
+    "A": "急性",
+    "SA": "疑いかつ急性"
+  },
   "diseaseEndDate": "転帰日",
   "diseaseStartDate": "開始日",
   "diseaseName": "病名",
