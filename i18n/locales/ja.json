@@ -57,7 +57,7 @@
   "diseaseOutcomeFlags": {
     "F": "治癒",
     "D": "死亡",
-    "C": "中止",
+    "P": "中止",
     "S": "移行"
   },
   "diseaseSuspectFlags": {
@@ -71,6 +71,16 @@
   "diseaseMain": "主病名",
   "diseaseSuspectOrAcute": "疑い・急性",
   "diseaseSearch": "病名検索",
+  "diseaseDiagnoseDate": "診断日",
+  "diseaseDescription": "説明",
+  "diseaseAddButton": "病名登録",
+  "diseaseAddModalTitle": "新しい病名の入力",
+  "diseaseFetchError": "病名情報の取得に失敗しました。",
+  "diseaseSaveSuccess": "病名データを登録しました。",
+  "diseaseSaveError": "病名データの登録に失敗しました。",
+  "diseaseNoHistory": "病名履歴はありません。",
+  "diseaseTimelineTitle": "病名タイムライン",
+  "diseaseStatusActive": "治療中",
   "display": "表示",
   "doctor": "医師",
   "done": "済",
@@ -85,6 +95,7 @@
   "exam": "検査",
   "existingPerson": "登録済みの人物",
   "email": "メール",
+  "error": "エラー",
   "emergencyContact": "緊急連絡先",
   "emergencyContactName": "緊急連絡先名前",
   "emergencyContactPhone": "緊急連絡先電話",
@@ -382,6 +393,7 @@
   "minutes": "分",
   "validationMessages": {
     "selectRequired": "選択してください",
+    "selectDisease": "病名を選択してください",
     "stringEmpty": "ご入力してください",
     "numberBase": "数字をご入力してください",
     "dateBase": "日付を選択してください",

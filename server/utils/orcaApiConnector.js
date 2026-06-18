@@ -633,3 +633,123 @@ export async function getPatientMedicalProcedures(
     return { success: false, message: error.message || error };
   }
 }
+
+/**
+ * Register patient diseases in ORCA (diseasev3?class=01)
+ * @param {string} patientId - The patient's Orca ID
+ * @param {Date|string} performDate - The encounter date
+ * @param {string} departmentCode - Department code (default '01')
+ * @param {Array} diseases - List of diseases to register
+ * @returns {Promise<object>} Response from Orca API
+ */
+export async function registerPatientDisease(
+  patientId,
+  performDate,
+  departmentCode = "01",
+  diseases,
+) {
+  try {
+    const formattedPerformDate = formatBirthDate(performDate);
+
+    const diseaseChildren = diseases.map((disease) => {
+      // Map UI outcome codes to ORCA outcome codes (e.g. C -> P)
+      let outcome = disease.outcome;
+
+      const child = {
+        $: { type: "record" },
+        Disease_Code: { $: { type: "string" }, _: disease.code },
+        Disease_StartDate: {
+          $: { type: "string" },
+          _: formatBirthDate(disease.startDate),
+        },
+        Disease_InOut: { $: { type: "string" }, _: disease.inOut || "O" },
+      };
+
+      if (disease.name) {
+        child.Disease_Name = { $: { type: "string" }, _: disease.name };
+      }
+      if (disease.category) {
+        child.Disease_Category = { $: { type: "string" }, _: disease.category };
+      }
+      if (disease.suspectFlag) {
+        child.Disease_SuspectedFlag = {
+          $: { type: "string" },
+          _: disease.suspectFlag,
+        };
+      }
+      if (disease.acuteFlag) {
+        child.Disease_AcuteFlag = {
+          $: { type: "string" },
+          _: disease.acuteFlag,
+        };
+      }
+      if (disease.endDate) {
+        child.Disease_EndDate = {
+          $: { type: "string" },
+          _: formatBirthDate(disease.endDate),
+        };
+      }
+      if (outcome) {
+        child.Disease_OutCome = { $: { type: "string" }, _: outcome };
+      }
+      if (disease.description) {
+        child.Disease_Supplement_Name = {
+          $: { type: "string" },
+          _: disease.description,
+        };
+      }
+      if (disease.insuranceComboNumber) {
+        child.Insurance_Combination_Number = {
+          $: { type: "string" },
+          _: disease.insuranceComboNumber,
+        };
+      }
+
+      return child;
+    });
+
+    const orcaRequest = {
+      data: {
+        diseasereq: {
+          $: { type: "record" },
+          Patient_ID: { $: { type: "string" }, _: patientId },
+          Base_Month: {
+            $: { type: "string" },
+            _: formattedPerformDate.substring(0, 7),
+          },
+          Perform_Date: { $: { type: "string" }, _: formattedPerformDate },
+          Perform_Time: { $: { type: "string" }, _: "00:00:00" },
+          Diagnosis_Information: {
+            $: { type: "record" },
+            Department_Code: {
+              $: { type: "string" },
+              _: departmentCode || "01",
+            },
+          },
+          Disease_Information: {
+            $: { type: "array" },
+            Disease_Information_child: diseaseChildren,
+          },
+        },
+      },
+    };
+
+    const endpoint = "/orca22/diseasev3?class=01";
+    const response = await callOrcaApi(endpoint, "POST", orcaRequest);
+
+    if (!isValidApiResult(response, ["000", "00"], "diseaseres")) {
+      const errorMsg =
+        response.diseaseres?.Api_Result_Message ||
+        "Unknown error registering patient disease";
+      return { success: false, message: errorMsg };
+    }
+
+    return {
+      success: true,
+      data: response.diseaseres,
+    };
+  } catch (error) {
+    console.error("Error registering patient disease in ORCA:", error);
+    return { success: false, message: error.message || error };
+  }
+}
