@@ -37,7 +37,7 @@ export default defineEventHandler(async (event) => {
             patient: patientDoc._id,
             encounter: body.encounter || null,
             date: body.date ? new Date(body.date) : new Date(),
-            recordedBy: event.context.auth?.user?._id || null, // if session auth is present
+            recordedBy: event.context.auth?.user?.id || event.context.auth?.user?._id || (await getUserSession(event))?.user?.id || (await getUserSession(event))?.user?._id || null, // if session auth is present
             
             bloodPreasureHigh: body.bloodPreasureHigh || null,
             bloodPreasureLow: body.bloodPreasureLow || null,

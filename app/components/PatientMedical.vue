@@ -80,6 +80,12 @@ const items = ref([
     <template #basic>
       <PatientMedicalBasic :patientId="props.patientId" />
     </template>
+    <template #risk>
+      <PatientMedicalRisk :patientId="props.patientId" />
+    </template>
+    <template #issues>
+      <PatientMedicalIssues :patientId="props.patientId" />
+    </template>
     <template #vitals>
       <PatientMedicalVitals :patientId="props.patientId" />
     </template>

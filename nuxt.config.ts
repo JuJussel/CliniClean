@@ -19,7 +19,7 @@ export default defineNuxtConfig({
   ],
   echarts: {
     renderer: ['svg', 'canvas'],
-    charts: ['LineChart', 'CustomChart'],
+    charts: ['LineChart', 'BarChart', 'CustomChart'],
     components: ['TooltipComponent', 'GridComponent', 'LegendComponent', 'TitleComponent'],
   },
   css: ['~/assets/css/main.css', '~/assets/css/calendar.css'],

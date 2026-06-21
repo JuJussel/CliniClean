@@ -23,5 +23,6 @@ export default defineEventHandler(async (event) => {
         message: 'Authentication required'
       })
     }
+    event.context.auth = session
   }
 })

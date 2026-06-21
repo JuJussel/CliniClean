@@ -1,0 +1,6770 @@
+[
+  {
+    "code": "00F",
+    "name": "食品",
+    "level": 1,
+    "parent": null
+  },
+  {
+    "code": "D9F000000000",
+    "name": "食品ダミーコード",
+    "level": 2,
+    "parent": "00F"
+  },
+  {
+    "code": "J9FA00000000",
+    "name": "農産食品",
+    "level": 2,
+    "parent": "00F"
+  },
+  {
+    "code": "J9FA11000000",
+    "name": "もみ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA12000000",
+    "name": "玄米",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA12000011",
+    "name": "米ぬか",
+    "level": 4,
+    "parent": "J9FA12000000"
+  },
+  {
+    "code": "J9FA13000000",
+    "name": "白米",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA13000011",
+    "name": "もち",
+    "level": 4,
+    "parent": "J9FA13000000"
+  },
+  {
+    "code": "J9FA13000012",
+    "name": "米粉",
+    "level": 4,
+    "parent": "J9FA13000000"
+  },
+  {
+    "code": "J9FA14000000",
+    "name": "大麦",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA14000011",
+    "name": "大麦粉",
+    "level": 4,
+    "parent": "J9FA14000000"
+  },
+  {
+    "code": "J9FA14000012",
+    "name": "麦茶",
+    "level": 4,
+    "parent": "J9FA14000000"
+  },
+  {
+    "code": "J9FA15000000",
+    "name": "小麦",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA15000011",
+    "name": "小麦ふすま",
+    "level": 4,
+    "parent": "J9FA15000000"
+  },
+  {
+    "code": "J9FA15000012",
+    "name": "こむぎ胚芽",
+    "level": 4,
+    "parent": "J9FA15000000"
+  },
+  {
+    "code": "J9FA15000013",
+    "name": "グルテン",
+    "level": 4,
+    "parent": "J9FA15000000"
+  },
+  {
+    "code": "J9FA15000014",
+    "name": "グルテニン",
+    "level": 4,
+    "parent": "J9FA15000000"
+  },
+  {
+    "code": "J9FA15000015",
+    "name": "グリアジン",
+    "level": 4,
+    "parent": "J9FA15000000"
+  },
+  {
+    "code": "J9FA15000016",
+    "name": "小麦粉",
+    "level": 4,
+    "parent": "J9FA15000000"
+  },
+  {
+    "code": "J9FA15000017",
+    "name": "小麦でん粉",
+    "level": 4,
+    "parent": "J9FA15000000"
+  },
+  {
+    "code": "J9FA15000018",
+    "name": "特異的IgE ω-5 グリアジン",
+    "level": 4,
+    "parent": "J9FA15000000"
+  },
+  {
+    "code": "J9FA15110000",
+    "name": "スペルト小麦",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA15120000",
+    "name": "デュラム小麦",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA15120011",
+    "name": "デュラムセモリナ",
+    "level": 4,
+    "parent": "J9FA15120000"
+  },
+  {
+    "code": "J9FA15980000",
+    "name": "小麦（その他）",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA15990000",
+    "name": "小麦（詳細不明）",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA16000000",
+    "name": "ライ麦",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA17000000",
+    "name": "えん麦",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA17000011",
+    "name": "オートミール",
+    "level": 4,
+    "parent": "J9FA17000000"
+  },
+  {
+    "code": "J9FA18000000",
+    "name": "精麦",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA19000000",
+    "name": "雑穀",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA19000011",
+    "name": "雑穀粉",
+    "level": 4,
+    "parent": "J9FA19000000"
+  },
+  {
+    "code": "J9FA19110000",
+    "name": "とうもろこし",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA19110011",
+    "name": "とうもろこし粉",
+    "level": 4,
+    "parent": "J9FA19110000"
+  },
+  {
+    "code": "J9FA19110012",
+    "name": "とうもろこしでん粉",
+    "level": 4,
+    "parent": "J9FA19110000"
+  },
+  {
+    "code": "J9FA19120000",
+    "name": "あわ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA19130000",
+    "name": "ひえ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA19140000",
+    "name": "そば",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA19140011",
+    "name": "そば粉",
+    "level": 4,
+    "parent": "J9FA19140000"
+  },
+  {
+    "code": "J9FA19140012",
+    "name": "そば茶",
+    "level": 4,
+    "parent": "J9FA19140000"
+  },
+  {
+    "code": "J9FA19140013",
+    "name": "そばまんじゅう",
+    "level": 4,
+    "parent": "J9FA19140000"
+  },
+  {
+    "code": "J9FA19140014",
+    "name": "そば焼酎",
+    "level": 4,
+    "parent": "J9FA19140000"
+  },
+  {
+    "code": "J9FA19150000",
+    "name": "きび",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA19160000",
+    "name": "もろこし",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA19170000",
+    "name": "はとむぎ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA19180000",
+    "name": "アマランス",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA19190000",
+    "name": "キヌア",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA19980000",
+    "name": "雑穀（その他）",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA19990000",
+    "name": "雑穀（詳細不明）",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA21000000",
+    "name": "豆類",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA21000011",
+    "name": "豆粉",
+    "level": 4,
+    "parent": "J9FA21000000"
+  },
+  {
+    "code": "J9FA21000012",
+    "name": "煮豆",
+    "level": 4,
+    "parent": "J9FA21000000"
+  },
+  {
+    "code": "J9FA21000013",
+    "name": "いり豆",
+    "level": 4,
+    "parent": "J9FA21000000"
+  },
+  {
+    "code": "J9FA21110000",
+    "name": "大豆",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA21110011",
+    "name": "大豆粉",
+    "level": 4,
+    "parent": "J9FA21110000"
+  },
+  {
+    "code": "J9FA21110012",
+    "name": "豆腐",
+    "level": 4,
+    "parent": "J9FA21110000"
+  },
+  {
+    "code": "J9FA21110013",
+    "name": "油揚げ",
+    "level": 4,
+    "parent": "J9FA21110000"
+  },
+  {
+    "code": "J9FA21110014",
+    "name": "生あげ",
+    "level": 4,
+    "parent": "J9FA21110000"
+  },
+  {
+    "code": "J9FA21110015",
+    "name": "がんもどき",
+    "level": 4,
+    "parent": "J9FA21110000"
+  },
+  {
+    "code": "J9FA21110016",
+    "name": "ゆば",
+    "level": 4,
+    "parent": "J9FA21110000"
+  },
+  {
+    "code": "J9FA21110017",
+    "name": "納豆",
+    "level": 4,
+    "parent": "J9FA21110000"
+  },
+  {
+    "code": "J9FA21110018",
+    "name": "きなこ",
+    "level": 4,
+    "parent": "J9FA21110000"
+  },
+  {
+    "code": "J9FA21110019",
+    "name": "豆乳",
+    "level": 4,
+    "parent": "J9FA21110000"
+  },
+  {
+    "code": "J9FA21110021",
+    "name": "特異的IgE Gly m 4 (大豆由来)",
+    "level": 4,
+    "parent": "J9FA21110000"
+  },
+  {
+    "code": "J9FA21120000",
+    "name": "小豆",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA21120011",
+    "name": "あずき粉",
+    "level": 4,
+    "parent": "J9FA21120000"
+  },
+  {
+    "code": "J9FA21120012",
+    "name": "ゆであずき",
+    "level": 4,
+    "parent": "J9FA21120000"
+  },
+  {
+    "code": "J9FA21120013",
+    "name": "あん",
+    "level": 4,
+    "parent": "J9FA21120000"
+  },
+  {
+    "code": "J9FA21130000",
+    "name": "いんげん",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA21130011",
+    "name": "いんげん豆粉",
+    "level": 4,
+    "parent": "J9FA21130000"
+  },
+  {
+    "code": "J9FA21131100",
+    "name": "うずら",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA21131200",
+    "name": "手亡",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA21131300",
+    "name": "金時",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA21131400",
+    "name": "とら豆",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA21131500",
+    "name": "白花豆",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA21131600",
+    "name": "大福",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA21140000",
+    "name": "えんどう",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA21141100",
+    "name": "さやえんどう",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA21141200",
+    "name": "スナップえんどう",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA21141300",
+    "name": "グリーンピース",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA21150000",
+    "name": "ささげ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA21170000",
+    "name": "緑豆",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA21180000",
+    "name": "落花生（ピーナッツ）",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA21180011",
+    "name": "ピーナッツバター",
+    "level": 4,
+    "parent": "J9FA21180000"
+  },
+  {
+    "code": "J9FA21180012",
+    "name": "特異的IgE Ara h2（ピーナッツ由来）",
+    "level": 4,
+    "parent": "J9FA21180000"
+  },
+  {
+    "code": "J9FA21190000",
+    "name": "キドニー豆",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA21190011",
+    "name": "レッドキドニー豆",
+    "level": 5,
+    "parent": "J9FA21180012"
+  },
+  {
+    "code": "J9FA21210000",
+    "name": "レンズ豆",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA21220000",
+    "name": "ヒヨコ豆",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA21230000",
+    "name": "ライ豆",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA21980000",
+    "name": "豆類（その他）",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA21990000",
+    "name": "豆類（詳細不明）",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA22000000",
+    "name": "粉類",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA22110000",
+    "name": "調整雑粉",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA22111100",
+    "name": "プレミックス",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA22111200",
+    "name": "パン類ミックス",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA22111300",
+    "name": "ケーキ類ミックス",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA22111400",
+    "name": "調理用ミックス",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA22980000",
+    "name": "粉類（その他）",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA22990000",
+    "name": "粉類（詳細不明）",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA23000000",
+    "name": "でん粉",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA23110000",
+    "name": "タピオカでん粉",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA23120000",
+    "name": "サゴでん粉",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA23980000",
+    "name": "でん粉（その他）",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA23990000",
+    "name": "でん粉（詳細不明）",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA24000000",
+    "name": "根菜類",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA24110000",
+    "name": "だいこん",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA24111100",
+    "name": "こうしんだいこん",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA24111200",
+    "name": "あおながだいこん",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA24111300",
+    "name": "べにまるだいこん",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA24111400",
+    "name": "べにながだいこん",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA24120000",
+    "name": "かぶ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA24130000",
+    "name": "にんじん",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA24131100",
+    "name": "西洋にんじん",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA24131200",
+    "name": "金時にんじん",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA24140000",
+    "name": "ごぼう",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA24141200",
+    "name": "葉ごぼう",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA24150000",
+    "name": "れんこん",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA24160000",
+    "name": "さつまいも",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA24160011",
+    "name": "いも粉",
+    "level": 4,
+    "parent": "J9FA24160000"
+  },
+  {
+    "code": "J9FA24160012",
+    "name": "かんしょでん粉",
+    "level": 4,
+    "parent": "J9FA24160000"
+  },
+  {
+    "code": "J9FA24160013",
+    "name": "いもがら",
+    "level": 4,
+    "parent": "J9FA24160000"
+  },
+  {
+    "code": "J9FA24170000",
+    "name": "じゃがいも",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA24170011",
+    "name": "じゃがいもでん粉",
+    "level": 4,
+    "parent": "J9FA24170000"
+  },
+  {
+    "code": "J9FA24180000",
+    "name": "さといも",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA24181100",
+    "name": "セレベス",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA24181200",
+    "name": "京いも",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA24181300",
+    "name": "やつがしら",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA24181400",
+    "name": "えびいも",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA24181500",
+    "name": "えぐいも",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA24181600",
+    "name": "はすいも",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA24190000",
+    "name": "やまいも",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA24191100",
+    "name": "ながいも",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA24191200",
+    "name": "やまといも",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA24191300",
+    "name": "つくねいも",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA24210000",
+    "name": "くわい",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA24220000",
+    "name": "ラディッシュ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA24230000",
+    "name": "食用ゆり",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA24240000",
+    "name": "ビーツ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA24250000",
+    "name": "ちょろぎ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA24260000",
+    "name": "セルリアク",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA24270000",
+    "name": "ビート",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA24980000",
+    "name": "根菜類（その他）",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA24990000",
+    "name": "根菜類（詳細不明）",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25000000",
+    "name": "葉茎菜類",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25110000",
+    "name": "はくさい",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25111100",
+    "name": "たけのこはくさい",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25120000",
+    "name": "たけのこ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25130000",
+    "name": "さんとうさい",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25140000",
+    "name": "こまつな",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25150000",
+    "name": "つけな",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25151100",
+    "name": "きょうな",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25151200",
+    "name": "みぶな",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25151300",
+    "name": "のざわな",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25151400",
+    "name": "ひろしまな",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25160000",
+    "name": "からしな類",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25161100",
+    "name": "からしな",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25161200",
+    "name": "たかな",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25170000",
+    "name": "キャベツ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25171100",
+    "name": "グリーンボール",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25171200",
+    "name": "レッドキャベツ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25171300",
+    "name": "芽キャベツ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25180000",
+    "name": "つまみな",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25190000",
+    "name": "チンゲンサイ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25210000",
+    "name": "ほうれんそう",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25220000",
+    "name": "ふき",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25221100",
+    "name": "つわぶき",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25221200",
+    "name": "ふきのとう",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25230000",
+    "name": "うど",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25240000",
+    "name": "みつば",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25250000",
+    "name": "しゅんぎく",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25260000",
+    "name": "せり",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25270000",
+    "name": "セロリ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25280000",
+    "name": "アスパラガス",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25290000",
+    "name": "カリフラワー",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25310000",
+    "name": "ブロッコリー",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25320000",
+    "name": "レタス",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25321100",
+    "name": "リーフレタス",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25321200",
+    "name": "コスレタス",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25321300",
+    "name": "ステムレタス",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25330000",
+    "name": "サラダ菜",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25340000",
+    "name": "ねぎ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25341100",
+    "name": "白ねぎ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25341200",
+    "name": "青ねぎ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25341300",
+    "name": "こねぎ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25350000",
+    "name": "わけぎ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25360000",
+    "name": "あさつき",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25370000",
+    "name": "にら",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25380000",
+    "name": "たまねぎ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25380011",
+    "name": "オニオンエキス",
+    "level": 4,
+    "parent": "J9FA25380000"
+  },
+  {
+    "code": "J9FA25381100",
+    "name": "アーリーレッド",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25381200",
+    "name": "ペコロス",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25390000",
+    "name": "にんにく",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25391100",
+    "name": "葉にんにく",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25391200",
+    "name": "にんにくの芽",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25410000",
+    "name": "らっきょう",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25420000",
+    "name": "エシャレット",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25430000",
+    "name": "もやし",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25431100",
+    "name": "大豆もやし",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25440000",
+    "name": "なばな",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25450000",
+    "name": "タアサイ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25460000",
+    "name": "パクチィ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25470000",
+    "name": "つるむらさき",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25480000",
+    "name": "エンダイブ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25490000",
+    "name": "チコリー",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25510000",
+    "name": "おかひじき",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25520000",
+    "name": "コンサイタイ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25530000",
+    "name": "サイシン",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25540000",
+    "name": "あしたば",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25550000",
+    "name": "エンサイ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25560000",
+    "name": "カイラン",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25570000",
+    "name": "芹菜",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25580000",
+    "name": "コウサイタイ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25590000",
+    "name": "コールラビ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25610000",
+    "name": "食用なずな",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25620000",
+    "name": "じゅんさい",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25630000",
+    "name": "セリホン",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25640000",
+    "name": "ひゆな",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25660000",
+    "name": "ふだんそう",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25670000",
+    "name": "まこも",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25680000",
+    "name": "モロヘイヤ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25690000",
+    "name": "ルバーブ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25710000",
+    "name": "リーキ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25720000",
+    "name": "アーティチョーク",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25730000",
+    "name": "ケール",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25740000",
+    "name": "トレビス",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25980000",
+    "name": "葉茎菜類（その他）",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA25990000",
+    "name": "葉茎菜類（詳細不明）",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA26000000",
+    "name": "果菜類",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA26110000",
+    "name": "きゅうり",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA26111100",
+    "name": "もろきゅうり",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA26111200",
+    "name": "花まるきゅうり",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA26120000",
+    "name": "しろうり",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA26130000",
+    "name": "かぼちゃ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA26131100",
+    "name": "ズッキーニ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA26131200",
+    "name": "バターナッツかぼちゃ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA26140000",
+    "name": "なす",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA26141100",
+    "name": "小なす",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA26141200",
+    "name": "べいなす",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA26150000",
+    "name": "トマト",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA26150011",
+    "name": "トマトケチャップ",
+    "level": 4,
+    "parent": "J9FA26150000"
+  },
+  {
+    "code": "J9FA26151100",
+    "name": "ミニトマト",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA26160000",
+    "name": "ピーマン",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA26170000",
+    "name": "ししとうがらし",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA26180000",
+    "name": "さやいんげん",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA26190000",
+    "name": "そらまめ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA26210000",
+    "name": "えだまめ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA26220000",
+    "name": "オクラ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA26230000",
+    "name": "とうがん",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA26240000",
+    "name": "にがうり",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA26250000",
+    "name": "はやとうり",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA26260000",
+    "name": "へびうり",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA26270000",
+    "name": "ひし",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA26271100",
+    "name": "黒ひし",
+    "level": 4,
+    "parent": "J9FA26270000"
+  },
+  {
+    "code": "J9FA26280000",
+    "name": "かんぴょう",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA26980000",
+    "name": "果菜類（その他）",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA26990000",
+    "name": "果菜類（詳細不明）",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA27000000",
+    "name": "香辛野菜およびつまもの類",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA27110000",
+    "name": "わさび",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA27120000",
+    "name": "しょうが",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA27121100",
+    "name": "根しょうが",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA27121200",
+    "name": "葉しょうが",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA27140000",
+    "name": "芽",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA27141100",
+    "name": "きの芽",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA27141200",
+    "name": "紅たで",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA27150000",
+    "name": "しそ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA27150011",
+    "name": "しの実",
+    "level": 4,
+    "parent": "J9FA27150000"
+  },
+  {
+    "code": "J9FA27151100",
+    "name": "おおば",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA27151200",
+    "name": "ほじそ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA27160000",
+    "name": "かいわれだいこん",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA27170000",
+    "name": "みょうが",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA27171100",
+    "name": "花みょうが",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA27171200",
+    "name": "みょうがたけ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA27180000",
+    "name": "クレソン",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA27190000",
+    "name": "パセリ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA27210000",
+    "name": "うめ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA27211200",
+    "name": "こうめ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA27220000",
+    "name": "ゆず類",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA27221100",
+    "name": "ゆず",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA27221200",
+    "name": "だいだい",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA27221300",
+    "name": "すだち",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA27221400",
+    "name": "ゆこう",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA27221500",
+    "name": "かぼす",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA27230000",
+    "name": "はまぼうふう",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA27240000",
+    "name": "食用ぎく",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA27250000",
+    "name": "ホースラディッシュ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA27260000",
+    "name": "バジル",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA27270000",
+    "name": "ミント",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA27271100",
+    "name": "ペパーミント",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA27280000",
+    "name": "ディル",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA27290000",
+    "name": "タイム",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA27310000",
+    "name": "ローズマリー",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA27980000",
+    "name": "香辛野菜およびつまもの類（その他）",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA27990000",
+    "name": "香辛野菜およびつまもの類（詳細不明）",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA28000000",
+    "name": "きのこ類",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA28110000",
+    "name": "しいたけ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA28120000",
+    "name": "まつたけ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA28130000",
+    "name": "なめこ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA28140000",
+    "name": "えのきたけ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA28150000",
+    "name": "ひらたけ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA28160000",
+    "name": "しろたもぎたけ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA28170000",
+    "name": "しめじ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA28180000",
+    "name": "マッシュルーム",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA28190000",
+    "name": "きくらげ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA28210000",
+    "name": "まいたけ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA28980000",
+    "name": "きのこ類（その他）",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA28990000",
+    "name": "きのこ類（詳細不明）",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA29000000",
+    "name": "山菜類",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA29110000",
+    "name": "わらび",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA29120000",
+    "name": "ぜんまい",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA29130000",
+    "name": "山ごぼう",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA29980000",
+    "name": "山菜類（その他）",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA29990000",
+    "name": "山菜類（詳細不明）",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA31000000",
+    "name": "果実的野菜",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA31110000",
+    "name": "いちご",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA31120000",
+    "name": "メロン",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA31121100",
+    "name": "カンタロープ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA31130000",
+    "name": "すいか",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA31131100",
+    "name": "小玉すいか",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA31980000",
+    "name": "果実的野菜（その他）",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA31990000",
+    "name": "果実的野菜（詳細不明）",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32000000",
+    "name": "果実",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32110000",
+    "name": "かんきつ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32110011",
+    "name": "マーマレード",
+    "level": 4,
+    "parent": "J9FA32110000"
+  },
+  {
+    "code": "J9FA32111100",
+    "name": "みかん",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32111200",
+    "name": "なつみかん",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32111300",
+    "name": "甘なつみかん",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32111400",
+    "name": "はっさく",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32111500",
+    "name": "いよかん",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32111800",
+    "name": "ポンカン",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32111900",
+    "name": "清見",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32112100",
+    "name": "セミノール",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32112200",
+    "name": "ぶんたん",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32112300",
+    "name": "さんぼうかん",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32112400",
+    "name": "なるとかん",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32112500",
+    "name": "日向夏",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32112600",
+    "name": "たんかん",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32112700",
+    "name": "グレープフルーツ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32112800",
+    "name": "レモン",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32112900",
+    "name": "きんかん",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32113100",
+    "name": "ライム",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32113200",
+    "name": "オレンジ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32113211",
+    "name": "ネーブルオレンジ",
+    "level": 4,
+    "parent": "J9FA32113200"
+  },
+  {
+    "code": "J9FA32113212",
+    "name": "バレンシアオレンジ",
+    "level": 4,
+    "parent": "J9FA32113200"
+  },
+  {
+    "code": "J9FA32120000",
+    "name": "りんご",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32130000",
+    "name": "日本なし",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32140000",
+    "name": "西洋なし",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32150000",
+    "name": "柿",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32150011",
+    "name": "干柿",
+    "level": 4,
+    "parent": "J9FA32150000"
+  },
+  {
+    "code": "J9FA32160000",
+    "name": "びわ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32170000",
+    "name": "ざくろ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32180000",
+    "name": "まるめろ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32190000",
+    "name": "かりん",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32210000",
+    "name": "もも",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32211100",
+    "name": "ネクタリン",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32211200",
+    "name": "すもも",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32211300",
+    "name": "おうとう",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32220000",
+    "name": "あんず",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32230000",
+    "name": "なつめ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32240000",
+    "name": "ぶどう",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32240011",
+    "name": "干ぶどう",
+    "level": 4,
+    "parent": "J9FA32240000"
+  },
+  {
+    "code": "J9FA32250000",
+    "name": "いちじく",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32260000",
+    "name": "すぐり",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32270000",
+    "name": "くり",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32280000",
+    "name": "くるみ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32290000",
+    "name": "ぎんなん",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32310000",
+    "name": "アーモンド",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32320000",
+    "name": "カシューナッツ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32330000",
+    "name": "ピスタチオ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32340000",
+    "name": "ごま",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32340011",
+    "name": "ごま油",
+    "level": 4,
+    "parent": "J9FA32340000"
+  },
+  {
+    "code": "J9FA32350000",
+    "name": "えごま",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32350011",
+    "name": "えごま油",
+    "level": 4,
+    "parent": "J9FA32350000"
+  },
+  {
+    "code": "J9FA32360000",
+    "name": "ピーカンナッツ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32370000",
+    "name": "マカダミアナッツ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32380000",
+    "name": "ブラジルナッツ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32390000",
+    "name": "ヘーゼルナッツ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32410000",
+    "name": "ポピーシード",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32420000",
+    "name": "ヒマワリの種",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32430000",
+    "name": "松の実",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32440000",
+    "name": "チアシード",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32450000",
+    "name": "クコの実",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32460000",
+    "name": "菜種",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32470000",
+    "name": "亜麻仁",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32480000",
+    "name": "パインアップル",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32490000",
+    "name": "バナナ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32510000",
+    "name": "パパイヤ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32520000",
+    "name": "ポポー",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32530000",
+    "name": "ライチ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32540000",
+    "name": "キウイフルーツ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32550000",
+    "name": "マンゴー",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32560000",
+    "name": "アボカド",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32570000",
+    "name": "ココナッツ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32580000",
+    "name": "ブルーベリー",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32590000",
+    "name": "ラズベリー",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32610000",
+    "name": "クランベリー",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32620000",
+    "name": "ブラックベリー",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32630000",
+    "name": "デーツ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32640000",
+    "name": "グアバ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32650000",
+    "name": "プラム",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32660000",
+    "name": "パラミツ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32980000",
+    "name": "果実（その他）",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA32990000",
+    "name": "果実（詳細不明）",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA33000000",
+    "name": "糖料作物",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA33110000",
+    "name": "砂糖きび",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA33120000",
+    "name": "てんさい",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA33130000",
+    "name": "砂糖もろこし",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA33140000",
+    "name": "こんにゃくいも",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA33140011",
+    "name": "こんにゃく粉",
+    "level": 4,
+    "parent": "J9FA33140000"
+  },
+  {
+    "code": "J9FA33140012",
+    "name": "こんにゃく",
+    "level": 4,
+    "parent": "J9FA33140000"
+  },
+  {
+    "code": "J9FA33980000",
+    "name": "糖料作物（その他）",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA33990000",
+    "name": "糖料作物（詳細不明）",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA34000000",
+    "name": "未加工飲料作物",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA34110000",
+    "name": "茶の葉",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA34120000",
+    "name": "生コーヒー豆",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA34130000",
+    "name": "生カカオ豆",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA34980000",
+    "name": "未加工飲料作物（その他）",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA34990000",
+    "name": "未加工飲料作物（詳細不明）",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA35000000",
+    "name": "香辛料原料品",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA35110000",
+    "name": "唐辛子",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA35120000",
+    "name": "からし",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA35130000",
+    "name": "さんしょう",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA35140000",
+    "name": "シナモン",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA35150000",
+    "name": "こしょう",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA35150011",
+    "name": "ブラックペッパー",
+    "level": 4,
+    "parent": "J9FA35150000"
+  },
+  {
+    "code": "J9FA35150012",
+    "name": "ホワイトペッパー",
+    "level": 4,
+    "parent": "J9FA35150000"
+  },
+  {
+    "code": "J9FA35150013",
+    "name": "レッドペッパー",
+    "level": 4,
+    "parent": "J9FA35150000"
+  },
+  {
+    "code": "J9FA35160000",
+    "name": "クローブ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA35170000",
+    "name": "ナツメグ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA35180000",
+    "name": "ういきょう",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA35190000",
+    "name": "サフラン",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA35210000",
+    "name": "ローレル",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA35220000",
+    "name": "コリアンダー",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA35230000",
+    "name": "西洋イラクサ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA35240000",
+    "name": "リコリス",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA35250000",
+    "name": "セージ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA35260000",
+    "name": "タラゴン",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA35270000",
+    "name": "朝鮮人参",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA35280000",
+    "name": "オレガノ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA35290000",
+    "name": "ウコン",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA35310000",
+    "name": "バニラ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA35980000",
+    "name": "香辛料原料品（その他）",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA35990000",
+    "name": "香辛料原料品（詳細不明）",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA36000000",
+    "name": "砂糖",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA36110000",
+    "name": "ビート糖",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA36120000",
+    "name": "黒砂糖",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA36130000",
+    "name": "かえで糖",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA36980000",
+    "name": "砂糖（その他）",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA36990000",
+    "name": "砂糖（詳細不明）",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA37000000",
+    "name": "糖みつ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA38000000",
+    "name": "糖類",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA38110000",
+    "name": "水あめ",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA38120000",
+    "name": "ぶどう糖",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA38130000",
+    "name": "果糖",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA38140000",
+    "name": "麦芽糖",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA38150000",
+    "name": "人工甘味料",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA38151100",
+    "name": "エリスリトール",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA38151200",
+    "name": "キシリトール",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA38151300",
+    "name": "ステビア",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA38151400",
+    "name": "サッカリン",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA38151500",
+    "name": "ガラクトオリゴ糖",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA38151600",
+    "name": "ソルビトール",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA38151700",
+    "name": "アセスルファムカリウム",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA38151800",
+    "name": "マルチトール",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA38151900",
+    "name": "スクラロース",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA38980000",
+    "name": "糖類（その他）",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FA38990000",
+    "name": "糖類（詳細不明）",
+    "level": 3,
+    "parent": "J9FA00000000"
+  },
+  {
+    "code": "J9FB00000000",
+    "name": "畜産食品",
+    "level": 2,
+    "parent": "00F"
+  },
+  {
+    "code": "J9FB11000000",
+    "name": "生鮮肉類",
+    "level": 3,
+    "parent": "J9FB00000000"
+  },
+  {
+    "code": "J9FB11110000",
+    "name": "牛肉",
+    "level": 3,
+    "parent": "J9FB00000000"
+  },
+  {
+    "code": "J9FB11110011",
+    "name": "加熱した牛肉",
+    "level": 4,
+    "parent": "J9FB11110000"
+  },
+  {
+    "code": "J9FB11120000",
+    "name": "豚肉",
+    "level": 3,
+    "parent": "J9FB00000000"
+  },
+  {
+    "code": "J9FB11120011",
+    "name": "加熱した豚肉",
+    "level": 4,
+    "parent": "J9FB11120000"
+  },
+  {
+    "code": "J9FB11130000",
+    "name": "いのしし肉",
+    "level": 3,
+    "parent": "J9FB00000000"
+  },
+  {
+    "code": "J9FB11130011",
+    "name": "加熱したいのしし肉",
+    "level": 4,
+    "parent": "J9FB11130000"
+  },
+  {
+    "code": "J9FB11140000",
+    "name": "馬肉",
+    "level": 3,
+    "parent": "J9FB00000000"
+  },
+  {
+    "code": "J9FB11140011",
+    "name": "加熱した馬肉",
+    "level": 4,
+    "parent": "J9FB11140000"
+  },
+  {
+    "code": "J9FB11150000",
+    "name": "羊肉",
+    "level": 3,
+    "parent": "J9FB00000000"
+  },
+  {
+    "code": "J9FB11150011",
+    "name": "加熱した羊肉",
+    "level": 4,
+    "parent": "J9FB11150000"
+  },
+  {
+    "code": "J9FB11160000",
+    "name": "やぎ肉",
+    "level": 3,
+    "parent": "J9FB00000000"
+  },
+  {
+    "code": "J9FB11160011",
+    "name": "加熱したやぎ肉",
+    "level": 4,
+    "parent": "J9FB11160000"
+  },
+  {
+    "code": "J9FB11170000",
+    "name": "うさぎ肉",
+    "level": 3,
+    "parent": "J9FB00000000"
+  },
+  {
+    "code": "J9FB11170011",
+    "name": "加熱したうさぎ肉",
+    "level": 4,
+    "parent": "J9FB11170000"
+  },
+  {
+    "code": "J9FB11180000",
+    "name": "鶏肉",
+    "level": 3,
+    "parent": "J9FB00000000"
+  },
+  {
+    "code": "J9FB11180011",
+    "name": "加熱した鶏肉",
+    "level": 4,
+    "parent": "J9FB11180000"
+  },
+  {
+    "code": "J9FB11190000",
+    "name": "七面鳥の肉",
+    "level": 3,
+    "parent": "J9FB00000000"
+  },
+  {
+    "code": "J9FB11190011",
+    "name": "加熱した七面鳥の肉",
+    "level": 4,
+    "parent": "J9FB11190000"
+  },
+  {
+    "code": "J9FB11210000",
+    "name": "アヒルの肉",
+    "level": 3,
+    "parent": "J9FB00000000"
+  },
+  {
+    "code": "J9FB11210011",
+    "name": "加熱したアヒルの肉",
+    "level": 4,
+    "parent": "J9FB11210000"
+  },
+  {
+    "code": "J9FB11220000",
+    "name": "鴨肉",
+    "level": 3,
+    "parent": "J9FB00000000"
+  },
+  {
+    "code": "J9FB11220011",
+    "name": "加熱した鴨肉",
+    "level": 4,
+    "parent": "J9FB11220000"
+  },
+  {
+    "code": "J9FB11230000",
+    "name": "ガチョウの肉",
+    "level": 3,
+    "parent": "J9FB00000000"
+  },
+  {
+    "code": "J9FB11230011",
+    "name": "加熱したガチョウの肉",
+    "level": 4,
+    "parent": "J9FB11230000"
+  },
+  {
+    "code": "J9FB11240000",
+    "name": "鹿肉",
+    "level": 3,
+    "parent": "J9FB00000000"
+  },
+  {
+    "code": "J9FB11240011",
+    "name": "加熱した鹿肉",
+    "level": 4,
+    "parent": "J9FB11240000"
+  },
+  {
+    "code": "J9FB11250000",
+    "name": "バッファロー肉",
+    "level": 3,
+    "parent": "J9FB00000000"
+  },
+  {
+    "code": "J9FB11250011",
+    "name": "加熱したバッファロー肉",
+    "level": 4,
+    "parent": "J9FB11250000"
+  },
+  {
+    "code": "J9FB11980000",
+    "name": "生鮮肉類（その他）",
+    "level": 3,
+    "parent": "J9FB00000000"
+  },
+  {
+    "code": "J9FB11990000",
+    "name": "生鮮肉類（詳細不明）",
+    "level": 3,
+    "parent": "J9FB00000000"
+  },
+  {
+    "code": "J9FB12000000",
+    "name": "乳",
+    "level": 3,
+    "parent": "J9FB00000000"
+  },
+  {
+    "code": "J9FB12000011",
+    "name": "酪農製品",
+    "level": 4,
+    "parent": "J9FB12000000"
+  },
+  {
+    "code": "J9FB12000012",
+    "name": "ホエイ",
+    "level": 4,
+    "parent": "J9FB12000000"
+  },
+  {
+    "code": "J9FB12000013",
+    "name": "α-ラクトアルブミン",
+    "level": 4,
+    "parent": "J9FB12000000"
+  },
+  {
+    "code": "J9FB12000014",
+    "name": "β-ラクトグロブリン",
+    "level": 4,
+    "parent": "J9FB12000000"
+  },
+  {
+    "code": "J9FB12000015",
+    "name": "ヨーグルト",
+    "level": 4,
+    "parent": "J9FB12000000"
+  },
+  {
+    "code": "J9FB12110000",
+    "name": "生乳",
+    "level": 3,
+    "parent": "J9FB00000000"
+  },
+  {
+    "code": "J9FB12110011",
+    "name": "牛乳",
+    "level": 4,
+    "parent": "J9FB12110000"
+  },
+  {
+    "code": "J9FB12110012",
+    "name": "加工乳",
+    "level": 4,
+    "parent": "J9FB12110000"
+  },
+  {
+    "code": "J9FB12110013",
+    "name": "脱脂乳",
+    "level": 4,
+    "parent": "J9FB12110000"
+  },
+  {
+    "code": "J9FB12110014",
+    "name": "クリーム",
+    "level": 4,
+    "parent": "J9FB12110000"
+  },
+  {
+    "code": "J9FB12110015",
+    "name": "バターミルク",
+    "level": 4,
+    "parent": "J9FB12110000"
+  },
+  {
+    "code": "J9FB12110016",
+    "name": "乳飲料",
+    "level": 4,
+    "parent": "J9FB12110000"
+  },
+  {
+    "code": "J9FB12110017",
+    "name": "練乳",
+    "level": 4,
+    "parent": "J9FB12110000"
+  },
+  {
+    "code": "J9FB12110018",
+    "name": "加糖練乳",
+    "level": 4,
+    "parent": "J9FB12110000"
+  },
+  {
+    "code": "J9FB12110019",
+    "name": "濃縮乳",
+    "level": 4,
+    "parent": "J9FB12110000"
+  },
+  {
+    "code": "J9FB12110021",
+    "name": "粉乳",
+    "level": 4,
+    "parent": "J9FB12110000"
+  },
+  {
+    "code": "J9FB12110022",
+    "name": "調製粉乳",
+    "level": 4,
+    "parent": "J9FB12110000"
+  },
+  {
+    "code": "J9FB12110023",
+    "name": "ホエイパウダー",
+    "level": 4,
+    "parent": "J9FB12110000"
+  },
+  {
+    "code": "J9FB12110024",
+    "name": "バターミルクパウダー",
+    "level": 4,
+    "parent": "J9FB12110000"
+  },
+  {
+    "code": "J9FB12110025",
+    "name": "アイスクリームミックスパウダー",
+    "level": 4,
+    "parent": "J9FB12110000"
+  },
+  {
+    "code": "J9FB12110026",
+    "name": "はっ酵乳",
+    "level": 4,
+    "parent": "J9FB12110000"
+  },
+  {
+    "code": "J9FB12110027",
+    "name": "乳酸菌飲料",
+    "level": 4,
+    "parent": "J9FB12110000"
+  },
+  {
+    "code": "J9FB12110028",
+    "name": "バター",
+    "level": 4,
+    "parent": "J9FB12110000"
+  },
+  {
+    "code": "J9FB12110029",
+    "name": "バターオイル",
+    "level": 4,
+    "parent": "J9FB12110000"
+  },
+  {
+    "code": "J9FB12110031",
+    "name": "チーズ",
+    "level": 4,
+    "parent": "J9FB12110000"
+  },
+  {
+    "code": "J9FB12110032",
+    "name": "ナチュラルチーズ",
+    "level": 4,
+    "parent": "J9FB12110000"
+  },
+  {
+    "code": "J9FB12110033",
+    "name": "プロセスチーズ",
+    "level": 4,
+    "parent": "J9FB12110000"
+  },
+  {
+    "code": "J9FB12110034",
+    "name": "チェダーチーズ",
+    "level": 4,
+    "parent": "J9FB12110000"
+  },
+  {
+    "code": "J9FB12110035",
+    "name": "ブルーチーズ",
+    "level": 4,
+    "parent": "J9FB12110000"
+  },
+  {
+    "code": "J9FB12110036",
+    "name": "カッテージチーズ",
+    "level": 4,
+    "parent": "J9FB12110000"
+  },
+  {
+    "code": "J9FB12110037",
+    "name": "モッツァレラチーズ",
+    "level": 4,
+    "parent": "J9FB12110000"
+  },
+  {
+    "code": "J9FB12110039",
+    "name": "アイスクリーム",
+    "level": 4,
+    "parent": "J9FB12110000"
+  },
+  {
+    "code": "J9FB12110041",
+    "name": "アイスミルク",
+    "level": 4,
+    "parent": "J9FB12110000"
+  },
+  {
+    "code": "J9FB12110042",
+    "name": "ラクトアイス",
+    "level": 4,
+    "parent": "J9FB12110000"
+  },
+  {
+    "code": "J9FB12110043",
+    "name": "乳糖",
+    "level": 4,
+    "parent": "J9FB12110000"
+  },
+  {
+    "code": "J9FB12110044",
+    "name": "カゼイン",
+    "level": 4,
+    "parent": "J9FB12110000"
+  },
+  {
+    "code": "J9FB12120000",
+    "name": "やぎ乳",
+    "level": 3,
+    "parent": "J9FB00000000"
+  },
+  {
+    "code": "J9FB12130000",
+    "name": "羊乳",
+    "level": 3,
+    "parent": "J9FB00000000"
+  },
+  {
+    "code": "J9FB12980000",
+    "name": "乳（その他）",
+    "level": 3,
+    "parent": "J9FB00000000"
+  },
+  {
+    "code": "J9FB12990000",
+    "name": "乳（詳細不明）",
+    "level": 3,
+    "parent": "J9FB00000000"
+  },
+  {
+    "code": "J9FB13000000",
+    "name": "卵",
+    "level": 3,
+    "parent": "J9FB00000000"
+  },
+  {
+    "code": "J9FB13110000",
+    "name": "鶏卵",
+    "level": 3,
+    "parent": "J9FB00000000"
+  },
+  {
+    "code": "J9FB13110011",
+    "name": "卵黄",
+    "level": 4,
+    "parent": "J9FB13110000"
+  },
+  {
+    "code": "J9FB13110012",
+    "name": "オボムコイド",
+    "level": 4,
+    "parent": "J9FB13110000"
+  },
+  {
+    "code": "J9FB13110013",
+    "name": "卵白",
+    "level": 4,
+    "parent": "J9FB13110000"
+  },
+  {
+    "code": "J9FB13110014",
+    "name": "オバルブミン",
+    "level": 4,
+    "parent": "J9FB13110000"
+  },
+  {
+    "code": "J9FB13120000",
+    "name": "あひるの卵",
+    "level": 3,
+    "parent": "J9FB00000000"
+  },
+  {
+    "code": "J9FB13130000",
+    "name": "うずらの卵",
+    "level": 3,
+    "parent": "J9FB00000000"
+  },
+  {
+    "code": "J9FB13980000",
+    "name": "食用鳥卵（その他）",
+    "level": 3,
+    "parent": "J9FB00000000"
+  },
+  {
+    "code": "J9FB13990000",
+    "name": "食用鳥卵（詳細不明）",
+    "level": 3,
+    "parent": "J9FB00000000"
+  },
+  {
+    "code": "J9FB14000000",
+    "name": "はちみつ",
+    "level": 3,
+    "parent": "J9FB00000000"
+  },
+  {
+    "code": "J9FB14000011",
+    "name": "ロイヤルゼリー",
+    "level": 4,
+    "parent": "J9FB14000000"
+  },
+  {
+    "code": "J9FB14000012",
+    "name": "プロポリス",
+    "level": 4,
+    "parent": "J9FB14000000"
+  },
+  {
+    "code": "J9FC00000000",
+    "name": "水産食品",
+    "level": 2,
+    "parent": "00F"
+  },
+  {
+    "code": "J9FC00000011",
+    "name": "塩辛製品",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC00000012",
+    "name": "魚介だし",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11000000",
+    "name": "魚類",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11000011",
+    "name": "節",
+    "level": 4,
+    "parent": "J9FC11000000"
+  },
+  {
+    "code": "J9FC11000012",
+    "name": "食料魚粉",
+    "level": 4,
+    "parent": "J9FC11000000"
+  },
+  {
+    "code": "J9FC11110000",
+    "name": "ます",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11111100",
+    "name": "かわます",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11111200",
+    "name": "にじます",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11111300",
+    "name": "ひめます",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11111400",
+    "name": "やまめ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11111500",
+    "name": "いわな",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11120000",
+    "name": "あゆ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11130000",
+    "name": "わかさぎ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11140000",
+    "name": "しらうお",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11150000",
+    "name": "こい・ふな",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11151100",
+    "name": "こい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11151200",
+    "name": "ふな",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11151300",
+    "name": "うぐい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11151400",
+    "name": "おいかわ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11160000",
+    "name": "どじょう",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11170000",
+    "name": "うなぎ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11180000",
+    "name": "かじか",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11190000",
+    "name": "なまず",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11210000",
+    "name": "はぜ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11220000",
+    "name": "ウォールアイパイク",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11230000",
+    "name": "ティラピア",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11240000",
+    "name": "さけ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11241100",
+    "name": "しろざけ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11241200",
+    "name": "べにざけ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11241300",
+    "name": "ぎんざけ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11241400",
+    "name": "ますのすけ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11241500",
+    "name": "さくらます",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11241600",
+    "name": "からふとます",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11250000",
+    "name": "にしん",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11251100",
+    "name": "このしろ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11260000",
+    "name": "いわし",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11260011",
+    "name": "いわし節",
+    "level": 4,
+    "parent": "J9FC11260000"
+  },
+  {
+    "code": "J9FC11260012",
+    "name": "アンチョビ",
+    "level": 4,
+    "parent": "J9FC11260000"
+  },
+  {
+    "code": "J9FC11261100",
+    "name": "まいわし",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11261200",
+    "name": "かたくちいわし",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11261300",
+    "name": "うるめいわし",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11261400",
+    "name": "しらす",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11261500",
+    "name": "きびなご",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11270000",
+    "name": "かつお類",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11271100",
+    "name": "かつお",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11271111",
+    "name": "かつお節",
+    "level": 4,
+    "parent": "J9FC11271100"
+  },
+  {
+    "code": "J9FC11271200",
+    "name": "そうだかつお",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11271211",
+    "name": "そうだ節",
+    "level": 4,
+    "parent": "J9FC11271200"
+  },
+  {
+    "code": "J9FC11280000",
+    "name": "まぐろ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11280011",
+    "name": "まぐろ節",
+    "level": 4,
+    "parent": "J9FC11280000"
+  },
+  {
+    "code": "J9FC11281100",
+    "name": "くろまぐろ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11281200",
+    "name": "みなみまぐろ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11281300",
+    "name": "びんなが",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11281400",
+    "name": "めばち",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11281500",
+    "name": "きはだ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11290000",
+    "name": "かじき",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11291100",
+    "name": "めかじき",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11291200",
+    "name": "まかじき",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11291300",
+    "name": "くろかわかじき",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11291400",
+    "name": "しろかわかじき",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11291500",
+    "name": "ばしょうかじき",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11310000",
+    "name": "さば",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11310011",
+    "name": "さば節",
+    "level": 4,
+    "parent": "J9FC11310000"
+  },
+  {
+    "code": "J9FC11311100",
+    "name": "まさば",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11311200",
+    "name": "ごまさば",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11320000",
+    "name": "さわら",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11330000",
+    "name": "たちうお",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11340000",
+    "name": "あじ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11340011",
+    "name": "あじ節",
+    "level": 4,
+    "parent": "J9FC11340000"
+  },
+  {
+    "code": "J9FC11341100",
+    "name": "まあじ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11341200",
+    "name": "むろあじ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11341300",
+    "name": "しまあじ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11350000",
+    "name": "ぶり類",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11351100",
+    "name": "ぶり",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11351200",
+    "name": "かんぱち",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11351300",
+    "name": "ひらまさ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11360000",
+    "name": "しいら",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11370000",
+    "name": "いぼだい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11380000",
+    "name": "まながつお",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11390000",
+    "name": "たら類",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11391100",
+    "name": "たら",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11391200",
+    "name": "すけとうだら",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11391300",
+    "name": "メルルーサ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11391400",
+    "name": "ぎんだら",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11410000",
+    "name": "かれい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11411100",
+    "name": "あぶらがれい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11411200",
+    "name": "あかがれい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11411300",
+    "name": "そうはちがれい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11411400",
+    "name": "むしがれい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11411500",
+    "name": "まつかわがれい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11411600",
+    "name": "めいたがれい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11411700",
+    "name": "まがれい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11411800",
+    "name": "あさばがれい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11411900",
+    "name": "いしがれい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11412100",
+    "name": "からすがれい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11412200",
+    "name": "うしのした",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11412300",
+    "name": "おひょう",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11420000",
+    "name": "ひらめ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11430000",
+    "name": "たい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11431100",
+    "name": "まだい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11431200",
+    "name": "ちだい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11431300",
+    "name": "ひれこだい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11431400",
+    "name": "きだい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11431500",
+    "name": "くろだい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11431600",
+    "name": "さくらだい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11431700",
+    "name": "きしまだい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11431800",
+    "name": "すみれだい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11431900",
+    "name": "つぼだい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11432100",
+    "name": "あこうだい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11440000",
+    "name": "すずき類",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11441100",
+    "name": "すずき",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11441200",
+    "name": "いさき",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11441300",
+    "name": "いとよりだい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11450000",
+    "name": "にべ・ぐち",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11451100",
+    "name": "しろぐち",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11451200",
+    "name": "くろぐち",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11451300",
+    "name": "きぐち",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11460000",
+    "name": "かさご・めばる",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11461100",
+    "name": "アラスカめぬけ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11461200",
+    "name": "きちじ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11461300",
+    "name": "めぬけ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11461400",
+    "name": "あいなめ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11470000",
+    "name": "さめ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11471100",
+    "name": "よしきりざめ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11471200",
+    "name": "しゅもくざめ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11471300",
+    "name": "あぶらつのざめ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11471400",
+    "name": "ねずみざめ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11471500",
+    "name": "うばざめ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11471600",
+    "name": "おながざめ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11471700",
+    "name": "ほしざめ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11471800",
+    "name": "めじろざめ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11480000",
+    "name": "えい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11481100",
+    "name": "あかえい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11490000",
+    "name": "ぼら",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11510000",
+    "name": "かます",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11520000",
+    "name": "さんま",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11520011",
+    "name": "さんま節",
+    "level": 4,
+    "parent": "J9FC11520000"
+  },
+  {
+    "code": "J9FC11530000",
+    "name": "とびうお",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11540000",
+    "name": "さより",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11550000",
+    "name": "ほっけ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11560000",
+    "name": "ほうぼう",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11570000",
+    "name": "かながしら",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11580000",
+    "name": "いかなご",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11590000",
+    "name": "あなご",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11610000",
+    "name": "はも",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11620000",
+    "name": "ふぐ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11630000",
+    "name": "かわはぎ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11640000",
+    "name": "はたはた",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11650000",
+    "name": "えそ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11660000",
+    "name": "にぎす",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11670000",
+    "name": "きす",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11680000",
+    "name": "あまだい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11690000",
+    "name": "あんこう",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11710000",
+    "name": "ちか",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11720000",
+    "name": "ホキ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11730000",
+    "name": "むつ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11980000",
+    "name": "魚類（その他）",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC11990000",
+    "name": "魚類（詳細不明）",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC12000000",
+    "name": "貝類",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC12110000",
+    "name": "しじみ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC12120000",
+    "name": "たにし",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC12130000",
+    "name": "牡蠣",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC12131100",
+    "name": "ま牡蠣",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC12131200",
+    "name": "いたほ牡蠣",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC12140000",
+    "name": "ほたてがい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC12150000",
+    "name": "あかがい・もがい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC12160000",
+    "name": "はまぐり",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC12170000",
+    "name": "あさり",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC12180000",
+    "name": "ばかがい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC12181100",
+    "name": "しおふき",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC12181200",
+    "name": "ほっきがい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC12181300",
+    "name": "みるがい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC12190000",
+    "name": "あわび",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC12191100",
+    "name": "とこぶし",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC12210000",
+    "name": "さざえ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC12220000",
+    "name": "いがい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC12221100",
+    "name": "ムール貝",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC12230000",
+    "name": "まてがい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC12240000",
+    "name": "とりがい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC12250000",
+    "name": "はいがい",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC12260000",
+    "name": "まつぶ貝",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC12980000",
+    "name": "貝類（その他）",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC12990000",
+    "name": "貝類（詳細不明）",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC13000000",
+    "name": "いか",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC13110000",
+    "name": "ほたるいか",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC13120000",
+    "name": "するめいか",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC13130000",
+    "name": "やりいか類",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC13131100",
+    "name": "やりいか",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC13131200",
+    "name": "けんさきいか",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC13131300",
+    "name": "あおりいか",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC13140000",
+    "name": "こういか",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC13141100",
+    "name": "はりいか",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC13141200",
+    "name": "まいか",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC13141300",
+    "name": "もんごういか",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC13150000",
+    "name": "みみいか",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC13160000",
+    "name": "ひめいか",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC13170000",
+    "name": "つめいか",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC13980000",
+    "name": "いか類（その他）",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC13990000",
+    "name": "いか（詳細不明）",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC14000000",
+    "name": "たこ類",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC14110000",
+    "name": "まだこ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC14120000",
+    "name": "いいだこ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC14130000",
+    "name": "みずだこ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC14140000",
+    "name": "てながだこ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC14980000",
+    "name": "たこ類（その他）",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC14990000",
+    "name": "たこ類（詳細不明）",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC15000000",
+    "name": "こうかく類",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC15110000",
+    "name": "えび",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC15111100",
+    "name": "ふとみぞえび",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC15111200",
+    "name": "くまえび",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC15111300",
+    "name": "たいしょうえび",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC15111400",
+    "name": "よしえび",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC15111500",
+    "name": "しばえび",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC15111600",
+    "name": "あかえび",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC15111700",
+    "name": "とらえび",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC15111800",
+    "name": "さくらえび",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC15111900",
+    "name": "てながえび",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC15112100",
+    "name": "すじえび",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC15112200",
+    "name": "ほっかいえび",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC15112300",
+    "name": "てっぽうえび",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC15112400",
+    "name": "ほっこくあかえび",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC15112500",
+    "name": "いせえび",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC15112600",
+    "name": "はこえび",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC15112700",
+    "name": "ざりがに",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC15112800",
+    "name": "ロブスター",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC15120000",
+    "name": "かに",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC15121100",
+    "name": "たらばがに",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC15121200",
+    "name": "ずわいがに",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC15121211",
+    "name": "マツバガニ",
+    "level": 4,
+    "parent": "J9FC15121200"
+  },
+  {
+    "code": "J9FC15121300",
+    "name": "たかあしがに",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC15121400",
+    "name": "がざみ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC15121600",
+    "name": "ひらつめがに",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC15121700",
+    "name": "けがに",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC15121800",
+    "name": "くりがに",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC15121900",
+    "name": "上海かに",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC15130000",
+    "name": "しゃこ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC15140000",
+    "name": "あみ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC15150000",
+    "name": "おきあみ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC15980000",
+    "name": "こうかく類（その他）",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC15990000",
+    "name": "こうかく類（詳細不明）",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC16000000",
+    "name": "うに類",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC16110000",
+    "name": "えぞばふんうに",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC16120000",
+    "name": "きたむらさきうに",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC16130000",
+    "name": "むらさきうに",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC16140000",
+    "name": "ばふんうに",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC16150000",
+    "name": "あかうに",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC16980000",
+    "name": "うに類（その他）",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC16990000",
+    "name": "うに類（詳細不明）",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC17000000",
+    "name": "なまこ類",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC17110000",
+    "name": "くろほしなまこ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC17120000",
+    "name": "きんこ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC17980000",
+    "name": "なまこ類（その他）",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC17990000",
+    "name": "なまこ類（詳細不明）",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC18000000",
+    "name": "かめ類",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC18110000",
+    "name": "すっぽん類",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC18111100",
+    "name": "すっぽん",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC18111200",
+    "name": "しなすっぽん",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC18120000",
+    "name": "おおうみがめ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC18130000",
+    "name": "いしがめ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC18131100",
+    "name": "まるかめ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC18980000",
+    "name": "かめ類（その他）",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC18990000",
+    "name": "かめ類（詳細不明）",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC19000000",
+    "name": "食用がえる類",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC19110000",
+    "name": "うしがえる",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC19120000",
+    "name": "とのさまがえる",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC19980000",
+    "name": "食用がえる類（その他）",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC19990000",
+    "name": "食用がえる類（詳細不明）",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC21000000",
+    "name": "ほや類",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC22000000",
+    "name": "くらげ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC23000000",
+    "name": "さんご類",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC24000000",
+    "name": "鯨",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC24110000",
+    "name": "いわし鯨",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC24120000",
+    "name": "ながす鯨",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC24130000",
+    "name": "みんく鯨",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC24140000",
+    "name": "まっこう鯨",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC24150000",
+    "name": "しゃち鯨",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC24160000",
+    "name": "ごんどう鯨",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC24170000",
+    "name": "つち鯨",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC24980000",
+    "name": "鯨（その他）",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC24990000",
+    "name": "鯨（詳細不明）",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC25000000",
+    "name": "いるか",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC25110000",
+    "name": "いしいるか",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC25120000",
+    "name": "すじいるか",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC25130000",
+    "name": "まだらいるか",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC25980000",
+    "name": "いるか（その他）",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC25990000",
+    "name": "いるか（詳細不明）",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC26000000",
+    "name": "海藻類",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC26110000",
+    "name": "こんぶ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC26110011",
+    "name": "こんぶだし",
+    "level": 4,
+    "parent": "J9FC26110000"
+  },
+  {
+    "code": "J9FC26111100",
+    "name": "まこんぶ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC26111200",
+    "name": "とろろこんぶ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC26120000",
+    "name": "わかめ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC26130000",
+    "name": "のり",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC26140000",
+    "name": "あおさ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC26150000",
+    "name": "てんぐさ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC26150011",
+    "name": "寒天",
+    "level": 4,
+    "parent": "J9FC26150000"
+  },
+  {
+    "code": "J9FC26160000",
+    "name": "おごのり",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC26170000",
+    "name": "いぎす",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC26180000",
+    "name": "いたにそう",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC26190000",
+    "name": "ひじき",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC26210000",
+    "name": "みる",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC26220000",
+    "name": "藍そう",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC26230000",
+    "name": "ふくろのり",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC26240000",
+    "name": "もずく",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC26250000",
+    "name": "まつも",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC26260000",
+    "name": "いごねり",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC26980000",
+    "name": "海藻類（その他）",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC26990000",
+    "name": "海藻類（詳細不明）",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC27000000",
+    "name": "藻類",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC28000000",
+    "name": "魚卵",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC28110000",
+    "name": "かずのこ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC28120000",
+    "name": "にしん卵",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC28130000",
+    "name": "たらこ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC28140000",
+    "name": "すじこ",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC28150000",
+    "name": "いくら",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC28160000",
+    "name": "キャビア",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC28980000",
+    "name": "魚卵（その他）",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FC28990000",
+    "name": "魚卵（詳細不明）",
+    "level": 3,
+    "parent": "J9FC00000000"
+  },
+  {
+    "code": "J9FD00000000",
+    "name": "農産加工食品",
+    "level": 2,
+    "parent": "00F"
+  },
+  {
+    "code": "J9FD11000000",
+    "name": "茶",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD11110000",
+    "name": "せん茶",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD11120000",
+    "name": "玉緑茶",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD11130000",
+    "name": "玉露茶",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD11140000",
+    "name": "まっ茶",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD11150000",
+    "name": "ばん茶",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD11160000",
+    "name": "ほうじ茶",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD11170000",
+    "name": "紅茶",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD11180000",
+    "name": "ウーロン茶",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD11190000",
+    "name": "包種茶",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD11980000",
+    "name": "茶（その他）",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD11990000",
+    "name": "茶（詳細不明）",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD12000000",
+    "name": "コーヒー製品",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD12110000",
+    "name": "ばいせんコーヒー豆",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD12120000",
+    "name": "ひきコーヒー",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD12980000",
+    "name": "コーヒー製品（その他）",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD12990000",
+    "name": "コーヒー製品（詳細不明）",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD13000000",
+    "name": "ココア製品",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD13110000",
+    "name": "カカオマス",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD13120000",
+    "name": "カカオ脂",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD13130000",
+    "name": "ココア粉",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD13980000",
+    "name": "ココア製品（その他）",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD13990000",
+    "name": "ココア製品（詳細不明）",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD14000000",
+    "name": "香辛料",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD14110000",
+    "name": "パプリカ",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD14120000",
+    "name": "オールスパイス",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD14130000",
+    "name": "カレー粉",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD14140000",
+    "name": "からし粉",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD14150000",
+    "name": "わさび粉",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD14160000",
+    "name": "マスタード",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD14980000",
+    "name": "香辛料（その他）",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD14990000",
+    "name": "香辛料（詳細不明）",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD15000000",
+    "name": "めん類",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD15110000",
+    "name": "生めん",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD15120000",
+    "name": "乾めん",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD15130000",
+    "name": "マカロニ",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD15980000",
+    "name": "めん類（その他）",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD15990000",
+    "name": "めん類（詳細不明）",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD16000000",
+    "name": "パン類",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD16000011",
+    "name": "パン粉",
+    "level": 4,
+    "parent": "J9FD16000000"
+  },
+  {
+    "code": "J9FD16110000",
+    "name": "食パン",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD16120000",
+    "name": "菓子パン",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD16130000",
+    "name": "イーストドーナッツ",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD16140000",
+    "name": "調理パン",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD16980000",
+    "name": "パン類（その他）",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD16990000",
+    "name": "パン類（詳細不明）",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD17000000",
+    "name": "穀類加工品",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD17110000",
+    "name": "アルファー化穀類",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD17120000",
+    "name": "アルファー化米",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD17130000",
+    "name": "麸",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD17980000",
+    "name": "穀類加工品（その他）",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD17990000",
+    "name": "穀類加工品（詳細不明）",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18000000",
+    "name": "菓子類",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18110000",
+    "name": "ビスケット類",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18111100",
+    "name": "ビスケット",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18111200",
+    "name": "クッキー",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18111300",
+    "name": "クラッカー",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18111500",
+    "name": "乾パン",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18120000",
+    "name": "焼き菓子",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18121100",
+    "name": "米菓を除くせんべい",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18130000",
+    "name": "米菓",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18131100",
+    "name": "あられ",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18131200",
+    "name": "せんべい",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18140000",
+    "name": "油菓子",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18141100",
+    "name": "かりんとう",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18150000",
+    "name": "和生菓子",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18151100",
+    "name": "ようかん",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18151200",
+    "name": "まんじゅう",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18151300",
+    "name": "だいふく餅",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18151400",
+    "name": "練りきり",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18151500",
+    "name": "もなか",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18151600",
+    "name": "どらやき",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18160000",
+    "name": "パイ",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18170000",
+    "name": "ケーキ",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18171100",
+    "name": "ショートケーキ",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18180000",
+    "name": "かすてら",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18190000",
+    "name": "シュー菓子",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18191100",
+    "name": "シュークリーム",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18210000",
+    "name": "プリン",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18220000",
+    "name": "ゼリー",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18230000",
+    "name": "和干菓子",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18231100",
+    "name": "打ちもの",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18231200",
+    "name": "おこし",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18240000",
+    "name": "キャンデー",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18250000",
+    "name": "チョコレート",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18260000",
+    "name": "チューインガム",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18270000",
+    "name": "砂糖漬菓子",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18271100",
+    "name": "甘納豆",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18280000",
+    "name": "スナック菓子",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18290000",
+    "name": "冷菓",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18980000",
+    "name": "菓子類（その他）",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FD18990000",
+    "name": "菓子類（詳細不明）",
+    "level": 3,
+    "parent": "J9FD00000000"
+  },
+  {
+    "code": "J9FE00000000",
+    "name": "畜産加工食品",
+    "level": 2,
+    "parent": "00F"
+  },
+  {
+    "code": "J9FE11000000",
+    "name": "加工肉製品",
+    "level": 3,
+    "parent": "J9FE00000000"
+  },
+  {
+    "code": "J9FE11110000",
+    "name": "ハム",
+    "level": 3,
+    "parent": "J9FE00000000"
+  },
+  {
+    "code": "J9FE11120000",
+    "name": "ソーセージ",
+    "level": 3,
+    "parent": "J9FE00000000"
+  },
+  {
+    "code": "J9FE11130000",
+    "name": "ベーコン",
+    "level": 3,
+    "parent": "J9FE00000000"
+  },
+  {
+    "code": "J9FE11980000",
+    "name": "加工肉製品（その他）",
+    "level": 3,
+    "parent": "J9FE00000000"
+  },
+  {
+    "code": "J9FE11990000",
+    "name": "加工肉製品（詳細不明）",
+    "level": 3,
+    "parent": "J9FE00000000"
+  },
+  {
+    "code": "J9FF00000000",
+    "name": "水産加工食品",
+    "level": 2,
+    "parent": "00F"
+  },
+  {
+    "code": "J9FF11000000",
+    "name": "ねり製品",
+    "level": 3,
+    "parent": "J9FF00000000"
+  },
+  {
+    "code": "J9FF11110000",
+    "name": "かまぼこ",
+    "level": 3,
+    "parent": "J9FF00000000"
+  },
+  {
+    "code": "J9FF11120000",
+    "name": "ちくわ",
+    "level": 3,
+    "parent": "J9FF00000000"
+  },
+  {
+    "code": "J9FF11130000",
+    "name": "はんぺん",
+    "level": 3,
+    "parent": "J9FF00000000"
+  },
+  {
+    "code": "J9FF11140000",
+    "name": "なると",
+    "level": 3,
+    "parent": "J9FF00000000"
+  },
+  {
+    "code": "J9FF11150000",
+    "name": "揚かまぼこ",
+    "level": 3,
+    "parent": "J9FF00000000"
+  },
+  {
+    "code": "J9FF11160000",
+    "name": "風味かまぼこ",
+    "level": 3,
+    "parent": "J9FF00000000"
+  },
+  {
+    "code": "J9FF11170000",
+    "name": "魚肉ハム・ソーセージ",
+    "level": 3,
+    "parent": "J9FF00000000"
+  },
+  {
+    "code": "J9FF11171100",
+    "name": "魚肉ハム",
+    "level": 3,
+    "parent": "J9FF00000000"
+  },
+  {
+    "code": "J9FF11980000",
+    "name": "ねり製品（その他）",
+    "level": 3,
+    "parent": "J9FF00000000"
+  },
+  {
+    "code": "J9FF11990000",
+    "name": "ねり製品（詳細不明）",
+    "level": 3,
+    "parent": "J9FF00000000"
+  },
+  {
+    "code": "J9FG00000000",
+    "name": "その他の食料品",
+    "level": 2,
+    "parent": "00F"
+  },
+  {
+    "code": "J9FG11000000",
+    "name": "調味料",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG11110000",
+    "name": "食塩",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG11120000",
+    "name": "みそ",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG11130000",
+    "name": "しょうゆ",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG11140000",
+    "name": "ウスターソース",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG11150000",
+    "name": "ドレッシング",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG11160000",
+    "name": "マヨネーズ",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG11170000",
+    "name": "食酢",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG11180000",
+    "name": "うま味調味料",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG11190000",
+    "name": "カレールウ",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG11210000",
+    "name": "めん類等用つゆ",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG11220000",
+    "name": "焼肉等のたれ",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG11980000",
+    "name": "調味料（その他）",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG11990000",
+    "name": "調味料（詳細不明）",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG12000000",
+    "name": "スープ",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG12110000",
+    "name": "コンソメ",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG12120000",
+    "name": "ポタージュ",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG12980000",
+    "name": "スープ（その他）",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG12990000",
+    "name": "スープ（詳細不明）",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG13000000",
+    "name": "食用油脂",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG13110000",
+    "name": "食用植物油脂",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG13111100",
+    "name": "精製油",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG13111200",
+    "name": "サラダ油",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG13111300",
+    "name": "パーム油",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG13111400",
+    "name": "パーム核油",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG13120000",
+    "name": "食用動物油脂",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG13121100",
+    "name": "精製ラード",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG13130000",
+    "name": "食用加工油脂",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG13131100",
+    "name": "ショートニング",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG13131200",
+    "name": "マーガリン",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG13980000",
+    "name": "食用油脂（その他）",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG13990000",
+    "name": "食用油脂（詳細不明）",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG14000000",
+    "name": "煮物類",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG14110000",
+    "name": "煮魚",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG14120000",
+    "name": "煮まめ",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG14130000",
+    "name": "甘露煮",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG14140000",
+    "name": "おでん",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG14150000",
+    "name": "カレー",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG14160000",
+    "name": "シチュー",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG14170000",
+    "name": "ロールキャベツ",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG14980000",
+    "name": "煮物類（その他）",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG14990000",
+    "name": "煮物類（詳細不明）",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG15000000",
+    "name": "焼物類",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG15110000",
+    "name": "焼肉",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG15120000",
+    "name": "焼豚",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG15130000",
+    "name": "焼鳥",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG15140000",
+    "name": "玉子焼",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG15150000",
+    "name": "オムレツ",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG15160000",
+    "name": "うなぎ蒲焼",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG15170000",
+    "name": "グラタン",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG15180000",
+    "name": "ハンバーグ",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG15980000",
+    "name": "焼物類（その他）",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG15990000",
+    "name": "焼物類（詳細不明）",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG16000000",
+    "name": "炒め物類",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG16110000",
+    "name": "野菜炒め",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG16120000",
+    "name": "きんぴら",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG16130000",
+    "name": "焼きそば",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG16980000",
+    "name": "炒め物類（その他）",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG16990000",
+    "name": "炒め物類（詳細不明）",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG17000000",
+    "name": "揚げ物類",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG17110000",
+    "name": "コロッケ",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG17120000",
+    "name": "トンカツ",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG17130000",
+    "name": "天ぷら",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG17140000",
+    "name": "からあげ",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG17150000",
+    "name": "魚フライ",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG17160000",
+    "name": "串あげ",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG17170000",
+    "name": "春巻",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG17980000",
+    "name": "揚げ物類（その他）",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG17990000",
+    "name": "揚げ物類（詳細不明）",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG18000000",
+    "name": "蒸し物類",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG18110000",
+    "name": "ぎょうざ",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG18120000",
+    "name": "しゅうまい",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG18130000",
+    "name": "茶碗蒸し",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG18980000",
+    "name": "蒸し物類（その他）",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG18990000",
+    "name": "蒸し物類（詳細不明）",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG19000000",
+    "name": "和え物類",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG19110000",
+    "name": "野菜サラダ",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG19120000",
+    "name": "ポテトサラダ",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG19130000",
+    "name": "マカロニサラダ",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG19140000",
+    "name": "酢の物",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG19150000",
+    "name": "マリネ",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG19980000",
+    "name": "和え物類（その他）",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG19990000",
+    "name": "和え物類（詳細不明）",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG21000000",
+    "name": "米飯類",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG21110000",
+    "name": "弁当",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG21120000",
+    "name": "おにぎり",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG21130000",
+    "name": "寿司",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG21140000",
+    "name": "白飯",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG21150000",
+    "name": "赤飯",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG21160000",
+    "name": "ピラフ",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG21170000",
+    "name": "チャーハン",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG21180000",
+    "name": "サンドイッチ",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG21190000",
+    "name": "ハンバーガー",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG21210000",
+    "name": "スパゲッティ",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG21220000",
+    "name": "お好み焼き",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG21230000",
+    "name": "肉まん",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG21240000",
+    "name": "あんまん",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG21980000",
+    "name": "米飯類（その他）",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG21990000",
+    "name": "米飯類（詳細不明）",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG22000000",
+    "name": "イースト",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG22110000",
+    "name": "パン用イースト",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG22120000",
+    "name": "醸造用イースト",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG22980000",
+    "name": "イースト（その他）",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG22990000",
+    "name": "イースト（詳細不明）",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG23000000",
+    "name": "ふくらし粉",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG24000000",
+    "name": "植物性たん白及び調味植物性たん白",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG25000000",
+    "name": "麦芽，麦芽抽出物及び麦芽シロップ",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG25110000",
+    "name": "麦芽",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG25120000",
+    "name": "麦芽抽出及び麦芽シロップ",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG25980000",
+    "name": "麦芽，麦芽抽出物及び麦芽シロップ（その他）",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG25990000",
+    "name": "麦芽，麦芽抽出物及び麦芽シロップ（詳細不明）",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FG26000000",
+    "name": "ゼラチン",
+    "level": 3,
+    "parent": "J9FG00000000"
+  },
+  {
+    "code": "J9FH00000000",
+    "name": "飲料、氷",
+    "level": 2,
+    "parent": "00F"
+  },
+  {
+    "code": "J9FH11000000",
+    "name": "飲料水",
+    "level": 3,
+    "parent": "J9FH00000000"
+  },
+  {
+    "code": "J9FH11110000",
+    "name": "鉱水",
+    "level": 3,
+    "parent": "J9FH00000000"
+  },
+  {
+    "code": "J9FH11980000",
+    "name": "飲料水（その他）",
+    "level": 3,
+    "parent": "J9FH00000000"
+  },
+  {
+    "code": "J9FH11990000",
+    "name": "飲料水（詳細不明）",
+    "level": 3,
+    "parent": "J9FH00000000"
+  },
+  {
+    "code": "J9FH12000000",
+    "name": "清涼飲料",
+    "level": 3,
+    "parent": "J9FH00000000"
+  },
+  {
+    "code": "J9FH12110000",
+    "name": "発泡性飲料",
+    "level": 3,
+    "parent": "J9FH00000000"
+  },
+  {
+    "code": "J9FH12120000",
+    "name": "非発泡性飲料",
+    "level": 3,
+    "parent": "J9FH00000000"
+  },
+  {
+    "code": "J9FH12980000",
+    "name": "清涼飲料（その他）",
+    "level": 3,
+    "parent": "J9FH00000000"
+  },
+  {
+    "code": "J9FH12990000",
+    "name": "清涼飲料（詳細不明）",
+    "level": 3,
+    "parent": "J9FH00000000"
+  },
+  {
+    "code": "J9FH13000000",
+    "name": "アルコール飲料",
+    "level": 3,
+    "parent": "J9FH00000000"
+  },
+  {
+    "code": "J9FH13110000",
+    "name": "ビール",
+    "level": 3,
+    "parent": "J9FH00000000"
+  },
+  {
+    "code": "J9FH13110011",
+    "name": "ビール酵母",
+    "level": 4,
+    "parent": "J9FH13110000"
+  },
+  {
+    "code": "J9FH13120000",
+    "name": "果実酒",
+    "level": 3,
+    "parent": "J9FH00000000"
+  },
+  {
+    "code": "J9FH13121100",
+    "name": "ぶどう酒",
+    "level": 3,
+    "parent": "J9FH00000000"
+  },
+  {
+    "code": "J9FH13130000",
+    "name": "清酒",
+    "level": 3,
+    "parent": "J9FH00000000"
+  },
+  {
+    "code": "J9FH13140000",
+    "name": "濁酒",
+    "level": 3,
+    "parent": "J9FH00000000"
+  },
+  {
+    "code": "J9FH13150000",
+    "name": "焼酎",
+    "level": 3,
+    "parent": "J9FH00000000"
+  },
+  {
+    "code": "J9FH13160000",
+    "name": "ウイスキー",
+    "level": 3,
+    "parent": "J9FH00000000"
+  },
+  {
+    "code": "J9FH13170000",
+    "name": "ブランデー",
+    "level": 3,
+    "parent": "J9FH00000000"
+  },
+  {
+    "code": "J9FH13180000",
+    "name": "ジン",
+    "level": 3,
+    "parent": "J9FH00000000"
+  },
+  {
+    "code": "J9FH13190000",
+    "name": "ラム",
+    "level": 3,
+    "parent": "J9FH00000000"
+  },
+  {
+    "code": "J9FH13210000",
+    "name": "ウオッカ",
+    "level": 3,
+    "parent": "J9FH00000000"
+  },
+  {
+    "code": "J9FH13220000",
+    "name": "エチルアルコール",
+    "level": 3,
+    "parent": "J9FH00000000"
+  },
+  {
+    "code": "J9FH13230000",
+    "name": "みりん",
+    "level": 3,
+    "parent": "J9FH00000000"
+  },
+  {
+    "code": "J9FH13240000",
+    "name": "合成清酒",
+    "level": 3,
+    "parent": "J9FH00000000"
+  },
+  {
+    "code": "J9FH13250000",
+    "name": "白酒",
+    "level": 3,
+    "parent": "J9FH00000000"
+  },
+  {
+    "code": "J9FH13260000",
+    "name": "リキュール",
+    "level": 3,
+    "parent": "J9FH00000000"
+  },
+  {
+    "code": "J9FH13980000",
+    "name": "アルコール飲料（その他）",
+    "level": 3,
+    "parent": "J9FH00000000"
+  },
+  {
+    "code": "J9FH13990000",
+    "name": "アルコール飲料（詳細不明）",
+    "level": 3,
+    "parent": "J9FH00000000"
+  },
+  {
+    "code": "J9FH14000000",
+    "name": "氷",
+    "level": 3,
+    "parent": "J9FH00000000"
+  }
+]

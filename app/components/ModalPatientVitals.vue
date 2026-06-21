@@ -14,6 +14,7 @@ const emit = defineEmits(['close', 'saved'])
 const toast = useToast()
 const dayjs = useDayjs()
 const { t } = useI18n()
+const userStore = useUserStore()
 
 const isSubmitting = ref(false)
 
@@ -39,7 +40,8 @@ async function handleRecordSubmit() {
             method: 'POST',
             body: {
                 ...form.value,
-                date: new Date(form.value.date)
+                date: new Date(form.value.date),
+                recordedBy: userStore.userData?._id || null
             }
         })
         if (response && response.success) {
