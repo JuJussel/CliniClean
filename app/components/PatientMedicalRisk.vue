@@ -21,7 +21,7 @@ const isLoading = ref(true);
 const riskHistory = ref([]);
 const activeRecordId = ref(null);
 const isActiveEncounter = ref(false);
-const isHistoryCollapsed = ref(false);
+const isHistoryCollapsed = ref(true);
 const expanded = ref({});
 const chartTypes = ref({});
 
@@ -170,9 +170,9 @@ function getGroupHistory(type) {
 
 // Presence options for 有無 fields
 const presenceOptions = [
-  { value: "", label: t("riskTab.yesNo.unregistered") },
-  { value: "有", label: t("riskTab.yesNo.present") },
-  { value: "無", label: t("riskTab.yesNo.absent") },
+  { value: null, label: t("riskTab.yesNo.unregistered") },
+  { value: "present", label: t("riskTab.yesNo.present") },
+  { value: "absent", label: t("riskTab.yesNo.absent") },
 ];
 
 // Helper to determine if a code is a tags-input field
@@ -268,15 +268,32 @@ async function checkEncounterStatus() {
 }
 
 // Load values from a specific record in the history
-function loadRecord(record) {
+function loadRecord(record, index) {
   activeRecordId.value = record._id;
-  formData.value = { ...record.values };
-  // Pre-fill missing values as empty strings
+
+  // Reconstruct cumulative state as of this record
+  const cumulative = {};
   socialRisks.value.forEach((risk) => {
-    if (formData.value[risk.Code] === undefined) {
-      formData.value[risk.Code] = "";
-    }
+    cumulative[risk.Code] = "";
   });
+
+  const startIndex =
+    index !== undefined ? index : riskHistory.value.indexOf(record);
+
+  // Scan from oldest (end of array) up to startIndex (newest)
+  for (let i = riskHistory.value.length - 1; i >= startIndex; i--) {
+    const rec = riskHistory.value[i];
+    if (rec && rec.values) {
+      Object.keys(rec.values).forEach((code) => {
+        const val = rec.values[code];
+        if (val !== undefined && val !== null && val !== "") {
+          cumulative[code] = val;
+        }
+      });
+    }
+  }
+
+  formData.value = cumulative;
 }
 
 // Reset form to blank defaults
@@ -399,8 +416,8 @@ function getChartOptionForCode(code, chartType = "line") {
 
   // Filter history to records that have at least one numerical value for the codes
   const sortedHistory = riskHistory.value
-    .filter(record => {
-      return codes.some(c => {
+    .filter((record) => {
+      return codes.some((c) => {
         const val = parseFloat(record.values?.[c]);
         return !isNaN(val);
       });
@@ -410,13 +427,15 @@ function getChartOptionForCode(code, chartType = "line") {
 
   if (sortedHistory.length === 0) return {};
 
-  const xAxisData = sortedHistory.map(d => dayjs(d.date).format("YYYY-MM-DD HH:mm"));
+  const xAxisData = sortedHistory.map((d) =>
+    dayjs(d.date).format("YYYY-MM-DD HH:mm"),
+  );
   const colors = ["#3b82f6", "#10b981", "#8b5cf6", "#f59e0b", "#ec4899"];
   const isBar = chartType === "bar";
 
   const series = codes.map((c, index) => {
     const label = getLabelForCode(c);
-    const seriesData = sortedHistory.map(record => {
+    const seriesData = sortedHistory.map((record) => {
       const val = parseFloat(record.values?.[c]);
       return isNaN(val) ? null : val;
     });
@@ -441,21 +460,22 @@ function getChartOptionForCode(code, chartType = "line") {
             width: 3,
             color: colors[index % colors.length],
           },
-      areaStyle: isBar || codes.length > 1
-        ? undefined
-        : {
-            color: {
-              type: "linear",
-              x: 0,
-              y: 0,
-              x2: 0,
-              y2: 1,
-              colorStops: [
-                { offset: 0, color: colors[index % colors.length] + "1a" },
-                { offset: 1, color: colors[index % colors.length] + "00" }
-              ],
+      areaStyle:
+        isBar || codes.length > 1
+          ? undefined
+          : {
+              color: {
+                type: "linear",
+                x: 0,
+                y: 0,
+                x2: 0,
+                y2: 1,
+                colorStops: [
+                  { offset: 0, color: colors[index % colors.length] + "1a" },
+                  { offset: 1, color: colors[index % colors.length] + "00" },
+                ],
+              },
             },
-          },
     };
   });
 
@@ -473,12 +493,13 @@ function getChartOptionForCode(code, chartType = "line") {
         "box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); border-radius: 8px; padding: 10px;",
       formatter: (params) => {
         let html = `<div class="font-bold text-xs mb-1 text-neutral-800 dark:text-neutral-200">${params[0].axisValue}</div>`;
-        params.forEach(p => {
+        params.forEach((p) => {
           const sCode = codes[p.seriesIndex];
           let unit = "";
           if (sCode === "MD0012900") unit = ` ${t("countStick")}/日`;
           else if (sCode === "MD0012960") unit = " ml/日";
-          else if (["MD0012910", "MD0012970"].includes(sCode)) unit = ` ${t("year")}`;
+          else if (["MD0012910", "MD0012970"].includes(sCode))
+            unit = ` ${t("year")}`;
 
           html += `
             <div class="flex items-center justify-between gap-4 text-xs py-0.5">
@@ -493,14 +514,17 @@ function getChartOptionForCode(code, chartType = "line") {
         return html;
       },
     },
-    legend: codes.length > 1 ? {
-      show: true,
-      top: "0%",
-      textStyle: {
-        color: "#64748b",
-        fontSize: 10
-      }
-    } : undefined,
+    legend:
+      codes.length > 1
+        ? {
+            show: true,
+            top: "0%",
+            textStyle: {
+              color: "#64748b",
+              fontSize: 10,
+            },
+          }
+        : undefined,
     grid: {
       top: codes.length > 1 ? "18%" : "12%",
       left: "3%",
@@ -941,7 +965,7 @@ onMounted(() => {
                 ? 'bg-primary-50 dark:bg-primary-950/20 border-primary-500 text-primary-950 dark:text-primary-200'
                 : 'bg-neutral-50 hover:bg-neutral-100 dark:bg-neutral-950/30 dark:hover:bg-neutral-800/40 border-neutral-200 dark:border-neutral-800 text-neutral-700 dark:text-neutral-300',
             ]"
-            @click="loadRecord(record)"
+            @click="loadRecord(record, index)"
           >
             <div class="font-semibold flex items-center justify-between mb-1">
               <span>{{ dayjs(record.date).format("YYYY-MM-DD HH:mm") }}</span>

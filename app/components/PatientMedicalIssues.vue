@@ -96,7 +96,6 @@ const medicineAllergies = computed(() =>
 // Table columns setup
 const columns = computed(() => [
   { accessorKey: "name", header: t("issuesTab.name") },
-  { accessorKey: "code", header: t("issuesTab.code") },
   { accessorKey: "startDate", header: t("issuesTab.startDate") },
   { accessorKey: "endDate", header: t("issuesTab.endDate") },
   { accessorKey: "severity", header: t("issuesTab.severity") },

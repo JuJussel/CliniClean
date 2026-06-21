@@ -120,18 +120,14 @@ const availableSocialRisks = computed(() => {
 
 // Presence options for 有無 fields
 const presenceOptions = [
-  { value: "", label: t("riskTab.yesNo.unregistered") },
-  { value: "有", label: t("riskTab.yesNo.present") },
-  { value: "無", label: t("riskTab.yesNo.absent") },
+  { value: null, label: t("riskTab.yesNo.unregistered") },
+  { value: "present", label: t("riskTab.yesNo.present") },
+  { value: "absent", label: t("riskTab.yesNo.absent") },
 ];
 
 const state = reactive({
-  code: props.editCode || "",
-  value:
-    props.editCode &&
-    !["Group_Tobacco", "Group_Alcohol"].includes(props.editCode)
-      ? props.currentValues[props.editCode] || ""
-      : "",
+  codes: props.editCode ? [props.editCode] : [],
+  values: {},
   groupValues: {
     // Smoking fields
     MD0012870: props.currentValues["MD0012870"] || "",
@@ -149,25 +145,36 @@ const state = reactive({
   },
 });
 
-// Selected risk factor metadata
-const selectedRiskFactor = computed(() => {
-  if (props.editCode) return editingRiskFactor.value;
-  if (state.code === "Group_Tobacco") {
-    return {
-      Code: "Group_Tobacco",
-      Display: t("riskTab.sections.smoking"),
-      Definition: t("riskTab.sections.smoking"),
-    };
-  }
-  if (state.code === "Group_Alcohol") {
-    return {
-      Code: "Group_Alcohol",
-      Display: t("riskTab.sections.drinking"),
-      Definition: t("riskTab.sections.drinking"),
-    };
-  }
-  return socialRisks.value.find((r) => r.Code === state.code) || null;
-});
+// If editing, initialize the target value
+if (
+  props.editCode &&
+  !["Group_Tobacco", "Group_Alcohol"].includes(props.editCode)
+) {
+  state.values[props.editCode] = props.currentValues[props.editCode] || "";
+}
+
+// Watch state.codes to pre-populate values with fallback when selected
+watch(
+  () => state.codes,
+  (newCodes) => {
+    if (!newCodes) return;
+    newCodes.forEach((code) => {
+      if (!["Group_Tobacco", "Group_Alcohol"].includes(code)) {
+        if (state.values[code] === undefined) {
+          state.values[code] = props.currentValues[code] || "";
+        }
+      }
+    });
+  },
+  { immediate: true, deep: true },
+);
+
+function getDefinitionForCode(code) {
+  if (code === "Group_Tobacco") return t("riskTab.sections.smoking");
+  if (code === "Group_Alcohol") return t("riskTab.sections.drinking");
+  const risk = socialRisks.value.find((r) => r.Code === code);
+  return risk ? risk.Definition : "";
+}
 
 // Helper to determine if a code is a tags-input field
 function isTagsField(code) {
@@ -177,18 +184,6 @@ function isTagsField(code) {
   if (code === "Group_Tobacco" || code === "Group_Alcohol") return false;
   return true;
 }
-
-// Watch code change to clear or adjust default value
-watch(
-  () => state.code,
-  (newCode) => {
-    if (newCode && !props.editCode) {
-      if (!["Group_Tobacco", "Group_Alcohol"].includes(newCode)) {
-        state.value = "";
-      }
-    }
-  },
-);
 
 // Watch daily smoking count and smoking years to compute Brickman index in real-time
 watch(
@@ -204,37 +199,17 @@ watch(
   },
 );
 
-// Tags array local state
-const tagsValue = ref([]);
-
-// Watch state.code and state.value to populate tags array
-watch(
-  () => [state.code, state.value],
-  () => {
-    if (isTagsField(state.code)) {
-      const rawVal = state.value || "";
-      const parsedTags = rawVal.split(/\s*,\s*|\s*、\s*/).filter(Boolean);
-      if (JSON.stringify(parsedTags) !== JSON.stringify(tagsValue.value)) {
-        tagsValue.value = parsedTags;
-      }
-    }
-  },
-  { immediate: true },
-);
-
-// Watch tagsValue to join back into state.value string
-watch(
-  tagsValue,
-  (newTags) => {
-    if (isTagsField(state.code)) {
-      const joined = newTags.join(", ");
-      if (joined !== state.value) {
-        state.value = joined;
-      }
-    }
-  },
-  { deep: true },
-);
+const tagsModel = (code) => {
+  return computed({
+    get() {
+      const rawVal = state.values[code] || "";
+      return rawVal.split(/\s*,\s*|\s*、\s*/).filter(Boolean);
+    },
+    set(val) {
+      state.values[code] = val.join(", ");
+    },
+  });
+};
 
 // Helper to determine field input types
 function getFieldType(code) {
@@ -262,33 +237,33 @@ function getFieldType(code) {
 
 // Helper to get labels dynamically
 function getLabelForCode(code) {
+  if (code === "Group_Tobacco") return t("riskTab.sections.smoking");
+  if (code === "Group_Alcohol") return t("riskTab.sections.drinking");
   const risk = socialRisks.value.find((r) => r.Code === code);
   return risk ? risk.Display.replace(".有無", "") : code;
 }
 
+
 async function handleRiskSubmit(event) {
   isSubmitting.value = true;
   try {
-    const updatedValues = { ...props.currentValues };
+    const updatedValues = {};
 
-    // Ensure all 25 default codes are present in values payload (to preserve record structure)
-    socialRisks.value.forEach((risk) => {
-      if (updatedValues[risk.Code] === undefined) {
-        updatedValues[risk.Code] = "";
+    const activeCodes = props.editCode ? [props.editCode] : state.codes;
+
+    activeCodes.forEach((code) => {
+      if (code === "Group_Tobacco") {
+        tobaccoCodes.forEach((c) => {
+          updatedValues[c] = state.groupValues[c];
+        });
+      } else if (code === "Group_Alcohol") {
+        alcoholCodes.forEach((c) => {
+          updatedValues[c] = state.groupValues[c];
+        });
+      } else {
+        updatedValues[code] = state.values[code];
       }
     });
-
-    if (state.code === "Group_Tobacco") {
-      tobaccoCodes.forEach((code) => {
-        updatedValues[code] = state.groupValues[code];
-      });
-    } else if (state.code === "Group_Alcohol") {
-      alcoholCodes.forEach((code) => {
-        updatedValues[code] = state.groupValues[code];
-      });
-    } else {
-      updatedValues[state.code] = state.value;
-    }
 
     const response = await $fetch(`/api/patient/${props.patientId}/risk`, {
       method: "POST",
@@ -301,7 +276,7 @@ async function handleRiskSubmit(event) {
 
     if (response && response.success) {
       toast.add({
-        title: t("saved") || "保存しました",
+        title: t("saved"),
         description: t("riskTab.saveSuccess"),
         color: "success",
       });
@@ -324,13 +299,12 @@ async function handleRiskSubmit(event) {
 
 // Zod schema validation
 const schema = z.object({
-  code: z.string().min(1, t("riskTab.selectRiskFactor")),
-  value: z.string().nullable().optional(),
+  codes: z.array(z.string()).min(1, t("riskTab.selectRiskFactor")),
 });
 </script>
 
 <template>
-  <UModal>
+  <UModal :ui="{ content: props.editCode ? 'max-w-xl!' : 'max-w-4xl!' }">
     <template #title>
       <div class="flex items-center gap-2">
         <UIcon
@@ -350,202 +324,253 @@ const schema = z.object({
         id="risk-record-form"
         :schema="schema"
         :state="state"
-        class="space-y-4 max-h-[500px] overflow-y-auto pr-1"
+        class="pr-1"
         @submit="handleRiskSubmit"
       >
-        <!-- Risk Factor Selector -->
-        <UFormField :label="t('riskTab.tableHeaderTitle')" name="code">
-          <div
-            v-if="props.editCode"
-            class="text-sm font-semibold text-neutral-800 dark:text-neutral-200 bg-neutral-50 dark:bg-neutral-800/40 p-3 rounded-lg border border-neutral-200 dark:border-neutral-800"
-          >
-            <div>{{ editingRiskFactor?.Display }}</div>
-            <div
-              class="text-xs text-neutral-500 dark:text-neutral-400 mt-1 font-normal"
-            >
-              {{ editingRiskFactor?.Definition }}
-            </div>
-          </div>
-          <USelectMenu
-            v-else
-            v-model="state.code"
-            :items="availableSocialRisks"
-            value-key="Code"
-            label-key="Display"
-            :placeholder="t('riskTab.selectRiskFactor')"
-            class="w-full"
-          >
-            <template #item-label="{ item }">
-              <div class="flex flex-col py-0.5">
-                <span class="font-medium text-sm">{{ item.Display }}</span>
-                <span class="text-xs text-neutral-400 mt-0.5">{{
-                  item.Definition
-                }}</span>
-              </div>
-            </template>
-          </USelectMenu>
-        </UFormField>
-
-        <!-- Dynamic Inputs Section -->
         <div
-          v-if="state.code"
-          class="mt-4 border-t border-neutral-100 dark:border-neutral-800/60 pt-4"
+          :class="
+            props.editCode
+              ? 'space-y-4'
+              : 'grid grid-cols-1 md:grid-cols-12 gap-6 items-start'
+          "
         >
-          <!-- Tobacco Group Fields -->
-          <div
-            v-if="state.code === 'Group_Tobacco'"
-            class="grid grid-cols-1 md:grid-cols-2 gap-4"
-          >
-            <UFormField :label="getLabelForCode('MD0012870')">
-              <USelect
-                v-model="state.groupValues.MD0012870"
-                :options="presenceOptions"
-                size="sm"
-                class="w-full"
-              />
-            </UFormField>
-
-            <UFormField :label="getLabelForCode('MD0012880')">
-              <USelect
-                v-model="state.groupValues.MD0012880"
-                :options="presenceOptions"
-                size="sm"
-                class="w-full"
-              />
-            </UFormField>
-
-            <UFormField :label="getLabelForCode('MD0012890')">
-              <UInput
-                v-model="state.groupValues.MD0012890"
-                size="sm"
-                class="w-full"
-              />
-            </UFormField>
-
-            <UFormField :label="getLabelForCode('MD0012900')">
-              <UInput
-                v-model="state.groupValues.MD0012900"
-                type="number"
-                size="sm"
-                class="w-full"
-              />
-            </UFormField>
-
-            <UFormField :label="getLabelForCode('MD0012910')">
-              <UInput
-                v-model="state.groupValues.MD0012910"
-                type="number"
-                size="sm"
-                class="w-full"
-              />
-            </UFormField>
-
-            <UFormField :label="getLabelForCode('MD0012920')">
-              <UInput
-                v-model="state.groupValues.MD0012920"
-                disabled
-                size="sm"
-                class="bg-neutral-50 dark:bg-neutral-950/20 font-medium text-neutral-600 dark:text-neutral-400 w-full"
-                placeholder="Auto-calculated"
-              />
-            </UFormField>
-          </div>
-
-          <!-- Alcohol Group Fields -->
-          <div
-            v-else-if="state.code === 'Group_Alcohol'"
-            class="grid grid-cols-1 md:grid-cols-2 gap-4"
-          >
-            <UFormField :label="getLabelForCode('MD0012930')">
-              <USelect
-                v-model="state.groupValues.MD0012930"
-                :options="presenceOptions"
-                size="sm"
-                class="w-full"
-              />
-            </UFormField>
-
-            <UFormField :label="getLabelForCode('MD0012940')">
-              <USelect
-                v-model="state.groupValues.MD0012940"
-                :options="presenceOptions"
-                size="sm"
-                class="w-full"
-              />
-            </UFormField>
-
-            <UFormField :label="getLabelForCode('MD0012950')">
-              <UInput
-                v-model="state.groupValues.MD0012950"
-                size="sm"
-                class="w-full"
-              />
-            </UFormField>
-
-            <UFormField :label="getLabelForCode('MD0012960')">
-              <UInput
-                v-model="state.groupValues.MD0012960"
-                type="number"
-                size="sm"
-                class="w-full"
-              />
-            </UFormField>
-
-            <UFormField :label="getLabelForCode('MD0012970')">
-              <UInput
-                v-model="state.groupValues.MD0012970"
-                type="number"
-                size="sm"
-                class="w-full"
-              />
-            </UFormField>
-          </div>
-
-          <!-- Normal Field Input -->
-          <div v-else>
-            <UFormField :label="t('riskTab.tableHeaderValue')" name="value">
-              <UInputTags
-                v-if="isTagsField(state.code)"
-                v-model="tagsValue"
-                size="sm"
-                class="w-full"
-                :placeholder="selectedRiskFactor?.Definition"
-              />
-
-              <USelect
-                v-else-if="getFieldType(state.code) === 'select'"
-                v-model="state.value"
-                :options="presenceOptions"
-                size="sm"
-                class="w-full"
-              />
-
-              <UTextarea
-                v-else-if="getFieldType(state.code) === 'textarea'"
-                v-model="state.value"
-                rows="3"
-                size="sm"
-                class="w-full"
-                :placeholder="selectedRiskFactor?.Definition"
-              />
-
-              <UInput
-                v-else-if="getFieldType(state.code) === 'number'"
-                v-model="state.value"
-                type="number"
-                size="sm"
-                class="w-full"
-                :placeholder="selectedRiskFactor?.Definition"
-              />
-
-              <UInput
+          <!-- Left Column (Selector) -->
+          <div :class="props.editCode ? '' : 'md:col-span-5'">
+            <UFormField
+              :label="t('riskTab.tableHeaderTitle')"
+              name="codes"
+              class="w-full"
+            >
+              <div
+                v-if="props.editCode"
+                class="text-sm font-semibold text-neutral-800 dark:text-neutral-200 bg-neutral-50 dark:bg-neutral-800/40 p-3 rounded-lg border border-neutral-200 dark:border-neutral-800"
+              >
+                <div>{{ editingRiskFactor?.Display }}</div>
+                <div
+                  class="text-xs text-neutral-500 dark:text-neutral-400 mt-1 font-normal"
+                >
+                  {{ editingRiskFactor?.Definition }}
+                </div>
+              </div>
+              <UListbox
                 v-else
-                v-model="state.value"
-                size="sm"
-                class="w-full"
-                :placeholder="selectedRiskFactor?.Definition"
+                v-model="state.codes"
+                multiple
+                :items="availableSocialRisks"
+                value-key="Code"
+                label-key="Display"
+                description-key="Definition"
+                filter
+                class="w-full border border-neutral-200 dark:border-neutral-800 rounded-lg max-h-[400px]"
               />
             </UFormField>
+          </div>
+
+          <!-- Right Column (Value Entry) -->
+          <div
+            :class="
+              props.editCode
+                ? ''
+                : 'md:col-span-7 max-h-[420px] overflow-y-auto pr-1 space-y-6'
+            "
+          >
+            <!-- Friendly empty state for register mode -->
+            <div
+              v-if="!props.editCode && state.codes.length === 0"
+              class="flex flex-col items-center justify-center p-8 border border-dashed border-neutral-200 dark:border-neutral-800 rounded-lg text-neutral-400 dark:text-neutral-500 bg-neutral-50/50 dark:bg-neutral-900/10 min-h-[300px]"
+            >
+              <UIcon
+                name="material-symbols:health-and-safety-outline"
+                class="size-8 mb-2 opacity-60 text-primary"
+              />
+              <span class="text-sm font-medium">{{
+                t("riskTab.selectFactorToVisualize") || "項目を選択してください"
+              }}</span>
+            </div>
+
+            <!-- Dynamic Inputs Section -->
+            <div v-else class="space-y-6">
+              <div
+                v-for="code in props.editCode ? [props.editCode] : state.codes"
+                :key="code"
+                class="space-y-4 border-t border-neutral-100 dark:border-neutral-800/60 first:border-t-0 pt-4 first:pt-0 mt-4 first:mt-0"
+              >
+                <!-- Label/Title for each selected factor -->
+                <div
+                  class="flex items-center gap-2 font-medium text-sm text-neutral-800 dark:text-neutral-200 bg-neutral-50 dark:bg-neutral-800/20 p-2 rounded border border-neutral-100 dark:border-neutral-800/30"
+                >
+                  <UIcon
+                    name="material-symbols:label-outline-rounded"
+                    class="size-4 text-primary"
+                  />
+                  <span>{{ getLabelForCode(code) }}</span>
+                </div>
+
+                <!-- Tobacco Group Fields -->
+                <div
+                  v-if="code === 'Group_Tobacco'"
+                  class="grid grid-cols-1 md:grid-cols-2 gap-4"
+                >
+                  <UFormField :label="getLabelForCode('MD0012870')">
+                    <USelect
+                      v-model="state.groupValues.MD0012870"
+                      :items="presenceOptions"
+                      size="sm"
+                      class="w-full"
+                    />
+                  </UFormField>
+
+                  <UFormField :label="getLabelForCode('MD0012880')">
+                    <USelect
+                      v-model="state.groupValues.MD0012880"
+                      :items="presenceOptions"
+                      size="sm"
+                      class="w-full"
+                    />
+                  </UFormField>
+
+                  <UFormField :label="getLabelForCode('MD0012890')">
+                    <UInput
+                      v-model="state.groupValues.MD0012890"
+                      size="sm"
+                      class="w-full"
+                    />
+                  </UFormField>
+
+                  <UFormField :label="getLabelForCode('MD0012900')">
+                    <UInput
+                      v-model="state.groupValues.MD0012900"
+                      type="number"
+                      size="sm"
+                      class="w-full"
+                    />
+                  </UFormField>
+
+                  <UFormField :label="getLabelForCode('MD0012910')">
+                    <UInput
+                      v-model="state.groupValues.MD0012910"
+                      type="number"
+                      size="sm"
+                      class="w-full"
+                    />
+                  </UFormField>
+
+                  <UFormField :label="getLabelForCode('MD0012920')">
+                    <UInput
+                      v-model="state.groupValues.MD0012920"
+                      disabled
+                      size="sm"
+                      class="bg-neutral-50 dark:bg-neutral-950/20 font-medium text-neutral-600 dark:text-neutral-400 w-full"
+                      placeholder="Auto-calculated"
+                    />
+                  </UFormField>
+                </div>
+
+                <!-- Alcohol Group Fields -->
+                <div
+                  v-else-if="code === 'Group_Alcohol'"
+                  class="grid grid-cols-1 md:grid-cols-2 gap-4"
+                >
+                  <UFormField :label="getLabelForCode('MD0012930')">
+                    <USelect
+                      v-model="state.groupValues.MD0012930"
+                      :items="presenceOptions"
+                      size="sm"
+                      class="w-full"
+                    />
+                  </UFormField>
+
+                  <UFormField :label="getLabelForCode('MD0012940')">
+                    <USelect
+                      v-model="state.groupValues.MD0012940"
+                      :items="presenceOptions"
+                      size="sm"
+                      class="w-full"
+                    />
+                  </UFormField>
+
+                  <UFormField :label="getLabelForCode('MD0012950')">
+                    <UInput
+                      v-model="state.groupValues.MD0012950"
+                      size="sm"
+                      class="w-full"
+                    />
+                  </UFormField>
+
+                  <UFormField :label="getLabelForCode('MD0012960')">
+                    <UInput
+                      v-model="state.groupValues.MD0012960"
+                      type="number"
+                      size="sm"
+                      class="w-full"
+                    />
+                  </UFormField>
+
+                  <UFormField :label="getLabelForCode('MD0012970')">
+                    <UInput
+                      v-model="state.groupValues.MD0012970"
+                      type="number"
+                      size="sm"
+                      class="w-full"
+                    />
+                  </UFormField>
+                </div>
+
+                <!-- Normal Field Input -->
+                <div v-else>
+                  <UFormField
+                    :label="t('riskTab.tableHeaderValue')"
+                    name="value"
+                  >
+                    <UInputTags
+                      v-if="isTagsField(code)"
+                      :model-value="tagsModel(code).value"
+                      @update:model-value="
+                        (val) => (tagsModel(code).value = val)
+                      "
+                      add-on-blur
+                      size="sm"
+                      class="w-full"
+                      :placeholder="getDefinitionForCode(code)"
+                    />
+
+                    <USelect
+                      v-else-if="getFieldType(code) === 'select'"
+                      v-model="state.values[code]"
+                      :items="presenceOptions"
+                      size="sm"
+                      class="w-full"
+                    />
+
+                    <UTextarea
+                      v-else-if="getFieldType(code) === 'textarea'"
+                      v-model="state.values[code]"
+                      rows="3"
+                      size="sm"
+                      class="w-full"
+                      :placeholder="getDefinitionForCode(code)"
+                    />
+
+                    <UInput
+                      v-else-if="getFieldType(code) === 'number'"
+                      v-model="state.values[code]"
+                      type="number"
+                      size="sm"
+                      class="w-full"
+                      :placeholder="getDefinitionForCode(code)"
+                    />
+
+                    <UInput
+                      v-else
+                      v-model="state.values[code]"
+                      size="sm"
+                      class="w-full"
+                      :placeholder="getDefinitionForCode(code)"
+                    />
+                  </UFormField>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </UForm>
@@ -567,7 +592,9 @@ const schema = z.object({
           form="risk-record-form"
           color="primary"
           :loading="isSubmitting"
-          :disabled="isSubmitting || !state.code"
+          :disabled="
+            isSubmitting || (!props.editCode && state.codes.length === 0)
+          "
         >
           {{ t("save") }}
         </UButton>
