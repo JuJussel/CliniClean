@@ -32,6 +32,12 @@ const deleteProcedure = (event, index) => {
     emit('delete', { event, index });
 };
 
+const openLink = (url) => {
+    if (url) {
+        window.open(url, '_blank');
+    }
+};
+
 // ── Prescription computed ────────────────────────────────────────
 const perscriptionTypes = computed(() => {
     const rawTypes = systemStore?.system?.ui.perscriptionTypes || [];
@@ -125,6 +131,15 @@ const examResultColumns = [
                         <span>{{ item.name }}</span>
                     </div>
                     <div class="flex items-center gap-1">
+                        <UTooltip :text="$t('vaccineInfoLink')" v-if="item.url">
+                            <UButton
+                                @click.stop="openLink(item.url)"
+                                icon="material-symbols:info-outline"
+                                color="neutral"
+                                variant="ghost"
+                                size="xs"
+                            />
+                        </UTooltip>
                         <UButton
                             v-if="item.cat?.code !== 25"
                             @click="openOrder($event, index)"

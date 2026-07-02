@@ -9,18 +9,21 @@ const encounterId = route.query.encounterId;
 
 const encounters = ref([])
 
-onMounted(async () => {
+const refreshEncounter = async () => {
     if (encounterId) {
-        console.log(encounterId);
-        
         try {
             let encounterData = await fetch('/api/encounter/' + encounterId)
             encounterData = await encounterData.json();
-            encounters.value.push(encounterData)
+            encounters.value = [encounterData]
         } catch (error) {
             console.log(error)
         }
     }
+}
+provide('refreshEncounter', refreshEncounter)
+
+onMounted(async () => {
+    await refreshEncounter()
 })
 
 </script>

@@ -372,6 +372,7 @@
   "weight": "体重",
   "searchVaccines": "ワクチン検索",
   "vaccines": "予防接種",
+  "vaccineInfoLink": "詳細情報リンクを開く",
   "vial": "管",
   "valid": "有効",
   "validUntil": "有効期限",
@@ -713,5 +714,9 @@
       "present": "有",
       "absent": "無"
     }
-  }
+  },
+  "procedureAddedSuccess": "現在のカルテに行為を追加しました。",
+  "procedureAddButton": "現在のカルテに追加",
+  "procedureNoHistory": "行為履歴はありません。",
+  "clearFilters": "フィルターをクリア"
 }

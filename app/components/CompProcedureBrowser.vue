@@ -53,6 +53,7 @@ const vaccineTreeItems = computed(() => {
                     label: vaccine.commonName,
                     icon: 'material-symbols:syringe-outline',
                     _key: `${diseaseGroup.name}::${vaccine.commonName}`,
+                    url: vaccine.url || null,
                     children: filteredVariants.map((variant) => ({
                         label: variant.name,
                         icon: 'material-symbols:vaccines-outline',
@@ -60,6 +61,7 @@ const vaccineTreeItems = computed(() => {
                         _variantData: variant,
                         _commonName: vaccine.commonName,
                         _diseaseName: diseaseGroup.name,
+                        url: variant.url || null,
                     })),
                 };
             }).filter(Boolean);
@@ -149,12 +151,18 @@ const selectVaccine = (e, treeItem) => {
         name: treeItem._variantData?.name || treeItem.label,
         commonName: treeItem._commonName,
         disease: treeItem._diseaseName,
-        url: treeItem._variantData?.url || null,
+        url: treeItem.url || treeItem._variantData?.url || null,
         cat: catObj || { code: activeCategory.value },
         varData: { location: null, amount: null, lot: null },
     };
 
     emit("selected", item);
+};
+
+const openLink = (url) => {
+    if (url) {
+        window.open(url, '_blank');
+    }
 };
 
 </script>
@@ -196,7 +204,19 @@ const selectVaccine = (e, treeItem) => {
                     expanded-icon="material-symbols:coronavirus-outline"
                     collapsed-icon="material-symbols:coronavirus-outline"
                     @select="selectVaccine"
-                />
+                >
+                    <template #item-trailing="{ item }">
+                        <UTooltip :text="$t('vaccineInfoLink')" v-if="item.url">
+                            <UButton
+                                icon="material-symbols:info-outline"
+                                color="neutral"
+                                variant="ghost"
+                                size="xs"
+                                @click.stop="openLink(item.url)"
+                            />
+                        </UTooltip>
+                    </template>
+                </UTree>
             </template>
             <!-- Standard search + table for other tabs -->
             <template v-else>
