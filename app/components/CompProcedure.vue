@@ -1,10 +1,14 @@
 <script setup>
 const systemStore = useSystemStore();
 
-const props = defineProps({
+defineProps({
     procedures: {
         type: Array,
         default: () => []
+    },
+    disabled: {
+        type: Boolean,
+        default: false
     }
 });
 
@@ -131,36 +135,38 @@ const examResultColumns = [
                         <span>{{ item.name }}</span>
                     </div>
                     <div class="flex items-center gap-1">
-                        <UTooltip :text="$t('vaccineInfoLink')" v-if="item.url">
+                        <UTooltip v-if="item.url" :text="$t('vaccineInfoLink')">
                             <UButton
-                                @click.stop="openLink(item.url)"
                                 icon="material-symbols:info-outline"
                                 color="neutral"
                                 variant="ghost"
                                 size="xs"
+                                @click.stop="openLink(item.url)"
                             />
                         </UTooltip>
                         <UButton
-                            v-if="item.cat?.code !== 25"
-                            @click="openOrder($event, index)"
+                            v-if="item.cat?.code !== 25 && !disabled"
                             icon="material-symbols:shopping-cart"
                             color="neutral"
                             variant="ghost"
                             size="xs"
+                            @click="openOrder($event, index)"
                         />
                         <UButton
-                            @click="openBilling($event, index)"
+                            v-if="!disabled"
                             icon="material-symbols:currency-yen"
                             color="neutral"
                             variant="ghost"
                             size="xs"
+                            @click="openBilling($event, index)"
                         />
                         <UButton
-                            @click="deleteProcedure($event, index)"
+                            v-if="!disabled"
                             icon="material-symbols:delete"
                             color="neutral"
                             variant="ghost"
                             size="xs"
+                            @click="deleteProcedure($event, index)"
                         />
                     </div>
                 </div>
@@ -178,15 +184,16 @@ const examResultColumns = [
                                 :items="shotLocations"
                                 :placeholder="$t('shotLocation')"
                                 class="w-40"
+                                :disabled="disabled"
                             />
                         </div>
                         <div class="w-24">
                             <label class="block text-sm font-medium mb-1">{{ $t('shotAmount') }}</label>
                             <div class="flex items-center gap-1">
                                 <UInput
-                                    type="number"
                                     v-model="item.varData.amount"
-                                    :disabled="!item.varData.location"
+                                    type="number"
+                                    :disabled="disabled || !item.varData.location"
                                     class="flex-1"
                                 />
                                 <span v-if="item.taniname" class="text-sm text-muted">{{ $t('vial') }}</span>
@@ -195,9 +202,9 @@ const examResultColumns = [
                         <div class="w-24">
                             <label class="block text-sm font-medium mb-1">{{ $t('shotLot') }}</label>
                             <UInput
-                                type="number"
                                 v-model="item.varData.lot"
-                                :disabled="!item.varData.location"
+                                type="number"
+                                :disabled="disabled || !item.varData.location"
                             />
                         </div>
                     </div>
@@ -210,6 +217,7 @@ const examResultColumns = [
                                 v-model="item.varData.type"
                                 :items="perscriptionTypes"
                                 :placeholder="$t('perscriptionType')"
+                                :disabled="disabled"
                             />
                         </div>
                         <div>
@@ -217,7 +225,7 @@ const examResultColumns = [
                             <USelect
                                 v-model="item.varData.timing"
                                 :items="filteredTimings(item)"
-                                :disabled="!item.varData.type"
+                                :disabled="disabled || !item.varData.type"
                                 :placeholder="$t('perscriptionTiming')"
                                 class="w-40"
                             />
@@ -226,9 +234,9 @@ const examResultColumns = [
                             <label class="block text-sm font-medium mb-1">{{ $t('perscriptionAmount') }}</label>
                             <div class="flex items-center gap-1">
                                 <UInput
-                                    type="number"
                                     v-model="item.varData.amount"
-                                    :disabled="!item.varData.type"
+                                    type="number"
+                                    :disabled="disabled || !item.varData.type"
                                     class="flex-1"
                                 />
                                 <span v-if="item.taniname" class="text-sm text-muted">{{ item.taniname }}</span>
@@ -238,9 +246,9 @@ const examResultColumns = [
                             <label class="block text-sm font-medium mb-1">{{ $t('perscriptionDuration') }}</label>
                             <div class="flex items-center gap-1">
                                 <UInput
-                                    type="number"
                                     v-model="item.varData.duration"
-                                    :disabled="!item.varData.type"
+                                    type="number"
+                                    :disabled="disabled || !item.varData.type"
                                     class="flex-1"
                                 />
                                 <span v-if="item.varData.timing?.unit" class="text-sm text-muted">{{ item.varData.timing?.unit }}</span>
@@ -251,9 +259,10 @@ const examResultColumns = [
                     <!-- ═══ Exam ═══ -->
                     <div v-else-if="item.cat?.label === 'exam'">
                         <USelectMenu
+                            v-if="!disabled"
                             v-model="item.varData"
                             :items="examResultsCache[item.srycd] || []"
-                            labelKey="resultName"
+                            label-key="resultName"
                             multiple
                             :loading="examsLoading"
                             searchable
@@ -268,9 +277,9 @@ const examResultColumns = [
                             class="w-full border border-[var(--ui-border)] rounded-lg"
                         >
                             <template #value-cell="{ row }">
-                                <div v-if="row.original.order?.done"></div>
+                                <div v-if="row.original.order?.done"/>
                                 <div v-else class="flex items-center gap-1 w-[120px]">
-                                    <UInput type="text" v-model="row.original.value" class="flex-1" />
+                                    <UInput v-model="row.original.value" type="text" :disabled="disabled" class="flex-1" />
                                     <span
                                         v-if="row.original.unit?.name && row.original.unit?.name !== '＊未設定'"
                                         class="text-sm text-muted"
@@ -285,7 +294,7 @@ const examResultColumns = [
                     <!-- ═══ Note (always shown) ═══ -->
                     <div>
                         <label class="block text-sm font-medium mb-1">{{ $t('note') }}</label>
-                        <UTextarea v-model="item.note" :rows="1" />
+                        <UTextarea v-model="item.note" :rows="1" :disabled="disabled" />
                     </div>
                 </div>
             </template>

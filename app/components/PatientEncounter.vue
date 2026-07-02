@@ -9,11 +9,17 @@ const dayjs = useDayjs();
 const overlay = useOverlay();
 
 
+const isReadOnly = computed(() => {
+    return props.encounter?.readOnly || props.encounter?.status !== 3;
+});
+
 const addProcedure = (procedure) => {
+    if (isReadOnly.value) return;
     props.encounter.karte.procedures.push(procedure);
 };
 
 const saveState = () => {
+    if (isReadOnly.value) return;
     loading.value = true;
     try {
         fetch("/api/encounter/" + props.encounter._id, {
@@ -54,8 +60,9 @@ async function openCloseEncounterModal() {
 let saveTimeout = null;
 
 watch(
-    () => props.encounter.karte,
+    () => props.encounter?.karte,
     () => {
+        if (isReadOnly.value) return;
         if (saveTimeout) clearTimeout(saveTimeout);
         saveTimeout = setTimeout(() => {
             saveState();
@@ -66,7 +73,7 @@ watch(
 </script>
 
 <template>
-    <div v-if="encounter.status === 3" class="grid grid-cols-2 grid-rows-[1fr_auto] gap-4 h-full min-h-0">
+    <div v-if="encounter" class="grid grid-cols-2 grid-rows-[1fr_auto] gap-4 h-full min-h-0">
         <div class="h-full min-h-0 row-span-2">
             <UCard
                 :ui="{
@@ -81,7 +88,7 @@ watch(
                     </h3>
                 </template>
 
-                <CompTextEditor v-model="encounter.karte.soap" class="h-full" />
+                <CompTextEditor v-model="encounter.karte.soap" :disabled="isReadOnly" class="h-full" />
             </UCard>
         </div>
 
@@ -98,7 +105,7 @@ watch(
                         <h3 class="text-base font-semibold">
                             {{ dayjs(encounter.date).format("LL") }}
                         </h3>
-                        <USlideover>
+                        <USlideover v-if="!isReadOnly">
                             <UButton
                                 label="Add Entry"
                                 color="neutral"
@@ -114,10 +121,10 @@ watch(
                     </div>
                 </template>
 
-                <CompProcedure :procedures="encounter.karte.procedures" />
+                <CompProcedure :procedures="encounter.karte.procedures" :disabled="isReadOnly" />
             </UCard>
         </div>
-        <div>
+        <div v-if="!isReadOnly">
             <UCard>
                 <div class="flex justify-end gap-3">
                     <UButton

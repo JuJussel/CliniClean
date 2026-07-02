@@ -8,6 +8,10 @@ const props = defineProps({
         type: [String, Object],
         default: () => ({ type: "doc", content: [{ type: "paragraph" }] }),
     },
+    disabled: {
+        type: Boolean,
+        default: false,
+    }
 });
 
 const emit = defineEmits(["update:modelValue", "save"]);
@@ -112,19 +116,21 @@ defineExpose({ save });
     <div class="h-full flex flex-col min-h-0">
         <UEditor
             v-slot="{ editor }"
+            ref="editorRef"
             v-model="content"
             content-type="json"
             :image="false"
             :extensions="extensions"
+            :editable="!disabled"
             :ui="{
                 root: 'h-full flex flex-col min-h-0',
                 content: 'flex-1 overflow-y-auto min-h-0'
             }"
             class="h-full flex-1 min-h-0"
             :placeholder="$t('startWriting')"
-            ref="editorRef"
         >
             <UEditorToolbar
+                v-if="!disabled"
                 :editor="editor"
                 :items="items"
                 class="border-b border-muted sticky top-0 inset-x-0 py-2 z-50 overflow-x-auto"
@@ -153,7 +159,7 @@ defineExpose({ save });
                         :value="selectedColor"
                         class="sr-only"
                         @input="onColorInput"
-                    />
+                    >
                 </template>
             </UEditorToolbar>
         </UEditor>

@@ -15,6 +15,7 @@ const { t } = useI18n();
 const route = useRoute();
 const systemStore = useSystemStore();
 const refreshEncounter = inject("refreshEncounter", null);
+const openEncounterInTabs = inject("openEncounterInTabs", null);
 
 const isLoading = ref(true);
 const patient = ref(null);
@@ -104,6 +105,7 @@ const allProceduresWithContext = computed(() => {
 
     procedures.forEach((proc) => {
       list.push({
+        encounterId: encounter._id,
         encounterDate: dateStr,
         encounterRawDate: encounter.date,
         doctorName: doctorName,
@@ -157,9 +159,11 @@ const groupedProcedures = computed(() => {
     const rawDate = item.encounterRawDate;
     const doctorName = item.doctorName;
     const proc = item.procedure;
+    const encId = item.encounterId;
 
     if (!groups[dateStr]) {
       groups[dateStr] = {
+        encounterId: encId,
         date: dateStr,
         rawDate: rawDate,
         doctorName: doctorName,
@@ -201,11 +205,22 @@ const hasActiveFilters = computed(() => {
   );
 });
 
+const router = useRouter();
+
 function resetFilters() {
   searchQuery.value = "";
   filterStartDate.value = null;
   filterEndDate.value = null;
   selectedCategories.value = [];
+}
+
+function openEncounterInPlane(encId) {
+  if (!encId) return;
+  if (openEncounterInTabs) {
+    openEncounterInTabs(encId);
+  } else {
+    router.push({ query: { ...route.query, encounterId: encId } });
+  }
 }
 
 // Clone and add a procedure to the active encounter
@@ -408,9 +423,15 @@ onMounted(() => {
         <UCard :ui="{ body: 'p-4' }">
           <template #header>
             <div class="flex items-center justify-between">
-              <div class="flex items-center gap-2 text-indigo-500 font-bold">
+              <div
+                class="flex items-center gap-2 text-indigo-500 hover:text-indigo-700 dark:hover:text-indigo-400 font-bold cursor-pointer group/date"
+                @click="openEncounterInPlane(group.encounterId)"
+              >
                 <UIcon name="material-symbols:calendar-today-outline-rounded" />
-                <span>{{ dayjs(group.rawDate).format("YYYY年MM月DD日 (dd) HH:mm") }}</span>
+                <span class="group-hover/date:underline">
+                  {{ dayjs(group.rawDate).format("YYYY年MM月DD日 (dd) HH:mm") }}
+                </span>
+                <UIcon name="material-symbols:open-in-new-rounded" class="size-4 opacity-0 group-hover/date:opacity-100 transition-opacity" />
               </div>
               <span class="text-xs text-neutral-400 dark:text-neutral-500">
                 {{ group.doctorName ? group.doctorName + " 医師" : "" }}
